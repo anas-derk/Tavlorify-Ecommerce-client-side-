@@ -5,8 +5,8 @@ import { FcSearch } from "react-icons/fc";
 
 const Header = () => {
     return (
-        <header className="header">
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <header className="header bg-success">
+            <nav className="navbar navbar-expand-lg navbar-light">
                 <div className="container">
                     <span className="navbar-brand fw-bold">Tavlorify Store</span>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
