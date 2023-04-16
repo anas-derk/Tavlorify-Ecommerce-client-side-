@@ -1,0 +1,19 @@
+.header {
+    .container{
+        .nav-item{
+            .nav-link{
+                .icon{
+                    font-size: 20px;
+                }
+            }
+            .search-icon{
+                font-size: 30px;
+                cursor: pointer;
+                &:hover{
+                    font-size: 45px;
+                }
+            }
+        }
+
+    }
+}
