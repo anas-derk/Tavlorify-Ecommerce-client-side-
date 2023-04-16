@@ -28,7 +28,7 @@ const Login = () => {
                             {/* End Column */}
                             {/* Start Column */}
                             <div className="col-md-10">
-                                <input type="email" placeholder="Please Enter Your Email Here ." className="form-control border-success border-2" />
+                                <input type="password" placeholder="Please Enter Your Email Here ." className="form-control border-success border-2" />
                             </div>
                             {/* End Column */}
                         </div>
@@ -57,7 +57,7 @@ const Login = () => {
                         <span className="me-2">Login Now</span>
                         <FiLogIn />
                     </button>
-                    <div className="go-login-page-box text-center">
+                    <div className="go-signup-page-box text-center">
                         <span className="me-2">Don't have an account?</span>
                         <Link href="/sign-up">Create an account now</Link>
                     </div>
