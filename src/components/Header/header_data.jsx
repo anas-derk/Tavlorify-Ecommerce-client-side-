@@ -16,17 +16,6 @@ let headerData = [
         icon: <MdProductionQuantityLimits />
     },
     {
-        route: "/my-orders",
-        pageTitle: "My Orders",
-        icon: <FaClipboardList />
-    },
-    {
-        route: "/my-cart",
-        pageTitle: "My Cart",
-        icon: <AiOutlineShoppingCart />
-    },
-    ,
-    {
         route: "/login",
         pageTitle: "Login",
         icon: <FiLogIn />
