@@ -1,0 +1,105 @@
+.profile {
+    .profile-container {
+        position: relative;
+        left: 60px;
+        top: 0;
+        min-height: calc(100vh - 56px);
+        width: calc(100vw - 77px);
+        .welcome-msg{
+            background-color: #EEE;
+            box-shadow: 1px 1px 10px #198754;
+        }
+        .edit-profile-icon-box{
+            width: fit-content;
+            .edit-profile-icon{
+                font-size: 70px;
+                color: #198754;
+            }
+        }
+        .profile-info-box {
+            .signup-form{
+                box-shadow: 1px 1px 10px green;
+            }
+        }
+    }
+}
+
+.taskbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 60px;
+    height: 100%;
+    background-color: #CCC;
+
+    @media (max-width: 576px) {
+        width: 50px;
+    }
+
+    .my-info-links {
+        height: inherit;
+        gap: 30px;
+
+        li {
+            cursor: pointer;
+            font-size: 32px;
+            transition: .5s;
+            position: relative;
+            display: block;
+            width: 90%;
+
+            &:first-of-type,
+            &:nth-of-type(2),
+            &:nth-of-type(3) {
+                animation: fadeInDown .5s 3s forwards;
+            }
+
+            &:nth-of-type(5),
+            &:nth-of-type(6),
+            &:nth-of-type(7) {
+                animation: fadeInDown .5s 4s forwards;
+            }
+
+            &:nth-of-type(4) {
+                animation: fadeInDown .5s 3.5s forwards;
+            }
+
+            .tooltip-btn {
+                position: absolute;
+                min-width: 140px;
+                top: 2px;
+                left: 82px;
+                display: none;
+                transition: .5s;
+                background-color: #198754;
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    width: 25px;
+                    height: 7px;
+                    background-color: #198754;
+                    left: -26px;
+                    top: calc(50% - 2px);
+                }
+            }
+
+            .link {
+                color: #000;
+            }
+
+            &:hover,
+            &.clicked {
+                background-color: #198754;
+                color: #000;
+                border-radius: 5px;
+            }
+
+            &:hover {
+                .tooltip-btn {
+                    display: block;
+                }
+            }
+        }
+    }
+}

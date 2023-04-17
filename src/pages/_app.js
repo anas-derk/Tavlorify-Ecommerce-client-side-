@@ -2,6 +2,7 @@ import Head from "next/head";
 import Script from "next/script";
 import "../Scss/index.css";
 import "../components/Header/index.css";
+import "../pages/profile/index.css";
 
 export default function App({ Component, pageProps }) {
   return (

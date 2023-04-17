@@ -17,6 +17,17 @@
                     font-size: 45px;
                 }
             }
+            &.profile-icon-item{
+                transition: .5s;
+                &:hover{
+                    background-color: red;
+                }
+            }
+            .profile-icon{
+                font-size: 30px;
+                cursor: pointer;
+                color: #FFF;
+            }
         }
 
     }

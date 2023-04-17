@@ -2,11 +2,12 @@ import Link from "next/link";
 import headerData from "./header_data.jsx";
 import { HiOutlineBars3 } from "react-icons/hi2";
 import { FcSearch } from "react-icons/fc";
+import { CgProfile } from "react-icons/cg";
 
 const Header = () => {
     return (
         <header className="header bg-success">
-            <nav className="navbar navbar-expand-lg navbar-light">
+            <nav className="navbar navbar-expand-xl navbar-light">
                 <div className="container">
                     <span className="navbar-brand fw-bold">Tavlorify Store</span>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +23,12 @@ const Header = () => {
                                     </Link>
                                 </li>
                             )}
-                            <li className="nav-item">
+                            <li className="nav-item p-2 border profile-icon-item">
+                                <Link href="/profile">
+                                    <CgProfile className="profile-icon" />
+                                </Link>
+                            </li>
+                            <li className="nav-item search-icon-item">
                                 <FcSearch className="search-icon" />
                             </li>
                         </ul>

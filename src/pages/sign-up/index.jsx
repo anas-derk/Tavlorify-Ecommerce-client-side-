@@ -16,7 +16,7 @@ const SignUp = () => {
                 <h4 className="welcome-msg border-success border-2 border p-3 mb-3">Welcome To You In Registeration Page</h4>
                 <hr />
                 <h5 className="p-3 text-center border border-2 border-secondary mb-5">Registeration</h5>
-                <form className="login-form p-4" style={{ boxShadow: "1px 1px 10px green" }}>
+                <form className="signup-form p-4" style={{ boxShadow: "1px 1px 10px green" }}>
                     {/* Start Input Field Box */}
                     <div className="input-field-box mb-5">
                         {/* Start Grid System */}
