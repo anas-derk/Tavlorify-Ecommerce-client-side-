@@ -7,3 +7,8 @@ ul {
   margin: 0;
   list-style: none;
 }
+
+a {
+  color: #FFF;
+  text-decoration: none;
+}
