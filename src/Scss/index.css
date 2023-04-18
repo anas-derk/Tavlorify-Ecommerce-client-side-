@@ -12,3 +12,8 @@ a {
   color: #FFF;
   text-decoration: none;
 }
+
+.custom-container {
+  width: 95%;
+  margin: auto;
+}

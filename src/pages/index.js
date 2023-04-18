@@ -3,16 +3,18 @@ import Header from '../components/Header';
 
 export default function Home() {
   return (
-    <div className='home'>
+    <div className="home">
       <Head>
         <title>Tavlorify Store - Home</title>
       </Head>
       <Header />
-      {/* Start Container */}
-      <div className="container pt-3">
-        <h2 className="login">Hello</h2>
+      <div className="introduction">
+        {/* Start Container */}
+        <div className="custom-container">
+          aaa
+        </div>
+        {/* End Container */}
       </div>
-      {/* End Container */}
     </div>
   );
 }

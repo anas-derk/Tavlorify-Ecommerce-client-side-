@@ -3,8 +3,8 @@ import Script from "next/script";
 import "../Scss/index.css";
 import "../components/Header/index.css";
 import "../pages/profile/index.css";
-import Footer from "../components/Footer/index.jsx";
 import "../components/Footer/index.css";
+import "../pages/index.css";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -28,7 +28,7 @@ export default function App({ Component, pageProps }) {
         crossOrigin="anonymous"
       />
       <Component {...pageProps} />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

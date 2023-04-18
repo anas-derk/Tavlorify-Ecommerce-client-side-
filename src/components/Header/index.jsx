@@ -8,7 +8,7 @@ const Header = () => {
     return (
         <header className="header bg-success">
             <nav className="navbar navbar-expand-xl navbar-light">
-                <div className="container">
+                <div className="container-fluid">
                     <span className="navbar-brand fw-bold">Tavlorify Store</span>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <HiOutlineBars3 />

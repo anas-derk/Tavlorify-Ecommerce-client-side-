@@ -10,7 +10,7 @@ const Footer = () => {
         // Start Page Footer
         <footer className="page-footer pt-3 pb-3 bg-success text-white">
             {/* Start Container */}
-            <div className="container">
+            <div className="container-fluid">
                 {/* Start Grid System */}
                 <div className="row align-items-center">
                     {/* Start Column */}

@@ -1,0 +1,4 @@
+.home .introduction {
+  min-height: calc(100vh - 56px);
+  background-color: #333;
+}
