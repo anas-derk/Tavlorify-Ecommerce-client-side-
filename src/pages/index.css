@@ -1,6 +1,6 @@
 .home .introduction {
   min-height: calc(100vh - 56px);
-  background-size: cover;
+  background: url("../../public/images/backgrounds/grid_noise.png");
 }
 
 .home .introduction .info-box {
@@ -10,7 +10,7 @@
   width: 100%;
   background-size: cover;
   min-height: inherit;
-  transition: 1s;
+  transition: 3s;
 }
 
 .home .introduction .info-box:nth-child(1) {
@@ -29,4 +29,7 @@
 .home .introduction .info-box .overlay main {
   font-family: 'Caveat', cursive;
   font-size: 80px;
+  backdrop-filter: blur(20px);
+  box-shadow: 1px 1px 20px #CCC;
+  transition: 1s;
 }

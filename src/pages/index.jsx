@@ -9,6 +9,24 @@ export default function Home() {
 
   const [infoBoxAppearedIndex, setInfoBoxAppearedIndex] = useState(1);
 
+  let infoBoxData = [
+    {
+      id: 1,
+      backImgSrc: backImg1.src,
+      content: "Welcome to the Tavlorify Store"
+    },
+    {
+      id: 2,
+      backImgSrc: backImg2.src,
+      content: "Welcome to the Tavlorify Store"
+    },
+    {
+      id: 3,
+      backImgSrc: backImg3.src,
+      content: "Welcome to the Tavlorify Store"
+    },
+  ]
+
   setInterval(() => {
 
     switch (infoBoxAppearedIndex) {
@@ -48,33 +66,30 @@ export default function Home() {
       </Head>
       <Header />
       <div className="introduction">
-        <div className="info-box" style={{ backgroundImage: `url(${backImg1.src})`, opacity: infoBoxAppearedIndex == 1 ? 1 : 0 }}>
-          <div className="overlay text-white d-flex justify-content-center align-items-center">
-            {/* Start Main Content */}
-            <main>
-              Welcome to the Tavlorify Store
-            </main>
-            {/* End Main Content */}
+        {infoBoxData.map((data, index) => (
+          /* Start Info Box */
+          <div className="info-box"
+            key={data.id}
+            style={{
+              backgroundImage: `url(${data.backImgSrc})`,
+              opacity: infoBoxAppearedIndex == data.id ? 1 : 0,
+              transform: infoBoxAppearedIndex == data.id ? "scale3d(1, 1, 1)" : "scale3d(0.8, 0.8, 0.8)",
+            }}>
+            <div className="overlay text-white d-flex justify-content-center align-items-center">
+              {/* Start Main Content */}
+              <main
+                className="p-3"
+                style={{
+                  transform: infoBoxAppearedIndex == data.id ? "rotateX(360deg)": ""
+                }}
+              >
+                {data.content}
+              </main>
+              {/* End Main Content */}
+            </div>
           </div>
-        </div>
-        <div className="info-box" style={{ backgroundImage: `url(${backImg2.src})`, opacity: infoBoxAppearedIndex == 2 ? 1 : 0 }}>
-          <div className="overlay text-white d-flex justify-content-center align-items-center">
-            {/* Start Main Content */}
-            <main>
-              aaa
-            </main>
-            {/* End Main Content */}
-          </div>
-        </div>
-        <div className="info-box" style={{ backgroundImage: `url(${backImg3.src})`, opacity: infoBoxAppearedIndex == 3 ? 1 : 0 }}>
-          <div className="overlay text-white d-flex justify-content-center align-items-center">
-            {/* Start Main Content */}
-            <main>
-              bbb
-            </main>
-            {/* End CMain Content */}
-          </div>
-        </div>
+          /* End Info Box */
+        ))}
       </div>
     </div>
   );
