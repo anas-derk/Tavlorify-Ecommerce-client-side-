@@ -1,9 +1,29 @@
 .home{
     .introduction{
         min-height: calc(100vh - 56px);
-        background-color: #333;
-    }
-    .container{
-        
+        background-size: cover;
+        .info-box{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            background-size: cover;
+            min-height: inherit;
+            transition: 1s;
+            &:nth-child(1){
+                z-index: 3;
+            }
+            &:nth-child(2){
+                z-index: 2;
+            }
+            .overlay{
+                min-height: inherit;
+                background-color: rgba(0, 0, 0, .7);
+                main{
+                    font-family: 'Caveat', cursive;
+                    font-size: 80px;
+                }
+            }
+        }
     }
 }

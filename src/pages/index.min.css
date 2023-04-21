@@ -1,1 +1,1 @@
-.home .introduction{min-height:calc(100vh - 56px);background-color:#333}
+.home .introduction{min-height:calc(100vh - 56px);background-size:cover}.home .introduction .info-box{position:absolute;left:0;top:0;width:100%;background-size:cover;min-height:inherit;transition:1s}.home .introduction .info-box:nth-child(1){z-index:3}.home .introduction .info-box:nth-child(2){z-index:2}.home .introduction .info-box .overlay{min-height:inherit;background-color:rgba(0,0,0,0.7)}.home .introduction .info-box .overlay main{font-family:'Caveat', cursive;font-size:80px}
