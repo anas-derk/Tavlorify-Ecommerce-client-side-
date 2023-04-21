@@ -29,4 +29,13 @@
             }
         }
     }
+    .contact-us{
+        background-image: url("../../public/images/backgrounds/grid_noise.png");
+        .contact-us-form{
+            textarea{
+                resize: none;
+                height: 200px;
+            }
+        }
+    }
 }

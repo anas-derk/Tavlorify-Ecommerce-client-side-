@@ -33,3 +33,12 @@
   box-shadow: 1px 1px 20px #CCC;
   transition: 1s;
 }
+
+.home .contact-us {
+  background-image: url("../../public/images/backgrounds/grid_noise.png");
+}
+
+.home .contact-us .contact-us-form textarea {
+  resize: none;
+  height: 200px;
+}

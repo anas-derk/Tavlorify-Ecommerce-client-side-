@@ -65,7 +65,8 @@ export default function Home() {
         <title>Tavlorify Store - Home</title>
       </Head>
       <Header />
-      <div className="introduction">
+      {/* Start Introduction Section */}
+      <section className="introduction">
         {infoBoxData.map((data, index) => (
           /* Start Info Box */
           <div className="info-box"
@@ -80,7 +81,7 @@ export default function Home() {
               <main
                 className="p-3"
                 style={{
-                  transform: infoBoxAppearedIndex == data.id ? "rotateX(360deg)": ""
+                  transform: infoBoxAppearedIndex == data.id ? "rotateX(360deg)" : ""
                 }}
               >
                 {data.content}
@@ -90,7 +91,49 @@ export default function Home() {
           </div>
           /* End Info Box */
         ))}
-      </div>
+      </section>
+      {/* End Introduction Section */}
+      {/* Start Contact Us Section */}
+      <section className="contact-us pt-5 pb-5">
+        {/* Start Custom Container */}
+        <div className="custom-container text-center">
+          <h2 className="section-name mb-5">Contact Us</h2>
+          {/* Start Grid System */}
+          <div className="row">
+            {/* Start Column */}
+            <div className="col-md-6">
+              aa
+            </div>
+            {/* End Column */}
+            {/* Start Column */}
+            <div className="col-md-6">
+              {/* Start Contact Us Form */}
+              <form className="contact-us-form">
+                <input
+                  type="text"
+                  placeholder="Please Enter Your Full Name"
+                  className="form-control p-3 mb-4"
+                />
+                <input
+                  type="email"
+                  placeholder="Please Enter Your E-mail Address"
+                  className="form-control p-3 mb-4"
+                />
+                <textarea
+                  placeholder="How can we help you ?"
+                  className="form-control p-3 mb-4"
+                ></textarea>
+                <button type="submit" className="btn btn-success pt-3 pb-3 ps-4 pe-4">Send Message</button>
+              </form>
+              {/* End Contact Us Form */}
+            </div>
+            {/* End Column */}
+          </div>
+          {/* End Grid System */}
+        </div>
+        {/* End Custom Container */}
+      </section>
+      {/* End Contact Us Section */}
     </div>
   );
 }
