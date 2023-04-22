@@ -1,8 +1,8 @@
-.page-footer{
+.global-footer{
     position: relative;
-    left: 60px;
+    left: 0;
     bottom: 0;
-    width: calc(100vw - 77px);
+    width: 100%;
     .social-media-list{
         gap: 30px;
         .social-link-item{

@@ -123,7 +123,7 @@ export default function Home() {
                   placeholder="How can we help you ?"
                   className="form-control p-3 mb-4"
                 ></textarea>
-                <button type="submit" className="btn btn-success pt-3 pb-3 ps-4 pe-4">Send Message</button>
+                <button type="submit" className="btn btn-success pt-3 pb-3 ps-4 pe-4 d-block w-100">Send Message</button>
               </form>
               {/* End Contact Us Form */}
             </div>

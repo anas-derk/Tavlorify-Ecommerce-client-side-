@@ -8,7 +8,7 @@ import { BiPhone } from "react-icons/bi";
 const Footer = () => {
     return (
         // Start Page Footer
-        <footer className="page-footer pt-3 pb-3 bg-success text-white">
+        <footer className="global-footer pt-3 pb-3 bg-success text-white">
             {/* Start Container */}
             <div className="container-fluid">
                 {/* Start Grid System */}

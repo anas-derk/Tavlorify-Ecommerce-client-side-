@@ -33,7 +33,7 @@ const Profile = () => {
                         Welcome Anas In Your Profile
                     </h2>
                     {/* Start Edit Profile Icon Box */}
-                    <div className="edit-profile-icon-box text-center p-3 mx-auto border border-3 border-success">
+                    <div className="edit-profile-icon-box text-center p-3 mx-auto border border-3 border-success mb-2">
                         <FaUserEdit className="edit-profile-icon" />
                     </div>
                     {/* End Edit Profile Icon Box */}

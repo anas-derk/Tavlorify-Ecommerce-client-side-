@@ -6,7 +6,7 @@ import { CgProfile } from "react-icons/cg";
 
 const Header = () => {
     return (
-        <header className="header bg-success">
+        <header className="global-header bg-success">
             <nav className="navbar navbar-expand-xl navbar-light">
                 <div className="container-fluid">
                     <span className="navbar-brand fw-bold">Tavlorify Store</span>

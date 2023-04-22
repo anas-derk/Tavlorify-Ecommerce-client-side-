@@ -1,33 +1,37 @@
-.header .container-fluid .navbar-brand {
+.global-header {
+  position: relative;
+}
+
+.global-header .container-fluid .navbar-brand {
   color: #FFF;
 }
 
-.header .container-fluid .nav-item .nav-link {
+.global-header .container-fluid .nav-item .nav-link {
   color: #FFF;
 }
 
-.header .container-fluid .nav-item .nav-link .icon {
+.global-header .container-fluid .nav-item .nav-link .icon {
   font-size: 20px;
 }
 
-.header .container-fluid .nav-item .search-icon {
+.global-header .container-fluid .nav-item .search-icon {
   font-size: 30px;
   cursor: pointer;
 }
 
-.header .container-fluid .nav-item .search-icon:hover {
+.global-header .container-fluid .nav-item .search-icon:hover {
   font-size: 45px;
 }
 
-.header .container-fluid .nav-item.profile-icon-item {
+.global-header .container-fluid .nav-item.profile-icon-item {
   transition: .5s;
 }
 
-.header .container-fluid .nav-item.profile-icon-item:hover {
+.global-header .container-fluid .nav-item.profile-icon-item:hover {
   background-color: red;
 }
 
-.header .container-fluid .nav-item .profile-icon {
+.global-header .container-fluid .nav-item .profile-icon {
   font-size: 30px;
   cursor: pointer;
   color: #FFF;
