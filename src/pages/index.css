@@ -1,5 +1,14 @@
+.home .global-header {
+  position: absolute;
+  height: fit-content;
+  z-index: 4;
+  backdrop-filter: blur(20px);
+  background: none !important;
+  box-shadow: -1px -1px 10px #CCC;
+}
+
 .home .introduction {
-  min-height: calc(100vh - 56px);
+  min-height: 100vh;
   background: url("../../public/images/backgrounds/grid_noise.png");
 }
 

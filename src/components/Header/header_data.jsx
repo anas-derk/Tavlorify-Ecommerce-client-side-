@@ -25,11 +25,11 @@ let headerData = [
         pageTitle: "Join",
         icon: <FaRegRegistered />
     },
-    {
-        route: "/sign-out",
-        pageTitle: "Sign Out",
-        icon: <GoSignOut />
-    },
+    // {
+    //     route: "/sign-out",
+    //     pageTitle: "Sign Out",
+    //     icon: <GoSignOut />
+    // },
 ];
 
 export default headerData;
