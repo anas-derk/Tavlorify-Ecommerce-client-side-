@@ -9,7 +9,7 @@
     }
     .introduction{
         min-height: 100vh;
-        background: url("../../public/images/backgrounds/grid_noise.png");
+        overflow: hidden;
         .info-box{
             position: absolute;
             left: 0;
@@ -17,7 +17,7 @@
             width: 100%;
             background-size: cover;
             min-height: inherit;
-            transition: 3s;
+            transition: transform 4s;
             &:nth-child(1){
                 z-index: 3;
             }
@@ -34,6 +34,30 @@
                     box-shadow: 1px 1px 20px #CCC;
                     transition: 1s;
                 }
+            }
+        }
+    }
+    .try-ai-service{
+        .service-box{
+            background-color: #F5F5F5;
+            .generate-from-text-form{
+                .search-btn{
+                    .search-icon{
+                        font-size: 60px;
+                        color: #198754;
+                        transition: font-size .3s;
+                        &:hover{
+                            font-size: 70px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .most-popular-products{
+        .product-box{
+            .product-image{
+                max-width: 100%;
             }
         }
     }
