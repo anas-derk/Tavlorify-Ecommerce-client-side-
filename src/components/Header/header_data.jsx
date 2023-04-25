@@ -1,10 +1,9 @@
-import { AiOutlineHome, AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineHome } from "react-icons/ai";
 import { MdProductionQuantityLimits } from "react-icons/md";
-import { FaClipboardList, FaRegRegistered } from "react-icons/fa";
+import { FaRegRegistered } from "react-icons/fa";
 import { FiLogIn } from "react-icons/fi";
-import { GoSignOut } from "react-icons/go";
 
-let headerData = [
+let navbarLinks = [
     {
         route: "/",
         pageTitle: "Home",
@@ -15,6 +14,9 @@ let headerData = [
         pageTitle: "Products",
         icon: <MdProductionQuantityLimits />
     },
+];
+
+let authenticationData = [
     {
         route: "/login",
         pageTitle: "Login",
@@ -25,11 +27,6 @@ let headerData = [
         pageTitle: "Join",
         icon: <FaRegRegistered />
     },
-    // {
-    //     route: "/sign-out",
-    //     pageTitle: "Sign Out",
-    //     icon: <GoSignOut />
-    // },
 ];
 
-export default headerData;
+export default { navbarLinks, authenticationData};

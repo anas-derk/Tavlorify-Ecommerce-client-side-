@@ -56,37 +56,37 @@ export default function Home() {
     }
   ];
 
-  setInterval(() => {
+  // setInterval(() => {
 
-    switch (infoBoxAppearedIndex) {
+  //   switch (infoBoxAppearedIndex) {
 
-      case 1: {
+  //     case 1: {
 
-        setInfoBoxAppearedIndex(2);
+  //       setInfoBoxAppearedIndex(2);
 
-        break;
+  //       break;
 
-      }
+  //     }
 
-      case 2: {
+  //     case 2: {
 
-        setInfoBoxAppearedIndex(3);
+  //       setInfoBoxAppearedIndex(3);
 
-        break;
+  //       break;
 
-      }
+  //     }
 
-      case 3: {
+  //     case 3: {
 
-        setInfoBoxAppearedIndex(1);
+  //       setInfoBoxAppearedIndex(1);
 
-        break;
+  //       break;
 
-      }
+  //     }
 
-    }
+  //   }
 
-  }, 4000);
+  // }, 4000);
 
   return (
     <div className="home">
