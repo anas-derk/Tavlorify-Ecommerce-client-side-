@@ -9,43 +9,26 @@ import Axios from "axios";
 
 const TextToImage = () => {
 
-    let generatedImageURLs = [
-        {
-            id: 1,
-            imageSrc: backImg1.src,
-            name: "Canvas"
-        },
-        {
-            id: 2,
-            imageSrc: backImg2.src,
-            name: "Canvas"
-        },
-        {
-            id: 3,
-            imageSrc: backImg3.src,
-            name: "Canvas"
-        },
-        {
-            id: 4,
-            imageSrc: backImg1.src,
-            name: "Canvas"
-        },
-        {
-            id: 5,
-            imageSrc: backImg2.src,
-            name: "Canvas"
-        }
-    ];
-
     const [textPrompt, setTextPrompt] = useState("");
+
+    const [generatedImageURLs, setGeneratedImageURLs] = useState([]);
+
+    const [isWaitStatus, setIsWaitStatus] = useState(false);
+
+    const [errorMsg, setErrorMsg] = useState("");
 
     const textToImageGenerate = (e) => {
         e.preventDefault();
+        setIsWaitStatus(true);
         Axios.get(`http://localhost:4000/api/text-to-image-generate?textPrompt=${textPrompt}`)
         .then((res) => {
-            console.log(res.data);
+            let imageURLs = res.data;
+            setIsWaitStatus(false);
+            if (imageURLs.length > 0) {
+                setGeneratedImageURLs(imageURLs);
+            }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => setErrorMsg("Sorry, Something Went Wrong !!"));
     }
 
     return (
@@ -78,16 +61,22 @@ const TextToImage = () => {
                     </form>
                 </section>
                 {/* End Text To Image Box */}
+                {/* Start Generate Wait Box */}
+                {isWaitStatus && <section className="generate-wait-box text-center p-3">
+                    <h6 className="wait-message mb-3">Generating The Required Images</h6>
+                    <span className="loader max-auto"></span>
+                </section>}
+                {/* End Generate Wait Box */}
                 {/* Start Generated Images Box */}
-                <section className="generated-images-box">
+                {generatedImageURLs.length > 0 && !isWaitStatus && <section className="generated-images-box">
                     <h4 className="text-center mb-4">Generated Images</h4>
                     {/* Start Grid System */}
                     <div className="row">
-                        {generatedImageURLs.map((generatedImage, index) => (
+                        {generatedImageURLs.map((url, index) => (
                             /* Start Column */
                             <div className="col-md-3" key={index}>
                                 <div className="generated-image-box">
-                                    <img src={generatedImage.imageSrc} alt="Generated Image" className="generated-image mb-2" />
+                                    <img src={url} alt="Generated Image" className="generated-image mb-2" />
                                     <h6 className="generated-image-name text-center">Image #{index + 1}</h6>
                                 </div>
                             </div>
@@ -95,8 +84,9 @@ const TextToImage = () => {
                         ))}
                     </div>
                     {/* End Grid System */}
-                </section>
+                </section>}
                 {/* End Generated Images Box */}
+                {errorMsg && <p className="alert alert-danger">Sorry, Can't Generating From This Text !</p>}
             </div>
             {/* End Custom Container */}
         </div>
