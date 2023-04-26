@@ -11,7 +11,7 @@ const Login = () => {
                 <title>Tavlorify Store - Login</title>
             </Head>
             <Header />
-            {/* Start Container */}
+            {/* Start Custom Container */}
             <div className="custom-container pt-5 pb-5">
                 <h4 className="welcome-msg border-success border-2 border p-3 mb-3">Welcome To You In Login Page</h4>
                 <hr />
@@ -63,7 +63,7 @@ const Login = () => {
                     </div>
                 </form>
             </div>
-            {/* End Container */}
+            {/* End Custom Container */}
         </div>
         // End Login Page
     );

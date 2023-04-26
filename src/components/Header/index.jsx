@@ -24,6 +24,24 @@ const Header = () => {
                                     </Link>
                                 </li>
                             )}
+                            <li className="nav-item ai-services-item">
+                                <div className="nav-link color-black">
+                                    <span className="icon me-2">
+                                        <GoSignOut />
+                                    </span>
+                                    AI Services
+                                </div>
+                                <ul className="ai-services-list">
+                                    {headerData.aiServicesData.map((ai_service_info, index) => (
+                                        <li className="ai-service-item p-3" key={index}>
+                                            <Link className="ai-service-link" href={ai_service_info.route}>
+                                                <span className="icon me-2">{ai_service_info.icon}</span>
+                                                {ai_service_info.pageTitle}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </li>
                         </ul>
                         <ul className="navbar-nav align-items-center">
                             <li className="nav-item profile-item">

@@ -29,4 +29,17 @@ let authenticationData = [
     },
 ];
 
-export default { navbarLinks, authenticationData};
+let aiServicesData = [
+    {
+        route: "/text-to-image",
+        pageTitle: "Text To Image",
+        icon: <FiLogIn />
+    },
+    {
+        route: "/image-to-image",
+        pageTitle: "Image To Image",
+        icon: <FaRegRegistered />
+    },
+];
+
+export default { navbarLinks, authenticationData, aiServicesData};
