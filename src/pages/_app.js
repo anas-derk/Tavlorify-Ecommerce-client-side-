@@ -6,6 +6,7 @@ import "../components/Header/index.css";
 import "../pages/profile/index.css";
 import "../components/Footer/index.css";
 import "../pages/index.css";
+import "../pages/text-to-image/index.css";
 import Footer from "@/components/Footer";
 import { useEffect } from "react";
 

@@ -3,7 +3,7 @@ import Header from '../components/Header';
 import backImg1 from "../../public/images/backgrounds/01.jpg";
 import backImg2 from "../../public/images/backgrounds/02.jpg";
 import backImg3 from "../../public/images/backgrounds/03.jpg";
-import { useState } from 'react';
+import { useState } from "react";
 import { IoSearchCircleSharp } from "react-icons/io5";
 
 export default function Home() {
@@ -133,7 +133,7 @@ export default function Home() {
               {/* Start Column */}
               <div className="col-md-7">
                 <h5 className="text-center mb-3">Enter a Text Prompt</h5>
-                <form className="generate-from-text-form text-center">
+                <form className="generate-images-from-text-form text-center">
                   <input
                     type="text"
                     placeholder="a dog riding a bicycle"

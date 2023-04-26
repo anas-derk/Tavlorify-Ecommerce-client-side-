@@ -50,10 +50,12 @@ const Header = () => {
                                 </div>
                                 <ul className="authentication-list">
                                     <li className="auth-item p-3">
-                                        <span className="icon me-2">
-                                            <CgProfile />
-                                        </span>
-                                        My Profile
+                                        <Link className="auth-link" href="/profile">
+                                            <span className="icon me-2">
+                                                <CgProfile />
+                                            </span>
+                                            My Profile
+                                        </Link>
                                     </li>
                                     {headerData.authenticationData.map((authInfo, index) => (
                                         <li className="auth-item p-3" key={index}>

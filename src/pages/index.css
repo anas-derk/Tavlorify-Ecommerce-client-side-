@@ -47,16 +47,6 @@
   background-color: #F5F5F5;
 }
 
-.home .try-ai-service .service-box .generate-from-text-form .search-btn .search-icon {
-  font-size: 60px;
-  color: #198754;
-  transition: font-size .3s;
-}
-
-.home .try-ai-service .service-box .generate-from-text-form .search-btn .search-icon:hover {
-  font-size: 70px;
-}
-
 .home .most-popular-products .product-box .product-image {
   max-width: 100%;
 }
