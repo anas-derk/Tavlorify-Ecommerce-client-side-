@@ -171,7 +171,7 @@ export default function Home() {
           <div className="row">
             {productsInfo.map((productInfo, index) => (
               /* Start Column */
-              <div className="col-md-3" >
+              <div className="col-md-3" key={index}>
                 <div className="product-box">
                   <img src={backImg1.src} alt="Product Image" className="product-image mb-3" />
                   <h6 className="product-name">Canvas</h6>

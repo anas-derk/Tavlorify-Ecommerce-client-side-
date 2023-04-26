@@ -29,13 +29,6 @@
                     font-size: 20px;
                 }
             }
-            .search-icon{
-                font-size: 30px;
-                cursor: pointer;
-                &:hover{
-                    font-size: 45px;
-                }
-            }
             &.profile-item{
                 .profile-icon-item{
                     .profile-icon{
@@ -47,16 +40,21 @@
                 .authentication-list{
                     position: absolute;
                     left: -180px;
-                    bottom: -240px;
+                    bottom: -233px;
                     width: 250px;
                     background-color: #f5f5f5;
                     color: #000;
                     border-radius: 5px;
-                    // opacity: 0;
+                    opacity: 0;
                     transition: .5s;
                     .auth-item{
                         cursor: pointer;
                         color: #000;
+                        transition: .5s;
+                        &:hover{
+                            text-indent: 10px;
+                            background-color: #CCC;
+                        }
                         .auth-link{
                             color: #000;
                         }
@@ -67,6 +65,15 @@
                     .authentication-list{
                         opacity: 1;
                     }
+                }
+            }
+        }
+        .search-icon-item{
+            .search-icon{
+                font-size: 30px;
+                cursor: pointer;
+                &:hover{
+                    font-size: 45px;
                 }
             }
         }

@@ -53,7 +53,7 @@ const Header = () => {
                                     </li>
                                 </ul>
                             </li>
-                            <li className="nav-item search-icon-item">
+                            <li className="search-icon-item">
                                 <FcSearch className="search-icon" />
                             </li>
                         </ul>
