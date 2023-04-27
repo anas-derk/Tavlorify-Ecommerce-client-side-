@@ -4,7 +4,7 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: "//127.0.0.1:4000/api/(.*)",
+        source: "//e-commerce-canvas.cleverapps.io/api/(.*)",
         headers: [
           { key: "Access-Control-Allow-Credentials", value: "true" },
           {
