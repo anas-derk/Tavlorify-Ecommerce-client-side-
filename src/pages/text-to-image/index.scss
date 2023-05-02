@@ -23,6 +23,7 @@
         .row{
             row-gap: 10px;
             .generated-image-box{
+                cursor: pointer;
                 .generated-image{
                     max-width: 100%;
                     border-radius: 5px;

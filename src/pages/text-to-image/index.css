@@ -20,6 +20,10 @@
   row-gap: 10px;
 }
 
+.text-to-image-service .generated-images-box .row .generated-image-box {
+  cursor: pointer;
+}
+
 .text-to-image-service .generated-images-box .row .generated-image-box .generated-image {
   max-width: 100%;
   border-radius: 5px;

@@ -20,15 +20,15 @@ const TextToImage = () => {
     const textToImageGenerate = (e) => {
         e.preventDefault();
         setIsWaitStatus(true);
-        Axios.get(`https://e-commerce-canvas.cleverapps.io/api/text-to-image-generate?textPrompt=${textPrompt}`)
-        .then((res) => {
-            let imageURLs = res.data;
-            setIsWaitStatus(false);
-            if (imageURLs.length > 0) {
-                setGeneratedImageURLs(imageURLs);
-            }
-        })
-        .catch((err) => setErrorMsg("Sorry, Something Went Wrong !!"));
+        Axios.get(`http://localhost:4000/api/text-to-image-generate?textPrompt=${textPrompt}`)
+            .then((res) => {
+                let imageURLs = res.data;
+                setIsWaitStatus(false);
+                if (imageURLs.length > 0) {
+                    setGeneratedImageURLs(imageURLs);
+                }
+            })
+            .catch((err) => setErrorMsg("Sorry, Something Went Wrong !!"));
     }
 
     return (
