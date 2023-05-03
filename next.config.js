@@ -4,12 +4,12 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: "//e-commerce-canvas.cleverapps.io/api/(.*)",
+        source: "//api.tavlorify.se/api/(.*)",
         headers: [
           { key: "Access-Control-Allow-Credentials", value: "true" },
           {
             key: "Access-Control-Allow-Origin",
-            value: "http://45.82.72.142",
+            value: "https://tavlorify.se",
           },
           {
             key: "Access-Control-Allow-Methods",

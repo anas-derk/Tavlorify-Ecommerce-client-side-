@@ -20,7 +20,7 @@ const TextToImage = () => {
     const textToImageGenerate = (e) => {
         e.preventDefault();
         setIsWaitStatus(true);
-        Axios.get(`http://localhost:4000/api/text-to-image-generate?textPrompt=${textPrompt}`)
+        Axios.get(`https://api.tavlorify.se/api/text-to-image-generate?textPrompt=${textPrompt}`)
             .then((res) => {
                 let imageURLs = res.data;
                 setIsWaitStatus(false);
