@@ -3,8 +3,16 @@ import Head from "next/head";
 import { FaClipboardList, FaUserEdit } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import Axios from "axios";
 
 const Profile = () => {
+
+    const [email, setEmail] = useState("");
+
+    const [password, setPassword] = useState("");
+
+    const [name, setName] = useState("");
 
     const my_info_icons_data = [
         {
@@ -18,6 +26,18 @@ const Profile = () => {
             icon: <AiOutlineShoppingCart />
         },
     ];
+
+    useEffect(() => {
+        async function fetchData() {
+            let userInfo = JSON.parse(localStorage.getItem("e-commerce-canvas-user-info"));
+            const res = await Axios.get(`${process.env.BASE_API_URL}/api/users/user-info/${userInfo._id}`);
+            const data = await res.data;
+            setName(data.name);
+            setEmail(data.email);
+            setPassword(data.password);
+        }
+        fetchData();
+    }, []);
 
     return (
         <>
@@ -51,7 +71,13 @@ const Profile = () => {
                                     {/* End Column */}
                                     {/* Start Column */}
                                     <div className="col-md-10">
-                                        <input type="text" placeholder="Please Enter The New Your Name Here ." className="form-control border-success border-2" />
+                                        <input
+                                            type="text"
+                                            placeholder="Please Enter The New Your Name Here ."
+                                            className="form-control border-success border-2"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                        />
                                     </div>
                                     {/* End Column */}
                                 </div>
@@ -69,7 +95,13 @@ const Profile = () => {
                                     {/* End Column */}
                                     {/* Start Column */}
                                     <div className="col-md-10">
-                                        <input type="email" placeholder="Please Enter The New Your Email Here ." className="form-control border-success border-2" />
+                                        <input
+                                            type="email"
+                                            placeholder="Please Enter The New Your Email Here ."
+                                            className="form-control border-success border-2"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                        />
                                     </div>
                                     {/* End Column */}
                                 </div>
@@ -87,7 +119,13 @@ const Profile = () => {
                                     {/* End Column */}
                                     {/* Start Column */}
                                     <div className="col-md-10">
-                                        <input type="password" placeholder="Please Enter The New Your Password Here ." className="form-control border-success border-2" />
+                                        <input
+                                            type="password"
+                                            placeholder="Please Enter The New Your Password Here ."
+                                            className="form-control border-success border-2"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.password)}
+                                        />
                                     </div>
                                     {/* End Column */}
                                 </div>
