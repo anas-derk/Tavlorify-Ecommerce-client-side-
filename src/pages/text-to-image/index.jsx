@@ -23,10 +23,13 @@ const TextToImage = () => {
         Axios.get(`https://api.tavlorify.se/api/text-to-image-generate?textPrompt=${textPrompt}`)
             .then((res) => {
                 let imageURLs = res.data;
+                console.log(imageURLs);
                 setIsWaitStatus(false);
-                if (imageURLs.length > 0) {
-                    setGeneratedImageURLs(imageURLs);
-                }
+                // let imageURLs = res.data;
+                setIsWaitStatus(false);
+                // if (imageURLs.length > 0) {
+                //     setGeneratedImageURLs(imageURLs);
+                // }
             })
             .catch((err) => setErrorMsg("Sorry, Something Went Wrong !!"));
     }
@@ -72,16 +75,7 @@ const TextToImage = () => {
                     <h4 className="text-center mb-4">Generated Images</h4>
                     {/* Start Grid System */}
                     <div className="row">
-                        {generatedImageURLs.map((url, index) => (
-                            /* Start Column */
-                            <div className="col-md-3" key={index}>
-                                <div className="generated-image-box">
-                                    <img src={url} alt="Generated Image" className="generated-image mb-2" />
-                                    <h6 className="generated-image-name text-center">Image #{index + 1}</h6>
-                                </div>
-                            </div>
-                            /* End Column */
-                        ))}
+                        aa
                     </div>
                     {/* End Grid System */}
                 </section>}
