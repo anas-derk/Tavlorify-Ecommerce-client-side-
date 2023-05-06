@@ -1,11 +1,9 @@
 import Head from "next/head";
 import Header from "@/components/Header";
 import { IoSearchCircleSharp } from "react-icons/io5";
-import backImg1 from "../../../public/images/backgrounds/01.jpg";
-import backImg2 from "../../../public/images/backgrounds/02.jpg";
-import backImg3 from "../../../public/images/backgrounds/03.jpg";
 import { useState } from "react";
 import Axios from "axios";
+import animeImg from "../../../public/images/categories/anime.webp";
 
 const TextToImage = () => {
 
@@ -17,19 +15,31 @@ const TextToImage = () => {
 
     const [errorMsg, setErrorMsg] = useState("");
 
+    const categoriesData = [
+        {
+            imgSrc: animeImg.src,
+            name: "Anime",
+        },
+        {
+            imgSrc: animeImg.src,
+            name: "Realistic photo",
+        },
+        {
+            imgSrc: animeImg.src,
+            name: "Art",
+        },
+    ];
+
     const textToImageGenerate = (e) => {
         e.preventDefault();
         setIsWaitStatus(true);
         Axios.get(`https://api.tavlorify.se/api/text-to-image-generate?textPrompt=${textPrompt}`)
             .then((res) => {
                 let imageURLs = res.data;
-                console.log(imageURLs);
                 setIsWaitStatus(false);
-                // let imageURLs = res.data;
-                setIsWaitStatus(false);
-                // if (imageURLs.length > 0) {
-                //     setGeneratedImageURLs(imageURLs);
-                // }
+                if (imageURLs.length > 0) {
+                    setGeneratedImageURLs(imageURLs);
+                }
             })
             .catch((err) => setErrorMsg("Sorry, Something Went Wrong !!"));
     }
@@ -62,6 +72,39 @@ const TextToImage = () => {
                             <IoSearchCircleSharp className="search-icon" />
                         </button>
                     </form>
+                    {/* Start Category */}
+                    <h6 className="mb-3">Category</h6>
+                    <div className="categories mb-4 d-flex">
+                        {categoriesData.map((category, index) => (
+                            /* Start Category Box */
+                            <div className="category-box text-center" key={index}>
+                                <img src={category.imgSrc} alt="Anime Img" width="75" height="75" className="mb-2 category-img" />
+                                <span className="d-block">{ category.name }</span>
+                            </div>
+                            /* End Category Box */
+                        ))}
+                    </div>
+                    {/* End Category */}
+                    {/* Start Style */}
+                    <h6 className="mb-2">Style</h6>
+                    <div className="stylies mb-4">
+
+                    </div>
+                    {/* End Style */}
+                    {/* Start Image Numbers */}
+                    <h6 className="mb-3">Number Of Images</h6>
+                    <div className="number-of-images mb-4 d-flex select-box">
+                        <div className="number-box p-2 text-center">2</div>
+                        <div className="number-box p-2 text-center">4</div>
+                    </div>
+                    {/* End Image Numbers */}
+                    {/* Start Image Dimensions */}
+                    <h6 className="mb-3">Image Dimensions</h6>
+                    <div className="image-dimensions mb-4 d-flex select-box">
+                        <div className="number-box p-2 text-center">640 X 1024</div>
+                        <div className="number-box p-2 text-center">640 X 1024</div>
+                    </div>
+                    {/* End Image Dimensions */}
                 </section>
                 {/* End Text To Image Box */}
                 {/* Start Generate Wait Box */}
@@ -75,7 +118,7 @@ const TextToImage = () => {
                     <h4 className="text-center mb-4">Generated Images</h4>
                     {/* Start Grid System */}
                     <div className="row">
-                        aa
+
                     </div>
                     {/* End Grid System */}
                 </section>}

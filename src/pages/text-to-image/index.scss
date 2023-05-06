@@ -1,6 +1,25 @@
 .text-to-image-service{
     .text-to-image-box{
         background-color: #F5F5F5;
+        .categories{
+            gap: 30px;
+            .category-box{
+                width: fit-content;
+                cursor: pointer;
+                .category-img{
+                    border-radius: 5px;
+                }
+            }
+        }
+        .select-box{
+            gap: 30px;
+            > div{
+                width: 150px;
+                background-color: #CCC;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        }
     }
     .generate-wait-box{
         background-color: #F5F5F5;

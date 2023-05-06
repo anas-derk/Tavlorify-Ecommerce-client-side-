@@ -2,6 +2,30 @@
   background-color: #F5F5F5;
 }
 
+.text-to-image-service .text-to-image-box .categories {
+  gap: 30px;
+}
+
+.text-to-image-service .text-to-image-box .categories .category-box {
+  width: fit-content;
+  cursor: pointer;
+}
+
+.text-to-image-service .text-to-image-box .categories .category-box .category-img {
+  border-radius: 5px;
+}
+
+.text-to-image-service .text-to-image-box .select-box {
+  gap: 30px;
+}
+
+.text-to-image-service .text-to-image-box .select-box > div {
+  width: 150px;
+  background-color: #CCC;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .text-to-image-service .generate-wait-box {
   background-color: #F5F5F5;
 }
