@@ -4,6 +4,7 @@ import { IoSearchCircleSharp } from "react-icons/io5";
 import { useState } from "react";
 import Axios from "axios";
 import animeImg from "../../../public/images/categories/anime.webp";
+import textToImageData from "./data";
 
 const TextToImage = () => {
 
@@ -15,20 +16,9 @@ const TextToImage = () => {
 
     const [errorMsg, setErrorMsg] = useState("");
 
-    const categoriesData = [
-        {
-            imgSrc: animeImg.src,
-            name: "Anime",
-        },
-        {
-            imgSrc: animeImg.src,
-            name: "Realistic photo",
-        },
-        {
-            imgSrc: animeImg.src,
-            name: "Art",
-        },
-    ];
+    const [categorySelectedIndex, setCategorySelectedIndex] = useState(0);
+    
+    const [styleSelectedIndex, setStyleSelectedIndex] = useState(0);
 
     const textToImageGenerate = (e) => {
         e.preventDefault();
@@ -72,25 +62,69 @@ const TextToImage = () => {
                             <IoSearchCircleSharp className="search-icon" />
                         </button>
                     </form>
-                    {/* Start Category */}
-                    <h6 className="mb-3">Category</h6>
-                    <div className="categories mb-4 d-flex">
-                        {categoriesData.map((category, index) => (
-                            /* Start Category Box */
-                            <div className="category-box text-center" key={index}>
-                                <img src={category.imgSrc} alt="Anime Img" width="75" height="75" className="mb-2 category-img" />
-                                <span className="d-block">{ category.name }</span>
+                    {/* Start Grid System */}
+                    <section className="row">
+                        {/* Start Column */}
+                        <div className="col-md-6">
+                            {/* Start Category */}
+                            <h6 className="mb-3">Category</h6>
+                            <div className="categories mb-4 d-flex flex-wrap">
+                                {textToImageData.categoriesData.map((category, index) => (
+                                    /* Start Category Box */
+                                    <div
+                                        className="category-box text-center"
+                                        key={index}
+                                        onClick={() => setCategorySelectedIndex(index)}
+                                    >
+                                        <img
+                                            src={category.imgSrc}
+                                            alt="Anime Img"
+                                            width="75"
+                                            height="75"
+                                            className="mb-2 category-img"
+                                            style={ index === categorySelectedIndex ? { border: "2px solid #F00" } : {} }
+                                        />
+                                        <span className="d-block">{category.name}</span>
+                                    </div>
+                                    /* End Category Box */
+                                ))}
                             </div>
-                            /* End Category Box */
-                        ))}
-                    </div>
-                    {/* End Category */}
-                    {/* Start Style */}
-                    <h6 className="mb-2">Style</h6>
-                    <div className="stylies mb-4">
-
-                    </div>
-                    {/* End Style */}
+                            {/* End Category */}
+                            <hr />
+                            {/* Start Styles */}
+                            <h6 className="mb-2">Style</h6>
+                            <section className="styles mb-4 d-flex flex-wrap">
+                                {textToImageData.categoriesData[categorySelectedIndex].styles.map((category, index) => (
+                                    /* Start Style Box */
+                                    <div
+                                        className="style-box text-center"
+                                        key={index}
+                                        onClick={() => setStyleSelectedIndex(index)}
+                                    >
+                                        <img
+                                            src={category.imgSrc}
+                                            alt="Anime Img"
+                                            width="75"
+                                            height="75"
+                                            className="mb-2 category-img"
+                                            style={ index === styleSelectedIndex ? { border: "2px solid #F00" } : {} }
+                                        />
+                                        <span className="d-block">{category.name}</span>
+                                    </div>
+                                    /* End Style Box */
+                                ))}
+                            </section>
+                            {/* End Styles */}
+                        </div>
+                        {/* End Column */}
+                        {/* Start Column */}
+                        <div className="col-md-6">
+                            <img src={animeImg.src} alt="Image" className="created-image" />
+                        </div>
+                        {/* End Column */}
+                    </section>
+                    {/* End Grid System */}
+                    <hr />
                     {/* Start Image Numbers */}
                     <h6 className="mb-3">Number Of Images</h6>
                     <div className="number-of-images mb-4 d-flex select-box">
@@ -98,6 +132,7 @@ const TextToImage = () => {
                         <div className="number-box p-2 text-center">4</div>
                     </div>
                     {/* End Image Numbers */}
+                    <hr />
                     {/* Start Image Dimensions */}
                     <h6 className="mb-3">Image Dimensions</h6>
                     <div className="image-dimensions mb-4 d-flex select-box">
