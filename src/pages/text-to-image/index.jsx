@@ -23,8 +23,8 @@ const TextToImage = () => {
         e.preventDefault();
         setIsWaitStatus(true);
         Axios.get(
-            `${process.env.BASE_API_URL}/text-to-image-generate?textPrompt=${textPrompt}&prompt=${categoriesData[categorySelectedIndex].styles[styleSelectedIndex].prompt}
-            &category=${categoriesData[categorySelectedIndex].name}
+            `${process.env.BASE_API_URL}/text-to-image-generate?textPrompt=${textPrompt}&prompt=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].prompt}
+            &category=${text_to_image_data.categoriesData[categorySelectedIndex].name}
         `)
             .then((res) => {
                 let imageURLs = res.data;
