@@ -2,12 +2,12 @@
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    BASE_API_URL: "https://api.tavlorify.se",
+    BASE_API_URL: "https://e-commerce-canvas2023.cleverapps.io",
   },
   async headers() {
     return [
       {
-        source: "//api.tavlorify.se/(.*)",
+        source: "//e-commerce-canvas2023.cleverapps.io/(.*)",
         headers: [
           { key: "Access-Control-Allow-Credentials", value: "true" },
           {
