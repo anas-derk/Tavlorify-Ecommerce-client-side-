@@ -1,4 +1,4 @@
-import animeImg from "../../../public/images/categories/anime.webp";
+import animeImg from "../images/categories/anime.webp";
 
 const categoriesData = [
     {

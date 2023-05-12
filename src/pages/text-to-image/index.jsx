@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import { IoSearchCircleSharp } from "react-icons/io5";
 import { useState } from "react";
 import Axios from "axios";
-import text_to_image_data from "./text_to_image_data.jsx";
+import text_to_image_data from "../../../public/data/text_to_image_data";
 
 const TextToImage = () => {
 
