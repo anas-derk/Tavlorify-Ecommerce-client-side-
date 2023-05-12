@@ -7,7 +7,7 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: "//api.tavlorify.se/api/(.*)",
+        source: "//api.tavlorify.se/(.*)",
         headers: [
           { key: "Access-Control-Allow-Credentials", value: "true" },
           {
