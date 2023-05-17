@@ -131,16 +131,21 @@ const TextToImage = () => {
                             {/* End Generate Wait Box */}
                             {errorMsg && <p className="alert alert-danger">Sorry, Can't Generating From This Text !</p>}
                             {/* Start Generated Images Box */}
-                            <h4 className="text-center mb-4">Generated Images</h4>
-                            <Link href="/available-products">
-                                <img src={Test.src} alt="Image" className="created-image" />
-                            </Link>
                             {generatedImageURLs.length > 0 && !isWaitStatus && <section className="generated-images-box">
                                 <h4 className="text-center mb-4">Generated Images</h4>
                                 {/* Start Grid System */}
                                 <div className="row">
                                     {generatedImageURLs.map((url, index) => (
-                                        <img src={url} alt="Image" className="created-image" key={index} />
+                                        <Link href={{
+                                            pathname: "/available-products",
+                                            query: {
+                                                url: url,
+                                            },
+                                        }}
+                                            key={index}
+                                        >
+                                            <img src={url} alt="Image" className="created-image" />
+                                        </Link>
                                     ))}
                                 </div>
                                 {/* End Grid System */}

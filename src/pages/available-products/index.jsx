@@ -2,8 +2,14 @@ import Header from "@/components/Header";
 import Head from "next/head";
 import Test from "../../../public/images/1.png";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const AvailableProducts = () => {
+
+    const router = useRouter();
+
+    const url = router.query.url;
+
     return (
         // Start Available Products Page
         <div className="available-products">
@@ -22,7 +28,7 @@ const AvailableProducts = () => {
                         <div className="col-md-3 product-box">
                             <Link href="/customize-product">
                                 <div className="image-box">
-                                    <img src={Test.src} alt="canvas prints image !!" className="canvas-prints-image prints-image" />
+                                    <img src={url} alt="canvas prints image !!" className="canvas-prints-image prints-image" />
                                 </div>
                             </Link>
                             <h6 className="product-name text-center mt-3">Canvas Prints</h6>
@@ -33,7 +39,7 @@ const AvailableProducts = () => {
                         <div className="col-md-3 product-box">
                             <Link href="/">
                                 <div className="image-box framed-image-box">
-                                    <img src={Test.src} alt="framed prints image !!" className="framed-prints-image prints-image" />
+                                    <img src={url} alt="framed prints image !!" className="framed-prints-image prints-image" />
                                 </div>
                             </Link>
                             <h6 className="product-name text-center mt-3">Framed Prints</h6>
