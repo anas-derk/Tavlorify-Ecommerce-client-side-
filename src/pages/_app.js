@@ -7,8 +7,9 @@ import "../pages/profile/index.css";
 import "../components/Footer/index.css";
 import "../pages/index.css";
 import "../pages/text-to-image/index.css";
-import Footer from "@/components/Footer";
+// import Footer from "@/components/Footer";
 import { useEffect } from "react";
+import "../pages/available-products/index.css";
 
 export default function App({ Component, pageProps }) {
 
@@ -32,13 +33,13 @@ export default function App({ Component, pageProps }) {
 
       handleGlobalElement(globalHeader, "60px", "calc(100vw - 77px)");
 
-      handleGlobalElement(globalFooter, "60px", "calc(100vw - 77px)");
+      // handleGlobalElement(globalFooter, "60px", "calc(100vw - 77px)");
 
     } else {
 
       handleGlobalElement(globalHeader, "0", "100%");
 
-      handleGlobalElement(globalFooter, "0", "100%");
+      // handleGlobalElement(globalFooter, "0", "100%");
 
     }
 
@@ -60,7 +61,7 @@ export default function App({ Component, pageProps }) {
         <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
       </Head>
       <Component {...pageProps} />
-      <Footer />
+      {/* <Footer /> */}
       <Script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"

@@ -11,12 +11,6 @@
                 }
             }
         }
-        .created-image{
-            max-width: 100%;
-            max-height: 100%;
-            height: 100%;
-            border-radius: 50%;
-        }
         .select-box{
             gap: 30px;
             > div{
@@ -49,9 +43,12 @@
             row-gap: 10px;
             .generated-image-box{
                 cursor: pointer;
-                .generated-image{
+                .created-image{
                     max-width: 100%;
-                    border-radius: 5px;
+                    max-height: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    cursor: pointer;
                 }
             }
         }

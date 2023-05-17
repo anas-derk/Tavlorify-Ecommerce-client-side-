@@ -4,6 +4,8 @@ import { IoSearchCircleSharp } from "react-icons/io5";
 import { useState } from "react";
 import Axios from "axios";
 import text_to_image_data from "../../../public/data/text_to_image_data";
+import Test from "../../../public/images/1.png";
+import Link from "next/link";
 
 const TextToImage = () => {
 
@@ -121,7 +123,18 @@ const TextToImage = () => {
                         {/* End Column */}
                         {/* Start Column */}
                         <div className="col-md-6">
+                            {/* Start Generate Wait Box */}
+                            {isWaitStatus && <section className="generate-wait-box text-center p-3">
+                                <h6 className="wait-message mb-3">Generating The Required Images</h6>
+                                <span className="loader max-auto"></span>
+                            </section>}
+                            {/* End Generate Wait Box */}
+                            {errorMsg && <p className="alert alert-danger">Sorry, Can't Generating From This Text !</p>}
                             {/* Start Generated Images Box */}
+                            <h4 className="text-center mb-4">Generated Images</h4>
+                            <Link href="/available-products">
+                                <img src={Test.src} alt="Image" className="created-image" />
+                            </Link>
                             {generatedImageURLs.length > 0 && !isWaitStatus && <section className="generated-images-box">
                                 <h4 className="text-center mb-4">Generated Images</h4>
                                 {/* Start Grid System */}
@@ -155,13 +168,6 @@ const TextToImage = () => {
                     {/* End Image Dimensions */}
                 </section>
                 {/* End Text To Image Box */}
-                {/* Start Generate Wait Box */}
-                {isWaitStatus && <section className="generate-wait-box text-center p-3">
-                    <h6 className="wait-message mb-3">Generating The Required Images</h6>
-                    <span className="loader max-auto"></span>
-                </section>}
-                {/* End Generate Wait Box */}
-                {errorMsg && <p className="alert alert-danger">Sorry, Can't Generating From This Text !</p>}
             </div>
             {/* End Custom Container */}
         </div>
