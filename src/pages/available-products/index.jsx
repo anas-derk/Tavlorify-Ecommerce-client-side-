@@ -20,7 +20,7 @@ const AvailableProducts = () => {
                     <div className="row">
                         {/* Start Column */}
                         <div className="col-md-3 product-box">
-                            <Link href="/">
+                            <Link href="/customize-product">
                                 <div className="image-box">
                                     <img src={Test.src} alt="canvas prints image !!" className="canvas-prints-image prints-image" />
                                 </div>
