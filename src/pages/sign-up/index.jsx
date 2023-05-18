@@ -7,34 +7,50 @@ import { FiLogIn } from "react-icons/fi";
 
 const SignUp = () => {
 
+    const [firstName, setFirstName] = useState("");
+
+    const [lastName, setLastName] = useState("");
+
     const [email, setEmail] = useState("");
 
     const [password, setPassword] = useState("");
 
-    const [name, setName] = useState("");
+    const [isWaitStatus, setIsWaitStatus] = useState(false);
+
+    const [errorMsg, setErrorMsg] = useState("");
+
+    const [resultMsg, setResultMsg] = useState("");
 
     const signUpNow = async (e) => {
-
         e.preventDefault();
-
         try {
-
-            const res = await Axios.post(`${process.env.BASE_API_URL}/api/users/create-new-user`, {
-                name,
+            setIsWaitStatus(true);
+            const res = await Axios.post(`${process.env.BASE_API_URL}/users/create-new-user`, {
+                firstName,
+                lastName,
                 email,
                 password
             });
-
-            const msg = await res.data;
-
-            console.log(msg);
-
-        }catch(err) {
-
-            console.log(err);
-
+            setTimeout(async () => {
+                setIsWaitStatus(false);
+                const msg = await res.data;
+                if(msg === "Ok !!, Create New User Is Successfuly !!") {
+                    setResultMsg(msg);
+                    setTimeout(() => {
+                        setResultMsg("");
+                    }, 3000);
+                } else if (msg === "Sorry, Can't Create User Because it is Exist !!!") {
+                    setTimeout(() => {
+                        setErrorMsg(msg);
+                        setTimeout(() => {
+                            setErrorMsg("");
+                        }, 3000);
+                    }, 3000);
+                }
+            }, 2000);
+        } catch (err) {
+            setError(err);
         }
-
     }
 
     return (
@@ -54,30 +70,42 @@ const SignUp = () => {
                     style={{ boxShadow: "1px 1px 10px green" }}
                     onSubmit={signUpNow}
                 >
-                    {/* Start Input Field Box */}
-                    <div className="input-field-box mb-5">
-                        {/* Start Grid System */}
-                        <div className="row align-items-center">
-                            {/* Start Column */}
-                            <div className="col-md-2">
-                                Name *
-                            </div>
-                            {/* End Column */}
-                            {/* Start Column */}
-                            <div className="col-md-10">
+                    {/* Start Grid System */}
+                    <div className="row">
+                        {/* Start Column */}
+                        <div className="col-md-6">
+                            {/* Start Input Field Box */}
+                            <div className="input-field-box mb-5">
+                                <h6>First Name: </h6>
                                 <input
                                     type="text"
-                                    placeholder="Please Enter Your Name Here ."
+                                    placeholder="Please Enter Your First Name Here ."
                                     className="form-control border-success border-2"
-                                    onChange={(e) => setName(e.target.value)}
+                                    onChange={(e) => setFirstName(e.target.value)}
                                     required
                                 />
                             </div>
-                            {/* End Column */}
+                            {/* End Input Field Box */}
                         </div>
-                        {/* End Grid System */}
+                        {/* End Column */}
+                        {/* Start Column */}
+                        <div className="col-md-6">
+                            {/* Start Input Field Box */}
+                            <div className="input-field-box mb-5">
+                                <h6>Last Name: </h6>
+                                <input
+                                    type="text"
+                                    placeholder="Please Enter Your Last Name Here ."
+                                    className="form-control border-success border-2"
+                                    onChange={(e) => setLastName(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            {/* End Input Field Box */}
+                        </div>
+                        {/* End Column */}
                     </div>
-                    {/* End Input Field Box */}
+                    {/* End Grid System */}
                     {/* Start Input Field Box */}
                     <div className="input-field-box mb-5">
                         {/* Start Grid System */}
@@ -144,13 +172,19 @@ const SignUp = () => {
                         {/* End Grid System */}
                     </div>
                     {/* End Input Field Box */}
-                    <button className="btn btn-success mx-auto d-block mb-4">
+                    {!isWaitStatus && <button className="btn btn-success mx-auto d-block mb-4">
                         <span className="me-2">Sign Up Now</span>
                         <FiLogIn />
-                    </button>
+                    </button>}
+                    {isWaitStatus && <button className="btn btn-primary mx-auto d-block mb-4" type="button" disabled>
+                        <span className="me-2">Loading</span>
+                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    </button>}
+                    {errorMsg && <p className="alert alert-danger mb-4">{ errorMsg }</p>}
+                    {resultMsg && <p className="alert alert-success mb-4">{ resultMsg }</p>}
                     <div className="go-login-page-box text-center">
                         <span className="me-2">Already have account?</span>
-                        <Link href="/login">Login now</Link>
+                        <Link href="/login" className="btn">Login now</Link>
                     </div>
                 </form>
             </div>
