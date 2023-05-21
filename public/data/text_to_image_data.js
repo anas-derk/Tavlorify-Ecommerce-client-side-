@@ -1855,6 +1855,680 @@ const modelsDimentions = {
                 }
             },
         ]
+    },
+    "kandinsky-2": {
+        "horizontal": [
+            {
+                inCm: "18x13",
+                inPixel: {
+                    width: 704,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "20x15",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "29,7x21",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "30x20",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "40x30",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "45x30",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x20",
+                inPixel: {
+                    width: 768,
+                    height: 256,
+                }
+            },
+            {
+                inCm: "60x30",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x40",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x45",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "70x50",
+                inPixel: {
+                    width: 576,
+                    height: 432,
+                }
+            },
+            {
+                inCm: "75x50",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "80x40",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "80x60",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "90x30",
+                inPixel: {
+                    width: 768,
+                    height: 256,
+                }
+            },
+            {
+                inCm: "90x60",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "100x50",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "100x70",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "100x75",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+        ],
+        "vertical": [
+            {
+                inCm: "18x13",
+                inPixel: {
+                    width: 512,
+                    height: 704,
+                }
+            },
+            {
+                inCm: "20x15",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "29,7x21",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "30x20",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "40x30",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "45x30",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x20",
+                inPixel: {
+                    width: 256,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x30",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "60x40",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x45",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "70x50",
+                inPixel: {
+                    width: 576,
+                    height: 432,
+                }
+            },
+            {
+                inCm: "75x50",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "80x40",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "80x60",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "90x30",
+                inPixel: {
+                    width: 256,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "90x60",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "100x50",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "100x70",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "100x75",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+        ],
+        "square": [
+            {
+                inCm: "20x20",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "25x25",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "30x30",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "35x35",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "40x40",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "45x45",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "50x50",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x60",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "70x70",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+        ]
+    },
+    "openjourney": {
+        "horizontal": [
+            {
+                inCm: "18x13",
+                inPixel: {
+                    width: 1024,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "20x15",
+                inPixel: {
+                    width: 1024,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "29,7x21",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "30x20",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "40x30",
+                inPixel: {
+                    width: 1024,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "45x30",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x20",
+                inPixel: {
+                    width: 768,
+                    height: 256,
+                }
+            },
+            {
+                inCm: "60x30",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x40",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x45",
+                inPixel: {
+                    width: 1024,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "70x50",
+                inPixel: {
+                    width: 1024,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "75x50",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "80x40",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "80x60",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "90x30",
+                inPixel: {
+                    width: 768,
+                    height: 256,
+                }
+            },
+            {
+                inCm: "90x60",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "100x50",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "100x70",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "100x75",
+                inPixel: {
+                    width: 1024,
+                    height: 768,
+                }
+            },
+        ],
+        "vertical": [
+            {
+                inCm: "18x13",
+                inPixel: {
+                    width: 768,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "20x15",
+                inPixel: {
+                    width: 768,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "29,7x21",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "30x20",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "40x30",
+                inPixel: {
+                    width: 768,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "45x30",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x20",
+                inPixel: {
+                    width: 256,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x30",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "60x40",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x45",
+                inPixel: {
+                    width: 768,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "70x50",
+                inPixel: {
+                    width: 768,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "75x50",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "80x40",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "80x60",
+                inPixel: {
+                    width: 768,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "90x30",
+                inPixel: {
+                    width: 256,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "90x60",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "100x50",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "100x70",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "100x75",
+                inPixel: {
+                    width: 768,
+                    height: 1024,
+                }
+            },
+        ],
+        "square": [
+            {
+                inCm: "20x20",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "25x25",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "30x30",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "35x35",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "40x40",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "45x45",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "50x50",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x60",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "70x70",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+        ]
     }
 }
 
