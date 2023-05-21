@@ -373,7 +373,7 @@ const categoriesData = [
     },
     {
         imgSrc: animeImg.src,
-        name: "Landscape & Nature",
+        name: "Landscape And Nature",
         styles: [
             {
                 imgSrc: animeImg.src,
@@ -469,7 +469,7 @@ const categoriesData = [
     },
     {
         imgSrc: animeImg.src,
-        name: "characters & Anime",
+        name: "characters And Anime",
         styles: [
             {
                 imgSrc: animeImg.src,

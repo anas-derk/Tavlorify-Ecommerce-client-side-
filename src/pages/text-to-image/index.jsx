@@ -32,20 +32,18 @@ const TextToImage = () => {
     const textToImageGenerate = (e) => {
         e.preventDefault();
         setIsWaitStatus(true);
-        console.log(modelName);
-        console.log(dimensions);
-        // Axios.get(
-        //     `${process.env.BASE_API_URL}/text-to-image-generate?textPrompt=${textPrompt}&prompt=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].prompt}&category=${text_to_image_data.categoriesData[categorySelectedIndex].name}&style=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].name}&negative_prompt=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].negative_prompt}
-        // `)
-        //     .then((res) => {
-        //         let imageURLs = res.data;
-        //         console.log(imageURLs);
-        //         setIsWaitStatus(false);
-        //         if (imageURLs.length > 0) {
-        //             setGeneratedImageURLs(imageURLs);
-        //         }
-        //     })
-        //     .catch((err) => setErrorMsg("Sorry, Something Went Wrong !!"));
+        Axios.get(
+            `${process.env.BASE_API_URL}/text-to-image-generate?textPrompt=${textPrompt}&prompt=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].prompt}&category=${text_to_image_data.categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].negative_prompt}&width=${dimensions.width}&height=${dimensions.height}
+        `)
+            .then((res) => {
+                let imageURLs = res.data;
+                console.log(imageURLs);
+                setIsWaitStatus(false);
+                if (imageURLs.length > 0) {
+                    setGeneratedImageURLs(imageURLs);
+                }
+            })
+            .catch((err) => setErrorMsg("Sorry, Something Went Wrong !!"));
     }
 
     return (
