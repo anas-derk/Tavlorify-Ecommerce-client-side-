@@ -1,16 +1,16 @@
 import animeImg from "../images/categories/anime.webp";
 
 const categoriesData = [
-    {
-        imgSrc: animeImg.src,
-        name: "Free Form",
-        styles: [
-            {
-                prompt: "detailed matte painting, deep color, fantastical, intricate detail, splash screen, complementary colors, fantasy concept art, 8k resolution trending on Artstation Unreal Engine 5",
-                negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
-            },
-        ],
-    },
+    // {
+    //     imgSrc: animeImg.src,
+    //     name: "Free Form",
+    //     styles: [
+    //         {
+    //             prompt: "detailed matte painting, deep color, fantastical, intricate detail, splash screen, complementary colors, fantasy concept art, 8k resolution trending on Artstation Unreal Engine 5",
+    //             negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+    //         },
+    //     ],
+    // },
     {
         imgSrc: animeImg.src,
         name: "Art",
@@ -20,120 +20,140 @@ const categoriesData = [
                 name: "line art",
                 prompt: "white background, clean simple line art, one line art, single line, black and white, clear, clean lines, wavey lines, realistic line art drawing, white background, well composed, clean coloring book page. line art by Picasso and Matisse, by Rembrandt van Rijn, white background",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "dreamshaper",
             },
             {
                 imgSrc: animeImg.src,
                 name: "art deco",
                 prompt: "One color, art deco, jugendstil, symmetrical frame, vector, art nouveau, ornate, Beautiful symmetrical decorative ornament, decorative design, classical ornament, motif, bilateral symmetry, roses, leaves, flowers, buds, flowering buds, highly detailed etching",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "dreamshaper",
             },
             {
                 imgSrc: animeImg.src,
                 name: "Vasily kandinsky",
                 prompt: "Art by vasily kandinsky, avant-garte, absurdres, surrealism, brutalism",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "kandinsky-2",
             },
             {
                 imgSrc: animeImg.src,
                 name: "Palette knife",
                 prompt: "Leonid afremov style oil painting, Palette knife oil painting of a lush",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "dreamshaper",
             },
             {
                 imgSrc: animeImg.src,
                 name: "Abstract Expressionism",
                 prompt: "Expressionism, Abstract Expressionism, The abstract painting of an image, creative art, modern abstract art",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "stable-diffusion",
             },
             {
                 imgSrc: animeImg.src,
                 name: "Pop Art",
                 prompt: "Screen print, pop art, splash screen art, triadic colors, digital art, 8k resolution trending on Artstation, golden ratio, symmetrical, rule of thirds, geometric bauhaus",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "kandinsky-2",
             },
             {
                 imgSrc: animeImg.src,
                 name: "Neo Impressionist",
                 prompt: "neo-impressionism expressionist style oil painting, smooth post-impressionist impasto acrylic painting, thick layers of colourful textured paint",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "dreamshaper",
             },
             {
                 imgSrc: animeImg.src,
                 name: "scandinavian modern art",
                 prompt: "scandinavian modern art, Geometric forms, Abstract minimalist on a white background single brushstroke, Geometric, soft colors mono chromatic, shape, soft colors, simple, contemporary, modern, scandinavian modern art, super minimalist, hand drawn, line art, warm color,",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "kandinsky-2",
             },
             {
                 imgSrc: animeImg.src,
                 name: "Epic Origami",
                 prompt: "Origami paper folds papercraft, made of paper, stationery, 8K resolution 64 megapixels soft focus",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "kandinsky-2",
             },
             {
                 imgSrc: animeImg.src,
                 name: "flower ART",
                 prompt: "flower, roses everywhere, highly detailed, digital painting, artstation, concept art, smooth, sharp focus, illustration",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "stable-diffusion",
             },
             {
                 imgSrc: animeImg.src,
                 name: "Horror",
                 prompt: "horror Gustave Doré Greg Rutkowski",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "kandinsky-2",
             },
             {
                 imgSrc: animeImg.src,
                 name: "Charcoal",
                 prompt: "hyperdetailed charcoal drawing",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "dreamshaper",
             },
             {
                 imgSrc: animeImg.src,
                 name: "abstract art",
                 prompt: "abstract art complementary colors fine details abstract art complementary colors fine details",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "kandinsky-2",
             },
             {
                 imgSrc: animeImg.src,
                 name: "Cubist",
                 prompt: "abstract cubism Euclidean Georgy Kurasov Albert Gleizes",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "kandinsky-2",
             },
             {
                 imgSrc: animeImg.src,
                 name: "Candy art",
                 prompt: "Candy art style! Whimsical playful colorful! candy!!! 🍬🍭 Candyland art!! “Hyperrealistic hyperdetailed highly detailed, digital illustration” postmodernism, artstation, poster art, dynamic lighting, cel-shaded, ray tracing reflections",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "dreamshaper",
             },
             {
                 imgSrc: animeImg.src,
                 name: "Oil Painting",
                 prompt: "oil painting by James Gurney",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "stable-diffusion",
             },
             {
                 imgSrc: animeImg.src,
                 name: "Gouache",
                 prompt: "gouache detailed painting",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "kandinsky-2",
             },
             {
                 imgSrc: animeImg.src,
                 name: "Color Painting",
                 prompt: "abstract art complementary colors fine details abstract art complementary colors fine details",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "dreamshaper",
             },
             {
                 imgSrc: animeImg.src,
                 name: "Cubist v2",
                 prompt: "cubist painting, Neo-Cubism, layered overlapping geometry, art deco painting, Dribbble, geometric fauvism, layered geometric vector art, maximalism; V-Ray, Unreal Engine 5, angular oil painting, DeviantArt",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "kandinsky-2",
             },
             {
                 imgSrc: animeImg.src,
                 name: "Surreal",
                 prompt: "surrealism Salvador Dali matte background melting oil on canvas",
                 negative_prompt: "dubbing, Double, compact car, Ugly car, idle car, bad car, Two cars combined, camera, canon, multiple breasts,(mutated hands and fingers:1.5),(long body:1.3),(mutation, poorly drawn:1.2),black-white, bad anatomy, liquid body, liquid tongue, disfigured, malformed, mutated, anatomical nonsense, text font ui, error, malformed hands, long neck, blurred, lowers, bad anatomy, bad proportions, bad shadow, uncoordinated body, unnatural body, fused breasts, bad breasts, huge breasts, poorly drawn breasts, extra breasts, liquid breasts, heavy breasts, missing breasts, huge haunch, huge thighs, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, fused ears, bad ears, poorly drawn ears, extra ears, liquid ears, heavy ears, missing ears, fused animal ears, bad animal ears, poorly drawn animal ears, extra animal ears, liquid animal ears, heavy animal ears, missing animal ears, text, ui, error, missing fingers, missing limb, fused fingers, one hand with more than 5 fingers, one hand with less than 5 fingers, one hand with more than 5 digit, one hand with less than 5 digit, extra digit, fewer digits, fused digit, missing digit, bad digit, liquid digit, colorful tongue, black tongue, cropped, watermark, username, blurry, malformed feet, extra feet, bad feet, poorly drawn feet, fused feet, missing feet, extra shoes, bad shoes, fused shoes, more than two shoes, poorly drawn shoes, bad gloves, poorly drawn gloves, fused gloves, bad cum, poorly drawn cum, fused cum, bad hairs, poorly drawn hairs, fused hairs, big muscles, ugly, bad face, fused face, poorly drawn face, cloned face, big face, long face, bad eyes, fused eyes poorly drawn eyes, extra eyes, malformed limbs, more than 2 nipples, missing nipples, different nipples, fused nipples, bad nipples, poorly drawn nipples, black nipples, colorful nipples, gross proportions. short arm, (((missing arms))), missing thighs, missing calf, missing legs, mutation, duplicate, morbid, mutilated, poorly drawn hands, more than 1 left hand, more than 1 right hand, deformed,(blurry), disfigured, missing legs, extra arms, extra thighs, more than 2 thighs, extra calf, fused calf, extra legs, bad knee, extra knee, more than 2 legs, bad tails, bad mouth, fused mouth, poorly drawn mouth, bad tongue, tongue within mouth, too long tongue, black tongue, big mouth, cracked mouth, bad mouth, dirty face, dirty teeth, dirty pantie, fused pantie, poorly drawn pantie, fused cloth, poorly drawn cloth, bad pantie, yellow teeth, thick lips, bad cameltoe, colorful cameltoe, bad asshole, poorly drawn asshole, fused asshole, missing asshole, bad anus, bad pussy, bad crotch, bad crotch seam, fused anus, fused pussy, fused anus, fused crotch, poorly drawn crotch, fused seam, poorly drawn anus, poorly drawn pussy, poorly drawn crotch, poorly drawn crotch seam, bad thigh gap, missing thigh gap, fused thigh gap, liquid thigh gap ,poorly drawn thigh gap, poorly drawn anus, bad collarbone, fused collarbone, missing collarbone, liquid collarbone, strong girl, obesity, worst quality, low quality, normal quality, liquid tentacles, bad tentacles, poorly drawn tentacles, split tentacles, fused tentacles, missing clit, bad clit, fused clit, colorful clit, black clit, liquid clit, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face",
+                modelName: "midjourney-diffusion",
             },
         ],
     },
@@ -487,4 +507,1355 @@ const categoriesData = [
     }
 ];
 
-export default { categoriesData };
+const modelsDimentions = {
+    "dreamshaper": {
+        "horizontal": [
+            {
+                inCm: "18x13",
+                inPixel: {
+                    width: 704,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "20x15",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "29,7x21",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "30x20",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "40x30",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "45x30",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x20",
+                inPixel: {
+                    width: 768,
+                    height: 256,
+                }
+            },
+            {
+                inCm: "60x30",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x40",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x45",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "70x50",
+                inPixel: {
+                    width: 896,
+                    height: 640,
+                }
+            },
+            {
+                inCm: "75x50",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "80x40",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "80x60",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "90x30",
+                inPixel: {
+                    width: 768,
+                    height: 256,
+                }
+            },
+            {
+                inCm: "90x60",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "100x50",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "100x70",
+                inPixel: {
+                    width: 896,
+                    height: 640,
+                }
+            },
+            {
+                inCm: "100x75",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+        ],
+        "vertical": [
+            {
+                inCm: "18x13",
+                inPixel: {
+                    width: 512,
+                    height: 704,
+                }
+            },
+            {
+                inCm: "20x15",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "29,7x21",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "30x20",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "40x30",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "45x30",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x20",
+                inPixel: {
+                    width: 256,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x30",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "60x40",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x45",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "70x50",
+                inPixel: {
+                    width: 640,
+                    height: 896,
+                }
+            },
+            {
+                inCm: "75x50",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "80x40",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "80x60",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "90x30",
+                inPixel: {
+                    width: 256,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "90x60",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "100x50",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "100x70",
+                inPixel: {
+                    width: 640,
+                    height: 896,
+                }
+            },
+            {
+                inCm: "100x75",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+        ],
+        "square": [
+            {
+                inCm: "20x20",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "25x25",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "30x30",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "35x35",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "40x40",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "45x45",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "50x50",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x60",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "70x70",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+        ]
+    },
+    "stable-diffusion": {
+        "horizontal": [
+            {
+                inCm: "18x13",
+                inPixel: {
+                    width: 704,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "20x15",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "29,7x21",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "30x20",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "40x30",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "45x30",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x20",
+                inPixel: {
+                    width: 768,
+                    height: 256,
+                }
+            },
+            {
+                inCm: "60x30",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x40",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x45",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "70x50",
+                inPixel: {
+                    width: 896,
+                    height: 640,
+                }
+            },
+            {
+                inCm: "75x50",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "80x40",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "80x60",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "90x30",
+                inPixel: {
+                    width: 768,
+                    height: 256,
+                }
+            },
+            {
+                inCm: "90x60",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "100x50",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "100x70",
+                inPixel: {
+                    width: 896,
+                    height: 640,
+                }
+            },
+            {
+                inCm: "100x75",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+        ],
+        "vertical": [
+            {
+                inCm: "18x13",
+                inPixel: {
+                    width: 512,
+                    height: 704,
+                }
+            },
+            {
+                inCm: "20x15",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "29,7x21",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "30x20",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "40x30",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "45x30",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x20",
+                inPixel: {
+                    width: 256,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x30",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "60x40",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x45",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "70x50",
+                inPixel: {
+                    width: 640,
+                    height: 896,
+                }
+            },
+            {
+                inCm: "75x50",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "80x40",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "80x60",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "90x30",
+                inPixel: {
+                    width: 256,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "90x60",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "100x50",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "100x70",
+                inPixel: {
+                    width: 640,
+                    height: 896,
+                }
+            },
+            {
+                inCm: "100x75",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+        ],
+        "square": [
+            {
+                inCm: "20x20",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "25x25",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "30x30",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "35x35",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "40x40",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "45x45",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "50x50",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x60",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "70x70",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+        ]
+    },
+    "midjourney-diffusion": {
+        "horizontal": [
+            {
+                inCm: "18x13",
+                inPixel: {
+                    width: 704,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "20x15",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "29,7x21",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "30x20",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "40x30",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "45x30",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x20",
+                inPixel: {
+                    width: 768,
+                    height: 256,
+                }
+            },
+            {
+                inCm: "60x30",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x40",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x45",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "70x50",
+                inPixel: {
+                    width: 896,
+                    height: 640,
+                }
+            },
+            {
+                inCm: "75x50",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "80x40",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "80x60",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+            {
+                inCm: "90x30",
+                inPixel: {
+                    width: 768,
+                    height: 256,
+                }
+            },
+            {
+                inCm: "90x60",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "100x50",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "100x70",
+                inPixel: {
+                    width: 896,
+                    height: 640,
+                }
+            },
+            {
+                inCm: "100x75",
+                inPixel: {
+                    width: 768,
+                    height: 576,
+                }
+            },
+        ],
+        "vertical": [
+            {
+                inCm: "18x13",
+                inPixel: {
+                    width: 512,
+                    height: 704,
+                }
+            },
+            {
+                inCm: "20x15",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "29,7x21",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "30x20",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "40x30",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "45x30",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x20",
+                inPixel: {
+                    width: 256,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x30",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "60x40",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x45",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "70x50",
+                inPixel: {
+                    width: 640,
+                    height: 896,
+                }
+            },
+            {
+                inCm: "75x50",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "80x40",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "80x60",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "90x30",
+                inPixel: {
+                    width: 256,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "90x60",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "100x50",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "100x70",
+                inPixel: {
+                    width: 640,
+                    height: 896,
+                }
+            },
+            {
+                inCm: "100x75",
+                inPixel: {
+                    width: 576,
+                    height: 768,
+                }
+            },
+        ],
+        "square": [
+            {
+                inCm: "20x20",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "25x25",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "30x30",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "35x35",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "40x40",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "45x45",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "50x50",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x60",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "70x70",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+        ]
+    },
+    "anything-v4.0": {
+        "horizontal": [
+            {
+                inCm: "18x13",
+                inPixel: {
+                    width: 704,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "20x15",
+                inPixel: {
+                    width: 1024,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "29,7x21",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "30x20",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "40x30",
+                inPixel: {
+                    width: 1024,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "45x30",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x20",
+                inPixel: {
+                    width: 768,
+                    height: 256,
+                }
+            },
+            {
+                inCm: "60x30",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x40",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x45",
+                inPixel: {
+                    width: 1024,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "70x50",
+                inPixel: {
+                    width: 896,
+                    height: 640,
+                }
+            },
+            {
+                inCm: "75x50",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "80x40",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "80x60",
+                inPixel: {
+                    width: 1024,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "90x30",
+                inPixel: {
+                    width: 768,
+                    height: 256,
+                }
+            },
+            {
+                inCm: "90x60",
+                inPixel: {
+                    width: 768,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "100x50",
+                inPixel: {
+                    width: 1024,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "100x70",
+                inPixel: {
+                    width: 896,
+                    height: 640,
+                }
+            },
+            {
+                inCm: "100x75",
+                inPixel: {
+                    width: 1024,
+                    height: 768,
+                }
+            },
+        ],
+        "vertical": [
+            {
+                inCm: "18x13",
+                inPixel: {
+                    width: 512,
+                    height: 704,
+                }
+            },
+            {
+                inCm: "20x15",
+                inPixel: {
+                    width: 768,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "29,7x21",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "30x20",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "40x30",
+                inPixel: {
+                    width: 768,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "45x30",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x20",
+                inPixel: {
+                    width: 256,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x30",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "60x40",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "60x45",
+                inPixel: {
+                    width: 768,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "70x50",
+                inPixel: {
+                    width: 640,
+                    height: 896,
+                }
+            },
+            {
+                inCm: "75x50",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "80x40",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "80x60",
+                inPixel: {
+                    width: 768,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "90x30",
+                inPixel: {
+                    width: 256,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "90x60",
+                inPixel: {
+                    width: 512,
+                    height: 768,
+                }
+            },
+            {
+                inCm: "100x50",
+                inPixel: {
+                    width: 512,
+                    height: 1024,
+                }
+            },
+            {
+                inCm: "100x70",
+                inPixel: {
+                    width: 896,
+                    height: 640,
+                }
+            },
+            {
+                inCm: "100x75",
+                inPixel: {
+                    width: 1024,
+                    height: 768,
+                }
+            },
+        ],
+        "square": [
+            {
+                inCm: "20x20",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "25x25",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "30x30",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "35x35",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "40x40",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "45x45",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "50x50",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "60x60",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+            {
+                inCm: "70x70",
+                inPixel: {
+                    width: 512,
+                    height: 512,
+                }
+            },
+        ]
+    }
+}
+
+export default { categoriesData, modelsDimentions };

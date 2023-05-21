@@ -4,7 +4,6 @@ import { IoSearchCircleSharp } from "react-icons/io5";
 import { useState } from "react";
 import Axios from "axios";
 import text_to_image_data from "../../../public/data/text_to_image_data";
-import Test from "../../../public/images/1.png";
 import Link from "next/link";
 
 const TextToImage = () => {
@@ -21,21 +20,32 @@ const TextToImage = () => {
 
     const [styleSelectedIndex, setStyleSelectedIndex] = useState(0);
 
+    const [modelName, setModelName] = useState("dreamshaper");
+
+    const [imageType, setImageType] = useState("horizontal");
+
+    const [dimensions, setDimentions] = useState({
+        width: text_to_image_data.modelsDimentions[modelName][imageType][0].inPixel.width,
+        height: text_to_image_data.modelsDimentions[modelName][imageType][0].inPixel.height,
+    });
+
     const textToImageGenerate = (e) => {
         e.preventDefault();
         setIsWaitStatus(true);
-        Axios.get(
-            `${process.env.BASE_API_URL}/text-to-image-generate?textPrompt=${textPrompt}&prompt=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].prompt}&category=${text_to_image_data.categoriesData[categorySelectedIndex].name}&style=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].name}&negative_prompt=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].negative_prompt}
-        `)
-            .then((res) => {
-                let imageURLs = res.data;
-                console.log(imageURLs);
-                setIsWaitStatus(false);
-                if (imageURLs.length > 0) {
-                    setGeneratedImageURLs(imageURLs);
-                }
-            })
-            .catch((err) => setErrorMsg("Sorry, Something Went Wrong !!"));
+        console.log(modelName);
+        console.log(dimensions);
+        // Axios.get(
+        //     `${process.env.BASE_API_URL}/text-to-image-generate?textPrompt=${textPrompt}&prompt=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].prompt}&category=${text_to_image_data.categoriesData[categorySelectedIndex].name}&style=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].name}&negative_prompt=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].negative_prompt}
+        // `)
+        //     .then((res) => {
+        //         let imageURLs = res.data;
+        //         console.log(imageURLs);
+        //         setIsWaitStatus(false);
+        //         if (imageURLs.length > 0) {
+        //             setGeneratedImageURLs(imageURLs);
+        //         }
+        //     })
+        //     .catch((err) => setErrorMsg("Sorry, Something Went Wrong !!"));
     }
 
     return (
@@ -103,7 +113,10 @@ const TextToImage = () => {
                                     <div
                                         className="style-box text-center"
                                         key={index}
-                                        onClick={() => setStyleSelectedIndex(index)}
+                                        onClick={() => {
+                                            setStyleSelectedIndex(index);
+                                            setModelName(text_to_image_data.categoriesData[categorySelectedIndex].styles[index].modelName);
+                                        }}
                                     >
                                         <img
                                             src={category.imgSrc}
@@ -155,22 +168,28 @@ const TextToImage = () => {
                         {/* End Column */}
                     </section>
                     {/* End Grid System */}
+                    {/* Start Select Image Type Section */}
+                    <h6 className="mb-3">Image Type</h6>
+                    <select className="form-control w-50" onChange={(e) => setImageType(e.target.value)}>
+                        <option value="horizontal">Horizontal</option>
+                        <option value="vertical">Vertical</option>
+                        <option value="square">Square</option>
+                    </select>
+                    {/* End Select Image Type Section */}
                     <hr />
-                    {/* Start Image Numbers */}
-                    <h6 className="mb-3">Number Of Images</h6>
-                    <div className="number-of-images mb-4 d-flex select-box">
-                        <div className="number-box p-2 text-center">2</div>
-                        <div className="number-box p-2 text-center">4</div>
-                    </div>
-                    {/* End Image Numbers */}
-                    <hr />
-                    {/* Start Image Dimensions */}
+                    {/* Start Select Image Dimensions Section */}
                     <h6 className="mb-3">Image Dimensions</h6>
-                    <div className="image-dimensions mb-4 d-flex select-box">
-                        <div className="number-box p-2 text-center">640 X 1024</div>
-                        <div className="number-box p-2 text-center">640 X 1024</div>
-                    </div>
-                    {/* End Image Dimensions */}
+                    <select className="form-control w-50" onChange={(e) => {
+                        setDimentions({
+                            width: text_to_image_data.modelsDimentions[modelName][imageType][e.target.value].inPixel.width,
+                            height: text_to_image_data.modelsDimentions[modelName][imageType][e.target.value].inPixel.height,
+                        })
+                    }}>
+                        {text_to_image_data.modelsDimentions[modelName][imageType].map((dimensions, index) => (
+                            <option value={index} key={index}>{dimensions.inCm} cm</option>
+                        ))}
+                    </select>
+                    {/* End Select Image Dimensions Section */}
                 </section>
                 {/* End Text To Image Box */}
             </div>
