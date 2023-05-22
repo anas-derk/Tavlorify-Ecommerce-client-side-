@@ -16,18 +16,15 @@ const TextToImage = () => {
 
     const [errorMsg, setErrorMsg] = useState("");
 
-    const [categorySelectedIndex, setCategorySelectedIndex] = useState(0);
+    const [categorySelectedIndex, setCategorySelectedIndex] = useState(-1);
 
-    const [styleSelectedIndex, setStyleSelectedIndex] = useState(0);
+    const [styleSelectedIndex, setStyleSelectedIndex] = useState(-1);
 
-    const [modelName, setModelName] = useState("dreamshaper");
+    const [modelName, setModelName] = useState("");
 
-    const [imageType, setImageType] = useState("horizontal");
+    const [imageType, setImageType] = useState("");
 
-    const [dimensions, setDimentions] = useState({
-        width: text_to_image_data.modelsDimentions[modelName][imageType][0].inPixel.width,
-        height: text_to_image_data.modelsDimentions[modelName][imageType][0].inPixel.height,
-    });
+    const [dimensions, setDimentions] = useState({});
 
     const textToImageGenerate = (e) => {
         e.preventDefault();
@@ -93,7 +90,9 @@ const TextToImage = () => {
                                         key={index}
                                         onClick={() => {
                                             setCategorySelectedIndex(index);
-                                            setStyleSelectedIndex(0);
+                                            setStyleSelectedIndex(-1);
+                                            setImageType("");
+                                            setDimentions({});
                                         }}
                                     >
                                         <img
@@ -112,8 +111,8 @@ const TextToImage = () => {
                             {/* End Category */}
                             <hr />
                             {/* Start Styles */}
-                            <h6 className="mb-2">Style</h6>
-                            <section className="styles mb-4 d-flex flex-wrap">
+                            {categorySelectedIndex > -1 && <h6 className="mb-2">Style</h6>}
+                            {categorySelectedIndex > -1 && <section className="styles mb-4 d-flex flex-wrap">
                                 {text_to_image_data.categoriesData[categorySelectedIndex].styles.map((category, index) => (
                                     /* Start Style Box */
                                     <div
@@ -122,6 +121,8 @@ const TextToImage = () => {
                                         onClick={() => {
                                             setStyleSelectedIndex(index);
                                             setModelName(text_to_image_data.categoriesData[categorySelectedIndex].styles[index].modelName);
+                                            setImageType(imageType);
+                                            setDimentions({});
                                         }}
                                     >
                                         <img
@@ -136,7 +137,7 @@ const TextToImage = () => {
                                     </div>
                                     /* End Style Box */
                                 ))}
-                            </section>
+                            </section>}
                             {/* End Styles */}
                         </div>
                         {/* End Column */}
@@ -175,26 +176,30 @@ const TextToImage = () => {
                     </section>
                     {/* End Grid System */}
                     {/* Start Select Image Type Section */}
-                    <h6 className="mb-3">Image Type</h6>
-                    <select className="form-control w-50" onChange={(e) => setImageType(e.target.value)}>
-                        <option value="horizontal">Horizontal</option>
-                        <option value="vertical">Vertical</option>
-                        <option value="square">Square</option>
-                    </select>
+                    {styleSelectedIndex > -1 && <>
+                        <h6 className="mb-3">Image Type</h6>
+                        <select className="form-control w-50" onChange={(e) => setImageType(e.target.value)}>
+                            <option defaultValue="" hidden>Select Image Type</option>
+                            <option value="horizontal">Horizontal</option>
+                            <option value="vertical">Vertical</option>
+                            <option value="square">Square</option>
+                        </select>
+                    </>}
                     {/* End Select Image Type Section */}
                     <hr />
                     {/* Start Select Image Dimensions Section */}
-                    <h6 className="mb-3">Image Dimensions</h6>
-                    <select className="form-control w-50" onChange={(e) => {
+                    {modelName && imageType && <h6 className="mb-3">Image Dimensions</h6>}
+                    {modelName && imageType && <select className="form-control w-50" onChange={(e) => {
                         setDimentions({
                             width: text_to_image_data.modelsDimentions[modelName][imageType][e.target.value].inPixel.width,
                             height: text_to_image_data.modelsDimentions[modelName][imageType][e.target.value].inPixel.height,
                         })
                     }}>
+                        <option defaultValue="" hidden>Select Image Dimensions</option>
                         {text_to_image_data.modelsDimentions[modelName][imageType].map((dimensions, index) => (
                             <option value={index} key={index}>{dimensions.inCm} cm</option>
                         ))}
-                    </select>
+                    </select>}
                     {/* End Select Image Dimensions Section */}
                 </section>
                 {/* End Text To Image Box */}
