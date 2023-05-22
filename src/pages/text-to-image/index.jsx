@@ -31,16 +31,21 @@ const TextToImage = () => {
 
     const textToImageGenerate = (e) => {
         e.preventDefault();
+        setErrorMsg("");
         setIsWaitStatus(true);
         Axios.get(
             `${process.env.BASE_API_URL}/text-to-image-generate?textPrompt=${textPrompt}&prompt=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].prompt}&category=${text_to_image_data.categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].negative_prompt}&width=${dimensions.width}&height=${dimensions.height}
         `)
             .then((res) => {
-                let imageURLs = res.data;
-                console.log(imageURLs);
+                let result = res.data;
+                console.log(result);
                 setIsWaitStatus(false);
-                if (imageURLs.length > 0) {
-                    setGeneratedImageURLs(imageURLs);
+                if (Array.isArray(result)) {
+                    setGeneratedImageURLs(result);
+                    setErrorMsg("");
+                } else {
+                    setErrorMsg("Something Went Wrong !!");
+                    setGeneratedImageURLs([]);
                 }
             })
             .catch((err) => setErrorMsg("Sorry, Something Went Wrong !!"));
@@ -86,7 +91,10 @@ const TextToImage = () => {
                                     <div
                                         className="category-box text-center"
                                         key={index}
-                                        onClick={() => setCategorySelectedIndex(index)}
+                                        onClick={() => {
+                                            setCategorySelectedIndex(index);
+                                            setStyleSelectedIndex(0);
+                                        }}
                                     >
                                         <img
                                             src={category.imgSrc}
@@ -140,7 +148,7 @@ const TextToImage = () => {
                                 <span className="loader max-auto"></span>
                             </section>}
                             {/* End Generate Wait Box */}
-                            {errorMsg && <p className="alert alert-danger">Sorry, Can't Generating From This Text !</p>}
+                            {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
                             {/* Start Generated Images Box */}
                             {generatedImageURLs.length > 0 && !isWaitStatus && <section className="generated-images-box">
                                 <h4 className="text-center mb-4">Generated Images</h4>
