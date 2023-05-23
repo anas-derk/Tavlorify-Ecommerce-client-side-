@@ -14,6 +14,10 @@ const TextToImage = () => {
 
     const [isWaitStatus, setIsWaitStatus] = useState(false);
 
+    const [getImgTypeMsg, setGetImgTypeMsg] = useState("");
+
+    const [getImgDimentionsMsg, setGetImgDimentionsMsg] = useState("");
+
     const [errorMsg, setErrorMsg] = useState("");
 
     const [categorySelectedIndex, setCategorySelectedIndex] = useState(-1);
@@ -119,10 +123,14 @@ const TextToImage = () => {
                                         className="style-box text-center"
                                         key={index}
                                         onClick={() => {
+                                            setGetImgTypeMsg("waiting ...");
                                             setStyleSelectedIndex(index);
-                                            setModelName(text_to_image_data.categoriesData[categorySelectedIndex].styles[index].modelName);
-                                            setImageType(imageType);
-                                            setDimentions({});
+                                            setTimeout(() => {
+                                                setGetImgTypeMsg("");
+                                                setModelName(text_to_image_data.categoriesData[categorySelectedIndex].styles[index].modelName);
+                                                setImageType("");
+                                                setDimentions({});
+                                            }, 1000);
                                         }}
                                     >
                                         <img
@@ -175,10 +183,17 @@ const TextToImage = () => {
                         {/* End Column */}
                     </section>
                     {/* End Grid System */}
+                    {getImgTypeMsg && <p className="alert alert-warning">{getImgTypeMsg}</p>}
                     {/* Start Select Image Type Section */}
-                    {styleSelectedIndex > -1 && <>
+                    {styleSelectedIndex > -1 && !getImgTypeMsg && <>
                         <h6 className="mb-3">Image Type</h6>
-                        <select className="form-control w-50" onChange={(e) => setImageType(e.target.value)}>
+                        <select className="form-control w-50" onChange={(e) => {
+                            setGetImgDimentionsMsg("waiting ...");
+                            setTimeout(() => {
+                                setGetImgDimentionsMsg("");
+                                setImageType(e.target.value);
+                            }, 1000);
+                        }}>
                             <option defaultValue="" hidden>Select Image Type</option>
                             <option value="horizontal">Horizontal</option>
                             <option value="vertical">Vertical</option>
@@ -187,9 +202,10 @@ const TextToImage = () => {
                     </>}
                     {/* End Select Image Type Section */}
                     <hr />
+                    {getImgDimentionsMsg && <p className="alert alert-warning">{getImgDimentionsMsg}</p>}
                     {/* Start Select Image Dimensions Section */}
-                    {modelName && imageType && <h6 className="mb-3">Image Dimensions</h6>}
-                    {modelName && imageType && <select className="form-control w-50" onChange={(e) => {
+                    {modelName && imageType && !getImgDimentionsMsg && <h6 className="mb-3">Image Dimensions</h6>}
+                    {modelName && imageType && !getImgDimentionsMsg && <select className="form-control w-50" onChange={(e) => {
                         setDimentions({
                             width: text_to_image_data.modelsDimentions[modelName][imageType][e.target.value].inPixel.width,
                             height: text_to_image_data.modelsDimentions[modelName][imageType][e.target.value].inPixel.height,
