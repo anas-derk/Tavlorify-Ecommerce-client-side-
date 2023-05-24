@@ -14,10 +14,6 @@ const TextToImage = () => {
 
     const [isWaitStatus, setIsWaitStatus] = useState(false);
 
-    const [getImgTypeMsg, setGetImgTypeMsg] = useState("");
-
-    const [getImgDimentionsMsg, setGetImgDimentionsMsg] = useState("");
-
     const [errorMsg, setErrorMsg] = useState("");
 
     const [categorySelectedIndex, setCategorySelectedIndex] = useState(-1);
@@ -29,6 +25,22 @@ const TextToImage = () => {
     const [imageType, setImageType] = useState("");
 
     const [dimensions, setDimentions] = useState({});
+
+    const [dimensionsIndex, setDimentionsIndex] = useState(-1);
+
+    const [getImgDimentionsMsg, setGetImgDimentionsMsg] = useState("");
+
+    const handleSelectStyle = (index) => {
+        setStyleSelectedIndex(index);
+        let tempModelName = text_to_image_data.categoriesData[categorySelectedIndex].styles[index].modelName;
+        setModelName(tempModelName);
+        if (styleSelectedIndex > -1) {
+            setDimentions({
+                width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimensionsIndex].inPixel.width,
+                height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimensionsIndex].inPixel.height,
+            });
+        }
+    }
 
     const textToImageGenerate = (e) => {
         e.preventDefault();
@@ -122,16 +134,7 @@ const TextToImage = () => {
                                     <div
                                         className="style-box text-center"
                                         key={index}
-                                        onClick={() => {
-                                            setGetImgTypeMsg("waiting ...");
-                                            setStyleSelectedIndex(index);
-                                            setTimeout(() => {
-                                                setGetImgTypeMsg("");
-                                                setModelName(text_to_image_data.categoriesData[categorySelectedIndex].styles[index].modelName);
-                                                setImageType("");
-                                                setDimentions({});
-                                            }, 1000);
-                                        }}
+                                        onClick={() => handleSelectStyle(index)}
                                     >
                                         <img
                                             src={category.imgSrc}
@@ -183,15 +186,15 @@ const TextToImage = () => {
                         {/* End Column */}
                     </section>
                     {/* End Grid System */}
-                    {getImgTypeMsg && <p className="alert alert-warning">{getImgTypeMsg}</p>}
                     {/* Start Select Image Type Section */}
-                    {styleSelectedIndex > -1 && !getImgTypeMsg && <>
+                    {styleSelectedIndex > -1 && <>
                         <h6 className="mb-3">Image Type</h6>
                         <select className="form-control w-50" onChange={(e) => {
-                            setGetImgDimentionsMsg("waiting ...");
+                            setGetImgDimentionsMsg("Waiting ...");
                             setTimeout(() => {
-                                setGetImgDimentionsMsg("");
                                 setImageType(e.target.value);
+                                setDimentions({});
+                                setGetImgDimentionsMsg("");
                             }, 1000);
                         }}>
                             <option defaultValue="" hidden>Select Image Type</option>
@@ -209,7 +212,8 @@ const TextToImage = () => {
                         setDimentions({
                             width: text_to_image_data.modelsDimentions[modelName][imageType][e.target.value].inPixel.width,
                             height: text_to_image_data.modelsDimentions[modelName][imageType][e.target.value].inPixel.height,
-                        })
+                        });
+                        setDimentionsIndex(parseInt(e.target.value));
                     }}>
                         <option defaultValue="" hidden>Select Image Dimensions</option>
                         {text_to_image_data.modelsDimentions[modelName][imageType].map((dimensions, index) => (
