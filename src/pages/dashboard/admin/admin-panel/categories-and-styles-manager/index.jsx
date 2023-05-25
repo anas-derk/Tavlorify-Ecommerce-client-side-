@@ -1,7 +1,7 @@
 import Head from "next/head";
 import text_to_image_data from "../../../../../../public/data/text_to_image_data";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CategoriesAndStylesManager = () => {
 
@@ -9,8 +9,27 @@ const CategoriesAndStylesManager = () => {
 
     const [isWaitStatus, setIsWaitStatus] = useState(false);
 
+    const [categoryData, setCategoryData] = useState(null);
+
+    const changeStylePrompt = (index, newValue) => {
+        let categoriesDataTemp = categoryData;
+        categoriesDataTemp.styles[index].prompt = newValue;
+        setCategoryData(categoriesDataTemp);
+    }
+
+    const changeStyleNegativePrompt = (index, newValue) => {
+        let categoriesDataTemp = categoryData;
+        categoriesDataTemp.styles[index].negative_prompt = newValue;
+        setCategoryData(categoriesDataTemp);
+    }
+    
     const getCategoryInfo = (e) => {
         e.preventDefault();
+        setIsWaitStatus(true);
+        setTimeout(() => {
+            setIsWaitStatus(false);
+            setCategoryData(text_to_image_data.categoriesData[categoryIndex]);
+        }, 2000);
     }
 
     return (
@@ -22,22 +41,19 @@ const CategoriesAndStylesManager = () => {
             <h1 className="welcome-msg mt-3">Hello To You In Categories And Styles Manager Page</h1>
             <hr className="mb-3" />
             <h5 className="mb-3">Please Select The Category</h5>
-            <form className="select-category-form mb-2" onSubmit={getCategoryInfo}>
-                <select className="form-control w-50 mx-auto" onChange={(e) => {
-                    setIsWaitStatus(true);
-                    setTimeout(() => {
-                        setIsWaitStatus(false);
-                        setCategoryIndex(e.target.value);
-                    }, 2000);
+            <form className="select-category-form mb-4" onSubmit={getCategoryInfo}>
+                <select className="form-control w-50 mx-auto mb-3" onChange={(e) => {
+                    setCategoryIndex(parseInt(e.target.value));
                 }}>
                     <option defaultValue="" hidden>Select The Category</option>
                     {text_to_image_data.categoriesData.map((category, index) => (
                         <option value={index} key={index}>{category.name}</option>
                     ))}
                 </select>
+                <button type="submit" className="btn btn-success">Get Category Data</button>
             </form>
             {isWaitStatus && <span className="loader"></span>}
-            {categoryIndex > -1 && !isWaitStatus && <div className="categories-and-styles-box p-3">
+            {categoryData && !isWaitStatus && <div className="categories-and-styles-box p-3">
                 <table className="categories-and-styles-table mb-4">
                     <thead>
                         <tr>
@@ -45,15 +61,33 @@ const CategoriesAndStylesManager = () => {
                             <th>Prompt</th>
                             <th>Negative Prompt</th>
                             <th>Model Name</th>
+                            <th>Process</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {text_to_image_data.categoriesData[categoryIndex].styles.map((style, styleIndex) => (
+                        {categoryData.styles.map((style, styleIndex) => (
                             <tr key={styleIndex}>
-                                <td>{style.name}</td>
-                                <td>{style.prompt}</td>
-                                <td>{style.negative_prompt}</td>
-                                <td>{style.modelName}</td>
+                                <td className="style-name-cell">{style.name}</td>
+                                <td>
+                                    <textarea
+                                        placeholder="Enter Negative Prompt"
+                                        defaultValue={style.prompt}
+                                        className="p-2"
+                                        onChange={(e) => changeStylePrompt(styleIndex, e.target.value)}
+                                    ></textarea>
+                                </td>
+                                <td>
+                                    <textarea
+                                        placeholder="Enter Negative Prompt"
+                                        defaultValue={style.negative_prompt}
+                                        className="p-2"
+                                        onChange={(e) => changeStyleNegativePrompt(styleIndex, e.target.value)}
+                                    ></textarea>
+                                </td>
+                                <td className="model-name-cell">{style.modelName}</td>
+                                <td className="update-cell">
+                                    <button className="btn btn-danger">Update</button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

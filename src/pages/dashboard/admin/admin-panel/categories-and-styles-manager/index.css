@@ -18,3 +18,13 @@
   border: 2px solid #000;
   padding: 10px;
 }
+
+.categories-and-styles-manger .categories-and-styles-box .categories-and-styles-table .style-name-cell, .categories-and-styles-manger .categories-and-styles-box .categories-and-styles-table .model-name-cell, .categories-and-styles-manger .categories-and-styles-box .categories-and-styles-table .update-cell {
+  width: 60px;
+}
+
+.categories-and-styles-manger .categories-and-styles-box .categories-and-styles-table textarea {
+  width: 100%;
+  resize: none;
+  height: 100px;
+}
