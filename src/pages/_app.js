@@ -10,6 +10,7 @@ import "../pages/text-to-image/index.css";
 // import Footer from "@/components/Footer";
 import { useEffect } from "react";
 import "../pages/available-products/index.css";
+import "../pages/dashboard/admin/admin-panel/index.css";
 
 export default function App({ Component, pageProps }) {
 

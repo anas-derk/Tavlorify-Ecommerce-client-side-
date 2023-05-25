@@ -21,7 +21,8 @@ const AdminLogin = () => {
                 if(typeof result === "string") {
                     setErrorMsg(result);
                 } else {
-                    router.push("/");
+                    localStorage.setItem("admin-info", JSON.stringify(result));
+                    router.push("/dashboard/admin/admin-panel");
                 }
             })
             .catch((err) => console.log(err));
