@@ -1,11 +1,13 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import text_to_image_data from "../../../../../public/data/text_to_image_data";
 
 const AdminPanel = () => {
     const router = useRouter();
     const [page, setPage] = useState("default");
     const [isWaitStatus, setIsWaitStatus] = useState(false);
+    const [isGetCategorisAndStylesStatus, setIsGetCategorisAndStylesStatus] = useState(false);
     useEffect(() => {
         let adminInfo = JSON.parse(localStorage.getItem("admin-info"));
         if (!adminInfo) {
@@ -40,7 +42,7 @@ const AdminPanel = () => {
                                 setIsWaitStatus(true);
                                 setTimeout(() => {
                                     setIsWaitStatus(false);
-                                    setPage("styles-manager");
+                                    setPage("categories-and-styles-manager");
                                 }, 2000);
                             }}
                         >
@@ -52,10 +54,34 @@ const AdminPanel = () => {
             {/* Start Content Section */}
             <section className="content p-2 d-flex justify-content-center align-items-center">
                 {page === "default" && !isWaitStatus && <h1 className="welcome-msg">Hello To You In Admin Panel</h1>}
-                {isWaitStatus && <span class="loader"></span>}
-                {page === "styles-manager" &&
-                    <section className="styles-manger">
-                        <h1 className="welcome-msg">Hello To You In Styles Manager Panel</h1>
+                {isWaitStatus && <span className="loader"></span>}
+                {page === "categories-and-styles-manager" && !isWaitStatus &&
+                    <section className="categories-and-styles-manger">
+                        <h1 className="welcome-msg">Hello To You In Categories And Styles Manager Panel</h1>
+                        <hr className="mb-3" />
+                        {!isGetCategorisAndStylesStatus && <div className="categories-and-styles-box">
+                            <h6 className="mb-4 text-center bg-info p-3">Category: Art</h6>
+                            <table className="categories-and-styles-table">
+                                <thead>
+                                    <tr>
+                                        <th>Style Name</th>
+                                        <th>Prompt</th>
+                                        <th>Negative Prompt</th>
+                                        <th>Model Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {text_to_image_data.categoriesData[0].styles.map((style, index) => (
+                                        <tr key={index}>
+                                            <td>{style.name}</td>
+                                            <td>2</td>
+                                            <td>3</td>
+                                            <td>4</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>}
                     </section>
                 }
             </section>
