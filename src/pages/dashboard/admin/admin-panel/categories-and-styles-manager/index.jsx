@@ -1,25 +1,30 @@
 import Head from "next/head";
 import text_to_image_data from "../../../../../../public/data/text_to_image_data";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
 const CategoriesAndStylesManager = () => {
+
+    const router = useRouter();
 
     const [categoryIndex, setCategoryIndex] = useState(-1);
 
     const [isWaitStatus, setIsWaitStatus] = useState(false);
+    
+    const [isUpdateStatus, setIsUpdateStatus] = useState(false);
 
     const [categoryData, setCategoryData] = useState(null);
 
-    const changeStylePrompt = (index, newValue) => {
+    const changeStylePrompt = (styleIndex, newValue) => {
         let categoriesDataTemp = categoryData;
-        categoriesDataTemp.styles[index].prompt = newValue;
+        categoriesDataTemp.styles[styleIndex].prompt = newValue;
         setCategoryData(categoriesDataTemp);
     }
 
-    const changeStyleNegativePrompt = (index, newValue) => {
+    const changeStyleNegativePrompt = (styleIndex, newValue) => {
         let categoriesDataTemp = categoryData;
-        categoriesDataTemp.styles[index].negative_prompt = newValue;
+        categoriesDataTemp.styles[styleIndex].negative_prompt = newValue;
         setCategoryData(categoriesDataTemp);
     }
     
@@ -29,6 +34,16 @@ const CategoriesAndStylesManager = () => {
         setTimeout(() => {
             setIsWaitStatus(false);
             setCategoryData(text_to_image_data.categoriesData[categoryIndex]);
+        }, 2000);
+    }
+
+    const updateStyleData = (styleIndex) => {
+        setIsUpdateStatus(true);
+        setTimeout(() => {
+            setIsUpdateStatus(false);
+            setTimeout(() => {
+                router.reload();
+            }, 1000);
         }, 2000);
     }
 
@@ -86,7 +101,11 @@ const CategoriesAndStylesManager = () => {
                                 </td>
                                 <td className="model-name-cell">{style.modelName}</td>
                                 <td className="update-cell">
-                                    <button className="btn btn-danger">Update</button>
+                                    {!isUpdateStatus && <button
+                                        className="btn btn-danger"
+                                        onClick={() => updateStyleData(styleIndex)}
+                                    >Update</button>}
+                                    {isUpdateStatus && <p className="alert alert-primary">Update ...</p>}
                                 </td>
                             </tr>
                         ))}
