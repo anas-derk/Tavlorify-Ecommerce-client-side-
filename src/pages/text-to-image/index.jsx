@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Header from "@/components/Header";
 import { IoSearchCircleSharp } from "react-icons/io5";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Axios from "axios";
 import text_to_image_data from "../../../public/data/text_to_image_data";
 import Link from "next/link";
@@ -30,9 +30,24 @@ const TextToImage = () => {
 
     const [getImgDimentionsMsg, setGetImgDimentionsMsg] = useState("");
 
+    const [categoriesData, setCategoriesData] = useState([]);
+
+    useEffect(() => {
+        Axios.get(`${process.env.BASE_API_URL}/categories/all-categories-data`)
+            .then((res) => {
+                let result = res.data;
+                if (typeof result === "string") {
+                    console.log(result);
+                } else {
+                    setCategoriesData(result);
+                }
+            })
+            .catch((err) => console.log(err))
+    }, []);
+
     const handleSelectStyle = (index) => {
         setStyleSelectedIndex(index);
-        let tempModelName = text_to_image_data.categoriesData[categorySelectedIndex].styles[index].modelName;
+        let tempModelName = categoriesData[categorySelectedIndex].styles[index].modelName;
         setModelName(tempModelName);
         if (styleSelectedIndex > -1) {
             setDimentions({
@@ -99,7 +114,7 @@ const TextToImage = () => {
                             {/* Start Category */}
                             <h6 className="mb-3">Category</h6>
                             <div className="categories mb-4 d-flex flex-wrap">
-                                {text_to_image_data.categoriesData.map((category, index) => (
+                                {categoriesData.map((category, index) => (
                                     /* Start Category Box */
                                     <div
                                         className="category-box text-center"
@@ -112,7 +127,7 @@ const TextToImage = () => {
                                         }}
                                     >
                                         <img
-                                            src={category.imgSrc}
+                                            src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
                                             alt="Anime Img"
                                             width="75"
                                             height="75"
@@ -129,7 +144,7 @@ const TextToImage = () => {
                             {/* Start Styles */}
                             {categorySelectedIndex > -1 && <h6 className="mb-2">Style</h6>}
                             {categorySelectedIndex > -1 && <section className="styles mb-4 d-flex flex-wrap">
-                                {text_to_image_data.categoriesData[categorySelectedIndex].styles.map((category, index) => (
+                                {categoriesData[categorySelectedIndex].styles.map((style, index) => (
                                     /* Start Style Box */
                                     <div
                                         className="style-box text-center"
@@ -137,14 +152,14 @@ const TextToImage = () => {
                                         onClick={() => handleSelectStyle(index)}
                                     >
                                         <img
-                                            src={category.imgSrc}
+                                            src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
                                             alt="Anime Img"
                                             width="75"
                                             height="75"
                                             className="mb-2 category-img"
                                             style={index === styleSelectedIndex ? { border: "2px solid #F00" } : {}}
                                         />
-                                        <span className="d-block">{category.name}</span>
+                                        <span className="d-block">{style.name}</span>
                                     </div>
                                     /* End Style Box */
                                 ))}
