@@ -1,8 +1,8 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import Axios from "axios";
+import { useRouter } from "next/router";
 
 const CategoriesAndStylesManager = () => {
 
@@ -11,12 +11,14 @@ const CategoriesAndStylesManager = () => {
     const [categoryIndex, setCategoryIndex] = useState(-1);
 
     const [isWaitStatus, setIsWaitStatus] = useState(false);
-    
+
     const [isUpdateStatus, setIsUpdateStatus] = useState(false);
 
     const [categoryData, setCategoryData] = useState(null);
 
     const [categoriesData, setCategoriesData] = useState([]);
+
+    const [categoryStylesData, setCategoryStylesData] = useState([]);
 
     useEffect(() => {
         Axios.get(`${process.env.BASE_API_URL}/categories/all-categories-data`)
@@ -33,35 +35,42 @@ const CategoriesAndStylesManager = () => {
 
     const changeStylePrompt = (styleIndex, newValue) => {
         let categoriesDataTemp = categoryData;
-        categoriesDataTemp.styles[styleIndex].prompt = newValue;
+        categoryStylesData[styleIndex].prompt = newValue;
         setCategoryData(categoriesDataTemp);
     }
 
     const changeStyleNegativePrompt = (styleIndex, newValue) => {
         let categoriesDataTemp = categoryData;
-        categoriesDataTemp.styles[styleIndex].negative_prompt = newValue;
+        categoryStylesData[styleIndex].negative_prompt = newValue;
         setCategoryData(categoriesDataTemp);
     }
-    
-    const getCategoryInfo = (e) => {
+
+    const getCategoryStyles = (e) => {
         e.preventDefault();
         setIsWaitStatus(true);
-        setTimeout(() => {
-            setIsWaitStatus(false);
-            setCategoryData(categoriesData[categoryIndex]);
-        }, 2000);
+        Axios.get(`${process.env.BASE_API_URL}/styles/category-styles-data?categoryName=${categoriesData[categoryIndex].name}`)
+            .then((res) => {
+                setCategoryStylesData(res.data);
+                setIsWaitStatus(false);
+            })
+            .catch((err) => console.log(err));
     }
 
     const updateStyleData = (styleIndex) => {
         setIsUpdateStatus(true);
-        Axios.put(`${process.env.BASE_API_URL}/categories/update-style-data/${categoryData.name}/${categoryData.styles[styleIndex].name}`, {
-            newPrompt: categoryData.styles[styleIndex].prompt,
-            newNegativePrompt: categoryData.styles[styleIndex].negative_prompt,
+        Axios.put(`${process.env.BASE_API_URL}/styles/update-style-data/${categoryStylesData[styleIndex]._id}`, {
+            newPrompt: categoryStylesData[styleIndex].prompt,
+            newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
         })
-        .then((res) => {
-            console.log(res.data);
-        })
-        .catch((err) => console.log(err));
+            .then((res) => {
+                if (typeof res.data !== "string") {
+                    setIsWaitStatus(false);
+                    setTimeout(() => {
+                        router.reload();
+                    }, 1000);
+                }
+            })
+            .catch((err) => console.log(err));
     }
 
     return (
@@ -73,7 +82,7 @@ const CategoriesAndStylesManager = () => {
             <h1 className="welcome-msg mt-3">Hello To You In Categories And Styles Manager Page</h1>
             <hr className="mb-3" />
             <h5 className="mb-3">Please Select The Category</h5>
-            <form className="select-category-form mb-4" onSubmit={getCategoryInfo}>
+            <form className="select-category-form mb-4" onSubmit={getCategoryStyles}>
                 <select className="form-control w-50 mx-auto mb-3" onChange={(e) => {
                     setCategoryIndex(parseInt(e.target.value));
                 }}>
@@ -82,10 +91,10 @@ const CategoriesAndStylesManager = () => {
                         <option value={index} key={index}>{category.name}</option>
                     ))}
                 </select>
-                <button type="submit" className="btn btn-success">Get Category Data</button>
+                <button type="submit" className="btn btn-success">Get Styles Data For This Category</button>
             </form>
             {isWaitStatus && <span className="loader"></span>}
-            {categoryData && !isWaitStatus && <div className="categories-and-styles-box p-3">
+            {categoryStylesData.length > 0 && !isWaitStatus && <div className="categories-and-styles-box p-3">
                 <table className="categories-and-styles-table mb-4">
                     <thead>
                         <tr>
@@ -97,7 +106,7 @@ const CategoriesAndStylesManager = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {categoryData.styles.map((style, styleIndex) => (
+                        {categoryStylesData.map((style, styleIndex) => (
                             <tr key={styleIndex}>
                                 <td className="style-name-cell">{style.name}</td>
                                 <td>
