@@ -4,14 +4,14 @@ const nextConfig = {
   env: {
     // BASE_API_URL: "https://e-commerce-canvas-new.cleverapps.io",
     // BASE_API_URL: "http://localhost:4000",
-    BASE_API_URL: "https://api.tavlorify.se",
+    BASE_API_URL: "https://newapi.tavlorify.se",
   },
   async headers() {
     return [
       {
         // source: "//e-commerce-canvas-new.cleverapps.io/(.*)",
         // source: "//localhost:4000/(.*)",
-        source: "//api.tavlorify.se/(.*)",
+        source: "//newapi.tavlorify.se/(.*)",
         headers: [
           { key: "Access-Control-Allow-Credentials", value: "true" },
           {
