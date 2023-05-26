@@ -63,7 +63,7 @@ const TextToImage = () => {
         setStyleSelectedIndex(index);
         let tempModelName = categoryStyles[index].modelName;
         setModelName(tempModelName);
-        if (styleSelectedIndex > -1) {
+        if (styleSelectedIndex > -1 && imageType) {
             setDimentions({
                 width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimensionsIndex].inPixel.width,
                 height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimensionsIndex].inPixel.height,
