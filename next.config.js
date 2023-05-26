@@ -4,7 +4,7 @@ const nextConfig = {
   env: {
     // BASE_API_URL: "https://e-commerce-canvas-new.cleverapps.io",
     // BASE_API_URL: "http://localhost:4000",
-    BASE_API_URL: "http://api.tavlorify.se",
+    BASE_API_URL: "https://api.tavlorify.se",
   },
   async headers() {
     return [
