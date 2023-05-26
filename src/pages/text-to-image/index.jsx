@@ -76,7 +76,7 @@ const TextToImage = () => {
         setErrorMsg("");
         setIsWaitStatus(true);
         Axios.get(
-            `${process.env.BASE_API_URL}/text-to-image-generate?textPrompt=${textPrompt}&prompt=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].prompt}&category=${text_to_image_data.categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${text_to_image_data.categoriesData[categorySelectedIndex].styles[styleSelectedIndex].negative_prompt}&width=${dimensions.width}&height=${dimensions.height}
+            `${process.env.BASE_API_URL}/text-to-image-generate?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimensions.width}&height=${dimensions.height}
         `)
             .then((res) => {
                 let result = res.data;
