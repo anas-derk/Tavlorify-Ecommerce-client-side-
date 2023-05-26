@@ -2023,4 +2023,4 @@ const modelsDimentions = {
     }
 }
 
-export default { categoriesData, modelsDimentions };
+export default { modelsDimentions };
