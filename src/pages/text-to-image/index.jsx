@@ -32,6 +32,8 @@ const TextToImage = () => {
 
     const [categoriesData, setCategoriesData] = useState([]);
 
+    const [categoryStyles, setCategoryStyles] = useState([]);
+
     useEffect(() => {
         Axios.get(`${process.env.BASE_API_URL}/categories/all-categories-data`)
             .then((res) => {
@@ -45,9 +47,21 @@ const TextToImage = () => {
             .catch((err) => console.log(err));
     }, []);
 
+    const handleSelectCategory = (index) => {
+        setCategorySelectedIndex(index);
+        setStyleSelectedIndex(-1);
+        setImageType("");
+        setDimentions({});
+        Axios.get(`${process.env.BASE_API_URL}/styles/category-styles-data?categoryName=${categoriesData[index].name}`)
+            .then((res) => {
+                setCategoryStyles(res.data);
+            })
+            .catch((err) => console.log(err));
+    }
+
     const handleSelectStyle = (index) => {
         setStyleSelectedIndex(index);
-        let tempModelName = categoriesData[categorySelectedIndex].styles[index].modelName;
+        let tempModelName = categoryStyles[index].modelName;
         setModelName(tempModelName);
         if (styleSelectedIndex > -1) {
             setDimentions({
@@ -119,12 +133,7 @@ const TextToImage = () => {
                                     <div
                                         className="category-box text-center"
                                         key={index}
-                                        onClick={() => {
-                                            setCategorySelectedIndex(index);
-                                            setStyleSelectedIndex(-1);
-                                            setImageType("");
-                                            setDimentions({});
-                                        }}
+                                        onClick={() => handleSelectCategory(index)}
                                     >
                                         <img
                                             src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
@@ -143,8 +152,8 @@ const TextToImage = () => {
                             <hr />
                             {/* Start Styles */}
                             {categorySelectedIndex > -1 && <h6 className="mb-2">Style</h6>}
-                            {categorySelectedIndex > -1 && <section className="styles mb-4 d-flex flex-wrap">
-                                {categoriesData[categorySelectedIndex].styles.map((style, index) => (
+                            {categorySelectedIndex > -1 && categoryStyles.length > 0 && <section className="styles mb-4 d-flex flex-wrap">
+                                {categoryStyles.map((style, index) => (
                                     /* Start Style Box */
                                     <div
                                         className="style-box text-center"
