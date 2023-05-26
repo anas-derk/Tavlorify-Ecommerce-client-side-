@@ -1,8 +1,8 @@
 import Head from "next/head";
-import text_to_image_data from "../../../../../../public/data/text_to_image_data";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Axios from "axios";
 
 const CategoriesAndStylesManager = () => {
 
@@ -15,6 +15,21 @@ const CategoriesAndStylesManager = () => {
     const [isUpdateStatus, setIsUpdateStatus] = useState(false);
 
     const [categoryData, setCategoryData] = useState(null);
+
+    const [categoriesData, setCategoriesData] = useState([]);
+
+    useEffect(() => {
+        Axios.get(`${process.env.BASE_API_URL}/categories/all-categories-data`)
+            .then((res) => {
+                let result = res.data;
+                if (typeof result === "string") {
+                    console.log(result);
+                } else {
+                    setCategoriesData(result);
+                }
+            })
+            .catch((err) => console.log(err));
+    }, []);
 
     const changeStylePrompt = (styleIndex, newValue) => {
         let categoriesDataTemp = categoryData;
@@ -33,18 +48,20 @@ const CategoriesAndStylesManager = () => {
         setIsWaitStatus(true);
         setTimeout(() => {
             setIsWaitStatus(false);
-            setCategoryData(text_to_image_data.categoriesData[categoryIndex]);
+            setCategoryData(categoriesData[categoryIndex]);
         }, 2000);
     }
 
     const updateStyleData = (styleIndex) => {
         setIsUpdateStatus(true);
-        setTimeout(() => {
-            setIsUpdateStatus(false);
-            setTimeout(() => {
-                router.reload();
-            }, 1000);
-        }, 2000);
+        Axios.put(`${process.env.BASE_API_URL}/categories/update-style-data/${categoryData.name}/${categoryData.styles[styleIndex].name}`, {
+            newPrompt: categoryData.styles[styleIndex].prompt,
+            newNegativePrompt: categoryData.styles[styleIndex].negative_prompt,
+        })
+        .then((res) => {
+            console.log(res.data);
+        })
+        .catch((err) => console.log(err));
     }
 
     return (
@@ -61,7 +78,7 @@ const CategoriesAndStylesManager = () => {
                     setCategoryIndex(parseInt(e.target.value));
                 }}>
                     <option defaultValue="" hidden>Select The Category</option>
-                    {text_to_image_data.categoriesData.map((category, index) => (
+                    {categoriesData.map((category, index) => (
                         <option value={index} key={index}>{category.name}</option>
                     ))}
                 </select>

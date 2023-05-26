@@ -42,7 +42,7 @@ const TextToImage = () => {
                     setCategoriesData(result);
                 }
             })
-            .catch((err) => console.log(err))
+            .catch((err) => console.log(err));
     }, []);
 
     const handleSelectStyle = (index) => {
