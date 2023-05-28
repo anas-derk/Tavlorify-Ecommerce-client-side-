@@ -1,6 +1,6 @@
 .global-header {
     position: relative;
-    .container-fluid{
+    .container{
         .navbar-brand{
             color: #FFF;
         }
@@ -33,7 +33,7 @@
                 .ai-services-list{
                     position: absolute;
                     left: 0;
-                    bottom: -125px;
+                    bottom: -69px;
                     width: 250px;
                     backdrop-filter: blur(20px);
                     border-radius: 5px;
@@ -70,7 +70,7 @@
                 .authentication-list{
                     position: absolute;
                     left: -180px;
-                    bottom: -233px;
+                    top: 59px;
                     width: 250px;
                     background-color: #f5f5f5;
                     color: #000;

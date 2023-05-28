@@ -1,15 +1,28 @@
 import Link from "next/link";
 import headerData from "./header_data.jsx";
 import { HiOutlineBars3 } from "react-icons/hi2";
-import { FcSearch } from "react-icons/fc";
 import { CgProfile } from "react-icons/cg";
 import { GoSignOut } from "react-icons/go";
+import { BiBrain } from "react-icons/bi"
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router.js";
 
 const Header = () => {
+    const [userInfo, setUserInfo] = useState({});
+    const router = useRouter();
+    const signOut = () => {
+        localStorage.removeItem("user-info");
+        router.reload();
+
+    }
+    useEffect(() => {
+        let userData = JSON.parse(localStorage.getItem("user-info"));
+        setUserInfo(userData);
+    }, []);
     return (
         <header className="global-header bg-success">
             <nav className="navbar navbar-expand-xl navbar-light">
-                <div className="container-fluid">
+                <div className="container">
                     <span className="navbar-brand fw-bold">Tavlorify Store</span>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <HiOutlineBars3 />
@@ -27,7 +40,7 @@ const Header = () => {
                             <li className="nav-item ai-services-item">
                                 <div className="nav-link color-black">
                                     <span className="icon me-2">
-                                        <GoSignOut />
+                                        <BiBrain />
                                     </span>
                                     AI Services
                                 </div>
@@ -49,15 +62,15 @@ const Header = () => {
                                     <CgProfile className="profile-icon" />
                                 </div>
                                 <ul className="authentication-list">
-                                    <li className="auth-item p-3">
+                                    {userInfo && <li className="auth-item p-3">
                                         <Link className="auth-link" href="/profile">
                                             <span className="icon me-2">
                                                 <CgProfile />
                                             </span>
                                             My Profile
                                         </Link>
-                                    </li>
-                                    {headerData.authenticationData.map((authInfo, index) => (
+                                    </li>}
+                                    {!userInfo && headerData.authenticationData.map((authInfo, index) => (
                                         <li className="auth-item p-3" key={index}>
                                             <Link className="auth-link" href={authInfo.route}>
                                                 <span className="icon me-2">{authInfo.icon}</span>
@@ -65,16 +78,13 @@ const Header = () => {
                                             </Link>
                                         </li>
                                     ))}
-                                    <li className="auth-item p-3">
+                                    {userInfo && <li className="auth-item p-3" onClick={signOut}>
                                         <span className="icon me-2">
                                             <GoSignOut />
                                         </span>
                                         Sign Out
-                                    </li>
+                                    </li>}
                                 </ul>
-                            </li>
-                            <li className="search-icon-item">
-                                <FcSearch className="search-icon" />
                             </li>
                         </ul>
                     </div>

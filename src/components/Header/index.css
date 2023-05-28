@@ -2,15 +2,15 @@
   position: relative;
 }
 
-.global-header .container-fluid .navbar-brand {
+.global-header .container .navbar-brand {
   color: #FFF;
 }
 
-.global-header .container-fluid .nav-item {
+.global-header .container .nav-item {
   position: relative;
 }
 
-.global-header .container-fluid .nav-item::after {
+.global-header .container .nav-item::after {
   content: '';
   position: absolute;
   left: 50%;
@@ -21,24 +21,24 @@
   transition: .5s;
 }
 
-.global-header .container-fluid .nav-item:hover::after {
+.global-header .container .nav-item:hover::after {
   left: 0;
   width: 100%;
   height: 2px;
 }
 
-.global-header .container-fluid .nav-item .nav-link {
+.global-header .container .nav-item .nav-link {
   color: #FFF;
 }
 
-.global-header .container-fluid .nav-item .nav-link .icon {
+.global-header .container .nav-item .nav-link .icon {
   font-size: 20px;
 }
 
-.global-header .container-fluid .nav-item.ai-services-item .ai-services-list {
+.global-header .container .nav-item.ai-services-item .ai-services-list {
   position: absolute;
   left: 0;
-  bottom: -125px;
+  bottom: -69px;
   width: 250px;
   backdrop-filter: blur(20px);
   border-radius: 5px;
@@ -47,35 +47,35 @@
   background-color: #f5f5f5;
 }
 
-.global-header .container-fluid .nav-item.ai-services-item .ai-services-list .ai-service-item {
+.global-header .container .nav-item.ai-services-item .ai-services-list .ai-service-item {
   cursor: pointer;
   color: #000;
   transition: .5s;
 }
 
-.global-header .container-fluid .nav-item.ai-services-item .ai-services-list .ai-service-item:hover {
+.global-header .container .nav-item.ai-services-item .ai-services-list .ai-service-item:hover {
   text-indent: 10px;
   background-color: #CCC;
 }
 
-.global-header .container-fluid .nav-item.ai-services-item .ai-services-list .ai-service-item .ai-service-link {
+.global-header .container .nav-item.ai-services-item .ai-services-list .ai-service-item .ai-service-link {
   color: #000;
 }
 
-.global-header .container-fluid .nav-item.ai-services-item:hover .ai-services-list {
+.global-header .container .nav-item.ai-services-item:hover .ai-services-list {
   opacity: 1;
 }
 
-.global-header .container-fluid .nav-item.profile-item .profile-icon-item .profile-icon {
+.global-header .container .nav-item.profile-item .profile-icon-item .profile-icon {
   font-size: 30px;
   cursor: pointer;
   color: #FFF;
 }
 
-.global-header .container-fluid .nav-item.profile-item .authentication-list {
+.global-header .container .nav-item.profile-item .authentication-list {
   position: absolute;
   left: -180px;
-  bottom: -233px;
+  top: 59px;
   width: 250px;
   background-color: #f5f5f5;
   color: #000;
@@ -84,34 +84,34 @@
   transition: .5s;
 }
 
-.global-header .container-fluid .nav-item.profile-item .authentication-list .auth-item {
+.global-header .container .nav-item.profile-item .authentication-list .auth-item {
   cursor: pointer;
   color: #000;
   transition: .5s;
 }
 
-.global-header .container-fluid .nav-item.profile-item .authentication-list .auth-item:hover {
+.global-header .container .nav-item.profile-item .authentication-list .auth-item:hover {
   text-indent: 10px;
   background-color: #CCC;
 }
 
-.global-header .container-fluid .nav-item.profile-item .authentication-list .auth-item .auth-link {
+.global-header .container .nav-item.profile-item .authentication-list .auth-item .auth-link {
   color: #000;
 }
 
-.global-header .container-fluid .nav-item.profile-item:hover {
+.global-header .container .nav-item.profile-item:hover {
   background-color: red;
 }
 
-.global-header .container-fluid .nav-item.profile-item:hover .authentication-list {
+.global-header .container .nav-item.profile-item:hover .authentication-list {
   opacity: 1;
 }
 
-.global-header .container-fluid .search-icon-item .search-icon {
+.global-header .container .search-icon-item .search-icon {
   font-size: 30px;
   cursor: pointer;
 }
 
-.global-header .container-fluid .search-icon-item .search-icon:hover {
+.global-header .container .search-icon-item .search-icon:hover {
   font-size: 45px;
 }

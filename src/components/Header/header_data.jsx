@@ -1,6 +1,5 @@
-import { AiOutlineHome } from "react-icons/ai";
+import { AiOutlineHome, AiOutlineUserAdd } from "react-icons/ai";
 import { MdProductionQuantityLimits } from "react-icons/md";
-import { FaRegRegistered } from "react-icons/fa";
 import { FiLogIn } from "react-icons/fi";
 
 let navbarLinks = [
@@ -25,7 +24,7 @@ let authenticationData = [
     {
         route: "/sign-up",
         pageTitle: "Join",
-        icon: <FaRegRegistered />
+        icon: <AiOutlineUserAdd />
     },
 ];
 
@@ -34,11 +33,6 @@ let aiServicesData = [
         route: "/text-to-image",
         pageTitle: "Text To Image",
         icon: <FiLogIn />
-    },
-    {
-        route: "/image-to-image",
-        pageTitle: "Image To Image",
-        icon: <FaRegRegistered />
     },
 ];
 
