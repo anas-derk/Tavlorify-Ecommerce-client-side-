@@ -1,60 +1,16 @@
 import Head from 'next/head';
 import Header from '../components/Header';
-import backImg1 from "../../public/images/backgrounds/01.jpg";
-import backImg2 from "../../public/images/backgrounds/02.jpg";
-import backImg3 from "../../public/images/backgrounds/03.jpg";
 import { useState } from "react";
 import { IoSearchCircleSharp } from "react-icons/io5";
+import home_data from '../../public/data/home_data';
 
 export default function Home() {
 
   const [infoBoxAppearedIndex, setInfoBoxAppearedIndex] = useState(1);
 
-  let infoBoxData = [
-    {
-      id: 1,
-      backImgSrc: backImg1.src,
-      content: "Welcome to the Tavlorify Store"
-    },
-    {
-      id: 2,
-      backImgSrc: backImg2.src,
-      content: "Welcome to the Tavlorify Store"
-    },
-    {
-      id: 3,
-      backImgSrc: backImg3.src,
-      content: "Welcome to the Tavlorify Store"
-    },
-  ];
+  const [isShowMoreProducts, setIsShowMoreProducts] = useState(false);
 
-  let productsInfo = [
-    {
-      id: 1,
-      imageSrc: backImg1.src,
-      name: "Canvas"
-    },
-    {
-      id: 2,
-      imageSrc: backImg2.src,
-      name: "Canvas"
-    },
-    {
-      id: 3,
-      imageSrc: backImg3.src,
-      name: "Canvas"
-    },
-    {
-      id: 4,
-      imageSrc: backImg1.src,
-      name: "Canvas"
-    },
-    {
-      id: 5,
-      imageSrc: backImg2.src,
-      name: "Canvas"
-    }
-  ];
+  const [isAppearedShowMoreProductsBtn, setIsAppearedShowMoreProductsBtn] = useState(true);
 
   // setInterval(() => {
 
@@ -96,7 +52,7 @@ export default function Home() {
       <Header />
       {/* Start Introduction Section */}
       <section className="introduction">
-        {infoBoxData.map((data, index) => (
+        {home_data.infoBoxData.map((data, index) => (
           /* Start Info Box */
           <div className="info-box"
             key={data.id}
@@ -105,23 +61,27 @@ export default function Home() {
               opacity: infoBoxAppearedIndex == data.id ? 1 : 0,
               transform: infoBoxAppearedIndex == data.id ? "scale(1.2)" : "scale(1)",
             }}>
-            <div className="overlay text-white d-flex justify-content-center align-items-center">
-              {/* Start Main Content */}
-              <main
-                className="p-3"
-                style={{
-                  transform: infoBoxAppearedIndex == data.id ? "rotateX(360deg) scale(0.8)" : ""
-                }}
-              >
-                {data.content}
-              </main>
-              {/* End Main Content */}
-            </div>
+            <div className="overlay text-white d-flex justify-content-center align-items-center"></div>
           </div>
           /* End Info Box */
         ))}
       </section>
       {/* End Introduction Section */}
+      <div className='main-content-box'>
+        {home_data.infoBoxData.map((data, index) => (
+          /* Start Main Content */
+          infoBoxAppearedIndex == data.id && <main
+            key={index}
+            className="p-3"
+          // style={{
+          //   transform: infoBoxAppearedIndex == data.id ? "rotateX(360deg) scale(0.8)" : ""
+          // }}
+          >
+            {data.content}
+          </main>
+          /* End Main Content */
+        ))}
+      </div>
       {/* Start Try Some Of AI Services In Our Website Section */}
       <section className="try-ai-service pt-4 pb-4">
         {/* Start Custom Container */}
@@ -163,17 +123,35 @@ export default function Home() {
       </section>
       {/* End Try Some Of AI Services In Our Website Section */}
       {/* Start Most Popular Of Products Section */}
-      <section className="most-popular-products pt-3 pb-3">
+      <section className="most-popular-products pt-3 pb-5">
         {/* Start Custom Container */}
         <div className="custom-container text-center">
           <h4 className="section-name mb-4">Most Popular Of Products</h4>
           {/* Start Grid System */}
-          <div className="row">
-            {productsInfo.map((productInfo, index) => (
+          <div className="row mb-3">
+            {home_data.productsInfo.map((productInfo, index) => (
               /* Start Column */
-              <div className="col-md-3" key={index}>
+              productInfo.id < 12 && <div className="col-md-3" key={index}>
                 <div className="product-box">
-                  <img src={backImg1.src} alt="Product Image" className="product-image mb-3" />
+                  <img src={productInfo.imageSrc} alt="Product Image" className="product-image mb-3" />
+                  <h6 className="product-name">Canvas</h6>
+                </div>
+              </div>
+              /* End Column */
+            ))}
+          </div>
+          {/* End Grid System */}
+          {isAppearedShowMoreProductsBtn && <button className='show-more-btn btn btn-success w-25' onClick={() => {
+            setIsShowMoreProducts(true);
+            setIsAppearedShowMoreProductsBtn(false);
+          }}>Show More</button>}
+          {/* Start Grid System */}
+          <div className="row">
+            {home_data.productsInfo.map((productInfo, index) => (
+              /* Start Column */
+              productInfo.id > 12 && isShowMoreProducts && <div className="col-md-3" key={index}>
+                <div className="product-box">
+                  <img src={productInfo.imageSrc} alt="Product Image" className="product-image mb-3" />
                   <h6 className="product-name">Canvas</h6>
                 </div>
               </div>
@@ -183,7 +161,7 @@ export default function Home() {
           {/* End Grid System */}
         </div>
         {/* End Custom Container */}
-      </section >
+      </section>
       {/* End Most Popular Of Products Section */}
       {/* Start Contact Us Section */}
       <section className="contact-us pt-5 pb-5">

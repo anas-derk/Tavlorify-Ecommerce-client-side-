@@ -17,7 +17,7 @@
             width: 100%;
             background-size: cover;
             min-height: inherit;
-            transition: transform 4s;
+            transition: transform 3s;
             &:nth-child(1){
                 z-index: 3;
             }
@@ -27,15 +27,24 @@
             .overlay{
                 min-height: inherit;
                 background-color: rgba(0, 0, 0, .7);
-                main{
-                    font-family: 'Caveat', cursive;
-                    font-size: 80px;
-                    backdrop-filter: blur(20px);
-                    box-shadow: 1px 1px 20px #CCC;
-                    transition: 1s;
-                }
             }
         }
+    }
+    .main-content-box{
+        position: fixed;
+        top: 50vh;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        main{
+            font-family: 'Caveat', cursive;
+            font-size: 60px;
+            backdrop-filter: blur(20px);
+            box-shadow: 1px 1px 20px #CCC;
+            transition: 1s;
+            color: #FFF;
+            text-align: center;
+        }
+
     }
     .try-ai-service{
         .service-box{

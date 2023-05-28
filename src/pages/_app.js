@@ -26,27 +26,27 @@ export default function App({ Component, pageProps }) {
 
   }
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   let globalHeader = document.querySelector("#__next .global-header");
+    let globalHeader = document.querySelector("#__next .global-header");
 
-  //   let globalFooter = document.querySelector("#__next .global-footer");
+    let globalFooter = document.querySelector("#__next .global-footer");
 
-  //   if (asPath === "/profile") {
+    if (asPath === "/profile") {
 
-  //     handleGlobalElement(globalHeader, "60px", "calc(100vw - 77px)");
+      handleGlobalElement(globalHeader, "60px", "calc(100vw - 77px)");
 
-  //     // handleGlobalElement(globalFooter, "60px", "calc(100vw - 77px)");
+      handleGlobalElement(globalFooter, "60px", "calc(100vw - 77px)");
 
-  //   } else {
+    } else {
 
-  //     handleGlobalElement(globalHeader, "0", "100%");
+      handleGlobalElement(globalHeader, "0", "100%");
 
-  //     // handleGlobalElement(globalFooter, "0", "100%");
+      // handleGlobalElement(globalFooter, "0", "100%");
 
-  //   }
+    }
 
-  // }, [asPath]);
+  }, [asPath]);
 
   return (
     <>

@@ -19,7 +19,7 @@
   width: 100%;
   background-size: cover;
   min-height: inherit;
-  transition: transform 4s;
+  transition: transform 3s;
 }
 
 .home .introduction .info-box:nth-child(1) {
@@ -35,12 +35,21 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-.home .introduction .info-box .overlay main {
+.home .main-content-box {
+  position: fixed;
+  top: 50vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.home .main-content-box main {
   font-family: 'Caveat', cursive;
-  font-size: 80px;
+  font-size: 60px;
   backdrop-filter: blur(20px);
   box-shadow: 1px 1px 20px #CCC;
   transition: 1s;
+  color: #FFF;
+  text-align: center;
 }
 
 .home .try-ai-service .service-box {
