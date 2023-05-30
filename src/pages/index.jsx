@@ -52,7 +52,7 @@ export default function Home() {
       <Header />
       {/* Start Introduction Section */}
       <section className="introduction">
-        {home_data.infoBoxData.map((data, index) => (
+        {home_data.infoBoxData.map((data) => (
           /* Start Info Box */
           <div className="info-box"
             key={data.id}

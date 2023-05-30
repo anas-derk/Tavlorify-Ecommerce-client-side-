@@ -12,7 +12,13 @@ const Profile = () => {
 
     const [password, setPassword] = useState("");
 
-    const [name, setName] = useState("");
+    const [firstName, setFirstName] = useState("");
+
+    const [lastName, setLastName] = useState("");
+
+    const [errors, setErrors] = useState({});
+
+    const [errorMsg, setErrorMsg] = useState("");
 
     const my_info_icons_data = [
         {
@@ -27,12 +33,95 @@ const Profile = () => {
         },
     ];
 
+    const updateUserInfo = async (e) => {
+        e.preventDefault();
+        setErrors({});
+        let errorsObject = validations.inputValuesValidation([
+            {
+                name: "firstName",
+                value: firstName,
+                rules: {
+                    isRequired: {
+                        msg: "عذراً ، لا يجب أن يكون الحقل فارغاً !!",
+                    },
+                },
+            },
+            {
+                name: "lastName",
+                value: lastName,
+                rules: {
+                    isRequired: {
+                        msg: "عذراً ، لا يجب أن يكون الحقل فارغاً !!",
+                    },
+                },
+            },
+            {
+                name: "email",
+                value: email,
+                rules: {
+                    isRequired: {
+                        msg: "عذراً ، لا يجب أن يكون الحقل فارغاً !!",
+                    },
+                    isEmail: {
+                        msg: "عذراً ، الإيميل الذي أدخلته غير صالح ، الرجاء إدخال إيميل صالح !!",
+                    },
+                },
+            },
+            {
+                name: "password",
+                value: password,
+                rules: {
+                    isRequired: {
+                        msg: "عذراً ، لا يجب أن يكون الحقل فارغاً !!",
+                    },
+                    isPassword: {
+                        value: password,
+                        msg: "عذراً ، يجب أن يكون عدد أحرف الكلمة 8 على الأقل ولا تحتوي محارف خاصة ، وتحتوي على أحرف",
+                    },
+                },
+            },
+        ]);
+        setErrors(errorsObject);
+        if (Object.keys(errorsObject).length == 0) {
+            try {
+                setIsWaitStatus(true);
+                const res = await Axios.put(`${process.env.BASE_API_URL}/users/update-user-info/`, {
+                    firstName,
+                    lastName,
+                    email,
+                    password
+                });
+                setTimeout(async () => {
+                    setIsWaitStatus(false);
+                    const msg = await res.data;
+                    if (msg === "Ok !!, Create New User Is Successfuly !!") {
+                        setResultMsg(msg);
+                        setTimeout(() => {
+                            setResultMsg("");
+                            router.push("/login");
+                        }, 3000);
+                    } else if (msg === "Sorry, Can't Create User Because it is Exist !!!") {
+                        setTimeout(() => {
+                            setErrorMsg(msg);
+                            setTimeout(() => {
+                                setErrorMsg("");
+                            }, 3000);
+                        }, 3000);
+                    }
+                }, 2000);
+            } catch (err) {
+                setErrorMsg(err);
+            }
+        }
+    }
+
     useEffect(() => {
         async function fetchData() {
-            let userInfo = JSON.parse(localStorage.getItem("e-commerce-canvas-user-info"));
-            const res = await Axios.get(`${process.env.BASE_API_URL}/api/users/user-info/${userInfo._id}`);
+            let userId = JSON.parse(localStorage.getItem("e-commerce-canvas-user-id"));
+            const res = await Axios.get(`${process.env.BASE_API_URL}/users/user-info/${userId}`);
             const data = await res.data;
-            setName(data.name);
+            setFirstName(data.firstName);
+            setLastName(data.lastName);
             setEmail(data.email);
             setPassword(data.password);
         }
@@ -59,14 +148,14 @@ const Profile = () => {
                     {/* End Edit Profile Icon Box */}
                     {/* Start Profile Info Box */}
                     <section className="profile-info-box p-3">
-                        <form className="signup-form p-4">
+                        <form className="update-user-info-form p-4" onSubmit={updateUserInfo}>
                             {/* Start Input Field Box */}
                             <div className="input-field-box mb-5">
                                 {/* Start Grid System */}
                                 <div className="row align-items-center">
                                     {/* Start Column */}
                                     <div className="col-md-2">
-                                        Name *
+                                        First Name *
                                     </div>
                                     {/* End Column */}
                                     {/* Start Column */}
@@ -75,8 +164,32 @@ const Profile = () => {
                                             type="text"
                                             placeholder="Please Enter The New Your Name Here ."
                                             className="form-control border-success border-2"
-                                            value={name}
-                                            onChange={(e) => setName(e.target.value)}
+                                            defaultValue={firstName}
+                                            onChange={(e) => setFirstName(e.target.value)}
+                                        />
+                                    </div>
+                                    {/* End Column */}
+                                </div>
+                                {/* End Grid System */}
+                            </div>
+                            {/* End Input Field Box */}
+                            {/* Start Input Field Box */}
+                            <div className="input-field-box mb-5">
+                                {/* Start Grid System */}
+                                <div className="row align-items-center">
+                                    {/* Start Column */}
+                                    <div className="col-md-2">
+                                        Last Name *
+                                    </div>
+                                    {/* End Column */}
+                                    {/* Start Column */}
+                                    <div className="col-md-10">
+                                        <input
+                                            type="text"
+                                            placeholder="Please Enter The New Your Name Here ."
+                                            className="form-control border-success border-2"
+                                            value={lastName}
+                                            onChange={(e) => setLastName(e.target.value)}
                                         />
                                     </div>
                                     {/* End Column */}
@@ -99,7 +212,7 @@ const Profile = () => {
                                             type="email"
                                             placeholder="Please Enter The New Your Email Here ."
                                             className="form-control border-success border-2"
-                                            value={email}
+                                            defaultValue={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                         />
                                     </div>
@@ -123,7 +236,7 @@ const Profile = () => {
                                             type="password"
                                             placeholder="Please Enter The New Your Password Here ."
                                             className="form-control border-success border-2"
-                                            value={password}
+                                            defaultValue={password}
                                             onChange={(e) => setPassword(e.target.password)}
                                         />
                                     </div>
@@ -132,7 +245,10 @@ const Profile = () => {
                                 {/* End Grid System */}
                             </div>
                             {/* End Input Field Box */}
-                            <button className="btn btn-success mx-auto d-block mb-4">
+                            <button
+                                type="submit"
+                                className="btn btn-success mx-auto d-block mb-4"
+                            >
                                 <span className="me-2">Update Now</span>
                                 <FaUserEdit />
                             </button>

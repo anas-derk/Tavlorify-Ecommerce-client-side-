@@ -8,16 +8,16 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router.js";
 
 const Header = () => {
-    const [userInfo, setUserInfo] = useState({});
+    const [userId, setUserId] = useState({});
     const router = useRouter();
     const signOut = () => {
-        localStorage.removeItem("user-info");
+        localStorage.removeItem("e-commerce-canvas-user-id");
         router.reload();
 
     }
     useEffect(() => {
-        let userData = JSON.parse(localStorage.getItem("user-info"));
-        setUserInfo(userData);
+        let userId = JSON.parse(localStorage.getItem("e-commerce-canvas-user-id"));
+        setUserId(userId);
     }, []);
     return (
         <header className="global-header bg-success">
@@ -62,7 +62,7 @@ const Header = () => {
                                     <CgProfile className="profile-icon" />
                                 </div>
                                 <ul className="authentication-list">
-                                    {userInfo && <li className="auth-item p-3">
+                                    {userId && <li className="auth-item p-3">
                                         <Link className="auth-link" href="/profile">
                                             <span className="icon me-2">
                                                 <CgProfile />
@@ -70,7 +70,7 @@ const Header = () => {
                                             My Profile
                                         </Link>
                                     </li>}
-                                    {!userInfo && headerData.authenticationData.map((authInfo, index) => (
+                                    {!userId && headerData.authenticationData.map((authInfo, index) => (
                                         <li className="auth-item p-3" key={index}>
                                             <Link className="auth-link" href={authInfo.route}>
                                                 <span className="icon me-2">{authInfo.icon}</span>
@@ -78,7 +78,7 @@ const Header = () => {
                                             </Link>
                                         </li>
                                     ))}
-                                    {userInfo && <li className="auth-item p-3" onClick={signOut}>
+                                    {userId && <li className="auth-item p-3" onClick={signOut}>
                                         <span className="icon me-2">
                                             <GoSignOut />
                                         </span>

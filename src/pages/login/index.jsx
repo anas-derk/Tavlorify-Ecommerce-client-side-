@@ -23,7 +23,7 @@ const Login = () => {
                 if (typeof data === "string") {
                     setErrorMsg(data);
                 } else {
-                    localStorage.setItem("user-info", JSON.stringify(data));
+                    localStorage.setItem("e-commerce-canvas-user-id", JSON.stringify(data._id));
                     router.push("/");
                 }
             }, 2000);

@@ -7,47 +7,12 @@ import "../pages/profile/index.css";
 import "../components/Footer/index.css";
 import "../pages/index.css";
 import "../pages/text-to-image/index.css";
-// import Footer from "@/components/Footer";
-import { useEffect } from "react";
 import "../pages/available-products/index.css";
 import "../pages/dashboard/admin/admin-panel/index.css";
 import "../pages/dashboard/admin/admin-panel/categories-and-styles-manager/index.css";
 import "../components/ControlPanelHeader/index.css";
 
 export default function App({ Component, pageProps }) {
-
-  const { asPath } = useRouter();
-
-  const handleGlobalElement = (el, left, width) => {
-    
-    el.style.left = left;
-
-    el.style.width = width;
-
-  }
-
-  useEffect(() => {
-
-    let globalHeader = document.querySelector("#__next .global-header");
-
-    let globalFooter = document.querySelector("#__next .global-footer");
-
-    if (asPath === "/profile") {
-
-      handleGlobalElement(globalHeader, "60px", "calc(100vw - 77px)");
-
-      handleGlobalElement(globalFooter, "60px", "calc(100vw - 77px)");
-
-    } else {
-
-      handleGlobalElement(globalHeader, "0", "100%");
-
-      // handleGlobalElement(globalFooter, "0", "100%");
-
-    }
-
-  }, [asPath]);
-
   return (
     <>
       <Head>
