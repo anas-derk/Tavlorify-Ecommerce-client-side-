@@ -5,20 +5,27 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Axios from "axios";
+import validations from "../../../public/global_functions/validations";
 
 const Profile = () => {
-
-    const [email, setEmail] = useState("");
-
-    const [password, setPassword] = useState("");
 
     const [firstName, setFirstName] = useState("");
 
     const [lastName, setLastName] = useState("");
 
+    const [email, setEmail] = useState("");
+
+    const [password, setPassword] = useState("");
+
+    const [isWaitStatus, setIsWaitStatus] = useState(false);
+
     const [errors, setErrors] = useState({});
 
     const [errorMsg, setErrorMsg] = useState("");
+
+    const [resultMsg, setResultMsg] = useState("");
+
+    const [userId, setUserId] = useState("");
 
     const my_info_icons_data = [
         {
@@ -85,7 +92,7 @@ const Profile = () => {
         if (Object.keys(errorsObject).length == 0) {
             try {
                 setIsWaitStatus(true);
-                const res = await Axios.put(`${process.env.BASE_API_URL}/users/update-user-info/`, {
+                const res = await Axios.put(`${process.env.BASE_API_URL}/users/update-user-info/${userId}`, {
                     firstName,
                     lastName,
                     email,
@@ -94,18 +101,10 @@ const Profile = () => {
                 setTimeout(async () => {
                     setIsWaitStatus(false);
                     const msg = await res.data;
-                    if (msg === "Ok !!, Create New User Is Successfuly !!") {
+                    if (msg === "Update Process Successful ...") {
                         setResultMsg(msg);
                         setTimeout(() => {
                             setResultMsg("");
-                            router.push("/login");
-                        }, 3000);
-                    } else if (msg === "Sorry, Can't Create User Because it is Exist !!!") {
-                        setTimeout(() => {
-                            setErrorMsg(msg);
-                            setTimeout(() => {
-                                setErrorMsg("");
-                            }, 3000);
                         }, 3000);
                     }
                 }, 2000);
@@ -124,6 +123,7 @@ const Profile = () => {
             setLastName(data.lastName);
             setEmail(data.email);
             setPassword(data.password);
+            setUserId(userId);
         }
         fetchData();
     }, []);
@@ -163,10 +163,11 @@ const Profile = () => {
                                         <input
                                             type="text"
                                             placeholder="Please Enter The New Your Name Here ."
-                                            className="form-control border-success border-2"
-                                            defaultValue={firstName}
+                                            className={`form-control border-success border-2 ${errors["firstName"] ? "border border-danger mb-2" : "mb-4"}`}
+                                            value={firstName}
                                             onChange={(e) => setFirstName(e.target.value)}
                                         />
+                                        {errors["firstName"] && <p className='error-msg text-danger m-0'>{errors["firstName"]}</p>}
                                     </div>
                                     {/* End Column */}
                                 </div>
@@ -187,10 +188,11 @@ const Profile = () => {
                                         <input
                                             type="text"
                                             placeholder="Please Enter The New Your Name Here ."
-                                            className="form-control border-success border-2"
+                                            className={`form-control border-success border-2 ${errors["lastName"] ? "border border-danger mb-2" : "mb-4"}`}
                                             value={lastName}
                                             onChange={(e) => setLastName(e.target.value)}
                                         />
+                                        {errors["lastName"] && <p className='error-msg text-danger m-0'>{errors["lastName"]}</p>}
                                     </div>
                                     {/* End Column */}
                                 </div>
@@ -209,12 +211,13 @@ const Profile = () => {
                                     {/* Start Column */}
                                     <div className="col-md-10">
                                         <input
-                                            type="email"
+                                            type="text"
                                             placeholder="Please Enter The New Your Email Here ."
-                                            className="form-control border-success border-2"
-                                            defaultValue={email}
+                                            className={`form-control border-success border-2 ${errors["email"] ? "border border-danger mb-2" : "mb-4"}`}
+                                            value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                         />
+                                        {errors["email"] && <p className='error-msg text-danger m-0'>{errors["email"]}</p>}
                                     </div>
                                     {/* End Column */}
                                 </div>
@@ -235,24 +238,31 @@ const Profile = () => {
                                         <input
                                             type="password"
                                             placeholder="Please Enter The New Your Password Here ."
-                                            className="form-control border-success border-2"
-                                            defaultValue={password}
-                                            onChange={(e) => setPassword(e.target.password)}
+                                            className={`form-control border-success border-2 ${errors["password"] ? "border border-danger mb-2" : "mb-4"}`}
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
                                         />
+                                        {errors["password"] && <p className='error-msg text-danger m-0'>{errors["password"]}</p>}
                                     </div>
                                     {/* End Column */}
                                 </div>
                                 {/* End Grid System */}
                             </div>
                             {/* End Input Field Box */}
-                            <button
+                            {!isWaitStatus && <button
                                 type="submit"
-                                className="btn btn-success mx-auto d-block mb-4"
+                                className="btn btn-success mx-auto d-block"
                             >
                                 <span className="me-2">Update Now</span>
                                 <FaUserEdit />
-                            </button>
+                            </button>}
+                            {isWaitStatus && <button className="btn btn-primary mx-auto d-block mb-4" type="button" disabled>
+                                <span className="me-2">Loading</span>
+                                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            </button>}
                         </form>
+                        {errorMsg && <p className="alert alert-danger mb-4">{errorMsg}</p>}
+                        {resultMsg && <p className="alert alert-success mb-4">{resultMsg}</p>}
                     </section>
                     {/* End Profile Info Box */}
                 </div>
