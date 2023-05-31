@@ -7,7 +7,7 @@ const ControlPanelHeader = () => {
                 <li className="p-4">
                     <Link
                         className="products-manager-link"
-                        href="/dashboard/admin/admin-panel"
+                        href="/dashboard/admin/admin-panel/products-manager"
                     >
                         Products Manager
                     </Link>
