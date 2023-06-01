@@ -6,6 +6,7 @@ import { GoSignOut } from "react-icons/go";
 import { BiBrain } from "react-icons/bi"
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router.js";
+import { BsCart2 } from "react-icons/bs";
 
 const Header = () => {
     const [userId, setUserId] = useState({});
@@ -54,6 +55,14 @@ const Header = () => {
                                         </li>
                                     ))}
                                 </ul>
+                            </li>
+                            <li className="nav-item ">
+                                <Link className="nav-link color-black" href="/cart">
+                                    <span className={`icon me-2`}>
+                                        <BsCart2 />
+                                    </span>
+                                    Cart
+                                </Link>
                             </li>
                         </ul>
                         <ul className="navbar-nav align-items-center">

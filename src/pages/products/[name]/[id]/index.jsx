@@ -4,9 +4,13 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 
 const ProductInfo = ({ result }) => {
-    useEffect(() => {
-        console.log(result)
-    }, []);
+
+    const [quantity, setQuantity] = useState(1);
+    
+    const addToCart = (e) => {
+        e.preventDefault();
+    }
+
     return (
         // Start Product Info Page
         <div className="product-info bg-info">
@@ -16,6 +20,7 @@ const ProductInfo = ({ result }) => {
             <Header />
             {/* Start Container From Bootstrap */}
             <div className="container pt-4 pb-4">
+                <h1 className="text-center">Hello To You In Product Info Page</h1>
                 {typeof result === "object" ?
                     /* Start Grid System */
                     <div className="row align-items-center">
@@ -36,11 +41,23 @@ const ProductInfo = ({ result }) => {
                             {/* Start Product Details Box */}
                             <div className="product-details-box bg-white border border-2 p-4 pb-5 pt-5">
                                 <h3 className="text-center">Product Details:</h3>
-                                <h5 className="mb-3">Product Name: { result.name }</h5>
-                                <h5>Product Type: { result.type }</h5>
-                                <h5>Product Dimentions: { result.dimentions }</h5>
-                                <h5 className="mb-4">Product Price: { result.price } $</h5>
-                                <button className="btn btn-success w-100">Add To Cart</button>
+                                <h5 className="mb-3">Product Name: {result.name}</h5>
+                                <h5>Product Type: {result.type}</h5>
+                                <h5>Product Dimentions: {result.dimentions}</h5>
+                                <h5 className="mb-4">Product Price: {result.price} $</h5>
+                                <form className="add-to-cart-form" onSubmit={addToCart}>
+                                    <input
+                                        type="number"
+                                        className="form-control mb-4"
+                                        placeholder="Please Enter Quantity"
+                                        min="1"
+                                        max="5"
+                                        value={quantity}
+                                        onChange={(e) => setQuantity(e.target.value)}
+                                        required
+                                    />
+                                    <button type="submit" className="btn btn-success w-100">Add To Cart</button>
+                                </form>
                             </div>
                             {/* End Product Details Box */}
                         </div>

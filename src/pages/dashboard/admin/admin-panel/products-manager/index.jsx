@@ -27,7 +27,6 @@ const ProductsManager = () => {
             <section className="content d-flex justify-content-center align-items-center flex-column text-center">
                 <Link className="btn btn-success manager-link w-25 mx-auto mb-4" href="/dashboard/admin/admin-panel/products-manager/add-product">Add Product</Link>
                 <Link className="btn btn-danger manager-link w-25 mx-auto mb-4" href="/dashboard/admin/admin-panel/products-manager/products-process">Products Process</Link>
-                <Link className="btn btn-success manager-link w-25 mx-auto" href="/dashboard/admin/admin-panel/products-manager/update-product">Update Product</Link>
             </section>
             {/* End Content Section */}
         </div>
