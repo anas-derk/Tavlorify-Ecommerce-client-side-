@@ -1,8 +1,10 @@
 import Head from 'next/head';
 import Header from '../components/Header';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoSearchCircleSharp } from "react-icons/io5";
 import home_data from '../../public/data/home_data';
+import Axios from "axios";
+import Link from 'next/link';
 
 export default function Home() {
 
@@ -12,37 +14,24 @@ export default function Home() {
 
   const [isAppearedShowMoreProductsBtn, setIsAppearedShowMoreProductsBtn] = useState(true);
 
-  setInterval(() => {
+  const [isWaitStatus, setIsWaitStatus] = useState(false);
 
-    switch (infoBoxAppearedIndex) {
+  const [productsData, setProductsData] = useState([]);
 
-      case 1: {
+  const [errorMsg, setErrorMsg] = useState("");
 
-        setInfoBoxAppearedIndex(2);
-
-        break;
-
-      }
-
-      case 2: {
-
-        setInfoBoxAppearedIndex(3);
-
-        break;
-
-      }
-
-      case 3: {
-
-        setInfoBoxAppearedIndex(1);
-
-        break;
-
-      }
-
-    }
-
-  }, 4000);
+  useEffect(() => {
+    Axios.get(`${process.env.BASE_API_URL}/products/all-products`)
+      .then((res) => {
+        let result = res.data;
+        if (typeof result === "string") {
+          setErrorMsg(result);
+        } else {
+          setProductsData(result);
+        }
+      })
+      .catch((err) => setErrorMsg(err));
+  }, []);
 
   return (
     <div className="home">
@@ -82,46 +71,6 @@ export default function Home() {
           /* End Main Content */
         ))}
       </div>
-      {/* Start Try Some Of AI Services In Our Website Section */}
-      <section className="try-ai-service pt-4 pb-4">
-        {/* Start Custom Container */}
-        <div className="custom-container">
-          <h3 className="text-center mb-4">Try a Some Of AI Services In Our Website</h3>
-          <div className="service-box p-4">
-            {/* Start Grid System */}
-            <div className="row">
-              {/* Start Column */}
-              <div className="col-md-7">
-                <h5 className="text-center mb-3">Enter a Text Prompt</h5>
-                <form className="generate-images-from-text-form text-center">
-                  <input
-                    type="text"
-                    placeholder="a dog riding a bicycle"
-                    className="form-control p-2 mb-2"
-                    required
-                  />
-                  <button type="submit" className="btn search-btn">
-                    <IoSearchCircleSharp className="search-icon" />
-                  </button>
-                </form>
-              </div>
-              {/* End Column */}
-              {/* Start Column */}
-              <div className="col-md-5 text-center">
-                <h5 className="text-center mb-3 mb-3">Upload Image From Device</h5>
-                <form className="generate-canvas-form">
-                  <input type="file" className="form-control mb-4" required />
-                  <button type="submit" className="btn btn-success">Upload And Generate Now</button>
-                </form>
-              </div>
-              {/* End Column */}
-            </div>
-            {/* End Grid System */}
-          </div>
-        </div>
-        {/* End Custom Container */}
-      </section>
-      {/* End Try Some Of AI Services In Our Website Section */}
       {/* Start Most Popular Of Products Section */}
       <section className="most-popular-products pt-3 pb-5">
         {/* Start Custom Container */}
@@ -129,29 +78,30 @@ export default function Home() {
           <h4 className="section-name mb-4">Most Popular Of Products</h4>
           {/* Start Grid System */}
           <div className="row mb-3">
-            {home_data.productsInfo.map((productInfo, index) => (
+            {productsData.map((productInfo, index) => (
               /* Start Column */
-              productInfo.id < 12 && <div className="col-md-3" key={index}>
+              index < 12 && <div className="col-md-2" key={index}>
                 <div className="product-box">
-                  <img src={productInfo.imageSrc} alt="Product Image" className="product-image mb-3" />
-                  <h6 className="product-name">Canvas</h6>
+                  <Link href={`/products/${productInfo.name}/${productInfo._id}`}>
+                    <img src={`${process.env.BASE_API_URL}/${productInfo.imageSrc}`} alt={productInfo.name} className="product-image mb-3 canvas-prints-image prints-image" />
+                  </Link>
+                  <h6 className="product-name">{productInfo.name}</h6>
+                  <h6 className="product-type">{productInfo.type}</h6>
                 </div>
               </div>
               /* End Column */
             ))}
           </div>
           {/* End Grid System */}
-          {isAppearedShowMoreProductsBtn && <button className='show-more-btn btn btn-success w-25' onClick={() => {
-            setIsShowMoreProducts(true);
-            setIsAppearedShowMoreProductsBtn(false);
-          }}>Show More</button>}
           {/* Start Grid System */}
           <div className="row">
-            {home_data.productsInfo.map((productInfo, index) => (
+            {productsData.map((productInfo, index) => (
               /* Start Column */
               productInfo.id > 12 && isShowMoreProducts && <div className="col-md-3" key={index}>
                 <div className="product-box">
-                  <img src={productInfo.imageSrc} alt="Product Image" className="product-image mb-3" />
+                  <Link href="/">
+                    <img src={productInfo.imageSrc} alt="Product Image" className="product-image mb-3" />
+                  </Link>
                   <h6 className="product-name">Canvas</h6>
                 </div>
               </div>

@@ -12,6 +12,7 @@ import "../pages/dashboard/admin/admin-panel/index.css";
 import "../pages/dashboard/admin/admin-panel/categories-and-styles-manager/index.css";
 import "../pages/dashboard/admin/admin-panel/products-manager/products-process/index.css";
 import "../components/ControlPanelHeader/index.css";
+import "../pages/products/[name]/[id]/index.css";
 
 export default function App({ Component, pageProps }) {
   return (

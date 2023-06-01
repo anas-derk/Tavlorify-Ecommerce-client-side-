@@ -59,6 +59,9 @@
 
 .home .most-popular-products .product-box .product-image {
   max-width: 100%;
+  min-height: 270px;
+  max-height: 100%;
+  cursor: pointer;
 }
 
 .home .contact-us {
@@ -68,21 +71,4 @@
 .home .contact-us .contact-us-form textarea {
   resize: none;
   height: 200px;
-}
-
-.prints-image {
-  width: 100%;
-}
-
-.prints-image.canvas-prints-image {
-  --x: 10px;
-  --y: 13px;
-  --o: 0px;
-  clip-path: polygon(0 calc(var(--x) + var(--y)), var(--y) var(--y), calc(100% - var(--y)) var(--y), calc(100% - var(--y)) calc(100% - var(--y)), var(--y) calc(100% - var(--y)), 0 calc(100% - var(--x) - var(--y)));
-  /* -webkit-mask: linear-gradient(to right, rgba(0, 0, 0, 0.7) var(--y), #fff 0); */
-  /* mask: linear-gradient(to right, rgba(0, 0, 0, 0.3) var(--y), #fff 0); */
-  transform-origin: left;
-  transform: perspective(1000px) rotateY(8deg);
-  outline: calc(var(--y) + var(--o)) solid rgba(0, 0, 0, 0.2);
-  outline-offset: calc(-1*(var(--y) + var(--o)));
 }
