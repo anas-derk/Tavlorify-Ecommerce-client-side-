@@ -17,10 +17,14 @@ const Cart = () => {
         }
     }, []);
     const deleteProduct = (id) => {
-        console.log(id);
+        let canvasEcommerceProducts = JSON.parse(localStorage.getItem("canvas-ecommerce-products"));
+        canvasEcommerceProducts = canvasEcommerceProducts.filter((product) => product._id != id);
+        localStorage.setItem("canvas-ecommerce-products", JSON.stringify(canvasEcommerceProducts));
+        setCanvasEcommerceProductsList(canvasEcommerceProducts);
     }
     const deleteAllProductsFromCart = () => {
-        console.log("aa")
+        localStorage.removeItem("canvas-ecommerce-products");
+        setCanvasEcommerceProductsList([]);
     }
     const orderAllProductsFromCart = () => {
         console.log("b")
