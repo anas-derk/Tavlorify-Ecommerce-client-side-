@@ -2,13 +2,33 @@ import Header from "@/components/Header";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Axios from "axios";
+import { useRouter } from "next/router";
 
 const ProductInfo = ({ result }) => {
 
     const [quantity, setQuantity] = useState(1);
+
+    const router = useRouter();
     
     const addToCart = (e) => {
         e.preventDefault();
+        console.log(result);
+        let userId = localStorage.setItem("e-commerce-canvas-user-id", router.query.id);
+        if (!userId) {
+            let productInfoToCart = {
+                ...result,
+                count: parseInt(quantity),
+            }
+            let canvasEcommerceProducts = JSON.parse(localStorage.getItem("canvas-ecommerce-products"));
+            if (canvasEcommerceProducts) {
+                canvasEcommerceProducts.push(productInfoToCart);
+                localStorage.setItem("canvas-ecommerce-products", JSON.stringify(canvasEcommerceProducts));
+            } else {
+                let canvasEcommerceProductsList = [];
+                canvasEcommerceProductsList.push(productInfoToCart);
+                localStorage.setItem("canvas-ecommerce-products", JSON.stringify(canvasEcommerceProductsList));                
+            }
+        }
     }
 
     return (

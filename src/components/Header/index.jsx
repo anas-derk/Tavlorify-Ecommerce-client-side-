@@ -17,7 +17,7 @@ const Header = () => {
 
     }
     useEffect(() => {
-        let userId = JSON.parse(localStorage.getItem("e-commerce-canvas-user-id"));
+        let userId = localStorage.getItem("e-commerce-canvas-user-id");
         setUserId(userId);
     }, []);
     return (
@@ -63,6 +63,14 @@ const Header = () => {
                                     </span>
                                     Cart
                                 </Link>
+                            </li>
+                            <li className="nav-item ">
+                                {userId && <Link className="nav-link color-black" href="/cart">
+                                    <span className={`icon me-2`}>
+                                        <BsCart2 />
+                                    </span>
+                                    Orders
+                                </Link>}
                             </li>
                         </ul>
                         <ul className="navbar-nav align-items-center">
