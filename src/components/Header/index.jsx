@@ -1,12 +1,14 @@
 import Link from "next/link";
-import headerData from "./header_data.jsx";
 import { HiOutlineBars3 } from "react-icons/hi2";
 import { CgProfile } from "react-icons/cg";
 import { GoSignOut } from "react-icons/go";
 import { BiBrain } from "react-icons/bi"
+import { BsCart2 } from "react-icons/bs";
+import { AiOutlineHome, AiOutlineUserAdd, AiOutlineContacts } from "react-icons/ai";
+import { MdProductionQuantityLimits } from "react-icons/md";
+import { FiLogIn } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router.js";
-import { BsCart2 } from "react-icons/bs";
 
 const Header = () => {
     const [userId, setUserId] = useState({});
@@ -21,93 +23,97 @@ const Header = () => {
         setUserId(userId);
     }, []);
     return (
-        <header className="global-header bg-success">
-            <nav className="navbar navbar-expand-xl navbar-light">
-                <div className="container">
-                    <span className="navbar-brand fw-bold">Tavlorify Store</span>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <HiOutlineBars3 />
-                    </button>
-                    <div className="collapse navbar-collapse justify-content-around" id="navbarNav">
-                        <ul className="navbar-nav align-items-center justify-content-center flex-grow-1">
-                            {headerData.navbarLinks.map((data, index) =>
-                                <li className="nav-item" key={index}>
-                                    <Link className="nav-link color-black" href={data.route}>
-                                        <span className={`icon me-2`}>{data.icon}</span>
-                                        {data.pageTitle}
+        // Start Global Header
+        <header className="global-header">
+            {/* Start Top Header */}
+            <div className="top-header pt-2 pb-2">
+                <nav className="navbar navbar-expand-lg bg-body-tertiary">
+                    <div className="container">
+                        <a className="navbar-brand" href="#">Tavlorify Store</a>
+                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                            <ul className="navbar-nav mb-2 mb-lg-0">
+                                <li className="nav-item">
+                                    <Link className="nav-link" aria-current="page" href="/">
+                                        <FiLogIn />
+                                        <span className="ms-2">Log In</span>
                                     </Link>
                                 </li>
-                            )}
-                            <li className="nav-item ai-services-item">
-                                <div className="nav-link color-black">
-                                    <span className="icon me-2">
-                                        <BiBrain />
-                                    </span>
-                                    AI Services
-                                </div>
-                                <ul className="ai-services-list">
-                                    {headerData.aiServicesData.map((ai_service_info, index) => (
-                                        <li className="ai-service-item p-3" key={index}>
-                                            <Link className="ai-service-link" href={ai_service_info.route}>
-                                                <span className="icon me-2">{ai_service_info.icon}</span>
-                                                {ai_service_info.pageTitle}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </li>
-                            <li className="nav-item ">
-                                <Link className="nav-link color-black" href="/cart">
-                                    <span className={`icon me-2`}>
+                                <li className="nav-item bg-dark auth-item">
+                                    <Link className="nav-link text-white" aria-current="page" href="/">
+                                        <AiOutlineUserAdd />
+                                        <span className="ms-2">Sign Up for Free</span>
+                                    </Link>
+                                </li>
+                                <li className="nav-item ms-3">
+                                    <Link className="nav-link" aria-current="page" href="/">
                                         <BsCart2 />
-                                    </span>
-                                    Cart
-                                </Link>
-                            </li>
-                            <li className="nav-item ">
-                                {userId && <Link className="nav-link color-black" href="/cart">
-                                    <span className={`icon me-2`}>
-                                        <BsCart2 />
-                                    </span>
-                                    Orders
-                                </Link>}
-                            </li>
-                        </ul>
-                        <ul className="navbar-nav align-items-center">
-                            <li className="nav-item profile-item">
-                                <div className="border profile-icon-item p-2 text-center">
-                                    <CgProfile className="profile-icon" />
-                                </div>
-                                <ul className="authentication-list">
-                                    {userId && <li className="auth-item p-3">
-                                        <Link className="auth-link" href="/profile">
-                                            <span className="icon me-2">
-                                                <CgProfile />
-                                            </span>
-                                            My Profile
-                                        </Link>
-                                    </li>}
-                                    {!userId && headerData.authenticationData.map((authInfo, index) => (
-                                        <li className="auth-item p-3" key={index}>
-                                            <Link className="auth-link" href={authInfo.route}>
-                                                <span className="icon me-2">{authInfo.icon}</span>
-                                                {authInfo.pageTitle}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                    {userId && <li className="auth-item p-3" onClick={signOut}>
-                                        <span className="icon me-2">
-                                            <GoSignOut />
-                                        </span>
-                                        Sign Out
-                                    </li>}
-                                </ul>
-                            </li>
-                        </ul>
+                                        <span className="ms-2">My Cart</span>
+                                    </Link>
+                                </li>
+                                <li className="nav-item ms-3">
+                                    <Link className="nav-link" aria-current="page" href="/">
+                                        <MdProductionQuantityLimits />
+                                        <span className="ms-2">My Orders</span>
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" aria-current="page" href="/">
+                                        <CgProfile />
+                                        <span className="ms-2">My Profile</span>
+                                    </Link>
+                                </li>
+                                <li className="nav-item ms-3 bg-danger auth-item">
+                                    <Link className="nav-link text-white" aria-current="page" href="/">
+                                        <GoSignOut />
+                                        <span className="ms-2">Sign Out</span>
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
+                </nav>
+            </div>
+            {/* End Top Header */}
+            {/* Start Bottom Header */}
+            <div className="bottom-header pt-3 pb-3">
+                {/* Start Container From Bootstrap */}
+                <div className="container">
+                    <ul className="website-explain-list d-flex">
+                        <li className="link-item">
+                            <Link className="link text-dark" href='/'>
+                                <span className="ms-2">Home</span>
+                            </Link>
+                        </li>
+                        <li className="link-item">
+                            <Link className="link text-dark" href='/'>
+                                <span className="ms-2">Products</span>
+                            </Link>
+                        </li>
+                        <li className="link-item">
+                            <Link className="link text-dark" href='/'>
+                                <span className="ms-2">AI Services</span>
+                            </Link>
+                        </li>
+                        <li className="link-item">
+                            <Link className="link text-dark" href='/'>
+                                <span className="ms-2">Who Are We ?</span>
+                            </Link>
+                        </li>
+                        <li className="link-item">
+                            <Link className="link text-dark" href='/'>
+                                <span className="ms-2">Contact Us</span>
+                            </Link>
+                        </li>
+                    </ul>
                 </div>
-            </nav>
+                {/* End Container From Bootstrap */}
+            </div>
+            {/* End Bottom Header */}
         </header>
+        // End Global Header
     );
 }
 
