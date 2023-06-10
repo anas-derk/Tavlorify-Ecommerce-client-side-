@@ -10,6 +10,10 @@
   border-radius: 4px;
 }
 
+.global-header .top-header .navbar .container .nav-item.sign-out-btn {
+  cursor: pointer;
+}
+
 .global-header .top-header .navbar .container .nav-item .nav-link {
   color: #000;
 }
@@ -25,4 +29,9 @@
 
 .global-header .bottom-header .website-explain-list {
   gap: 15px;
+}
+
+.global-header .bottom-header .link-item:hover {
+  background-color: #CCC;
+  border-radius: 4px;
 }

@@ -36,19 +36,19 @@ const Header = () => {
                         <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                             <ul className="navbar-nav mb-2 mb-lg-0">
                                 <li className="nav-item">
-                                    <Link className="nav-link" aria-current="page" href="/">
+                                    <Link className="nav-link" aria-current="page" href="/login">
                                         <FiLogIn />
                                         <span className="ms-2">Log In</span>
                                     </Link>
                                 </li>
                                 <li className="nav-item bg-dark auth-item">
-                                    <Link className="nav-link text-white" aria-current="page" href="/">
+                                    <Link className="nav-link text-white" aria-current="page" href="/sign-up">
                                         <AiOutlineUserAdd />
                                         <span className="ms-2">Sign Up for Free</span>
                                     </Link>
                                 </li>
                                 <li className="nav-item ms-3">
-                                    <Link className="nav-link" aria-current="page" href="/">
+                                    <Link className="nav-link" aria-current="page" href="/cart">
                                         <BsCart2 />
                                         <span className="ms-2">My Cart</span>
                                     </Link>
@@ -60,16 +60,17 @@ const Header = () => {
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" aria-current="page" href="/">
+                                    <Link className="nav-link" aria-current="page" href="/profile">
                                         <CgProfile />
                                         <span className="ms-2">My Profile</span>
                                     </Link>
                                 </li>
-                                <li className="nav-item ms-3 bg-danger auth-item">
-                                    <Link className="nav-link text-white" aria-current="page" href="/">
-                                        <GoSignOut />
-                                        <span className="ms-2">Sign Out</span>
-                                    </Link>
+                                <li
+                                    className="nav-item ms-3 bg-danger auth-item text-white sign-out-btn d-flex align-items-center p-2"
+                                    onClick={signOut}
+                                >
+                                    <GoSignOut />
+                                    <span className="ms-2">Sign Out</span>
                                 </li>
                             </ul>
                         </div>
@@ -78,32 +79,36 @@ const Header = () => {
             </div>
             {/* End Top Header */}
             {/* Start Bottom Header */}
-            <div className="bottom-header pt-3 pb-3">
+            <div className="bottom-header pt-2 pb-2">
                 {/* Start Container From Bootstrap */}
                 <div className="container">
                     <ul className="website-explain-list d-flex">
-                        <li className="link-item">
+                        <li className="link-item p-2">
                             <Link className="link text-dark" href='/'>
+                                <AiOutlineHome />
                                 <span className="ms-2">Home</span>
                             </Link>
                         </li>
-                        <li className="link-item">
-                            <Link className="link text-dark" href='/'>
+                        <li className="link-item p-2">
+                            <Link className="link text-dark" href='/products'>
+                                <MdProductionQuantityLimits />
                                 <span className="ms-2">Products</span>
                             </Link>
                         </li>
-                        <li className="link-item">
+                        <li className="link-item p-2">
                             <Link className="link text-dark" href='/'>
+                                <BiBrain />
                                 <span className="ms-2">AI Services</span>
                             </Link>
                         </li>
-                        <li className="link-item">
-                            <Link className="link text-dark" href='/'>
+                        <li className="link-item p-2">
+                            <Link className="link text-dark" href='/who-are-we'>
                                 <span className="ms-2">Who Are We ?</span>
                             </Link>
                         </li>
-                        <li className="link-item">
-                            <Link className="link text-dark" href='/'>
+                        <li className="link-item p-2">
+                            <Link className="link text-dark" href='/contact-us'>
+                                <AiOutlineContacts />
                                 <span className="ms-2">Contact Us</span>
                             </Link>
                         </li>

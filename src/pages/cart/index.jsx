@@ -31,7 +31,7 @@ const Cart = () => {
     }
     return (
         // Start Cart Page
-        <div className="cart bg-info">
+        <div className="cart">
             <Head>
                 <title>Tavlorify Store - Cart</title>
             </Head>

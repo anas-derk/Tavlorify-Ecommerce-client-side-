@@ -10,6 +10,9 @@
                     &.auth-item{
                         border-radius: 4px;
                     }
+                    &.sign-out-btn{
+                        cursor: pointer;
+                    }
                     .nav-link{
                         color: #000;
                     }
@@ -25,6 +28,12 @@
         background-color: #f2f2f2;
         .website-explain-list{
             gap: 15px;
+        }
+        .link-item{
+            &:hover{
+                background-color: #CCC;
+                border-radius: 4px;
+            }
         }
     }
 }
