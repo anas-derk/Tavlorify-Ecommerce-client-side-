@@ -6,6 +6,7 @@ import { BsCart2, BsInfoCircle } from "react-icons/bs";
 import { AiOutlineHome, AiOutlineUserAdd, AiOutlineContacts } from "react-icons/ai";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { FiLogIn } from "react-icons/fi";
+import { FaQuestion } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router.js";
 
@@ -110,6 +111,12 @@ const Header = () => {
                             <Link className="link text-dark" href='/contact-us'>
                                 <AiOutlineContacts />
                                 <span className="ms-2">Contact Us</span>
+                            </Link>
+                        </li>
+                        <li className="link-item p-2">
+                            <Link className="link text-dark" href='/contact-us'>
+                                <FaQuestion />
+                                <span className="ms-2">FAQ</span>
                             </Link>
                         </li>
                     </ul>

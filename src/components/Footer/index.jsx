@@ -1,68 +1,153 @@
 import Link from "next/link";
-import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { TiSocialFacebook } from "react-icons/ti";
 import { AiOutlineTwitter } from "react-icons/ai";
-import { IoLocationSharp } from "react-icons/io5";
+// import { IoLocationSharp } from "react-icons/io5";
 import { BiPhone } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
+import { GoSignOut } from "react-icons/go";
+import { BiBrain } from "react-icons/bi"
+import { BsCart2, BsInfoCircle } from "react-icons/bs";
+import { AiOutlineHome, AiOutlineUserAdd, AiOutlineContacts } from "react-icons/ai";
+import { MdProductionQuantityLimits } from "react-icons/md";
+import { FiLogIn } from "react-icons/fi";
+import { FaQuestion } from "react-icons/fa";
 
 const Footer = () => {
     return (
         // Start Page Footer
-        <footer className="global-footer pt-3 pb-3 bg-success text-white">
+        <footer className="global-footer pt-4 pb-4 bg-dark text-white">
             {/* Start Container */}
-            <div className="container-fluid">
+            <div className="container">
                 {/* Start Grid System */}
-                <div className="row align-items-center">
+                <div className="row">
                     {/* Start Column */}
-                    <div className="col-md-3">
-                        <ul className="social-media-list d-flex mb-3 justify-content-center">
-                            <li className="social-link-item">
-                                <a href="http://google.com" target="_blank" className="link">
-                                    <TiSocialFacebook />
-                                </a>
-                            </li>
-                            <li className="social-link-item">
-                                <a href="http://google.com" target="_blank" className="link">
-                                    <AiOutlineTwitter />
-                                </a>
-                            </li>
-                        </ul>
-                        <ul className="locations-list d-flex mb-3 justify-content-center info-box">
-                            <li className="location-icon-box">
-                                <IoLocationSharp className="location-icon info-icon" />
-                                Lattakia, Syria
-                            </li>
-                        </ul>
-                        <ul className="numbers-list d-flex mb-3 justify-content-center info-box">
-                            <li className="number-icon-box">
-                                <BiPhone className="number-icon info-icon" />
-                                +963941519404
-                            </li>
-                        </ul>
+                    <div className="col-md-3 text-center">
+                        <AiOutlineContacts className="mb-3" style={{ fontSize: "100px" }} />
+                        <h6>Tavlorify Store</h6>
                     </div>
                     {/* End Column */}
                     {/* Start Column */}
                     <div className="col-md-3">
-                        Authentication
-                    </div>
-                    {/* End Column */}
-                    {/* Start Column */}
-                    <div className="col-md-3">
-                        <ul className="page-names-list">
-                            <li className="page-name-item mb-2">
-                                <MdKeyboardDoubleArrowRight />
-                                <Link href="/">Home</Link>
+                        <h6>User Links</h6>
+                        <hr className="mt-0" />
+                        {/* Start Link List */}
+                        <ul className="list-unstyled link-list">
+                            <li className="link-item mb-3">
+                                <Link className="link" href='/login' target="_blank">
+                                    <FiLogIn className="me-2" />
+                                    <span>Login</span>
+                                </Link>
                             </li>
-                            <li className="page-name-item">
-                                <MdKeyboardDoubleArrowRight />
-                                <Link href="/">Products</Link>
+                            <li className="link-item mb-3">
+                                <Link className="link" href='/login' target="_blank">
+                                    <AiOutlineUserAdd className="me-2" />
+                                    <span>Signup</span>
+                                </Link>
+                            </li>
+                            <li className="link-item mb-3">
+                                <Link className="link" href='/login' target="_blank">
+                                    <BsCart2 className="me-2" />
+                                    <span>Cart</span>
+                                </Link>
+                            </li>
+                            <li className="link-item mb-3">
+                                <Link className="link" href='/login' target="_blank">
+                                    <MdProductionQuantityLimits className="me-2" />
+                                    <span>Orders</span>
+                                </Link>
+                            </li>
+                            <li className="link-item mb-3">
+                                <Link className="link" href='/login' target="_blank">
+                                    <CgProfile className="me-2" />
+                                    <span>Profile</span>
+                                </Link>
+                            </li>
+                            <li className="link-item">
+                                <Link className="link" href='/login' target="_blank">
+                                    <GoSignOut className="me-2" />
+                                    <span>Sign Out</span>
+                                </Link>
                             </li>
                         </ul>
+                        {/* End Link List */}
                     </div>
                     {/* End Column */}
                     {/* Start Column */}
                     <div className="col-md-3">
-                        logo + paragraph
+                        <h6>Our Company Links</h6>
+                        <hr className="mt-0" />
+                        {/* Start Link List */}
+                        <ul className="list-unstyled link-list">
+                            <li className="link-item mb-3">
+                                <Link className="link" href='/login' target="_blank">
+                                    <AiOutlineHome className="me-2" />
+                                    <span>Home</span>
+                                </Link>
+                            </li>
+                            <li className="link-item mb-3">
+                                <Link className="link" href='/login' target="_blank">
+                                    <MdProductionQuantityLimits className="me-2" />
+                                    <span>Products</span>
+                                </Link>
+                            </li>
+                            <li className="link-item mb-3">
+                                <Link className="link" href='/login' target="_blank">
+                                    <BiBrain className="me-2" />
+                                    <span>Text To Image Service</span>
+                                </Link>
+                            </li>
+                            <li className="link-item mb-3">
+                                <Link className="link" href='/login' target="_blank">
+                                    <BiBrain className="me-2" />
+                                    <span>Image To Image Service</span>
+                                </Link>
+                            </li>
+                            <li className="link-item mb-3">
+                                <Link className="link" href='/login' target="_blank">
+                                    <BsInfoCircle className="me-2" />
+                                    <span>Who Are We ?</span>
+                                </Link>
+                            </li>
+                            <li className="link-item mb-3">
+                                <Link className="link" href='/login' target="_blank">
+                                    <AiOutlineContacts className="me-2" />
+                                    <span>Contact Us</span>
+                                </Link>
+                            </li>
+                            <li className="link-item">
+                                <Link className="link" href='/login' target="_blank">
+                                    <FaQuestion className="me-2" />
+                                    <span>FAQ</span>
+                                </Link>
+                            </li>
+                        </ul>
+                        {/* End Link List */}
+                    </div>
+                    {/* End Column */}
+                    {/* Start Column */}
+                    <div className="col-md-3">
+                        <h6>Social Media Links</h6>
+                        <hr className="mt-0" />
+                        {/* Start Link List */}
+                        <ul className="list-unstyled link-list">
+                            <li className="link-item mb-3">
+                                <Link className="link" href='/login' target="_blank">
+                                    <TiSocialFacebook className="me-2" />
+                                    <span>Facebook</span>
+                                </Link>
+                            </li>
+                            <li className="link-item mb-3">
+                                <Link className="link" href='/login' target="_blank">
+                                    <AiOutlineTwitter className="me-2" />
+                                    <span>Twitter</span>
+                                </Link>
+                            </li>
+                            <li className="link-item">
+                                <BiPhone className="me-2" />
+                                <span>+963932532412</span>
+                            </li>
+                        </ul>
+                        {/* End Link List */}
                     </div>
                     {/* End Column */}
                 </div>

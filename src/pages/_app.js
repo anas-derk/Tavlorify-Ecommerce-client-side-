@@ -14,6 +14,7 @@ import "../pages/dashboard/admin/admin-panel/products-manager/products-process/i
 import "../components/ControlPanelHeader/index.css";
 import "../pages/products/[name]/[id]/index.css";
 import "../pages/cart/index.css";
+import Footer from "@/components/Footer";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -32,7 +33,7 @@ export default function App({ Component, pageProps }) {
         <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
       </Head>
       <Component {...pageProps} />
-      {/* <Footer /> */}
+      <Footer />
       <Script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
