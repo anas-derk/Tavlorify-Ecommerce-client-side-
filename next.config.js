@@ -1,22 +1,19 @@
 /** @type {import('next').NextConfig} */
+const apiConfig = require("./api.config");
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    BASE_API_URL: "https://newapi.tavlorify.se",
-    // BASE_API_URL: "//e-commerce-canvas-new.cleverapps.io/(.*)",
-    // BASE_API_URL: "http://localhost:4000",
+    BASE_API_URL: apiConfig.BASE_API_URL,
   },
   async headers() {
     return [
       {
-        // source: "//newapi.tavlorify.se/(.*)",
-        source: "//localhost:4000/(.*)",
+        source: apiConfig.requestReceiver,
         headers: [
           { key: "Access-Control-Allow-Credentials", value: "true" },
           {
             key: "Access-Control-Allow-Origin",
-            value: "https://tavlorify.se",
-            // value: "http://localhost:3000",
+            value: apiConfig.requestOrigin,
           },
           {
             key: "Access-Control-Allow-Methods",
