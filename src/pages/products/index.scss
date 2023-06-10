@@ -1,0 +1,45 @@
+.products{
+    .product-search-form{
+        .search-input-box{
+            position: relative;
+            .search-icon{
+                position: absolute;
+                top: 50%;
+                left: 10px;
+                transform: translateY(-50%);
+                font-size: 20px;
+            }
+            .product-search-input{
+                text-indent: 27px;
+            }
+            .reset-btn-icon{
+                position: absolute;
+                top: 50%;
+                right: 10px;
+                transform: translateY(-50%);
+                font-size: 23px;
+                cursor: pointer;
+            }
+        }
+    }
+    .required-products{ 
+        .container{
+            .row{
+                row-gap: 30px;
+            }
+        }
+        .product-box{
+            &:hover{
+                background-color: #EEE;
+                border: 2px solid;
+                transform: scaleY(10px);
+            }
+            .product-image{
+                max-width: 100%;
+                min-height: 270px;
+                max-height: 100%;
+                cursor: pointer;
+            }
+        }
+    }
+}
