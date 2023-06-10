@@ -46,6 +46,11 @@
 
     }
     .most-popular-products{
+        .container{
+            background-color: #f2f2f2;
+            border-radius: 15px;
+            box-shadow: 1px 1px 10px #000;
+        }
         .product-box{
             .product-image{
                 max-width: 100%;
@@ -56,7 +61,7 @@
         }
     }
     .contact-us{
-        background-image: url("../../public/images/backgrounds/grid_noise.png");
+        background-color: #f2f2f2;
         .contact-us-form{
             textarea{
                 resize: none;

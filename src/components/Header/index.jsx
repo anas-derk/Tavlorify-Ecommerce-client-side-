@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { HiOutlineBars3 } from "react-icons/hi2";
 import { CgProfile } from "react-icons/cg";
 import { GoSignOut } from "react-icons/go";
 import { BiBrain } from "react-icons/bi"
-import { BsCart2 } from "react-icons/bs";
+import { BsCart2, BsInfoCircle } from "react-icons/bs";
 import { AiOutlineHome, AiOutlineUserAdd, AiOutlineContacts } from "react-icons/ai";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { FiLogIn } from "react-icons/fi";
@@ -103,6 +102,7 @@ const Header = () => {
                         </li>
                         <li className="link-item p-2">
                             <Link className="link text-dark" href='/who-are-we'>
+                                <BsInfoCircle />
                                 <span className="ms-2">Who Are We ?</span>
                             </Link>
                         </li>
