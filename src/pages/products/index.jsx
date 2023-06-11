@@ -10,7 +10,15 @@ const Products = () => {
     const [productsData, setProductsData] = useState([]);
     const [errorMsg, setErrorMsg] = useState("");
     const [inputsChecked, setInputsChecked] = useState([]);
-    const [productName, setProductName] = useState([]);
+    const [productName, setProductName] = useState("");
+    const [isWaitStatus, setIsWaitStatus] = useState(false);
+    const getProductInfoByProductName = (productName) => {
+        console.log(productsData)
+        return productsData.filter(product => product.name === productName);
+    }
+    const getProductsByType = async (type) => {
+        
+    }
     const handleInputsCheckedChange = (e) => {
         const { value, checked } = e.target;
         if (checked) {
@@ -20,23 +28,34 @@ const Products = () => {
                 inputsCheckedList.filter((inputValue) => inputValue !== value)
             );
         }
+        setIsWaitStatus(true);
     }
     const handleProductNameChange = (e) => {
         const { value } = e.target;
         setProductName(value);
+        setIsWaitStatus(true);
+        setTimeout(() => {
+            let productByName = getProductInfoByProductName(value);
+            setProductsData([...productByName]);
+            setIsWaitStatus(false);
+        }, 1500);
     }
-    // useEffect(() => {
-    //     Axios.get(`${process.env.BASE_API_URL}/products/all-products`)
-    //         .then((res) => {
-    //             let result = res.data;
-    //             if (typeof result === "string") {
-    //                 setErrorMsg(result);
-    //             } else {
-    //                 setProductsData(result);
-    //             }
-    //         })
-    //         .catch((err) => setErrorMsg(err));
-    // }, []);
+    const handleResetBtn = (e) => {
+        setProductName("");
+        setProductsData([]);
+    }
+    useEffect(() => {
+        Axios.get(`${process.env.BASE_API_URL}/products/all-products`)
+            .then((res) => {
+                let result = res.data;
+                if (typeof result === "string") {
+                    setErrorMsg(result);
+                } else {
+                    setProductsData(result);
+                }
+            })
+            .catch((err) => setErrorMsg(err));
+    }, []);
     return (
         <div className="products">
             <Head>
@@ -100,8 +119,12 @@ const Products = () => {
                                             className="form-control product-search-input p-2"
                                             placeholder="Please Enter Product Name"
                                             onChange={handleProductNameChange}
+                                            value={productName}
                                         />
-                                        <IoIosClose className="reset-btn-icon" />
+                                        {productName && <IoIosClose
+                                            className="reset-btn-icon"
+                                            onClick={handleResetBtn}
+                                        />}
                                     </div>
                                 </form>
                             </div>
@@ -113,7 +136,7 @@ const Products = () => {
                         <section className="required-products">
                             {/* Start Grid System */}
                             <div className="row text-center">
-                                {productsData.length > 0 ? productsData.map((productInfo, index) => (
+                                {productsData.length > 0 && !isWaitStatus && !errorMsg && productsData.map((productInfo, index) => (
                                     /* Start Column */
                                     <div className="col-md-4" key={index}>
                                         <div className="product-box p-3">
@@ -130,8 +153,12 @@ const Products = () => {
                                         </div>
                                     </div>
                                     /* End Column */
-                                )) : <div className="not-found-products-err-box d-flex flex-column align-items-center justify-content-center" >
+                                ))}
+                                {errorMsg && <div className="not-found-products-err-box d-flex flex-column align-items-center justify-content-center" >
                                     <p className="alert alert-danger not-found-products-err">Sorry Not Found Any Products Now !</p>
+                                </div>}
+                                {isWaitStatus && <div className="wait-msg-box d-flex flex-column align-items-center justify-content-center">
+                                    <span className="wait-loader"></span>
                                 </div>}
                             </div>
                             {/* End Grid System */}
