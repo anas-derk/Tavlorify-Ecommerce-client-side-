@@ -27,6 +27,12 @@
   row-gap: 30px;
 }
 
+.products .required-products .not-found-products-err-box {
+  height: 300px;
+  background-color: #EEE;
+  border: 1px solid;
+}
+
 .products .required-products .product-box:hover {
   background-color: #EEE;
   border: 2px solid;
