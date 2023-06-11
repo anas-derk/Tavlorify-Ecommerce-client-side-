@@ -8,6 +8,7 @@ import Axios from "axios";
 
 const Products = () => {
     const [productsData, setProductsData] = useState([]);
+    const [allProducts, setAllProducts] = useState([]);
     const [errorMsg, setErrorMsg] = useState("");
     const [inputsChecked, setInputsChecked] = useState([]);
     const [productName, setProductName] = useState("");
@@ -35,22 +36,34 @@ const Products = () => {
         setProductName(value);
         setIsWaitStatus(true);
         setTimeout(() => {
-            let productByName = getProductInfoByProductName(value);
-            setProductsData([...productByName]);
-            setIsWaitStatus(false);
+            if (value === "") {
+                setProductsData(allProducts);
+                setIsWaitStatus(false);
+            } else {
+                let productByName = getProductInfoByProductName(value);
+                setProductsData([...productByName]);
+                setIsWaitStatus(false);
+            }
         }, 1500);
     }
     const handleResetBtn = (e) => {
         setProductName("");
-        setProductsData([]);
+        setIsWaitStatus(true);
+        setTimeout(() => {
+            setProductsData(allProducts);
+            setIsWaitStatus(false);
+        }, 1500);
     }
     useEffect(() => {
+        setIsWaitStatus(true);
         Axios.get(`${process.env.BASE_API_URL}/products/all-products`)
             .then((res) => {
                 let result = res.data;
+                setIsWaitStatus(false);
                 if (typeof result === "string") {
                     setErrorMsg(result);
                 } else {
+                    setAllProducts(result);
                     setProductsData(result);
                 }
             })
