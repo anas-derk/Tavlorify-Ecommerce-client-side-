@@ -39,34 +39,32 @@ const Footer = () => {
                                 </Link>
                             </li>
                             <li className="link-item mb-3">
-                                <Link className="link" href='/login' target="_blank">
+                                <Link className="link" href='/sign-up' target="_blank">
                                     <AiOutlineUserAdd className="me-2" />
                                     <span>Signup</span>
                                 </Link>
                             </li>
                             <li className="link-item mb-3">
-                                <Link className="link" href='/login' target="_blank">
+                                <Link className="link" href='/cart' target="_blank">
                                     <BsCart2 className="me-2" />
                                     <span>Cart</span>
                                 </Link>
                             </li>
                             <li className="link-item mb-3">
-                                <Link className="link" href='/login' target="_blank">
+                                <Link className="link" href='/orders' target="_blank">
                                     <MdProductionQuantityLimits className="me-2" />
                                     <span>Orders</span>
                                 </Link>
                             </li>
                             <li className="link-item mb-3">
-                                <Link className="link" href='/login' target="_blank">
+                                <Link className="link" href='/profile' target="_blank">
                                     <CgProfile className="me-2" />
                                     <span>Profile</span>
                                 </Link>
                             </li>
-                            <li className="link-item">
-                                <Link className="link" href='/login' target="_blank">
-                                    <GoSignOut className="me-2" />
-                                    <span>Sign Out</span>
-                                </Link>
+                            <li className="link-item sign-out-item">
+                                <GoSignOut className="me-2" />
+                                <span>Sign Out</span>
                             </li>
                         </ul>
                         {/* End Link List */}
@@ -79,43 +77,43 @@ const Footer = () => {
                         {/* Start Link List */}
                         <ul className="list-unstyled link-list">
                             <li className="link-item mb-3">
-                                <Link className="link" href='/login' target="_blank">
+                                <Link className="link" href='/' target="_blank">
                                     <AiOutlineHome className="me-2" />
                                     <span>Home</span>
                                 </Link>
                             </li>
                             <li className="link-item mb-3">
-                                <Link className="link" href='/login' target="_blank">
+                                <Link className="link" href='/products' target="_blank">
                                     <MdProductionQuantityLimits className="me-2" />
                                     <span>Products</span>
                                 </Link>
                             </li>
                             <li className="link-item mb-3">
-                                <Link className="link" href='/login' target="_blank">
+                                <Link className="link" href='/text-to-image' target="_blank">
                                     <BiBrain className="me-2" />
                                     <span>Text To Image Service</span>
                                 </Link>
                             </li>
-                            <li className="link-item mb-3">
+                            {/* <li className="link-item mb-3">
                                 <Link className="link" href='/login' target="_blank">
                                     <BiBrain className="me-2" />
                                     <span>Image To Image Service</span>
                                 </Link>
-                            </li>
+                            </li> */}
                             <li className="link-item mb-3">
-                                <Link className="link" href='/login' target="_blank">
+                                <Link className="link" href='/who-are-we' target="_blank">
                                     <BsInfoCircle className="me-2" />
                                     <span>Who Are We ?</span>
                                 </Link>
                             </li>
                             <li className="link-item mb-3">
-                                <Link className="link" href='/login' target="_blank">
+                                <Link className="link" href='/contact-us' target="_blank">
                                     <AiOutlineContacts className="me-2" />
                                     <span>Contact Us</span>
                                 </Link>
                             </li>
                             <li className="link-item">
-                                <Link className="link" href='/login' target="_blank">
+                                <Link className="link" href='/faq' target="_blank">
                                     <FaQuestion className="me-2" />
                                     <span>FAQ</span>
                                 </Link>
@@ -126,7 +124,7 @@ const Footer = () => {
                     {/* End Column */}
                     {/* Start Column */}
                     <div className="col-md-3">
-                        <h6>Social Media Links</h6>
+                        <h6>Social Media And Contact Links</h6>
                         <hr className="mt-0" />
                         {/* Start Link List */}
                         <ul className="list-unstyled link-list">

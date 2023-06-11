@@ -54,7 +54,7 @@ const Header = () => {
                                     </Link>
                                 </li>
                                 <li className="nav-item ms-3">
-                                    <Link className="nav-link" aria-current="page" href="/">
+                                    <Link className="nav-link" aria-current="page" href="/orders">
                                         <MdProductionQuantityLimits />
                                         <span className="ms-2">My Orders</span>
                                     </Link>
@@ -96,9 +96,9 @@ const Header = () => {
                             </Link>
                         </li>
                         <li className="link-item p-2">
-                            <Link className="link text-dark" href='/'>
+                            <Link className="link text-dark" href='/text-to-image'>
                                 <BiBrain />
-                                <span className="ms-2">AI Services</span>
+                                <span className="ms-2">Text To Image</span>
                             </Link>
                         </li>
                         <li className="link-item p-2">
@@ -114,7 +114,7 @@ const Header = () => {
                             </Link>
                         </li>
                         <li className="link-item p-2">
-                            <Link className="link text-dark" href='/contact-us'>
+                            <Link className="link text-dark" href='/faq'>
                                 <FaQuestion />
                                 <span className="ms-2">FAQ</span>
                             </Link>

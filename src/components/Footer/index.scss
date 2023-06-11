@@ -1,40 +1,5 @@
 .global-footer{
-    position: relative;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    .social-media-list{
-        gap: 30px;
-        .social-link-item{
-            .link{
-                background-color: #222;
-                display: inline-block;
-                width: 45px;
-                height: 45px;
-                line-height: 45px;
-                text-align: center;
-                font-size: 28px;
-                border-radius: 2px;
-                transition: .5s;
-                &:hover{
-                    background-color: red;
-                    color: #FFF;
-                }
-            }
-        }
-    }
-    .info-box{
-        gap: 30px;
-        .info-icon{
-            font-size: 30px;
-        }
-    }
-    .page-names-list{
-        .page-name-item{
-            a:hover{
-                color: red;
-                font-weight: bold;
-            }
-        }
+    .sign-out-item{
+        cursor: pointer;
     }
 }
