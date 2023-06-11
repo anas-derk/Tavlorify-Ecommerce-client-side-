@@ -13,8 +13,7 @@ const Products = () => {
     const [inputsChecked, setInputsChecked] = useState([]);
     const [productName, setProductName] = useState("");
     const [isWaitStatus, setIsWaitStatus] = useState(false);
-    const getProductInfoByProductName = (productName) => {
-        console.log(productsData)
+    const getProductsByProductName = (productName) => {
         return productsData.filter(product => product.name === productName);
     }
     const getProductsByType = async (type) => {
@@ -34,14 +33,16 @@ const Products = () => {
     const handleProductNameChange = (e) => {
         const { value } = e.target;
         setProductName(value);
+        setErrorMsg("");
         setIsWaitStatus(true);
         setTimeout(() => {
             if (value === "") {
                 setProductsData(allProducts);
                 setIsWaitStatus(false);
             } else {
-                let productByName = getProductInfoByProductName(value);
-                setProductsData([...productByName]);
+                let productsByName = getProductsByProductName(value);
+                if (productsByName.length > 0) setProductsData(productsByName);
+                else setErrorMsg("Sorry Not Found Any Products Now !");
                 setIsWaitStatus(false);
             }
         }, 1500);
@@ -63,8 +64,13 @@ const Products = () => {
                 if (typeof result === "string") {
                     setErrorMsg(result);
                 } else {
-                    setAllProducts(result);
-                    setProductsData(result);
+                    if (result.length > 0) {
+                        setAllProducts(result);
+                        setProductsData(result);
+                    }
+                    else {
+                        setErrorMsg("Sorry Not Found Any Products Now !");
+                    }
                 }
             })
             .catch((err) => setErrorMsg(err));
@@ -168,7 +174,7 @@ const Products = () => {
                                     /* End Column */
                                 ))}
                                 {errorMsg && <div className="not-found-products-err-box d-flex flex-column align-items-center justify-content-center" >
-                                    <p className="alert alert-danger not-found-products-err">Sorry Not Found Any Products Now !</p>
+                                    <p className="alert alert-danger not-found-products-err">{errorMsg}</p>
                                 </div>}
                                 {isWaitStatus && <div className="wait-msg-box d-flex flex-column align-items-center justify-content-center">
                                     <span className="wait-loader"></span>
