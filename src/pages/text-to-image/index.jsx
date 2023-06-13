@@ -117,24 +117,51 @@ const TextToImage = () => {
                                 <div className="options-box p-3 pt-2">
                                     <h6 className="mb-2 text-center option-heading pb-2">Options Box</h6>
                                     <h6 className="text-center mb-3 mt-3">Your Text Prompt</h6>
-                                    <form
-                                        className="generate-images-from-text-form text-center mb-4"
-                                        onSubmit={textToImageGenerate}
-                                    >
-                                        <input
-                                            type="text"
-                                            placeholder="a dog riding a bicycle"
-                                            className="form-control mb-3"
-                                            required
-                                            onChange={(e) => setTextPrompt(e.target.value)}
-                                        />
-                                        <h6 className="describe text-start">Describe what you want the AI to create .</h6>
-                                        {/* End Select Category Box */}
-                                        {/* <button type="submit" className="btn search-btn">
-                                            <IoSearchCircleSharp className="search-icon" />
-                                        </button> */}
-                                    </form>
+                                    <input
+                                        type="text"
+                                        placeholder="a dog riding a bicycle"
+                                        className="form-control mb-3"
+                                        onChange={(e) => setTextPrompt(e.target.value)}
+                                    />
+                                    <h6 className="describe text-start">Describe what you want the AI to create .</h6>
                                     <hr />
+                                    {/* Start Select Image Type Section */}
+                                    {styleSelectedIndex > -1 && <>
+                                        <h6 className="mb-3">Image Type</h6>
+                                        <select className="form-control" onChange={(e) => {
+                                            setGetImgDimentionsMsg("Waiting ...");
+                                            setTimeout(() => {
+                                                setImageType(e.target.value);
+                                                setDimentions({});
+                                                setGetImgDimentionsMsg("");
+                                            }, 1000);
+                                        }}>
+                                            <option defaultValue="" hidden>Select Image Type</option>
+                                            <option value="horizontal">Horizontal</option>
+                                            <option value="vertical">Vertical</option>
+                                            <option value="square">Square</option>
+                                        </select>
+                                        <hr />
+                                    </>}
+                                    {/* End Select Image Type Section */}
+                                    {/* Start Select Image Dimensions Section */}
+                                    {modelName && imageType && !getImgDimentionsMsg && <h6 className="mb-3">Image Dimensions</h6>}
+                                    {modelName && imageType && !getImgDimentionsMsg && <>
+                                        <select className="form-control" onChange={(e) => {
+                                            setDimentions({
+                                                width: text_to_image_data.modelsDimentions[modelName][imageType][e.target.value].inPixel.width,
+                                                height: text_to_image_data.modelsDimentions[modelName][imageType][e.target.value].inPixel.height,
+                                            });
+                                            setDimentionsIndex(parseInt(e.target.value));
+                                        }}>
+                                            <option defaultValue="" hidden>Select Image Dimensions</option>
+                                            {text_to_image_data.modelsDimentions[modelName][imageType].map((dimensions, index) => (
+                                                <option value={index} key={index}>{dimensions.inCm} cm</option>
+                                            ))}
+                                        </select>
+                                        <hr />
+                                    </>}
+                                    {/* End Select Image Dimensions Section */}
                                     <h6 className="mb-3">Category</h6>
                                     {/* Start Categories Section */}
                                     <section className="categories p-2">
@@ -184,10 +211,10 @@ const TextToImage = () => {
                                     {/* Start Styles Box */}
                                     {categorySelectedIndex > -1 && <div className="styles-box">
                                         {/* Start Grid System */}
-                                        <div className="row">
+                                        <div className="row mb-3">
                                             {/* Start Column */}
                                             {categoryStyles.map((style, index) => (
-                                                <div className="col-md-4">
+                                                <div className="col-md-4" key={index}>
                                                     {/* Start Style Box */}
                                                     <div
                                                         className="style-box p-2"
@@ -205,6 +232,10 @@ const TextToImage = () => {
                                         {/* End Grid System */}
                                     </div>}
                                     {/* End Styles Box */}
+                                    {categorySelectedIndex > -1 && styleSelectedIndex > -1 && textPrompt !== "" && imageType !== "" && dimensions.width !== undefined && dimensions.height !== undefined && !isWaitStatus && !errorMsg &&
+                                        <button className="btn btn-danger w-50" onClick={textToImageGenerate}>Create</button>
+                                    }
+                                    {isWaitStatus && <button className="btn btn-danger w-50" disabled>Creating ...</button>}
                                 </div>
                                 {/* End Display Box */}
                             </div>
