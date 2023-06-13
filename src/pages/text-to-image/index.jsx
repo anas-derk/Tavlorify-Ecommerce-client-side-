@@ -138,9 +138,14 @@ const TextToImage = () => {
                                     <h6 className="mb-3">Category</h6>
                                     {/* Start Categories Section */}
                                     <section className="categories p-2">
-                                        {categoriesData.map((category) => (
+                                        {categoriesData.map((category, index) => (
                                             /* Start Category Box */
-                                            <div className="category-box mb-3 p-2" key={category._id}>
+                                            <div
+                                                className="category-box mb-3 p-2"
+                                                key={category._id}
+                                                onClick={() => handleSelectCategory(index)}
+                                                style={index === categorySelectedIndex ? { backgroundColor: "rgb(12, 126, 193)" } : {}}
+                                            >
                                                 {/* Start Grid System */}
                                                 <div className="row align-items-center">
                                                     {/* Start Column */}
@@ -174,55 +179,31 @@ const TextToImage = () => {
                             <div className="col-md-7">
                                 {/* Start Display Box */}
                                 <div className="display-box p-3 h-100 d-flex align-items-center justify-content-center flex-column">
-                                    <p className="description-msg">Please Select Any Category In Category Options Box</p>
-                                    <h6>Please Select Style</h6>
+                                    {categorySelectedIndex == -1 && <p className="description-msg">Please Select Any Category In Category Options Box</p>}
+                                    {categorySelectedIndex > -1 && <h6>Please Select Style</h6>}
                                     {/* Start Styles Box */}
-                                    <div className="styles-box">
+                                    {categorySelectedIndex > -1 && <div className="styles-box">
                                         {/* Start Grid System */}
                                         <div className="row">
                                             {/* Start Column */}
-                                            <div className="col-md-4">
-                                                {/* Start Style Box */}
-                                                <div className="style-box p-2">
-                                                    <img src={image1.src} alt="aa" className="mw-100 mb-2 style-image" />
-                                                    <p className="style-name m-0 text-center">Style</p>
+                                            {categoryStyles.map((style, index) => (
+                                                <div className="col-md-4">
+                                                    {/* Start Style Box */}
+                                                    <div
+                                                        className="style-box p-2"
+                                                        onClick={() => handleSelectStyle(index)}
+                                                        style={index === styleSelectedIndex ? { backgroundColor: "rgb(12, 126, 193)" } : {}}
+                                                    >
+                                                        <img src={`${process.env.BASE_API_URL}/${style.imgSrc}`} alt="aa" className="mw-100 mb-2 style-image" />
+                                                        <p className="style-name m-0 text-center">{style.name}</p>
+                                                    </div>
+                                                    {/* End Style Box */}
                                                 </div>
-                                                {/* End Style Box */}
-                                            </div>
-                                            {/* End Column */}
-                                            {/* Start Column */}
-                                            <div className="col-md-4">
-                                                {/* Start Style Box */}
-                                                <div className="style-box p-2">
-                                                    <img src={image1.src} alt="aa" className="mw-100 mb-2 style-image" />
-                                                    <p className="style-name m-0 text-center">Style</p>
-                                                </div>
-                                                {/* End Style Box */}
-                                            </div>
-                                            {/* End Column */}
-                                            {/* Start Column */}
-                                            <div className="col-md-4">
-                                                {/* Start Style Box */}
-                                                <div className="style-box p-2">
-                                                    <img src={image1.src} alt="aa" className="mw-100 mb-2 style-image" />
-                                                    <p className="style-name m-0 text-center">Style</p>
-                                                </div>
-                                                {/* End Style Box */}
-                                            </div>
-                                            {/* End Column */}
-                                            {/* Start Column */}
-                                            <div className="col-md-4">
-                                                {/* Start Style Box */}
-                                                <div className="style-box p-2">
-                                                    <img src={image1.src} alt="aa" className="mw-100 mb-2 style-image" />
-                                                    <p className="style-name m-0 text-center">Style</p>
-                                                </div>
-                                                {/* End Style Box */}
-                                            </div>
+                                            ))}
                                             {/* End Column */}
                                         </div>
                                         {/* End Grid System */}
-                                    </div>
+                                    </div>}
                                     {/* End Styles Box */}
                                 </div>
                                 {/* End Display Box */}
