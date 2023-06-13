@@ -1,54 +1,92 @@
 .text-to-image-service{
-    .text-to-image-box{
-        background-color: #F5F5F5;
-        .categories, .styles{
-            gap: 30px;
-            .category-box, .style-box{
+    .page-content{
+        background-color: #000;
+        color: #FFF;
+        .container{
+            .welcome-msg{
+                font-family: 'Caveat', cursive;
+                font-weight: bold;
+                font-size: 50px;
+                border-bottom: 1px solid #FFF;
                 width: fit-content;
-                cursor: pointer;
-                .category-img{
-                    border-radius: 5px;
+                margin: 0 auto;
+            }
+            .text-to-image-box{
+                background-color: #222;
+                border-radius: 10px;
+                box-shadow: 1px 1px 20px #CCC;
+                .row{
+                    .heading{
+                        background-color: #444;
+                        border-left: 5px solid #CCC;
+                    }
+                    .options-box{
+                        background-color: #444;
+                        border-left: 5px solid;
+                        box-shadow: 1px 1px 10px #FFF;
+                        .option-heading{
+                            font-family: 'Caveat', cursive;
+                            font-size: 30px;
+                            border-bottom: 2px solid;
+                        }
+                        .select-category-box{
+                            border-radius: 10px;
+                            background-color: #222;
+                            cursor: pointer;
+                        }
+                    }
+                    .categories, .styles{
+                        background-color: #444;
+                        // border: 5px solid;
+                        .category-box, .style-box{
+                            background-color: #222;
+                            cursor: pointer;
+                            .category-img{
+                                border-radius: 5px;
+                            }
+                        }
+                    }
+                }
+                .select-box{
+                    gap: 30px;
+                    > div{
+                        width: 150px;
+                        background-color: #CCC;
+                        border-radius: 5px;
+                        cursor: pointer;
+                    }
                 }
             }
-        }
-        .select-box{
-            gap: 30px;
-            > div{
-                width: 150px;
-                background-color: #CCC;
-                border-radius: 5px;
-                cursor: pointer;
+            .generate-wait-box{
+                background-color: #F5F5F5;
+                .loader {
+                    display: inline-block;
+                    width: 85px;
+                    height: 50px;
+                    background-repeat: no-repeat;
+                    background-image: linear-gradient(#198754 50px, transparent 0),
+                                        linear-gradient(#198754 50px, transparent 0),
+                                        linear-gradient(#198754 50px, transparent 0),
+                                        linear-gradient(#198754 50px, transparent 0),
+                                        linear-gradient(#198754 50px, transparent 0),
+                                        linear-gradient(#198754 50px, transparent 0);
+                    background-position: 0px center, 15px center, 30px center, 45px center, 60px center, 75px center, 90px center;
+                    animation: rikSpikeRoll 0.65s linear infinite alternate;
+                }
             }
-        }
-    }
-    .generate-wait-box{
-        background-color: #F5F5F5;
-        .loader {
-            display: inline-block;
-            width: 85px;
-            height: 50px;
-            background-repeat: no-repeat;
-            background-image: linear-gradient(#198754 50px, transparent 0),
-                                linear-gradient(#198754 50px, transparent 0),
-                                linear-gradient(#198754 50px, transparent 0),
-                                linear-gradient(#198754 50px, transparent 0),
-                                linear-gradient(#198754 50px, transparent 0),
-                                linear-gradient(#198754 50px, transparent 0);
-            background-position: 0px center, 15px center, 30px center, 45px center, 60px center, 75px center, 90px center;
-            animation: rikSpikeRoll 0.65s linear infinite alternate;
-        }
-    }
-    .generated-images-box{
-        .row{
-            row-gap: 10px;
-            .generated-image-box{
-                cursor: pointer;
-                .created-image{
-                    max-width: 100%;
-                    max-height: 100%;
-                    height: 100%;
-                    border-radius: 50%;
-                    cursor: pointer;
+            .generated-images-box{
+                .row{
+                    row-gap: 10px;
+                    .generated-image-box{
+                        cursor: pointer;
+                        .created-image{
+                            max-width: 100%;
+                            max-height: 100%;
+                            height: 100%;
+                            border-radius: 50%;
+                            cursor: pointer;
+                        }
+                    }
                 }
             }
         }
