@@ -1,10 +1,11 @@
 import Head from "next/head";
 import Header from "@/components/Header";
-import { IoSearchCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import text_to_image_data from "../../../public/data/text_to_image_data";
 import Link from "next/link";
+import image1 from "../../../public/images/backgrounds/1.jpg"
+import { BiRightArrow } from "react-icons/bi";
 
 const TextToImage = () => {
 
@@ -135,20 +136,96 @@ const TextToImage = () => {
                                     </form>
                                     <hr />
                                     <h6 className="mb-3">Category</h6>
-                                    {/* Start Select Category Box */}
-                                    <section className="select-category-box p-3 d-flex align-items-center flex-row justify-content-center mb-4">
-                                        Art
+                                    {/* Start Categories Section */}
+                                    <section className="categories p-2">
+                                        {categoriesData.map((category) => (
+                                            /* Start Category Box */
+                                            <div className="category-box mb-3 p-2" key={category._id}>
+                                                {/* Start Grid System */}
+                                                <div className="row align-items-center">
+                                                    {/* Start Column */}
+                                                    <div className="col-md-3">
+                                                        <img src={`${process.env.BASE_API_URL}/${category.imgSrc}`} alt="aa" className="category-image mw-100" />
+                                                    </div>
+                                                    {/* End Column */}
+                                                    {/* Start Column */}
+                                                    <div className="col-md-7">
+                                                        {category.name}
+                                                    </div>
+                                                    {/* End Column */}
+                                                    {/* Start Column */}
+                                                    <div className="col-md-2 text-center">
+                                                        <BiRightArrow />
+                                                    </div>
+                                                    {/* End Column */}
+                                                </div>
+                                                {/* End Grid System */}
+                                            </div>
+                                            /* End Category Box */
+                                        ))}
                                     </section>
-                                    {/* End Select Category Box */}
+                                    {/* End Categories Section */}
                                     <hr />
-                                    <h6 className="mb-3">Style</h6>
-                                    {/* Start Select Style Box */}
-                                    <section className="select-category-box p-3 d-flex align-items-center flex-row justify-content-center">
-                                        Art
-                                    </section>
-                                    {/* End Select Style Box */}
                                 </div>
                                 {/* End Options Box */}
+                            </div>
+                            {/* End Column */}
+                            {/* Start Column */}
+                            <div className="col-md-7">
+                                {/* Start Display Box */}
+                                <div className="display-box p-3 h-100 d-flex align-items-center justify-content-center flex-column">
+                                    <p className="description-msg">Please Select Any Category In Category Options Box</p>
+                                    <h6>Please Select Style</h6>
+                                    {/* Start Styles Box */}
+                                    <div className="styles-box">
+                                        {/* Start Grid System */}
+                                        <div className="row">
+                                            {/* Start Column */}
+                                            <div className="col-md-4">
+                                                {/* Start Style Box */}
+                                                <div className="style-box p-2">
+                                                    <img src={image1.src} alt="aa" className="mw-100 mb-2 style-image" />
+                                                    <p className="style-name m-0 text-center">Style</p>
+                                                </div>
+                                                {/* End Style Box */}
+                                            </div>
+                                            {/* End Column */}
+                                            {/* Start Column */}
+                                            <div className="col-md-4">
+                                                {/* Start Style Box */}
+                                                <div className="style-box p-2">
+                                                    <img src={image1.src} alt="aa" className="mw-100 mb-2 style-image" />
+                                                    <p className="style-name m-0 text-center">Style</p>
+                                                </div>
+                                                {/* End Style Box */}
+                                            </div>
+                                            {/* End Column */}
+                                            {/* Start Column */}
+                                            <div className="col-md-4">
+                                                {/* Start Style Box */}
+                                                <div className="style-box p-2">
+                                                    <img src={image1.src} alt="aa" className="mw-100 mb-2 style-image" />
+                                                    <p className="style-name m-0 text-center">Style</p>
+                                                </div>
+                                                {/* End Style Box */}
+                                            </div>
+                                            {/* End Column */}
+                                            {/* Start Column */}
+                                            <div className="col-md-4">
+                                                {/* Start Style Box */}
+                                                <div className="style-box p-2">
+                                                    <img src={image1.src} alt="aa" className="mw-100 mb-2 style-image" />
+                                                    <p className="style-name m-0 text-center">Style</p>
+                                                </div>
+                                                {/* End Style Box */}
+                                            </div>
+                                            {/* End Column */}
+                                        </div>
+                                        {/* End Grid System */}
+                                    </div>
+                                    {/* End Styles Box */}
+                                </div>
+                                {/* End Display Box */}
                             </div>
                             {/* End Column */}
                         </section>
