@@ -5,6 +5,7 @@
   width: 100%;
   height: 100%;
   backdrop-filter: blur(3px);
+  z-index: 1;
 }
 
 .text-to-image-service .popup-box .popup {
@@ -25,6 +26,8 @@
 .text-to-image-service .popup-box .popup .created-image {
   max-width: 100%;
   height: 100%;
+  display: block;
+  margin: 0 auto;
 }
 
 .text-to-image-service .page-content {
