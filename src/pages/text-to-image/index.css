@@ -1,3 +1,32 @@
+.text-to-image-service .popup-box {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(3px);
+}
+
+.text-to-image-service .popup-box .popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 75%;
+  height: 90%;
+  background: #333;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  border: 2px solid var(--main-color-one);
+  border: 5px solid #FFF;
+  opacity: 0;
+  animation: popup-animation 1s ease-in-out 1s forwards;
+}
+
+.text-to-image-service .popup-box .popup .created-image {
+  max-width: 100%;
+  height: 100%;
+}
+
 .text-to-image-service .page-content {
   background-color: #000;
   color: #FFF;
@@ -94,56 +123,11 @@
   cursor: pointer;
 }
 
-.text-to-image-service .page-content .container .generate-wait-box {
-  background-color: #F5F5F5;
-}
-
-.text-to-image-service .page-content .container .generate-wait-box .loader {
-  display: inline-block;
-  width: 85px;
-  height: 50px;
-  background-repeat: no-repeat;
-  background-image: linear-gradient(#198754 50px, transparent 0), linear-gradient(#198754 50px, transparent 0), linear-gradient(#198754 50px, transparent 0), linear-gradient(#198754 50px, transparent 0), linear-gradient(#198754 50px, transparent 0), linear-gradient(#198754 50px, transparent 0);
-  background-position: 0px center, 15px center, 30px center, 45px center, 60px center, 75px center, 90px center;
-  animation: rikSpikeRoll 0.65s linear infinite alternate;
-}
-
-.text-to-image-service .page-content .container .generated-images-box .row {
-  row-gap: 10px;
-}
-
-.text-to-image-service .page-content .container .generated-images-box .row .generated-image-box {
-  cursor: pointer;
-}
-
-.text-to-image-service .page-content .container .generated-images-box .row .generated-image-box .created-image {
-  max-width: 100%;
-  max-height: 100%;
-  height: 100%;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-@keyframes rikSpikeRoll {
-  0% {
-    background-size: 10px 3px;
+@keyframes popup-animation {
+  from {
+    opacity: 0;
   }
-  16% {
-    background-size: 10px 50px, 10px 3px, 10px 3px, 10px 3px, 10px 3px, 10px 3px;
-  }
-  33% {
-    background-size: 10px 30px, 10px 50px, 10px 3px, 10px 3px, 10px 3px, 10px 3px;
-  }
-  50% {
-    background-size: 10px 10px, 10px 30px, 10px 50px, 10px 3px, 10px 3px, 10px 3px;
-  }
-  66% {
-    background-size: 10px 3px, 10px 10px, 10px 30px, 10px 50px, 10px 3px, 10px 3px;
-  }
-  83% {
-    background-size: 10px 3px, 10px 3px,  10px 10px, 10px 30px, 10px 50px, 10px 3px;
-  }
-  100% {
-    background-size: 10px 3px, 10px 3px, 10px 3px,  10px 10px, 10px 30px, 10px 50px;
+  to {
+    opacity: 1;
   }
 }

@@ -102,6 +102,21 @@ const TextToImage = () => {
                 <title>Tavlorify Store - Text To Image</title>
             </Head>
             <Header />
+            {/* Start Popup Box */}
+            {generatedImageURLs[0] && <div className="popup-box">
+                <div className="popup p-3">
+                    <Link href={{
+                        pathname: "/available-products",
+                        query: {
+                            url: generatedImageURLs[0],
+                        },
+                    }}
+                    >
+                        <img src={generatedImageURLs[0]} alt="Image" className="created-image" />
+                    </Link>
+                </div>
+            </div>}
+            {/* End Popup Box */}
             {/* Start Page Content */}
             <div className="page-content">
                 {/* Start Container */}
@@ -236,6 +251,7 @@ const TextToImage = () => {
                                         <button className="btn btn-danger w-50" onClick={textToImageGenerate}>Create</button>
                                     }
                                     {isWaitStatus && <button className="btn btn-danger w-50" disabled>Creating ...</button>}
+                                    {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
                                 </div>
                                 {/* End Display Box */}
                             </div>
