@@ -35,18 +35,20 @@ const Header = () => {
                         </button>
                         <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                             <ul className="navbar-nav mb-2 mb-lg-0">
-                                <li className="nav-item">
-                                    <Link className="nav-link" aria-current="page" href="/login">
-                                        <FiLogIn />
-                                        <span className="ms-2">Log In</span>
-                                    </Link>
-                                </li>
-                                <li className="nav-item bg-dark auth-item">
-                                    <Link className="nav-link text-white" aria-current="page" href="/sign-up">
-                                        <AiOutlineUserAdd />
-                                        <span className="ms-2">Sign Up for Free</span>
-                                    </Link>
-                                </li>
+                                {!userId && <>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" aria-current="page" href="/login">
+                                            <FiLogIn />
+                                            <span className="ms-2">Log In</span>
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item bg-dark auth-item">
+                                        <Link className="nav-link text-white" aria-current="page" href="/sign-up">
+                                            <AiOutlineUserAdd />
+                                            <span className="ms-2">Sign Up for Free</span>
+                                        </Link>
+                                    </li>
+                                </>}
                                 <li className="nav-item ms-3">
                                     <Link className="nav-link" aria-current="page" href="/cart">
                                         <BsCart2 />
@@ -59,19 +61,21 @@ const Header = () => {
                                         <span className="ms-2">My Orders</span>
                                     </Link>
                                 </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link" aria-current="page" href="/profile">
-                                        <CgProfile />
-                                        <span className="ms-2">My Profile</span>
-                                    </Link>
-                                </li>
-                                <li
-                                    className="nav-item ms-3 bg-danger auth-item text-white sign-out-btn d-flex align-items-center p-2"
-                                    onClick={signOut}
-                                >
-                                    <GoSignOut />
-                                    <span className="ms-2">Sign Out</span>
-                                </li>
+                                {userId && <>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" aria-current="page" href="/profile">
+                                            <CgProfile />
+                                            <span className="ms-2">My Profile</span>
+                                        </Link>
+                                    </li>
+                                    <li
+                                        className="nav-item ms-3 bg-danger auth-item text-white sign-out-btn d-flex align-items-center p-2"
+                                        onClick={signOut}
+                                    >
+                                        <GoSignOut />
+                                        <span className="ms-2">Sign Out</span>
+                                    </li>
+                                </>}
                             </ul>
                         </div>
                     </div>

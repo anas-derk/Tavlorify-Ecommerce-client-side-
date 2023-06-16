@@ -7,6 +7,7 @@ const Cart = () => {
     const [canvasEcommerceProductsList, setCanvasEcommerceProductsList] = useState([]);
     const [total, setTotal] = useState(0);
     const [isWaitOrdering, setIsWaitOrdering] = useState(false);
+    const [isWaitOrderingAllProducts, setIsWaitOrderingAllProducts] = useState(false);
     const [orderedProductIndex, setOrderedProductIndex] = useState(false);
     const router = useRouter();
     useEffect(() => {
@@ -25,10 +26,6 @@ const Cart = () => {
         canvasEcommerceUserCart = canvasEcommerceUserCart.filter((product) => product._id != id);
         localStorage.setItem("canvas-ecommerce-user-cart", JSON.stringify(canvasEcommerceUserCart));
         setCanvasEcommerceProductsList(canvasEcommerceUserCart);
-    }
-    const deleteAllProductsFromCart = () => {
-        localStorage.removeItem("canvas-ecommerce-user-cart");
-        setCanvasEcommerceProductsList([]);
     }
     const orderProduct = (productId) => {
         setIsWaitOrdering(true);
@@ -55,8 +52,17 @@ const Cart = () => {
                 }, 1500);
             }
     }
+    const deleteAllProductsFromCart = () => {
+        localStorage.removeItem("canvas-ecommerce-user-cart");
+        setCanvasEcommerceProductsList([]);
+    }
     const orderAllProductsFromCart = () => {
-        console.log("b")
+        setIsWaitOrderingAllProducts(true);
+        localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceProductsList));
+        deleteAllProductsFromCart();
+        setTimeout(() => {
+            router.push("/orders");
+        }, 1500);
     }
     return (
         // Start Cart Page
@@ -138,12 +144,17 @@ const Cart = () => {
                                 >
                                     Delete All
                                 </button>
-                                <button
+                                {!isWaitOrderingAllProducts && <button
                                     className="btn btn-success"
                                     onClick={orderAllProductsFromCart}
                                 >
                                     Order All
-                                </button>
+                                </button>}
+                                {isWaitOrderingAllProducts && <button
+                                    className="btn btn-warning"
+                                >
+                                    Wait Ordering All
+                                </button>}
                             </td>
                         </tr>}
                     </tbody>
