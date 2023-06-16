@@ -15,6 +15,7 @@ import "../components/ControlPanelHeader/index.css";
 import "../pages/products/[name]/[id]/index.css";
 import "../pages/cart/index.css";
 import "../pages/products/index.css";
+import "../pages/orders/index.css";
 import Footer from "@/components/Footer";
 
 export default function App({ Component, pageProps }) {

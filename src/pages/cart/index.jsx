@@ -1,12 +1,16 @@
 import Header from "@/components/Header";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const Cart = () => {
     const [canvasEcommerceProductsList, setCanvasEcommerceProductsList] = useState([]);
     const [total, setTotal] = useState(0);
+    const [isWaitOrdering, setIsWaitOrdering] = useState(false);
+    const [orderedProductIndex, setOrderedProductIndex] = useState(false);
+    const router = useRouter();
     useEffect(() => {
-        let canvasEcommerceProducts = JSON.parse(localStorage.getItem("canvas-ecommerce-products"));
+        let canvasEcommerceProducts = JSON.parse(localStorage.getItem("canvas-ecommerce-user-cart"));
         if (canvasEcommerceProducts) {
             setCanvasEcommerceProductsList(canvasEcommerceProducts);
             let total = 0;
@@ -17,14 +21,39 @@ const Cart = () => {
         }
     }, []);
     const deleteProduct = (id) => {
-        let canvasEcommerceProducts = JSON.parse(localStorage.getItem("canvas-ecommerce-products"));
-        canvasEcommerceProducts = canvasEcommerceProducts.filter((product) => product._id != id);
-        localStorage.setItem("canvas-ecommerce-products", JSON.stringify(canvasEcommerceProducts));
-        setCanvasEcommerceProductsList(canvasEcommerceProducts);
+        let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("canvas-ecommerce-user-cart"));
+        canvasEcommerceUserCart = canvasEcommerceUserCart.filter((product) => product._id != id);
+        localStorage.setItem("canvas-ecommerce-user-cart", JSON.stringify(canvasEcommerceUserCart));
+        setCanvasEcommerceProductsList(canvasEcommerceUserCart);
     }
     const deleteAllProductsFromCart = () => {
-        localStorage.removeItem("canvas-ecommerce-products");
+        localStorage.removeItem("canvas-ecommerce-user-cart");
         setCanvasEcommerceProductsList([]);
+    }
+    const orderProduct = (productId) => {
+        setIsWaitOrdering(true);
+        let productIndex = canvasEcommerceProductsList.findIndex((product) => product._id == productId);
+        setOrderedProductIndex(productIndex);
+        let productInfo = canvasEcommerceProductsList[productIndex];
+        let canvasEcommerceUserOrders = JSON.parse(localStorage.getItem("canvas-ecommerce-user-orders"));
+            if (canvasEcommerceUserOrders) {
+                canvasEcommerceUserOrders.push(productInfo);
+                localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
+                setTimeout(() => {
+                    setIsWaitOrdering(false);
+                    deleteProduct(productId);
+                    router.push("/orders");
+                }, 1500);
+            } else {
+                let canvasEcommerceUserOrders = [];
+                canvasEcommerceUserOrders.push(productInfo);
+                localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
+                setTimeout(() => {
+                    setIsWaitOrdering(false);
+                    deleteProduct(productId);
+                    router.push("/orders");
+                }, 1500);
+            }
     }
     const orderAllProductsFromCart = () => {
         console.log("b")
@@ -83,11 +112,18 @@ const Cart = () => {
                                     >
                                         Delete
                                     </button>
-                                    <button
+                                    {!isWaitOrdering && <button
                                         className="btn btn-success"
+                                        onClick={() => orderProduct(productInfo._id)}
                                     >
                                         Order
-                                    </button>
+                                    </button>}
+                                    {isWaitOrdering && index == orderedProductIndex && <button
+                                        className="btn btn-warning"
+                                        disabled
+                                    >
+                                        Wait Ordering ...
+                                    </button>}
                                 </td>
                             </tr>
                         ))}

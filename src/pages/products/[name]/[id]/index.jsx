@@ -5,28 +5,34 @@ import Axios from "axios";
 import { useRouter } from "next/router";
 
 const ProductInfo = ({ result }) => {
-
     const [quantity, setQuantity] = useState(1);
-
+    const [isWaitStatus, setIsWaitStatus] = useState(false);
     const router = useRouter();
-
     const addToCart = (e) => {
         e.preventDefault();
-        console.log(result);
-        let userId = localStorage.setItem("e-commerce-canvas-user-id", router.query.id);
+        setIsWaitStatus(true);
+        let userId = localStorage.getItem("e-commerce-canvas-user-id");
         if (!userId) {
             let productInfoToCart = {
                 ...result,
                 count: parseInt(quantity),
             }
-            let canvasEcommerceProducts = JSON.parse(localStorage.getItem("canvas-ecommerce-products"));
-            if (canvasEcommerceProducts) {
-                canvasEcommerceProducts.push(productInfoToCart);
-                localStorage.setItem("canvas-ecommerce-products", JSON.stringify(canvasEcommerceProducts));
+            let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("canvas-ecommerce-user-cart"));
+            if (canvasEcommerceUserCart) {
+                canvasEcommerceUserCart.push(productInfoToCart);
+                localStorage.setItem("canvas-ecommerce-user-cart", JSON.stringify(canvasEcommerceUserCart));
+                setTimeout(() => {
+                    setIsWaitStatus(false);
+                    router.push("/cart");
+                }, 1500);
             } else {
-                let canvasEcommerceProductsList = [];
-                canvasEcommerceProductsList.push(productInfoToCart);
-                localStorage.setItem("canvas-ecommerce-products", JSON.stringify(canvasEcommerceProductsList));
+                let canvasEcommerceUserCartList = [];
+                canvasEcommerceUserCartList.push(productInfoToCart);
+                localStorage.setItem("canvas-ecommerce-user-cart", JSON.stringify(canvasEcommerceUserCartList));
+                setTimeout(() => {
+                    setIsWaitStatus(false);
+                    router.push("/cart");
+                }, 1500);
             }
         }
     }
@@ -77,7 +83,8 @@ const ProductInfo = ({ result }) => {
                                                 onChange={(e) => setQuantity(e.target.value)}
                                                 required
                                             />
-                                            <button type="submit" className="btn btn-success w-100 p-3">Add To Cart</button>
+                                            {!isWaitStatus && <button type="submit" className="btn btn-success w-100 p-3">Add To Cart</button>}
+                                            {isWaitStatus && <button className="btn btn-warning w-100 p-3" disabled>Adding To Cart ...</button>}
                                         </form>
                                     </div>
                                     {/* End Product Details Box */}

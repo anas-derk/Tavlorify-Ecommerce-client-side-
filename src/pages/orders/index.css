@@ -1,0 +1,12 @@
+.orders .products-table {
+  font-size: 15px;
+  border: 2px solid #000;
+  background-color: #FFF;
+  width: 100%;
+}
+
+.orders .products-table th, .orders .products-table td {
+  border: 2px solid #000;
+  padding: 10px;
+  text-align: center;
+}
