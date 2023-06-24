@@ -2,13 +2,23 @@ import Header from "@/components/Header";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import global_functions from "../../../public/global_functions/validations";
+import Axios from "axios";
 
 const Cart = () => {
     const [canvasEcommerceProductsList, setCanvasEcommerceProductsList] = useState([]);
     const [total, setTotal] = useState(0);
     const [isWaitOrdering, setIsWaitOrdering] = useState(false);
     const [isWaitOrderingAllProducts, setIsWaitOrderingAllProducts] = useState(false);
-    const [orderedProductIndex, setOrderedProductIndex] = useState(false);
+    const [orderedProductId, setOrderedProductId] = useState(false);
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [addressLine1, setAddressLine1] = useState("");
+    const [city, setCity] = useState("");
+    const [postCode, setPostCode] = useState("");
+    const [email, setEmail] = useState("");
+    const [isAppearedOrderFormPopup, setIsAppearedOrderFormPopup] = useState(false);
+    const [errors, setErrors] = useState({});
     const router = useRouter();
     useEffect(() => {
         let canvasEcommerceProducts = JSON.parse(localStorage.getItem("canvas-ecommerce-user-cart"));
@@ -27,30 +37,141 @@ const Cart = () => {
         localStorage.setItem("canvas-ecommerce-user-cart", JSON.stringify(canvasEcommerceUserCart));
         setCanvasEcommerceProductsList(canvasEcommerceUserCart);
     }
-    const orderProduct = (productId) => {
-        setIsWaitOrdering(true);
-        let productIndex = canvasEcommerceProductsList.findIndex((product) => product._id == productId);
-        setOrderedProductIndex(productIndex);
-        let productInfo = canvasEcommerceProductsList[productIndex];
-        let canvasEcommerceUserOrders = JSON.parse(localStorage.getItem("canvas-ecommerce-user-orders"));
-            if (canvasEcommerceUserOrders) {
-                canvasEcommerceUserOrders.push(productInfo);
-                localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
-                setTimeout(() => {
-                    setIsWaitOrdering(false);
-                    deleteProduct(productId);
-                    router.push("/orders");
-                }, 1500);
-            } else {
-                let canvasEcommerceUserOrders = [];
-                canvasEcommerceUserOrders.push(productInfo);
-                localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
-                setTimeout(() => {
-                    setIsWaitOrdering(false);
-                    deleteProduct(productId);
-                    router.push("/orders");
-                }, 1500);
+    const orderProduct = async (e, productId) => {
+        e.preventDefault();
+        setErrors({});
+        const errorsObject = global_functions.inputValuesValidation([
+            {
+                name: "firstName",
+                value: firstName,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't be This Field Is Empty !!",
+                    },
+                    maxLength: {
+                        value: 30,
+                        msg: "Sorry, Must Be Characters Count At Most 30",
+                    }
+                },
+            },
+            {
+                name: "lastName",
+                value: lastName,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't be This Field Is Empty !!",
+                    },
+                    maxLength: {
+                        value: 30,
+                        msg: "Sorry, Must Be Characters Count At Most 30",
+                    }
+                },
+            },
+            {
+                name: "addressLine1",
+                value: addressLine1,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't be This Field Is Empty !!",
+                    },
+                },
+            },
+            {
+                name: "city",
+                value: city,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't be This Field Is Empty !!",
+                    },
+                },
+            },
+            {
+                name: "postCode",
+                value: postCode,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't be This Field Is Empty !!",
+                    },
+                    maxLength: {
+                        value: 5,
+                        msg: "Sorry, Must Be Numbers Count At Most 5",
+                    },
+                },
+            },
+            {
+                name: "email",
+                value: email,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't be This Field Is Empty !!",
+                    },
+                    isEmail: {
+                        msg: "Sorry, The Email Is Not Valid !!",
+                    },
+                },
+            },
+        ]);
+        setErrors(errorsObject);
+        if (Object.keys(errors).length == 0) {
+            setIsWaitOrdering(true);
+            try {
+                const res = await Axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-gelato`,
+                {
+                    orderType: "order",
+                    orderReferenceId: "12343555",
+                    customerReferenceId: "12345",
+                    currency: "SEK",
+                    items: [
+                        {
+                            itemReferenceId: "aaa",
+                            productUid: "flat_130x180-mm-5r_250-gsm-100lb-uncoated-offwhite-archival_4-0_ver",
+                            files: [
+                                {
+                                    type: "default",
+                                    url: "https://newapi.tavlorify.se/assets/images/products/0.10536468221159279_1685887266906__3.png"
+                                }
+                            ],
+                            quantity: 1
+                        }
+                    ],
+                    shippingAddress: {
+                        firstName: "anas",
+                        lastName: "derk",
+                        addressLine1: "antakia street",
+                        city: "Mjölby",
+                        postCode: "595 30",
+                        country: "SE",
+                        email: "tavlorify@gmail.com"
+                    }
+                });
+                const result = await res.data;
+                console.log(result);
             }
+            catch (err) {
+                console.log(err);
+            }
+        }
+        // let productIndex = canvasEcommerceProductsList.findIndex((product) => product._id == productId);
+        // let productInfo = canvasEcommerceProductsList[productIndex];
+        // let canvasEcommerceUserOrders = JSON.parse(localStorage.getItem("canvas-ecommerce-user-orders"));
+        // if (canvasEcommerceUserOrders) {
+        //     canvasEcommerceUserOrders.push(productInfo);
+        //     localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
+        //     setTimeout(() => {
+        //         setIsWaitOrdering(false);
+        //         deleteProduct(productId);
+        //         router.push("/orders");
+        //     }, 1500);
+        // } else {
+        //     let canvasEcommerceUserOrders = [];
+        //     canvasEcommerceUserOrders.push(productInfo);
+        //     localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
+        //     setTimeout(() => {
+        //         setIsWaitOrdering(false);
+        //         deleteProduct(productId);
+        //         router.push("/orders");
+        //     }, 1500);
+        // }
     }
     const deleteAllProductsFromCart = () => {
         localStorage.removeItem("canvas-ecommerce-user-cart");
@@ -64,6 +185,13 @@ const Cart = () => {
             router.push("/orders");
         }, 1500);
     }
+    const openOrderFormPopup = (productId) => {
+        setIsAppearedOrderFormPopup(true);
+        setOrderedProductId(productId);
+    }
+    const closeOrderPopup = () => {
+        setIsAppearedOrderFormPopup(false);
+    }
     return (
         // Start Cart Page
         <div className="cart">
@@ -71,6 +199,78 @@ const Cart = () => {
                 <title>Tavlorify Store - Cart</title>
             </Head>
             <Header />
+            {/* Start Popup Box */}
+            {isAppearedOrderFormPopup && <div className="popup-box">
+                <div className="popup p-4">
+                    <form className="order-form">
+                        <h3 className="mb-3 text-center">Please Write Shipping Address Info</h3>
+                        <input
+                            type="text"
+                            className="form-control first-name-input mb-4 p-3"
+                            placeholder="First Name"
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
+                        {errors["firstName"] && <p className="bg-danger p-3">{errors["firstName"]}</p>}
+                        <input
+                            type="text"
+                            className="form-control first-name-input mb-4 p-3"
+                            placeholder="Last Name"
+                            onChange={(e) => setLastName(e.target.value)}
+                        />
+                        {errors["lastName"] && <p className="bg-danger p-3">{errors["lastName"]}</p>}
+                        <input
+                            type="text"
+                            className="form-control address-input mb-4 p-3"
+                            placeholder="Address"
+                            onChange={(e) => setAddressLine1(e.target.value)}
+                        />
+                        {errors["addressLine1"] && <p className="bg-danger p-3">{errors["addressLine1"]}</p>}
+                        <input
+                            type="text"
+                            className="form-control city-input mb-4 p-3"
+                            placeholder="City"
+                            onChange={(e) => setCity(e.target.value)}
+                        />
+                        {errors["city"] && <p className="bg-danger p-3">{errors["city"]}</p>}
+                        <input
+                            type="text"
+                            className="form-control post-code-input mb-4 p-3"
+                            placeholder="Post Code"
+                            onChange={(e) => setPostCode(e.target.value)}
+                        />
+                        {errors["postCode"] && <p className="bg-danger p-3">{errors["postCode"]}</p>}
+                        <input
+                            type="email"
+                            className="form-control email-input mb-4 p-3"
+                            placeholder="Email"
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        {errors["email"] && <p className="bg-danger p-3">{errors["email"]}</p>}
+                        <div className="process-buttons d-flex justify-content-center align-items-center">
+                            {!isWaitOrdering && <button
+                                type="submit"
+                                className="btn btn-success"
+                                onClick={(e) => orderProduct(e, orderedProductId)}
+                            >
+                                Order
+                            </button>}
+                            {isWaitOrdering && <button
+                                className="btn btn-warning"
+                                disabled
+                            >
+                                Wait Ordering ...
+                            </button>}
+                            <button
+                                className="btn btn-danger"
+                                onClick={closeOrderPopup}
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>}
+            {/* End Popup Box */}
             {/* Start Container From Bootstrap */}
             <div className="container pt-4 pb-4">
                 <h1 className="text-center mb-4">Hello To You In Cart Page</h1>
@@ -118,24 +318,18 @@ const Cart = () => {
                                     >
                                         Delete
                                     </button>
-                                    {!isWaitOrdering && <button
+                                    <button
                                         className="btn btn-success"
-                                        onClick={() => orderProduct(productInfo._id)}
+                                        onClick={() => openOrderFormPopup(productInfo._id)}
                                     >
                                         Order
-                                    </button>}
-                                    {isWaitOrdering && index == orderedProductIndex && <button
-                                        className="btn btn-warning"
-                                        disabled
-                                    >
-                                        Wait Ordering ...
-                                    </button>}
+                                    </button>
                                 </td>
                             </tr>
                         ))}
                         {canvasEcommerceProductsList.length >= 2 && <tr>
                             <td colSpan={7}>
-                                total: { total }
+                                total: {total}
                             </td>
                             <td>
                                 <button
