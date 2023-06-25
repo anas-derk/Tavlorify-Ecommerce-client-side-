@@ -6,6 +6,8 @@ import text_to_image_data from "../../../public/data/text_to_image_data";
 import Link from "next/link";
 import image1 from "../../../public/images/backgrounds/1.jpg"
 import { BiRightArrow } from "react-icons/bi";
+import { Carousel } from "react-bootstrap";
+import wallImage1 from "../../../public/images/backgrounds/wall1.jpg";
 
 const TextToImage = () => {
 
@@ -36,6 +38,8 @@ const TextToImage = () => {
     const [categoriesData, setCategoriesData] = useState([]);
 
     const [categoryStyles, setCategoryStyles] = useState([]);
+
+    const [isDisplayPopupScreen, setIsDisplayPopupScreen] = useState(false);
 
     useEffect(() => {
         Axios.get(`${process.env.BASE_API_URL}/categories/all-categories-data`)
@@ -89,6 +93,7 @@ const TextToImage = () => {
                 if (Array.isArray(result)) {
                     setGeneratedImageURLs(result);
                     setErrorMsg("");
+                    setIsDisplayPopupScreen(true);
                 } else {
                     setErrorMsg("Something Went Wrong !!");
                     setGeneratedImageURLs([]);
@@ -101,12 +106,15 @@ const TextToImage = () => {
         const imageSize = value.split("-");
         setImageType(imageSize[0]);
         const dimsIndex = text_to_image_data.modelsDimentions[modelName][imageSize[0]].findIndex((el) => el.inCm == imageSize[1]);
-        console.log(dimsIndex);
-        // setDimentions({
-        //     width: text_to_image_data.modelsDimentions[modelName][imageSize[0]][value].inPixel.width,
-        //     height: text_to_image_data.modelsDimentions[modelName][imageSize[0]][value].inPixel.height,
-        // });
-        // setDimentionsIndex(parseInt(e.target.value));
+        setDimentions({
+            width: text_to_image_data.modelsDimentions[modelName][imageSize[0]][dimsIndex].inPixel.width,
+            height: text_to_image_data.modelsDimentions[modelName][imageSize[0]][dimsIndex].inPixel.height,
+        });
+        setDimentionsIndex(dimsIndex);
+    }
+
+    const closePopupScreen = () => {
+        setIsDisplayPopupScreen(false);
     }
 
     return (
@@ -117,17 +125,30 @@ const TextToImage = () => {
             </Head>
             <Header />
             {/* Start Popup Box */}
-            {generatedImageURLs[0] && <div className="popup-box">
+            {generatedImageURLs[0] && isDisplayPopupScreen && <div className="popup-box">
                 <div className="popup p-3">
-                    <Link href={{
-                        pathname: "/available-products",
-                        query: {
-                            url: generatedImageURLs[0],
-                        },
-                    }}
+                    <Carousel
+                        indicators={false}
+                        controls={true}
+                        interval={null}
                     >
-                        <img src={generatedImageURLs[0]} alt="Image" className="created-image" />
-                    </Link>
+                        <Carousel.Item>
+                            <Carousel.Caption>
+                                <img src={generatedImageURLs[0]} alt="Image" className="created-image canvas-prints-image" />
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <Carousel.Caption className="caption-box-2">
+                                <div className="image-in-room-wall-box">
+                                    <img src={generatedImageURLs[0]} alt="Image" className="created-image" />
+                                </div>
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                    </Carousel>
+                    <div className="options-buttons-box text-center mt-3 p-3">
+                        <button className="btn btn-danger me-4" onClick={closePopupScreen}>Close Window</button>
+                        <button className="btn btn-success">Add To Cart</button>
+                    </div>
                 </div>
             </div>}
             {/* End Popup Box */}
@@ -178,17 +199,17 @@ const TextToImage = () => {
                                             <option defaultValue="" hidden>Select Image Size</option>
                                             <optgroup label="Horizontal">
                                                 {text_to_image_data.gelatoDimetions[paintingType]["horizontal"].map((dims, index) => (
-                                                    <option value={`horizontal-${dims.inCm}`} key={index}>{dims.inCm}</option>
+                                                    <option value={`horizontal-${dims.inCm}`} key={index}>{dims.inCm} cm</option>
                                                 ))}
                                             </optgroup>
                                             <optgroup label="Vertical">
                                                 {text_to_image_data.gelatoDimetions[paintingType]["vertical"].map((dims, index) => (
-                                                    <option value={`vertical-${dims.inCm}`} key={index}>{dims.inCm}</option>
+                                                    <option value={`vertical-${dims.inCm}`} key={index}>{dims.inCm} cm</option>
                                                 ))}
                                             </optgroup>
                                             <optgroup label="Square">
                                                 {text_to_image_data.gelatoDimetions[paintingType]["square"].map((dims, index) => (
-                                                    <option value={`square-${dims.inCm}`} key={index}>{dims.inCm}</option>
+                                                    <option value={`square-${dims.inCm}`} key={index}>{dims.inCm} cm</option>
                                                 ))}
                                             </optgroup>
                                         </select>

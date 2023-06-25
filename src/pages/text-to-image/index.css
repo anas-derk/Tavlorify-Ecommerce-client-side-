@@ -12,7 +12,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 75%;
+  width: 90%;
   height: 90%;
   background: #333;
   transform: translate(-50%, -50%);
@@ -21,13 +21,60 @@
   border: 5px solid #FFF;
   opacity: 0;
   animation: popup-animation 1s ease-in-out 1s forwards;
+  overflow-y: auto;
+}
+
+.text-to-image-service .popup-box .popup .carousel {
+  height: 100%;
+  position: relative;
+}
+
+.text-to-image-service .popup-box .popup .carousel .carousel-inner {
+  height: inherit;
+}
+
+.text-to-image-service .popup-box .popup .carousel .carousel-inner .carousel-item {
+  height: inherit;
+}
+
+.text-to-image-service .popup-box .popup .carousel .carousel-inner .carousel-item .carousel-caption {
+  position: static;
+  padding: 0;
+  height: inherit;
+}
+
+.text-to-image-service .popup-box .popup .carousel .carousel-inner .carousel-item .carousel-caption.caption-box-2 {
+  width: 50%;
+  height: 100%;
+  margin: 0 auto;
+  background-image: url("../../../public/images/backgrounds/wall1.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.text-to-image-service .popup-box .popup .image-in-room-wall-box {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  right: 45%;
+  top: 25%;
+  transform: translate(-50%, -50%);
+}
+
+.text-to-image-service .popup-box .popup .image-in-room-wall-box img {
+  max-width: 100%;
 }
 
 .text-to-image-service .popup-box .popup .created-image {
   max-width: 100%;
-  height: 100%;
   display: block;
   margin: 0 auto;
+}
+
+.text-to-image-service .popup-box .popup .options-buttons-box {
+  background-color: #CCC;
+  border-radius: 5px;
+  border: 2px solid #000;
 }
 
 .text-to-image-service .page-content {
