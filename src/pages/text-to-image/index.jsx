@@ -25,6 +25,8 @@ const TextToImage = () => {
 
     const [imageType, setImageType] = useState("");
 
+    const [paintingType, setPaintingType] = useState("");
+
     const [dimensions, setDimentions] = useState({});
 
     const [dimensionsIndex, setDimentionsIndex] = useState(-1);
@@ -40,9 +42,9 @@ const TextToImage = () => {
             .then((res) => {
                 let result = res.data;
                 if (typeof result === "string") {
-                    console.log(result);
+                    // console.log(result);
                 } else {
-                    console.log(result)
+                    // console.log(result)
                     setCategoriesData(result);
                 }
             })
@@ -65,12 +67,12 @@ const TextToImage = () => {
         setStyleSelectedIndex(index);
         let tempModelName = categoryStyles[index].modelName;
         setModelName(tempModelName);
-        if (styleSelectedIndex > -1 && imageType) {
-            setDimentions({
-                width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimensionsIndex].inPixel.width,
-                height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimensionsIndex].inPixel.height,
-            });
-        }
+        // if (styleSelectedIndex > -1 && imageType) {
+        //     setDimentions({
+        //         width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimensionsIndex].inPixel.width,
+        //         height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimensionsIndex].inPixel.height,
+        //     });
+        // }
     }
 
     const textToImageGenerate = (e) => {
@@ -93,6 +95,18 @@ const TextToImage = () => {
                 }
             })
             .catch((err) => setErrorMsg("Sorry, Something Went Wrong !!"));
+    }
+
+    const handleSelectImageDimentions = (value) => {
+        const imageSize = value.split("-");
+        setImageType(imageSize[0]);
+        const dimsIndex = text_to_image_data.modelsDimentions[modelName][imageSize[0]].findIndex((el) => el.inCm == imageSize[1]);
+        console.log(dimsIndex);
+        // setDimentions({
+        //     width: text_to_image_data.modelsDimentions[modelName][imageSize[0]][value].inPixel.width,
+        //     height: text_to_image_data.modelsDimentions[modelName][imageSize[0]][value].inPixel.height,
+        // });
+        // setDimentionsIndex(parseInt(e.target.value));
     }
 
     return (
@@ -142,41 +156,45 @@ const TextToImage = () => {
                                     <hr />
                                     {/* Start Select Image Type Section */}
                                     {styleSelectedIndex > -1 && <>
-                                        <h6 className="mb-3">Image Type</h6>
+                                        <h6 className="mb-3">Painting Type</h6>
                                         <select className="form-control" onChange={(e) => {
                                             setGetImgDimentionsMsg("Waiting ...");
                                             setTimeout(() => {
-                                                setImageType(e.target.value);
+                                                setPaintingType(e.target.value);
                                                 setDimentions({});
                                                 setGetImgDimentionsMsg("");
                                             }, 1000);
                                         }}>
-                                            <option defaultValue="" hidden>Select Image Type</option>
-                                            <option value="horizontal">Horizontal</option>
-                                            <option value="vertical">Vertical</option>
-                                            <option value="square">Square</option>
+                                            <option defaultValue="" hidden>Select Painting Type</option>
+                                            <option value="canvas">Canvas</option>
+                                            {/* <option value="poster">Poster</option>
+                                            <option value="framed">Framed</option> */}
+                                        </select>
+                                        <hr />
+                                    </>}
+                                    {paintingType && <>
+                                        <h6 className="mb-3">Image Size</h6>
+                                        <select className="form-control" onChange={(e) => handleSelectImageDimentions(e.target.value)}>
+                                            <option defaultValue="" hidden>Select Image Size</option>
+                                            <optgroup label="Horizontal">
+                                                {text_to_image_data.gelatoDimetions[paintingType]["horizontal"].map((dims, index) => (
+                                                    <option value={`horizontal-${dims.inCm}`} key={index}>{dims.inCm}</option>
+                                                ))}
+                                            </optgroup>
+                                            <optgroup label="Vertical">
+                                                {text_to_image_data.gelatoDimetions[paintingType]["vertical"].map((dims, index) => (
+                                                    <option value={`vertical-${dims.inCm}`} key={index}>{dims.inCm}</option>
+                                                ))}
+                                            </optgroup>
+                                            <optgroup label="Square">
+                                                {text_to_image_data.gelatoDimetions[paintingType]["square"].map((dims, index) => (
+                                                    <option value={`square-${dims.inCm}`} key={index}>{dims.inCm}</option>
+                                                ))}
+                                            </optgroup>
                                         </select>
                                         <hr />
                                     </>}
                                     {/* End Select Image Type Section */}
-                                    {/* Start Select Image Dimensions Section */}
-                                    {modelName && imageType && !getImgDimentionsMsg && <h6 className="mb-3">Image Dimensions</h6>}
-                                    {modelName && imageType && !getImgDimentionsMsg && <>
-                                        <select className="form-control" onChange={(e) => {
-                                            setDimentions({
-                                                width: text_to_image_data.modelsDimentions[modelName][imageType][e.target.value].inPixel.width,
-                                                height: text_to_image_data.modelsDimentions[modelName][imageType][e.target.value].inPixel.height,
-                                            });
-                                            setDimentionsIndex(parseInt(e.target.value));
-                                        }}>
-                                            <option defaultValue="" hidden>Select Image Dimensions</option>
-                                            {text_to_image_data.modelsDimentions[modelName][imageType].map((dimensions, index) => (
-                                                <option value={index} key={index}>{dimensions.inCm} cm</option>
-                                            ))}
-                                        </select>
-                                        <hr />
-                                    </>}
-                                    {/* End Select Image Dimensions Section */}
                                     <h6 className="mb-3">Category</h6>
                                     {/* Start Categories Section */}
                                     <section className="categories p-2">
