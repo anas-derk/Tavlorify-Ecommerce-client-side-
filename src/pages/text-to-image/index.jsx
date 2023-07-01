@@ -8,6 +8,8 @@ import image1 from "../../../public/images/backgrounds/1.jpg"
 import { BiRightArrow } from "react-icons/bi";
 import { Carousel } from "react-bootstrap";
 import wallImage1 from "../../../public/images/backgrounds/wall1.jpg";
+import nodeCodeGenerator from "node-code-generator";
+import { useRouter } from "next/router";
 
 const TextToImage = () => {
 
@@ -40,6 +42,14 @@ const TextToImage = () => {
     const [categoryStyles, setCategoryStyles] = useState([]);
 
     const [isDisplayPopupScreen, setIsDisplayPopupScreen] = useState(false);
+
+    const [isWaitAddToCart, setIsWaitAddToCart] = useState(false);
+
+    const [errorInAddToCart, setErrorInAddToCart] = useState("");
+
+    const [quantity, setQuantity] = useState(0);
+
+    const router = useRouter();
 
     useEffect(() => {
         Axios.get(`${process.env.BASE_API_URL}/categories/all-categories-data`)
@@ -84,7 +94,7 @@ const TextToImage = () => {
         setErrorMsg("");
         setIsWaitStatus(true);
         Axios.get(
-            `https://e-commerce-canvas-new.cleverapps.io/text-to-image-generate?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimensions.width}&height=${dimensions.height}
+            `https://app-014daf9d-1451-4fe3-9e69-b2b35794407d.cleverapps.io/text-to-image-generate?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimensions.width}&height=${dimensions.height}
         `)
             .then((res) => {
                 let result = res.data;
@@ -117,6 +127,54 @@ const TextToImage = () => {
         setIsDisplayPopupScreen(false);
     }
 
+    const addToCart = async (e) => {
+        e.preventDefault();
+        setIsWaitAddToCart(true);
+        let userId = localStorage.getItem("e-commerce-canvas-user-id");
+        if (!userId) {
+            try {
+                const result = await Axios.post(`${process.env.BASE_API_URL}/download-created-image`, {
+                    imageUrl: generatedImageURLs[0],
+                    imageName: `${textPrompt}.png`,
+                });
+                const codeGenerator = new nodeCodeGenerator();
+                let productInfoToCart = {
+                    count: quantity,
+                    dimensions: text_to_image_data.modelsDimentions[modelName][imageType][dimensionsIndex].inCm,
+                    imageSrc: result.data.imageUrl,
+                    name: textPrompt,
+                    price: 100,
+                    type: paintingType,
+                    _id: codeGenerator.generateCodes("###**##########****###**")[0],
+                }
+                let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("canvas-ecommerce-user-cart"));
+                if (canvasEcommerceUserCart) {
+                    canvasEcommerceUserCart.push(productInfoToCart);
+                    localStorage.setItem("canvas-ecommerce-user-cart", JSON.stringify(canvasEcommerceUserCart));
+                    setTimeout(() => {
+                        setIsWaitAddToCart(false);
+                        router.push("/cart");
+                    }, 1500);
+                } else {
+                    let canvasEcommerceUserCartList = [];
+                    canvasEcommerceUserCartList.push(productInfoToCart);
+                    localStorage.setItem("canvas-ecommerce-user-cart", JSON.stringify(canvasEcommerceUserCartList));
+                    setTimeout(() => {
+                        setIsWaitAddToCart(false);
+                        router.push("/cart");
+                    }, 1500);
+                }
+            }
+            catch (err) {
+                console.log(err);
+                setErrorInAddToCart("Sorry, Something Went Wrong !!");
+                setTimeout(() => {
+                    setErrorInAddToCart("");
+                }, 2000);
+            }
+        }
+    }
+
     return (
         // Start Text To Image Service Page
         <div className="text-to-image-service">
@@ -147,7 +205,17 @@ const TextToImage = () => {
                     </Carousel>
                     <div className="options-buttons-box text-center mt-3 p-3">
                         <button className="btn btn-danger me-4" onClick={closePopupScreen}>Close Window</button>
-                        <button className="btn btn-success">Add To Cart</button>
+                        <form className="add-to-cart-form" onSubmit={addToCart}>
+                            <input
+                                type="number"
+                                className="form-control d-block mx-auto mt-3 mb-3 w-25"
+                                onChange={(e) => setQuantity(e.target.value)}
+                                defaultValue={quantity}
+                                required
+                            />
+                            {!isWaitAddToCart && !errorInAddToCart && <button className="btn btn-success" type="submit">Add To Cart</button>}
+                            {isWaitAddToCart && <button className="btn btn-success" type="submit" disabled>wating ...</button>}
+                        </form>
                     </div>
                 </div>
             </div>}
@@ -187,7 +255,7 @@ const TextToImage = () => {
                                             }, 1000);
                                         }}>
                                             <option defaultValue="" hidden>Select Painting Type</option>
-                                            <option value="canvas">Canvas</option>
+                                            <option value="canvas-prints">Canvas</option>
                                             {/* <option value="poster">Poster</option>
                                             <option value="framed">Framed</option> */}
                                         </select>

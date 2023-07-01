@@ -2024,7 +2024,7 @@ const modelsDimentions = {
 }
 
 const gelatoDimetions = {
-    "canvas": {
+    "canvas-prints": {
         "horizontal": [
             {
                 inCm: "30x20",
