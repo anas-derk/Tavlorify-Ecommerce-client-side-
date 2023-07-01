@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import global_functions from "../../../public/global_functions/validations";
 import Axios from "axios";
+import nodeCodeGenerator from "node-code-generator";
 
 const Cart = () => {
     const [canvasEcommerceProductsList, setCanvasEcommerceProductsList] = useState([]);
     const [total, setTotal] = useState(0);
     const [isWaitOrdering, setIsWaitOrdering] = useState(false);
     const [isWaitOrderingAllProducts, setIsWaitOrderingAllProducts] = useState(false);
-    const [orderedProductId, setOrderedProductId] = useState(false);
+    const [orderedProductInfo, setOrderedProductInfo] = useState({});
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [addressLine1, setAddressLine1] = useState("");
@@ -37,101 +38,102 @@ const Cart = () => {
         localStorage.setItem("canvas-ecommerce-user-cart", JSON.stringify(canvasEcommerceUserCart));
         setCanvasEcommerceProductsList(canvasEcommerceUserCart);
     }
-    const orderProduct = async (e, productId) => {
+    const orderProduct = async (e) => {
         e.preventDefault();
         setErrors({});
-        const errorsObject = global_functions.inputValuesValidation([
-            {
-                name: "firstName",
-                value: firstName,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't be This Field Is Empty !!",
-                    },
-                    maxLength: {
-                        value: 30,
-                        msg: "Sorry, Must Be Characters Count At Most 30",
-                    }
-                },
-            },
-            {
-                name: "lastName",
-                value: lastName,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't be This Field Is Empty !!",
-                    },
-                    maxLength: {
-                        value: 30,
-                        msg: "Sorry, Must Be Characters Count At Most 30",
-                    }
-                },
-            },
-            {
-                name: "addressLine1",
-                value: addressLine1,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't be This Field Is Empty !!",
-                    },
-                },
-            },
-            {
-                name: "city",
-                value: city,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't be This Field Is Empty !!",
-                    },
-                },
-            },
-            {
-                name: "postCode",
-                value: postCode,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't be This Field Is Empty !!",
-                    },
-                    maxLength: {
-                        value: 5,
-                        msg: "Sorry, Must Be Numbers Count At Most 5",
-                    },
-                },
-            },
-            {
-                name: "email",
-                value: email,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't be This Field Is Empty !!",
-                    },
-                    isEmail: {
-                        msg: "Sorry, The Email Is Not Valid !!",
-                    },
-                },
-            },
-        ]);
-        setErrors(errorsObject);
+        // const errorsObject = global_functions.inputValuesValidation([
+        //     {
+        //         name: "firstName",
+        //         value: firstName,
+        //         rules: {
+        //             isRequired: {
+        //                 msg: "Sorry, Can't be This Field Is Empty !!",
+        //             },
+        //             maxLength: {
+        //                 value: 30,
+        //                 msg: "Sorry, Must Be Characters Count At Most 30",
+        //             }
+        //         },
+        //     },
+        //     {
+        //         name: "lastName",
+        //         value: lastName,
+        //         rules: {
+        //             isRequired: {
+        //                 msg: "Sorry, Can't be This Field Is Empty !!",
+        //             },
+        //             maxLength: {
+        //                 value: 30,
+        //                 msg: "Sorry, Must Be Characters Count At Most 30",
+        //             }
+        //         },
+        //     },
+        //     {
+        //         name: "addressLine1",
+        //         value: addressLine1,
+        //         rules: {
+        //             isRequired: {
+        //                 msg: "Sorry, Can't be This Field Is Empty !!",
+        //             },
+        //         },
+        //     },
+        //     {
+        //         name: "city",
+        //         value: city,
+        //         rules: {
+        //             isRequired: {
+        //                 msg: "Sorry, Can't be This Field Is Empty !!",
+        //             },
+        //         },
+        //     },
+        //     {
+        //         name: "postCode",
+        //         value: postCode,
+        //         rules: {
+        //             isRequired: {
+        //                 msg: "Sorry, Can't be This Field Is Empty !!",
+        //             },
+        //             maxLength: {
+        //                 value: 5,
+        //                 msg: "Sorry, Must Be Numbers Count At Most 5",
+        //             },
+        //         },
+        //     },
+        //     {
+        //         name: "email",
+        //         value: email,
+        //         rules: {
+        //             isRequired: {
+        //                 msg: "Sorry, Can't be This Field Is Empty !!",
+        //             },
+        //             isEmail: {
+        //                 msg: "Sorry, The Email Is Not Valid !!",
+        //             },
+        //         },
+        //     },
+        // ]);
+        // setErrors(errorsObject);
         if (Object.keys(errors).length == 0) {
             setIsWaitOrdering(true);
+            const codeGenerator = new nodeCodeGenerator();
             try {
                 const res = await Axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-gelato`,
                 {
                     orderType: "order",
-                    orderReferenceId: "12343555",
-                    customerReferenceId: "12345",
+                    orderReferenceId: codeGenerator.generateCodes("###**#####**###****###**")[0],
+                    customerReferenceId: codeGenerator.generateCodes("###**##########****###**")[0],
                     currency: "SEK",
                     items: [
                         {
-                            itemReferenceId: "aaa",
-                            productUid: "flat_130x180-mm-5r_250-gsm-100lb-uncoated-offwhite-archival_4-0_ver",
+                            itemReferenceId: orderedProductInfo._id,
+                            productUid: "canvas_200x200-mm-8x8-inch_canvas_wood-fsc-slim_4-0_hor",
                             files: [
                                 {
                                     type: "default",
-                                    url: "https://newapi.tavlorify.se/assets/images/products/0.10536468221159279_1685887266906__3.png"
+                                    url: `${process.env.BASE_API_URL}/${orderedProductInfo.imageSrc}`
                                 }
                             ],
-                            quantity: 1
+                            quantity: parseInt(orderedProductInfo.count),
                         }
                     ],
                     shippingAddress: {
@@ -185,9 +187,9 @@ const Cart = () => {
             router.push("/orders");
         }, 1500);
     }
-    const openOrderFormPopup = (productId) => {
+    const openOrderFormPopup = (orderInfo) => {
         setIsAppearedOrderFormPopup(true);
-        setOrderedProductId(productId);
+        setOrderedProductInfo(orderInfo);
     }
     const closeOrderPopup = () => {
         setIsAppearedOrderFormPopup(false);
@@ -250,7 +252,7 @@ const Cart = () => {
                             {!isWaitOrdering && <button
                                 type="submit"
                                 className="btn btn-success"
-                                onClick={(e) => orderProduct(e, orderedProductId)}
+                                onClick={(e) => orderProduct(e)}
                             >
                                 Order
                             </button>}
@@ -320,7 +322,7 @@ const Cart = () => {
                                     </button>
                                     <button
                                         className="btn btn-success"
-                                        onClick={() => openOrderFormPopup(productInfo._id)}
+                                        onClick={() => openOrderFormPopup(productInfo)}
                                     >
                                         Order
                                     </button>
