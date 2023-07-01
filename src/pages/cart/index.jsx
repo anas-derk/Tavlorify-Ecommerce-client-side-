@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import global_functions from "../../../public/global_functions/validations";
 import Axios from "axios";
 import nodeCodeGenerator from "node-code-generator";
+import text_to_image_data from "../../../public/data/text_to_image_data";
 
 const Cart = () => {
     const [canvasEcommerceProductsList, setCanvasEcommerceProductsList] = useState([]);
@@ -41,79 +42,104 @@ const Cart = () => {
     const orderProduct = async (e) => {
         e.preventDefault();
         setErrors({});
-        // const errorsObject = global_functions.inputValuesValidation([
-        //     {
-        //         name: "firstName",
-        //         value: firstName,
-        //         rules: {
-        //             isRequired: {
-        //                 msg: "Sorry, Can't be This Field Is Empty !!",
-        //             },
-        //             maxLength: {
-        //                 value: 30,
-        //                 msg: "Sorry, Must Be Characters Count At Most 30",
-        //             }
-        //         },
-        //     },
-        //     {
-        //         name: "lastName",
-        //         value: lastName,
-        //         rules: {
-        //             isRequired: {
-        //                 msg: "Sorry, Can't be This Field Is Empty !!",
-        //             },
-        //             maxLength: {
-        //                 value: 30,
-        //                 msg: "Sorry, Must Be Characters Count At Most 30",
-        //             }
-        //         },
-        //     },
-        //     {
-        //         name: "addressLine1",
-        //         value: addressLine1,
-        //         rules: {
-        //             isRequired: {
-        //                 msg: "Sorry, Can't be This Field Is Empty !!",
-        //             },
-        //         },
-        //     },
-        //     {
-        //         name: "city",
-        //         value: city,
-        //         rules: {
-        //             isRequired: {
-        //                 msg: "Sorry, Can't be This Field Is Empty !!",
-        //             },
-        //         },
-        //     },
-        //     {
-        //         name: "postCode",
-        //         value: postCode,
-        //         rules: {
-        //             isRequired: {
-        //                 msg: "Sorry, Can't be This Field Is Empty !!",
-        //             },
-        //             maxLength: {
-        //                 value: 5,
-        //                 msg: "Sorry, Must Be Numbers Count At Most 5",
-        //             },
-        //         },
-        //     },
-        //     {
-        //         name: "email",
-        //         value: email,
-        //         rules: {
-        //             isRequired: {
-        //                 msg: "Sorry, Can't be This Field Is Empty !!",
-        //             },
-        //             isEmail: {
-        //                 msg: "Sorry, The Email Is Not Valid !!",
-        //             },
-        //         },
-        //     },
-        // ]);
-        // setErrors(errorsObject);
-        if (Object.keys(errors).length == 0) {
+        const orderDimentions = orderedProductInfo.dimentions.split("x");
+        const width = parseInt(orderDimentions[0]);
+        const height = parseInt(orderDimentions[1]);
+        let imageType = { toWebsite: "", toGelatoAPI: "" };
+        if (width === height) {
+            imageType.toWebsite = "square";
+            imageType.toGelatoAPI = "hor";
+        } else if (width < height) {
+            imageType.toWebsite = "vertical";
+            imageType.toGelatoAPI = "ver";
+        } else {
+            imageType.toWebsite = "horizontal";
+            imageType.toGelatoAPI = "hor";
+        }
+        const requiredDimentionsObject = text_to_image_data.gelatoDimetions[orderedProductInfo.type][imageType.toWebsite].find(dimentions => dimentions.inCm === orderedProductInfo.dimentions);
+        let gelatoProductUid;
+        switch(orderedProductInfo.type) {
+            case "canvas-prints": {
+                gelatoProductUid = `canvas_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_canvas_wood-fsc-slim_4-0_${imageType.toGelatoAPI}`;
+                break;
+            }
+            default: {
+                console.log("Error In Input");
+            }
+        }
+        const errorsObject = global_functions.inputValuesValidation([
+            {
+                name: "firstName",
+                value: firstName,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't be This Field Is Empty !!",
+                    },
+                    maxLength: {
+                        value: 30,
+                        msg: "Sorry, Must Be Characters Count At Most 30",
+                    }
+                },
+            },
+            {
+                name: "lastName",
+                value: lastName,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't be This Field Is Empty !!",
+                    },
+                    maxLength: {
+                        value: 30,
+                        msg: "Sorry, Must Be Characters Count At Most 30",
+                    }
+                },
+            },
+            {
+                name: "addressLine1",
+                value: addressLine1,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't be This Field Is Empty !!",
+                    },
+                },
+            },
+            {
+                name: "city",
+                value: city,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't be This Field Is Empty !!",
+                    },
+                },
+            },
+            {
+                name: "postCode",
+                value: postCode,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't be This Field Is Empty !!",
+                    },
+                    maxLength: {
+                        value: 5,
+                        msg: "Sorry, Must Be Numbers Count At Most 5",
+                    },
+                },
+            },
+            {
+                name: "email",
+                value: email,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't be This Field Is Empty !!",
+                    },
+                    isEmail: {
+                        msg: "Sorry, The Email Is Not Valid !!",
+                    },
+                },
+            },
+        ]);
+        setErrors(errorsObject);
+        if (Object.keys(errorsObject).length == 0) {
             setIsWaitOrdering(true);
             const codeGenerator = new nodeCodeGenerator();
             try {
@@ -126,7 +152,7 @@ const Cart = () => {
                     items: [
                         {
                             itemReferenceId: orderedProductInfo._id,
-                            productUid: "canvas_200x200-mm-8x8-inch_canvas_wood-fsc-slim_4-0_hor",
+                            productUid: gelatoProductUid,
                             files: [
                                 {
                                     type: "default",
@@ -137,17 +163,17 @@ const Cart = () => {
                         }
                     ],
                     shippingAddress: {
-                        firstName: "anas",
-                        lastName: "derk",
-                        addressLine1: "antakia street",
-                        city: "Mjölby",
-                        postCode: "595 30",
+                        firstName: firstName,
+                        lastName: lastName,
+                        addressLine1: addressLine1,
+                        city: city,
+                        postCode: postCode,
                         country: "SE",
-                        email: "tavlorify@gmail.com"
+                        email: email,
                     }
                 });
                 const result = await res.data;
-                console.log(result);
+                setIsWaitOrdering(false);
             }
             catch (err) {
                 console.log(err);
@@ -193,6 +219,7 @@ const Cart = () => {
     }
     const closeOrderPopup = () => {
         setIsAppearedOrderFormPopup(false);
+        setErrors({});
     }
     return (
         // Start Cart Page
@@ -262,12 +289,12 @@ const Cart = () => {
                             >
                                 Wait Ordering ...
                             </button>}
-                            <button
+                            {!isWaitOrdering && <button
                                 className="btn btn-danger"
                                 onClick={closeOrderPopup}
                             >
                                 Close
-                            </button>
+                            </button>}
                         </div>
                     </form>
                 </div>
@@ -340,7 +367,7 @@ const Cart = () => {
                                 >
                                     Delete All
                                 </button>
-                                {!isWaitOrderingAllProducts && <button
+                                {/* {!isWaitOrderingAllProducts && <button
                                     className="btn btn-success"
                                     onClick={orderAllProductsFromCart}
                                 >
@@ -350,7 +377,7 @@ const Cart = () => {
                                     className="btn btn-warning"
                                 >
                                     Wait Ordering All
-                                </button>}
+                                </button>} */}
                             </td>
                         </tr>}
                     </tbody>
