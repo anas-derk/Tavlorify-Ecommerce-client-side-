@@ -297,7 +297,7 @@ const Cart = () => {
                                     {productInfo.type}
                                 </td>
                                 <td>
-                                    {productInfo.dimentions}
+                                    {productInfo.dimentions} cm
                                 </td>
                                 <td className="product-price-cell">
                                     {productInfo.price}

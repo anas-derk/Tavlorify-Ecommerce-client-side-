@@ -31,9 +31,9 @@ const TextToImage = () => {
 
     const [paintingType, setPaintingType] = useState("");
 
-    const [dimensions, setDimentions] = useState({});
+    const [dimentions, setDimentions] = useState({});
 
-    const [dimensionsIndex, setDimentionsIndex] = useState(-1);
+    const [dimentionsIndex, setDimentionsIndex] = useState(-1);
 
     const [getImgDimentionsMsg, setGetImgDimentionsMsg] = useState("");
 
@@ -94,7 +94,7 @@ const TextToImage = () => {
         setErrorMsg("");
         setIsWaitStatus(true);
         Axios.get(
-            `https://app-014daf9d-1451-4fe3-9e69-b2b35794407d.cleverapps.io/text-to-image-generate?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimensions.width}&height=${dimensions.height}
+            `https://app-014daf9d-1451-4fe3-9e69-b2b35794407d.cleverapps.io/text-to-image-generate?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
         `)
             .then((res) => {
                 let result = res.data;
@@ -140,7 +140,7 @@ const TextToImage = () => {
                 const codeGenerator = new nodeCodeGenerator();
                 let productInfoToCart = {
                     count: quantity,
-                    dimensions: text_to_image_data.modelsDimentions[modelName][imageType][dimensionsIndex].inCm,
+                    dimentions: text_to_image_data.modelsDimentions[modelName][imageType][dimentionsIndex].inCm,
                     imageSrc: result.data.imageUrl,
                     name: textPrompt,
                     price: 100,
@@ -354,7 +354,7 @@ const TextToImage = () => {
                                         {/* End Grid System */}
                                     </div>}
                                     {/* End Styles Box */}
-                                    {categorySelectedIndex > -1 && styleSelectedIndex > -1 && textPrompt !== "" && imageType !== "" && dimensions.width !== undefined && dimensions.height !== undefined && !isWaitStatus && !errorMsg &&
+                                    {categorySelectedIndex > -1 && styleSelectedIndex > -1 && textPrompt !== "" && imageType !== "" && dimentions.width !== undefined && dimentions.height !== undefined && !isWaitStatus && !errorMsg &&
                                         <button className="btn btn-danger w-50" onClick={textToImageGenerate}>Create</button>
                                     }
                                     {isWaitStatus && <button className="btn btn-danger w-50" disabled>Creating ...</button>}
