@@ -210,11 +210,14 @@ const TextToImage = () => {
                                     alt="Image"
                                     className={`wooden-framed-poster-image ${frameColor}`}
                                 />}
-                                {paintingType === "poster-with-hangers" && <img
-                                    src={generatedImageURLs[0]}
-                                    alt="Image"
-                                    className="poster-with-hangers-image"
-                                />}
+                                {paintingType === "poster-with-hangers" &&
+                                    <div className={`poster-with-hangers-image-box ${frameColor}`}>
+                                        <img
+                                            src={generatedImageURLs[0]}
+                                            alt="Image"
+                                            className="poster-with-hangers-image"
+                                        />
+                                    </div>}
                             </Carousel.Caption>
                         </Carousel.Item>
                         <Carousel.Item>
@@ -280,7 +283,7 @@ const TextToImage = () => {
                                             <option value="canvas-prints">Canvas</option>
                                             <option value="poster">Poster</option>
                                             <option value="wooden-framed-poster">Wooden Framed Poster</option>
-                                            {/* <option value="poster-with-hangers">Poster With Hangers</option> */}
+                                            <option value="poster-with-hangers">Poster With Hangers</option>
                                         </select>
                                         <hr />
                                     </>}

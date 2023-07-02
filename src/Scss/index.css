@@ -93,6 +93,32 @@ a {
   border: 20px solid #FFF;
 }
 
+.poster-with-hangers-image-box {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+.poster-with-hangers-image-box.black-frame {
+  border-top: 20px solid #000;
+  border-bottom: 20px solid #000;
+}
+
+.poster-with-hangers-image-box.dark-wood-frame {
+  border-top: 20px solid #855e42;
+  border-bottom: 20px solid #855e42;
+}
+
+.poster-with-hangers-image-box.wood-frame {
+  border-top: 20px solid #A1662F;
+  border-bottom: 20px solid #A1662F;
+}
+
+.poster-with-hangers-image-box.white-frame {
+  border-top: 20px solid #FFF;
+  border-bottom: 20px solid #FFF;
+}
+
 @keyframes rotate {
   100% {
     transform: rotate(360deg);

@@ -95,6 +95,36 @@ a{
     }
 }
 
+.poster-with-hangers-image-box{
+    width: fit-content;
+    margin: 0 auto;
+    padding: 0 30px;
+    &.black-frame{
+        border: {
+            top: 20px solid #000;
+            bottom: 20px solid #000;
+        };
+    }
+    &.dark-wood-frame{
+        border: {
+            top: 20px solid #855e42;
+            bottom: 20px solid #855e42;
+        };
+    }
+    &.wood-frame{
+        border: {
+            top: 20px solid #A1662F;
+            bottom: 20px solid #A1662F;
+        };
+    }
+    &.white-frame{
+        border: {
+            top: 20px solid #FFF;
+            bottom: 20px solid #FFF;
+        };
+    }
+}
+
 .poster-with-hangers-image{
 
 }
