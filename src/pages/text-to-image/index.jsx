@@ -194,7 +194,26 @@ const TextToImage = () => {
                     >
                         <Carousel.Item>
                             <Carousel.Caption>
-                                <img src={generatedImageURLs[0]} alt="Image" className="created-image canvas-prints-image" />
+                                {paintingType === "canvas-prints" && <img
+                                    src={generatedImageURLs[0]}
+                                    alt="Image"
+                                    className="canvas-prints-image"
+                                />}
+                                {paintingType === "poster" && <img
+                                    src={generatedImageURLs[0]}
+                                    alt="Image"
+                                    className="poster-image"
+                                />}
+                                {paintingType === "wooden-framed-poster" && <img
+                                    src={generatedImageURLs[0]}
+                                    alt="Image"
+                                    className={`wooden-framed-poster-image ${frameColor}`}
+                                />}
+                                {paintingType === "poster-with-hangers" && <img
+                                    src={generatedImageURLs[0]}
+                                    alt="Image"
+                                    className="poster-with-hangers-image"
+                                />}
                             </Carousel.Caption>
                         </Carousel.Item>
                         <Carousel.Item>
@@ -270,10 +289,10 @@ const TextToImage = () => {
                                             setFrameColor(e.target.value);
                                         }}>
                                             <option defaultValue="" hidden>Select Frame Color</option>
-                                            <option value="black">Black</option>
-                                            <option value="dark-wood">Dark Wood</option>
-                                            <option value="wood">Wood</option>
-                                            <option value="white">White</option>
+                                            <option value="black-frame">Black</option>
+                                            <option value="dark-wood-frame">Dark Wood</option>
+                                            <option value="wood-frame">Wood</option>
+                                            <option value="white-frame">White</option>
                                         </select>
                                         <hr />
                                     </>}
