@@ -308,6 +308,7 @@ const Cart = () => {
                         <tr>
                             <th>Name</th>
                             <th>Type</th>
+                            <th>Frame Color</th>
                             <th>dimentions</th>
                             <th>price</th>
                             <th>Image</th>
@@ -324,6 +325,9 @@ const Cart = () => {
                                 </td>
                                 <td>
                                     {productInfo.type}
+                                </td>
+                                <td>
+                                    {productInfo.frameColor}
                                 </td>
                                 <td>
                                     {productInfo.dimentions} cm
@@ -357,7 +361,7 @@ const Cart = () => {
                             </tr>
                         ))}
                         {canvasEcommerceProductsList.length >= 2 && <tr>
-                            <td colSpan={7}>
+                            <td colSpan={8}>
                                 total: {total}
                             </td>
                             <td>

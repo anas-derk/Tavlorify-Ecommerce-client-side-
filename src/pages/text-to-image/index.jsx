@@ -141,13 +141,14 @@ const TextToImage = () => {
                 });
                 const codeGenerator = new nodeCodeGenerator();
                 let productInfoToCart = {
-                    count: quantity,
-                    dimentions: text_to_image_data.modelsDimentions[modelName][imageType][dimentionsIndex].inCm,
-                    imageSrc: result.data.imageUrl,
-                    name: textPrompt,
-                    price: 100,
-                    type: paintingType,
                     _id: codeGenerator.generateCodes("###**##########****###**")[0],
+                    name: textPrompt,
+                    type: paintingType,
+                    frameColor: (paintingType === "canvas-prints" || paintingType === "poster") ? "none" : frameColor,
+                    dimentions: text_to_image_data.modelsDimentions[modelName][imageType][dimentionsIndex].inCm,
+                    price: 100,
+                    imageSrc: result.data.imageUrl,
+                    count: quantity,
                 }
                 let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("canvas-ecommerce-user-cart"));
                 if (canvasEcommerceUserCart) {
@@ -279,7 +280,7 @@ const TextToImage = () => {
                                             <option value="canvas-prints">Canvas</option>
                                             <option value="poster">Poster</option>
                                             <option value="wooden-framed-poster">Wooden Framed Poster</option>
-                                            <option value="poster-with-hangers">Poster With Hangers</option>
+                                            {/* <option value="poster-with-hangers">Poster With Hangers</option> */}
                                         </select>
                                         <hr />
                                     </>}
