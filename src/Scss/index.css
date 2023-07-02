@@ -99,22 +99,22 @@ a {
   padding: 0 30px;
 }
 
-.poster-with-hangers-image-box.black-frame {
+.poster-with-hangers-image-box.black {
   border-top: 20px solid #000;
   border-bottom: 20px solid #000;
 }
 
-.poster-with-hangers-image-box.dark-wood-frame {
+.poster-with-hangers-image-box.dark-wood {
   border-top: 20px solid #855e42;
   border-bottom: 20px solid #855e42;
 }
 
-.poster-with-hangers-image-box.wood-frame {
+.poster-with-hangers-image-box.wood {
   border-top: 20px solid #A1662F;
   border-bottom: 20px solid #A1662F;
 }
 
-.poster-with-hangers-image-box.white-frame {
+.poster-with-hangers-image-box.white {
   border-top: 20px solid #FFF;
   border-bottom: 20px solid #FFF;
 }

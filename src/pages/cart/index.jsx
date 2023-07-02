@@ -66,7 +66,7 @@ const Cart = () => {
             case "poster": {
                 switch(requiredDimentionsObject.imMm) {
                     case "130x180": {
-                        gelatoProductUid = `flat_${requiredDimentionsObject.imMm}-mm-5r_200-gsm-80lb-uncoated_4-0_ver`;
+                        gelatoProductUid = `flat_${requiredDimentionsObject.imMm}-mm-5r_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
                         break;
                     }
                     case "210x297": {
@@ -79,6 +79,38 @@ const Cart = () => {
                 }
                 break;
             }
+            case "wooden-framed-poster": {
+                switch(requiredDimentionsObject.imMm) {
+                    case "130x180": {
+                        gelatoProductUid = `framed_poster_mounted_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_${orderedProductInfo.frameColor}_wood_w12xt22-mm_plexiglass_${requiredDimentionsObject.imMm}-mm-5r_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
+                        break;
+                    }
+                    case "210x297": {
+                        gelatoProductUid = `framed_poster_mounted_210x297mm-8x12-inch_${orderedProductInfo.frameColor}_wood_w12xt22-mm_plexiglass_a4-8x12-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
+                        break;
+                    }
+                    default: {
+                        gelatoProductUid = `framed_poster_mounted_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_${orderedProductInfo.frameColor}_wood_w12xt22-mm_plexiglass_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
+                    }
+                }
+                break;
+            }
+            // case "poster-with-hangers": {
+            //     switch(requiredDimentionsObject.imMm) {
+            //         case "130x180": {
+            //             gelatoProductUid = `wall_hanging_poster_229-mm_${orderedProductInfo.frameColor}_wood_w14xt20-mm_${requiredDimentionsObject.imMm}-mm-5r_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
+            //             break;
+            //         }
+            //         case "210x297": {
+            //             gelatoProductUid = `wall_hanging_poster_310-mm_${orderedProductInfo.frameColor}_wood_w14xt20-mm_a4-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
+            //             break;
+            //         }
+            //         default: {
+            //             gelatoProductUid = `flat_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
+            //         }
+            //     }
+            //     break;
+            // }
             default: {
                 console.log("Error In Input");
             }

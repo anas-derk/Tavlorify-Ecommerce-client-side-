@@ -293,10 +293,10 @@ const TextToImage = () => {
                                             setFrameColor(e.target.value);
                                         }}>
                                             <option defaultValue="" hidden>Select Frame Color</option>
-                                            <option value="black-frame">Black</option>
-                                            <option value="dark-wood-frame">Dark Wood</option>
-                                            <option value="wood-frame">Wood</option>
-                                            <option value="white-frame">White</option>
+                                            <option value="black">Black</option>
+                                            <option value="dark-wood">Dark Wood</option>
+                                            <option value="natural-wood">Natural Wood</option>
+                                            <option value="white">White</option>
                                         </select>
                                         <hr />
                                     </>}
