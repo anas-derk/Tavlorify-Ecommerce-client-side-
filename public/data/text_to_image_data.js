@@ -2211,12 +2211,12 @@ const gelatoDimetions = {
         "horizontal": [
             {
                 inCm: "18x13",
-                imMm: "180x130",
+                imMm: "130x180",
                 inInch: "5x7",
             },
             {
                 inCm: "20x15",
-                imMm: "200x150",
+                imMm: "150x200",
                 inInch: "6x8",
             },
             {
@@ -2226,59 +2226,59 @@ const gelatoDimetions = {
             },
             {
                 inCm: "40x30",
-                imMm: "400x300",
+                imMm: "300x400",
                 inInch: "12x16",
             },
             {
                 inCm: "45x30",
-                imMm: "450x300",
+                imMm: "300x450",
                 inInch: "12x18",
             },
             {
                 inCm: "60x40",
-                imMm: "600x400",
+                imMm: "400x600",
                 inInch: "16x24",
             },
             {
                 inCm: "60x45",
-                imMm: "600x450",
+                imMm: "450x600",
                 inInch: "18x24",
             },
             {
                 inCm: "70x50",
-                imMm: "700x500",
+                imMm: "500x700",
                 inInch: "20x28",
             },
             {
                 inCm: "80x60",
-                imMm: "800x600",
+                imMm: "600x800",
                 inInch: "24x32",
             },
             {
                 inCm: "90x60",
-                imMm: "900x600",
+                imMm: "600x900",
                 inInch: "24x36",
             },
             {
                 inCm: "100x70",
-                imMm: "1000x700",
+                imMm: "700x1000",
                 inInch: "28x40",
             },
             {
                 inCm: "100x75",
-                imMm: "1000x750",
+                imMm: "750x1000",
                 inInch: "30x40",
             },
         ],
         "vertical": [
             {
                 inCm: "13x18",
-                imMm: "180x130",
+                imMm: "130x180",
                 inInch: "5x7",
             },
             {
                 inCm: "15x20",
-                imMm: "200x150",
+                imMm: "150x200",
                 inInch: "6x8",
             },
             {
@@ -2288,47 +2288,47 @@ const gelatoDimetions = {
             },
             {
                 inCm: "30x40",
-                imMm: "400x300",
+                imMm: "300x400",
                 inInch: "12x16",
             },
             {
                 inCm: "30x45",
-                imMm: "450x300",
+                imMm: "300x450",
                 inInch: "12x18",
             },
             {
                 inCm: "40x60",
-                imMm: "600x400",
+                imMm: "400x600",
                 inInch: "16x24",
             },
             {
                 inCm: "45x60",
-                imMm: "600x450",
+                imMm: "450x600",
                 inInch: "18x24",
             },
             {
                 inCm: "50x70",
-                imMm: "700x500",
+                imMm: "500x700",
                 inInch: "20x28",
             },
             {
                 inCm: "60x80",
-                imMm: "800x600",
+                imMm: "600x800",
                 inInch: "24x32",
             },
             {
                 inCm: "60x90",
-                imMm: "900x600",
+                imMm: "600x900",
                 inInch: "24x36",
             },
             {
                 inCm: "70x100",
-                imMm: "1000x700",
+                imMm: "700x1000",
                 inInch: "28x40",
             },
             {
                 inCm: "75x100",
-                imMm: "1000x750",
+                imMm: "750x1000",
                 inInch: "30x40",
             },
         ],
@@ -2497,12 +2497,12 @@ const gelatoDimetions = {
         "horizontal": [
             {
                 inCm: "18x13",
-                imMm: "180x130",
+                imMm: "130x180",
                 inInch: "5x7",
             },
             {
                 inCm: "20x15",
-                imMm: "200x150",
+                imMm: "150x200",
                 inInch: "6x8",
             },
             {
@@ -2512,59 +2512,59 @@ const gelatoDimetions = {
             },
             {
                 inCm: "40x30",
-                imMm: "400x300",
+                imMm: "300x400",
                 inInch: "12x16",
             },
             {
                 inCm: "45x30",
-                imMm: "450x300",
+                imMm: "300x450",
                 inInch: "12x18",
             },
             {
                 inCm: "60x40",
-                imMm: "600x400",
+                imMm: "400x600",
                 inInch: "16x24",
             },
             {
                 inCm: "60x45",
-                imMm: "600x450",
+                imMm: "450x600",
                 inInch: "18x24",
             },
             {
                 inCm: "70x50",
-                imMm: "700x500",
+                imMm: "500x700",
                 inInch: "20x28",
             },
             {
                 inCm: "80x60",
-                imMm: "800x600",
+                imMm: "600x800",
                 inInch: "24x32",
             },
             {
                 inCm: "90x60",
-                imMm: "900x600",
+                imMm: "600x900",
                 inInch: "24x36",
             },
             {
                 inCm: "100x70",
-                imMm: "1000x700",
+                imMm: "700x1000",
                 inInch: "28x40",
             },
             {
                 inCm: "100x75",
-                imMm: "1000x750",
+                imMm: "750x1000",
                 inInch: "30x40",
             },
         ],
         "vertical": [
             {
                 inCm: "13x18",
-                imMm: "180x130",
+                imMm: "130x180",
                 inInch: "5x7",
             },
             {
                 inCm: "15x20",
-                imMm: "200x150",
+                imMm: "150x200",
                 inInch: "6x8",
             },
             {
@@ -2574,47 +2574,47 @@ const gelatoDimetions = {
             },
             {
                 inCm: "30x40",
-                imMm: "400x300",
+                imMm: "300x400",
                 inInch: "12x16",
             },
             {
                 inCm: "30x45",
-                imMm: "450x300",
+                imMm: "300x450",
                 inInch: "12x18",
             },
             {
                 inCm: "40x60",
-                imMm: "600x400",
+                imMm: "400x600",
                 inInch: "16x24",
             },
             {
                 inCm: "45x60",
-                imMm: "600x450",
+                imMm: "450x600",
                 inInch: "18x24",
             },
             {
                 inCm: "50x70",
-                imMm: "700x500",
+                imMm: "500x700",
                 inInch: "20x28",
             },
             {
                 inCm: "60x80",
-                imMm: "800x600",
+                imMm: "600x800",
                 inInch: "24x32",
             },
             {
                 inCm: "60x90",
-                imMm: "900x600",
+                imMm: "600x900",
                 inInch: "24x36",
             },
             {
                 inCm: "70x100",
-                imMm: "1000x700",
+                imMm: "700x1000",
                 inInch: "28x40",
             },
             {
                 inCm: "75x100",
-                imMm: "1000x750",
+                imMm: "750x1000",
                 inInch: "30x40",
             },
         ],

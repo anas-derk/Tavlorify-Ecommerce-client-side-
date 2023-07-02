@@ -63,6 +63,22 @@ const Cart = () => {
                 gelatoProductUid = `canvas_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_canvas_wood-fsc-slim_4-0_${imageType.toGelatoAPI}`;
                 break;
             }
+            case "poster": {
+                switch(requiredDimentionsObject.imMm) {
+                    case "130x180": {
+                        gelatoProductUid = `flat_${requiredDimentionsObject.imMm}-mm-5r_200-gsm-80lb-uncoated_4-0_ver`;
+                        break;
+                    }
+                    case "210x297": {
+                        gelatoProductUid = `flat_a4-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
+                        break;
+                    }
+                    default: {
+                        gelatoProductUid = `flat_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
+                    }
+                }
+                break;
+            }
             default: {
                 console.log("Error In Input");
             }
