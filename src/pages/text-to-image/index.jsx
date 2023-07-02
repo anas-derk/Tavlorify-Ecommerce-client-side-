@@ -31,6 +31,8 @@ const TextToImage = () => {
 
     const [paintingType, setPaintingType] = useState("");
 
+    const [frameColor, setFrameColor] = useState("");
+
     const [dimentions, setDimentions] = useState({});
 
     const [dimentionsIndex, setDimentionsIndex] = useState(-1);
@@ -256,8 +258,22 @@ const TextToImage = () => {
                                         }}>
                                             <option defaultValue="" hidden>Select Painting Type</option>
                                             <option value="canvas-prints">Canvas</option>
-                                            {/* <option value="poster">Poster</option>
-                                            <option value="framed">Framed</option> */}
+                                            <option value="poster">Poster</option>
+                                            <option value="wooden-framed-poster">Wooden Framed Poster</option>
+                                            <option value="poster-with-hangers">Poster With Hangers</option>
+                                        </select>
+                                        <hr />
+                                    </>}
+                                    {(paintingType === "wooden-framed-poster" || paintingType === "poster-with-hangers") && <>
+                                        <h6 className="mb-3">Frame Color</h6>
+                                        <select className="form-control" onChange={(e) => {
+                                            setFrameColor(e.target.value);
+                                        }}>
+                                            <option defaultValue="" hidden>Select Frame Color</option>
+                                            <option value="black">Black</option>
+                                            <option value="dark-wood">Dark Wood</option>
+                                            <option value="wood">Wood</option>
+                                            <option value="white">White</option>
                                         </select>
                                         <hr />
                                     </>}

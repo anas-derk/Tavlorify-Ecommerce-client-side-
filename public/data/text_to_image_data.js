@@ -2207,7 +2207,7 @@ const gelatoDimetions = {
             },
         ],
     },
-    "posters": {
+    "poster": {
         "horizontal": [
             {
                 inCm: "18x13",
@@ -2370,7 +2370,7 @@ const gelatoDimetions = {
             },
         ],
     },
-    "wooden-framed-posters": {
+    "wooden-framed-poster": {
         "horizontal": [
             {
                 inCm: "18x13",
@@ -2493,7 +2493,7 @@ const gelatoDimetions = {
             },
         ],
     },
-    "posters-with-hangers": {
+    "poster-with-hangers": {
         "horizontal": [
             {
                 inCm: "18x13",
