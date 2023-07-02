@@ -2206,7 +2206,456 @@ const gelatoDimetions = {
                 inInch: "24x24",
             },
         ],
-    }
+    },
+    "posters": {
+        "horizontal": [
+            {
+                inCm: "18x13",
+                imMm: "180x130",
+                inInch: "5x7",
+            },
+            {
+                inCm: "20x15",
+                imMm: "200x150",
+                inInch: "6x8",
+            },
+            {
+                inCm: "29,7x21",
+                imMm: "210x297",
+                inInch: "8x12",
+            },
+            {
+                inCm: "40x30",
+                imMm: "400x300",
+                inInch: "12x16",
+            },
+            {
+                inCm: "45x30",
+                imMm: "450x300",
+                inInch: "12x18",
+            },
+            {
+                inCm: "60x40",
+                imMm: "600x400",
+                inInch: "16x24",
+            },
+            {
+                inCm: "60x45",
+                imMm: "600x450",
+                inInch: "18x24",
+            },
+            {
+                inCm: "70x50",
+                imMm: "700x500",
+                inInch: "20x28",
+            },
+            {
+                inCm: "80x60",
+                imMm: "800x600",
+                inInch: "24x32",
+            },
+            {
+                inCm: "90x60",
+                imMm: "900x600",
+                inInch: "24x36",
+            },
+            {
+                inCm: "100x70",
+                imMm: "1000x700",
+                inInch: "28x40",
+            },
+            {
+                inCm: "100x75",
+                imMm: "1000x750",
+                inInch: "30x40",
+            },
+        ],
+        "vertical": [
+            {
+                inCm: "13x18",
+                imMm: "180x130",
+                inInch: "5x7",
+            },
+            {
+                inCm: "15x20",
+                imMm: "200x150",
+                inInch: "6x8",
+            },
+            {
+                inCm: "21x29,7",
+                imMm: "210x297",
+                inInch: "8x12",
+            },
+            {
+                inCm: "30x40",
+                imMm: "400x300",
+                inInch: "12x16",
+            },
+            {
+                inCm: "30x45",
+                imMm: "450x300",
+                inInch: "12x18",
+            },
+            {
+                inCm: "40x60",
+                imMm: "600x400",
+                inInch: "16x24",
+            },
+            {
+                inCm: "45x60",
+                imMm: "600x450",
+                inInch: "18x24",
+            },
+            {
+                inCm: "50x70",
+                imMm: "700x500",
+                inInch: "20x28",
+            },
+            {
+                inCm: "60x80",
+                imMm: "800x600",
+                inInch: "24x32",
+            },
+            {
+                inCm: "60x90",
+                imMm: "900x600",
+                inInch: "24x36",
+            },
+            {
+                inCm: "70x100",
+                imMm: "1000x700",
+                inInch: "28x40",
+            },
+            {
+                inCm: "75x100",
+                imMm: "1000x750",
+                inInch: "30x40",
+            },
+        ],
+        "square": [
+            {
+                inCm: "25x25",
+                imMm: "250x250",
+                inInch: "10x10",
+            },
+            {
+                inCm: "30x30",
+                imMm: "300x300",
+                inInch: "12x12",
+            },
+            {
+                inCm: "35x35",
+                imMm: "350x350",
+                inInch: "14x14",
+            },
+            {
+                inCm: "40x40",
+                imMm: "400x400",
+                inInch: "16x16",
+            },
+            {
+                inCm: "45x45",
+                imMm: "450x450",
+                inInch: "18x18",
+            },
+            {
+                inCm: "50x50",
+                imMm: "500x500",
+                inInch: "20x20",
+            },
+            {
+                inCm: "70x70",
+                imMm: "700x700",
+                inInch: "28x28",
+            },
+        ],
+    },
+    "wooden-framed-posters": {
+        "horizontal": [
+            {
+                inCm: "18x13",
+                imMm: "180x130",
+                inInch: "5x7",
+            },
+            {
+                inCm: "20x15",
+                imMm: "200x150",
+                inInch: "6x8",
+            },
+            {
+                inCm: "29,7x21",
+                imMm: "210x297",
+                inInch: "8x12",
+            },
+            {
+                inCm: "40x30",
+                imMm: "400x300",
+                inInch: "12x16",
+            },
+            {
+                inCm: "45x30",
+                imMm: "450x300",
+                inInch: "12x18",
+            },
+            {
+                inCm: "60x45",
+                imMm: "600x450",
+                inInch: "18x24",
+            },
+            {
+                inCm: "70x50",
+                imMm: "700x500",
+                inInch: "20x28",
+            },
+            {
+                inCm: "80x60",
+                imMm: "800x600",
+                inInch: "24x32",
+            },
+            {
+                inCm: "90x60",
+                imMm: "900x600",
+                inInch: "24x36",
+            },
+            {
+                inCm: "100x70",
+                imMm: "1000x700",
+                inInch: "28x40",
+            },
+        ],
+        "vertical": [
+            {
+                inCm: "13x18",
+                imMm: "180x130",
+                inInch: "5x7",
+            },
+            {
+                inCm: "15x20",
+                imMm: "200x150",
+                inInch: "6x8",
+            },
+            {
+                inCm: "21x29,7",
+                imMm: "210x297",
+                inInch: "8x12",
+            },
+            {
+                inCm: "30x40",
+                imMm: "400x300",
+                inInch: "12x16",
+            },
+            {
+                inCm: "30x45",
+                imMm: "450x300",
+                inInch: "12x18",
+            },
+            {
+                inCm: "45x60",
+                imMm: "600x450",
+                inInch: "18x24",
+            },
+            {
+                inCm: "50x70",
+                imMm: "700x500",
+                inInch: "20x28",
+            },
+            {
+                inCm: "60x80",
+                imMm: "800x600",
+                inInch: "24x32",
+            },
+            {
+                inCm: "60x90",
+                imMm: "900x600",
+                inInch: "24x36",
+            },
+            {
+                inCm: "70x100",
+                imMm: "1000x700",
+                inInch: "28x40",
+            },
+        ],
+        "square": [
+            {
+                inCm: "30x30",
+                imMm: "300x300",
+                inInch: "12x12",
+            },
+            {
+                inCm: "50x50",
+                imMm: "500x500",
+                inInch: "20x20",
+            },
+            {
+                inCm: "70x70",
+                imMm: "700x700",
+                inInch: "28x28",
+            },
+        ],
+    },
+    "posters-with-hangers": {
+        "horizontal": [
+            {
+                inCm: "18x13",
+                imMm: "180x130",
+                inInch: "5x7",
+            },
+            {
+                inCm: "20x15",
+                imMm: "200x150",
+                inInch: "6x8",
+            },
+            {
+                inCm: "29,7x21",
+                imMm: "210x297",
+                inInch: "8x12",
+            },
+            {
+                inCm: "40x30",
+                imMm: "400x300",
+                inInch: "12x16",
+            },
+            {
+                inCm: "45x30",
+                imMm: "450x300",
+                inInch: "12x18",
+            },
+            {
+                inCm: "60x40",
+                imMm: "600x400",
+                inInch: "16x24",
+            },
+            {
+                inCm: "60x45",
+                imMm: "600x450",
+                inInch: "18x24",
+            },
+            {
+                inCm: "70x50",
+                imMm: "700x500",
+                inInch: "20x28",
+            },
+            {
+                inCm: "80x60",
+                imMm: "800x600",
+                inInch: "24x32",
+            },
+            {
+                inCm: "90x60",
+                imMm: "900x600",
+                inInch: "24x36",
+            },
+            {
+                inCm: "100x70",
+                imMm: "1000x700",
+                inInch: "28x40",
+            },
+            {
+                inCm: "100x75",
+                imMm: "1000x750",
+                inInch: "30x40",
+            },
+        ],
+        "vertical": [
+            {
+                inCm: "13x18",
+                imMm: "180x130",
+                inInch: "5x7",
+            },
+            {
+                inCm: "15x20",
+                imMm: "200x150",
+                inInch: "6x8",
+            },
+            {
+                inCm: "21x29,7",
+                imMm: "210x297",
+                inInch: "8x12",
+            },
+            {
+                inCm: "30x40",
+                imMm: "400x300",
+                inInch: "12x16",
+            },
+            {
+                inCm: "30x45",
+                imMm: "450x300",
+                inInch: "12x18",
+            },
+            {
+                inCm: "40x60",
+                imMm: "600x400",
+                inInch: "16x24",
+            },
+            {
+                inCm: "45x60",
+                imMm: "600x450",
+                inInch: "18x24",
+            },
+            {
+                inCm: "50x70",
+                imMm: "700x500",
+                inInch: "20x28",
+            },
+            {
+                inCm: "60x80",
+                imMm: "800x600",
+                inInch: "24x32",
+            },
+            {
+                inCm: "60x90",
+                imMm: "900x600",
+                inInch: "24x36",
+            },
+            {
+                inCm: "70x100",
+                imMm: "1000x700",
+                inInch: "28x40",
+            },
+            {
+                inCm: "75x100",
+                imMm: "1000x750",
+                inInch: "30x40",
+            },
+        ],
+        "square": [
+            {
+                inCm: "25x25",
+                imMm: "250x250",
+                inInch: "10x10",
+            },
+            {
+                inCm: "30x30",
+                imMm: "300x300",
+                inInch: "12x12",
+            },
+            {
+                inCm: "35x35",
+                imMm: "350x350",
+                inInch: "14x14",
+            },
+            {
+                inCm: "40x40",
+                imMm: "400x400",
+                inInch: "16x16",
+            },
+            {
+                inCm: "45x45",
+                imMm: "450x450",
+                inInch: "18x18",
+            },
+            {
+                inCm: "50x50",
+                imMm: "500x500",
+                inInch: "20x20",
+            },
+            {
+                inCm: "70x70",
+                imMm: "700x700",
+                inInch: "28x28",
+            },
+        ],
+    },
 }
 
 const allDimetions = {
