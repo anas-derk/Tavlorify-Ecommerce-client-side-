@@ -81,16 +81,16 @@ a{
 }
 
 .wooden-framed-poster-image{
-    &.black-frame{
+    &.black{
         border: 20px solid #000;
     }
-    &.dark-wood-frame{
+    &.dark-wood{
         border: 20px solid #855e42;
     }
-    &.wood-frame{
+    &.wood{
         border: 20px solid #A1662F;
     }
-    &.white-frame{
+    &.white{
         border: 20px solid #FFF;
     }
 }

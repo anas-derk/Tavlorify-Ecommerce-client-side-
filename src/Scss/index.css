@@ -77,19 +77,19 @@ a {
   box-shadow: 1px 1px 10px #CCC;
 }
 
-.wooden-framed-poster-image.black-frame {
+.wooden-framed-poster-image.black {
   border: 20px solid #000;
 }
 
-.wooden-framed-poster-image.dark-wood-frame {
+.wooden-framed-poster-image.dark-wood {
   border: 20px solid #855e42;
 }
 
-.wooden-framed-poster-image.wood-frame {
+.wooden-framed-poster-image.wood {
   border: 20px solid #A1662F;
 }
 
-.wooden-framed-poster-image.white-frame {
+.wooden-framed-poster-image.white {
   border: 20px solid #FFF;
 }
 
