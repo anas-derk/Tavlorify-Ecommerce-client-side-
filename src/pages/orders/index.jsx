@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 const Orders = () => {
     const [canvasEcommerceUserOrdersList, setCanvasEcommerceUserOrdersList] = useState([]);
     const [total, setTotal] = useState(0);
-    const [isWaitOrdering, setIsWaitOrdering] = useState(false);
     useEffect(() => {
         let canvasEcommerceUserOrders = JSON.parse(localStorage.getItem("canvas-ecommerce-user-orders"));
         if (canvasEcommerceUserOrders) {
@@ -32,6 +31,7 @@ const Orders = () => {
                         <tr>
                             <th>Name</th>
                             <th>Type</th>
+                            <th>Frame Color</th>
                             <th>dimentions</th>
                             <th>price</th>
                             <th>Image</th>
@@ -47,6 +47,9 @@ const Orders = () => {
                                 </td>
                                 <td>
                                     {productInfo.type}
+                                </td>
+                                <td>
+                                    {productInfo.frameColor}
                                 </td>
                                 <td>
                                     {productInfo.dimentions}

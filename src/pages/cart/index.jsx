@@ -227,27 +227,25 @@ const Cart = () => {
                 console.log(err);
             }
         }
-        // let productIndex = canvasEcommerceProductsList.findIndex((product) => product._id == productId);
-        // let productInfo = canvasEcommerceProductsList[productIndex];
-        // let canvasEcommerceUserOrders = JSON.parse(localStorage.getItem("canvas-ecommerce-user-orders"));
-        // if (canvasEcommerceUserOrders) {
-        //     canvasEcommerceUserOrders.push(productInfo);
-        //     localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
-        //     setTimeout(() => {
-        //         setIsWaitOrdering(false);
-        //         deleteProduct(productId);
-        //         router.push("/orders");
-        //     }, 1500);
-        // } else {
-        //     let canvasEcommerceUserOrders = [];
-        //     canvasEcommerceUserOrders.push(productInfo);
-        //     localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
-        //     setTimeout(() => {
-        //         setIsWaitOrdering(false);
-        //         deleteProduct(productId);
-        //         router.push("/orders");
-        //     }, 1500);
-        // }
+        let canvasEcommerceUserOrders = JSON.parse(localStorage.getItem("canvas-ecommerce-user-orders"));
+        if (canvasEcommerceUserOrders) {
+            canvasEcommerceUserOrders.push(orderedProductInfo);
+            localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
+            setTimeout(() => {
+                setIsWaitOrdering(false);
+                deleteProduct(orderedProductInfo._id);
+                router.push("/orders");
+            }, 1500);
+        } else {
+            let canvasEcommerceUserOrders = [];
+            canvasEcommerceUserOrders.push(orderedProductInfo);
+            localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
+            setTimeout(() => {
+                setIsWaitOrdering(false);
+                deleteProduct(orderedProductInfo._id);
+                router.push("/orders");
+            }, 1500);
+        }
     }
     const deleteAllProductsFromCart = () => {
         localStorage.removeItem("canvas-ecommerce-user-cart");
