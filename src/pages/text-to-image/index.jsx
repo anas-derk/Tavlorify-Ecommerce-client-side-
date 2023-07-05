@@ -345,7 +345,7 @@ const TextToImage = () => {
                                         {/* End Grid System */}
                                     </div>}
                                     {/* End Styles Box */}
-                                    <hr />
+                                    {categorySelectedIndex > -1 && <hr />}
                                     <h6 className="mb-3">Painting Type</h6>
                                     <select className="form-control" onChange={(e) => handleSelectPaintingType(e)}>
                                         <option defaultValue="" hidden>Select Painting Type</option>
@@ -354,7 +354,6 @@ const TextToImage = () => {
                                         <option value="wooden-framed-poster">Wooden Framed Poster</option>
                                         <option value="poster-with-hangers">Poster With Hangers</option>
                                     </select>
-
                                     <hr />
                                     {/* Start Select Image Type Section */}
                                     {(paintingType === "wooden-framed-poster" || paintingType === "poster-with-hangers") && <>
