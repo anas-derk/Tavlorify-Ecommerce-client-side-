@@ -77,96 +77,81 @@
   border: 2px solid #000;
 }
 
-.text-to-image-service .page-content {
-  background-color: #000;
-  color: #FFF;
-}
-
-.text-to-image-service .page-content .container .welcome-msg {
+.text-to-image-service .page-content .container-fluid .welcome-msg {
   font-family: 'Caveat', cursive;
   font-weight: bold;
   font-size: 50px;
-  border-bottom: 1px solid #FFF;
+  border-bottom: 3px solid #000;
   width: fit-content;
   margin: 0 auto;
 }
 
-.text-to-image-service .page-content .container .text-to-image-box {
-  background-color: #222;
+.text-to-image-service .page-content .container-fluid .text-to-image-box {
   border-radius: 10px;
   box-shadow: 1px 1px 20px #CCC;
 }
 
-.text-to-image-service .page-content .container .text-to-image-box .row .heading {
+.text-to-image-service .page-content .container-fluid .text-to-image-box .row .heading {
   background-color: #444;
   border-left: 5px solid #CCC;
 }
 
-.text-to-image-service .page-content .container .text-to-image-box .row .options-box {
-  background-color: #444;
-  border-left: 5px solid;
+.text-to-image-service .page-content .container-fluid .text-to-image-box .row .options-box {
   box-shadow: 1px 1px 10px #FFF;
+  height: 500px;
   overflow-y: scroll;
-  max-height: 450px;
 }
 
-.text-to-image-service .page-content .container .text-to-image-box .row .options-box .option-heading {
+.text-to-image-service .page-content .container-fluid .text-to-image-box .row .options-box .option-heading {
   font-family: 'Caveat', cursive;
   font-size: 30px;
   border-bottom: 2px solid;
 }
 
-.text-to-image-service .page-content .container .text-to-image-box .row .options-box .categories {
-  background-color: #222;
+.text-to-image-service .page-content .container-fluid .text-to-image-box .row .options-box .text-prompt {
+  resize: none;
+  height: 100px;
+}
+
+.text-to-image-service .page-content .container-fluid .text-to-image-box .row .options-box .categories {
   cursor: pointer;
-  border-radius: 10px;
 }
 
-.text-to-image-service .page-content .container .text-to-image-box .row .options-box .categories .category-box {
-  border-radius: 10px;
+.text-to-image-service .page-content .container-fluid .text-to-image-box .row .options-box .categories .category-box:hover {
+  background-color: #EEE;
 }
 
-.text-to-image-service .page-content .container .text-to-image-box .row .options-box .categories .category-box:hover {
-  background-color: #0c7ec1;
-}
-
-.text-to-image-service .page-content .container .text-to-image-box .row .options-box .categories .category-box .category-image {
+.text-to-image-service .page-content .container-fluid .text-to-image-box .row .options-box .categories .category-box .category-image {
   border-radius: 10px;
   height: 75px;
   border: 2px solid;
 }
 
-.text-to-image-service .page-content .container .text-to-image-box .row .display-box {
+.text-to-image-service .page-content .container-fluid .text-to-image-box .row .options-box .styles-box .style-box {
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.text-to-image-service .page-content .container-fluid .text-to-image-box .row .options-box .styles-box .style-box:hover {
+  background-color: #EEE;
+}
+
+.text-to-image-service .page-content .container-fluid .text-to-image-box .row .options-box .styles-box .style-box .style-image {
+  border-radius: 10px;
+  height: 75px;
+  border: 2px solid;
+}
+
+.text-to-image-service .page-content .container-fluid .text-to-image-box .row .display-box {
   border: 2px solid #FFF;
   border-radius: 5px;
 }
 
-.text-to-image-service .page-content .container .text-to-image-box .row .display-box .styles-box .row {
-  row-gap: 20px;
-  overflow-y: auto;
-  max-height: 350px;
-}
-
-.text-to-image-service .page-content .container .text-to-image-box .row .display-box .styles-box .style-box {
-  background-color: #444;
-  cursor: pointer;
-  border-radius: 3px;
-  border: 3px solid #333;
-}
-
-.text-to-image-service .page-content .container .text-to-image-box .row .display-box .styles-box .style-box:hover {
-  background-color: #0c7ec1;
-}
-
-.text-to-image-service .page-content .container .text-to-image-box .row .display-box .styles-box .style-box .style-image {
-  border: 1px solid;
-}
-
-.text-to-image-service .page-content .container .text-to-image-box .select-box {
+.text-to-image-service .page-content .container-fluid .text-to-image-box .select-box {
   gap: 30px;
 }
 
-.text-to-image-service .page-content .container .text-to-image-box .select-box > div {
+.text-to-image-service .page-content .container-fluid .text-to-image-box .select-box > div {
   width: 150px;
   background-color: #CCC;
   border-radius: 5px;

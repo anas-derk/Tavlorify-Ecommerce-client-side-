@@ -248,25 +248,92 @@ const TextToImage = () => {
             {/* Start Page Content */}
             <div className="page-content">
                 {/* Start Container */}
-                <div className="container pt-4 pb-4">
+                <div className="container-fluid pt-4 pb-4">
                     <h1 className="text-center mb-5 welcome-msg pb-3">Welcome To You In Text To Image AI Service</h1>
                     {/* Start Text To Image Box */}
                     <section className="text-to-image-box p-4 mb-4">
                         {/* Start Grid System */}
                         <section className="row">
                             {/* Start Column */}
-                            <div className="col-md-5">
+                            <div className="col-md-7">
                                 {/* Start Options Box */}
                                 <div className="options-box p-3 pt-2">
                                     <h6 className="mb-2 text-center option-heading pb-2">Options Box</h6>
                                     <h6 className="text-center mb-3 mt-3">Your Text Prompt</h6>
-                                    <input
+                                    <textarea
                                         type="text"
                                         placeholder="a dog riding a bicycle"
-                                        className="form-control mb-3"
+                                        className="form-control mb-3 text-prompt"
                                         onChange={(e) => setTextPrompt(e.target.value)}
-                                    />
-                                    <h6 className="describe text-start">Describe what you want the AI to create .</h6>
+                                    ></textarea>
+                                    <div className="row align-items-center">
+                                        <div className="col-md-6">
+                                            <h6 className="describe text-start mb-0">Describe what you want the AI to create .</h6>
+                                        </div>
+                                        <div className="col-md-6 text-end">
+                                            <button className="btn btn-danger w-50" onClick={textToImageGenerate}>Create</button>
+                                            {categorySelectedIndex > -1 && styleSelectedIndex > -1 && textPrompt !== "" && imageType !== "" && dimentions.width !== undefined && dimentions.height !== undefined && !isWaitStatus && !errorMsg &&
+                                                <button className="btn btn-danger w-50" onClick={textToImageGenerate}>Create</button>
+                                            }
+                                            {isWaitStatus && <button className="btn btn-danger w-50" disabled>Creating ...</button>}
+                                            {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <h6 className="mb-3">Please Select Category</h6>
+                                    {/* Start Categories Section */}
+                                    <section className="categories">
+                                        <div className="row">
+                                            {categoriesData.map((category, index) => (
+                                                <div className="col-md-2" key={category._id}>
+                                                    {/* Start Category Box */}
+                                                    <div
+                                                        className="category-box mb-3 text-center"
+                                                        onClick={() => handleSelectCategory(index)}
+                                                    >
+                                                        <img
+                                                            src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
+                                                            alt="aa"
+                                                            className="category-image mb-2"
+                                                            style={index === categorySelectedIndex ? { border: "4px solid #F00" } : {}}
+                                                        />
+                                                        <h6>{category.name}</h6>
+                                                    </div>
+                                                    {/* End Category Box */}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </section>
+                                    {/* End Categories Section */}
+                                    <hr />
+                                    {categorySelectedIndex > -1 && <h6>Please Select Style</h6>}
+                                    {/* Start Styles Box */}
+                                    {categorySelectedIndex > -1 && <div className="styles-box">
+                                        {/* Start Grid System */}
+                                        <div className="row mb-3">
+                                            {/* Start Column */}
+                                            {categoryStyles.map((style, index) => (
+                                                <div className="col-md-2" key={index}>
+                                                    {/* Start Style Box */}
+                                                    <div
+                                                        className="style-box p-2 text-center"
+                                                        onClick={() => handleSelectStyle(index)}
+                                                    >
+                                                        <img
+                                                            src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
+                                                            alt="aa" className="mb-2 style-image"
+                                                            style={index === styleSelectedIndex ? { border: "4px solid #F00" } : {}}
+                                                        />
+                                                        <p className="style-name m-0 text-center">{style.name}</p>
+                                                    </div>
+                                                    {/* End Style Box */}
+                                                </div>
+                                            ))}
+                                            {/* End Column */}
+                                        </div>
+                                        {/* End Grid System */}
+                                    </div>}
+                                    {/* End Styles Box */}
                                     <hr />
                                     {/* Start Select Image Type Section */}
                                     {styleSelectedIndex > -1 && <>
@@ -323,81 +390,15 @@ const TextToImage = () => {
                                         <hr />
                                     </>}
                                     {/* End Select Image Type Section */}
-                                    <h6 className="mb-3">Category</h6>
-                                    {/* Start Categories Section */}
-                                    <section className="categories p-2">
-                                        {categoriesData.map((category, index) => (
-                                            /* Start Category Box */
-                                            <div
-                                                className="category-box mb-3 p-2"
-                                                key={category._id}
-                                                onClick={() => handleSelectCategory(index)}
-                                                style={index === categorySelectedIndex ? { backgroundColor: "rgb(12, 126, 193)" } : {}}
-                                            >
-                                                {/* Start Grid System */}
-                                                <div className="row align-items-center">
-                                                    {/* Start Column */}
-                                                    <div className="col-md-3">
-                                                        <img src={`${process.env.BASE_API_URL}/${category.imgSrc}`} alt="aa" className="category-image mw-100" />
-                                                    </div>
-                                                    {/* End Column */}
-                                                    {/* Start Column */}
-                                                    <div className="col-md-7">
-                                                        {category.name}
-                                                    </div>
-                                                    {/* End Column */}
-                                                    {/* Start Column */}
-                                                    <div className="col-md-2 text-center">
-                                                        <BiRightArrow />
-                                                    </div>
-                                                    {/* End Column */}
-                                                </div>
-                                                {/* End Grid System */}
-                                            </div>
-                                            /* End Category Box */
-                                        ))}
-                                    </section>
-                                    {/* End Categories Section */}
-                                    <hr />
                                 </div>
                                 {/* End Options Box */}
                             </div>
                             {/* End Column */}
                             {/* Start Column */}
-                            <div className="col-md-7">
+                            <div className="col-md-5">
                                 {/* Start Display Box */}
                                 <div className="display-box p-3 h-100 d-flex align-items-center justify-content-center flex-column">
-                                    {categorySelectedIndex == -1 && <p className="description-msg">Please Select Any Category In Category Options Box</p>}
-                                    {categorySelectedIndex > -1 && <h6>Please Select Style</h6>}
-                                    {/* Start Styles Box */}
-                                    {categorySelectedIndex > -1 && <div className="styles-box">
-                                        {/* Start Grid System */}
-                                        <div className="row mb-3">
-                                            {/* Start Column */}
-                                            {categoryStyles.map((style, index) => (
-                                                <div className="col-md-4" key={index}>
-                                                    {/* Start Style Box */}
-                                                    <div
-                                                        className="style-box p-2"
-                                                        onClick={() => handleSelectStyle(index)}
-                                                        style={index === styleSelectedIndex ? { backgroundColor: "rgb(12, 126, 193)" } : {}}
-                                                    >
-                                                        <img src={`${process.env.BASE_API_URL}/${style.imgSrc}`} alt="aa" className="mw-100 mb-2 style-image" />
-                                                        <p className="style-name m-0 text-center">{style.name}</p>
-                                                    </div>
-                                                    {/* End Style Box */}
-                                                </div>
-                                            ))}
-                                            {/* End Column */}
-                                        </div>
-                                        {/* End Grid System */}
-                                    </div>}
-                                    {/* End Styles Box */}
-                                    {categorySelectedIndex > -1 && styleSelectedIndex > -1 && textPrompt !== "" && imageType !== "" && dimentions.width !== undefined && dimentions.height !== undefined && !isWaitStatus && !errorMsg &&
-                                        <button className="btn btn-danger w-50" onClick={textToImageGenerate}>Create</button>
-                                    }
-                                    {isWaitStatus && <button className="btn btn-danger w-50" disabled>Creating ...</button>}
-                                    {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
+                                    
                                 </div>
                                 {/* End Display Box */}
                             </div>

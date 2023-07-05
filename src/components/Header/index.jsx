@@ -28,7 +28,7 @@ const Header = () => {
             {/* Start Top Header */}
             <div className="top-header pt-2 pb-2">
                 <nav className="navbar navbar-expand-lg bg-body-tertiary">
-                    <div className="container">
+                    <div className="container-fluid">
                         <a className="navbar-brand" href="#">Tavlorify Store</a>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
@@ -85,7 +85,7 @@ const Header = () => {
             {/* Start Bottom Header */}
             <div className="bottom-header pt-2 pb-2">
                 {/* Start Container From Bootstrap */}
-                <div className="container">
+                <div className="container-fluid">
                     <ul className="website-explain-list d-flex">
                         <li className="link-item p-2">
                             <Link className="link text-dark" href='/'>

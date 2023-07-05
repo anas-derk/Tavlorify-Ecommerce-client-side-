@@ -2,23 +2,23 @@
   border-bottom: 1px solid #CCC;
 }
 
-.global-header .top-header .navbar .container .navbar-brand {
+.global-header .top-header .navbar .container-fluid .navbar-brand {
   color: #000;
 }
 
-.global-header .top-header .navbar .container .nav-item.auth-item {
+.global-header .top-header .navbar .container-fluid .nav-item.auth-item {
   border-radius: 4px;
 }
 
-.global-header .top-header .navbar .container .nav-item.sign-out-btn {
+.global-header .top-header .navbar .container-fluid .nav-item.sign-out-btn {
   cursor: pointer;
 }
 
-.global-header .top-header .navbar .container .nav-item .nav-link {
+.global-header .top-header .navbar .container-fluid .nav-item .nav-link {
   color: #000;
 }
 
-.global-header .top-header .navbar .container .nav-item:hover {
+.global-header .top-header .navbar .container-fluid .nav-item:hover {
   background-color: #DDD;
   border-radius: 4px;
 }

@@ -72,19 +72,16 @@
         }
     }
     .page-content{
-        background-color: #000;
-        color: #FFF;
-        .container{
+        .container-fluid{
             .welcome-msg{
                 font-family: 'Caveat', cursive;
                 font-weight: bold;
                 font-size: 50px;
-                border-bottom: 1px solid #FFF;
+                border-bottom: 3px solid #000;
                 width: fit-content;
                 margin: 0 auto;
             }
             .text-to-image-box{
-                background-color: #222;
                 border-radius: 10px;
                 box-shadow: 1px 1px 20px #CCC;
                 .row{
@@ -93,26 +90,39 @@
                         border-left: 5px solid #CCC;
                     }
                     .options-box{
-                        background-color: #444;
-                        border-left: 5px solid;
                         box-shadow: 1px 1px 10px #FFF;
+                        height: 500px;
                         overflow-y: scroll;
-                        max-height: 450px;
                         .option-heading{
                             font-family: 'Caveat', cursive;
                             font-size: 30px;
                             border-bottom: 2px solid;
                         }
+                        .text-prompt{
+                            resize: none;
+                            height: 100px;
+                        }
                         .categories{
-                            background-color: #222;
                             cursor: pointer;
-                            border-radius: 10px;
                             .category-box{
-                                border-radius: 10px;
                                 &:hover{
-                                    background-color: rgb(12, 126, 193);
+                                    background-color: #EEE;
                                 }
                                 .category-image{
+                                    border-radius: 10px;
+                                    height: 75px;
+                                    border: 2px solid;
+                                }
+                            }
+                        }
+                        .styles-box{
+                            .style-box{
+                                cursor: pointer;
+                                border-radius: 3px;
+                                &:hover{
+                                    background-color: #EEE;
+                                }
+                                .style-image{
                                     border-radius: 10px;
                                     height: 75px;
                                     border: 2px solid;
@@ -123,25 +133,6 @@
                     .display-box{
                         border: 2px solid #FFF;
                         border-radius: 5px;
-                        .styles-box{
-                            .row{
-                                row-gap: 20px;
-                                overflow-y: auto;
-                                max-height: 350px;
-                            }
-                            .style-box{
-                                background-color: #444;
-                                cursor: pointer;
-                                border-radius: 3px;
-                                border: 3px solid #333;
-                                &:hover{
-                                    background-color: rgb(12, 126, 193);
-                                }
-                                .style-image{
-                                    border: 1px solid;
-                                }
-                            }
-                        }
                     }
                 }
                 .select-box{
