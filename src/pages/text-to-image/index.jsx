@@ -33,11 +33,11 @@ const TextToImage = () => {
 
     const [frameColor, setFrameColor] = useState("");
 
+    const [isDisplayImageDimetionsSelectBox, setIsDisplayImageDimetionsSelectBox] = useState(true);
+
     const [dimentions, setDimentions] = useState({});
 
     const [dimentionsIndex, setDimentionsIndex] = useState(-1);
-
-    const [getImgDimentionsMsg, setGetImgDimentionsMsg] = useState("");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -80,15 +80,26 @@ const TextToImage = () => {
     }
 
     const handleSelectStyle = (index) => {
+        setIsDisplayImageDimetionsSelectBox(false);
         setStyleSelectedIndex(index);
         let tempModelName = categoryStyles[index].modelName;
         setModelName(tempModelName);
-        // if (styleSelectedIndex > -1 && imageType) {
-        //     setDimentions({
-        //         width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimensionsIndex].inPixel.width,
-        //         height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimensionsIndex].inPixel.height,
-        //     });
-        // }
+        setTimeout(() => {
+            setDimentions({});
+            setIsDisplayImageDimetionsSelectBox(true);
+        }, 500);
+    }
+
+    const handleSelectPaintingType = (e) => {
+        setIsDisplayImageDimetionsSelectBox(false);
+        if (e.target.value === "canvas-prints") {
+            setFrameColor("");
+        }
+        setTimeout(() => {
+            setPaintingType(e.target.value);
+            setDimentions({});
+            setIsDisplayImageDimetionsSelectBox(true);
+        }, 500);
     }
 
     const textToImageGenerate = (e) => {
@@ -335,25 +346,17 @@ const TextToImage = () => {
                                     </div>}
                                     {/* End Styles Box */}
                                     <hr />
+                                    <h6 className="mb-3">Painting Type</h6>
+                                    <select className="form-control" onChange={(e) => handleSelectPaintingType(e)}>
+                                        <option defaultValue="" hidden>Select Painting Type</option>
+                                        <option value="canvas-prints">Canvas</option>
+                                        <option value="poster">Poster</option>
+                                        <option value="wooden-framed-poster">Wooden Framed Poster</option>
+                                        <option value="poster-with-hangers">Poster With Hangers</option>
+                                    </select>
+
+                                    <hr />
                                     {/* Start Select Image Type Section */}
-                                    {styleSelectedIndex > -1 && <>
-                                        <h6 className="mb-3">Painting Type</h6>
-                                        <select className="form-control" onChange={(e) => {
-                                            setGetImgDimentionsMsg("Waiting ...");
-                                            setTimeout(() => {
-                                                setPaintingType(e.target.value);
-                                                setDimentions({});
-                                                setGetImgDimentionsMsg("");
-                                            }, 1000);
-                                        }}>
-                                            <option defaultValue="" hidden>Select Painting Type</option>
-                                            <option value="canvas-prints">Canvas</option>
-                                            <option value="poster">Poster</option>
-                                            <option value="wooden-framed-poster">Wooden Framed Poster</option>
-                                            <option value="poster-with-hangers">Poster With Hangers</option>
-                                        </select>
-                                        <hr />
-                                    </>}
                                     {(paintingType === "wooden-framed-poster" || paintingType === "poster-with-hangers") && <>
                                         <h6 className="mb-3">Frame Color</h6>
                                         <select className="form-control" onChange={(e) => {
@@ -367,7 +370,7 @@ const TextToImage = () => {
                                         </select>
                                         <hr />
                                     </>}
-                                    {paintingType && <>
+                                    {paintingType && isDisplayImageDimetionsSelectBox && styleSelectedIndex > -1 && <>
                                         <h6 className="mb-3">Image Size</h6>
                                         <select className="form-control" onChange={(e) => handleSelectImageDimentions(e.target.value)}>
                                             <option defaultValue="" hidden>Select Image Size</option>
@@ -398,7 +401,7 @@ const TextToImage = () => {
                             <div className="col-md-5">
                                 {/* Start Display Box */}
                                 <div className="display-box p-3 h-100 d-flex align-items-center justify-content-center flex-column">
-                                    
+                                    aa
                                 </div>
                                 {/* End Display Box */}
                             </div>
