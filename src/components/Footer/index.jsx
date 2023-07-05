@@ -17,7 +17,7 @@ const Footer = () => {
         // Start Page Footer
         <footer className="global-footer pt-4 pb-4 bg-dark text-white">
             {/* Start Container */}
-            <div className="container">
+            <div className="container-fluid">
                 {/* Start Grid System */}
                 <div className="row">
                     {/* Start Column */}
