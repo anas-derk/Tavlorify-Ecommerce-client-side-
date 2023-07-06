@@ -101,40 +101,55 @@ const TextToImage = () => {
                     <div className="row">
                         {/* Start Column */}
                         <div className="col-md-6">
-                            image
+                            {/* Start Art Painting Section */}
+                            <section className="art-painting">
+                                image
+                            </section>
+                            {/* End Art Painting Section */}
                         </div>
                         {/* End Column */}
                         {/* Start Column */}
                         <div className="col-md-6">
-                            <div className="art-options-box pe-3">
-                                <h6 className="text-center mb-3">Your Text Prompt</h6>
-                                <textarea
-                                    type="text"
-                                    placeholder="a dog riding a bicycle"
-                                    className="form-control mb-3 text-prompt"
-                                    onChange={(e) => setTextPrompt(e.target.value)}
-                                ></textarea>
-                                <h6 className="describe text-start mb-0 text-end">Describe what you want the AI to create .</h6>
-                                <hr />
-                                {/* Start Grid System */}
-                                <div className="row">
-                                    <div className="col-md-8">
-                                        <h4>Art Name: Poster</h4>
+                            <section className="art-painting-options pe-3">
+                                {/* Start Generating Image Options Section */}
+                                <section className="generating-image-options">
+                                    <h6 className="text-center mb-3 fw-bold">Your Text Prompt</h6>
+                                    <textarea
+                                        type="text"
+                                        placeholder="a dog riding a bicycle"
+                                        className="form-control mb-3 text-prompt"
+                                        onChange={(e) => setTextPrompt(e.target.value)}
+                                    ></textarea>
+                                    <h6 className="describe text-start mb-0 text-end fw-bold">Describe what you want the AI to create .</h6>
+                                    <hr />
+                                    {/* Start Categories Section */}
+
+                                    {/* End Categories Section */}
+                                </section>
+                                {/* Start Generating Image Options Section */}
+                                {/* Start Art Name And Price Section */}
+                                <section className="art-name-and-price">
+                                    {/* Start Grid System */}
+                                    <div className="row">
+                                        <div className="col-md-8">
+                                            <h4 className="art-name fw-bold">Art Name: Poster</h4>
+                                        </div>
+                                        <div className="col-md-4 text-end price-box">
+                                            <h4 className="price mb-0 fw-bold">341,10 kr</h4>
+                                            <h6 className="discount fw-bold">229 kr</h6>
+                                        </div>
                                     </div>
-                                    <div className="col-md-4 text-end price-box">
-                                        <h4 className="price mb-0">341,10 kr</h4>
-                                        <h6 className="discount">229 kr</h6>
-                                    </div>
-                                </div>
-                                {/* End Grid System */}
-                                {/* Start Art Names List */}
-                                <ul className="art-names-list d-flex flex-wrap">
-                                    <li className="p-2 pe-3 ps-3">Poster</li>
-                                    <li className="p-2 pe-3 ps-3">Canvas</li>
-                                </ul>
-                                {/* EndArt Names List */}
-                                {/* Start Select Painting Details Box */}
-                                <div className="painting-details-box pt-4 pb-4">
+                                    {/* End Grid System */}
+                                </section>
+                                {/* End Art Name And Price Section */}
+                                {/* Start Displaying Art Painting Options Section */}
+                                <section className="displaying-art-painting-options">
+                                    {/* Start Art Names List */}
+                                    <ul className="art-names-list d-flex flex-wrap mb-4">
+                                        <li className="p-2 pe-3 ps-3">Poster</li>
+                                        <li className="p-2 pe-3 ps-3">Canvas</li>
+                                    </ul>
+                                    {/* EndArt Names List */}
                                     <h5>Positions</h5>
                                     {/* Start Positions List */}
                                     <ul className="positions-list mb-4 text-center">
@@ -143,15 +158,15 @@ const TextToImage = () => {
                                         <li className="p-3">Square</li>
                                     </ul>
                                     {/* End Positions List */}
-                                    <h5>Sizes</h5>
+                                    {/* <h5>Sizes</h5> */}
                                     {/* Start Sizes List */}
-                                    <ul className="sizes-list mb-4 text-center">
+                                    {/* <ul className="sizes-list mb-4 text-center">
                                         <li className="p-3">Vertical</li>
-                                    </ul>
+                                    </ul> */}
                                     {/* End Sizes List */}
-                                </div>
-                                {/* End Select Painting Details Box */}
-                            </div>
+                                </section>
+                                {/* End Displaying Art Painting Options Section */}
+                            </section>
                         </div>
                         {/* End Column */}
                     </div>
