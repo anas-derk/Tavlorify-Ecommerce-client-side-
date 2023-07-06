@@ -29,8 +29,6 @@ const TextToImage = () => {
 
     const [frameColor, setFrameColor] = useState("");
 
-    const [isDisplayImageDimetionsSelectBox, setIsDisplayImageDimetionsSelectBox] = useState(true);
-
     const [dimentions, setDimentions] = useState({});
 
     const [dimentionsIndex, setDimentionsIndex] = useState(-1);
@@ -79,25 +77,24 @@ const TextToImage = () => {
 
     const handleSelectCategory = (index) => {
         setCategorySelectedIndex(index);
-        setStyleSelectedIndex(-1);
-        setImageType("");
-        setDimentions({});
+        // setDimentions({});
         Axios.get(`${process.env.BASE_API_URL}/styles/category-styles-data?categoryName=${categoriesData[index].name}`)
             .then((res) => {
                 setCategoryStyles(res.data);
+                setStyleSelectedIndex(0);
+                setModelName(res.data[0].modelName);
             })
             .catch((err) => console.log(err));
     }
 
     const handleSelectStyle = (index) => {
-        setIsDisplayImageDimetionsSelectBox(false);
         setStyleSelectedIndex(index);
         let tempModelName = categoryStyles[index].modelName;
         setModelName(tempModelName);
-        setTimeout(() => {
-            setDimentions({});
-            setIsDisplayImageDimetionsSelectBox(true);
-        }, 500);
+        // setTimeout(() => {
+        //     setDimentions({});
+        //     setIsDisplayImageDimetionsSelectBox(true);
+        // }, 500);
     }
 
     const handleSelectImageDimentions = (inCm) => {
