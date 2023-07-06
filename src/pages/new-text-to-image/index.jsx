@@ -16,9 +16,9 @@ const TextToImage = () => {
 
     const [errorMsg, setErrorMsg] = useState("");
 
-    const [categorySelectedIndex, setCategorySelectedIndex] = useState(-1);
+    const [categorySelectedIndex, setCategorySelectedIndex] = useState(0);
 
-    const [styleSelectedIndex, setStyleSelectedIndex] = useState(-1);
+    const [styleSelectedIndex, setStyleSelectedIndex] = useState(0);
 
     const [modelName, setModelName] = useState("");
 
@@ -57,6 +57,11 @@ const TextToImage = () => {
                 } else {
                     // console.log(result)
                     setCategoriesData(result);
+                    Axios.get(`${process.env.BASE_API_URL}/styles/category-styles-data?categoryName=${result[0].name}`)
+                        .then((res) => {
+                            setCategoryStyles(res.data);
+                        })
+                        .catch((err) => console.log(err));
                 }
             })
             .catch((err) => console.log(err));
@@ -72,6 +77,17 @@ const TextToImage = () => {
                 setCategoryStyles(res.data);
             })
             .catch((err) => console.log(err));
+    }
+
+    const handleSelectStyle = (index) => {
+        setIsDisplayImageDimetionsSelectBox(false);
+        setStyleSelectedIndex(index);
+        let tempModelName = categoryStyles[index].modelName;
+        setModelName(tempModelName);
+        setTimeout(() => {
+            setDimentions({});
+            setIsDisplayImageDimetionsSelectBox(true);
+        }, 500);
     }
 
     const textToImageGenerate = (e) => {
@@ -131,8 +147,20 @@ const TextToImage = () => {
                                         placeholder="a dog riding a bicycle"
                                         className="form-control mb-3 text-prompt"
                                         onChange={(e) => setTextPrompt(e.target.value)}
+                                        defaultValue="a dog"
                                     ></textarea>
-                                    <h6 className="describe text-start mb-0 text-end fw-bold">Describe what you want the AI to create .</h6>
+                                    <div className="row align-items-center">
+                                        <div className="col-md-7">
+                                            <h6 className="describe text-start mb-0 fw-bold">Describe what you want the AI to create .</h6>
+                                        </div>
+                                        <div className="col-md-5 text-end">
+                                            {!isWaitStatus && !errorMsg &&
+                                                <button className="btn btn-dark w-100" onClick={textToImageGenerate}>Create</button>
+                                            }
+                                            {isWaitStatus && <button className="btn btn-dark w-50" disabled>Creating ...</button>}
+                                            {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
+                                        </div>
+                                    </div>
                                     <hr />
                                     <h6 className="mb-4 fw-bold">Please Select Category</h6>
                                     {/* Start Categories Section */}
@@ -151,7 +179,7 @@ const TextToImage = () => {
                                                             className="category-image mb-2"
                                                             style={index === categorySelectedIndex ? { border: "4px solid #F00" } : {}}
                                                         />
-                                                        <h6>{category.name}</h6>
+                                                        <h6 className="category-name text-center">{category.name}</h6>
                                                     </div>
                                                     {/* End Category Box */}
                                                 </div>
@@ -162,7 +190,7 @@ const TextToImage = () => {
                                     <hr />
                                     <h6 className="mb-4 fw-bold">Please Select Style</h6>
                                     {/* Start Styles Section */}
-                                    {categorySelectedIndex > -1 && <section className="styles mb-3">
+                                    <section className="styles mb-3">
                                         {/* Start Grid System */}
                                         <div className="row">
                                             {/* Start Column */}
@@ -186,7 +214,7 @@ const TextToImage = () => {
                                             {/* End Column */}
                                         </div>
                                         {/* End Grid System */}
-                                    </section>}
+                                    </section>
                                     {/* End Styles Box */}
                                 </section>
                                 {/* Start Generating Image Options Section */}

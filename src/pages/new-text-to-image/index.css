@@ -36,6 +36,10 @@
   border: 2px solid;
 }
 
+.text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .categories .row .category-box .category-name {
+  font-size: 15px;
+}
+
 .text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .styles .row {
   flex-wrap: nowrap;
   overflow-x: scroll;
@@ -48,6 +52,10 @@
 .text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .styles .style-box .style-image {
   height: 75px;
   border: 2px solid;
+}
+
+.text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .styles .style-box .style-name {
+  font-size: 15px;
 }
 
 .text-to-image-service .page-content .container-fluid .art-painting-options .art-name-and-price .price-box .discount {
