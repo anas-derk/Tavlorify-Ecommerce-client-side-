@@ -2024,78 +2024,78 @@ const modelsDimentions = {
 }
 
 const gelatoDimetions = {
-    "canvas-prints": {
+    "canvas": {
         "horizontal": [
-            {
-                inCm: "30x20",
-                imMm: "200x300",
-                inInch: "8x12",
-            },
-            {
-                inCm: "60x20",
-                imMm: "200x600",
-                inInch: "8x24",
-            },
+            // {
+            //     inCm: "30x20",
+            //     imMm: "200x300",
+            //     inInch: "8x12",
+            // },
+            // {
+            //     inCm: "60x20",
+            //     imMm: "200x600",
+            //     inInch: "8x24",
+            // },
             {
                 inCm: "40x30",
                 imMm: "300x400",
                 inInch: "12x16",
             },
-            {
-                inCm: "45x30",
-                imMm: "300x450",
-                inInch: "12x18",
-            },
-            {
-                inCm: "60x30",
-                imMm: "300x600",
-                inInch: "12x24",
-            },
-            {
-                inCm: "90x30",
-                imMm: "300x900",
-                inInch: "12x36",
-            },
-            {
-                inCm: "60x40",
-                imMm: "400x600",
-                inInch: "16x24",
-            },
-            {
-                inCm: "80x40",
-                imMm: "400x800",
-                inInch: "16x32",
-            },
-            {
-                inCm: "60x45",
-                imMm: "450x600",
-                inInch: "18x24",
-            },
+            // {
+            //     inCm: "45x30",
+            //     imMm: "300x450",
+            //     inInch: "12x18",
+            // },
+            // {
+            //     inCm: "60x30",
+            //     imMm: "300x600",
+            //     inInch: "12x24",
+            // },
+            // {
+            //     inCm: "90x30",
+            //     imMm: "300x900",
+            //     inInch: "12x36",
+            // },
+            // {
+            //     inCm: "60x40",
+            //     imMm: "400x600",
+            //     inInch: "16x24",
+            // },
+            // {
+            //     inCm: "80x40",
+            //     imMm: "400x800",
+            //     inInch: "16x32",
+            // },
+            // {
+            //     inCm: "60x45",
+            //     imMm: "450x600",
+            //     inInch: "18x24",
+            // },
             {
                 inCm: "70x50",
                 imMm: "500x700",
                 inInch: "20x28",
             },
-            {
-                inCm: "75x50",
-                imMm: "500x750",
-                inInch: "20x30",
-            },
-            {
-                inCm: "100x50",
-                imMm: "500x1000",
-                inInch: "20x40",
-            },
-            {
-                inCm: "80x60",
-                imMm: "600x800",
-                inInch: "24x32",
-            },
-            {
-                inCm: "90x60",
-                imMm: "600x900",
-                inInch: "24x36",
-            },
+            // {
+            //     inCm: "75x50",
+            //     imMm: "500x750",
+            //     inInch: "20x30",
+            // },
+            // {
+            //     inCm: "100x50",
+            //     imMm: "500x1000",
+            //     inInch: "20x40",
+            // },
+            // {
+            //     inCm: "80x60",
+            //     imMm: "600x800",
+            //     inInch: "24x32",
+            // },
+            // {
+            //     inCm: "90x60",
+            //     imMm: "600x900",
+            //     inInch: "24x36",
+            // },
             {
                 inCm: "100x70",
                 imMm: "700x1000",
@@ -2103,76 +2103,76 @@ const gelatoDimetions = {
             },
         ],
         "vertical": [
-            {
-                inCm: "20x30",
-                imMm: "200x300",
-                inInch: "8x12",
-            },
-            {
-                inCm: "20x60",
-                imMm: "200x600",
-                inInch: "8x24",
-            },
+            // {
+            //     inCm: "20x30",
+            //     imMm: "200x300",
+            //     inInch: "8x12",
+            // },
+            // {
+            //     inCm: "20x60",
+            //     imMm: "200x600",
+            //     inInch: "8x24",
+            // },
             {
                 inCm: "30x40",
                 imMm: "300x400",
                 inInch: "12x16",
             },
-            {
-                inCm: "30x45",
-                imMm: "300x450",
-                inInch: "12x18",
-            },
-            {
-                inCm: "30x60",
-                imMm: "300x600",
-                inInch: "12x24",
-            },
-            {
-                inCm: "30x90",
-                imMm: "300x900",
-                inInch: "12x36",
-            },
-            {
-                inCm: "40x60",
-                imMm: "400x600",
-                inInch: "16x24",
-            },
-            {
-                inCm: "40x80",
-                imMm: "400x800",
-                inInch: "16x32",
-            },
-            {
-                inCm: "45x60",
-                imMm: "450x600",
-                inInch: "18x24",
-            },
+            // {
+            //     inCm: "30x45",
+            //     imMm: "300x450",
+            //     inInch: "12x18",
+            // },
+            // {
+            //     inCm: "30x60",
+            //     imMm: "300x600",
+            //     inInch: "12x24",
+            // },
+            // {
+            //     inCm: "30x90",
+            //     imMm: "300x900",
+            //     inInch: "12x36",
+            // },
+            // {
+            //     inCm: "40x60",
+            //     imMm: "400x600",
+            //     inInch: "16x24",
+            // },
+            // {
+            //     inCm: "40x80",
+            //     imMm: "400x800",
+            //     inInch: "16x32",
+            // },
+            // {
+            //     inCm: "45x60",
+            //     imMm: "450x600",
+            //     inInch: "18x24",
+            // },
             {
                 inCm: "50x70",
                 imMm: "500x700",
                 inInch: "20x28",
             },
-            {
-                inCm: "50x75",
-                imMm: "500x750",
-                inInch: "20x30",
-            },
-            {
-                inCm: "50x100",
-                imMm: "500x1000",
-                inInch: "20x40",
-            },
-            {
-                inCm: "60x80",
-                imMm: "600x800",
-                inInch: "24x32",
-            },
-            {
-                inCm: "60x90",
-                imMm: "600x900",
-                inInch: "24x36",
-            },
+            // {
+            //     inCm: "50x75",
+            //     imMm: "500x750",
+            //     inInch: "20x30",
+            // },
+            // {
+            //     inCm: "50x100",
+            //     imMm: "500x1000",
+            //     inInch: "20x40",
+            // },
+            // {
+            //     inCm: "60x80",
+            //     imMm: "600x800",
+            //     inInch: "24x32",
+            // },
+            // {
+            //     inCm: "60x90",
+            //     imMm: "600x900",
+            //     inInch: "24x36",
+            // },
             {
                 inCm: "70x100",
                 imMm: "700x1000",
@@ -2244,11 +2244,11 @@ const gelatoDimetions = {
             //     imMm: "450x600",
             //     inInch: "18x24",
             // },
-            // {
-            //     inCm: "70x50",
-            //     imMm: "500x700",
-            //     inInch: "20x28",
-            // },
+            {
+                inCm: "70x50",
+                imMm: "500x700",
+                inInch: "20x28",
+            },
             // {
             //     inCm: "80x60",
             //     imMm: "600x800",

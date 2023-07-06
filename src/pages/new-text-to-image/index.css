@@ -85,6 +85,17 @@
   border: 1px solid #CCC;
 }
 
+.text-to-image-service .page-content .container-fluid .art-painting-options .displaying-art-painting-options .sizes-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
+  gap: 10px;
+}
+
+.text-to-image-service .page-content .container-fluid .art-painting-options .displaying-art-painting-options .sizes-list li {
+  cursor: pointer;
+  border: 1px solid #CCC;
+}
+
 @keyframes popup-animation {
   from {
     opacity: 0;

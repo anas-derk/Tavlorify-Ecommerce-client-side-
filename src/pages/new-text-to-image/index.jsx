@@ -24,7 +24,7 @@ const TextToImage = () => {
 
     const [imageType, setImageType] = useState("vertical");
 
-    const [paintingType, setPaintingType] = useState("canvas-prints");
+    const [paintingType, setPaintingType] = useState("poster");
 
     const [frameColor, setFrameColor] = useState("");
 
@@ -61,7 +61,13 @@ const TextToImage = () => {
                         .then((res) => {
                             const categoryStylesTemp = res.data;
                             setCategoryStyles(categoryStylesTemp);
-                            setModelName(categoryStylesTemp[0].modelName);
+                            const tempModelName = categoryStylesTemp[0].modelName;
+                            setModelName(tempModelName);
+                            const dimsIndex = text_to_image_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == "50x70");
+                            setDimentions({
+                                width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
+                                height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+                            });
                         })
                         .catch((err) => console.log(err));
                 }
@@ -90,6 +96,14 @@ const TextToImage = () => {
             setDimentions({});
             setIsDisplayImageDimetionsSelectBox(true);
         }, 500);
+    }
+
+    const handleSelectImageDimentions = (inCm) => {
+        const dimsIndex = text_to_image_data.modelsDimentions[modelName][imageType].findIndex((el) => el.inCm == inCm);
+        setDimentions({
+            width: text_to_image_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.width,
+            height: text_to_image_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.height,
+        });
     }
 
     const textToImageGenerate = (e) => {
@@ -225,7 +239,7 @@ const TextToImage = () => {
                                     {/* Start Grid System */}
                                     <div className="row">
                                         <div className="col-md-8">
-                                            <h4 className="art-name fw-bold">Art Name: { paintingType }</h4>
+                                            <h4 className="art-name fw-bold">Art Name: {paintingType}</h4>
                                         </div>
                                         <div className="col-md-4 text-end price-box">
                                             <h4 className="price mb-0 fw-bold">341,10 kr</h4>
@@ -242,14 +256,14 @@ const TextToImage = () => {
                                         <li
                                             className="p-2 pe-3 ps-3"
                                             onClick={() => setPaintingType("poster")}
-                                            style={paintingType === "poster" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" }: {}}
+                                            style={paintingType === "poster" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
                                         >
-                                                Poster
-                                            </li>
+                                            Poster
+                                        </li>
                                         <li
                                             className="p-2 pe-3 ps-3"
-                                            onClick={() => setPaintingType("canvas-prints")}
-                                            style={paintingType === "canvas-prints" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" }: {}}
+                                            onClick={() => setPaintingType("canvas")}
+                                            style={paintingType === "canvas" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
                                         >
                                             Canvas
                                         </li>
@@ -281,11 +295,20 @@ const TextToImage = () => {
                                         </li>
                                     </ul>
                                     {/* End Positions List */}
-                                    {/* <h5>Sizes</h5> */}
+                                    <h5>Sizes</h5>
                                     {/* Start Sizes List */}
-                                    {/* <ul className="sizes-list mb-4 text-center">
-                                        <li className="p-3">Vertical</li>
-                                    </ul> */}
+                                    <ul className="sizes-list mb-4 text-center">
+                                        {text_to_image_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
+                                            <li
+                                                key={index}
+                                                className="p-3"
+                                                onClick={() => handleSelectImageDimentions(dims.inCm)}
+                                                style={dims.inCm === "50x70" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            >
+                                                {dims.inCm}
+                                            </li>
+                                        ))}
+                                    </ul>
                                     {/* End Sizes List */}
                                 </section>
                                 {/* End Displaying Art Painting Options Section */}

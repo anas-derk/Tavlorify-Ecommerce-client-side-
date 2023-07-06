@@ -80,6 +80,15 @@
                             border: 1px solid #CCC;
                         }
                     }
+                    .sizes-list{
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
+                        gap: 10px;
+                        li{
+                            cursor: pointer;
+                            border: 1px solid #CCC;
+                        }
+                    }
                 }
             }
         }
