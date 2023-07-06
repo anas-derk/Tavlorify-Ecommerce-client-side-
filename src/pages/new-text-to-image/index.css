@@ -1,0 +1,59 @@
+.text-to-image-service .page-content .container-fluid .welcome-msg {
+  font-family: 'Caveat', cursive;
+  font-weight: bold;
+  font-size: 50px;
+  border-bottom: 3px solid #000;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.text-to-image-service .page-content .container-fluid .art-options-box {
+  height: 500px;
+  overflow-y: scroll;
+}
+
+.text-to-image-service .page-content .container-fluid .art-options-box .text-prompt {
+  resize: none;
+  height: 100px;
+}
+
+.text-to-image-service .page-content .container-fluid .art-options-box .text-prompt:focus {
+  border: 3px solid #000;
+  box-shadow: none;
+}
+
+.text-to-image-service .page-content .container-fluid .art-options-box .price-box .discount {
+  text-decoration: line-through;
+}
+
+.text-to-image-service .page-content .container-fluid .art-options-box .art-names-list {
+  border-bottom: 1px solid #CCC;
+}
+
+.text-to-image-service .page-content .container-fluid .art-options-box .art-names-list li {
+  cursor: pointer;
+}
+
+.text-to-image-service .page-content .container-fluid .art-options-box .art-names-list li:hover {
+  border-bottom: 3px solid #CCC;
+}
+
+.text-to-image-service .page-content .container-fluid .art-options-box .painting-details-box .positions-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+  gap: 10px;
+}
+
+.text-to-image-service .page-content .container-fluid .art-options-box .painting-details-box .positions-list li {
+  cursor: pointer;
+  border: 1px solid #CCC;
+}
+
+@keyframes popup-animation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
