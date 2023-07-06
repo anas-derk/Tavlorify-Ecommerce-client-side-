@@ -22,6 +22,34 @@
   box-shadow: none;
 }
 
+.text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .categories .row {
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+}
+
+.text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .categories .row .category-box {
+  cursor: pointer;
+}
+
+.text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .categories .row .category-box .category-image {
+  height: 75px;
+  border: 2px solid;
+}
+
+.text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .styles .row {
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+}
+
+.text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .styles .style-box {
+  cursor: pointer;
+}
+
+.text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .styles .style-box .style-image {
+  height: 75px;
+  border: 2px solid;
+}
+
 .text-to-image-service .page-content .container-fluid .art-painting-options .art-name-and-price .price-box .discount {
   text-decoration: line-through;
 }

@@ -21,6 +21,32 @@
                             box-shadow: none;
                         }
                     }
+                    .categories{
+                        .row{
+                            flex-wrap: nowrap;
+                            overflow-x: scroll;
+                            .category-box{
+                                cursor: pointer;
+                                .category-image{
+                                    height: 75px;
+                                    border: 2px solid;
+                                }
+                            }
+                        }
+                    }
+                    .styles{
+                        .row{
+                            flex-wrap: nowrap;
+                            overflow-x: scroll;
+                        }
+                        .style-box{
+                            cursor: pointer;
+                            .style-image{
+                                height: 75px;
+                                border: 2px solid;
+                            }
+                        }
+                    }
                 }
                 .art-name-and-price{
                     .price-box{

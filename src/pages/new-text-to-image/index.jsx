@@ -62,6 +62,18 @@ const TextToImage = () => {
             .catch((err) => console.log(err));
     }, []);
 
+    const handleSelectCategory = (index) => {
+        setCategorySelectedIndex(index);
+        setStyleSelectedIndex(-1);
+        setImageType("");
+        setDimentions({});
+        Axios.get(`${process.env.BASE_API_URL}/styles/category-styles-data?categoryName=${categoriesData[index].name}`)
+            .then((res) => {
+                setCategoryStyles(res.data);
+            })
+            .catch((err) => console.log(err));
+    }
+
     const textToImageGenerate = (e) => {
         e.preventDefault();
         setErrorMsg("");
@@ -122,9 +134,60 @@ const TextToImage = () => {
                                     ></textarea>
                                     <h6 className="describe text-start mb-0 text-end fw-bold">Describe what you want the AI to create .</h6>
                                     <hr />
+                                    <h6 className="mb-4 fw-bold">Please Select Category</h6>
                                     {/* Start Categories Section */}
-
+                                    <section className="categories mb-4">
+                                        <div className="row">
+                                            {categoriesData.map((category, index) => (
+                                                <div className="col-md-2" key={category._id}>
+                                                    {/* Start Category Box */}
+                                                    <div
+                                                        className="category-box text-center"
+                                                        onClick={() => handleSelectCategory(index)}
+                                                    >
+                                                        <img
+                                                            src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
+                                                            alt="aa"
+                                                            className="category-image mb-2"
+                                                            style={index === categorySelectedIndex ? { border: "4px solid #F00" } : {}}
+                                                        />
+                                                        <h6>{category.name}</h6>
+                                                    </div>
+                                                    {/* End Category Box */}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </section>
                                     {/* End Categories Section */}
+                                    <hr />
+                                    <h6 className="mb-4 fw-bold">Please Select Style</h6>
+                                    {/* Start Styles Section */}
+                                    {categorySelectedIndex > -1 && <section className="styles mb-3">
+                                        {/* Start Grid System */}
+                                        <div className="row">
+                                            {/* Start Column */}
+                                            {categoryStyles.map((style, index) => (
+                                                <div className="col-md-2" key={index}>
+                                                    {/* Start Style Box */}
+                                                    <div
+                                                        className="style-box p-2 text-center"
+                                                        onClick={() => handleSelectStyle(index)}
+                                                    >
+                                                        <img
+                                                            src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
+                                                            alt="aa" className="mb-2 style-image"
+                                                            style={index === styleSelectedIndex ? { border: "4px solid #F00" } : {}}
+                                                        />
+                                                        <p className="style-name m-0 text-center">{style.name}</p>
+                                                    </div>
+                                                    {/* End Style Box */}
+                                                </div>
+                                            ))}
+                                            {/* End Column */}
+                                        </div>
+                                        {/* End Grid System */}
+                                    </section>}
+                                    {/* End Styles Box */}
                                 </section>
                                 {/* Start Generating Image Options Section */}
                                 {/* Start Art Name And Price Section */}
