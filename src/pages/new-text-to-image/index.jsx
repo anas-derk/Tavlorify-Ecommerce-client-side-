@@ -5,12 +5,13 @@ import Axios from "axios";
 import text_to_image_data from "../../../public/data/text_to_image_data";
 import nodeCodeGenerator from "node-code-generator";
 import { useRouter } from "next/router";
+import generatedImage from "../../../public/images/test.png";
 
 const TextToImage = () => {
 
     const [textPrompt, setTextPrompt] = useState("a dog");
 
-    const [generatedImageURLs, setGeneratedImageURLs] = useState([]);
+    const [generatedImageURL, setGeneratedImageURL] = useState([]);
 
     const [isWaitStatus, setIsWaitStatus] = useState(false);
 
@@ -68,6 +69,7 @@ const TextToImage = () => {
                                 width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
                                 height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
                             });
+                            setGeneratedImageURL(generatedImage.src);
                         })
                         .catch((err) => console.log(err));
                 }
@@ -118,15 +120,18 @@ const TextToImage = () => {
                 console.log(result);
                 setIsWaitStatus(false);
                 if (Array.isArray(result)) {
-                    setGeneratedImageURLs(result);
+                    setGeneratedImageURL(result[0]);
                     setErrorMsg("");
                     setIsDisplayPopupScreen(true);
                 } else {
                     setErrorMsg("Something Went Wrong !!");
-                    setGeneratedImageURLs([]);
+                    setGeneratedImageURL("");
                 }
             })
-            .catch((err) => setErrorMsg("Sorry, Something Went Wrong !!"));
+            .catch((err) => {
+                console.log(err);
+                setErrorMsg("Sorry, Something Went Wrong !!");
+            });
     }
 
     return (
@@ -147,7 +152,7 @@ const TextToImage = () => {
                         <div className="col-md-6">
                             {/* Start Art Painting Section */}
                             <section className="art-painting">
-                                image
+                                <img src={generatedImageURL} alt="Generated Image !!" />
                             </section>
                             {/* End Art Painting Section */}
                         </div>
