@@ -29,31 +29,37 @@ a {
 }
 
 .loader {
-  width: 48px;
-  height: 48px;
-  display: inline-block;
   position: relative;
-  border-width: 3px 2px 3px 2px;
-  border-style: solid dotted solid dotted;
-  border-color: #de3500 rgba(255, 255, 255, 0.3) #fff rgba(151, 107, 93, 0.3);
-  border-radius: 50%;
-  box-sizing: border-box;
-  animation: 1s rotate linear infinite;
+  width: 85px;
+  height: 50px;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(#FFF 50px, transparent 0), linear-gradient(#FFF 50px, transparent 0), linear-gradient(#FFF 50px, transparent 0), linear-gradient(#FFF 50px, transparent 0), linear-gradient(#FFF 50px, transparent 0), linear-gradient(#FFF 50px, transparent 0);
+  background-position: 0px center, 15px center, 30px center, 45px center, 60px center, 75px center, 90px center;
+  animation: rikSpikeRoll 0.65s linear infinite alternate;
 }
 
-.loader:before, .loader::after {
-  content: '';
-  top: 0;
-  left: 0;
-  position: absolute;
-  border: 10px solid transparent;
-  border-bottom-color: #fff;
-  transform: translate(-10px, 19px) rotate(-35deg);
-}
-
-.loader::after {
-  border-color: #de3500 #000;
-  transform: translate(32px, 3px) rotate(-35deg);
+@keyframes rikSpikeRoll {
+  0% {
+    background-size: 10px 3px;
+  }
+  16% {
+    background-size: 10px 50px, 10px 3px, 10px 3px, 10px 3px, 10px 3px, 10px 3px;
+  }
+  33% {
+    background-size: 10px 30px, 10px 50px, 10px 3px, 10px 3px, 10px 3px, 10px 3px;
+  }
+  50% {
+    background-size: 10px 10px, 10px 30px, 10px 50px, 10px 3px, 10px 3px, 10px 3px;
+  }
+  66% {
+    background-size: 10px 3px, 10px 10px, 10px 30px, 10px 50px, 10px 3px, 10px 3px;
+  }
+  83% {
+    background-size: 10px 3px, 10px 3px,  10px 10px, 10px 30px, 10px 50px, 10px 3px;
+  }
+  100% {
+    background-size: 10px 3px, 10px 3px, 10px 3px,  10px 10px, 10px 30px, 10px 50px;
+  }
 }
 
 .prints-image {

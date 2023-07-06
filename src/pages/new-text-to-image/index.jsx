@@ -111,6 +111,7 @@ const TextToImage = () => {
     const textToImageGenerate = (e) => {
         e.preventDefault();
         setErrorMsg("");
+        setGeneratedImageURL("");
         setIsWaitStatus(true);
         Axios.get(
             `https://app-014daf9d-1451-4fe3-9e69-b2b35794407d.cleverapps.io/text-to-image-generate?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
@@ -151,8 +152,13 @@ const TextToImage = () => {
                         {/* Start Column */}
                         <div className="col-md-6">
                             {/* Start Art Painting Section */}
-                            <section className="art-painting">
-                                <img src={generatedImageURL} alt="Generated Image !!" />
+                            <section
+                                className="art-painting d-flex justify-content-center align-items-center"
+                                style={ isWaitStatus ? { backgroundColor: "#989492", height: "100%"} : {} }
+                            >
+                                {!isWaitStatus && !errorMsg && generatedImageURL && <img src={generatedImageURL} alt="Generated Image !!" />}
+                                {isWaitStatus && !errorMsg && <span class="loader"></span>}
+                                {errorMsg && <p className="alert alert-danger"></p>}
                             </section>
                             {/* End Art Painting Section */}
                         </div>
