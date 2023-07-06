@@ -22,9 +22,9 @@ const TextToImage = () => {
 
     const [modelName, setModelName] = useState("");
 
-    const [imageType, setImageType] = useState("");
+    const [imageType, setImageType] = useState("vertical");
 
-    const [paintingType, setPaintingType] = useState("");
+    const [paintingType, setPaintingType] = useState("canvas-prints");
 
     const [frameColor, setFrameColor] = useState("");
 
@@ -59,7 +59,9 @@ const TextToImage = () => {
                     setCategoriesData(result);
                     Axios.get(`${process.env.BASE_API_URL}/styles/category-styles-data?categoryName=${result[0].name}`)
                         .then((res) => {
-                            setCategoryStyles(res.data);
+                            const categoryStylesTemp = res.data;
+                            setCategoryStyles(categoryStylesTemp);
+                            setModelName(categoryStylesTemp[0].modelName);
                         })
                         .catch((err) => console.log(err));
                 }
@@ -240,25 +242,43 @@ const TextToImage = () => {
                                         <li
                                             className="p-2 pe-3 ps-3"
                                             onClick={() => setPaintingType("poster")}
-                                            style={paintingType === "poster" ? { "fontWeight": "bold", "borderBottom": "3px solid #000", "backgroundColor": "#EEE" }: {}}
+                                            style={paintingType === "poster" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" }: {}}
                                         >
                                                 Poster
                                             </li>
                                         <li
                                             className="p-2 pe-3 ps-3"
                                             onClick={() => setPaintingType("canvas-prints")}
-                                            style={paintingType === "canvas-prints" ? { "fontWeight": "bold", "borderBottom": "3px solid #000", "backgroundColor": "#EEE" }: {}}
+                                            style={paintingType === "canvas-prints" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" }: {}}
                                         >
                                             Canvas
                                         </li>
                                     </ul>
                                     {/* EndArt Names List */}
-                                    <h5>Positions</h5>
+                                    <h5 className="fw-bold">Positions</h5>
                                     {/* Start Positions List */}
                                     <ul className="positions-list mb-4 text-center">
-                                        <li className="p-3">Vertical</li>
-                                        <li className="p-3">Horizontal</li>
-                                        <li className="p-3">Square</li>
+                                        <li
+                                            className="p-3"
+                                            style={imageType === "vertical" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => setImageType("vertical")}
+                                        >
+                                            Vertical
+                                        </li>
+                                        <li
+                                            className="p-3"
+                                            style={imageType === "horizontal" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => setImageType("horizontal")}
+                                        >
+                                            Horizontal
+                                        </li>
+                                        <li
+                                            className="p-3"
+                                            style={imageType === "square" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => setImageType("square")}
+                                        >
+                                            Square
+                                        </li>
                                     </ul>
                                     {/* End Positions List */}
                                     {/* <h5>Sizes</h5> */}
