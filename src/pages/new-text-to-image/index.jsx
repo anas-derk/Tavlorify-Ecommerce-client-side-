@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 
 const TextToImage = () => {
 
-    const [textPrompt, setTextPrompt] = useState("");
+    const [textPrompt, setTextPrompt] = useState("a dog");
 
     const [generatedImageURLs, setGeneratedImageURLs] = useState([]);
 
@@ -147,7 +147,7 @@ const TextToImage = () => {
                                         placeholder="a dog riding a bicycle"
                                         className="form-control mb-3 text-prompt"
                                         onChange={(e) => setTextPrompt(e.target.value)}
-                                        defaultValue="a dog"
+                                        defaultValue={textPrompt}
                                     ></textarea>
                                     <div className="row align-items-center">
                                         <div className="col-md-7">
@@ -177,7 +177,7 @@ const TextToImage = () => {
                                                             src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
                                                             alt="aa"
                                                             className="category-image mb-2"
-                                                            style={index === categorySelectedIndex ? { border: "4px solid #F00" } : {}}
+                                                            style={index === categorySelectedIndex ? { border: "4px solid #000" } : {}}
                                                         />
                                                         <h6 className="category-name text-center">{category.name}</h6>
                                                     </div>
@@ -204,7 +204,7 @@ const TextToImage = () => {
                                                         <img
                                                             src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
                                                             alt="aa" className="mb-2 style-image"
-                                                            style={index === styleSelectedIndex ? { border: "4px solid #F00" } : {}}
+                                                            style={index === styleSelectedIndex ? { border: "4px solid #000" } : {}}
                                                         />
                                                         <p className="style-name m-0 text-center">{style.name}</p>
                                                     </div>
@@ -223,7 +223,7 @@ const TextToImage = () => {
                                     {/* Start Grid System */}
                                     <div className="row">
                                         <div className="col-md-8">
-                                            <h4 className="art-name fw-bold">Art Name: Poster</h4>
+                                            <h4 className="art-name fw-bold">Art Name: { paintingType }</h4>
                                         </div>
                                         <div className="col-md-4 text-end price-box">
                                             <h4 className="price mb-0 fw-bold">341,10 kr</h4>
@@ -237,8 +237,20 @@ const TextToImage = () => {
                                 <section className="displaying-art-painting-options">
                                     {/* Start Art Names List */}
                                     <ul className="art-names-list d-flex flex-wrap mb-4">
-                                        <li className="p-2 pe-3 ps-3">Poster</li>
-                                        <li className="p-2 pe-3 ps-3">Canvas</li>
+                                        <li
+                                            className="p-2 pe-3 ps-3"
+                                            onClick={() => setPaintingType("poster")}
+                                            style={paintingType === "poster" ? { "fontWeight": "bold", "borderBottom": "3px solid #000", "backgroundColor": "#EEE" }: {}}
+                                        >
+                                                Poster
+                                            </li>
+                                        <li
+                                            className="p-2 pe-3 ps-3"
+                                            onClick={() => setPaintingType("canvas-prints")}
+                                            style={paintingType === "canvas-prints" ? { "fontWeight": "bold", "borderBottom": "3px solid #000", "backgroundColor": "#EEE" }: {}}
+                                        >
+                                            Canvas
+                                        </li>
                                     </ul>
                                     {/* EndArt Names List */}
                                     <h5>Positions</h5>
