@@ -23,15 +23,15 @@ const TextToImage = () => {
 
     const [modelName, setModelName] = useState("");
 
-    const [imageType, setImageType] = useState("vertical");
+    const [imageType, setImageType] = useState("square");
 
-    const [paintingType, setPaintingType] = useState("poster");
+    const [paintingType, setPaintingType] = useState("canvas");
 
     const [frameColor, setFrameColor] = useState("");
 
     const [dimentions, setDimentions] = useState({});
 
-    const [dimentionsInCm, setDimentionsInCm] = useState("50x70");
+    const [dimentionsInCm, setDimentionsInCm] = useState("30x30");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -187,9 +187,9 @@ const TextToImage = () => {
                                 className="art-painting d-flex justify-content-center align-items-center"
                                 style={isWaitStatus ? { backgroundColor: "#989492", height: "100%" } : {}}
                             >
-                                {!isWaitStatus && !errorMsg && generatedImageURL && <img src={generatedImageURL} alt="Generated Image !!" />}
+                                {!isWaitStatus && !errorMsg && generatedImageURL && <img src={generatedImageURL} className="mw-100" alt="Generated Image !!" />}
                                 {isWaitStatus && !errorMsg && <span class="loader"></span>}
-                                {errorMsg && <p className="alert alert-danger"></p>}
+                                {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
                             </section>
                             {/* End Art Painting Section */}
                         </div>
@@ -216,7 +216,6 @@ const TextToImage = () => {
                                                 <button className="btn btn-dark w-100" onClick={textToImageGenerate}>Create</button>
                                             }
                                             {isWaitStatus && <button className="btn btn-dark w-50" disabled>Creating ...</button>}
-                                            {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
                                         </div>
                                     </div>
                                     <hr />
@@ -337,7 +336,7 @@ const TextToImage = () => {
                                         </li>
                                     </ul>
                                     {/* End Positions List */}
-                                    <h5>Sizes</h5>
+                                    <h5 className="fw-bold">Sizes</h5>
                                     {/* Start Sizes List */}
                                     <ul className="sizes-list mb-4 text-center">
                                         {text_to_image_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
@@ -353,6 +352,8 @@ const TextToImage = () => {
                                         ))}
                                     </ul>
                                     {/* End Sizes List */}
+                                    {paintingType === "poster" && <h5 className="fw-bold">Framed</h5>}
+                                    
                                 </section>
                                 {/* End Displaying Art Painting Options Section */}
                             </section>
