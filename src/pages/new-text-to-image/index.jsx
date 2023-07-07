@@ -103,6 +103,10 @@ const TextToImage = () => {
         });
     }
 
+    const handleSelectImageType = (imageType) => {
+        setImageType(imageType);
+    }
+
     const handleSelectImageDimentions = (inCm) => {
         const dimsIndex = text_to_image_data.modelsDimentions[modelName][imageType].findIndex((el) => el.inCm == inCm);
         setDimentions({
@@ -289,21 +293,21 @@ const TextToImage = () => {
                                         <li
                                             className="p-3"
                                             style={imageType === "vertical" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => setImageType("vertical")}
+                                            onClick={() => handleSelectImageType("vertical")}
                                         >
                                             Vertical
                                         </li>
                                         <li
                                             className="p-3"
                                             style={imageType === "horizontal" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => setImageType("horizontal")}
+                                            onClick={() => handleSelectImageType("horizontal")}
                                         >
                                             Horizontal
                                         </li>
                                         <li
                                             className="p-3"
                                             style={imageType === "square" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => setImageType("square")}
+                                            onClick={() => handleSelectImageType("square")}
                                         >
                                             Square
                                         </li>
@@ -317,8 +321,9 @@ const TextToImage = () => {
                                                 key={index}
                                                 className="p-3"
                                                 onClick={() => handleSelectImageDimentions(dims.inCm)}
-                                                style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : { lineHeight: "57px" }}
                                             >
+                                                {dims.inCm === dimentionsInCm && <h6 className="fw-bold">Popular</h6>}
                                                 {dims.inCm}
                                             </li>
                                         ))}
