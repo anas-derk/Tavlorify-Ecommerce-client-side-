@@ -31,7 +31,7 @@ const TextToImage = () => {
 
     const [dimentions, setDimentions] = useState({});
 
-    const [dimentionsIndex, setDimentionsIndex] = useState(-1);
+    const [dimentionsInCm, setDimentionsInCm] = useState("50x70");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -62,7 +62,7 @@ const TextToImage = () => {
                             setCategoryStyles(categoryStylesTemp);
                             const tempModelName = categoryStylesTemp[0].modelName;
                             setModelName(tempModelName);
-                            const dimsIndex = text_to_image_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == "50x70");
+                            const dimsIndex = text_to_image_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
                             setDimentions({
                                 width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
                                 height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
@@ -77,12 +77,17 @@ const TextToImage = () => {
 
     const handleSelectCategory = (index) => {
         setCategorySelectedIndex(index);
-        // setDimentions({});
         Axios.get(`${process.env.BASE_API_URL}/styles/category-styles-data?categoryName=${categoriesData[index].name}`)
             .then((res) => {
                 setCategoryStyles(res.data);
                 setStyleSelectedIndex(0);
-                setModelName(res.data[0].modelName);
+                const tempModelName = res.data[0].modelName;
+                setModelName(tempModelName);
+                const dimsIndex = text_to_image_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
+                setDimentions({
+                    width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
+                    height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+                });
             })
             .catch((err) => console.log(err));
     }
@@ -91,10 +96,11 @@ const TextToImage = () => {
         setStyleSelectedIndex(index);
         let tempModelName = categoryStyles[index].modelName;
         setModelName(tempModelName);
-        // setTimeout(() => {
-        //     setDimentions({});
-        //     setIsDisplayImageDimetionsSelectBox(true);
-        // }, 500);
+        const dimsIndex = text_to_image_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
+        setDimentions({
+            width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
+            height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+        });
     }
 
     const handleSelectImageDimentions = (inCm) => {
@@ -151,7 +157,7 @@ const TextToImage = () => {
                             {/* Start Art Painting Section */}
                             <section
                                 className="art-painting d-flex justify-content-center align-items-center"
-                                style={ isWaitStatus ? { backgroundColor: "#989492", height: "100%"} : {} }
+                                style={isWaitStatus ? { backgroundColor: "#989492", height: "100%" } : {}}
                             >
                                 {!isWaitStatus && !errorMsg && generatedImageURL && <img src={generatedImageURL} alt="Generated Image !!" />}
                                 {isWaitStatus && !errorMsg && <span class="loader"></span>}
@@ -311,7 +317,7 @@ const TextToImage = () => {
                                                 key={index}
                                                 className="p-3"
                                                 onClick={() => handleSelectImageDimentions(dims.inCm)}
-                                                style={dims.inCm === "50x70" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             >
                                                 {dims.inCm}
                                             </li>
