@@ -103,12 +103,36 @@ const TextToImage = () => {
         });
     }
 
-    const handleSelectImageType = (imageType) => {
-        setImageType(imageType);
+    const handleSelectImageType = (imgType) => {
+        setImageType(imgType);
+        if (imgType === "horizontal" || imgType === "vertical") {
+            const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == dimentionsInCm);
+            if (dimsIndex == -1) {
+                const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "50x70");
+                setDimentionsInCm("50x70");
+                setDimentions({
+                    width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                    height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                });
+            } else {
+                setDimentions({
+                    width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                    height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                });
+            }
+        } else {
+            setDimentionsInCm("30x30");
+            const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "30x30");
+            setDimentions({
+                width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+            });
+        }
     }
 
     const handleSelectImageDimentions = (inCm) => {
         const dimsIndex = text_to_image_data.modelsDimentions[modelName][imageType].findIndex((el) => el.inCm == inCm);
+        setDimentionsInCm(inCm);
         setDimentions({
             width: text_to_image_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.width,
             height: text_to_image_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.height,
@@ -323,7 +347,7 @@ const TextToImage = () => {
                                                 onClick={() => handleSelectImageDimentions(dims.inCm)}
                                                 style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : { lineHeight: "57px" }}
                                             >
-                                                {dims.inCm === dimentionsInCm && <h6 className="fw-bold">Popular</h6>}
+                                                {(dims.inCm === "50x70" || dims.inCm === "30x30") && <h6 className="fw-bold">Popular</h6>}
                                                 {dims.inCm}
                                             </li>
                                         ))}
