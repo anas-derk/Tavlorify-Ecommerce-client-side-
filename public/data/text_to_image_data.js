@@ -2090,22 +2090,22 @@ const gelatoDimetions = {
     "poster": {
         "horizontal": [
             {
-                inCm: "29,7x21",
+                inCm: "21x29,7",
                 imMm: "210x297",
                 inInch: "8x12",
             },
             {
-                inCm: "40x30",
+                inCm: "30x40",
                 imMm: "300x400",
                 inInch: "12x16",
             },
             {
-                inCm: "70x50",
+                inCm: "50x70",
                 imMm: "500x700",
                 inInch: "20x28",
             },
             {
-                inCm: "100x70",
+                inCm: "70x100",
                 imMm: "700x1000",
                 inInch: "28x40",
             },
