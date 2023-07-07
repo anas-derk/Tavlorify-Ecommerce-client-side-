@@ -150,37 +150,41 @@ const TextToImage = () => {
 
     const textToImageGenerate = (e) => {
         e.preventDefault();
-        const image = ref1.current;
-        const canvas = document.createElement("canvas");
-        canvas.width = 512;
-        canvas.height = 512;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(image, 0, 0);
-        const dataURL = canvas.toDataURL(undefined, 1.0);
-        setPaintingURL(dataURL);
-        // setErrorMsg("");
-        // setGeneratedImageURL("");
-        // setIsWaitStatus(true);
-        // Axios.get(
-        //     `https://app-014daf9d-1451-4fe3-9e69-b2b35794407d.cleverapps.io/text-to-image-generate?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
-        // `)
-        //     .then((res) => {
-        //         let result = res.data;
-        //         console.log(result);
-        //         setIsWaitStatus(false);
-        //         if (Array.isArray(result)) {
-        //             setGeneratedImageURL(result[0]);
-        //             setErrorMsg("");
-        //             setIsDisplayPopupScreen(true);
-        //         } else {
-        //             setErrorMsg("Something Went Wrong !!");
-        //             setGeneratedImageURL("");
-        //         }
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //         setErrorMsg("Sorry, Something Went Wrong !!");
-        //     });
+        // const image = ref1.current;
+        // const canvas = document.createElement("canvas");
+        // canvas.width = 512;
+        // canvas.height = 512;
+        // const ctx = canvas.getContext("2d");
+        // ctx.drawImage(image, 0, 0);
+        // const dataURL = canvas.toDataURL(undefined, 1.0);
+        // setPaintingURL(dataURL);
+        setErrorMsg("");
+        setGeneratedImageURL("");
+        setIsWaitStatus(true);
+        Axios.get(
+            `https://app-014daf9d-1451-4fe3-9e69-b2b35794407d.cleverapps.io/text-to-image-generate?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
+        `)
+            .then((res) => {
+                let result = res.data;
+                console.log(result);
+                setIsWaitStatus(false);
+                if (Array.isArray(result)) {
+                    setGeneratedImageURL(result[0]);
+                    setPaintingURL(result[0]);
+                    setErrorMsg("");
+                } else {
+                    setErrorMsg("Something Went Wrong !!");
+                    setGeneratedImageURL("");
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                setErrorMsg("Sorry, Something Went Wrong !!");
+            });
+    }
+
+    const handleSelectFrame = (frameColor) => {
+        setFrameColor(frameColor);
     }
 
     return (
@@ -380,12 +384,14 @@ const TextToImage = () => {
                                     {paintingType === "poster" && <ul className="framed-list mb-4 text-center pb-3">
                                         <li
                                             style={frameColor === "none" ? { border: "4px solid #000", fontWeight: "bold" } : { }}
+                                            onClick={() => handleSelectFrame("none")}
                                         >
                                             none
                                         </li>
                                         <li
                                             className="p-2"
                                             style={frameColor === "black" ? { border: "4px solid #000", fontWeight: "bold" } : { }}
+                                            onClick={() => handleSelectFrame("black")}
                                         >
                                             <span className="frame-color d-block fw-bold">Black</span>
                                             <img src={blackFrameImage.src} alt="Black Frame Image" width="50" />
@@ -393,6 +399,7 @@ const TextToImage = () => {
                                         <li
                                             className="p-2"
                                             style={frameColor === "white" ? { border: "4px solid #000", fontWeight: "bold" } : { }}
+                                            onClick={() => handleSelectFrame("white")}
                                         >
                                             <span className="frame-color d-block fw-bold">White</span>
                                             <img src={whiteFrameImage.src} alt="White Frame Image" width="50" />
@@ -400,13 +407,15 @@ const TextToImage = () => {
                                         <li
                                             className="p-2"
                                             style={frameColor === "natural-wood" ? { border: "4px solid #000", fontWeight: "bold" } : { }}
+                                            onClick={() => handleSelectFrame("natural-wood")}
                                         >
                                             <span className="frame-color d-block fw-bold">Wood</span>
                                             <img src={woodFrameImage.src} alt="Wood Frame Image" width="50" />
                                         </li>
                                         <li
                                             className="p-2"
-                                            style={frameColor === "black" ? { border: "4px solid #000", fontWeight: "bold" } : { }}
+                                            style={frameColor === "dark-wood" ? { border: "4px solid #000", fontWeight: "bold" } : { }}
+                                            onClick={() => handleSelectFrame("dark-wood")}
                                         >
                                             <span className="frame-color d-block fw-bold">Dark Wood</span>
                                             <img src={darkWoodFrameImage.src} alt="Dark Wood Frame Image" width="50" />
