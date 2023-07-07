@@ -89,6 +89,16 @@
                             border: 1px solid #CCC;
                         }
                     }
+                    .framed-list{
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
+                        gap: 10px;
+                        overflow-x: auto;
+                        li{
+                            cursor: pointer;
+                            border: 1px solid #CCC;
+                        }
+                    }
                 }
             }
         }

@@ -96,6 +96,18 @@
   border: 1px solid #CCC;
 }
 
+.text-to-image-service .page-content .container-fluid .art-painting-options .displaying-art-painting-options .framed-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.text-to-image-service .page-content .container-fluid .art-painting-options .displaying-art-painting-options .framed-list li {
+  cursor: pointer;
+  border: 1px solid #CCC;
+}
+
 @keyframes popup-animation {
   from {
     opacity: 0;
