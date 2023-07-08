@@ -185,6 +185,17 @@ const TextToImage = () => {
 
     const handleSelectFrame = (frameColor) => {
         setFrameColor(frameColor);
+        const img = ref1.current;
+        switch(frameColor) {
+            case "black": {
+                console.log();
+                img.style.border = `26px solid #CCC`;
+                break;
+            }
+            case "white": {
+                break;
+            }
+        }
     }
 
     return (
@@ -209,7 +220,7 @@ const TextToImage = () => {
                                 style={isWaitStatus ? { backgroundColor: "#989492", height: "100%" } : {}}
                             >
                                 {/* {!isWaitStatus && !errorMsg && generatedImageURL && <canvas className="generated-image-container mw-100" width="512" height="512" ref={ref1}></canvas>} */}
-                                {!isWaitStatus && !errorMsg && generatedImageURL && <img
+                                {!isWaitStatus && !errorMsg && paintingURL && <img
                                     src={paintingURL}
                                     className="mw-100"
                                     alt="Generated Image !!"
