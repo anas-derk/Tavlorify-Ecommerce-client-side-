@@ -114,28 +114,38 @@ const TextToImage = () => {
 
     const handleSelectImageType = (imgType) => {
         setImageType(imgType);
-        if (imgType === "horizontal" || imgType === "vertical") {
-            const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == dimentionsInCm);
-            if (dimsIndex == -1) {
-                const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "50x70");
-                setDimentionsInCm("50x70");
+        switch (imgType) {
+            case "horizontal": {
+                setDimentionsInCm("70x50");
+                const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "70x50");
+                console.log(dimsIndex)
                 setDimentions({
                     width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
                     height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
                 });
-            } else {
-                setDimentions({
-                    width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                    height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
-                });
+                break;
             }
-        } else {
-            setDimentionsInCm("30x30");
-            const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "30x30");
-            setDimentions({
-                width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
-            });
+            case "vertical": {
+                setDimentionsInCm("50x70");
+                const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "50x70");
+                setDimentions({
+                    width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                    height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                });
+                break;
+            }
+            case "square": {
+                setDimentionsInCm("30x30");
+                const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "30x30");
+                setDimentions({
+                    width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                    height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                });
+                break;
+            }
+            default: {
+                console.log("error in select image position");
+            }
         }
     }
 
@@ -186,7 +196,7 @@ const TextToImage = () => {
     const handleSelectFrame = (frameColor) => {
         setFrameColor(frameColor);
         const img = ref1.current;
-        switch(frameColor) {
+        switch (frameColor) {
             case "black": {
                 console.log();
                 img.style.border = `26px solid #CCC`;
@@ -384,7 +394,7 @@ const TextToImage = () => {
                                                 onClick={() => handleSelectImageDimentions(dims.inCm)}
                                                 style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : { lineHeight: "57px" }}
                                             >
-                                                {(dims.inCm === "50x70" || dims.inCm === "30x30") && <h6 className="fw-bold">Popular</h6>}
+                                                {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold">Popular</h6>}
                                                 {dims.inCm}
                                             </li>
                                         ))}
@@ -394,14 +404,14 @@ const TextToImage = () => {
                                     {/* Start Frames List */}
                                     {paintingType === "poster" && <ul className="framed-list mb-4 text-center pb-3">
                                         <li
-                                            style={frameColor === "none" ? { border: "4px solid #000", fontWeight: "bold" } : { }}
+                                            style={frameColor === "none" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("none")}
                                         >
                                             none
                                         </li>
                                         <li
                                             className="p-2"
-                                            style={frameColor === "black" ? { border: "4px solid #000", fontWeight: "bold" } : { }}
+                                            style={frameColor === "black" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("black")}
                                         >
                                             <span className="frame-color d-block fw-bold">Black</span>
@@ -409,7 +419,7 @@ const TextToImage = () => {
                                         </li>
                                         <li
                                             className="p-2"
-                                            style={frameColor === "white" ? { border: "4px solid #000", fontWeight: "bold" } : { }}
+                                            style={frameColor === "white" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("white")}
                                         >
                                             <span className="frame-color d-block fw-bold">White</span>
@@ -417,7 +427,7 @@ const TextToImage = () => {
                                         </li>
                                         <li
                                             className="p-2"
-                                            style={frameColor === "natural-wood" ? { border: "4px solid #000", fontWeight: "bold" } : { }}
+                                            style={frameColor === "natural-wood" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("natural-wood")}
                                         >
                                             <span className="frame-color d-block fw-bold">Wood</span>
@@ -425,7 +435,7 @@ const TextToImage = () => {
                                         </li>
                                         <li
                                             className="p-2"
-                                            style={frameColor === "dark-wood" ? { border: "4px solid #000", fontWeight: "bold" } : { }}
+                                            style={frameColor === "dark-wood" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("dark-wood")}
                                         >
                                             <span className="frame-color d-block fw-bold">Dark Wood</span>
