@@ -2,133 +2,133 @@ const modelsDimentions = {
     "dreamshaper": {
         "horizontal": [
             {
-                inCm: "13x18",
+                inCm: "18x13",
                 inPixel: {
                     width: 704,
                     height: 512,
                 }
             },
             {
-                inCm: "15x20",
+                inCm: "20x15",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "21x29,7",
+                inCm: "29,7x21",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "20x30",
+                inCm: "30x20",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "30x40",
+                inCm: "40x30",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "30x45",
+                inCm: "45x30",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "20x60",
+                inCm: "60x20",
                 inPixel: {
                     width: 768,
                     height: 256,
                 }
             },
             {
-                inCm: "30x60",
+                inCm: "60x30",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "40x60",
+                inCm: "60x40",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "45x60",
+                inCm: "60x45",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "50x70",
+                inCm: "70x50",
                 inPixel: {
                     width: 896,
                     height: 640,
                 }
             },
             {
-                inCm: "50x75",
+                inCm: "75x50",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "40x80",
+                inCm: "80x40",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "60x80",
+                inCm: "80x60",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "30x90",
+                inCm: "90x30",
                 inPixel: {
                     width: 768,
                     height: 256,
                 }
             },
             {
-                inCm: "60x90",
+                inCm: "90x60",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "50x100",
+                inCm: "100x50",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "70x100",
+                inCm: "100x70",
                 inPixel: {
                     width: 896,
                     height: 640,
                 }
             },
             {
-                inCm: "75x100",
+                inCm: "100x75",
                 inPixel: {
                     width: 768,
                     height: 576,
@@ -339,133 +339,133 @@ const modelsDimentions = {
     "stable-diffusion": {
         "horizontal": [
             {
-                inCm: "13x18",
+                inCm: "18x13",
                 inPixel: {
                     width: 704,
                     height: 512,
                 }
             },
             {
-                inCm: "15x20",
+                inCm: "20x15",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "21x29,7",
+                inCm: "29,7x21",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "20x30",
+                inCm: "30x20",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "30x40",
+                inCm: "40x30",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "30x45",
+                inCm: "45x30",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "20x60",
+                inCm: "60x20",
                 inPixel: {
                     width: 768,
                     height: 256,
                 }
             },
             {
-                inCm: "30x60",
+                inCm: "60x30",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "40x60",
+                inCm: "60x40",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "45x60",
+                inCm: "60x45",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "50x70",
+                inCm: "70x50",
                 inPixel: {
                     width: 896,
                     height: 640,
                 }
             },
             {
-                inCm: "50x75",
+                inCm: "75x50",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "40x80",
+                inCm: "80x40",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "60x80",
+                inCm: "80x60",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "30x90",
+                inCm: "90x30",
                 inPixel: {
                     width: 768,
                     height: 256,
                 }
             },
             {
-                inCm: "60x90",
+                inCm: "90x60",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "50x100",
+                inCm: "100x50",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "70x100",
+                inCm: "100x70",
                 inPixel: {
                     width: 896,
                     height: 640,
                 }
             },
             {
-                inCm: "75x100",
+                inCm: "100x75",
                 inPixel: {
                     width: 768,
                     height: 576,
@@ -676,133 +676,133 @@ const modelsDimentions = {
     "midjourney-diffusion": {
         "horizontal": [
             {
-                inCm: "13x18",
+                inCm: "18x13",
                 inPixel: {
                     width: 704,
                     height: 512,
                 }
             },
             {
-                inCm: "15x20",
+                inCm: "20x15",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "21x29,7",
+                inCm: "29,7x21",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "20x30",
+                inCm: "30x20",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "30x40",
+                inCm: "40x30",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "30x45",
+                inCm: "45x30",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "20x60",
+                inCm: "60x20",
                 inPixel: {
                     width: 768,
                     height: 256,
                 }
             },
             {
-                inCm: "30x60",
+                inCm: "60x30",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "40x60",
+                inCm: "60x40",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "45x60",
+                inCm: "60x45",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "50x70",
+                inCm: "70x50",
                 inPixel: {
                     width: 896,
                     height: 640,
                 }
             },
             {
-                inCm: "50x75",
+                inCm: "75x50",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "40x80",
+                inCm: "80x40",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "60x80",
+                inCm: "80x60",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "30x90",
+                inCm: "90x30",
                 inPixel: {
                     width: 768,
                     height: 256,
                 }
             },
             {
-                inCm: "60x90",
+                inCm: "90x60",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "50x100",
+                inCm: "100x50",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "70x100",
+                inCm: "100x70",
                 inPixel: {
                     width: 896,
                     height: 640,
                 }
             },
             {
-                inCm: "75x100",
+                inCm: "100x75",
                 inPixel: {
                     width: 768,
                     height: 576,
@@ -1013,133 +1013,133 @@ const modelsDimentions = {
     "anything-v4.0": {
         "horizontal": [
             {
-                inCm: "13x18",
+                inCm: "18x13",
                 inPixel: {
                     width: 704,
                     height: 512,
                 }
             },
             {
-                inCm: "15x20",
+                inCm: "20x15",
                 inPixel: {
                     width: 1024,
                     height: 768,
                 }
             },
             {
-                inCm: "21x29,7",
+                inCm: "29,7x21",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "20x30",
+                inCm: "30x20",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "30x40",
+                inCm: "40x30",
                 inPixel: {
                     width: 1024,
                     height: 768,
                 }
             },
             {
-                inCm: "30x45",
+                inCm: "45x30",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "20x60",
+                inCm: "60x20",
                 inPixel: {
                     width: 768,
                     height: 256,
                 }
             },
             {
-                inCm: "30x60",
+                inCm: "60x30",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "40x60",
+                inCm: "60x40",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "45x60",
+                inCm: "60x45",
                 inPixel: {
                     width: 1024,
                     height: 768,
                 }
             },
             {
-                inCm: "50x70",
+                inCm: "70x50",
                 inPixel: {
                     width: 896,
                     height: 640,
                 }
             },
             {
-                inCm: "50x75",
+                inCm: "75x50",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "40x80",
+                inCm: "80x40",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "60x80",
+                inCm: "80x60",
                 inPixel: {
                     width: 1024,
                     height: 768,
                 }
             },
             {
-                inCm: "30x90",
+                inCm: "90x30",
                 inPixel: {
                     width: 768,
                     height: 256,
                 }
             },
             {
-                inCm: "60x90",
+                inCm: "90x60",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "50x100",
+                inCm: "100x50",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "70x100",
+                inCm: "100x70",
                 inPixel: {
                     width: 896,
                     height: 640,
                 }
             },
             {
-                inCm: "75x100",
+                inCm: "100x75",
                 inPixel: {
                     width: 1024,
                     height: 768,
@@ -1350,28 +1350,28 @@ const modelsDimentions = {
     "kandinsky-2": {
         "horizontal": [
             {
-                inCm: "13x18",
+                inCm: "18x13",
                 inPixel: {
                     width: 1024,
                     height: 768,
                 }
             },
             {
-                inCm: "15x20",
+                inCm: "20x15",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "21x29,7",
+                inCm: "29,7x21",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "20x30",
+                inCm: "30x20",
                 inPixel: {
                     width: 768,
                     height: 512,
@@ -1385,98 +1385,98 @@ const modelsDimentions = {
                 }
             },
             {
-                inCm: "30x45",
+                inCm: "45x30",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "20x60",
+                inCm: "60x20",
                 inPixel: {
                     width: 768,
                     height: 256,
                 }
             },
             {
-                inCm: "30x60",
+                inCm: "60x30",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "40x60",
+                inCm: "60x40",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "45x60",
+                inCm: "60x45",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "50x70",
+                inCm: "70x50",
                 inPixel: {
                     width: 576,
                     height: 432,
                 }
             },
             {
-                inCm: "50x75",
+                inCm: "75x50",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "40x80",
+                inCm: "80x40",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "60x80",
+                inCm: "80x60",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "30x90",
+                inCm: "90x30",
                 inPixel: {
                     width: 768,
                     height: 256,
                 }
             },
             {
-                inCm: "60x90",
+                inCm: "90x60",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "50x100",
+                inCm: "100x50",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "70x100",
+                inCm: "100x70",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "75x100",
+                inCm: "100x75",
                 inPixel: {
                     width: 768,
                     height: 576,
@@ -1687,133 +1687,133 @@ const modelsDimentions = {
     "openjourney": {
         "horizontal": [
             {
-                inCm: "13x18",
+                inCm: "18x13",
                 inPixel: {
                     width: 1024,
                     height: 768,
                 }
             },
             {
-                inCm: "15x20",
+                inCm: "20x15",
                 inPixel: {
                     width: 1024,
                     height: 768,
                 }
             },
             {
-                inCm: "21x29,7",
+                inCm: "29,7x21",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "20x30",
+                inCm: "30x20",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "30x40",
+                inCm: "40x30",
                 inPixel: {
                     width: 1024,
                     height: 768,
                 }
             },
             {
-                inCm: "30x45",
+                inCm: "45x30",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "20x60",
+                inCm: "60x20",
                 inPixel: {
                     width: 768,
                     height: 256,
                 }
             },
             {
-                inCm: "30x60",
+                inCm: "60x30",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "40x60",
+                inCm: "60x40",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "45x60",
+                inCm: "60x45",
                 inPixel: {
                     width: 1024,
                     height: 768,
                 }
             },
             {
-                inCm: "50x70",
+                inCm: "70x50",
                 inPixel: {
                     width: 1024,
                     height: 768,
                 }
             },
             {
-                inCm: "50x75",
+                inCm: "75x50",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "40x80",
+                inCm: "80x40",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "60x80",
+                inCm: "80x60",
                 inPixel: {
                     width: 768,
                     height: 576,
                 }
             },
             {
-                inCm: "30x90",
+                inCm: "90x30",
                 inPixel: {
                     width: 768,
                     height: 256,
                 }
             },
             {
-                inCm: "60x90",
+                inCm: "90x60",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "50x100",
+                inCm: "100x50",
                 inPixel: {
                     width: 1024,
                     height: 512,
                 }
             },
             {
-                inCm: "70x100",
+                inCm: "100x70",
                 inPixel: {
                     width: 768,
                     height: 512,
                 }
             },
             {
-                inCm: "75x100",
+                inCm: "100x75",
                 inPixel: {
                     width: 1024,
                     height: 768,
@@ -2027,17 +2027,17 @@ const gelatoDimetions = {
     "canvas": {
         "horizontal": [
             {
-                inCm: "30x40",
+                inCm: "40x30",
                 imMm: "300x400",
                 inInch: "12x16",
             },
             {
-                inCm: "50x70",
+                inCm: "70x50",
                 imMm: "500x700",
                 inInch: "20x28",
             },
             {
-                inCm: "70x100",
+                inCm: "100x70",
                 imMm: "700x1000",
                 inInch: "28x40",
             },
@@ -2090,22 +2090,22 @@ const gelatoDimetions = {
     "poster": {
         "horizontal": [
             {
-                inCm: "21x29,7",
+                inCm: "29,7x21",
                 imMm: "210x297",
                 inInch: "8x12",
             },
             {
-                inCm: "30x40",
+                inCm: "40x30",
                 imMm: "300x400",
                 inInch: "12x16",
             },
             {
-                inCm: "50x70",
+                inCm: "70x50",
                 imMm: "500x700",
                 inInch: "20x28",
             },
             {
-                inCm: "70x100",
+                inCm: "100x70",
                 imMm: "700x1000",
                 inInch: "28x40",
             },
@@ -2173,22 +2173,22 @@ const gelatoDimetions = {
     "wooden-framed-poster": {
         "horizontal": [
             {
-                inCm: "21x29,7",
+                inCm: "29,7x21",
                 imMm: "210x297",
                 inInch: "8x12",
             },
             {
-                inCm: "30x40",
+                inCm: "40x30",
                 imMm: "300x400",
                 inInch: "12x16",
             },
             {
-                inCm: "50x70",
+                inCm: "70x50",
                 imMm: "500x700",
                 inInch: "20x28",
             },
             {
-                inCm: "70x100",
+                inCm: "100x70",
                 imMm: "700x1000",
                 inInch: "28x40",
             },
@@ -2236,22 +2236,22 @@ const gelatoDimetions = {
     "poster-with-hangers": {
         "horizontal": [
             {
-                inCm: "21x29,7",
+                inCm: "29,7x21",
                 imMm: "210x297",
                 inInch: "8x12",
             },
             {
-                inCm: "30x40",
+                inCm: "40x30",
                 imMm: "300x400",
                 inInch: "12x16",
             },
             {
-                inCm: "50x70",
+                inCm: "70x50",
                 imMm: "500x700",
                 inInch: "20x28",
             },
             {
-                inCm: "70x100",
+                inCm: "100x70",
                 imMm: "700x1000",
                 inInch: "28x40",
             },
