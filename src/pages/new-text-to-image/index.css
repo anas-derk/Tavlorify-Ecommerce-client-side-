@@ -7,6 +7,10 @@
   margin: 0 auto;
 }
 
+.text-to-image-service .page-content .container-fluid .art-painting {
+  height: 500px;
+}
+
 .text-to-image-service .page-content .container-fluid .art-painting-options {
   height: 500px;
   overflow-y: scroll;

@@ -227,12 +227,12 @@ const TextToImage = () => {
                             {/* Start Art Painting Section */}
                             <section
                                 className="art-painting d-flex justify-content-center align-items-center"
-                                style={isWaitStatus ? { backgroundColor: "#989492", height: "100%" } : {}}
+                                style={isWaitStatus ? { backgroundColor: "#989492" } : {}}
                             >
                                 {/* {!isWaitStatus && !errorMsg && generatedImageURL && <canvas className="generated-image-container mw-100" width="512" height="512" ref={ref1}></canvas>} */}
                                 {!isWaitStatus && !errorMsg && paintingURL && <img
                                     src={paintingURL}
-                                    className="mw-100"
+                                    className="mw-100 mh-100"
                                     alt="Generated Image !!"
                                     ref={ref1}
                                 />}
