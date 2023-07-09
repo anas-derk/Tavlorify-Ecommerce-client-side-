@@ -1366,14 +1366,14 @@ const modelsDimentions = {
             {
                 inCm: "29,7x21",
                 inPixel: {
-                    width: 768,
+                    width: 704,
                     height: 512,
                 }
             },
             {
                 inCm: "30x20",
                 inPixel: {
-                    width: 768,
+                    width: 704,
                     height: 512,
                 }
             },
@@ -1422,8 +1422,8 @@ const modelsDimentions = {
             {
                 inCm: "70x50",
                 inPixel: {
-                    width: 576,
-                    height: 432,
+                    width: 768,
+                    height: 576,
                 }
             },
             {
@@ -1502,14 +1502,14 @@ const modelsDimentions = {
                 inCm: "21x29,7",
                 inPixel: {
                     width: 512,
-                    height: 768,
+                    height: 704,
                 }
             },
             {
                 inCm: "20x30",
                 inPixel: {
                     width: 512,
-                    height: 768,
+                    height: 704,
                 }
             },
             {
@@ -1558,7 +1558,7 @@ const modelsDimentions = {
                 inCm: "50x70",
                 inPixel: {
                     width: 576,
-                    height: 432,
+                    height: 768,
                 }
             },
             {
