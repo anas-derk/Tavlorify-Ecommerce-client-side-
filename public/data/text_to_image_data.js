@@ -18,14 +18,14 @@ const modelsDimentions = {
             {
                 inCm: "29,7x21",
                 inPixel: {
-                    width: 768,
+                    width: 704,
                     height: 512,
                 }
             },
             {
                 inCm: "30x20",
                 inPixel: {
-                    width: 768,
+                    width: 704,
                     height: 512,
                 }
             },
@@ -154,14 +154,14 @@ const modelsDimentions = {
                 inCm: "21x29,7",
                 inPixel: {
                     width: 512,
-                    height: 768,
+                    height: 704,
                 }
             },
             {
                 inCm: "20x30",
                 inPixel: {
                     width: 512,
-                    height: 768,
+                    height: 704,
                 }
             },
             {
@@ -355,14 +355,14 @@ const modelsDimentions = {
             {
                 inCm: "29,7x21",
                 inPixel: {
-                    width: 768,
+                    width: 704,
                     height: 512,
                 }
             },
             {
                 inCm: "30x20",
                 inPixel: {
-                    width: 768,
+                    width: 704,
                     height: 512,
                 }
             },
@@ -491,14 +491,14 @@ const modelsDimentions = {
                 inCm: "21x29,7",
                 inPixel: {
                     width: 512,
-                    height: 768,
+                    height: 704,
                 }
             },
             {
                 inCm: "20x30",
                 inPixel: {
                     width: 512,
-                    height: 768,
+                    height: 704,
                 }
             },
             {
@@ -692,14 +692,14 @@ const modelsDimentions = {
             {
                 inCm: "29,7x21",
                 inPixel: {
-                    width: 768,
+                    width: 704,
                     height: 512,
                 }
             },
             {
                 inCm: "30x20",
                 inPixel: {
-                    width: 768,
+                    width: 704,
                     height: 512,
                 }
             },
@@ -828,14 +828,14 @@ const modelsDimentions = {
                 inCm: "21x29,7",
                 inPixel: {
                     width: 512,
-                    height: 768,
+                    height: 704,
                 }
             },
             {
                 inCm: "20x30",
                 inPixel: {
                     width: 512,
-                    height: 768,
+                    height: 704,
                 }
             },
             {
@@ -1010,7 +1010,7 @@ const modelsDimentions = {
             },
         ]
     },
-    "anything-v4.0": {
+    "deliberate-v2": {
         "horizontal": [
             {
                 inCm: "18x13",
@@ -1022,29 +1022,29 @@ const modelsDimentions = {
             {
                 inCm: "20x15",
                 inPixel: {
-                    width: 1024,
-                    height: 768,
+                    width: 768,
+                    height: 576,
                 }
             },
             {
                 inCm: "29,7x21",
                 inPixel: {
-                    width: 768,
+                    width: 704,
                     height: 512,
                 }
             },
             {
                 inCm: "30x20",
                 inPixel: {
-                    width: 768,
+                    width: 704,
                     height: 512,
                 }
             },
             {
                 inCm: "40x30",
                 inPixel: {
-                    width: 1024,
-                    height: 768,
+                    width: 768,
+                    height: 576,
                 }
             },
             {
@@ -1078,8 +1078,8 @@ const modelsDimentions = {
             {
                 inCm: "60x45",
                 inPixel: {
-                    width: 1024,
-                    height: 768,
+                    width: 768,
+                    height: 576,
                 }
             },
             {
@@ -1106,8 +1106,8 @@ const modelsDimentions = {
             {
                 inCm: "80x60",
                 inPixel: {
-                    width: 1024,
-                    height: 768,
+                    width: 768,
+                    height: 576,
                 }
             },
             {
@@ -1141,8 +1141,8 @@ const modelsDimentions = {
             {
                 inCm: "100x75",
                 inPixel: {
-                    width: 1024,
-                    height: 768,
+                    width: 768,
+                    height: 576,
                 }
             },
         ],
@@ -1157,29 +1157,29 @@ const modelsDimentions = {
             {
                 inCm: "15x20",
                 inPixel: {
-                    width: 768,
-                    height: 1024,
+                    width: 576,
+                    height: 768,
                 }
             },
             {
                 inCm: "21x29,7",
                 inPixel: {
                     width: 512,
-                    height: 768,
+                    height: 704,
                 }
             },
             {
                 inCm: "20x30",
                 inPixel: {
                     width: 512,
-                    height: 768,
+                    height: 704,
                 }
             },
             {
                 inCm: "30x40",
                 inPixel: {
-                    width: 768,
-                    height: 1024,
+                    width: 576,
+                    height: 768,
                 }
             },
             {
@@ -1213,8 +1213,8 @@ const modelsDimentions = {
             {
                 inCm: "45x60",
                 inPixel: {
-                    width: 768,
-                    height: 1024,
+                    width: 576,
+                    height: 768,
                 }
             },
             {
@@ -1241,8 +1241,8 @@ const modelsDimentions = {
             {
                 inCm: "60x80",
                 inPixel: {
-                    width: 768,
-                    height: 1024,
+                    width: 576,
+                    height: 768,
                 }
             },
             {
@@ -1269,14 +1269,14 @@ const modelsDimentions = {
             {
                 inCm: "70x100",
                 inPixel: {
-                    width: 896,
-                    height: 640,
+                    width: 640,
+                    height: 896,
                 }
             },
             {
                 inCm: "75x100",
                 inPixel: {
-                    width: 1024,
+                    width: 576,
                     height: 768,
                 }
             },
@@ -1689,36 +1689,36 @@ const modelsDimentions = {
             {
                 inCm: "18x13",
                 inPixel: {
-                    width: 1024,
-                    height: 768,
+                    width: 704,
+                    height: 512,
                 }
             },
             {
                 inCm: "20x15",
                 inPixel: {
-                    width: 1024,
-                    height: 768,
+                    width: 768,
+                    height: 576,
                 }
             },
             {
                 inCm: "29,7x21",
                 inPixel: {
-                    width: 768,
+                    width: 704,
                     height: 512,
                 }
             },
             {
                 inCm: "30x20",
                 inPixel: {
-                    width: 768,
+                    width: 704,
                     height: 512,
                 }
             },
             {
                 inCm: "40x30",
                 inPixel: {
-                    width: 1024,
-                    height: 768,
+                    width: 768,
+                    height: 576,
                 }
             },
             {
@@ -1752,15 +1752,15 @@ const modelsDimentions = {
             {
                 inCm: "60x45",
                 inPixel: {
-                    width: 1024,
-                    height: 768,
+                    width: 768,
+                    height: 576,
                 }
             },
             {
                 inCm: "70x50",
                 inPixel: {
-                    width: 1024,
-                    height: 768,
+                    width: 896,
+                    height: 640,
                 }
             },
             {
@@ -1808,15 +1808,15 @@ const modelsDimentions = {
             {
                 inCm: "100x70",
                 inPixel: {
-                    width: 768,
-                    height: 512,
+                    width: 896,
+                    height: 640,
                 }
             },
             {
                 inCm: "100x75",
                 inPixel: {
-                    width: 1024,
-                    height: 768,
+                    width: 768,
+                    height: 576,
                 }
             },
         ],
@@ -1824,36 +1824,36 @@ const modelsDimentions = {
             {
                 inCm: "13x18",
                 inPixel: {
-                    width: 768,
-                    height: 1024,
+                    width: 512,
+                    height: 704,
                 }
             },
             {
                 inCm: "15x20",
                 inPixel: {
-                    width: 768,
-                    height: 1024,
+                    width: 576,
+                    height: 768,
                 }
             },
             {
                 inCm: "21x29,7",
                 inPixel: {
                     width: 512,
-                    height: 768,
+                    height: 704,
                 }
             },
             {
                 inCm: "20x30",
                 inPixel: {
                     width: 512,
-                    height: 768,
+                    height: 704,
                 }
             },
             {
                 inCm: "30x40",
                 inPixel: {
-                    width: 768,
-                    height: 1024,
+                    width: 576,
+                    height: 768,
                 }
             },
             {
@@ -1887,15 +1887,15 @@ const modelsDimentions = {
             {
                 inCm: "45x60",
                 inPixel: {
-                    width: 768,
-                    height: 1024,
+                    width: 576,
+                    height: 768,
                 }
             },
             {
                 inCm: "50x70",
                 inPixel: {
-                    width: 768,
-                    height: 1024,
+                    width: 640,
+                    height: 896,
                 }
             },
             {
@@ -1915,8 +1915,8 @@ const modelsDimentions = {
             {
                 inCm: "60x80",
                 inPixel: {
-                    width: 768,
-                    height: 1024,
+                    width: 576,
+                    height: 768,
                 }
             },
             {
@@ -1943,15 +1943,15 @@ const modelsDimentions = {
             {
                 inCm: "70x100",
                 inPixel: {
-                    width: 512,
-                    height: 768,
+                    width: 640,
+                    height: 896,
                 }
             },
             {
                 inCm: "75x100",
                 inPixel: {
                     width: 768,
-                    height: 1024,
+                    height: 576,
                 }
             },
         ],
