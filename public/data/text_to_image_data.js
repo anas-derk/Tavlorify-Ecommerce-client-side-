@@ -2061,29 +2061,14 @@ const gelatoDimetions = {
         ],
         "square": [
             {
-                inCm: "20x20",
-                imMm: "200x200",
-                inInch: "8x8",
-            },
-            {
                 inCm: "30x30",
                 imMm: "300x300",
                 inInch: "12x12",
             },
             {
-                inCm: "40x40",
-                imMm: "400x400",
-                inInch: "16x16",
-            },
-            {
                 inCm: "50x50",
                 imMm: "500x500",
                 inInch: "20x20",
-            },
-            {
-                inCm: "60x60",
-                imMm: "600x600",
-                inInch: "24x24",
             },
         ],
     },
@@ -2134,29 +2119,9 @@ const gelatoDimetions = {
         ],
         "square": [
             {
-                inCm: "25x25",
-                imMm: "250x250",
-                inInch: "10x10",
-            },
-            {
                 inCm: "30x30",
                 imMm: "300x300",
                 inInch: "12x12",
-            },
-            {
-                inCm: "35x35",
-                imMm: "350x350",
-                inInch: "14x14",
-            },
-            {
-                inCm: "40x40",
-                imMm: "400x400",
-                inInch: "16x16",
-            },
-            {
-                inCm: "45x45",
-                imMm: "450x450",
-                inInch: "18x18",
             },
             {
                 inCm: "50x50",
@@ -2280,29 +2245,9 @@ const gelatoDimetions = {
         ],
         "square": [
             {
-                inCm: "25x25",
-                imMm: "250x250",
-                inInch: "10x10",
-            },
-            {
                 inCm: "30x30",
                 imMm: "300x300",
                 inInch: "12x12",
-            },
-            {
-                inCm: "35x35",
-                imMm: "350x350",
-                inInch: "14x14",
-            },
-            {
-                inCm: "40x40",
-                imMm: "400x400",
-                inInch: "16x16",
-            },
-            {
-                inCm: "45x45",
-                imMm: "450x450",
-                inInch: "18x18",
             },
             {
                 inCm: "50x50",

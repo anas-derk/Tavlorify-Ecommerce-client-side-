@@ -6,10 +6,10 @@ import text_to_image_data from "../../../public/data/text_to_image_data";
 import nodeCodeGenerator from "node-code-generator";
 import { useRouter } from "next/router";
 import generatedImage from "../../../public/images/test.png";
-import blackFrameImage from "../../../public/images/Framed/black.png";
-import whiteFrameImage from "../../../public/images/Framed/white.png";
-import woodFrameImage from "../../../public/images/Framed/wood.png";
-import darkWoodFrameImage from "../../../public/images/Framed/dark-wood.png";
+import blackFrameCornerImage from "../../../public/images/frames/frameCorners/black.png";
+import whiteFrameCornerImage from "../../../public/images/frames/frameCorners/white.png";
+import woodFrameCornerImage from "../../../public/images/frames/frameCorners/wood.png";
+import darkWoodFrameCornerImage from "../../../public/images/frames/frameCorners/dark-wood.png";
 
 const TextToImage = () => {
 
@@ -415,7 +415,7 @@ const TextToImage = () => {
                                             onClick={() => handleSelectFrame("black")}
                                         >
                                             <span className="frame-color d-block fw-bold">Black</span>
-                                            <img src={blackFrameImage.src} alt="Black Frame Image" width="50" />
+                                            <img src={blackFrameCornerImage.src} alt="Black Frame Image" width="50" />
                                         </li>
                                         <li
                                             className="p-2"
@@ -423,7 +423,7 @@ const TextToImage = () => {
                                             onClick={() => handleSelectFrame("white")}
                                         >
                                             <span className="frame-color d-block fw-bold">White</span>
-                                            <img src={whiteFrameImage.src} alt="White Frame Image" width="50" />
+                                            <img src={whiteFrameCornerImage.src} alt="White Frame Image" width="50" />
                                         </li>
                                         <li
                                             className="p-2"
@@ -431,7 +431,7 @@ const TextToImage = () => {
                                             onClick={() => handleSelectFrame("natural-wood")}
                                         >
                                             <span className="frame-color d-block fw-bold">Wood</span>
-                                            <img src={woodFrameImage.src} alt="Wood Frame Image" width="50" />
+                                            <img src={woodFrameCornerImage.src} alt="Wood Frame Image" width="50" />
                                         </li>
                                         <li
                                             className="p-2"
@@ -439,7 +439,7 @@ const TextToImage = () => {
                                             onClick={() => handleSelectFrame("dark-wood")}
                                         >
                                             <span className="frame-color d-block fw-bold">Dark Wood</span>
-                                            <img src={darkWoodFrameImage.src} alt="Dark Wood Frame Image" width="50" />
+                                            <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" />
                                         </li>
                                     </ul>}
                                     {/* End Frames List */}
