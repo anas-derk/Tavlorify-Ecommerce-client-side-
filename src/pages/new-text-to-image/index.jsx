@@ -10,6 +10,7 @@ import blackFrameCornerImage from "../../../public/images/frames/frameCorners/bl
 import whiteFrameCornerImage from "../../../public/images/frames/frameCorners/white.png";
 import woodFrameCornerImage from "../../../public/images/frames/frameCorners/wood.png";
 import darkWoodFrameCornerImage from "../../../public/images/frames/frameCorners/dark-wood.png";
+/* Start Import Square Frame Images */
 import blackFrame_30_30_Image from "../../../public/images/frames/black/S/30_30.png";
 import blackFrame_50_50_Image from "../../../public/images/frames/black/S/50_50.png";
 import blackFrame_70_70_Image from "../../../public/images/frames/black/S/70_70.png";
@@ -22,6 +23,25 @@ import woodFrame_70_70_Image from "../../../public/images/frames/wood/S/70_70.pn
 import darkWoodFrame_30_30_Image from "../../../public/images/frames/darkWood/S/30_30.png";
 import darkWoodFrame_50_50_Image from "../../../public/images/frames/darkWood/S/50_50.png";
 import darkWoodFrame_70_70_Image from "../../../public/images/frames/darkWood/S/70_70.png";
+/* End Import Square Frame Images */
+/* Start Import Vertical Frame Images */
+import blackFrame_21_30_Image from "../../../public/images/frames/black/V/21_30.png";
+import blackFrame_30_40_Image from "../../../public/images/frames/black/V/30_40.png";
+import blackFrame_50_70_Image from "../../../public/images/frames/black/V/50_70.png";
+import blackFrame_70_100_Image from "../../../public/images/frames/black/V/70_100.png";
+import whiteFrame_21_30_Image from "../../../public/images/frames/white/V/21_30.png";
+import whiteFrame_30_40_Image from "../../../public/images/frames/white/V/30_40.png";
+import whiteFrame_50_70_Image from "../../../public/images/frames/white/V/50_70.png";
+import whiteFrame_70_100_Image from "../../../public/images/frames/white/V/70_100.png";
+import woodFrame_21_30_Image from "../../../public/images/frames/wood/V/21_30.png";
+import woodFrame_30_40_Image from "../../../public/images/frames/wood/V/30_40.png";
+import woodFrame_50_70_Image from "../../../public/images/frames/wood/V/50_70.png";
+import woodFrame_70_100_Image from "../../../public/images/frames/wood/V/70_100.png";
+import darkWoodFrame_21_30_Image from "../../../public/images/frames/darkWood/V/21_30.png";
+import darkWoodFrame_30_40_Image from "../../../public/images/frames/darkWood/V/30_40.png";
+import darkWoodFrame_50_70_Image from "../../../public/images/frames/darkWood/V/50_70.png";
+import darkWoodFrame_70_100_Image from "../../../public/images/frames/darkWood/V/70_100.png";
+/* End Import Vertical Frame Images */
 
 const TextToImage = () => {
 
@@ -90,6 +110,32 @@ const TextToImage = () => {
                 "30x30": darkWoodFrame_30_30_Image.src,
                 "50x50": darkWoodFrame_50_50_Image.src,
                 "70x70": darkWoodFrame_70_70_Image.src,
+            },
+        },
+        "vertical": {
+            "natural-wood": {
+                "21x29,7": woodFrame_21_30_Image.src,
+                "30x40": woodFrame_30_40_Image.src,
+                "50x70": woodFrame_50_70_Image.src,
+                "70x100": woodFrame_70_100_Image.src,
+            },
+            "black": {
+                "21x29,7": blackFrame_21_30_Image.src,
+                "30x40": blackFrame_30_40_Image.src,
+                "50x70": blackFrame_50_70_Image.src,
+                "70x100": blackFrame_70_100_Image.src,
+            },
+            "white": {
+                "21x29,7": whiteFrame_21_30_Image.src,
+                "30x40": whiteFrame_30_40_Image.src,
+                "50x70": whiteFrame_50_70_Image.src,
+                "70x100": whiteFrame_70_100_Image.src,
+            },
+            "dark-wood": {
+                "21x29,7": darkWoodFrame_21_30_Image.src,
+                "30x40": darkWoodFrame_30_40_Image.src,
+                "50x70": darkWoodFrame_50_70_Image.src,
+                "70x100": darkWoodFrame_70_100_Image.src,
             },
         }
     }
@@ -226,7 +272,6 @@ const TextToImage = () => {
 
     const handleSelectFrame = (frameColor) => {
         setFrameColor(frameColor);
-
     }
 
     return (

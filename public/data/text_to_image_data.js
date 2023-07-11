@@ -2269,6 +2269,12 @@ const appearedImageSizes = {
         "50x50": { width: 458, height: 458 },
         "70x70": { width: 465, height: 465 },
     },
+    "vertical": {
+        "21x29,7": { width: 320, height: 440 },
+        "30x40": { width: 340, height: 453 },
+        "50x70": { width: 332, height: 465 },
+        "70x100": { width: 337, height: 472 },
+    },
 }
 
 export default { modelsDimentions, gelatoDimetions, appearedImageSizes };
