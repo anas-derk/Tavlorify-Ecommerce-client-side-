@@ -10,9 +10,9 @@ import blackFrameCornerImage from "../../../public/images/frames/frameCorners/bl
 import whiteFrameCornerImage from "../../../public/images/frames/frameCorners/white.png";
 import woodFrameCornerImage from "../../../public/images/frames/frameCorners/wood.png";
 import darkWoodFrameCornerImage from "../../../public/images/frames/frameCorners/dark-wood.png";
-import woodFrame_30_30_Image from "../../../public/images/frames/wood/woodSquare/30_30.png";
-import woodFrame_50_50_Image from "../../../public/images/frames/wood/woodSquare/50_50.png";
-import woodFrame_70_70_Image from "../../../public/images/frames/wood/woodSquare/70_70.png";
+import woodFrame_30_30_Image from "../../../public/images/frames/wood/S/30_30.png";
+import woodFrame_50_50_Image from "../../../public/images/frames/wood/S/50_50.png";
+import woodFrame_70_70_Image from "../../../public/images/frames/wood/S/70_70.png";
 
 const TextToImage = () => {
 
@@ -242,11 +242,11 @@ const TextToImage = () => {
                                     className="frame-image-box"
                                     style={{ maxWidth: "500px", maxHeight: "500px" }}
                                 >
-                                    <img
+                                    {!isWaitStatus && !errorMsg && paintingURL && <img
                                         src={frameImages[tempImageType][frameColor][tempDimentionsInCm]}
                                         alt="Image"
                                         style={{ maxWidth: "100%", maxHeight: "100%" }}
-                                    />
+                                    />}
                                 </div>
                                 <div
                                     className="generated-image-box"
