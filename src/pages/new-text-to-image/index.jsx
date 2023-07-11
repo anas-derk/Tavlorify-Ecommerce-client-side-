@@ -10,6 +10,9 @@ import blackFrameCornerImage from "../../../public/images/frames/frameCorners/bl
 import whiteFrameCornerImage from "../../../public/images/frames/frameCorners/white.png";
 import woodFrameCornerImage from "../../../public/images/frames/frameCorners/wood.png";
 import darkWoodFrameCornerImage from "../../../public/images/frames/frameCorners/dark-wood.png";
+import woodFrame_30_30_Image from "../../../public/images/frames/wood/woodSquare/30_30.png";
+import woodFrame_50_50_Image from "../../../public/images/frames/wood/woodSquare/50_50.png";
+import woodFrame_70_70_Image from "../../../public/images/frames/wood/woodSquare/70_70.png";
 
 const TextToImage = () => {
 
@@ -33,7 +36,7 @@ const TextToImage = () => {
 
     const [paintingType, setPaintingType] = useState("poster");
 
-    const [frameColor, setFrameColor] = useState("none");
+    const [frameColor, setFrameColor] = useState("natural-wood");
 
     const [dimentions, setDimentions] = useState({});
 
@@ -51,9 +54,34 @@ const TextToImage = () => {
 
     const [quantity, setQuantity] = useState(0);
 
-    const ref1 = useRef(null);
-
     const router = useRouter();
+
+    const [tempDimentionsInCm, setTempDimentionsInCm] = useState("30x30");
+
+    const [tempImageType, setTempImageType] = useState("square");
+
+    const frameImages = {
+        "square": {
+            "natural-wood": {
+                "30x30": woodFrame_30_30_Image.src,
+                "50x50": woodFrame_50_50_Image.src,
+                "70x70": woodFrame_70_70_Image.src,
+            },
+            "black": {
+                "30x30": woodFrame_30_30_Image.src,
+                "50x50": woodFrame_50_50_Image.src,
+                "70x70": woodFrame_70_70_Image.src,
+            },
+        }
+    }
+
+    const appearedImageSizes = {
+        "square": {
+            "30x30": { width: 443, height: 443 },
+            "50x50": { width: 458, height: 458 },
+            "70x70": { width: 465, height: 465 },
+        },
+    }
 
     useEffect(() => {
         Axios.get(`${process.env.BASE_API_URL}/categories/all-categories-data`)
@@ -118,7 +146,6 @@ const TextToImage = () => {
             case "horizontal": {
                 setDimentionsInCm("70x50");
                 const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "70x50");
-                console.log(dimsIndex)
                 setDimentions({
                     width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
                     height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
@@ -160,14 +187,6 @@ const TextToImage = () => {
 
     const textToImageGenerate = (e) => {
         e.preventDefault();
-        // const image = ref1.current;
-        // const canvas = document.createElement("canvas");
-        // canvas.width = 512;
-        // canvas.height = 512;
-        // const ctx = canvas.getContext("2d");
-        // ctx.drawImage(image, 0, 0);
-        // const dataURL = canvas.toDataURL(undefined, 1.0);
-        // setPaintingURL(dataURL);
         setErrorMsg("");
         setGeneratedImageURL("");
         setIsWaitStatus(true);
@@ -176,11 +195,12 @@ const TextToImage = () => {
         `)
             .then((res) => {
                 let result = res.data;
-                console.log(result);
                 setIsWaitStatus(false);
                 if (Array.isArray(result)) {
                     setGeneratedImageURL(result[0]);
                     setPaintingURL(result[0]);
+                    setTempImageType(imageType);
+                    setTempDimentionsInCm(dimentionsInCm);
                     setErrorMsg("");
                 } else {
                     setErrorMsg("Something Went Wrong !!");
@@ -195,17 +215,6 @@ const TextToImage = () => {
 
     const handleSelectFrame = (frameColor) => {
         setFrameColor(frameColor);
-        const img = ref1.current;
-        switch (frameColor) {
-            case "black": {
-                console.log();
-                img.style.border = `26px solid #CCC`;
-                break;
-            }
-            case "white": {
-                break;
-            }
-        }
     }
 
     return (
@@ -229,13 +238,29 @@ const TextToImage = () => {
                                 className="art-painting d-flex justify-content-center align-items-center"
                                 style={isWaitStatus ? { backgroundColor: "#989492" } : {}}
                             >
-                                {/* {!isWaitStatus && !errorMsg && generatedImageURL && <canvas className="generated-image-container mw-100" width="512" height="512" ref={ref1}></canvas>} */}
-                                {!isWaitStatus && !errorMsg && paintingURL && <img
-                                    src={paintingURL}
-                                    className="mw-100 mh-100"
-                                    alt="Generated Image !!"
-                                    ref={ref1}
-                                />}
+                                <div
+                                    className="frame-image-box"
+                                    style={{ maxWidth: "500px", maxHeight: "500px" }}
+                                >
+                                    <img
+                                        src={frameImages[tempImageType][frameColor][tempDimentionsInCm]}
+                                        alt="Image"
+                                        style={{ maxWidth: "100%", maxHeight: "100%" }}
+                                    />
+                                </div>
+                                <div
+                                    className="generated-image-box"
+                                    style={{
+                                        width: `${appearedImageSizes[tempImageType][tempDimentionsInCm].width}px`,
+                                        height: `${appearedImageSizes[tempImageType][tempDimentionsInCm].height}px`,
+                                    }}
+                                >
+                                    {!isWaitStatus && !errorMsg && paintingURL && <img
+                                        src={paintingURL}
+                                        className="mw-100 mh-100"
+                                        alt="Generated Image !!"
+                                    />}
+                                </div>
                                 {isWaitStatus && !errorMsg && <span className="loader"></span>}
                                 {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
                             </section>
@@ -400,7 +425,7 @@ const TextToImage = () => {
                                         ))}
                                     </ul>
                                     {/* End Sizes List */}
-                                    {paintingType === "poster" && <h5 className="fw-bold">Framed</h5>}
+                                    {paintingType === "poster" && <h5 className="fw-bold">Frames</h5>}
                                     {/* Start Frames List */}
                                     {paintingType === "poster" && <ul className="framed-list mb-4 text-center pb-3">
                                         <li

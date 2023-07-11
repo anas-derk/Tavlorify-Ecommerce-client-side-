@@ -8,7 +8,12 @@
 }
 
 .text-to-image-service .page-content .container-fluid .art-painting {
-  height: 500px;
+  position: relative;
+}
+
+.text-to-image-service .page-content .container-fluid .art-painting .generated-image-box {
+  position: absolute;
+  z-index: -1;
 }
 
 .text-to-image-service .page-content .container-fluid .art-painting-options {
