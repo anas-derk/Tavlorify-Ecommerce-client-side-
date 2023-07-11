@@ -42,6 +42,24 @@ import darkWoodFrame_30_40_Image from "../../../public/images/frames/darkWood/V/
 import darkWoodFrame_50_70_Image from "../../../public/images/frames/darkWood/V/50_70.png";
 import darkWoodFrame_70_100_Image from "../../../public/images/frames/darkWood/V/70_100.png";
 /* End Import Vertical Frame Images */
+/* Start Import Horizontal Frame Images */
+import blackFrame_30_21_Image from "../../../public/images/frames/black/H/30_21.png";
+import blackFrame_40_30_Image from "../../../public/images/frames/black/H/40_30.png";
+import blackFrame_70_50_Image from "../../../public/images/frames/black/H/70_50.png";
+import blackFrame_100_70_Image from "../../../public/images/frames/black/H/100_70.png";
+import whiteFrame_30_21_Image from "../../../public/images/frames/white/H/30_21.png";
+import whiteFrame_40_30_Image from "../../../public/images/frames/white/H/40_30.png";
+import whiteFrame_70_50_Image from "../../../public/images/frames/white/H/70_50.png";
+import whiteFrame_100_70_Image from "../../../public/images/frames/white/H/100_70.png";
+import woodFrame_30_21_Image from "../../../public/images/frames/wood/H/30_21.png";
+import woodFrame_40_30_Image from "../../../public/images/frames/wood/H/40_30.png";
+import woodFrame_70_50_Image from "../../../public/images/frames/wood/H/70_50.png";
+import woodFrame_100_70_Image from "../../../public/images/frames/wood/H/100_70.png";
+import darkWoodFrame_30_21_Image from "../../../public/images/frames/darkWood/H/30_21.png";
+import darkWoodFrame_40_30_Image from "../../../public/images/frames/darkWood/H/40_30.png";
+import darkWoodFrame_70_50_Image from "../../../public/images/frames/darkWood/H/70_50.png";
+import darkWoodFrame_100_70_Image from "../../../public/images/frames/darkWood/H/100_70.png";
+/* End Import Horizontal Frame Images */
 
 const TextToImage = () => {
 
@@ -136,6 +154,32 @@ const TextToImage = () => {
                 "30x40": darkWoodFrame_30_40_Image.src,
                 "50x70": darkWoodFrame_50_70_Image.src,
                 "70x100": darkWoodFrame_70_100_Image.src,
+            },
+        },
+        "horizontal": {
+            "natural-wood": {
+                "29,7x21": woodFrame_30_21_Image.src,
+                "40x30": woodFrame_40_30_Image.src,
+                "70x50": woodFrame_70_50_Image.src,
+                "100x70": woodFrame_100_70_Image.src,
+            },
+            "black": {
+                "29,7x21": blackFrame_30_21_Image.src,
+                "40x30": blackFrame_40_30_Image.src,
+                "70x50": blackFrame_70_50_Image.src,
+                "100x70": blackFrame_100_70_Image.src,
+            },
+            "white": {
+                "29,7x21": whiteFrame_30_21_Image.src,
+                "40x30": whiteFrame_40_30_Image.src,
+                "70x50": whiteFrame_70_50_Image.src,
+                "100x70": whiteFrame_100_70_Image.src,
+            },
+            "dark-wood": {
+                "29,7x21": darkWoodFrame_30_21_Image.src,
+                "40x30": darkWoodFrame_40_30_Image.src,
+                "70x50": darkWoodFrame_70_50_Image.src,
+                "100x70": darkWoodFrame_100_70_Image.src,
             },
         }
     }
@@ -297,7 +341,6 @@ const TextToImage = () => {
                             >
                                 <div
                                     className="frame-image-box"
-                                    style={{ maxWidth: "500px", maxHeight: "500px" }}
                                 >
                                     {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
                                         src={frameImages[tempImageType][frameColor][tempDimentionsInCm]}
