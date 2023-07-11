@@ -10,9 +10,18 @@ import blackFrameCornerImage from "../../../public/images/frames/frameCorners/bl
 import whiteFrameCornerImage from "../../../public/images/frames/frameCorners/white.png";
 import woodFrameCornerImage from "../../../public/images/frames/frameCorners/wood.png";
 import darkWoodFrameCornerImage from "../../../public/images/frames/frameCorners/dark-wood.png";
+import blackFrame_30_30_Image from "../../../public/images/frames/black/S/30_30.png";
+import blackFrame_50_50_Image from "../../../public/images/frames/black/S/50_50.png";
+import blackFrame_70_70_Image from "../../../public/images/frames/black/S/70_70.png";
+import whiteFrame_30_30_Image from "../../../public/images/frames/white/S/30_30.png";
+import whiteFrame_50_50_Image from "../../../public/images/frames/white/S/50_50.png";
+import whiteFrame_70_70_Image from "../../../public/images/frames/white/S/70_70.png";
 import woodFrame_30_30_Image from "../../../public/images/frames/wood/S/30_30.png";
 import woodFrame_50_50_Image from "../../../public/images/frames/wood/S/50_50.png";
 import woodFrame_70_70_Image from "../../../public/images/frames/wood/S/70_70.png";
+import darkWoodFrame_30_30_Image from "../../../public/images/frames/darkWood/S/30_30.png";
+import darkWoodFrame_50_50_Image from "../../../public/images/frames/darkWood/S/50_50.png";
+import darkWoodFrame_70_70_Image from "../../../public/images/frames/darkWood/S/70_70.png";
 
 const TextToImage = () => {
 
@@ -68,19 +77,21 @@ const TextToImage = () => {
                 "70x70": woodFrame_70_70_Image.src,
             },
             "black": {
-                "30x30": woodFrame_30_30_Image.src,
-                "50x50": woodFrame_50_50_Image.src,
-                "70x70": woodFrame_70_70_Image.src,
+                "30x30": blackFrame_30_30_Image.src,
+                "50x50": blackFrame_50_50_Image.src,
+                "70x70": blackFrame_70_70_Image.src,
+            },
+            "white": {
+                "30x30": whiteFrame_30_30_Image.src,
+                "50x50": whiteFrame_50_50_Image.src,
+                "70x70": whiteFrame_70_70_Image.src,
+            },
+            "dark-wood": {
+                "30x30": darkWoodFrame_30_30_Image.src,
+                "50x50": darkWoodFrame_50_50_Image.src,
+                "70x70": darkWoodFrame_70_70_Image.src,
             },
         }
-    }
-
-    const appearedImageSizes = {
-        "square": {
-            "30x30": { width: 443, height: 443 },
-            "50x50": { width: 458, height: 458 },
-            "70x70": { width: 465, height: 465 },
-        },
     }
 
     useEffect(() => {
@@ -215,6 +226,7 @@ const TextToImage = () => {
 
     const handleSelectFrame = (frameColor) => {
         setFrameColor(frameColor);
+
     }
 
     return (
@@ -242,7 +254,7 @@ const TextToImage = () => {
                                     className="frame-image-box"
                                     style={{ maxWidth: "500px", maxHeight: "500px" }}
                                 >
-                                    {!isWaitStatus && !errorMsg && paintingURL && <img
+                                    {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
                                         src={frameImages[tempImageType][frameColor][tempDimentionsInCm]}
                                         alt="Image"
                                         style={{ maxWidth: "100%", maxHeight: "100%" }}
@@ -251,8 +263,9 @@ const TextToImage = () => {
                                 <div
                                     className="generated-image-box"
                                     style={{
-                                        width: `${appearedImageSizes[tempImageType][tempDimentionsInCm].width}px`,
-                                        height: `${appearedImageSizes[tempImageType][tempDimentionsInCm].height}px`,
+                                        width: `${text_to_image_data.appearedImageSizes[tempImageType][tempDimentionsInCm].width}px`,
+                                        height: `${text_to_image_data.appearedImageSizes[tempImageType][tempDimentionsInCm].height}px`,
+                                        position: frameColor === "none" ? "static" : "absolute",
                                     }}
                                 >
                                     {!isWaitStatus && !errorMsg && paintingURL && <img

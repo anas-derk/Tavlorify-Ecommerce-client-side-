@@ -2263,4 +2263,12 @@ const gelatoDimetions = {
     },
 }
 
-export default { modelsDimentions, gelatoDimetions };
+const appearedImageSizes = {
+    "square": {
+        "30x30": { width: 443, height: 443 },
+        "50x50": { width: 458, height: 458 },
+        "70x70": { width: 465, height: 465 },
+    },
+}
+
+export default { modelsDimentions, gelatoDimetions, appearedImageSizes };
