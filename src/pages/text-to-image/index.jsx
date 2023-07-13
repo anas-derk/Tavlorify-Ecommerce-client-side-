@@ -187,7 +187,7 @@ const TextToImage = () => {
     }
 
     useEffect(() => {
-        Axios.get(`${process.env.BASE_API_URL}/categories/all-categories-data`)
+        Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
             .then((res) => {
                 let result = res.data;
                 if (typeof result === "string") {
@@ -195,7 +195,7 @@ const TextToImage = () => {
                 } else {
                     // console.log(result)
                     setCategoriesData(result);
-                    Axios.get(`${process.env.BASE_API_URL}/styles/category-styles-data?categoryName=${result[0].name}`)
+                    Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${result[0].name}`)
                         .then((res) => {
                             const categoryStylesTemp = res.data;
                             setCategoryStyles(categoryStylesTemp);

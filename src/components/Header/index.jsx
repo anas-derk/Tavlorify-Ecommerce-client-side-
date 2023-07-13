@@ -16,7 +16,6 @@ const Header = () => {
     const signOut = () => {
         localStorage.removeItem("e-commerce-canvas-user-id");
         router.reload();
-
     }
     useEffect(() => {
         let userId = localStorage.getItem("e-commerce-canvas-user-id");
@@ -103,6 +102,12 @@ const Header = () => {
                             <Link className="link text-dark" href='/text-to-image'>
                                 <BiBrain />
                                 <span className="ms-2">Text To Image</span>
+                            </Link>
+                        </li>
+                        <li className="link-item p-2">
+                            <Link className="link text-dark" href='/image-to-image'>
+                                <BiBrain />
+                                <span className="ms-2">Image To Image</span>
                             </Link>
                         </li>
                         <li className="link-item p-2">
