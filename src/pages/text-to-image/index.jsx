@@ -1,15 +1,17 @@
 import Head from "next/head";
 import Header from "@/components/Header";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Axios from "axios";
 import text_to_image_data from "../../../public/data/text_to_image_data";
 import nodeCodeGenerator from "node-code-generator";
 import { useRouter } from "next/router";
 import generatedImage from "../../../public/images/test.png";
+/* Start Import Frame Corner Images */
 import blackFrameCornerImage from "../../../public/images/frames/frameCorners/black.png";
 import whiteFrameCornerImage from "../../../public/images/frames/frameCorners/white.png";
 import woodFrameCornerImage from "../../../public/images/frames/frameCorners/wood.png";
 import darkWoodFrameCornerImage from "../../../public/images/frames/frameCorners/dark-wood.png";
+/* End Import Frame Corner Images */
 /* Start Import Square Frame Images */
 import blackFrame_30_30_Image from "../../../public/images/frames/black/S/30_30.png";
 import blackFrame_50_50_Image from "../../../public/images/frames/black/S/50_50.png";

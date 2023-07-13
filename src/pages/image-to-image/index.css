@@ -1,0 +1,18 @@
+.image-to-image-service .page-content .container-fluid .welcome-msg {
+  font-family: 'Caveat', cursive;
+  font-weight: bold;
+  font-size: 50px;
+  border-bottom: 3px solid #000;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.image-to-image-service .page-content .container-fluid .row .downloaded-image-box {
+  width: 300px;
+  height: 300px;
+}
+
+.image-to-image-service .page-content .container-fluid .row .downloaded-image-box .downloaded-image {
+  max-width: 100%;
+  max-height: 100%;
+}

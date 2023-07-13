@@ -1,12 +1,12 @@
 import Head from "next/head";
 import Script from "next/script";
-import { useRouter } from "next/router";
 import "../Scss/index.css";
 import "../components/Header/index.css";
 import "../pages/profile/index.css";
 import "../components/Footer/index.css";
 import "../pages/index.css";
 import "../pages/text-to-image/index.css";
+import "../pages/image-to-image/index.css";
 import "../pages/available-products/index.css";
 import "../pages/dashboard/admin/admin-panel/index.css";
 import "../pages/dashboard/admin/admin-panel/categories-and-styles-manager/index.css";
