@@ -1,76 +1,4 @@
 .text-to-image-service{
-    .popup-box{
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        backdrop-filter: blur(3px);
-        z-index: 1;
-        .popup{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 90%;
-            height: 90%;
-            background: #333;
-            transform: translate(-50%, -50%);
-            border-radius: 10px;
-            border: 2px solid var(--main-color-one);
-            border: 5px solid #FFF;
-            opacity: 0;
-            animation: popup-animation 1s ease-in-out 1s forwards;
-            overflow-y: auto;
-            .carousel{
-                height: 100%;
-                position: relative;
-                .slider-control-icon{
-                    // color: var(--main-color-one);
-                    // font-size: 35px;
-                }
-                .carousel-inner{
-                    height: inherit;
-                    .carousel-item{
-                        height: inherit;
-                        .carousel-caption{
-                            position: static;
-                            padding: 0;
-                            height: inherit;
-                            &.caption-box-2{
-                                width: 50%;
-                                height: 100%;
-                                margin: 0 auto;
-                                background-image: url("../../../public/images/backgrounds/wall1.jpg");
-                                background-size: contain;
-                                background-repeat: no-repeat;
-                            }
-                        }
-                    }
-                }
-            }
-            .image-in-room-wall-box{
-                position: absolute;
-                width: 50px;
-                height: 50px;
-                right: 45%;
-                top: 25%;
-                transform: translate(-50%, -50%);
-                img{
-                    max-width: 100%;
-                }
-            }
-            .created-image{
-                max-width: 100%;
-                display: block;
-                margin: 0 auto;
-            }
-            .options-buttons-box{
-                background-color: #CCC;
-                border-radius: 5px;
-                border: 2px solid #000;
-            }
-        }
-    }
     .page-content{
         .container-fluid{
             .welcome-msg{
@@ -81,67 +9,102 @@
                 width: fit-content;
                 margin: 0 auto;
             }
-            .text-to-image-box{
-                border-radius: 10px;
-                box-shadow: 1px 1px 20px #CCC;
-                .row{
-                    .heading{
-                        background-color: #444;
-                        border-left: 5px solid #CCC;
+            .art-painting{
+                position: relative;
+                .generated-image-box{
+                    position: absolute;
+                    z-index: -1;
+                }    
+            }
+            .art-painting-options{
+                height: 500px;
+                overflow-y: scroll;
+                .generating-image-options{
+                    .text-prompt{
+                        resize: none;
+                        height: 100px;
+                        &:focus{
+                            border: 3px solid #000;
+                            box-shadow: none;
+                        }
                     }
-                    .options-box{
-                        box-shadow: 1px 1px 10px #FFF;
-                        height: 500px;
-                        overflow-y: scroll;
-                        .option-heading{
-                            font-family: 'Caveat', cursive;
-                            font-size: 30px;
-                            border-bottom: 2px solid;
-                        }
-                        .text-prompt{
-                            resize: none;
-                            height: 100px;
-                        }
-                        .categories{
-                            cursor: pointer;
+                    .categories{
+                        .row{
+                            flex-wrap: nowrap;
+                            overflow-x: scroll;
                             .category-box{
-                                &:hover{
-                                    background-color: #EEE;
-                                }
-                                .category-image{
-                                    border-radius: 10px;
-                                    height: 75px;
-                                    border: 2px solid;
-                                }
-                            }
-                        }
-                        .styles-box{
-                            .style-box{
                                 cursor: pointer;
-                                border-radius: 3px;
-                                &:hover{
-                                    background-color: #EEE;
-                                }
-                                .style-image{
-                                    border-radius: 10px;
+                                .category-image{
                                     height: 75px;
                                     border: 2px solid;
+                                }
+                                .category-name{
+                                    font-size: 15px;
                                 }
                             }
                         }
                     }
-                    .display-box{
-                        border: 3px solid #000;
-                        border-radius: 5px;
+                    .styles{
+                        .row{
+                            flex-wrap: nowrap;
+                            overflow-x: scroll;
+                        }
+                        .style-box{
+                            cursor: pointer;
+                            .style-image{
+                                height: 75px;
+                                border: 2px solid;
+                            }
+                            .style-name{
+                                font-size: 15px;
+                            }
+                        }
                     }
                 }
-                .select-box{
-                    gap: 30px;
-                    > div{
-                        width: 150px;
-                        background-color: #CCC;
-                        border-radius: 5px;
-                        cursor: pointer;
+                .art-name-and-price{
+                    .price-box{
+                        .discount{
+                            text-decoration: line-through;
+                        }
+                    }
+                }
+                .displaying-art-painting-options{
+                    .art-names-list{
+                        border-bottom: 1px solid #CCC;
+                        li{
+                            cursor: pointer;
+                            &:hover{
+                                border-bottom: 3px solid #CCC;
+                            }
+                        }
+                    }
+                    .positions-list{
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+                        gap: 10px;
+                        li{
+                            cursor: pointer;
+                            border: 1px solid #CCC;
+                        }
+                    }
+                    .sizes-list{
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
+                        gap: 10px;
+                        li{
+                            cursor: pointer;
+                            border: 1px solid #CCC;
+                        }
+                    }
+                    .framed-list{
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
+                        gap: 10px;
+                        overflow-x: auto;
+                        li{
+                            cursor: pointer;
+                            border: 1px solid #CCC;
+                        }
                     }
                 }
             }

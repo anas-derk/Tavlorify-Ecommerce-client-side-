@@ -100,7 +100,7 @@ const Header = () => {
                             </Link>
                         </li>
                         <li className="link-item p-2">
-                            <Link className="link text-dark" href='/new-text-to-image'>
+                            <Link className="link text-dark" href='/text-to-image'>
                                 <BiBrain />
                                 <span className="ms-2">Text To Image</span>
                             </Link>

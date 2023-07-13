@@ -7,7 +7,6 @@ import "../pages/profile/index.css";
 import "../components/Footer/index.css";
 import "../pages/index.css";
 import "../pages/text-to-image/index.css";
-import "../pages/new-text-to-image/index.css";
 import "../pages/available-products/index.css";
 import "../pages/dashboard/admin/admin-panel/index.css";
 import "../pages/dashboard/admin/admin-panel/categories-and-styles-manager/index.css";

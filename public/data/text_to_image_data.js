@@ -1366,7 +1366,7 @@ const modelsDimentions = {
             {
                 inCm: "29,7x21",
                 inPixel: {
-                    width: 704,
+                    width: 768,
                     height: 512,
                 }
             },
@@ -1502,7 +1502,7 @@ const modelsDimentions = {
                 inCm: "21x29,7",
                 inPixel: {
                     width: 512,
-                    height: 704,
+                    height: 768,
                 }
             },
             {
@@ -2283,4 +2283,29 @@ const appearedImageSizes = {
     },
 }
 
-export default { modelsDimentions, gelatoDimetions, appearedImageSizes };
+const kandinskyImageSizes = {
+    "square": {
+        "30x30": { width: 443, height: 443 },
+        "50x50": { width: 458, height: 458 },
+        "70x70": { width: 465, height: 465 },
+    },
+    "vertical": {
+        "21x29,7": { width: 320, height: 440 },
+        "30x40": { width: 340, height: 453 },
+        "50x70": { width: 349, height: 465 },
+        "70x100": { width: 330, height: 495 },
+    },
+    "horizontal": {
+        "29,7x21": { width: 579, height: 421 },
+        "40x30": { width: 595, height: 446 },
+        "70x50": { width: 615, height: 461 },
+        "100x70": { width: 653, height: 435 },
+    },
+}
+
+export default {
+    modelsDimentions,
+    gelatoDimetions,
+    appearedImageSizes,
+    kandinskyImageSizes,
+};
