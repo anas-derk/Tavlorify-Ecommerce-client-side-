@@ -8,11 +8,52 @@
 }
 
 .image-to-image-service .page-content .container-fluid .row .downloaded-image-box {
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
 }
 
 .image-to-image-service .page-content .container-fluid .row .downloaded-image-box .downloaded-image {
   max-width: 100%;
   max-height: 100%;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options {
+  height: 250px;
+  overflow-y: scroll;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row {
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box {
+  cursor: pointer;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box .category-image {
+  height: 75px;
+  border: 2px solid;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box .category-name {
+  font-size: 15px;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .styles .row {
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .styles .style-box {
+  cursor: pointer;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .styles .style-box .style-image {
+  height: 75px;
+  border: 2px solid;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .styles .style-box .style-name {
+  font-size: 15px;
 }

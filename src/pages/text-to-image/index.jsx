@@ -453,7 +453,7 @@ const TextToImage = () => {
                                         </div>
                                         {/* End Grid System */}
                                     </section>
-                                    {/* End Styles Box */}
+                                    {/* End Styles Section */}
                                 </section>
                                 {/* Start Generating Image Options Section */}
                                 {/* Start Art Name And Price Section */}

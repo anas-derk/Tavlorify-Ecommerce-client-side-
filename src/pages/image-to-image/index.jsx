@@ -192,6 +192,10 @@ const ImageToImage = () => {
             .catch((err) => console.log(err));
     }, []);
 
+    const imageToImage = (e) => {
+
+    }
+
     return (
         // Start Image To Image Page
         <div className="image-to-image-service">
@@ -258,7 +262,68 @@ const ImageToImage = () => {
                                 />
                             </div>
                             {/* End Downloaded Image Box */}
-                            <hr />
+                            <hr className="mb-2 mt-2"/>
+                            {!isWaitStatus && !errorMsg &&
+                                <button className="btn btn-dark w-50 mx-auto d-block" onClick={imageToImage}>Create</button>
+                            }
+                            {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block" disabled>Creating ...</button>}
+                            <hr className="mb-2 mt-2"/>
+                            {/* Start Art Painting Options Section */}
+                            <section className="art-painting-options">
+                                <h6 className="mb-4 fw-bold">Please Select Category</h6>
+                                {/* Start Categories Section */}
+                                <section className="categories mb-4">
+                                    <div className="row">
+                                        {categoriesData.map((category, index) => (
+                                            <div className="col-md-2" key={category._id}>
+                                                {/* Start Category Box */}
+                                                <div
+                                                    className="category-box text-center"
+                                                    onClick={() => handleSelectCategory(index)}
+                                                >
+                                                    <img
+                                                        src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
+                                                        alt="aa"
+                                                        className="category-image mb-2"
+                                                        style={index === categorySelectedIndex ? { border: "4px solid #000" } : {}}
+                                                    />
+                                                    <h6 className="category-name text-center">{category.name}</h6>
+                                                </div>
+                                                {/* End Category Box */}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </section>
+                                {/* End Categories Section */}
+                                {/* Start Styles Section */}
+                                <section className="styles mb-3">
+                                    {/* Start Grid System */}
+                                    <div className="row">
+                                        {/* Start Column */}
+                                        {categoryStyles.map((style, index) => (
+                                            <div className="col-md-2" key={index}>
+                                                {/* Start Style Box */}
+                                                <div
+                                                    className="style-box p-2 text-center"
+                                                    onClick={() => handleSelectStyle(index)}
+                                                >
+                                                    <img
+                                                        src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
+                                                        alt="aa" className="mb-2 style-image"
+                                                        style={index === styleSelectedIndex ? { border: "4px solid #000" } : {}}
+                                                    />
+                                                    <p className="style-name m-0 text-center">{style.name}</p>
+                                                </div>
+                                                {/* End Style Box */}
+                                            </div>
+                                        ))}
+                                        {/* End Column */}
+                                    </div>
+                                    {/* End Grid System */}
+                                </section>
+                                {/* End Styles Section */}
+                            </section>
+                            {/* End Art Painting Options Section */}
                         </div>
                         {/* End Column */}
                     </div>
