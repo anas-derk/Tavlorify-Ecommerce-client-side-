@@ -19,7 +19,7 @@
                     }
                 }
                 .art-painting-options{
-                    height: 250px;
+                    height: 500px;
                     overflow-y: scroll;
                     .categories{
                         .row{
@@ -50,6 +50,45 @@
                             }
                             .style-name{
                                 font-size: 15px;
+                            }
+                        }
+                    }
+                    .displaying-art-painting-options{
+                        .art-names-list{
+                            border-bottom: 1px solid #CCC;
+                            li{
+                                cursor: pointer;
+                                &:hover{
+                                    border-bottom: 3px solid #CCC;
+                                }
+                            }
+                        }
+                        .positions-list{
+                            display: grid;
+                            grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+                            gap: 10px;
+                            li{
+                                cursor: pointer;
+                                border: 1px solid #CCC;
+                            }
+                        }
+                        .sizes-list{
+                            display: grid;
+                            grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
+                            gap: 10px;
+                            li{
+                                cursor: pointer;
+                                border: 1px solid #CCC;
+                            }
+                        }
+                        .framed-list{
+                            display: grid;
+                            grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
+                            gap: 10px;
+                            overflow-x: auto;
+                            li{
+                                cursor: pointer;
+                                border: 1px solid #CCC;
                             }
                         }
                     }

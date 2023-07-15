@@ -18,7 +18,7 @@
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options {
-  height: 250px;
+  height: 500px;
   overflow-y: scroll;
 }
 
@@ -56,4 +56,50 @@
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .styles .style-box .style-name {
   font-size: 15px;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-names-list {
+  border-bottom: 1px solid #CCC;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-names-list li {
+  cursor: pointer;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-names-list li:hover {
+  border-bottom: 3px solid #CCC;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .positions-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+  gap: 10px;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .positions-list li {
+  cursor: pointer;
+  border: 1px solid #CCC;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
+  gap: 10px;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list li {
+  cursor: pointer;
+  border: 1px solid #CCC;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .framed-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .framed-list li {
+  cursor: pointer;
+  border: 1px solid #CCC;
 }

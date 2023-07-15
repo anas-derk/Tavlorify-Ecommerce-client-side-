@@ -77,6 +77,8 @@ const ImageToImage = () => {
 
     const [imageType, setImageType] = useState("square");
 
+    const [paintingType, setPaintingType] = useState("poster");
+
     const [frameColor, setFrameColor] = useState("natural-wood");
 
     const [dimentions, setDimentions] = useState({});
@@ -192,6 +194,84 @@ const ImageToImage = () => {
             .catch((err) => console.log(err));
     }, []);
 
+    const handleSelectCategory = (index) => {
+        setCategorySelectedIndex(index);
+        Axios.get(`${process.env.BASE_API_URL}/styles/category-styles-data?categoryName=${categoriesData[index].name}`)
+            .then((res) => {
+                setCategoryStyles(res.data);
+                setStyleSelectedIndex(0);
+                const tempModelName = res.data[0].modelName;
+                setTempModelName(tempModelName);
+                setModelName(tempModelName);
+                const dimsIndex = text_to_image_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
+                setDimentions({
+                    width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
+                    height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+                });
+            })
+            .catch((err) => console.log(err));
+    }
+
+    const handleSelectStyle = (index) => {
+        setStyleSelectedIndex(index);
+        let tempModelName = categoryStyles[index].modelName;
+        setModelName(tempModelName);
+        const dimsIndex = text_to_image_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
+        setDimentions({
+            width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
+            height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+        });
+    }
+
+    const handleSelectImageType = (imgType) => {
+        setImageType(imgType);
+        switch (imgType) {
+            case "horizontal": {
+                setDimentionsInCm("70x50");
+                const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "70x50");
+                setDimentions({
+                    width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                    height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                });
+                break;
+            }
+            case "vertical": {
+                setDimentionsInCm("50x70");
+                const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "50x70");
+                setDimentions({
+                    width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                    height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                });
+                break;
+            }
+            case "square": {
+                setDimentionsInCm("30x30");
+                const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "30x30");
+                setDimentions({
+                    width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                    height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                });
+                break;
+            }
+            default: {
+                console.log("error in select image position");
+            }
+        }
+    }
+
+    const handleSelectImageDimentions = (inCm) => {
+        const dimsIndex = text_to_image_data.modelsDimentions[modelName][imageType].findIndex((el) => el.inCm == inCm);
+        setDimentionsInCm(inCm);
+        setDimentions({
+            width: text_to_image_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.width,
+            height: text_to_image_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.height,
+        });
+    }
+
+    const handleSelectFrame = (frameColor) => {
+        setFrameColor(frameColor);
+    }
+
     const imageToImage = (e) => {
 
     }
@@ -254,20 +334,20 @@ const ImageToImage = () => {
                         {/* Start Column */}
                         <div className="col-md-6">
                             {/* Start Downloaded Image Box */}
-                            <div className="downloaded-image-box mx-auto">
+                            {/* <div className="downloaded-image-box mx-auto">
                                 <img
                                     src={testImage.src}
                                     alt="downloaded image !"
                                     className="downloaded-image"
                                 />
-                            </div>
+                            </div> */}
                             {/* End Downloaded Image Box */}
-                            <hr className="mb-2 mt-2"/>
+                            <hr className="mb-2 mt-2" />
                             {!isWaitStatus && !errorMsg &&
                                 <button className="btn btn-dark w-50 mx-auto d-block" onClick={imageToImage}>Create</button>
                             }
                             {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block" disabled>Creating ...</button>}
-                            <hr className="mb-2 mt-2"/>
+                            <hr className="mb-2 mt-2" />
                             {/* Start Art Painting Options Section */}
                             <section className="art-painting-options">
                                 <h6 className="mb-4 fw-bold">Please Select Category</h6>
@@ -295,6 +375,8 @@ const ImageToImage = () => {
                                     </div>
                                 </section>
                                 {/* End Categories Section */}
+                                <hr />
+                                <h6 className="mb-4 fw-bold">Please Select Style</h6>
                                 {/* Start Styles Section */}
                                 <section className="styles mb-3">
                                     {/* Start Grid System */}
@@ -322,6 +404,128 @@ const ImageToImage = () => {
                                     {/* End Grid System */}
                                 </section>
                                 {/* End Styles Section */}
+                                {/* Start Art Name And Price Section */}
+                                <section className="art-name-and-price">
+                                    {/* Start Grid System */}
+                                    <div className="row">
+                                        <div className="col-md-8">
+                                            <h4 className="art-name fw-bold">Art Name: {paintingType}</h4>
+                                        </div>
+                                        <div className="col-md-4 text-end price-box">
+                                            <h4 className="price mb-0 fw-bold">341,10 kr</h4>
+                                            <h6 className="discount fw-bold">229 kr</h6>
+                                        </div>
+                                    </div>
+                                    {/* End Grid System */}
+                                </section>
+                                {/* End Art Name And Price Section */}
+                                {/* Start Displaying Art Painting Options Section */}
+                                <section className="displaying-art-painting-options">
+                                    {/* Start Art Names List */}
+                                    <ul className="art-names-list d-flex flex-wrap mb-4">
+                                        <li
+                                            className="p-2 pe-3 ps-3"
+                                            onClick={() => setPaintingType("poster")}
+                                            style={paintingType === "poster" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
+                                        >
+                                            Poster
+                                        </li>
+                                        <li
+                                            className="p-2 pe-3 ps-3"
+                                            onClick={() => setPaintingType("canvas")}
+                                            style={paintingType === "canvas" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
+                                        >
+                                            Canvas
+                                        </li>
+                                    </ul>
+                                    {/* EndArt Names List */}
+                                    <h5 className="fw-bold">Positions</h5>
+                                    {/* Start Positions List */}
+                                    <ul className="positions-list mb-4 text-center">
+                                        <li
+                                            className="p-3"
+                                            style={imageType === "vertical" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectImageType("vertical")}
+                                        >
+                                            Vertical
+                                        </li>
+                                        <li
+                                            className="p-3"
+                                            style={imageType === "horizontal" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectImageType("horizontal")}
+                                        >
+                                            Horizontal
+                                        </li>
+                                        <li
+                                            className="p-3"
+                                            style={imageType === "square" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectImageType("square")}
+                                        >
+                                            Square
+                                        </li>
+                                    </ul>
+                                    {/* End Positions List */}
+                                    <h5 className="fw-bold">Sizes</h5>
+                                    {/* Start Sizes List */}
+                                    <ul className="sizes-list mb-4 text-center">
+                                        {text_to_image_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
+                                            <li
+                                                key={index}
+                                                className="p-3"
+                                                onClick={() => handleSelectImageDimentions(dims.inCm)}
+                                                style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : { lineHeight: "57px" }}
+                                            >
+                                                {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold">Popular</h6>}
+                                                {dims.inCm}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    {/* End Sizes List */}
+                                    {paintingType === "poster" && <h5 className="fw-bold">Frames</h5>}
+                                    {/* Start Frames List */}
+                                    {paintingType === "poster" && <ul className="framed-list mb-4 text-center pb-3">
+                                        <li
+                                            style={frameColor === "none" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("none")}
+                                        >
+                                            none
+                                        </li>
+                                        <li
+                                            className="p-2"
+                                            style={frameColor === "black" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("black")}
+                                        >
+                                            <span className="frame-color d-block fw-bold">Black</span>
+                                            <img src={blackFrameCornerImage.src} alt="Black Frame Image" width="50" />
+                                        </li>
+                                        <li
+                                            className="p-2"
+                                            style={frameColor === "white" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("white")}
+                                        >
+                                            <span className="frame-color d-block fw-bold">White</span>
+                                            <img src={whiteFrameCornerImage.src} alt="White Frame Image" width="50" />
+                                        </li>
+                                        <li
+                                            className="p-2"
+                                            style={frameColor === "natural-wood" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("natural-wood")}
+                                        >
+                                            <span className="frame-color d-block fw-bold">Wood</span>
+                                            <img src={woodFrameCornerImage.src} alt="Wood Frame Image" width="50" />
+                                        </li>
+                                        <li
+                                            className="p-2"
+                                            style={frameColor === "dark-wood" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("dark-wood")}
+                                        >
+                                            <span className="frame-color d-block fw-bold">Dark Wood</span>
+                                            <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" />
+                                        </li>
+                                    </ul>}
+                                    {/* End Frames List */}
+                                </section>
+                                {/* End Displaying Art Painting Options Section */}
                             </section>
                             {/* End Art Painting Options Section */}
                         </div>
