@@ -191,7 +191,7 @@ const TextToImage = () => {
     useEffect(() => {
         Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
             .then((res) => {
-                let result = res.data;
+                const result = res.data;
                 if (typeof result === "string") {
                     // console.log(result);
                 } else {
@@ -292,13 +292,13 @@ const TextToImage = () => {
         });
     }
 
-    const textToImageGenerate = (e) => {
+    const generatedImageWithAI = (e) => {
         e.preventDefault();
         setErrorMsg("");
         setGeneratedImageURL("");
         setIsWaitStatus(true);
         Axios.get(
-            `https://app-014daf9d-1451-4fe3-9e69-b2b35794407d.cleverapps.io/text-to-image-generate?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
+            `${process.env.BASE_API_URL}/text-to-image/generate-image?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
         `)
             .then((res) => {
                 let result = res.data;
@@ -394,7 +394,7 @@ const TextToImage = () => {
                                         </div>
                                         <div className="col-md-5 text-end">
                                             {!isWaitStatus && !errorMsg &&
-                                                <button className="btn btn-dark w-100" onClick={textToImageGenerate}>Create</button>
+                                                <button className="btn btn-dark w-100" onClick={generatedImageWithAI}>Create</button>
                                             }
                                             {isWaitStatus && <button className="btn btn-dark w-50" disabled>Creating ...</button>}
                                         </div>

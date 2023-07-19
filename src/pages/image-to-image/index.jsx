@@ -60,6 +60,8 @@ import darkWoodFrame_40_30_Image from "../../../public/images/frames/darkWood/H/
 import darkWoodFrame_70_50_Image from "../../../public/images/frames/darkWood/H/70_50.png";
 import darkWoodFrame_100_70_Image from "../../../public/images/frames/darkWood/H/100_70.png";
 /* End Import Horizontal Frame Images */
+import { BsCloudUpload } from "react-icons/bs";
+import { AiFillCloseCircle } from "react-icons/ai";
 
 const ImageToImage = () => {
 
@@ -88,6 +90,10 @@ const ImageToImage = () => {
     const [categoriesData, setCategoriesData] = useState([]);
 
     const [categoryStyles, setCategoryStyles] = useState([]);
+
+    const [imageFile, setImageFile] = useState({});
+
+    const [imageLink, setImageLink] = useState("");
 
     const frameImages = {
         "square": {
@@ -167,7 +173,7 @@ const ImageToImage = () => {
     }
 
     useEffect(() => {
-        Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
+        Axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`)
             .then((res) => {
                 let result = res.data;
                 if (typeof result === "string") {
@@ -175,7 +181,7 @@ const ImageToImage = () => {
                 } else {
                     // console.log(result)
                     setCategoriesData(result);
-                    Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${result[0].name}`)
+                    Axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${result[0].name}`)
                         .then((res) => {
                             const categoryStylesTemp = res.data;
                             setCategoryStyles(categoryStylesTemp);
@@ -186,13 +192,23 @@ const ImageToImage = () => {
                                 width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
                                 height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
                             });
-                            setPaintingURL(generatedImage.src);
+                            setPaintingURL(testImage.src);
                         })
                         .catch((err) => console.log(err));
                 }
             })
             .catch((err) => console.log(err));
     }, []);
+
+    const handleSelectImageFile = (file) => {
+        setImageLink(URL.createObjectURL(file));
+        setImageFile(file);
+    }
+
+    const removeImage = () => {
+        setImageLink("");
+        setImageFile({});
+    }
 
     const handleSelectCategory = (index) => {
         setCategorySelectedIndex(index);
@@ -333,15 +349,38 @@ const ImageToImage = () => {
                         {/* End Column */}
                         {/* Start Column */}
                         <div className="col-md-6">
-                            {/* Start Downloaded Image Box */}
-                            {/* <div className="downloaded-image-box mx-auto">
-                                <img
-                                    src={testImage.src}
-                                    alt="downloaded image !"
-                                    className="downloaded-image"
-                                />
-                            </div> */}
-                            {/* End Downloaded Image Box */}
+                            <div className="image-before-processing-box">
+                                {/* Start Downloaded Image Box */}
+                                {imageLink && <div className="downloaded-image-box mx-auto">
+                                    <img
+                                        src={imageLink}
+                                        alt="downloaded image !"
+                                        className="downloaded-image"
+                                    />
+                                    <AiFillCloseCircle
+                                        className="close-icon"
+                                        onClick={removeImage}
+                                    />
+                                </div>}
+                                {/* End Downloaded Image Box */}
+                                {/* Start Select Image Box */}
+                                {!imageLink && <div className="select-image-box text-center">
+                                    <label
+                                        htmlFor="image-file"
+                                        className="file-label d-flex align-items-center justify-content-center flex-column"
+                                    >
+                                        <h6 className="fw-bold">Upload Image</h6>
+                                        <BsCloudUpload className="upload-image-icon" />
+                                    </label>
+                                    <input
+                                        type="file"
+                                        className="image-file-input"
+                                        id="image-file"
+                                        onChange={(e) => handleSelectImageFile(e.target.files[0])}
+                                    />
+                                </div>}
+                                {/* End Select Image Box */}
+                            </div>
                             <hr className="mb-2 mt-2" />
                             {!isWaitStatus && !errorMsg &&
                                 <button className="btn btn-dark w-50 mx-auto d-block" onClick={imageToImage}>Create</button>
