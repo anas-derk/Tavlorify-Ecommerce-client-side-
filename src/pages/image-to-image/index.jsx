@@ -62,6 +62,7 @@ import darkWoodFrame_100_70_Image from "../../../public/images/frames/darkWood/H
 /* End Import Horizontal Frame Images */
 import { BsCloudUpload } from "react-icons/bs";
 import { AiFillCloseCircle } from "react-icons/ai";
+import globalData from "../../../public/data/global";
 
 const ImageToImage = () => {
 
@@ -187,10 +188,9 @@ const ImageToImage = () => {
                             setCategoryStyles(categoryStylesTemp);
                             const tempModelName = categoryStylesTemp[0].modelName;
                             setModelName(tempModelName);
-                            const dimsIndex = text_to_image_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
                             setDimentions({
-                                width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
-                                height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+                                width: 500,
+                                height: 500,
                             });
                             setPaintingURL(testImage.src);
                         })
@@ -316,31 +316,22 @@ const ImageToImage = () => {
                                 <div
                                     className="frame-image-box"
                                 >
-                                    <img
-                                        src={testImage.src}
-                                        alt="Generated Image"
-                                        style={{ maxWidth: "100%", maxHeight: "100%" }}
-                                    />
-                                    {/* {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
-                                        src={frameImages[tempImageType][frameColor][tempDimentionsInCm]}
+                                    {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
+                                        src={frameImages[imageType][frameColor][dimentionsInCm]}
                                         alt="Image"
                                         style={{ maxWidth: "100%", maxHeight: "100%" }}
-                                    />} */}
-                                </div>
-                                <div
-                                    className="generated-image-box"
-                                    style={{
-                                        width: modelName !== "kandinsky-2" ? `${text_to_image_data.appearedImageSizes[imageType][dimentionsInCm].width}px` : `${text_to_image_data.kandinskyImageSizes[imageType][dimentionsInCm].width}px`,
-                                        height: modelName !== "kandinsky-2" ? `${text_to_image_data.appearedImageSizes[imageType][dimentionsInCm].height}px` : `${text_to_image_data.kandinskyImageSizes[imageType][dimentionsInCm].height}px`,
-                                        position: frameColor === "none" ? "static" : "absolute",
-                                    }}
-                                >
-                                    {!isWaitStatus && !errorMsg && paintingURL && <img
-                                        src={paintingURL}
-                                        className="mw-100 mh-100"
-                                        alt="Generated Image !!"
                                     />}
                                 </div>
+                                {!isWaitStatus && !errorMsg && paintingURL && <div
+                                    className="generated-image-box"
+                                    style={{
+                                        position: frameColor === "none" ? "static" : "absolute",
+                                        zIndex: "-1",
+                                        width: globalData.framesDimentions[imageType][dimentionsInCm].width,
+                                        height: globalData.framesDimentions[imageType][dimentionsInCm].height,
+                                        backgroundImage: `url(${testImage.src})`
+                                    }}
+                                ></div>}
                                 {isWaitStatus && !errorMsg && <span className="loader"></span>}
                                 {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
                             </section>
