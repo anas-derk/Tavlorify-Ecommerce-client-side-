@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
-import text_to_image_data from "../../../../../../../public/data/text_to_image_data";
+import text_to_image_data from "../../../../../../../public/data/global";
 import Axios from "axios";
 
 const AddProduct = () => {

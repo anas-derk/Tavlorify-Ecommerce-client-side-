@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import global_functions from "../../../public/global_functions/validations";
 import Axios from "axios";
 import nodeCodeGenerator from "node-code-generator";
-import text_to_image_data from "../../../public/data/text_to_image_data";
+import text_to_image_data from "../../../public/data/global";
 
 const Cart = () => {
     const [canvasEcommerceProductsList, setCanvasEcommerceProductsList] = useState([]);

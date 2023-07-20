@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import testImage from "../../../public/images/test.png";
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import text_to_image_data from "../../../public/data/text_to_image_data";
+import global_data from "../../../public/data/global";
 /* Start Import Frame Corner Images */
 import blackFrameCornerImage from "../../../public/images/frames/frameCorners/black.png";
 import whiteFrameCornerImage from "../../../public/images/frames/frameCorners/white.png";
@@ -188,9 +188,10 @@ const ImageToImage = () => {
                             setCategoryStyles(categoryStylesTemp);
                             const tempModelName = categoryStylesTemp[0].modelName;
                             setModelName(tempModelName);
+                            const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
                             setDimentions({
-                                width: 500,
-                                height: 500,
+                                width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
+                                height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
                             });
                             setPaintingURL(testImage.src);
                         })
@@ -217,12 +218,11 @@ const ImageToImage = () => {
                 setCategoryStyles(res.data);
                 setStyleSelectedIndex(0);
                 const tempModelName = res.data[0].modelName;
-                setTempModelName(tempModelName);
                 setModelName(tempModelName);
-                const dimsIndex = text_to_image_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
+                const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
                 setDimentions({
-                    width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
-                    height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+                    width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
+                    height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
                 });
             })
             .catch((err) => console.log(err));
@@ -232,10 +232,10 @@ const ImageToImage = () => {
         setStyleSelectedIndex(index);
         let tempModelName = categoryStyles[index].modelName;
         setModelName(tempModelName);
-        const dimsIndex = text_to_image_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
+        const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
         setDimentions({
-            width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
-            height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+            width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
+            height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
         });
     }
 
@@ -244,28 +244,28 @@ const ImageToImage = () => {
         switch (imgType) {
             case "horizontal": {
                 setDimentionsInCm("70x50");
-                const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "70x50");
+                const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "70x50");
                 setDimentions({
-                    width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                    height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                    width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                    height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
                 });
                 break;
             }
             case "vertical": {
                 setDimentionsInCm("50x70");
-                const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "50x70");
+                const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "50x70");
                 setDimentions({
-                    width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                    height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                    width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                    height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
                 });
                 break;
             }
             case "square": {
                 setDimentionsInCm("30x30");
-                const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "30x30");
+                const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "30x30");
                 setDimentions({
-                    width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                    height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                    width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                    height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
                 });
                 break;
             }
@@ -276,11 +276,11 @@ const ImageToImage = () => {
     }
 
     const handleSelectImageDimentions = (inCm) => {
-        const dimsIndex = text_to_image_data.modelsDimentions[modelName][imageType].findIndex((el) => el.inCm == inCm);
+        const dimsIndex = global_data.modelsDimentions[modelName][imageType].findIndex((el) => el.inCm == inCm);
         setDimentionsInCm(inCm);
         setDimentions({
-            width: text_to_image_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.width,
-            height: text_to_image_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.height,
+            width: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.width,
+            height: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.height,
         });
     }
 
@@ -498,7 +498,7 @@ const ImageToImage = () => {
                                     <h5 className="fw-bold">Sizes</h5>
                                     {/* Start Sizes List */}
                                     <ul className="sizes-list mb-4 text-center">
-                                        {text_to_image_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
+                                        {global_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
                                             <li
                                                 key={index}
                                                 className="p-3"

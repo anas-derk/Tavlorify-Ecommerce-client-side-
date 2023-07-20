@@ -2,7 +2,7 @@ import Head from "next/head";
 import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import text_to_image_data from "../../../public/data/text_to_image_data";
+import global_data from "../../../public/data/global";
 import nodeCodeGenerator from "node-code-generator";
 import { useRouter } from "next/router";
 import generatedImage from "../../../public/images/test.png";
@@ -204,10 +204,10 @@ const TextToImage = () => {
                             const tempModelName = categoryStylesTemp[0].modelName;
                             setTempModelName(tempModelName);
                             setModelName(tempModelName);
-                            const dimsIndex = text_to_image_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
+                            const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
                             setDimentions({
-                                width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
-                                height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+                                width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
+                                height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
                             });
                             setGeneratedImageURL(generatedImage.src);
                             setPaintingURL(generatedImage.src);
@@ -227,10 +227,10 @@ const TextToImage = () => {
                 const tempModelName = res.data[0].modelName;
                 setTempModelName(tempModelName);
                 setModelName(tempModelName);
-                const dimsIndex = text_to_image_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
+                const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
                 setDimentions({
-                    width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
-                    height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+                    width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
+                    height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
                 });
             })
             .catch((err) => console.log(err));
@@ -240,10 +240,10 @@ const TextToImage = () => {
         setStyleSelectedIndex(index);
         let tempModelName = categoryStyles[index].modelName;
         setModelName(tempModelName);
-        const dimsIndex = text_to_image_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
+        const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
         setDimentions({
-            width: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
-            height: text_to_image_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+            width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
+            height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
         });
     }
 
@@ -252,28 +252,28 @@ const TextToImage = () => {
         switch (imgType) {
             case "horizontal": {
                 setDimentionsInCm("70x50");
-                const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "70x50");
+                const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "70x50");
                 setDimentions({
-                    width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                    height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                    width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                    height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
                 });
                 break;
             }
             case "vertical": {
                 setDimentionsInCm("50x70");
-                const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "50x70");
+                const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "50x70");
                 setDimentions({
-                    width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                    height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                    width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                    height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
                 });
                 break;
             }
             case "square": {
                 setDimentionsInCm("30x30");
-                const dimsIndex = text_to_image_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "30x30");
+                const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "30x30");
                 setDimentions({
-                    width: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                    height: text_to_image_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                    width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                    height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
                 });
                 break;
             }
@@ -284,11 +284,11 @@ const TextToImage = () => {
     }
 
     const handleSelectImageDimentions = (inCm) => {
-        const dimsIndex = text_to_image_data.modelsDimentions[modelName][imageType].findIndex((el) => el.inCm == inCm);
+        const dimsIndex = global_data.modelsDimentions[modelName][imageType].findIndex((el) => el.inCm == inCm);
         setDimentionsInCm(inCm);
         setDimentions({
-            width: text_to_image_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.width,
-            height: text_to_image_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.height,
+            width: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.width,
+            height: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.height,
         });
     }
 
@@ -358,8 +358,8 @@ const TextToImage = () => {
                                 <div
                                     className="generated-image-box"
                                     style={{
-                                        width: tempModelName !== "kandinsky-2" ? `${text_to_image_data.appearedImageSizes[tempImageType][tempDimentionsInCm].width}px` : `${text_to_image_data.kandinskyImageSizes[tempImageType][tempDimentionsInCm].width}px`,
-                                        height: tempModelName !== "kandinsky-2" ? `${text_to_image_data.appearedImageSizes[tempImageType][tempDimentionsInCm].height}px`: `${text_to_image_data.kandinskyImageSizes[tempImageType][tempDimentionsInCm].height}px`,
+                                        width: tempModelName !== "kandinsky-2" ? `${global_data.appearedImageSizes[tempImageType][tempDimentionsInCm].width}px` : `${global_data.kandinskyImageSizes[tempImageType][tempDimentionsInCm].width}px`,
+                                        height: tempModelName !== "kandinsky-2" ? `${global_data.appearedImageSizes[tempImageType][tempDimentionsInCm].height}px`: `${global_data.kandinskyImageSizes[tempImageType][tempDimentionsInCm].height}px`,
                                         position: frameColor === "none" ? "static" : "absolute",
                                     }}
                                 >
@@ -520,7 +520,7 @@ const TextToImage = () => {
                                     <h5 className="fw-bold">Sizes</h5>
                                     {/* Start Sizes List */}
                                     <ul className="sizes-list mb-4 text-center">
-                                        {text_to_image_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
+                                        {global_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
                                             <li
                                                 key={index}
                                                 className="p-3"
