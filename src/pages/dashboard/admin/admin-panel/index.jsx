@@ -23,9 +23,10 @@ const AdminPanel = () => {
             {/* Start Content Section */}
             <section className="content d-flex justify-content-center align-items-center flex-column text-center">
                 <h1 className="welcome-msg mb-4">Hello To You In Admin Panel</h1>
-                <Link className="btn btn-success manager-link w-25 mx-auto mb-4" href="/dashboard/admin/admin-panel/products-manager">Products Manager</Link>
-                <Link className="btn btn-success manager-link w-25 mx-auto mb-4" href="/dashboard/admin/admin-panel">Orders Manager</Link>
-                <Link className="btn btn-success manager-link w-25 mx-auto" href="/dashboard/admin/admin-panel/categories-and-styles-manager">Categories And Styles Manager</Link>
+                <Link className="btn btn-success manager-link w-25 mx-auto mb-4 p-2" href="/dashboard/admin/admin-panel/products-manager">Products Manager</Link>
+                <Link className="btn btn-success manager-link w-25 mx-auto mb-4 p-2" href="/dashboard/admin/admin-panel">Orders Manager</Link>
+                <Link className="btn btn-success manager-link w-fit mx-auto mb-4 p-2" href="/dashboard/admin/admin-panel/text-to-image-manager">Text To Image Page Manager</Link>
+                <Link className="btn btn-success manager-link w-fit mx-auto p-2" href="/dashboard/admin/admin-panel/image-to-image-manager">Image To Image Page Manager</Link>
             </section>
             {/* End Content Section */}
         </div>

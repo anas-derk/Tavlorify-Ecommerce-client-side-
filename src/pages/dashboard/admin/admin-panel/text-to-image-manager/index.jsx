@@ -3,8 +3,9 @@ import ControlPanelHeader from "@/components/ControlPanelHeader";
 import { useState, useEffect } from "react";
 import Axios from "axios";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
-const CategoriesAndStylesManager = () => {
+const TextToImageManager = () => {
 
     const router = useRouter();
 
@@ -21,7 +22,7 @@ const CategoriesAndStylesManager = () => {
     const [categoryStylesData, setCategoryStylesData] = useState([]);
 
     useEffect(() => {
-        Axios.get(`${process.env.BASE_API_URL}/categories/all-categories-data`)
+        Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
             .then((res) => {
                 let result = res.data;
                 if (typeof result === "string") {
@@ -48,7 +49,7 @@ const CategoriesAndStylesManager = () => {
     const getCategoryStyles = (e) => {
         e.preventDefault();
         setIsWaitStatus(true);
-        Axios.get(`${process.env.BASE_API_URL}/styles/category-styles-data?categoryName=${categoriesData[categoryIndex].name}`)
+        Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categoryIndex].name}`)
             .then((res) => {
                 setCategoryStylesData(res.data);
                 setIsWaitStatus(false);
@@ -58,7 +59,7 @@ const CategoriesAndStylesManager = () => {
 
     const updateStyleData = (styleIndex) => {
         setIsUpdateStatus(true);
-        Axios.put(`${process.env.BASE_API_URL}/styles/update-style-data/${categoryStylesData[styleIndex]._id}`, {
+        Axios.put(`${process.env.BASE_API_URL}/text-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}`, {
             newPrompt: categoryStylesData[styleIndex].prompt,
             newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
         })
@@ -74,13 +75,15 @@ const CategoriesAndStylesManager = () => {
     }
 
     return (
-        <div className="categories-and-styles-manger text-center">
+        <div className="text-to-image-categories-and-styles-manger text-center">
             <Head>
-                <title>Tavlorify Store - Categories And Styles Manager</title>
+                <title>Tavlorify Store - Text To Image Manager</title>
             </Head>
             <ControlPanelHeader />
-            <h1 className="welcome-msg mt-3">Hello To You In Categories And Styles Manager Page</h1>
+            <h1 className="welcome-msg mt-3">Hello To You In Text To Image Manager Page</h1>
             <hr className="mb-3" />
+            <Link href="/dashboard/admin/admin-panel/text-to-image-manager/categories-manager" className="btn btn-success mb-3 d-block mx-auto w-25">Categories Manager</Link>
+            <Link href="/" className="btn btn-success mb-3 d-block mx-auto w-25">Styles Manager</Link>
             <h5 className="mb-3">Please Select The Category</h5>
             <form className="select-category-form mb-4" onSubmit={getCategoryStyles}>
                 <select className="form-control w-50 mx-auto mb-3" onChange={(e) => {
@@ -142,4 +145,4 @@ const CategoriesAndStylesManager = () => {
     );
 }
 
-export default CategoriesAndStylesManager;
+export default TextToImageManager;
