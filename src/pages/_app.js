@@ -10,7 +10,7 @@ import "../pages/image-to-image/index.css";
 import "../pages/available-products/index.css";
 import "../pages/dashboard/admin/admin-panel/index.css";
 import "./dashboard/admin/admin-panel/text-to-image-manager/index.css";
-import "./dashboard/admin/admin-panel/text-to-image-manager/categories-manager/update-category-info/index.css";
+import "./dashboard/admin/admin-panel/text-to-image-manager/styles-manager/update-styles-info/index.css";
 import "../pages/dashboard/admin/admin-panel/products-manager/products-process/index.css";
 import "../components/ControlPanelHeader/index.css";
 import "../pages/products/[name]/[id]/index.css";

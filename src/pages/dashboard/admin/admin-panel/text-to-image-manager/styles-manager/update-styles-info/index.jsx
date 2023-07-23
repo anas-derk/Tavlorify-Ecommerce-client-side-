@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 
-const UpdateCategoryInfo = () => {
+const UpdateCategoryStyleInfo = () => {
 
     const router = useRouter();
 
@@ -77,12 +77,12 @@ const UpdateCategoryInfo = () => {
     }
 
     return (
-        <div className="update-category-info">
+        <div className="update-category-styles-info">
             <Head>
-                <title>Tavlorify Store - Update Category Info For Text To Image</title>
+                <title>Tavlorify Store - Update Category Styles Info For Text To Image</title>
             </Head>
             <ControlPanelHeader />
-            <h1 className="welcome-msg mt-3 text-center">Hello To You In Update Category Info For Text To Image Page</h1>
+            <h1 className="welcome-msg mt-3 text-center">Hello To You In Update Category Styles Info For Text To Image Page</h1>
             <hr className="mb-4" />
             <h5 className="mb-3 text-center">Please Select The Category</h5>
             <form className="select-category-form mb-4 text-center" onSubmit={getCategoryStyles}>
@@ -145,4 +145,4 @@ const UpdateCategoryInfo = () => {
     )
 }
 
-export default UpdateCategoryInfo;
+export default UpdateCategoryStyleInfo;

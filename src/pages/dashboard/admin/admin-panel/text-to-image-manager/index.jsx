@@ -13,7 +13,7 @@ const TextToImageManager = () => {
             <h1 className="welcome-msg mt-3">Hello To You In Text To Image Manager Page</h1>
             <hr className="mb-3" />
             <Link href="/dashboard/admin/admin-panel/text-to-image-manager/categories-manager" className="btn btn-success mb-3 d-block mx-auto w-25">Categories Manager</Link>
-            <Link href="/" className="btn btn-success mb-3 d-block mx-auto w-25">Styles Manager</Link>
+            <Link href="/dashboard/admin/admin-panel/text-to-image-manager/styles-manager" className="btn btn-success mb-3 d-block mx-auto w-25">Styles Manager</Link>
         </div>
     );
 }
