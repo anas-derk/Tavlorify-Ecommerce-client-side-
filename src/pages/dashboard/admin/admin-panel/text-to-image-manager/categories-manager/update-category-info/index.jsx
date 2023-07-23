@@ -20,6 +20,8 @@ const UpdateCategoryInfo = () => {
 
     const [categoryStylesData, setCategoryStylesData] = useState([]);
 
+    const [updatedStyleIndex, setUpdatedStyleIndex] = useState(-1);
+
     useEffect(() => {
         Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
             .then((res) => {
@@ -57,6 +59,7 @@ const UpdateCategoryInfo = () => {
     }
 
     const updateStyleData = (styleIndex) => {
+        setUpdatedStyleIndex(styleIndex);
         setIsUpdateStatus(true);
         Axios.put(`${process.env.BASE_API_URL}/text-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}`, {
             newPrompt: categoryStylesData[styleIndex].prompt,
@@ -66,7 +69,7 @@ const UpdateCategoryInfo = () => {
                 if (typeof res.data !== "string") {
                     setIsWaitStatus(false);
                     setTimeout(() => {
-                        router.reload();
+                        setUpdatedStyleIndex(-1);
                     }, 1000);
                 }
             })
@@ -127,11 +130,11 @@ const UpdateCategoryInfo = () => {
                                 </td>
                                 <td className="model-name-cell">{style.modelName}</td>
                                 <td className="update-cell">
-                                    {!isUpdateStatus && <button
+                                    {styleIndex !== updatedStyleIndex && <button
                                         className="btn btn-danger"
                                         onClick={() => updateStyleData(styleIndex)}
                                     >Update</button>}
-                                    {isUpdateStatus && <p className="alert alert-primary">Update ...</p>}
+                                    {isUpdateStatus && styleIndex === updatedStyleIndex && <p className="alert alert-primary">Update ...</p>}
                                 </td>
                             </tr>
                         ))}
