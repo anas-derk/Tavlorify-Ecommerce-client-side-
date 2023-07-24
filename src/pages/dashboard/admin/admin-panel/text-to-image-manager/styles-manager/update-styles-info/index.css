@@ -19,7 +19,7 @@
   padding: 10px;
 }
 
-.update-category-styles-info .categories-and-styles-box .categories-and-styles-table .style-name-cell, .update-category-styles-info .categories-and-styles-box .categories-and-styles-table .model-name-cell, .update-category-styles-info .categories-and-styles-box .categories-and-styles-table .update-cell {
+.update-category-styles-info .categories-and-styles-box .categories-and-styles-table .style-name-cell, .update-category-styles-info .categories-and-styles-box .categories-and-styles-table .model-name-cell, .update-category-styles-info .categories-and-styles-box .categories-and-styles-table .update-and-delete-cell {
   width: 60px;
 }
 

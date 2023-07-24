@@ -7,11 +7,7 @@ const AddNewCategoryStyle = () => {
     
     const [categoriesData, setCategoriesData] = useState([]);
 
-    const [categoryIndex, setCategoryIndex] = useState(-1);
-
     const [categoryName, setCategoryName] = useState("");
-
-    const [categoryImageFile, setCategoryImageFile] = useState({});
     
     const [styleName, setStyleName] = useState("");
 
@@ -65,11 +61,11 @@ const AddNewCategoryStyle = () => {
             <hr className="mb-5" />
             <form className="add-new-category-form w-50 mx-auto mb-4" onSubmit={addNewCategoryStyle}>
             <select className="form-control mx-auto mb-4 p-2" onChange={(e) => {
-                    setCategoryIndex(parseInt(e.target.value));
+                    setCategoryName(e.target.value);
                 }}>
                     <option defaultValue="" hidden>Select The Category</option>
                     {categoriesData.map((category, index) => (
-                        <option value={index} key={index}>{category.name}</option>
+                        <option value={category.name} key={index}>{category.name}</option>
                     ))}
                 </select>
                 <input

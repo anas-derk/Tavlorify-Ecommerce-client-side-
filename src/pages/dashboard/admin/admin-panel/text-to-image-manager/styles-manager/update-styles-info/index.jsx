@@ -14,6 +14,8 @@ const UpdateCategoryStyleInfo = () => {
 
     const [isUpdateStatus, setIsUpdateStatus] = useState(false);
 
+    const [isDeleteStatus, setIsDeleteStatus] = useState(false);
+
     const [categoryData, setCategoryData] = useState(null);
 
     const [categoriesData, setCategoriesData] = useState([]);
@@ -21,6 +23,8 @@ const UpdateCategoryStyleInfo = () => {
     const [categoryStylesData, setCategoryStylesData] = useState([]);
 
     const [updatedStyleIndex, setUpdatedStyleIndex] = useState(-1);
+
+    const [deletedStyleIndex, setDeletedStyleIndex] = useState(-1);
 
     useEffect(() => {
         Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
@@ -65,6 +69,21 @@ const UpdateCategoryStyleInfo = () => {
             newPrompt: categoryStylesData[styleIndex].prompt,
             newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
         })
+            .then((res) => {
+                if (typeof res.data !== "string") {
+                    setIsWaitStatus(false);
+                    setTimeout(() => {
+                        setUpdatedStyleIndex(-1);
+                    }, 1000);
+                }
+            })
+            .catch((err) => console.log(err));
+    }
+
+    const deleteStyle = (styleIndex) => {
+        setDeletedStyleIndex(styleIndex);
+        setIsDeleteStatus(true);
+        Axios.delete(`${process.env.BASE_API_URL}/text-to-image/styles/delete-style-data/${categoryStylesData[styleIndex]._id}`)
             .then((res) => {
                 if (typeof res.data !== "string") {
                     setIsWaitStatus(false);
@@ -129,12 +148,17 @@ const UpdateCategoryStyleInfo = () => {
                                     ></textarea>
                                 </td>
                                 <td className="model-name-cell">{style.modelName}</td>
-                                <td className="update-cell">
+                                <td className="update-and-delete-cell">
                                     {styleIndex !== updatedStyleIndex && <button
-                                        className="btn btn-danger"
+                                        className="btn btn-danger mb-3 d-block w-100"
                                         onClick={() => updateStyleData(styleIndex)}
                                     >Update</button>}
-                                    {isUpdateStatus && styleIndex === updatedStyleIndex && <p className="alert alert-primary">Update ...</p>}
+                                    {isUpdateStatus && styleIndex === updatedStyleIndex && <p className="alert alert-primary mb-3 d-block">Update ...</p>}
+                                    {styleIndex !== deletedStyleIndex && <button
+                                        className="btn btn-danger d-block w-100"
+                                        onClick={() => deleteStyle(styleIndex)}
+                                    >Delete</button>}
+                                    {isDeleteStatus && styleIndex === deletedStyleIndex && <p className="alert alert-primary">Delete ...</p>}
                                 </td>
                             </tr>
                         ))}
