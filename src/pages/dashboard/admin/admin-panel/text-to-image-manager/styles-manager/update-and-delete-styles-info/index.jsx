@@ -83,7 +83,7 @@ const UpdateCategoryStyleInfo = () => {
     const deleteStyle = (styleIndex) => {
         setDeletedStyleIndex(styleIndex);
         setIsDeleteStatus(true);
-        Axios.delete(`${process.env.BASE_API_URL}/text-to-image/styles/delete-style-data/${categoryStylesData[styleIndex]._id}`)
+        Axios.delete(`${process.env.BASE_API_URL}/text-to-image/styles/delete-style-data/${categoryStylesData[styleIndex]._id}?imgSrc=${categoryStylesData[styleIndex].imgSrc}`)
             .then((res) => {
                 console.log(res.data);
                 setIsWaitStatus(false);
