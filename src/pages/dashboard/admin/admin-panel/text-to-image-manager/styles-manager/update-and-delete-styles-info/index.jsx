@@ -85,12 +85,11 @@ const UpdateCategoryStyleInfo = () => {
         setIsDeleteStatus(true);
         Axios.delete(`${process.env.BASE_API_URL}/text-to-image/styles/delete-style-data/${categoryStylesData[styleIndex]._id}`)
             .then((res) => {
-                if (typeof res.data !== "string") {
-                    setIsWaitStatus(false);
-                    setTimeout(() => {
-                        setUpdatedStyleIndex(-1);
-                    }, 1000);
-                }
+                console.log(res.data);
+                setIsWaitStatus(false);
+                setTimeout(() => {
+                    setDeletedStyleIndex(-1);
+                }, 1000);
             })
             .catch((err) => console.log(err));
     }
@@ -98,10 +97,10 @@ const UpdateCategoryStyleInfo = () => {
     return (
         <div className="update-category-styles-info">
             <Head>
-                <title>Tavlorify Store - Update Category Styles Info For Text To Image</title>
+                <title>Tavlorify Store - Update And Delete Category Styles Info For Text To Image</title>
             </Head>
             <ControlPanelHeader />
-            <h1 className="welcome-msg mt-3 text-center">Hello To You In Update Category Styles Info For Text To Image Page</h1>
+            <h1 className="welcome-msg mt-3 text-center">Update And Delete Category Styles Info For Text To Image Page</h1>
             <hr className="mb-4" />
             <h5 className="mb-3 text-center">Please Select The Category</h5>
             <form className="select-category-form mb-4 text-center" onSubmit={getCategoryStyles}>
