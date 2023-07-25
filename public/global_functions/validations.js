@@ -2,6 +2,12 @@ const isEmail = (email) => {
     return email.match(/[^\s@]+@[^\s@]+\.[^\s@]+/);
 }
 
+// تعريف دالة لمعرفة هل الملف هو صورة أم لا
+function isImage(file) {
+    // التحقق من كون نوع الملف هو صورة من امتداد jpg or png 
+    return file.type === "image/png" || file.type === "image/jpeg";
+}
+
 const isValidPassword = (password) => {
     
 }
@@ -54,6 +60,15 @@ const inputValuesValidation = (inputs) => {
             // التحقق من أنّ القاعدة محققة ، وفي حالة لم تكن محققة فإننا نضيف الخطأ إلى مصفوفة الأخطاء
             if (input.value != inputRules.isMatch.value) {
                 errorsObject[input.name] = inputRules.isMatch.msg;
+                // في حالة وجود خطأ نقوم بتجاهل كل التعليمات اللاحقة داخل التكرار الحالي للحلقة والانتقال إلى التكرار التالي
+                continue;
+            }
+        }
+        // التحقق من كون القاعدة داخل كائن القواعد موجودة 
+        if (typeof inputRules.isImage !== "undefined") {
+            // التحقق من أنّ القاعدة محققة ، وفي حالة لم تكن محققة فإننا نضيف الخطأ إلى مصفوفة الأخطاء
+            if (!isImage(input.value)) {
+                errorsObject[input.name] = inputRules.isImage.msg;
                 // في حالة وجود خطأ نقوم بتجاهل كل التعليمات اللاحقة داخل التكرار الحالي للحلقة والانتقال إلى التكرار التالي
                 continue;
             }
