@@ -11,6 +11,7 @@ import "../pages/available-products/index.css";
 import "../pages/dashboard/admin/admin-panel/index.css";
 import "./dashboard/admin/admin-panel/text-to-image-manager/index.css";
 import "./dashboard/admin/admin-panel/text-to-image-manager/styles-manager/update-and-delete-styles-info/index.css";
+import "./dashboard/admin/admin-panel/text-to-image-manager/categories-manager/update-and-delete-category-info/index.css";
 import "../pages/dashboard/admin/admin-panel/products-manager/products-process/index.css";
 import "../components/ControlPanelHeader/index.css";
 import "../pages/products/[name]/[id]/index.css";
