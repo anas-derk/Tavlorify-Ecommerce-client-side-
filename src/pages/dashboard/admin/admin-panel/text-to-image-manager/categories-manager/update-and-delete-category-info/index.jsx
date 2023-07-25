@@ -57,7 +57,18 @@ const UpdateAndDeleteCategoryInfo = () => {
     }
 
     const deleteCategory = (categoryIndex) => {
-
+        setDeletedCategoryIndex(categoryIndex);
+        setIsDeleteStatus(true);
+        Axios.delete(`${process.env.BASE_API_URL}/text-to-image/categories/delete-category-data/${categoriesData[categoryIndex]._id}`)
+            .then((res) => {
+                setTimeout(() => {
+                    setIsDeleteStatus(false);
+                    let categoriesDataTemp = categoriesData.filter((category, index) => index !== categoryIndex);
+                    setCategoriesData(categoriesDataTemp);
+                    setDeletedCategoryIndex(-1);
+                }, 1000);
+            })
+            .catch((err) => console.log(err));
     }
 
     return (
@@ -72,7 +83,7 @@ const UpdateAndDeleteCategoryInfo = () => {
                 <h1 className="welcome-msg mt-3 text-center">Update And Delete Text To Image Categories Page</h1>
                 <hr className="mb-3" />
                 {/* Start Categories Table */}
-                <table className="categories-table mb-4 text-center">
+                {categoriesData.length > 0 ? <table className="categories-table mb-4 text-center">
                     <thead>
                         <tr>
                             <th>Category Name</th>
@@ -97,7 +108,7 @@ const UpdateAndDeleteCategoryInfo = () => {
                                         onClick={() => updateCategoryName(index)}
                                     >Update</button>}
                                     {isUpdateStatus && index === updatedCategoryIndex && <p className="alert alert-primary mb-3 d-block">Update ...</p>}
-                                    {index !== updatedCategoryIndex && <button
+                                    {index !== deletedCategoryIndex && <button
                                         className="btn btn-danger d-block w-100"
                                         onClick={() => deleteCategory(index)}
                                     >Delete</button>}
@@ -106,7 +117,7 @@ const UpdateAndDeleteCategoryInfo = () => {
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </table> : <p className="alert alert-danger">Sorry, Can't Find Any Text To Image Category !!</p>}
                 {/* End Categories Table */}
             </div>
             {/* End Container */}
