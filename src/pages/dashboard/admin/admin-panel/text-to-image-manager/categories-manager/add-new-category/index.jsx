@@ -179,7 +179,7 @@ const AddNewCategory = () => {
                     placeholder="Please Enter Style Negative Prompt"
                     onChange={(e) => setStyleNegativePrompt(e.target.value)}
                 ></textarea>
-                {formValidationErrors["stylePrompt"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleNegativePrompt"]}</p>}
+                {formValidationErrors["styleNegativePrompt"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleNegativePrompt"]}</p>}
                 <select
                     type="text"
                     className={`form-control p-2 ${formValidationErrors["modelName"] ? "border border-danger mb-2" : "mb-4"}`}
