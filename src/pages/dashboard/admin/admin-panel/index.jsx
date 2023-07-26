@@ -7,8 +7,8 @@ import ControlPanelHeader from "@/components/ControlPanelHeader";
 const AdminPanel = () => {
     const router = useRouter();
     useEffect(() => {
-        let adminInfo = JSON.parse(localStorage.getItem("admin-info"));
-        if (!adminInfo) {
+        const adminId = localStorage.getItem("tavlorify-store-admin-id");
+        if (!adminId) {
             router.push("/dashboard/admin/login");
         }
     }, []);

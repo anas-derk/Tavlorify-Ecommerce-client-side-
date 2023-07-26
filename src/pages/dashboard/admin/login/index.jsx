@@ -1,10 +1,10 @@
 import Axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiLogIn } from "react-icons/fi";
 import dashboardLoginImage from "../../../../../public/images/backgrounds/dashboardLogin.jpg";
-import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineClockCircle } from "react-icons/ai";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const AdminLogin = () => {
 
@@ -18,6 +18,13 @@ const AdminLogin = () => {
 
     const router = useRouter();
 
+    useEffect(() => {
+        const adminId = localStorage.getItem("tavlorify-store-admin-id");
+        if (adminId) {
+            router.push("/dashboard/admin/admin-panel");
+        }
+    }, []);
+
     const adminLogin = (e) => {
         e.preventDefault();
         Axios.get(`${process.env.BASE_API_URL}/admin/login?email=${email}&password=${password}`)
@@ -29,7 +36,7 @@ const AdminLogin = () => {
                         setErrorMsg("");
                     }, 2000);
                 } else {
-                    localStorage.setItem("admin-info", JSON.stringify(result));
+                    localStorage.setItem("tavlorify-store-admin-id", result._id);
                     router.push("/dashboard/admin/admin-panel");
                 }
             })

@@ -2,9 +2,14 @@
     background-color: #222;
     color: #FFF;
     text-align: center;
-    .control-list {
-        li {
-            display: inline-block;
+    .navbar{
+        .navbar-nav{
+            .nav-item{
+                cursor: pointer;
+                &.sign-out-btn{
+                    border-radius: 5px;
+                }
+            }
         }
     }
 }

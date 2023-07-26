@@ -4,6 +4,10 @@
   text-align: center;
 }
 
-.control-panel-header .control-list li {
-  display: inline-block;
+.control-panel-header .navbar .navbar-nav .nav-item {
+  cursor: pointer;
+}
+
+.control-panel-header .navbar .navbar-nav .nav-item.sign-out-btn {
+  border-radius: 5px;
 }
