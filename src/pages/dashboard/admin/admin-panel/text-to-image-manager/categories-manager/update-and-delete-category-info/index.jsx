@@ -2,6 +2,7 @@ import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import { useEffect, useState } from "react";
 import Axios from "axios";
+import { useRouter } from "next/router";
 
 const UpdateAndDeleteCategoryInfo = () => {
 
@@ -17,22 +18,29 @@ const UpdateAndDeleteCategoryInfo = () => {
 
     const [updatedCategoriesData, setUpdatedCategoriesData] = useState([]);
 
+    const router = useRouter();
+
     useEffect(() => {
-        Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
-            .then((res) => {
-                let result = res.data;
-                if (typeof result === "string") {
-                    console.log(result);
-                } else {
-                    setCategoriesData(result);
-                    setUpdatedCategoriesData(result.map((category) => {
-                        return {
-                            name: category.name,
-                        }
-                    }));
-                }
-            })
-            .catch((err) => console.log(err));
+        const adminId = localStorage.getItem("tavlorify-store-admin-id");
+        if (!adminId) {
+            router.push("/dashboard/admin/login");
+        } else {
+            Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
+                .then((res) => {
+                    let result = res.data;
+                    if (typeof result === "string") {
+                        console.log(result);
+                    } else {
+                        setCategoriesData(result);
+                        setUpdatedCategoriesData(result.map((category) => {
+                            return {
+                                name: category.name,
+                            }
+                        }));
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
     }, []);
 
     const changeCategoryName = (categoryIndex, newValue) => {

@@ -1,8 +1,9 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Axios from "axios";
 import validations from "../../../../../../../../public/global_functions/validations";
+import { useRouter } from "next/router";
 
 const AddNewCategory = () => {
 
@@ -27,6 +28,15 @@ const AddNewCategory = () => {
     const [isErrorStatus, setIsErrorStatus] = useState(false);
 
     const [formValidationErrors, setFormValidationErrors] = useState({});
+
+    const router = useRouter();
+
+    useEffect(() => {
+        const adminId = localStorage.getItem("tavlorify-store-admin-id");
+        if (!adminId) {
+            router.push("/dashboard/admin/login");
+        }
+    }, []);
 
     const addNewCategory = async (e) => {
         e.preventDefault();

@@ -1,8 +1,17 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import Link from "next/link";
+import { useEffect } from "react";
 
 const TextToImageCategoriesManager = () => {
+
+    useEffect(() => {
+        const adminId = localStorage.getItem("tavlorify-store-admin-id");
+        if (!adminId) {
+            router.push("/dashboard/admin/login");
+        }
+    }, []);
+
     return (
         <div className="text-to-image-categories-manager">
             <Head>

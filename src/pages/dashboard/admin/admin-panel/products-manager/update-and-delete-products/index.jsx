@@ -15,7 +15,11 @@ const ProductsProcess = () => {
     const [errorMsg, setErrorMsg] = useState("");
 
     useEffect(() => {
-        Axios.get(`${process.env.BASE_API_URL}/products/all-products`)
+        const adminId = localStorage.getItem("tavlorify-store-admin-id");
+        if (!adminId) {
+            router.push("/dashboard/admin/login");
+        } else {
+            Axios.get(`${process.env.BASE_API_URL}/products/all-products`)
             .then((res) => {
                 let result = res.data;
                 if (typeof result === "string") {
@@ -25,6 +29,7 @@ const ProductsProcess = () => {
                 }
             })
             .catch((err) => setErrorMsg(err));
+        }
     }, []);
 
     const changeProductName = (productIndex, newValue) => {

@@ -1,8 +1,19 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import Link from "next/link";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const TextToImageManager = () => {
+
+    const router = useRouter();
+
+    useEffect(() => {
+        const adminId = localStorage.getItem("tavlorify-store-admin-id");
+        if (!adminId) {
+            router.push("/dashboard/admin/login");
+        }
+    }, []);
 
     return (
         <div className="text-to-image-manger text-center">

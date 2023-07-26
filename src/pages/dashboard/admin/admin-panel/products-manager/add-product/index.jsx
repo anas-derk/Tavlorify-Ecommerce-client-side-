@@ -18,6 +18,13 @@ const AddProduct = () => {
     const [successMsg, setSuccessMsg] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
 
+    useEffect(() => {
+        const adminId = localStorage.getItem("tavlorify-store-admin-id");
+        if (!adminId) {
+            router.push("/dashboard/admin/login");
+        }
+    }, []);
+
     const addProduct = async (e) => {
         e.preventDefault();
         let productData = new FormData();
@@ -52,13 +59,6 @@ const AddProduct = () => {
             }, 1500);
         }
     }
-
-    useEffect(() => {
-        let adminInfo = JSON.parse(localStorage.getItem("admin-info"));
-        if (!adminInfo) {
-            router.push("/dashboard/admin/login");
-        }
-    }, []);
     return (
         // Start Add Product Page
         <div className="add-product">

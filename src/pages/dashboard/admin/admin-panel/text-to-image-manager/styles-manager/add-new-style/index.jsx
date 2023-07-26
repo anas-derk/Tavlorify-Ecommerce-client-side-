@@ -3,6 +3,7 @@ import ControlPanelHeader from "@/components/ControlPanelHeader";
 import { useState, useEffect } from "react";
 import Axios from "axios";
 import validations from "../../../../../../../../public/global_functions/validations";
+import { useRouter } from "next/router";
 
 const AddNewCategoryStyle = () => {
 
@@ -28,17 +29,24 @@ const AddNewCategoryStyle = () => {
 
     const [formValidationErrors, setFormValidationErrors] = useState({});
 
+    const router = useRouter();
+
     useEffect(() => {
-        Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
-            .then((res) => {
-                let result = res.data;
-                if (typeof result === "string") {
-                    console.log(result);
-                } else {
-                    setCategoriesData(result);
-                }
-            })
-            .catch((err) => console.log(err));
+        const adminId = localStorage.getItem("tavlorify-store-admin-id");
+        if (!adminId) {
+            router.push("/dashboard/admin/login");
+        } else {
+            Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
+                .then((res) => {
+                    let result = res.data;
+                    if (typeof result === "string") {
+                        console.log(result);
+                    } else {
+                        setCategoriesData(result);
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
     }, []);
 
     const addNewCategoryStyle = async (e) => {
