@@ -7,8 +7,8 @@ import Link from "next/link";
 const ProductsManager = () => {
     const router = useRouter();
     useEffect(() => {
-        let adminInfo = JSON.parse(localStorage.getItem("admin-info"));
-        if (!adminInfo) {
+        const adminId = localStorage.getItem("tavlorify-store-admin-id");
+        if (!adminId) {
             router.push("/dashboard/admin/login");
         }
     }, []);
@@ -26,7 +26,7 @@ const ProductsManager = () => {
             {/* Start Content Section */}
             <section className="content d-flex justify-content-center align-items-center flex-column text-center">
                 <Link className="btn btn-success manager-link w-25 mx-auto mb-4" href="/dashboard/admin/admin-panel/products-manager/add-product">Add Product</Link>
-                <Link className="btn btn-danger manager-link w-25 mx-auto mb-4" href="/dashboard/admin/admin-panel/products-manager/products-process">Products Process</Link>
+                <Link className="btn btn-danger manager-link w-25 mx-auto mb-4" href="/dashboard/admin/admin-panel/products-manager/update-and-delete-products">Update And Delete Products</Link>
             </section>
             {/* End Content Section */}
         </div>

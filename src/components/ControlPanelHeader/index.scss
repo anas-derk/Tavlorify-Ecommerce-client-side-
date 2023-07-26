@@ -3,11 +3,23 @@
     color: #FFF;
     text-align: center;
     .navbar{
+        .navbar-brand{
+            &:hover{
+                color: #0F0;
+            }
+        }
         .navbar-nav{
             .nav-item{
                 cursor: pointer;
                 &.sign-out-btn{
                     border-radius: 5px;
+                }
+                .nav-link{
+                    &.dropdown-toggle{
+                        &:hover{
+                            color: #0F0;
+                        }
+                    }
                 }
             }
         }
