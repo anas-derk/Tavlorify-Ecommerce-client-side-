@@ -32,6 +32,21 @@
   border-radius: 10px;
 }
 
+.admin-login .admin-login-form .password-field-box {
+  position: relative;
+}
+
+.admin-login .admin-login-form .password-field-box .icon-box {
+  position: absolute;
+  right: 10px;
+  top: 15px;
+}
+
+.admin-login .admin-login-form .password-field-box .icon-box .icon {
+  font-size: 30px;
+  cursor: pointer;
+}
+
 .admin-login .admin-login-form .login-btn {
   background-color: #FFF;
   font-weight: bold;

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { FiLogIn } from "react-icons/fi";
 import dashboardLoginImage from "../../../../../public/images/backgrounds/dashboardLogin.jpg";
+import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineClockCircle } from "react-icons/ai";
 
 const AdminLogin = () => {
 
@@ -12,6 +13,8 @@ const AdminLogin = () => {
     const [password, setPassword] = useState("");
 
     const [errMsg, setErrorMsg] = useState("");
+
+    const [isVisiblePassword, setIsVisiblePassword] = useState(false);
 
     const router = useRouter();
 
@@ -22,6 +25,9 @@ const AdminLogin = () => {
                 let result = res.data;
                 if (typeof result === "string") {
                     setErrorMsg(result);
+                    setTimeout(() => {
+                        setErrorMsg("");
+                    }, 2000);
                 } else {
                     localStorage.setItem("admin-info", JSON.stringify(result));
                     router.push("/dashboard/admin/admin-panel");
@@ -38,7 +44,7 @@ const AdminLogin = () => {
             <div className="overlay d-flex align-items-center">
                 <div className="container-fluid">
                     <form className="admin-login-form mb-3 p-5 mx-auto" onSubmit={adminLogin}>
-                    <h1 className="mb-4 p-3 mx-auto">Admin Login Page</h1>
+                        <h1 className="mb-4 p-3 mx-auto">Admin Login Page</h1>
                         <FiLogIn className="login-icon mb-4 p-2" />
                         <input
                             type="email"
@@ -47,16 +53,22 @@ const AdminLogin = () => {
                             required
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                        <input
-                            type="password"
-                            placeholder="Your Admin password"
-                            className="form-control mx-auto mb-4 p-3"
-                            required
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
+                        <div className='password-field-box'>
+                            <input
+                                type={isVisiblePassword ? "text" : "password"}
+                                placeholder="Your Admin password"
+                                className="form-control mx-auto mb-4 p-3"
+                                required
+                                onChange={(e) => setPassword(e.target.value.trim())}
+                            />
+                            <div className='icon-box'>
+                                {!isVisiblePassword && <AiOutlineEye className='eye-icon icon' onClick={() => setIsVisiblePassword(value => value = !value)} />}
+                                {isVisiblePassword && <AiOutlineEyeInvisible className='invisible-eye-icon icon' onClick={() => setIsVisiblePassword(value => value = !value)} />}
+                            </div>
+                        </div>
                         <button type="submit" className="btn w-100 login-btn p-3">Login</button>
+                        {errMsg && <p className="alert alert-danger mt-3 mb-0">{errMsg}</p>}
                     </form>
-                    {errMsg && <p className="alert alert-danger">{errMsg}</p>}
                 </div>
             </div>
         </div>

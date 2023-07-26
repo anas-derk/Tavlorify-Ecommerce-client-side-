@@ -25,6 +25,18 @@
             color: #000;
             border-radius: 10px;
         }
+        .password-field-box{
+            position: relative;
+            .icon-box{
+                position: absolute;
+                right: 10px;
+                top: 15px;
+                .icon{
+                    font-size: 30px;
+                    cursor: pointer;
+                }
+            }
+        }
         .login-btn{
             background-color: #FFF;
             font-weight: bold;
