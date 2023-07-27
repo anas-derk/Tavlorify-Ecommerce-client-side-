@@ -78,7 +78,7 @@ const UpdateCategoryStyleInfo = () => {
                 if (typeof res.data !== "string") {
                     setIsWaitStatus(false);
                     setTimeout(() => {
-                        setUpdatedStyleIndex(-1);
+                        router.reload();
                     }, 1000);
                 }
             })
@@ -93,7 +93,7 @@ const UpdateCategoryStyleInfo = () => {
                 console.log(res.data);
                 setIsWaitStatus(false);
                 setTimeout(() => {
-                    setDeletedStyleIndex(-1);
+                    router.reload();
                 }, 1000);
             })
             .catch((err) => console.log(err));

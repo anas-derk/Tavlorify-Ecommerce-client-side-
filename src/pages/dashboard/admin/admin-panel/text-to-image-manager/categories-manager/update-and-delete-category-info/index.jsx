@@ -58,7 +58,7 @@ const UpdateAndDeleteCategoryInfo = () => {
             .then((res) => {
                 setTimeout(() => {
                     setIsUpdateStatus(false);
-                    setUpdatedCategoryIndex(-1);
+                    router.reload();
                 }, 1000);
             })
             .catch((err) => console.log(err));
@@ -71,9 +71,7 @@ const UpdateAndDeleteCategoryInfo = () => {
             .then((res) => {
                 setTimeout(() => {
                     setIsDeleteStatus(false);
-                    let categoriesDataTemp = categoriesData.filter((category, index) => index !== categoryIndex);
-                    setCategoriesData(categoriesDataTemp);
-                    setDeletedCategoryIndex(-1);
+                    router.reload();
                 }, 1000);
             })
             .catch((err) => console.log(err));
