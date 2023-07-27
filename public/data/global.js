@@ -2660,10 +2660,31 @@ const framesDimentions = {
     },
 };
 
+const allDimetions = {
+    "square": [
+        "30x30",
+        "50x50",
+        "70x70",
+    ],
+    "horizontal": [
+        "29,7x21",
+        "40x30",
+        "70x50",
+        "100X70",
+    ],
+    "vertical": [
+        "21x29,7",
+        "30x40",
+        "50x70",
+        "70X100",
+    ],
+};
+
 export default {
     modelsDimentions,
     gelatoDimetions,
     appearedImageSizes,
     kandinskyImageSizes,
     framesDimentions,
+    allDimetions,
 };
