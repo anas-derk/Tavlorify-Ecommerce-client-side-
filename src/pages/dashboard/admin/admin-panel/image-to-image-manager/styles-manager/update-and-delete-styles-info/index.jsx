@@ -31,7 +31,7 @@ const UpdateCategoryStyleInfo = () => {
         if (!adminId) {
             router.push("/dashboard/admin/login");
         } else {
-            Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
+            Axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`)
                 .then((res) => {
                     let result = res.data;
                     if (typeof result === "string") {
@@ -59,7 +59,7 @@ const UpdateCategoryStyleInfo = () => {
     const getCategoryStyles = (e) => {
         e.preventDefault();
         setIsWaitStatus(true);
-        Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categoryIndex].name}`)
+        Axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[categoryIndex].name}`)
             .then((res) => {
                 setCategoryStylesData(res.data);
                 setIsWaitStatus(false);
@@ -70,7 +70,7 @@ const UpdateCategoryStyleInfo = () => {
     const updateStyleData = (styleIndex) => {
         setUpdatedStyleIndex(styleIndex);
         setIsUpdateStatus(true);
-        Axios.put(`${process.env.BASE_API_URL}/text-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}`, {
+        Axios.put(`${process.env.BASE_API_URL}/image-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}`, {
             newPrompt: categoryStylesData[styleIndex].prompt,
             newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
         })
@@ -88,7 +88,7 @@ const UpdateCategoryStyleInfo = () => {
     const deleteStyle = (styleIndex) => {
         setDeletedStyleIndex(styleIndex);
         setIsDeleteStatus(true);
-        Axios.delete(`${process.env.BASE_API_URL}/text-to-image/styles/delete-style-data/${categoryStylesData[styleIndex]._id}?imgSrc=${categoryStylesData[styleIndex].imgSrc}`)
+        Axios.delete(`${process.env.BASE_API_URL}/image-to-image/styles/delete-style-data/${categoryStylesData[styleIndex]._id}?imgSrc=${categoryStylesData[styleIndex].imgSrc}`)
             .then((res) => {
                 console.log(res.data);
                 setIsWaitStatus(false);
@@ -129,6 +129,8 @@ const UpdateCategoryStyleInfo = () => {
                                     <th>Prompt</th>
                                     <th>Negative Prompt</th>
                                     <th>Model Name</th>
+                                    <th>Ddim Steps</th>
+                                    <th>Strength</th>
                                     <th>Process</th>
                                 </tr>
                             </thead>
@@ -153,6 +155,22 @@ const UpdateCategoryStyleInfo = () => {
                                             ></textarea>
                                         </td>
                                         <td className="model-name-cell">{style.modelName}</td>
+                                        <td>
+                                            <input
+                                                placeholder="Enter Ddim Steps"
+                                                defaultValue={style.ddim_steps}
+                                                className="p-2"
+                                                onChange={(e) => changeStylePrompt(styleIndex, e.target.value)}
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                placeholder="Enter Strength"
+                                                defaultValue={style.strength}
+                                                className="p-2"
+                                                onChange={(e) => changeStylePrompt(styleIndex, e.target.value)}
+                                            />
+                                        </td>
                                         <td className="update-and-delete-cell">
                                             {styleIndex !== updatedStyleIndex && <button
                                                 className="btn btn-danger mb-3 d-block w-100"
