@@ -141,7 +141,7 @@ const UpdateCategoryStyleInfo = () => {
                                                 placeholder="Enter Negative Prompt"
                                                 defaultValue={style.prompt}
                                                 className="p-2"
-                                                onChange={(e) => changeStylePrompt(styleIndex, e.target.value)}
+                                                onChange={(e) => changeStylePrompt(styleIndex, e.target.value.trim())}
                                             ></textarea>
                                         </td>
                                         <td>
@@ -149,7 +149,7 @@ const UpdateCategoryStyleInfo = () => {
                                                 placeholder="Enter Negative Prompt"
                                                 defaultValue={style.negative_prompt}
                                                 className="p-2"
-                                                onChange={(e) => changeStyleNegativePrompt(styleIndex, e.target.value)}
+                                                onChange={(e) => changeStyleNegativePrompt(styleIndex, e.target.value.trim())}
                                             ></textarea>
                                         </td>
                                         <td className="model-name-cell">{style.modelName}</td>

@@ -160,7 +160,7 @@ const AddNewCategory = () => {
                             type="text"
                             className={`form-control p-2 ${formValidationErrors["categoryName"] ? "border border-danger mb-2" : "mb-4"}`}
                             placeholder="Please Enter Category Name"
-                            onChange={(e) => setCategoryName(e.target.value)}
+                            onChange={(e) => setCategoryName(e.target.value.trim())}
                         />
                         {formValidationErrors["categoryName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryName"]}</p>}
                         <input
@@ -174,21 +174,21 @@ const AddNewCategory = () => {
                             type="text"
                             className={`form-control p-2 ${formValidationErrors["styleName"] ? "border border-danger mb-2" : "mb-4"}`}
                             placeholder="Please Enter The First Style Name"
-                            onChange={(e) => setStyleName(e.target.value)}
+                            onChange={(e) => setStyleName(e.target.value.trim())}
                         />
                         {formValidationErrors["styleName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleName"]}</p>}
                         <textarea
                             style={{ resize: "none" }}
                             className={`form-control p-2 ${formValidationErrors["stylePrompt"] ? "border border-danger mb-2" : "mb-4"}`}
                             placeholder="Please Enter Style Prompt"
-                            onChange={(e) => setStylePrompt(e.target.value)}
+                            onChange={(e) => setStylePrompt(e.target.value.trim())}
                         ></textarea>
                         {formValidationErrors["stylePrompt"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["stylePrompt"]}</p>}
                         <textarea
                             style={{ resize: "none" }}
                             className={`form-control p-2 ${formValidationErrors["styleNegativePrompt"] ? "border border-danger mb-2" : "mb-4"}`}
                             placeholder="Please Enter Style Negative Prompt"
-                            onChange={(e) => setStyleNegativePrompt(e.target.value)}
+                            onChange={(e) => setStyleNegativePrompt(e.target.value.trim())}
                         ></textarea>
                         {formValidationErrors["styleNegativePrompt"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleNegativePrompt"]}</p>}
                         <select

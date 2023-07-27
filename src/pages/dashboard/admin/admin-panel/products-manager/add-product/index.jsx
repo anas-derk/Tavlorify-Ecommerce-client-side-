@@ -153,7 +153,7 @@ const AddProduct = () => {
                             type="text"
                             placeholder="product name"
                             className={`form-control p-2 ${formValidationErrors["productName"] ? "border border-danger mb-2" : "mb-4"}`}
-                            onChange={(e) => setProductName(e.target.value)}
+                            onChange={(e) => setProductName(e.target.value.trim())}
                         />
                         {formValidationErrors["productName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["productName"]}</p>}
                         <h6 className="fw-bold">Please Select Product Type</h6>

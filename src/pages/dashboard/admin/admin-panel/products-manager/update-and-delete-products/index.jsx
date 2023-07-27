@@ -102,7 +102,7 @@ const ProductsProcess = () => {
                                                 placeholder="Enter New Product Name"
                                                 defaultValue={product.name}
                                                 className="p-2"
-                                                onChange={(e) => changeProductName(index, e.target.value)}
+                                                onChange={(e) => changeProductName(index, e.target.value.trim())}
                                             ></input>
                                         </td>
                                         <td>
@@ -116,7 +116,7 @@ const ProductsProcess = () => {
                                                 placeholder="Enter New Product Price"
                                                 defaultValue={product.price}
                                                 className="p-2"
-                                                onChange={(e) => changeProductPrice(index, e.target.value)}
+                                                onChange={(e) => changeProductPrice(index, e.target.value.trim())}
                                             ></input>
                                         </td>
                                         <td className="product-image-cell">
