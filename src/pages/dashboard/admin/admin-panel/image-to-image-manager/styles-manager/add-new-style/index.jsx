@@ -40,7 +40,7 @@ const AddNewCategoryStyle = () => {
         if (!adminId) {
             router.push("/dashboard/admin/login");
         } else {
-            Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
+            Axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`)
                 .then((res) => {
                     let result = res.data;
                     if (typeof result === "string") {

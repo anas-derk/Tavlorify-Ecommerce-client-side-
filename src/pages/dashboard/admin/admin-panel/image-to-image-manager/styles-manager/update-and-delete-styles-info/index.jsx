@@ -56,6 +56,18 @@ const UpdateCategoryStyleInfo = () => {
         setCategoryData(categoriesDataTemp);
     }
 
+    const changeDdimSteps = (styleIndex, newValue) => {
+        let categoriesDataTemp = categoryData;
+        categoryStylesData[styleIndex].ddim_steps = newValue;
+        setCategoryData(categoriesDataTemp);
+    }
+
+    const changeStrength = (styleIndex, newValue) => {
+        let categoriesDataTemp = categoryData;
+        categoryStylesData[styleIndex].strength = newValue;
+        setCategoryData(categoriesDataTemp);
+    }
+
     const getCategoryStyles = (e) => {
         e.preventDefault();
         setIsWaitStatus(true);
@@ -73,6 +85,8 @@ const UpdateCategoryStyleInfo = () => {
         Axios.put(`${process.env.BASE_API_URL}/image-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}`, {
             newPrompt: categoryStylesData[styleIndex].prompt,
             newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
+            newDdimSteps: categoryStylesData[styleIndex].ddim_steps,
+            newStrength: categoryStylesData[styleIndex].strength,
         })
             .then((res) => {
                 if (typeof res.data !== "string") {
@@ -160,7 +174,7 @@ const UpdateCategoryStyleInfo = () => {
                                                 placeholder="Enter Ddim Steps"
                                                 defaultValue={style.ddim_steps}
                                                 className="p-2"
-                                                onChange={(e) => changeStylePrompt(styleIndex, e.target.value)}
+                                                onChange={(e) => changeDdimSteps(styleIndex, e.target.value)}
                                             />
                                         </td>
                                         <td>
@@ -168,7 +182,7 @@ const UpdateCategoryStyleInfo = () => {
                                                 placeholder="Enter Strength"
                                                 defaultValue={style.strength}
                                                 className="p-2"
-                                                onChange={(e) => changeStylePrompt(styleIndex, e.target.value)}
+                                                onChange={(e) => changeStrength(styleIndex, e.target.value)}
                                             />
                                         </td>
                                         <td className="update-and-delete-cell">
