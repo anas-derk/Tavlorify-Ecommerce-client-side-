@@ -19,6 +19,10 @@ const AddNewCategoryStyle = () => {
 
     const [modelName, setModelName] = useState("");
 
+    const [ddim_steps, setDdim_steps] = useState("");
+
+    const [strength, setStrength] = useState("");
+
     const [styleImageFile, setStyleImageFile] = useState("");
 
     const [isAddingStatus, setIsAddingStatus] = useState(false);
@@ -99,6 +103,24 @@ const AddNewCategoryStyle = () => {
                 },
             },
             {
+                name: "ddim_steps",
+                value: ddim_steps,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't Be Field Is Empty !!",
+                    },
+                },
+            },
+            {
+                name: "strength",
+                value: strength,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't Be Field Is Empty !!",
+                    },
+                },
+            },
+            {
                 name: "styleImageFile",
                 value: styleImageFile,
                 rules: {
@@ -119,12 +141,14 @@ const AddNewCategoryStyle = () => {
             formData.append("stylePrompt", stylePrompt);
             formData.append("styleNegativePrompt", styleNegativePrompt);
             formData.append("modelName", modelName);
+            formData.append("ddim_steps", ddim_steps);
+            formData.append("strength", strength);
             formData.append("styleImgFile", styleImageFile);
             setIsAddingStatus(true);
             try {
-                const res = await Axios.post(`${process.env.BASE_API_URL}/text-to-image/styles/add-new-style`, formData);
+                const res = await Axios.post(`${process.env.BASE_API_URL}/image-to-image/styles/add-new-style`, formData);
                 const result = await res.data;
-                if (result === "Adding New Category Style For Text To Image Page Process Is Succesfuly !!") {
+                if (result === "Adding New Category Style For Image To Image Page Process Is Succesfuly !!") {
                     setIsAddingStatus(false);
                     setIsSuccessStatus(true);
                     let successTimeout = setTimeout(() => {
@@ -191,13 +215,23 @@ const AddNewCategoryStyle = () => {
                             onChange={(e) => setModelName(e.target.value)}
                         >
                             <option hidden value="">Please Select Model Name</option>
-                            <option value="dreamshaper">Dreamshaper</option>
-                            <option value="stable-diffusion">Stable Diffusion</option>
-                            <option value="deliberate-v2">Deliberate</option>
-                            <option value="kandinsky-2">kandinsky</option>
-                            <option value="openjourney">Openjourney</option>
+                            <option value="controlnet-1.1-x-realistic-vision-v2.0">Controlnet-1.1-x-realistic-vision-v2.0</option>
                         </select>
                         {formValidationErrors["modelName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["modelName"]}</p>}
+                        <input
+                            type="text"
+                            className={`form-control p-2 ${formValidationErrors["ddim_steps"] ? "border border-danger mb-2" : "mb-4"}`}
+                            placeholder="Please Enter The Ddim Steps"
+                            onChange={(e) => setDdim_steps(e.target.value.trim())}
+                        />
+                        {formValidationErrors["ddim_steps"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["ddim_steps"]}</p>}
+                        <input
+                            type="text"
+                            className={`form-control p-2 ${formValidationErrors["strength"] ? "border border-danger mb-2" : "mb-4"}`}
+                            placeholder="Please Enter The Strength"
+                            onChange={(e) => setStrength(e.target.value.trim())}
+                        />
+                        {formValidationErrors["strength"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["strength"]}</p>}
                         <input
                             type="file"
                             className={`form-control p-2 ${formValidationErrors["styleImageFile"] ? "border border-danger mb-2" : "mb-4"}`}
