@@ -1,6 +1,9 @@
-.admin-panel {
+.add-product {
     .content {
         background-color: #EEE;
         height: calc(100vh - 72px);
+        .welcome-msg{
+            border-bottom: 3px solid;
+        }
     }
 }

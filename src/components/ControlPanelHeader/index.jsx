@@ -11,35 +11,9 @@ const ControlPanelHeader = () => {
     }
     return (
         <header className="control-panel-header">
-            {/* <ul className="control-list">
-                <li className="p-4">
-                    <Link
-                        className="products-manager-link"
-                        href="/dashboard/admin/admin-panel/products-manager"
-                    >
-                        Products Manager
-                    </Link>
-                </li>
-                <li className="p-4">
-                    <Link
-                        className="orders-manager-link"
-                        href="/dashboard/admin/admin-panel"
-                    >
-                        Orders Manager
-                    </Link>
-                </li>
-                <li className="p-4">
-                    <Link
-                        className="categories-and-styles-manager-link"
-                        href="/dashboard/admin/admin-panel/categories-and-styles-manager"
-                    >
-                        Categories And Styles Manager
-                    </Link>
-                </li>
-            </ul> */}
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
                 <div className="container-fluid">
-                    <Link className="navbar-brand" href="/dashboard/admin/admin-panel">Tavlorify Store</Link>
+                    <Link className="navbar-brand" href="/dashboard/admin/admin-panel">Tavlorify Store Dashboard</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>

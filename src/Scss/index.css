@@ -83,46 +83,21 @@ a {
   box-shadow: 1px 1px 10px #CCC;
 }
 
-.wooden-framed-poster-image.black {
-  border: 20px solid #000;
+.admin-panel .content,
+.products-manager .content,
+.text-to-image-manager .content,
+.text-to-image-categories-manager .content,
+.text-to-image-styles-manager .content {
+  background-color: #EEE;
+  height: calc(100vh - 72px);
 }
 
-.wooden-framed-poster-image.dark-wood {
-  border: 20px solid #855e42;
-}
-
-.wooden-framed-poster-image.wood {
-  border: 20px solid #A1662F;
-}
-
-.wooden-framed-poster-image.white {
-  border: 20px solid #FFF;
-}
-
-.poster-with-hangers-image-box {
-  width: fit-content;
-  margin: 0 auto;
-  padding: 0 30px;
-}
-
-.poster-with-hangers-image-box.black {
-  border-top: 20px solid #000;
-  border-bottom: 20px solid #000;
-}
-
-.poster-with-hangers-image-box.dark-wood {
-  border-top: 20px solid #855e42;
-  border-bottom: 20px solid #855e42;
-}
-
-.poster-with-hangers-image-box.wood {
-  border-top: 20px solid #A1662F;
-  border-bottom: 20px solid #A1662F;
-}
-
-.poster-with-hangers-image-box.white {
-  border-top: 20px solid #FFF;
-  border-bottom: 20px solid #FFF;
+.admin-panel .content .welcome-msg,
+.products-manager .content .welcome-msg,
+.text-to-image-manager .content .welcome-msg,
+.text-to-image-categories-manager .content .welcome-msg,
+.text-to-image-styles-manager .content .welcome-msg {
+  border-bottom: 3px solid;
 }
 
 @keyframes rotate {

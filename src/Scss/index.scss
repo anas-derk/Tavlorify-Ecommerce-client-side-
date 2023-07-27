@@ -79,53 +79,18 @@ a{
     box-shadow: 1px 1px 10px #CCC;
 }
 
-.wooden-framed-poster-image{
-    &.black{
-        border: 20px solid #000;
+.admin-panel,
+.products-manager,
+.text-to-image-manager,
+.text-to-image-categories-manager,
+.text-to-image-styles-manager {
+    .content {
+        background-color: #EEE;
+        height: calc(100vh - 72px);
+        .welcome-msg{
+            border-bottom: 3px solid;
+        }
     }
-    &.dark-wood{
-        border: 20px solid #855e42;
-    }
-    &.wood{
-        border: 20px solid #A1662F;
-    }
-    &.white{
-        border: 20px solid #FFF;
-    }
-}
-
-.poster-with-hangers-image-box{
-    width: fit-content;
-    margin: 0 auto;
-    padding: 0 30px;
-    &.black{
-        border: {
-            top: 20px solid #000;
-            bottom: 20px solid #000;
-        };
-    }
-    &.dark-wood{
-        border: {
-            top: 20px solid #855e42;
-            bottom: 20px solid #855e42;
-        };
-    }
-    &.wood{
-        border: {
-            top: 20px solid #A1662F;
-            bottom: 20px solid #A1662F;
-        };
-    }
-    &.white{
-        border: {
-            top: 20px solid #FFF;
-            bottom: 20px solid #FFF;
-        };
-    }
-}
-
-.poster-with-hangers-image{
-
 }
 
 @keyframes rotate {

@@ -21,10 +21,9 @@ const ProductsManager = () => {
             {/* Start Control Panel Header */}
             <ControlPanelHeader />
             {/* End Control Panel Header */}
-            <h1 className="welcome-msg mt-3 text-center">Hello To You In Products Manager Page</h1>
-            <hr className="mb-3" />
             {/* Start Content Section */}
             <section className="content d-flex justify-content-center align-items-center flex-column text-center">
+                <h1 className="welcome-msg mb-4 fw-bold pb-3">Hello To You In Products Manager Page</h1>
                 <Link className="btn btn-success manager-link w-25 mx-auto mb-4" href="/dashboard/admin/admin-panel/products-manager/add-product">Add Product</Link>
                 <Link className="btn btn-danger manager-link w-25 mx-auto mb-4" href="/dashboard/admin/admin-panel/products-manager/update-and-delete-products">Update And Delete Products</Link>
             </section>

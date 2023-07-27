@@ -1,0 +1,8 @@
+.add-product .content {
+  background-color: #EEE;
+  height: calc(100vh - 72px);
+}
+
+.add-product .content .welcome-msg {
+  border-bottom: 3px solid;
+}
