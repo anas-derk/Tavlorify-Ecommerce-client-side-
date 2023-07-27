@@ -86,49 +86,50 @@ const UpdateAndDeleteCategoryInfo = () => {
                 <title>Tavlorify Store - Categories Manager For Text To Image</title>
             </Head>
             <ControlPanelHeader />
-            {/* Start Container */}
-            <div className="container-fluid">
-                <h1 className="welcome-msg mt-3 text-center">Update And Delete Text To Image Categories Page</h1>
-                <hr className="mb-3" />
-                {/* Start Categories Table */}
-                {categoriesData.length > 0 ? <table className="categories-table mb-4 text-center">
-                    <thead>
-                        <tr>
-                            <th>Category Name</th>
-                            <th>Processes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {categoriesData.map((category, index) => (
-                            <tr key={index}>
-                                <td className="category-name-cell">
-                                    <input
-                                        type="text"
-                                        className="category-name-input form-control"
-                                        placeholder="Category Name"
-                                        defaultValue={category.name}
-                                        onChange={(e) => changeCategoryName(index, e.target.value.trim())}
-                                    />
-                                </td>
-                                <td className="update-and-delete-cell">
-                                    {index !== updatedCategoryIndex && <button
-                                        className="btn btn-danger mb-3 d-block w-100"
-                                        onClick={() => updateCategoryName(index)}
-                                    >Update</button>}
-                                    {isUpdateStatus && index === updatedCategoryIndex && <p className="alert alert-primary mb-3 d-block">Update ...</p>}
-                                    {index !== deletedCategoryIndex && <button
-                                        className="btn btn-danger d-block w-100"
-                                        onClick={() => deleteCategory(index)}
-                                    >Delete</button>}
-                                    {isDeleteStatus && index === deletedCategoryIndex && <p className="alert alert-primary">Delete ...</p>}
-                                </td>
+            <div className="content text-center pt-4 pb-4">
+                {/* Start Container */}
+                <div className="container-fluid">
+                    <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Update And Delete Text To Image Categories Page</h1>
+                    {/* Start Categories Table */}
+                    {categoriesData.length > 0 ? <table className="categories-table mb-4 text-center">
+                        <thead>
+                            <tr>
+                                <th>Category Name</th>
+                                <th>Processes</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table> : <p className="alert alert-danger">Sorry, Can't Find Any Text To Image Category !!</p>}
-                {/* End Categories Table */}
+                        </thead>
+                        <tbody>
+                            {categoriesData.map((category, index) => (
+                                <tr key={index}>
+                                    <td className="category-name-cell">
+                                        <input
+                                            type="text"
+                                            className="category-name-input form-control"
+                                            placeholder="Category Name"
+                                            defaultValue={category.name}
+                                            onChange={(e) => changeCategoryName(index, e.target.value.trim())}
+                                        />
+                                    </td>
+                                    <td className="update-and-delete-cell">
+                                        {index !== updatedCategoryIndex && <button
+                                            className="btn btn-danger mb-3 d-block w-100"
+                                            onClick={() => updateCategoryName(index)}
+                                        >Update</button>}
+                                        {isUpdateStatus && index === updatedCategoryIndex && <p className="alert alert-primary mb-3 d-block">Update ...</p>}
+                                        {index !== deletedCategoryIndex && <button
+                                            className="btn btn-danger d-block w-100"
+                                            onClick={() => deleteCategory(index)}
+                                        >Delete</button>}
+                                        {isDeleteStatus && index === deletedCategoryIndex && <p className="alert alert-primary">Delete ...</p>}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table> : <p className="alert alert-danger">Sorry, Can't Find Any Text To Image Category !!</p>}
+                    {/* End Categories Table */}
+                </div>
+                {/* End Container */}
             </div>
-            {/* End Container */}
         </div>
         // End Update And Delete Category Info
     );

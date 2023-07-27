@@ -69,72 +69,74 @@ const AddProduct = () => {
             <ControlPanelHeader />
             {/* End Control Panel Header */}
             {/* Start Content Section */}
-            <section className="content d-flex justify-content-center align-items-center flex-column text-center pt-4 pb-4">
-                <h1 className="welcome-msg m-0 mb-4">Hello To You In Add Product Page</h1>
-                <form className="add-product-form" onSubmit={addProduct}>
-                    <div className="file-box border border-4 p-3 mb-4">
-                        <h6>Please Upload Product Image</h6>
+            <section className="content text-center pt-4 pb-4">
+                <div className="container-fluid">
+                    <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Hello To You In Add Product Page</h1>
+                    <form className="add-product-form w-50 mx-auto" onSubmit={addProduct}>
+                        <div className="file-box p-3 mb-4 bg-white">
+                            <h6 className="fw-bold">Please Upload Product Image</h6>
+                            <input
+                                type="file"
+                                required
+                                onChange={(e) => setFile(e.target.files[0])}
+                            />
+                        </div>
+                        <h6 className="fw-bold">Please Enter Product Name</h6>
                         <input
-                            type="file"
+                            type="text"
+                            placeholder="product name"
+                            className="form-control mb-3"
                             required
-                            onChange={(e) => setFile(e.target.files[0])}
+                            onChange={(e) => setProductName(e.target.value)}
                         />
-                    </div>
-                    <h6>Please Enter Product Name</h6>
-                    <input
-                        type="text"
-                        placeholder="product name"
-                        className="form-control mb-3"
-                        required
-                        onChange={(e) => setProductName(e.target.value)}
-                    />
-                    <h6>Please Select Product Type</h6>
-                    <select
-                        className="form-control mb-3"
-                        required
-                        onChange={(e) => setProductType(e.target.value)}
-                    >
-                        <option value="" hidden>Product Type</option>
-                        <option value="canvas-prints">Canvas Prints</option>
-                        <option value="framed-prints">Framed Prints</option>
-                    </select>
-                    <h6>Please Select Product Type Dimentions</h6>
-                    <select
-                        className="form-control mb-3"
-                        required
-                        onChange={(e) => setProductDimetionsType(e.target.value)}
-                    >
-                        <option value="" hidden>Select Product Type Dimentions</option>
-                        <option value="horizontal">Horizontal</option>
-                        <option value="vertical">Vertical</option>
-                        <option value="square">Square</option>
-                    </select>
-                    {productDimetionsType && <>
-                        <h6>Please Select Product Dimentions</h6>
+                        <h6 className="fw-bold">Please Select Product Type</h6>
                         <select
                             className="form-control mb-3"
                             required
-                            onChange={(e) => setProductDimetions(e.target.value)}
+                            onChange={(e) => setProductType(e.target.value)}
                         >
-                            <option value="" hidden>Select Product Dimentions</option>
-                            {text_to_image_data.allDimetions[productDimetionsType].map((dimentions, index) => (
-                                <option value={dimentions} key={index}>{dimentions}</option>
-                            ))}
+                            <option value="" hidden>Product Type</option>
+                            <option value="canvas-prints">Canvas Prints</option>
+                            <option value="framed-prints">Framed Prints</option>
                         </select>
-                    </>}
-                    <h6>Please Enter Product Price</h6>
-                    <input
-                        type="number"
-                        placeholder="product price"
-                        className="form-control mb-4"
-                        required
-                        onChange={(e) => setProductPrice(e.target.value)}
-                    />
-                    {!waitMsg && !errorMsg && !successMsg && <button type="submit" className="btn btn-success w-100">Add Product</button>}
-                    {waitMsg && <button className="btn btn-warning w-100" disabled>Wait</button>}
-                    {errorMsg && <p className="alert alert-danger mt-4">{waitMsg}</p>}
-                    {successMsg && <p className="alert alert-success mt-4">{successMsg}</p>}
-                </form>
+                        <h6 className="fw-bold">Please Select Product Type Dimentions</h6>
+                        <select
+                            className="form-control mb-3"
+                            required
+                            onChange={(e) => setProductDimetionsType(e.target.value)}
+                        >
+                            <option value="" hidden>Select Product Type Dimentions</option>
+                            <option value="horizontal">Horizontal</option>
+                            <option value="vertical">Vertical</option>
+                            <option value="square">Square</option>
+                        </select>
+                        {productDimetionsType && <>
+                            <h6 className="fw-bold">Please Select Product Dimentions</h6>
+                            <select
+                                className="form-control mb-3"
+                                required
+                                onChange={(e) => setProductDimetions(e.target.value)}
+                            >
+                                <option value="" hidden>Select Product Dimentions</option>
+                                {text_to_image_data.allDimetions[productDimetionsType].map((dimentions, index) => (
+                                    <option value={dimentions} key={index}>{dimentions}</option>
+                                ))}
+                            </select>
+                        </>}
+                        <h6 className="fw-bold">Please Enter Product Price</h6>
+                        <input
+                            type="number"
+                            placeholder="product price"
+                            className="form-control mb-4"
+                            required
+                            onChange={(e) => setProductPrice(e.target.value)}
+                        />
+                        {!waitMsg && !errorMsg && !successMsg && <button type="submit" className="btn btn-success w-100 p-2">Add Product</button>}
+                        {waitMsg && <button className="btn btn-warning w-100" disabled>Wait</button>}
+                        {errorMsg && <p className="alert alert-danger mt-4">{waitMsg}</p>}
+                        {successMsg && <p className="alert alert-success mt-4">{successMsg}</p>}
+                    </form>
+                </div>
             </section>
             {/* End Content Section */}
         </div>

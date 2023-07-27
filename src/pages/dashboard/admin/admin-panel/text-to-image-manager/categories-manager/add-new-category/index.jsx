@@ -123,7 +123,7 @@ const AddNewCategory = () => {
             formData.append("modelName", modelName);
             formData.append("styleImgFile", styleImageFile);
             setIsAddingStatus(true);
-            try{
+            try {
                 const res = await Axios.post(`${process.env.BASE_API_URL}/text-to-image/categories/add-new-category`, formData);
                 const result = await res.data;
                 if (result === "Add New Category And First Style For Text To Image Page Is Successfuly !!") {
@@ -135,7 +135,7 @@ const AddNewCategory = () => {
                     }, 2000);
                 }
             }
-            catch(err) {
+            catch (err) {
                 console.log(err);
                 setIsErrorStatus(true);
                 let errorTimeout = setTimeout(() => {
@@ -152,69 +152,72 @@ const AddNewCategory = () => {
                 <title>Tavlorify Store - Add New Category For Text To Image</title>
             </Head>
             <ControlPanelHeader />
-            <h1 className="welcome-msg mt-3 text-center">Hello To You In Add New Category Page For Text To Image</h1>
-            <hr className="mb-5" />
-            <form className="add-new-category-form w-50 mx-auto mb-4" onSubmit={addNewCategory}>
-                <input
-                    type="text"
-                    className={`form-control p-2 ${formValidationErrors["categoryName"] ? "border border-danger mb-2" : "mb-4"}`}
-                    placeholder="Please Enter Category Name"
-                    onChange={(e) => setCategoryName(e.target.value)}
-                />
-                {formValidationErrors["categoryName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryName"]}</p>}
-                <input
-                    type="file"
-                    className={`form-control p-2 ${formValidationErrors["categoryImageFile"] ? "border border-danger mb-2" : "mb-4"}`}
-                    placeholder="Please Enter Category Image"
-                    onChange={(e) => setCategoryImageFile(e.target.files[0])}
-                />
-                {formValidationErrors["categoryImageFile"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryImageFile"]}</p>}
-                <input
-                    type="text"
-                    className={`form-control p-2 ${formValidationErrors["styleName"] ? "border border-danger mb-2" : "mb-4"}`}
-                    placeholder="Please Enter The First Style Name"
-                    onChange={(e) => setStyleName(e.target.value)}
-                />
-                {formValidationErrors["styleName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleName"]}</p>}
-                <textarea
-                    style={{ resize: "none" }}
-                    className={`form-control p-2 ${formValidationErrors["stylePrompt"] ? "border border-danger mb-2" : "mb-4"}`}
-                    placeholder="Please Enter Style Prompt"
-                    onChange={(e) => setStylePrompt(e.target.value)}
-                ></textarea>
-                {formValidationErrors["stylePrompt"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["stylePrompt"]}</p>}
-                <textarea
-                    style={{ resize: "none" }}
-                    className={`form-control p-2 ${formValidationErrors["styleNegativePrompt"] ? "border border-danger mb-2" : "mb-4"}`}
-                    placeholder="Please Enter Style Negative Prompt"
-                    onChange={(e) => setStyleNegativePrompt(e.target.value)}
-                ></textarea>
-                {formValidationErrors["styleNegativePrompt"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleNegativePrompt"]}</p>}
-                <select
-                    type="text"
-                    className={`form-control p-2 ${formValidationErrors["modelName"] ? "border border-danger mb-2" : "mb-4"}`}
-                    onChange={(e) => setModelName(e.target.value)}
-                >
-                    <option hidden value="">Please Select Model Name</option>
-                    <option value="dreamshaper">Dreamshaper</option>
-                    <option value="stable-diffusion">Stable Diffusion</option>
-                    <option value="deliberate-v2">Deliberate</option>
-                    <option value="kandinsky-2">kandinsky</option>
-                    <option value="openjourney">Openjourney</option>
-                </select>
-                {formValidationErrors["modelName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["modelName"]}</p>}
-                <input
-                    type="file"
-                    className={`form-control p-2 ${formValidationErrors["styleImageFile"] ? "border border-danger mb-2" : "mb-4"}`}
-                    placeholder="Please Enter Category Image"
-                    onChange={(e) => setStyleImageFile(e.target.files[0])}
-                />
-                {formValidationErrors["styleImageFile"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleImageFile"]}</p>}
-                {!isAddingStatus && !isErrorStatus && !isSuccessStatus && <button type="submit" className="btn btn-success w-25 d-block mx-auto">Add Now</button>}
-                {isAddingStatus && <button type="submit" className="btn btn-warning w-25 d-block mx-auto" disabled>Adding Now ...</button>}
-                {isErrorStatus && <button type="submit" className="btn btn-danger w-25 d-block mx-auto" disabled>Sorry, Someting Went Wrong, Please Try Again</button>}
-                {isSuccessStatus && <button type="submit" className="btn btn-success w-25 d-block mx-auto" disabled>Adding Process Is Successfuly !!</button>}
-            </form>
+            <div className="content text-center pt-4 pb-4">
+                <div className="container-fluid">
+                    <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Hello To You In Add New Category Page For Text To Image</h1>
+                    <form className="add-new-category-form w-50 mx-auto" onSubmit={addNewCategory}>
+                        <input
+                            type="text"
+                            className={`form-control p-2 ${formValidationErrors["categoryName"] ? "border border-danger mb-2" : "mb-4"}`}
+                            placeholder="Please Enter Category Name"
+                            onChange={(e) => setCategoryName(e.target.value)}
+                        />
+                        {formValidationErrors["categoryName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryName"]}</p>}
+                        <input
+                            type="file"
+                            className={`form-control p-2 ${formValidationErrors["categoryImageFile"] ? "border border-danger mb-2" : "mb-4"}`}
+                            placeholder="Please Enter Category Image"
+                            onChange={(e) => setCategoryImageFile(e.target.files[0])}
+                        />
+                        {formValidationErrors["categoryImageFile"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryImageFile"]}</p>}
+                        <input
+                            type="text"
+                            className={`form-control p-2 ${formValidationErrors["styleName"] ? "border border-danger mb-2" : "mb-4"}`}
+                            placeholder="Please Enter The First Style Name"
+                            onChange={(e) => setStyleName(e.target.value)}
+                        />
+                        {formValidationErrors["styleName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleName"]}</p>}
+                        <textarea
+                            style={{ resize: "none" }}
+                            className={`form-control p-2 ${formValidationErrors["stylePrompt"] ? "border border-danger mb-2" : "mb-4"}`}
+                            placeholder="Please Enter Style Prompt"
+                            onChange={(e) => setStylePrompt(e.target.value)}
+                        ></textarea>
+                        {formValidationErrors["stylePrompt"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["stylePrompt"]}</p>}
+                        <textarea
+                            style={{ resize: "none" }}
+                            className={`form-control p-2 ${formValidationErrors["styleNegativePrompt"] ? "border border-danger mb-2" : "mb-4"}`}
+                            placeholder="Please Enter Style Negative Prompt"
+                            onChange={(e) => setStyleNegativePrompt(e.target.value)}
+                        ></textarea>
+                        {formValidationErrors["styleNegativePrompt"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleNegativePrompt"]}</p>}
+                        <select
+                            type="text"
+                            className={`form-control p-2 ${formValidationErrors["modelName"] ? "border border-danger mb-2" : "mb-4"}`}
+                            onChange={(e) => setModelName(e.target.value)}
+                        >
+                            <option hidden value="">Please Select Model Name</option>
+                            <option value="dreamshaper">Dreamshaper</option>
+                            <option value="stable-diffusion">Stable Diffusion</option>
+                            <option value="deliberate-v2">Deliberate</option>
+                            <option value="kandinsky-2">kandinsky</option>
+                            <option value="openjourney">Openjourney</option>
+                        </select>
+                        {formValidationErrors["modelName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["modelName"]}</p>}
+                        <input
+                            type="file"
+                            className={`form-control p-2 ${formValidationErrors["styleImageFile"] ? "border border-danger mb-2" : "mb-4"}`}
+                            placeholder="Please Enter Category Image"
+                            onChange={(e) => setStyleImageFile(e.target.files[0])}
+                        />
+                        {formValidationErrors["styleImageFile"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleImageFile"]}</p>}
+                        {!isAddingStatus && !isErrorStatus && !isSuccessStatus && <button type="submit" className="btn btn-success w-100 d-block mx-auto">Add Now</button>}
+                        {isAddingStatus && <button type="submit" className="btn btn-warning w-100 d-block mx-auto" disabled>Adding Now ...</button>}
+                        {isErrorStatus && <button type="submit" className="btn btn-danger w-100 d-block mx-auto" disabled>Sorry, Someting Went Wrong, Please Try Again</button>}
+                        {isSuccessStatus && <button type="submit" className="btn btn-success w-100 d-block mx-auto" disabled>Adding Process Is Successfuly !!</button>}
+                    </form>
+                </div>
+            </div>
         </div>
     );
 }

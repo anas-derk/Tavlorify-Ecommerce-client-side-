@@ -87,17 +87,26 @@ a {
 .products-manager .content,
 .text-to-image-manager .content,
 .text-to-image-categories-manager .content,
-.text-to-image-styles-manager .content {
+.text-to-image-styles-manager .content,
+.update-and-delete-products .content,
+.add-new-categoty .content,
+.update-and-delete-category-info .content,
+.update-category-styles-info .content {
   background-color: #EEE;
-  height: calc(100vh - 72px);
+  min-height: calc(100vh - 72px);
 }
 
 .admin-panel .content .welcome-msg,
 .products-manager .content .welcome-msg,
 .text-to-image-manager .content .welcome-msg,
 .text-to-image-categories-manager .content .welcome-msg,
-.text-to-image-styles-manager .content .welcome-msg {
+.text-to-image-styles-manager .content .welcome-msg,
+.update-and-delete-products .content .welcome-msg,
+.add-new-categoty .content .welcome-msg,
+.update-and-delete-category-info .content .welcome-msg,
+.update-category-styles-info .content .welcome-msg {
   border-bottom: 3px solid;
+  width: fit-content;
 }
 
 @keyframes rotate {

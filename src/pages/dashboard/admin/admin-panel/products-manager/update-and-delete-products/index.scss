@@ -1,9 +1,6 @@
-.products-proceses{
-    .welcome-msg{
-        font-size: 40px;
-    }
+.update-and-delete-products{
     .products-box{
-        height: calc(100vh - 250px);
+        height: calc(100vh - 150px);
         overflow: auto;
         .products-table{
             font-size: 15px;

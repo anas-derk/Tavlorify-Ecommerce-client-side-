@@ -105,70 +105,73 @@ const UpdateCategoryStyleInfo = () => {
                 <title>Tavlorify Store - Update And Delete Category Styles Info For Text To Image</title>
             </Head>
             <ControlPanelHeader />
-            <h1 className="welcome-msg mt-3 text-center">Update And Delete Category Styles Info For Text To Image Page</h1>
-            <hr className="mb-4" />
-            <h5 className="mb-3 text-center">Please Select The Category</h5>
-            <form className="select-category-form mb-4 text-center" onSubmit={getCategoryStyles}>
-                <select className="form-control w-50 mx-auto mb-3" onChange={(e) => {
-                    setCategoryIndex(parseInt(e.target.value));
-                }}>
-                    <option defaultValue="" hidden>Select The Category</option>
-                    {categoriesData.map((category, index) => (
-                        <option value={index} key={index}>{category.name}</option>
-                    ))}
-                </select>
-                <button type="submit" className="btn btn-success">Get Styles Data For This Category</button>
-            </form>
-            {isWaitStatus && <span className="loader"></span>}
-            {categoryStylesData.length > 0 && !isWaitStatus && <div className="categories-and-styles-box p-3">
-                <table className="categories-and-styles-table mb-4">
-                    <thead>
-                        <tr>
-                            <th>Style Name</th>
-                            <th>Prompt</th>
-                            <th>Negative Prompt</th>
-                            <th>Model Name</th>
-                            <th>Process</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {categoryStylesData.map((style, styleIndex) => (
-                            <tr key={styleIndex}>
-                                <td className="style-name-cell">{style.name}</td>
-                                <td>
-                                    <textarea
-                                        placeholder="Enter Negative Prompt"
-                                        defaultValue={style.prompt}
-                                        className="p-2"
-                                        onChange={(e) => changeStylePrompt(styleIndex, e.target.value)}
-                                    ></textarea>
-                                </td>
-                                <td>
-                                    <textarea
-                                        placeholder="Enter Negative Prompt"
-                                        defaultValue={style.negative_prompt}
-                                        className="p-2"
-                                        onChange={(e) => changeStyleNegativePrompt(styleIndex, e.target.value)}
-                                    ></textarea>
-                                </td>
-                                <td className="model-name-cell">{style.modelName}</td>
-                                <td className="update-and-delete-cell">
-                                    {styleIndex !== updatedStyleIndex && <button
-                                        className="btn btn-danger mb-3 d-block w-100"
-                                        onClick={() => updateStyleData(styleIndex)}
-                                    >Update</button>}
-                                    {isUpdateStatus && styleIndex === updatedStyleIndex && <p className="alert alert-primary mb-3 d-block">Update ...</p>}
-                                    {styleIndex !== deletedStyleIndex && <button
-                                        className="btn btn-danger d-block w-100"
-                                        onClick={() => deleteStyle(styleIndex)}
-                                    >Delete</button>}
-                                    {isDeleteStatus && styleIndex === deletedStyleIndex && <p className="alert alert-primary">Delete ...</p>}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>}
+            <div className="content text-center pt-4 pb-4">
+                <div className="container-fluid">
+                    <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Update And Delete Category Styles Info For Text To Image Page</h1>
+                    <h5 className="mb-3 text-center">Please Select The Category</h5>
+                    <form className="select-category-form mb-2 text-center" onSubmit={getCategoryStyles}>
+                        <select className="form-control w-50 mx-auto mb-3" onChange={(e) => {
+                            setCategoryIndex(parseInt(e.target.value));
+                        }}>
+                            <option defaultValue="" hidden>Select The Category</option>
+                            {categoriesData.map((category, index) => (
+                                <option value={index} key={index}>{category.name}</option>
+                            ))}
+                        </select>
+                        <button type="submit" className="btn btn-success">Get Styles Data For This Category</button>
+                    </form>
+                    {isWaitStatus && <span className="loader"></span>}
+                    {categoryStylesData.length > 0 && !isWaitStatus && <div className="categories-and-styles-box p-3">
+                        <table className="categories-and-styles-table mb-4">
+                            <thead>
+                                <tr>
+                                    <th>Style Name</th>
+                                    <th>Prompt</th>
+                                    <th>Negative Prompt</th>
+                                    <th>Model Name</th>
+                                    <th>Process</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {categoryStylesData.map((style, styleIndex) => (
+                                    <tr key={styleIndex}>
+                                        <td className="style-name-cell">{style.name}</td>
+                                        <td>
+                                            <textarea
+                                                placeholder="Enter Negative Prompt"
+                                                defaultValue={style.prompt}
+                                                className="p-2"
+                                                onChange={(e) => changeStylePrompt(styleIndex, e.target.value)}
+                                            ></textarea>
+                                        </td>
+                                        <td>
+                                            <textarea
+                                                placeholder="Enter Negative Prompt"
+                                                defaultValue={style.negative_prompt}
+                                                className="p-2"
+                                                onChange={(e) => changeStyleNegativePrompt(styleIndex, e.target.value)}
+                                            ></textarea>
+                                        </td>
+                                        <td className="model-name-cell">{style.modelName}</td>
+                                        <td className="update-and-delete-cell">
+                                            {styleIndex !== updatedStyleIndex && <button
+                                                className="btn btn-danger mb-3 d-block w-100"
+                                                onClick={() => updateStyleData(styleIndex)}
+                                            >Update</button>}
+                                            {isUpdateStatus && styleIndex === updatedStyleIndex && <p className="alert alert-primary mb-3 d-block">Update ...</p>}
+                                            {styleIndex !== deletedStyleIndex && <button
+                                                className="btn btn-danger d-block w-100"
+                                                onClick={() => deleteStyle(styleIndex)}
+                                            >Delete</button>}
+                                            {isDeleteStatus && styleIndex === deletedStyleIndex && <p className="alert alert-primary">Delete ...</p>}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>}
+                </div>
+            </div>
         </div>
     )
 }
