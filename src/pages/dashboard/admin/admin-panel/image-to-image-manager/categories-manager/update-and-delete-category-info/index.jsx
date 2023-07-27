@@ -67,7 +67,7 @@ const UpdateAndDeleteCategoryInfo = () => {
     const deleteCategory = (categoryIndex) => {
         setDeletedCategoryIndex(categoryIndex);
         setIsDeleteStatus(true);
-        Axios.delete(`${process.env.BASE_API_URL}/text-to-image/categories/delete-category-data/${categoriesData[categoryIndex]._id}`)
+        Axios.delete(`${process.env.BASE_API_URL}/image-to-image/categories/delete-category-data/${categoriesData[categoryIndex]._id}`)
             .then((res) => {
                 setTimeout(() => {
                     setIsDeleteStatus(false);
