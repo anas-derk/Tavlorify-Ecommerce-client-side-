@@ -19,6 +19,10 @@ const AddNewCategory = () => {
 
     const [modelName, setModelName] = useState("");
 
+    const [ddim_steps, setDdim_steps] = useState("");
+
+    const [strength, setStrength] = useState("");
+
     const [styleImageFile, setStyleImageFile] = useState("");
 
     const [isAddingStatus, setIsAddingStatus] = useState(false);
@@ -100,6 +104,24 @@ const AddNewCategory = () => {
                 },
             },
             {
+                name: "ddim_steps",
+                value: ddim_steps,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't Be Field Is Empty !!",
+                    },
+                },
+            },
+            {
+                name: "strength",
+                value: strength,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't Be Field Is Empty !!",
+                    },
+                },
+            },
+            {
                 name: "styleImageFile",
                 value: styleImageFile,
                 rules: {
@@ -121,12 +143,14 @@ const AddNewCategory = () => {
             formData.append("stylePrompt", stylePrompt);
             formData.append("styleNegativePrompt", styleNegativePrompt);
             formData.append("modelName", modelName);
+            formData.append("ddim_steps", ddim_steps);
+            formData.append("strength", strength);
             formData.append("styleImgFile", styleImageFile);
             setIsAddingStatus(true);
             try {
-                const res = await Axios.post(`${process.env.BASE_API_URL}/text-to-image/categories/add-new-category`, formData);
+                const res = await Axios.post(`${process.env.BASE_API_URL}/image-to-image/categories/add-new-category`, formData);
                 const result = await res.data;
-                if (result === "Add New Category And First Style For Text To Image Page Is Successfuly !!") {
+                if (result === "Add New Category And First Style For Image To Image Page Is Successfuly !!") {
                     setIsAddingStatus(false);
                     setIsSuccessStatus(true);
                     let successTimeout = setTimeout(() => {
@@ -160,7 +184,7 @@ const AddNewCategory = () => {
                             type="text"
                             className={`form-control p-2 ${formValidationErrors["categoryName"] ? "border border-danger mb-2" : "mb-4"}`}
                             placeholder="Please Enter Category Name"
-                            onChange={(e) => setCategoryName(e.target.value)}
+                            onChange={(e) => setCategoryName(e.target.value.trim())}
                         />
                         {formValidationErrors["categoryName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryName"]}</p>}
                         <input
@@ -174,21 +198,21 @@ const AddNewCategory = () => {
                             type="text"
                             className={`form-control p-2 ${formValidationErrors["styleName"] ? "border border-danger mb-2" : "mb-4"}`}
                             placeholder="Please Enter The First Style Name"
-                            onChange={(e) => setStyleName(e.target.value)}
+                            onChange={(e) => setStyleName(e.target.value.trim())}
                         />
                         {formValidationErrors["styleName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleName"]}</p>}
                         <textarea
                             style={{ resize: "none" }}
                             className={`form-control p-2 ${formValidationErrors["stylePrompt"] ? "border border-danger mb-2" : "mb-4"}`}
                             placeholder="Please Enter Style Prompt"
-                            onChange={(e) => setStylePrompt(e.target.value)}
+                            onChange={(e) => setStylePrompt(e.target.value.trim())}
                         ></textarea>
                         {formValidationErrors["stylePrompt"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["stylePrompt"]}</p>}
                         <textarea
                             style={{ resize: "none" }}
                             className={`form-control p-2 ${formValidationErrors["styleNegativePrompt"] ? "border border-danger mb-2" : "mb-4"}`}
                             placeholder="Please Enter Style Negative Prompt"
-                            onChange={(e) => setStyleNegativePrompt(e.target.value)}
+                            onChange={(e) => setStyleNegativePrompt(e.target.value.trim())}
                         ></textarea>
                         {formValidationErrors["styleNegativePrompt"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleNegativePrompt"]}</p>}
                         <select
@@ -197,13 +221,23 @@ const AddNewCategory = () => {
                             onChange={(e) => setModelName(e.target.value)}
                         >
                             <option hidden value="">Please Select Model Name</option>
-                            <option value="dreamshaper">Dreamshaper</option>
-                            <option value="stable-diffusion">Stable Diffusion</option>
-                            <option value="deliberate-v2">Deliberate</option>
-                            <option value="kandinsky-2">kandinsky</option>
-                            <option value="openjourney">Openjourney</option>
+                            <option value="controlnet-1.1-x-realistic-vision-v2.0">Controlnet-1.1-x-realistic-vision-v2.0</option>
                         </select>
                         {formValidationErrors["modelName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["modelName"]}</p>}
+                        <input
+                            type="text"
+                            className={`form-control p-2 ${formValidationErrors["ddim_steps"] ? "border border-danger mb-2" : "mb-4"}`}
+                            placeholder="Please Enter The Ddim Steps"
+                            onChange={(e) => setDdim_steps(e.target.value.trim())}
+                        />
+                        {formValidationErrors["ddim_steps"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["ddim_steps"]}</p>}
+                        <input
+                            type="text"
+                            className={`form-control p-2 ${formValidationErrors["strength"] ? "border border-danger mb-2" : "mb-4"}`}
+                            placeholder="Please Enter The Strength"
+                            onChange={(e) => setStrength(e.target.value.trim())}
+                        />
+                        {formValidationErrors["strength"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["strength"]}</p>}
                         <input
                             type="file"
                             className={`form-control p-2 ${formValidationErrors["styleImageFile"] ? "border border-danger mb-2" : "mb-4"}`}
