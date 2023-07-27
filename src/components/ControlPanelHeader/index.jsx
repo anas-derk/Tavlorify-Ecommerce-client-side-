@@ -55,6 +55,28 @@ const ControlPanelHeader = () => {
                                     </li>
                                 </ul>
                             </li>
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Image To Image Manager
+                                </a>
+                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/image-to-image-manager/categories-manager/add-new-category">Add New Category</Link>
+                                    </li>
+                                    <li><hr className="dropdown-divider"/></li>
+                                    <li>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/image-to-image-manager/categories-manager/update-and-delete-category-info">Update And Delete Category</Link>
+                                    </li>
+                                    <li><hr className="dropdown-divider"/></li>
+                                    <li>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/image-to-image-manager/styles-manager/add-new-style">Add New Style</Link>
+                                    </li>
+                                    <li><hr className="dropdown-divider"/></li>
+                                    <li>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/image-to-image-manager/styles-manager/update-and-delete-styles-info">Update And Delete Style</Link>
+                                    </li>
+                                </ul>
+                            </li>
                             <li
                                 className="nav-item ms-3 bg-danger text-white sign-out-btn d-flex align-items-center p-2"
                                 onClick={signOut}

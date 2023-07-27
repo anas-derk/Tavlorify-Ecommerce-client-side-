@@ -10,6 +10,8 @@ import "../pages/image-to-image/index.css";
 import "../pages/available-products/index.css";
 import "./dashboard/admin/admin-panel/text-to-image-manager/styles-manager/update-and-delete-styles-info/index.css";
 import "./dashboard/admin/admin-panel/text-to-image-manager/categories-manager/update-and-delete-category-info/index.css";
+import "./dashboard/admin/admin-panel/image-to-image-manager/styles-manager/update-and-delete-styles-info/index.css";
+import "./dashboard/admin/admin-panel/image-to-image-manager/categories-manager/update-and-delete-category-info/index.css";
 import "./dashboard/admin/admin-panel/products-manager/update-and-delete-products/index.css";
 import "./dashboard/admin/admin-panel/products-manager/add-product/index.css";
 import "../components/ControlPanelHeader/index.css";

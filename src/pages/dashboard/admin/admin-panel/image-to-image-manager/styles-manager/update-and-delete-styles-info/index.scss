@@ -1,0 +1,24 @@
+.update-category-styles-info{
+    .categories-and-styles-box{
+        height: calc(100vh - 250px);
+        overflow: auto;
+        .categories-and-styles-table{
+            font-size: 15px;
+            border: 2px solid #000;
+            background-color: #FFF;
+            width: 100%;
+            th, td{
+                border: 2px solid #000;
+                padding: 10px;
+            }
+            .style-name-cell, .model-name-cell, .update-and-delete-cell{
+                width: 60px;
+            }
+            textarea{
+                width: 100%;
+                resize: none;
+                height: 100px;
+            }
+        }
+    }
+}
