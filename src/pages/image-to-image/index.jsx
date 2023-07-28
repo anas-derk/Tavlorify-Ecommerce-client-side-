@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Header from "@/components/Header";
-import testImage from "../../../public/images/test.png";
+import testImage from "../../../public/images/previewImageForPoster.png";
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import global_data from "../../../public/data/global";
