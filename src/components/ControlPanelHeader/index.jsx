@@ -25,7 +25,7 @@ const ControlPanelHeader = () => {
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/categories-manager/add-category">Add New Category</Link>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/categories-manager/add-new-category">Add New Category</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>

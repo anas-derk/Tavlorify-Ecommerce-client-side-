@@ -48,8 +48,8 @@ const AddNewCategory = () => {
                     categoryName: categoryName,
                 });
                 const result = await res.data;
-                if (result === "Congratulations, the category has been successfully added!") {
-                    setIsAddingStatus(false);
+                setIsAddingStatus(false);
+                if (result === "Congratulations, the category has been successfully added") {
                     setIsSuccessStatus(true);
                     let successTimeout = setTimeout(() => {
                         setIsSuccessStatus(false);
@@ -65,6 +65,7 @@ const AddNewCategory = () => {
             }
             catch (err) {
                 console.log(err);
+                setIsAddingStatus(false);
                 setErrorMsg("Sorry, Something Went Wrong");
                 let errorTimeout = setTimeout(() => {
                     setErrorMsg("");
