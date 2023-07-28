@@ -25,6 +25,8 @@ const CategoriesManager = () => {
             <section className="content d-flex justify-content-center align-items-center flex-column text-center">
                 <h1 className="welcome-msg mb-4 fw-bold pb-3">Hello To You In Categories Manager Page</h1>
                 <Link className="btn btn-success manager-link w-25 mx-auto mb-4" href="/dashboard/admin/admin-panel/categories-manager/add-new-category">Add Category</Link>
+                <Link className="btn btn-success manager-link w-25 mx-auto mb-4" href="/dashboard/admin/admin-panel/categories-manager/add-new-sub-category">Add New Sub Category</Link>
+                <Link className="btn btn-success manager-link w-25 mx-auto mb-4" href="/dashboard/admin/admin-panel/categories-manager/add-new-sub-category-from-sub-category">Add New Sub Category From Sub Category</Link>
                 <Link className="btn btn-danger manager-link w-25 mx-auto mb-4" href="/dashboard/admin/admin-panel/categories-manager/update-and-delete-categories">Update And Delete Categories</Link>
             </section>
             {/* End Content Section */}

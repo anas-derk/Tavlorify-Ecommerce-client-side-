@@ -29,7 +29,15 @@ const ControlPanelHeader = () => {
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/categories-manager/update-and-delete-categories">Update And Delete Products</Link>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/categories-manager/add-new-sub-category">Add New Sub Category</Link>
+                                    </li>
+                                    <li><hr className="dropdown-divider" /></li>
+                                    <li>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/categories-manager/add-new-sub-category-from-sub-category">Add New Sub Category From Sub Category</Link>
+                                    </li>
+                                    <li><hr className="dropdown-divider" /></li>
+                                    <li>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/categories-manager/update-and-delete-categories">Update And Delete Categories</Link>
                                     </li>
                                 </ul>
                             </li>
