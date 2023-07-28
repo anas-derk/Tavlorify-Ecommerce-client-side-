@@ -31,7 +31,38 @@
   gap: 15px;
 }
 
+.global-header .bottom-header .link-item {
+  position: relative;
+  width: 175px;
+}
+
 .global-header .bottom-header .link-item:hover {
   background-color: #CCC;
-  border-radius: 4px;
+}
+
+.global-header .bottom-header .link-item .show-and-hide-links-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.global-header .bottom-header .link-item .links-box {
+  position: absolute;
+  left: 0;
+  bottom: -175px;
+  width: 100%;
+  background-color: #FFF;
+  z-index: 1;
+}
+
+.global-header .bottom-header .link-item .links-box li {
+  cursor: pointer;
+  transition: .3s;
+}
+
+.global-header .bottom-header .link-item .links-box li:hover {
+  padding-left: 20px !important;
+  background-color: #CCC;
 }
