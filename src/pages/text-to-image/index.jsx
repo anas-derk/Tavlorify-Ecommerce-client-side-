@@ -5,7 +5,8 @@ import Axios from "axios";
 import global_data from "../../../public/data/global";
 import nodeCodeGenerator from "node-code-generator";
 import { useRouter } from "next/router";
-import generatedImage from "../../../public/images/test.png";
+import previewImageForPoster from "../../../public/images/previewImageForPoster.png";
+import previewImageForCanvas from "../../../public/images/previewImageForCanvas.png";
 /* Start Import Frame Corner Images */
 import blackFrameCornerImage from "../../../public/images/frames/frameCorners/black.png";
 import whiteFrameCornerImage from "../../../public/images/frames/frameCorners/white.png";
@@ -63,7 +64,7 @@ import darkWoodFrame_70_50_Image from "../../../public/images/frames/darkWood/H/
 import darkWoodFrame_100_70_Image from "../../../public/images/frames/darkWood/H/100_70.png";
 /* End Import Horizontal Frame Images */
 
-const TextToImage = () => {
+const TextToImage = ({ printsName }) => {
 
     const [textPrompt, setTextPrompt] = useState("a dog");
 
@@ -81,15 +82,15 @@ const TextToImage = () => {
 
     const [modelName, setModelName] = useState("");
 
-    const [imageType, setImageType] = useState("square");
+    const [imageType, setImageType] = useState("vertical");
 
-    const [paintingType, setPaintingType] = useState("poster");
+    const [paintingType, setPaintingType] = useState(printsName);
 
-    const [frameColor, setFrameColor] = useState("natural-wood");
+    const [frameColor, setFrameColor] = useState("none");
 
     const [dimentions, setDimentions] = useState({});
 
-    const [dimentionsInCm, setDimentionsInCm] = useState("30x30");
+    const [dimentionsInCm, setDimentionsInCm] = useState(printsName === "poster" ? "21x29,7" : "30x40");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -107,9 +108,9 @@ const TextToImage = () => {
 
     const [tempModelName, setTempModelName] = useState("");
 
-    const [tempDimentionsInCm, setTempDimentionsInCm] = useState("30x30");
+    const [tempDimentionsInCm, setTempDimentionsInCm] = useState(printsName === "poster" ? "21x29,7" : "30x40");
 
-    const [tempImageType, setTempImageType] = useState("square");
+    const [tempImageType, setTempImageType] = useState("vertical");
 
     const frameImages = {
         "square": {
@@ -209,8 +210,13 @@ const TextToImage = () => {
                                 width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
                                 height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
                             });
-                            setGeneratedImageURL(generatedImage.src);
-                            setPaintingURL(generatedImage.src);
+                            if (printsName === "poster") {
+                                setGeneratedImageURL(previewImageForPoster.src);
+                                setPaintingURL(previewImageForPoster.src);
+                            } else if (printsName === "canvas") {
+                                setGeneratedImageURL(previewImageForCanvas.src);
+                                setPaintingURL(previewImageForCanvas.src);
+                            }
                         })
                         .catch((err) => console.log(err));
                 }
@@ -298,10 +304,11 @@ const TextToImage = () => {
         setGeneratedImageURL("");
         setIsWaitStatus(true);
         Axios.get(
-            `${process.env.BASE_API_URL}/text-to-image/generate-image?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
+            `http://localhost:4000/text-to-image/generate-image?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
         `)
             .then((res) => {
                 let result = res.data;
+                console.log(result)
                 setIsWaitStatus(false);
                 if (Array.isArray(result)) {
                     setTempModelName(modelName);
@@ -590,6 +597,15 @@ const TextToImage = () => {
         </div>
         // End Text To Image Service Page
     );
+}
+
+export async function getServerSideProps(context) {
+    let printsName = context.query.printsName;
+    return {
+        props: {
+            printsName,
+        },
+    }
 }
 
 export default TextToImage;

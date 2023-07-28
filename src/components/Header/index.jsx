@@ -105,7 +105,15 @@ const Header = () => {
                             />
                             {optionsLinkName === "poster" && <ul className="links-box">
                                 <li className="p-3">
-                                    <Link href="/text-to-image" className="text-dark">
+                                    <Link
+                                        href={{
+                                            pathname: "/text-to-image",
+                                            query: {
+                                                printsName: "poster",
+                                            }
+                                        }}
+                                        className="text-dark"
+                                    >
                                         Text To Image
                                     </Link>
                                 </li>
@@ -132,7 +140,15 @@ const Header = () => {
                             />
                             {optionsLinkName === "canvas" && <ul className="links-box">
                                 <li className="p-3">
-                                    <Link href="/text-to-image" className="text-dark">
+                                <Link
+                                        href={{
+                                            pathname: "/text-to-image",
+                                            query: {
+                                                printsName: "canvas",
+                                            }
+                                        }}
+                                        className="text-dark"
+                                    >
                                         Text To Image
                                     </Link>
                                 </li>
