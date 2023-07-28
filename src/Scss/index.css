@@ -85,6 +85,7 @@ a {
 
 .admin-panel .content,
 .products-manager .content,
+.categories-manager .content,
 .text-to-image-manager .content,
 .text-to-image-categories-manager .content,
 .text-to-image-styles-manager .content,
@@ -101,6 +102,7 @@ a {
 
 .admin-panel .content .welcome-msg,
 .products-manager .content .welcome-msg,
+.categories-manager .content .welcome-msg,
 .text-to-image-manager .content .welcome-msg,
 .text-to-image-categories-manager .content .welcome-msg,
 .text-to-image-styles-manager .content .welcome-msg,

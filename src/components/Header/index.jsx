@@ -124,7 +124,7 @@ const Header = () => {
                                 </li>
                                 <li className="p-3">
                                     <Link href="/prints" className="text-dark">
-                                        Image To Image
+                                        Prints
                                     </Link>
                                 </li>
                             </ul>}
@@ -159,16 +159,10 @@ const Header = () => {
                                 </li>
                                 <li className="p-3">
                                     <Link href="/prints" className="text-dark">
-                                        Image To Image
+                                        Prints
                                     </Link>
                                 </li>
                             </ul>}
-                        </li>
-                        <li className="link-item p-2">
-                            <Link className="link text-dark" href='/image-to-image'>
-                                <BiBrain />
-                                <span className="ms-2">Image To Image</span>
-                            </Link>
                         </li>
                         <li className="link-item p-2">
                             <Link className="link text-dark" href='/who-are-we'>
