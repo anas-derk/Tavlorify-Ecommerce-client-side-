@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FiLogIn } from "react-icons/fi";
 import validations from "../../../public/global_functions/validations";
+import global from "../../../public/data/global";
 import { useRouter } from "next/router";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
@@ -16,13 +17,13 @@ const SignUp = () => {
 
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    const [countryName, setCountryName] = useState(global.countries[0]);
+
     const [isWaitStatus, setIsWaitStatus] = useState(false);
 
     const [errorMsg, setErrorMsg] = useState("");
 
     const [resultMsg, setResultMsg] = useState("");
-
-    const [errors, setErrors] = useState({});
 
     const [formValidationErrors, setFormValidationErrors] = useState({});
 
@@ -34,7 +35,7 @@ const SignUp = () => {
 
     const signUpNow = async (e) => {
         e.preventDefault();
-        setErrors({});
+        setFormValidationErrors({});
         let errorsObject = validations.inputValuesValidation([
             {
                 name: "email",
@@ -74,14 +75,24 @@ const SignUp = () => {
                     },
                 },
             },
+            {
+                name: "countryName",
+                value: countryName,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't Be Field Is Empty !!",
+                    },
+                },
+            },
         ]);
-        setErrors(errorsObject);
+        setFormValidationErrors(errorsObject);
         if (Object.keys(errorsObject).length == 0) {
             try {
                 setIsWaitStatus(true);
                 const res = await Axios.post(`${process.env.BASE_API_URL}/users/create-new-user`, {
                     email,
-                    password
+                    password,
+                    country: countryName,
                 });
                 setTimeout(async () => {
                     setIsWaitStatus(false);
@@ -138,10 +149,10 @@ const SignUp = () => {
                                 <input
                                     type="text"
                                     placeholder="Please Enter Your Email Here ."
-                                    className={`form-control border-dark border-2 ${errors["email"] ? "border border-danger mb-2" : "mb-4"}`}
+                                    className={`form-control border border-2 ${formValidationErrors["email"] ? "border-danger mb-2" : "border-dark mb-4"}`}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
-                                {errors["email"] && <p className='error-msg text-danger m-0'>{errors["email"]}</p>}
+                                {formValidationErrors["email"] && <p className='error-msg text-danger m-0'>{formValidationErrors["email"]}</p>}
                             </div>
                             {/* End Column */}
                         </div>
@@ -163,7 +174,7 @@ const SignUp = () => {
                                     <input
                                         type={isVisiblePassword ? "text" : "password"}
                                         placeholder="Please Enter Your Password Here"
-                                        className={`form-control border-2 ${formValidationErrors["password"] ? "border-danger" : "border-dark"}`}
+                                        className={`form-control border border-2 ${formValidationErrors["password"] ? "border-danger mb-2" : "border-dark"}`}
                                         onChange={(e) => setPassword(e.target.value.trim())}
                                     />
                                     <div className='icon-box'>
@@ -171,7 +182,7 @@ const SignUp = () => {
                                         {isVisiblePassword && <AiOutlineEyeInvisible className='invisible-eye-icon icon' onClick={() => setIsVisiblePassword(value => value = !value)} />}
                                     </div>
                                 </div>
-                                {errors["password"] && <p className='error-msg text-danger m-0'>{errors["password"]}</p>}
+                                {formValidationErrors["password"] && <p className='error-msg text-danger m-0'>{formValidationErrors["password"]}</p>}
                             </div>
                             {/* End Column */}
                         </div>
@@ -179,7 +190,7 @@ const SignUp = () => {
                     </div>
                     {/* End Input Field Box */}
                     {/* Start Input Field Box */}
-                    <div className="input-field-box mb-3">
+                    <div className="input-field-box mb-5">
                         {/* Start Grid System */}
                         <div className="row align-items-center">
                             {/* Start Column */}
@@ -201,7 +212,34 @@ const SignUp = () => {
                                         {isVisibleConfirmPassword && <AiOutlineEyeInvisible className='invisible-eye-icon icon' onClick={() => setIsVisibleConfirmPassword(value => value = !value)} />}
                                     </div>
                                 </div>
-                                {errors["confirmPassword"] && <p className='error-msg text-danger m-0'>{errors["confirmPassword"]}</p>}
+                                {formValidationErrors["confirmPassword"] && <p className='error-msg text-danger m-0'>{formValidationErrors["confirmPassword"]}</p>}
+                            </div>
+                            {/* End Column */}
+                        </div>
+                        {/* End Grid System */}
+                    </div>
+                    {/* End Input Field Box */}
+                    {/* Start Input Field Box */}
+                    <div className="input-field-box mb-4">
+                        {/* Start Grid System */}
+                        <div className="row align-items-center">
+                            {/* Start Column */}
+                            <div className="col-md-2">
+                                Country *
+                            </div>
+                            {/* End Column */}
+                            {/* Start Column */}
+                            <div className="col-md-10">
+                                <select
+                                    className={`form-control border-2 ${formValidationErrors["countryName"] ? "border-danger" : "border-dark"}`}
+                                    onChange={(e) => setCountryName(e.target.value)}
+                                >
+                                    <option hidden value="">Please Select Country</option>
+                                    {global.countries.map((country, index) => (
+                                        <option value={country} key={index} selected={country === "sweden" ? true : false}>{ country }</option>
+                                    ))}
+                                </select>
+                                {formValidationErrors["countryName"] && <p className='error-msg text-danger m-0'>{formValidationErrors["countryName"]}</p>}
                             </div>
                             {/* End Column */}
                         </div>

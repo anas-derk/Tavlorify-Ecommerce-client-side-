@@ -2680,6 +2680,11 @@ const allDimetions = {
     ],
 };
 
+const countries = [
+    "sweden",
+    "syria",
+];
+
 export default {
     modelsDimentions,
     gelatoDimetions,
@@ -2687,4 +2692,5 @@ export default {
     kandinskyImageSizes,
     framesDimentions,
     allDimetions,
+    countries,
 };

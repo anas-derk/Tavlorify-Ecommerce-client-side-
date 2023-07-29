@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import validations from "../../../public/global_functions/validations";
+import { useRouter } from "next/router";
+import global from "../../../public/data/global";
 
 const Profile = () => {
 
@@ -13,9 +15,11 @@ const Profile = () => {
 
     const [password, setPassword] = useState("");
 
+    const [countryName, setCountryName] = useState("");
+
     const [isWaitStatus, setIsWaitStatus] = useState(false);
 
-    const [errors, setErrors] = useState({});
+    const [formValidationErrors, setFormValidationErrors] = useState({});
 
     const [errorMsg, setErrorMsg] = useState("");
 
@@ -23,20 +27,34 @@ const Profile = () => {
 
     const [userId, setUserId] = useState("");
 
+    const router = useRouter();
+
     useEffect(() => {
+        const userId = localStorage.getItem("tavlorify-store-user-id");
         async function fetchData() {
-            const userId = localStorage.getItem("tavlorify-store-user-id");
             const res = await Axios.get(`${process.env.BASE_API_URL}/users/user-info/${userId}`);
             const data = await res.data;
-            setEmail(data.email);
-            setUserId(userId);
+            return data;
         }
-        fetchData();
+        if (!userId) {
+            router.push("/login");
+        } else {
+            fetchData().then((result) => {
+                if (result._id === userId) {
+                    setEmail(result.email);
+                    setCountryName(result.country);
+                    setUserId(result._id);
+                } else {
+                    localStorage.removeItem("tavlorify-store-user-id");
+                    router.push("/login");
+                }
+            });
+        }
     }, []);
 
     const updateUserInfo = async (e) => {
         e.preventDefault();
-        setErrors({});
+        setFormValidationErrors({});
         let errorsObject = validations.inputValuesValidation([
             {
                 name: "email",
@@ -60,14 +78,24 @@ const Profile = () => {
                     },
                 },
             },
+            {
+                name: "countryName",
+                value: countryName,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't Be Field Is Empty !!",
+                    },
+                },
+            },
         ]);
-        setErrors(errorsObject);
+        setFormValidationErrors(errorsObject);
         if (Object.keys(errorsObject).length == 0) {
             try {
                 setIsWaitStatus(true);
                 const res = await Axios.put(`${process.env.BASE_API_URL}/users/update-user-info/${userId}`, {
                     email,
-                    password
+                    password,
+                    country: countryName,
                 });
                 setTimeout(async () => {
                     setIsWaitStatus(false);
@@ -120,11 +148,11 @@ const Profile = () => {
                                         <input
                                             type="text"
                                             placeholder="Please Enter The New Your Email Here ."
-                                            className={`form-control border-2 ${errors["email"] ? "border border-danger mb-2" : "border-dark"}`}
+                                            className={`form-control border-2 ${formValidationErrors["email"] ? "border border-danger mb-2" : "border-dark"}`}
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                         />
-                                        {errors["email"] && <p className='error-msg text-danger m-0'>{errors["email"]}</p>}
+                                        {formValidationErrors["email"] && <p className='error-msg text-danger m-0'>{formValidationErrors["email"]}</p>}
                                     </div>
                                     {/* End Column */}
                                 </div>
@@ -145,10 +173,37 @@ const Profile = () => {
                                         <input
                                             type="password"
                                             placeholder="Please Enter The New Your Password Here ."
-                                            className={`form-control border-2 ${errors["password"] ? "border border-danger mb-2" : "border-dark"}`}
+                                            className={`form-control border-2 ${formValidationErrors["password"] ? "border border-danger mb-2" : "border-dark"}`}
                                             onChange={(e) => setPassword(e.target.value)}
                                         />
-                                        {errors["password"] && <p className='error-msg text-danger m-0'>{errors["password"]}</p>}
+                                        {formValidationErrors["password"] && <p className='error-msg text-danger m-0'>{formValidationErrors["password"]}</p>}
+                                    </div>
+                                    {/* End Column */}
+                                </div>
+                                {/* End Grid System */}
+                            </div>
+                            {/* End Input Field Box */}
+                            {/* Start Input Field Box */}
+                            <div className="input-field-box mb-4">
+                                {/* Start Grid System */}
+                                <div className="row align-items-center">
+                                    {/* Start Column */}
+                                    <div className="col-md-2">
+                                        Country *
+                                    </div>
+                                    {/* End Column */}
+                                    {/* Start Column */}
+                                    <div className="col-md-10">
+                                        <select
+                                            className={`form-control border-2 ${formValidationErrors["countryName"] ? "border-danger" : "border-dark"}`}
+                                            onChange={(e) => setCountryName(e.target.value)}
+                                        >
+                                            <option hidden value="">Please Select Country</option>
+                                            {global.countries.map((country, index) => (
+                                                <option value={country} key={index} selected={country === countryName ? true : false}>{country}</option>
+                                            ))}
+                                        </select>
+                                        {formValidationErrors["countryName"] && <p className='error-msg text-danger m-0'>{formValidationErrors["countryName"]}</p>}
                                     </div>
                                     {/* End Column */}
                                 </div>
