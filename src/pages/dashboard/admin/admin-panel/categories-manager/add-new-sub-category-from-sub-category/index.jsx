@@ -5,13 +5,17 @@ import Axios from "axios";
 import validations from "../../../../../../../public/global_functions/validations";
 import { useRouter } from "next/router";
 
-const AddNewSubCategory = () => {
+const AddNewSubCategoryFromSubCategory = () => {
 
     const [categoriesList, setCategoriesList] = useState([]);
 
     const [categoryName, setCategoryName] = useState("");
 
+    const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(-1);
+
     const [subCategoryName, setSubCategoryName] = useState("");
+
+    const [subCategoryFromSubCategoryName, setSubCategoryFromSubCategoryName] = useState("");
 
     const [isAddingStatus, setIsAddingStatus] = useState(false);
 
@@ -29,18 +33,24 @@ const AddNewSubCategory = () => {
             router.push("/dashboard/admin/login");
         } else {
             Axios.get(`${process.env.BASE_API_URL}/categories/all-categories`)
-            .then((res) => {
-                console.log(res.data);
-                setCategoriesList(res.data);
-            })
-            .catch((err) => {
-                console.log(err);
-                setErrorMsg("Sorry, Something Went Wrong");
-            });
+                .then((res) => {
+                    console.log(res.data);
+                    setCategoriesList(res.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setErrorMsg("Sorry, Something Went Wrong");
+                });
         }
     }, []);
 
-    const addNewSubCategory = async (e) => {
+    const handleSelectCategoryName = (categoryNameAndIndex) => {
+        const categoryAsArray = categoryNameAndIndex.split("-");
+        setCategoryName(categoryAsArray[0]);
+        setSelectedCategoryIndex(categoryAsArray[1]);
+    }
+
+    const addNewSubCategoryFromSubCategory = async (e) => {
         e.preventDefault();
         setFormValidationErrors({});
         let errorsObject = validations.inputValuesValidation([
@@ -62,13 +72,22 @@ const AddNewSubCategory = () => {
                     },
                 },
             },
+            {
+                name: "subCategoryFromSubCategoryName",
+                value: subCategoryFromSubCategoryName,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't Be Field Is Empty !!",
+                    },
+                },
+            },
         ]);
         setFormValidationErrors(errorsObject);
         if (Object.keys(errorsObject).length == 0) {
             setIsAddingStatus(true);
             try {
-                const res = await Axios.post(`${process.env.BASE_API_URL}/categories/add-new-sub-category/${categoryName}`, {
-                    subCategoryName: subCategoryName,
+                const res = await Axios.post(`${process.env.BASE_API_URL}/categories/add-new-sub-category-from-sub-category/${categoryName}/${subCategoryName}`, {
+                    subCategoryFromSubCategoryName: subCategoryFromSubCategoryName,
                 });
                 const result = await res.data;
                 setIsAddingStatus(false);
@@ -99,32 +118,44 @@ const AddNewSubCategory = () => {
     }
 
     return (
-        <div className="add-new-sub-category">
+        <div className="add-new-sub-category-from-sub-category">
             <Head>
-                <title>Tavlorify Store - Add New Sub Category</title>
+                <title>Tavlorify Store - Add New Sub Category From Sub Category</title>
             </Head>
             <ControlPanelHeader />
             <div className="content text-center pt-4 pb-4">
                 <div className="container-fluid">
-                    <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Hello To You In Add New Sub Category Page</h1>
-                    {(categoriesList.length > 0) ? <form className="add-new-category-form w-50 mx-auto mb-3" onSubmit={addNewSubCategory}>
+                    <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Hello To You In Add New Sub Category From Sub Category Page</h1>
+                    {(categoriesList.length > 0) ? <form className="add-new-category-form w-50 mx-auto mb-3" onSubmit={addNewSubCategoryFromSubCategory}>
                         <select
                             className={`form-control p-2 ${formValidationErrors["categoryName"] ? "border border-danger mb-2" : "mb-4"}`}
-                            onChange={(e) => setCategoryName(e.target.value)}
+                            onChange={(e) => handleSelectCategoryName(e.target.value)}
                         >
                             <option hidden value="">Please Select Category Name</option>
-                            {categoriesList.map((category) => (
-                                <option value={category.name} key={category._id}>{category.name}</option>
+                            {categoriesList.map((category, index) => (
+                                <option value={`${category.name}-${index}`} key={category._id}>{category.name}</option>
                             ))}
                         </select>
                         {formValidationErrors["categoryName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryName"]}</p>}
+                        {selectedCategoryIndex !== -1 && <>
+                            <select
+                                className={`form-control p-2 ${formValidationErrors["subCategoryName"] ? "border border-danger mb-2" : "mb-4"}`}
+                                onChange={(e) => setSubCategoryName(e.target.value)}
+                            >
+                                <option hidden value="">Please Select Sub Category Name</option>
+                                {categoriesList[selectedCategoryIndex].subCategories.map((subCategory, index) => (
+                                    <option value={subCategory.subCategoryName} key={index}>{subCategory.subCategoryName}</option>
+                                ))}
+                            </select>
+                            {formValidationErrors["subCategoryName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["subCategoryName"]}</p>}
+                        </>}
                         <input
                             type="text"
-                            className={`form-control p-2 ${formValidationErrors["subCategoryName"] ? "border border-danger mb-2" : "mb-4"}`}
-                            placeholder="Please Enter Sub Category Name"
-                            onChange={(e) => setSubCategoryName(e.target.value.trim())}
+                            className={`form-control p-2 ${formValidationErrors["subCategoryFromSubCategoryName"] ? "border border-danger mb-2" : "mb-4"}`}
+                            placeholder="Please Enter Sub Category From Sub Category Name"
+                            onChange={(e) => setSubCategoryFromSubCategoryName(e.target.value.trim())}
                         />
-                        {formValidationErrors["subCategoryName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["subCategoryName"]}</p>}
+                        {formValidationErrors["subCategoryFromSubCategoryName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["subCategoryFromSubCategoryName"]}</p>}
                         {!isAddingStatus && !errorMsg && !isSuccessStatus && <button type="submit" className="btn btn-success w-100 d-block mx-auto">Add Now</button>}
                         {isAddingStatus && <button type="submit" className="btn btn-warning w-100 d-block mx-auto" disabled>Adding Now ...</button>}
                         {errorMsg && <button type="submit" className="btn btn-danger w-100 d-block mx-auto" disabled>{errorMsg}</button>}
@@ -136,4 +167,4 @@ const AddNewSubCategory = () => {
     );
 }
 
-export default AddNewSubCategory;
+export default AddNewSubCategoryFromSubCategory;

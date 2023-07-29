@@ -96,7 +96,8 @@ a {
 .image-to-image-manager .content,
 .image-to-image-categories-manager .content,
 .image-to-image-styles-manager .content,
-.add-new-sub-category .content {
+.add-new-sub-category .content,
+.add-new-sub-category-from-sub-category .content {
   background-color: #EEE;
   min-height: calc(100vh - 72px);
 }
@@ -114,7 +115,8 @@ a {
 .image-to-image-manager .content .welcome-msg,
 .image-to-image-categories-manager .content .welcome-msg,
 .image-to-image-styles-manager .content .welcome-msg,
-.add-new-sub-category .content .welcome-msg {
+.add-new-sub-category .content .welcome-msg,
+.add-new-sub-category-from-sub-category .content .welcome-msg {
   border-bottom: 3px solid;
   width: fit-content;
 }
