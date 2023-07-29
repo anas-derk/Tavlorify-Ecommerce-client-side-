@@ -102,7 +102,8 @@ const SignUp = () => {
                     }
                 }, 2000);
             } catch (err) {
-                setErrorMsg(err);
+                console.log(err);
+                setErrorMsg("Sorry, Something Went Wrong, Please Repeate Sign Up !!");
             }
         }
     }

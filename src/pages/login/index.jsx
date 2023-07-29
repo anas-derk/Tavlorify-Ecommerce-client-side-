@@ -59,6 +59,7 @@ const Login = () => {
                 }, 2000);
             } catch (err) {
                 console.log(err);
+                setErrorMsg("Sorry, Something Went Wrong, Please Repeate Login !!");
             }
         }
     }
