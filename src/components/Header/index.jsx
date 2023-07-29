@@ -16,11 +16,11 @@ const Header = () => {
     const [optionsLinkName, setOptionsLinkName] = useState("");
     const router = useRouter();
     const signOut = () => {
-        localStorage.removeItem("e-commerce-canvas-user-id");
+        localStorage.removeItem("tavlorify-store-user-id");
         router.reload();
     }
     useEffect(() => {
-        let userId = localStorage.getItem("e-commerce-canvas-user-id");
+        let userId = localStorage.getItem("tavlorify-store-user-id");
         setUserId(userId);
     }, []);
     return (
@@ -123,14 +123,14 @@ const Header = () => {
                                     </Link>
                                 </li>
                                 <li className="p-3">
-                                    <Link href="/prints" className="text-dark">
-                                        Prints
+                                    <Link href="/products" className="text-dark">
+                                        Products
                                     </Link>
                                 </li>
                             </ul>}
                         </li>
                         <li className="link-item p-2" style={optionsLinkName === "canvas" ? { backgroundColor: "#CCC", borderRadius: "4px" } : {}}>
-                            <Link className="link text-dark" href='/text-to-image'>
+                            <Link className="link text-dark" href='/products'>
                                 <BiBrain />
                                 <span className="ms-2">Canvas</span>
                             </Link>
@@ -158,8 +158,8 @@ const Header = () => {
                                     </Link>
                                 </li>
                                 <li className="p-3">
-                                    <Link href="/prints" className="text-dark">
-                                        Prints
+                                    <Link href="/products" className="text-dark">
+                                        Products
                                     </Link>
                                 </li>
                             </ul>}

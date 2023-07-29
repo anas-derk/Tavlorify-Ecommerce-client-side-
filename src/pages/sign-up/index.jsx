@@ -6,12 +6,9 @@ import { useState } from "react";
 import { FiLogIn } from "react-icons/fi";
 import validations from "../../../public/global_functions/validations";
 import { useRouter } from "next/router";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const SignUp = () => {
-
-    const [firstName, setFirstName] = useState("");
-
-    const [lastName, setLastName] = useState("");
 
     const [email, setEmail] = useState("");
 
@@ -27,6 +24,12 @@ const SignUp = () => {
 
     const [errors, setErrors] = useState({});
 
+    const [formValidationErrors, setFormValidationErrors] = useState({});
+
+    const [isVisiblePassword, setIsVisiblePassword] = useState(false);
+
+    const [isVisibleConfirmPassword, setIsVisibleConfirmPassword] = useState(false);
+
     const router = useRouter();
 
     const signUpNow = async (e) => {
@@ -34,32 +37,14 @@ const SignUp = () => {
         setErrors({});
         let errorsObject = validations.inputValuesValidation([
             {
-                name: "firstName",
-                value: firstName,
-                rules: {
-                    isRequired: {
-                        msg: "عذراً ، لا يجب أن يكون الحقل فارغاً !!",
-                    },
-                },
-            },
-            {
-                name: "lastName",
-                value: lastName,
-                rules: {
-                    isRequired: {
-                        msg: "عذراً ، لا يجب أن يكون الحقل فارغاً !!",
-                    },
-                },
-            },
-            {
                 name: "email",
                 value: email,
                 rules: {
                     isRequired: {
-                        msg: "عذراً ، لا يجب أن يكون الحقل فارغاً !!",
+                        msg: "Sorry, Can't Be Field Is Empty !!",
                     },
                     isEmail: {
-                        msg: "عذراً ، الإيميل الذي أدخلته غير صالح ، الرجاء إدخال إيميل صالح !!",
+                        msg: "Sorry, This Email Not Valid !!",
                     },
                 },
             },
@@ -68,7 +53,7 @@ const SignUp = () => {
                 value: password,
                 rules: {
                     isRequired: {
-                        msg: "عذراً ، لا يجب أن يكون الحقل فارغاً !!",
+                        msg: "Sorry, Can't Be Field Is Empty !!",
                     },
                     isPassword: {
                         value: password,
@@ -81,11 +66,11 @@ const SignUp = () => {
                 value: confirmPassword,
                 rules: {
                     isRequired: {
-                        msg: "عذراً ، لا يجب أن يكون الحقل فارغاً !!",
+                        msg: "Sorry, Can't Be Field Is Empty !!",
                     },
                     isMatch: {
                         value: password,
-                        msg: "عذراً ، لا يوجد تطابق بين كلمة السر وتأكيدها !!",
+                        msg: "Sorry, There Is No Match Between The Password And Its Confirmation !!",
                     },
                 },
             },
@@ -95,8 +80,6 @@ const SignUp = () => {
             try {
                 setIsWaitStatus(true);
                 const res = await Axios.post(`${process.env.BASE_API_URL}/users/create-new-user`, {
-                    firstName,
-                    lastName,
                     email,
                     password
                 });
@@ -132,53 +115,16 @@ const SignUp = () => {
             </Head>
             <Header />
             {/* Start Container */}
-            <div className="custom-container pt-5 pb-5">
-                <h4 className="welcome-msg border-success border-2 border p-3 mb-3">Welcome To You In Registeration Page</h4>
+            <div className="container-fluid pt-5 pb-5">
+                <h4 className="welcome-msg border-dark border-2 border p-3 mb-3">Welcome To You In Registeration Page</h4>
                 <hr />
-                <h5 className="p-3 text-center border border-2 border-secondary mb-5">Registeration</h5>
+                <h5 className="p-3 text-center border border-2 border-dark mb-5">Registeration</h5>
                 <form
-                    className="signup-form p-4"
-                    style={{ boxShadow: "1px 1px 10px green" }}
+                    className="signup-form p-4 border border-2 border-dark"
                     onSubmit={signUpNow}
                 >
-                    {/* Start Grid System */}
-                    <div className="row">
-                        {/* Start Column */}
-                        <div className="col-md-6">
-                            {/* Start Input Field Box */}
-                            <div className="input-field-box mb-5">
-                                <h6>First Name: </h6>
-                                <input
-                                    type="text"
-                                    placeholder="Please Enter Your First Name Here ."
-                                    className={`form-control border-success border-2 ${errors["firstName"] ? "border border-danger mb-2" : "mb-4"}`}
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                />
-                                {errors["firstName"] && <p className='error-msg text-danger m-0'>{errors["firstName"]}</p>}
-                            </div>
-                            {/* End Input Field Box */}
-                        </div>
-                        {/* End Column */}
-                        {/* Start Column */}
-                        <div className="col-md-6">
-                            {/* Start Input Field Box */}
-                            <div className="input-field-box mb-5">
-                                <h6>Last Name: </h6>
-                                <input
-                                    type="text"
-                                    placeholder="Please Enter Your Last Name Here ."
-                                    className={`form-control border-success border-2 ${errors["lastName"] ? "border border-danger mb-2" : "mb-4"}`}
-                                    onChange={(e) => setLastName(e.target.value)}
-                                />
-                                {errors["lastName"] && <p className='error-msg text-danger m-0'>{errors["lastName"]}</p>}
-                            </div>
-                            {/* End Input Field Box */}
-                        </div>
-                        {/* End Column */}
-                    </div>
-                    {/* End Grid System */}
                     {/* Start Input Field Box */}
-                    <div className="input-field-box mb-5">
+                    <div className="input-field-box mb-3">
                         {/* Start Grid System */}
                         <div className="row align-items-center">
                             {/* Start Column */}
@@ -191,7 +137,7 @@ const SignUp = () => {
                                 <input
                                     type="text"
                                     placeholder="Please Enter Your Email Here ."
-                                    className={`form-control border-success border-2 ${errors["email"] ? "border border-danger mb-2" : "mb-4"}`}
+                                    className={`form-control border-dark border-2 ${errors["email"] ? "border border-danger mb-2" : "mb-4"}`}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                                 {errors["email"] && <p className='error-msg text-danger m-0'>{errors["email"]}</p>}
@@ -212,12 +158,18 @@ const SignUp = () => {
                             {/* End Column */}
                             {/* Start Column */}
                             <div className="col-md-10">
-                                <input
-                                    type="password"
-                                    placeholder="Please Enter Your Password Here ."
-                                    className={`form-control border-success border-2 ${errors["password"] ? "border border-danger mb-2" : "mb-4"}`}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
+                                <div className='password-field-box'>
+                                    <input
+                                        type={isVisiblePassword ? "text" : "password"}
+                                        placeholder="Please Enter Your Password Here"
+                                        className={`form-control border-2 ${formValidationErrors["password"] ? "border-danger" : "border-dark"}`}
+                                        onChange={(e) => setPassword(e.target.value.trim())}
+                                    />
+                                    <div className='icon-box'>
+                                        {!isVisiblePassword && <AiOutlineEye className='eye-icon icon' onClick={() => setIsVisiblePassword(value => value = !value)} />}
+                                        {isVisiblePassword && <AiOutlineEyeInvisible className='invisible-eye-icon icon' onClick={() => setIsVisiblePassword(value => value = !value)} />}
+                                    </div>
+                                </div>
                                 {errors["password"] && <p className='error-msg text-danger m-0'>{errors["password"]}</p>}
                             </div>
                             {/* End Column */}
@@ -226,7 +178,7 @@ const SignUp = () => {
                     </div>
                     {/* End Input Field Box */}
                     {/* Start Input Field Box */}
-                    <div className="input-field-box mb-5">
+                    <div className="input-field-box mb-3">
                         {/* Start Grid System */}
                         <div className="row align-items-center">
                             {/* Start Column */}
@@ -236,12 +188,18 @@ const SignUp = () => {
                             {/* End Column */}
                             {/* Start Column */}
                             <div className="col-md-10">
-                                <input
-                                    type="password"
-                                    placeholder="Please Re-enter the Password Here ."
-                                    className={`form-control border-success border-2 ${errors["confirmPassword"] ? "border border-danger mb-2" : "mb-4"}`}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                />
+                                <div className='password-field-box'>
+                                    <input
+                                        type={isVisibleConfirmPassword ? "text" : "password"}
+                                        placeholder="Please Re-enter the Password Here"
+                                        className={`form-control border-2 ${formValidationErrors["confirmPassword"] ? "border-danger" : "border-dark"}`}
+                                        onChange={(e) => setConfirmPassword(e.target.value.trim())}
+                                    />
+                                    <div className='icon-box'>
+                                        {!isVisibleConfirmPassword && <AiOutlineEye className='eye-icon icon' onClick={() => setIsVisibleConfirmPassword(value => value = !value)} />}
+                                        {isVisibleConfirmPassword && <AiOutlineEyeInvisible className='invisible-eye-icon icon' onClick={() => setIsVisibleConfirmPassword(value => value = !value)} />}
+                                    </div>
+                                </div>
                                 {errors["confirmPassword"] && <p className='error-msg text-danger m-0'>{errors["confirmPassword"]}</p>}
                             </div>
                             {/* End Column */}
@@ -249,7 +207,7 @@ const SignUp = () => {
                         {/* End Grid System */}
                     </div>
                     {/* End Input Field Box */}
-                    {!isWaitStatus && !errorMsg && !resultMsg && <button className="btn btn-success mx-auto d-block mb-4">
+                    {!isWaitStatus && !errorMsg && !resultMsg && <button className="btn btn-dark mx-auto d-block mb-4">
                         <span className="me-2">Sign Up Now</span>
                         <FiLogIn />
                     </button>}

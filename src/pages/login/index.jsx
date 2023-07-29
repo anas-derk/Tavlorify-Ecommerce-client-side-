@@ -5,30 +5,61 @@ import { useState } from "react";
 import { FiLogIn } from "react-icons/fi";
 import Axios from "axios";
 import { useRouter } from "next/router";
+import validations from "../../../public/global_functions/validations";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoginingStatus, setIsLoginingStatus] = useState(false);
     const [errMsg, setErrorMsg] = useState("");
+    const [formValidationErrors, setFormValidationErrors] = useState({});
+    const [isVisiblePassword, setIsVisiblePassword] = useState(false);
     const router = useRouter();
     const loginNow = async (e) => {
         e.preventDefault();
-        setIsLoginingStatus(true);
-        try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/users/login?email=${email}&password=${password}`);
-            const data = await res.data;
-            setTimeout(() => {
-                setIsLoginingStatus(false);
-                if (typeof data === "string") {
-                    setErrorMsg(data);
-                } else {
-                    localStorage.setItem("tavlorify-stor-user-id", data._id);
-                    router.push("/");
-                }
-            }, 2000);
-        } catch (err) {
-            console.log(err);
+        setFormValidationErrors({});
+        let errorsObject = validations.inputValuesValidation([
+            {
+                name: "email",
+                value: email,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't Be Field Is Empty !!",
+                    },
+                    isEmail: {
+                        msg: "Sorry, This Email Not Valid !!",
+                    }
+                },
+            },
+            {
+                name: "password",
+                value: password,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't Be Field Is Empty !!",
+                    },
+                },
+            },
+        ]);
+        setFormValidationErrors(errorsObject);
+        if (Object.keys(errorsObject).length == 0) {
+            setIsLoginingStatus(true);
+            try {
+                const res = await Axios.get(`${process.env.BASE_API_URL}/users/login?email=${email}&password=${password}`);
+                const data = await res.data;
+                setTimeout(() => {
+                    setIsLoginingStatus(false);
+                    if (typeof data === "string") {
+                        setErrorMsg(data);
+                    } else {
+                        localStorage.setItem("tavlorify-store-user-id", data._id);
+                        router.push("/");
+                    }
+                }, 2000);
+            } catch (err) {
+                console.log(err);
+            }
         }
     }
 
@@ -40,13 +71,12 @@ const Login = () => {
             </Head>
             <Header />
             {/* Start Container */}
-            <div className="container pt-5 pb-5">
-                <h4 className="welcome-msg border-success border-2 border p-3 mb-3">Welcome To You In Login Page</h4>
+            <div className="container-fluid pt-5 pb-5">
+                <h4 className="welcome-msg border-dark border-2 border p-3 mb-3">Welcome To You In Login Page</h4>
                 <hr />
-                <h5 className="p-3 text-center border border-2 border-secondary mb-5">Login</h5>
+                <h5 className="p-3 text-center border border-2 border-dark mb-5">Login</h5>
                 <form
-                    className="login-form p-4"
-                    style={{ boxShadow: "1px 1px 10px green" }}
+                    className="login-form p-4 border border-2 border-dark"
                     onSubmit={loginNow}
                 >
                     {/* Start Input Field Box */}
@@ -61,12 +91,12 @@ const Login = () => {
                             {/* Start Column */}
                             <div className="col-md-10">
                                 <input
-                                    type="email"
+                                    type="text"
                                     placeholder="Please Enter Your Email Here ."
-                                    className="form-control border-success border-2"
+                                    className={`form-control border-2 ${formValidationErrors["email"] ? "border-danger" : "border-dark"}`}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    required
                                 />
+                                {formValidationErrors["email"] && <p className='error-msg text-danger'>{formValidationErrors["email"]}</p>}
                             </div>
                             {/* End Column */}
                         </div>
@@ -84,20 +114,26 @@ const Login = () => {
                             {/* End Column */}
                             {/* Start Column */}
                             <div className="col-md-10">
-                                <input
-                                    type="password"
-                                    placeholder="Please Enter Your Password Here ."
-                                    className="form-control border-success border-2"
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required
-                                />
+                                <div className='password-field-box'>
+                                    <input
+                                        type={isVisiblePassword ? "text" : "password"}
+                                        placeholder="Please Enter Your Password Here"
+                                        className={`form-control border-2 ${formValidationErrors["password"] ? "border-danger" : "border-dark"}`}
+                                        onChange={(e) => setPassword(e.target.value.trim())}
+                                    />
+                                    <div className='icon-box'>
+                                        {!isVisiblePassword && <AiOutlineEye className='eye-icon icon' onClick={() => setIsVisiblePassword(value => value = !value)} />}
+                                        {isVisiblePassword && <AiOutlineEyeInvisible className='invisible-eye-icon icon' onClick={() => setIsVisiblePassword(value => value = !value)} />}
+                                    </div>
+                                </div>
+                                {formValidationErrors["password"] && <p className='error-msg text-danger'>{formValidationErrors["password"]}</p>}
                             </div>
                             {/* End Column */}
                         </div>
                         {/* End Grid System */}
                     </div>
                     {/* End Input Field Box */}
-                    {!isLoginingStatus && <button className="btn btn-success mx-auto d-block mb-4">
+                    {!isLoginingStatus && <button className="btn btn-dark mx-auto d-block mb-4">
                         <span className="me-2">Login Now</span>
                         <FiLogIn />
                     </button>}

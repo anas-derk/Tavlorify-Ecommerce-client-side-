@@ -20,6 +20,8 @@ import "../pages/cart/index.css";
 import "../pages/products/index.css";
 import "../pages/orders/index.css";
 import "../pages/dashboard/admin/login/index.css";
+import "../pages/login/index.css";
+import "../pages/sign-up/index.css";
 
 export default function App({ Component, pageProps }) {
   return (

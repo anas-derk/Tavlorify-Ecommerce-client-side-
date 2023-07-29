@@ -1,0 +1,16 @@
+.sign-up{
+    .signup-form{
+        .password-field-box{
+            position: relative;
+            .icon-box{
+                position: absolute;
+                right: 10px;
+                top: 5px;
+                .icon{
+                    font-size: 30px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
