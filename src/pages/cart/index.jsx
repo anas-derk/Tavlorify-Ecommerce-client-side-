@@ -23,7 +23,7 @@ const Cart = () => {
     const [errors, setErrors] = useState({});
     const router = useRouter();
     useEffect(() => {
-        let canvasEcommerceProducts = JSON.parse(localStorage.getItem("canvas-ecommerce-user-cart"));
+        let canvasEcommerceProducts = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         if (canvasEcommerceProducts) {
             setCanvasEcommerceProductsList(canvasEcommerceProducts);
             let total = 0;
@@ -34,7 +34,7 @@ const Cart = () => {
         }
     }, []);
     const deleteProduct = (id) => {
-        let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("canvas-ecommerce-user-cart"));
+        let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         canvasEcommerceUserCart = canvasEcommerceUserCart.filter((product) => product._id != id);
         localStorage.setItem("canvas-ecommerce-user-cart", JSON.stringify(canvasEcommerceUserCart));
         setCanvasEcommerceProductsList(canvasEcommerceUserCart);
@@ -347,8 +347,8 @@ const Cart = () => {
             </div>}
             {/* End Popup Box */}
             {/* Start Container From Bootstrap */}
-            <div className="container pt-4 pb-4">
-                <h1 className="text-center mb-4">Hello To You In Cart Page</h1>
+            <div className="container-fluid pt-4 pb-4">
+                <h1 className="text-center mb-4 fw-bold">Hello To You In Cart Page</h1>
                 {canvasEcommerceProductsList.length > 0 ? <table className="products-table mb-4">
                     <thead>
                         <tr>

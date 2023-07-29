@@ -332,6 +332,55 @@ const TextToImage = ({ printsName }) => {
         setFrameColor(frameColor);
     }
 
+    const addToCart = async () => {
+        setIsWaitAddToCart(true);
+        const userId = localStorage.getItem("tavlorify-store-user-id");
+        if (!userId) {
+            try {
+                const result = await Axios.post(`${process.env.BASE_API_URL}/download-created-image`, {
+                    imageUrl: generatedImageURL,
+                    imageName: `${textPrompt}.png`,
+                });
+                const codeGenerator = new nodeCodeGenerator();
+                const productInfoToCart = {
+                    _id: codeGenerator.generateCodes("###**##########****###**")[0],
+                    name: textPrompt,
+                    type: paintingType,
+                    frameColor: frameColor,
+                    dimentions: dimentionsInCm,
+                    price: 100,
+                    imageSrc: result.data.imageUrl,
+                    count: quantity,
+                }
+                let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+                if (canvasEcommerceUserCart) {
+                    canvasEcommerceUserCart.push(productInfoToCart);
+                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
+                    setTimeout(() => {
+                        setIsWaitAddToCart(false);
+                        router.push("/cart");
+                    }, 1500);
+                } else {
+                    let canvasEcommerceUserCartList = [];
+                    canvasEcommerceUserCartList.push(productInfoToCart);
+                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCartList));
+                    setTimeout(() => {
+                        setIsWaitAddToCart(false);
+                        router.push("/cart");
+                    }, 1500);
+                }
+            }
+            catch (err) {
+                console.log(err);
+                setIsWaitAddToCart(false);
+                setErrorInAddToCart("Sorry, Something Went Wrong !!");
+                setTimeout(() => {
+                    setErrorInAddToCart("");
+                }, 2000);
+            }
+        }
+    }
+
     return (
         // Start Text To Image Service Page
         <div className="text-to-image-service">
@@ -366,7 +415,7 @@ const TextToImage = ({ printsName }) => {
                                     className="generated-image-box"
                                     style={{
                                         width: tempModelName !== "kandinsky-2" ? `${global_data.appearedImageSizes[tempImageType][tempDimentionsInCm].width}px` : `${global_data.kandinskyImageSizes[tempImageType][tempDimentionsInCm].width}px`,
-                                        height: tempModelName !== "kandinsky-2" ? `${global_data.appearedImageSizes[tempImageType][tempDimentionsInCm].height}px`: `${global_data.kandinskyImageSizes[tempImageType][tempDimentionsInCm].height}px`,
+                                        height: tempModelName !== "kandinsky-2" ? `${global_data.appearedImageSizes[tempImageType][tempDimentionsInCm].height}px` : `${global_data.kandinskyImageSizes[tempImageType][tempDimentionsInCm].height}px`,
                                         position: frameColor === "none" ? "static" : "absolute",
                                     }}
                                 >
@@ -583,6 +632,25 @@ const TextToImage = ({ printsName }) => {
                                         </li>
                                     </ul>}
                                     {/* End Frames List */}
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <input
+                                                type="number"
+                                                className="quantity form-control"
+                                                onChange={(e) => setQuantity(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="col-md-6">
+                                            {!isWaitAddToCart && !errorInAddToCart && <button
+                                                className="btn btn-dark w-100 p-2"
+                                                onClick={addToCart}
+                                            >
+                                                Add To Cart
+                                            </button>}
+                                            {isWaitAddToCart && <button className="btn btn-dark w-100 p-2" disabled >wating ...</button>}
+                                            {errorInAddToCart && <button className="btn btn-dark w-100 p-2" disabled >{ errorInAddToCart }</button>}
+                                        </div>
+                                    </div>
                                 </section>
                                 {/* End Displaying Art Painting Options Section */}
                             </section>
