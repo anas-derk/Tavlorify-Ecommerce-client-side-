@@ -23,6 +23,17 @@ const Profile = () => {
 
     const [userId, setUserId] = useState("");
 
+    useEffect(() => {
+        async function fetchData() {
+            const userId = localStorage.getItem("tavlorify-store-user-id");
+            const res = await Axios.get(`${process.env.BASE_API_URL}/users/user-info/${userId}`);
+            const data = await res.data;
+            setEmail(data.email);
+            setUserId(userId);
+        }
+        fetchData();
+    }, []);
+
     const updateUserInfo = async (e) => {
         e.preventDefault();
         setErrors({});
@@ -73,18 +84,6 @@ const Profile = () => {
             }
         }
     }
-
-    useEffect(() => {
-        async function fetchData() {
-            const userId = localStorage.getItem("tavlorify-store-user-id");
-            const res = await Axios.get(`${process.env.BASE_API_URL}/users/user-info/${userId}`);
-            const data = await res.data;
-            setEmail(data.email);
-            setPassword(data.password);
-            setUserId(userId);
-        }
-        fetchData();
-    }, []);
 
     return (
         <>
