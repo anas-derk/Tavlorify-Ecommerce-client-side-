@@ -27,7 +27,8 @@ const AdminPanel = () => {
                 <Link className="btn btn-success manager-link w-25 mx-auto mb-4 p-2" href="/dashboard/admin/admin-panel/products-manager">Products Manager</Link>
                 <Link className="btn btn-success manager-link w-25 mx-auto mb-4 p-2" href="/dashboard/admin/admin-panel">Orders Manager</Link>
                 <Link className="btn btn-success manager-link w-25 mx-auto mb-4 p-2" href="/dashboard/admin/admin-panel/text-to-image-manager">Text To Image Page Manager</Link>
-                <Link className="btn btn-success manager-link w-25 mx-auto p-2" href="/dashboard/admin/admin-panel/image-to-image-manager">Image To Image Page Manager</Link>
+                <Link className="btn btn-success manager-link w-25 mx-auto mb-4 p-2" href="/dashboard/admin/admin-panel/image-to-image-manager">Image To Image Page Manager</Link>
+                <Link className="btn btn-success manager-link w-25 mx-auto p-2" href="/dashboard/admin/admin-panel/users-manager">Users Manager</Link>
             </section>
             {/* End Content Section */}
         </div>
