@@ -55,9 +55,9 @@ const SignUp = () => {
                     isRequired: {
                         msg: "Sorry, Can't Be Field Is Empty !!",
                     },
-                    isPassword: {
+                    isValidPassword: {
                         value: password,
-                        msg: "عذراً ، يجب أن يكون عدد أحرف الكلمة 8 على الأقل ولا تحتوي محارف خاصة ، وتحتوي على أحرف",
+                        msg: "Sorry, The Password Must Contain At Least 8 Characters",
                     },
                 },
             },

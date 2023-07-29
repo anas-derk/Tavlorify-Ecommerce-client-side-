@@ -1,4 +1,5 @@
-const isEmail = (email) => {
+// تعريف دالة للتحقق من الإيميل هل صالح أم لا
+function isEmail (email) {
     return email.match(/[^\s@]+@[^\s@]+\.[^\s@]+/);
 }
 
@@ -8,11 +9,19 @@ function isImage(file) {
     return file.type === "image/png" || file.type === "image/jpeg";
 }
 
-const isValidPassword = (password) => {
-    
+// تعريف دالة للتحقق من كلمة السر هل صالحة أم لا
+function isValidPassword (password) {
+    return password.length >= 8;
 }
 
-const inputValuesValidation = (inputs) => {
+// تعريف دالة للتحقق من رقم الموبايل هو رقم صالح أم لا ( رقم سوري أم لا )
+function isValidMobilePhone(mobilePhone) {
+    const mobilePhoneRegex = /^(093|099|098|094|095|096)\d{7}$/;
+    return mobilePhoneRegex.test(mobilePhone);
+}
+
+// تعريف دالة للتحقق من قيم المدخلات
+function inputValuesValidation(inputs) {
     // تعريف المصفوفة التي ستخزن الأخطاء
     let errorsObject = {};
     // إنشاء حلقة للمرور على كل المدخلات المرسلة إلى التابع وعمل التحقق المطلوب بناء على القواعد المرسلة
@@ -38,8 +47,60 @@ const inputValuesValidation = (inputs) => {
             }
         }
         // التحقق من كون القاعدة داخل كائن القواعد موجودة 
+        if (typeof inputRules.isEmailOrMobilePhone !== "undefined") {
+            // التحقق من أنّ القاعدة محققة ، وفي حالة لم تكن محققة فإننا نضيف الخطأ إلى مصفوفة الأخطاء
+            if (!isEmail(input.value) && (isNaN(input.value) || !isValidMobilePhone(input.value))) {
+                errorsObject[input.name] = inputRules.isEmailOrMobilePhone.msg;
+                // في حالة وجود خطأ نقوم بتجاهل كل التعليمات اللاحقة داخل التكرار الحالي للحلقة والانتقال إلى التكرار التالي
+                continue;
+            }
+        }
+        // التحقق من كون القاعدة داخل كائن القواعد موجودة 
+        if (typeof inputRules.isValidPassword !== "undefined") {
+            // التحقق من أنّ القاعدة محققة ، وفي حالة لم تكن محققة فإننا نضيف الخطأ إلى مصفوفة الأخطاء
+            if (!isValidPassword(input.value) && input.value !== "") {
+                errorsObject[input.name] = inputRules.isValidPassword.msg;
+                // في حالة وجود خطأ نقوم بتجاهل كل التعليمات اللاحقة داخل التكرار الحالي للحلقة والانتقال إلى التكرار التالي
+                continue;
+            }
+        }
+        // التحقق من كون القاعدة داخل كائن القواعد موجودة 
+        if (typeof inputRules.isValidMobilePhone !== "undefined") {
+            // التحقق من أنّ القاعدة محققة ، وفي حالة لم تكن محققة فإننا نضيف الخطأ إلى مصفوفة الأخطاء
+            if (!isValidMobilePhone(input.value)) {
+                errorsObject[input.name] = inputRules.isValidMobilePhone.msg;
+                // في حالة وجود خطأ نقوم بتجاهل كل التعليمات اللاحقة داخل التكرار الحالي للحلقة والانتقال إلى التكرار التالي
+                continue;
+            }
+        }
+        // التحقق من كون القاعدة داخل كائن القواعد موجودة 
+        if (typeof inputRules.isImage !== "undefined") {
+            // التحقق من أنّ القاعدة محققة ، وفي حالة لم تكن محققة فإننا نضيف الخطأ إلى مصفوفة الأخطاء
+            if (!isImage(input.value)) {
+                errorsObject[input.name] = inputRules.isImage.msg;
+                // في حالة وجود خطأ نقوم بتجاهل كل التعليمات اللاحقة داخل التكرار الحالي للحلقة والانتقال إلى التكرار التالي
+                continue;
+            }
+        }
+        // التحقق من كون القاعدة داخل كائن القواعد موجودة 
+        if (typeof inputRules.isImages !== "undefined") {
+            // التحقق من أنّ القاعدة محققة ، وفي حالة لم تكن محققة فإننا نضيف الخطأ إلى مصفوفة الأخطاء
+            let isFoundFileNotImage = false;
+            for (let file of input.value) {
+                if (!isImage(file)) {
+                    isFoundFileNotImage = true;
+                    break;
+                }
+            }
+            if (isFoundFileNotImage) {
+                errorsObject[input.name] = inputRules.isImages.msg;
+                // في حالة وجود خطأ نقوم بتجاهل كل التعليمات اللاحقة داخل التكرار الحالي للحلقة والانتقال إلى التكرار التالي
+                continue;
+            }
+        }
+        // التحقق من كون القاعدة داخل كائن القواعد موجودة 
         if (typeof inputRules.minLength !== "undefined") {
-           // التحقق من أنّ القاعدة محققة ، وفي حالة لم تكن محققة فإننا نضيف الخطأ إلى مصفوفة الأخطاء
+            // التحقق من أنّ القاعدة محققة ، وفي حالة لم تكن محققة فإننا نضيف الخطأ إلى مصفوفة الأخطاء
             if (input.value.length < inputRules.minLength.value) {
                 errorsObject[input.name] = inputRules.minLength.msg;
                 // في حالة وجود خطأ نقوم بتجاهل كل التعليمات اللاحقة داخل التكرار الحالي للحلقة والانتقال إلى التكرار التالي
@@ -64,17 +125,9 @@ const inputValuesValidation = (inputs) => {
                 continue;
             }
         }
-        // التحقق من كون القاعدة داخل كائن القواعد موجودة 
-        if (typeof inputRules.isImage !== "undefined") {
-            // التحقق من أنّ القاعدة محققة ، وفي حالة لم تكن محققة فإننا نضيف الخطأ إلى مصفوفة الأخطاء
-            if (!isImage(input.value)) {
-                errorsObject[input.name] = inputRules.isImage.msg;
-                // في حالة وجود خطأ نقوم بتجاهل كل التعليمات اللاحقة داخل التكرار الحالي للحلقة والانتقال إلى التكرار التالي
-                continue;
-            }
-        }
     }
     return errorsObject;
 }
 
-export default { isEmail,  inputValuesValidation };
+// تصدير الدوال المطلوبة
+export default { isEmail, inputValuesValidation };

@@ -1,26 +1,17 @@
-.profile .profile-container {
-  position: relative;
-  left: 60px;
-  top: 0;
-  min-height: calc(100vh - 56px);
-  width: calc(100vw - 77px);
-}
-
-.profile .profile-container .welcome-msg {
+.profile .container-fluid .welcome-msg {
   background-color: #EEE;
-  box-shadow: 1px 1px 10px #198754;
 }
 
-.profile .profile-container .edit-profile-icon-box {
+.profile .container-fluid .edit-profile-icon-box {
   width: fit-content;
 }
 
-.profile .profile-container .edit-profile-icon-box .edit-profile-icon {
+.profile .container-fluid .edit-profile-icon-box .edit-profile-icon {
   font-size: 70px;
-  color: #198754;
+  color: #000;
 }
 
-.profile .profile-container .profile-info-box .signup-form {
+.profile .container-fluid .profile-info-box .signup-form {
   box-shadow: 1px 1px 10px green;
 }
 

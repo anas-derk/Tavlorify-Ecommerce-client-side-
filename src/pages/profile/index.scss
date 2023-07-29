@@ -1,19 +1,13 @@
 .profile {
-    .profile-container {
-        position: relative;
-        left: 60px;
-        top: 0;
-        min-height: calc(100vh - 56px);
-        width: calc(100vw - 77px);
+    .container-fluid {
         .welcome-msg{
             background-color: #EEE;
-            box-shadow: 1px 1px 10px #198754;
         }
         .edit-profile-icon-box{
             width: fit-content;
             .edit-profile-icon{
                 font-size: 70px;
-                color: #198754;
+                color: #000;
             }
         }
         .profile-info-box {
