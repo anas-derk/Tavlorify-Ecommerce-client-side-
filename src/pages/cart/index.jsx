@@ -5,7 +5,8 @@ import { useRouter } from "next/router";
 import global_functions from "../../../public/global_functions/validations";
 import Axios from "axios";
 import nodeCodeGenerator from "node-code-generator";
-import text_to_image_data from "../../../public/data/global";
+import global from "../../../public/data/global";
+import Link from "next/link";
 
 const Cart = () => {
     const [canvasEcommerceProductsList, setCanvasEcommerceProductsList] = useState([]);
@@ -22,6 +23,8 @@ const Cart = () => {
     const [isAppearedOrderFormPopup, setIsAppearedOrderFormPopup] = useState(false);
     const [errors, setErrors] = useState({});
     const router = useRouter();
+    const [userId, setUserId] = useState("");
+
     useEffect(() => {
         let canvasEcommerceProducts = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         if (canvasEcommerceProducts) {
@@ -31,6 +34,7 @@ const Cart = () => {
                 total += product.price * product.count;
             });
             setTotal(total);
+            setUserId(localStorage.getItem("tavlorify-store-user-id"));
         }
     }, []);
     const deleteProduct = (id) => {
@@ -56,61 +60,37 @@ const Cart = () => {
             imageType.toWebsite = "horizontal";
             imageType.toGelatoAPI = "hor";
         }
-        const requiredDimentionsObject = text_to_image_data.gelatoDimetions[orderedProductInfo.type][imageType.toWebsite].find(dimentions => dimentions.inCm === orderedProductInfo.dimentions);
+        const requiredDimentionsObject = global.gelatoDimetions[orderedProductInfo.type][imageType.toWebsite].find(dimentions => dimentions.inCm === orderedProductInfo.dimentions);
         let gelatoProductUid;
-        switch(orderedProductInfo.type) {
-            case "canvas-prints": {
+        switch (orderedProductInfo.type) {
+            case "canvas": {
                 gelatoProductUid = `canvas_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_canvas_wood-fsc-slim_4-0_${imageType.toGelatoAPI}`;
                 break;
             }
             case "poster": {
-                switch(requiredDimentionsObject.imMm) {
-                    case "130x180": {
-                        gelatoProductUid = `flat_${requiredDimentionsObject.imMm}-mm-5r_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
-                        break;
+                if (orderedProductInfo.frameColor === "none") {
+                    switch (requiredDimentionsObject.imMm) {
+                        case "210x297": {
+                            gelatoProductUid = `flat_a4-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
+                            break;
+                        }
+                        default: {
+                            gelatoProductUid = `flat_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
+                        }
                     }
-                    case "210x297": {
-                        gelatoProductUid = `flat_a4-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
-                        break;
-                    }
-                    default: {
-                        gelatoProductUid = `flat_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
-                    }
-                }
-                break;
-            }
-            case "wooden-framed-poster": {
-                switch(requiredDimentionsObject.imMm) {
-                    case "130x180": {
-                        gelatoProductUid = `framed_poster_mounted_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_${orderedProductInfo.frameColor}_wood_w12xt22-mm_plexiglass_${requiredDimentionsObject.imMm}-mm-5r_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
-                        break;
-                    }
-                    case "210x297": {
-                        gelatoProductUid = `framed_poster_mounted_210x297mm-8x12-inch_${orderedProductInfo.frameColor}_wood_w12xt22-mm_plexiglass_a4-8x12-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
-                        break;
-                    }
-                    default: {
-                        gelatoProductUid = `framed_poster_mounted_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_${orderedProductInfo.frameColor}_wood_w12xt22-mm_plexiglass_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
+                } else {
+                    switch (requiredDimentionsObject.imMm) {
+                        case "210x297": {
+                            gelatoProductUid = `framed_poster_mounted_210x297mm-8x12-inch_${orderedProductInfo.frameColor}_wood_w12xt22-mm_plexiglass_a4-8x12-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
+                            break;
+                        }
+                        default: {
+                            gelatoProductUid = `framed_poster_mounted_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_${orderedProductInfo.frameColor}_wood_w12xt22-mm_plexiglass_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
+                        }
                     }
                 }
                 break;
             }
-            // case "poster-with-hangers": {
-            //     switch(requiredDimentionsObject.imMm) {
-            //         case "130x180": {
-            //             gelatoProductUid = `wall_hanging_poster_229-mm_${orderedProductInfo.frameColor}_wood_w14xt20-mm_${requiredDimentionsObject.imMm}-mm-5r_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
-            //             break;
-            //         }
-            //         case "210x297": {
-            //             gelatoProductUid = `wall_hanging_poster_310-mm_${orderedProductInfo.frameColor}_wood_w14xt20-mm_a4-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
-            //             break;
-            //         }
-            //         default: {
-            //             gelatoProductUid = `flat_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
-            //         }
-            //     }
-            //     break;
-            // }
             default: {
                 console.log("Error In Input");
             }
@@ -192,34 +172,34 @@ const Cart = () => {
             const codeGenerator = new nodeCodeGenerator();
             try {
                 const res = await Axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-gelato`,
-                {
-                    orderType: "order",
-                    orderReferenceId: codeGenerator.generateCodes("###**#####**###****###**")[0],
-                    customerReferenceId: codeGenerator.generateCodes("###**##########****###**")[0],
-                    currency: "SEK",
-                    items: [
-                        {
-                            itemReferenceId: orderedProductInfo._id,
-                            productUid: gelatoProductUid,
-                            files: [
-                                {
-                                    type: "default",
-                                    url: `${process.env.BASE_API_URL}/${orderedProductInfo.imageSrc}`
-                                }
-                            ],
-                            quantity: parseInt(orderedProductInfo.count),
+                    {
+                        orderType: "order",
+                        orderReferenceId: codeGenerator.generateCodes("###**#####**###****###**")[0],
+                        customerReferenceId: codeGenerator.generateCodes("###**##########****###**")[0],
+                        currency: "SEK",
+                        items: [
+                            {
+                                itemReferenceId: orderedProductInfo._id,
+                                productUid: gelatoProductUid,
+                                files: [
+                                    {
+                                        type: "default",
+                                        url: `${process.env.BASE_API_URL}/${orderedProductInfo.imageSrc}`
+                                    }
+                                ],
+                                quantity: parseInt(orderedProductInfo.count),
+                            }
+                        ],
+                        shippingAddress: {
+                            firstName: firstName,
+                            lastName: lastName,
+                            addressLine1: addressLine1,
+                            city: city,
+                            postCode: postCode,
+                            country: "SE",
+                            email: email,
                         }
-                    ],
-                    shippingAddress: {
-                        firstName: firstName,
-                        lastName: lastName,
-                        addressLine1: addressLine1,
-                        city: city,
-                        postCode: postCode,
-                        country: "SE",
-                        email: email,
-                    }
-                });
+                    });
                 const result = await res.data;
                 setIsWaitOrdering(false);
             }
@@ -227,25 +207,25 @@ const Cart = () => {
                 console.log(err);
             }
         }
-        let canvasEcommerceUserOrders = JSON.parse(localStorage.getItem("canvas-ecommerce-user-orders"));
-        if (canvasEcommerceUserOrders) {
-            canvasEcommerceUserOrders.push(orderedProductInfo);
-            localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
-            setTimeout(() => {
-                setIsWaitOrdering(false);
-                deleteProduct(orderedProductInfo._id);
-                router.push("/orders");
-            }, 1500);
-        } else {
-            let canvasEcommerceUserOrders = [];
-            canvasEcommerceUserOrders.push(orderedProductInfo);
-            localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
-            setTimeout(() => {
-                setIsWaitOrdering(false);
-                deleteProduct(orderedProductInfo._id);
-                router.push("/orders");
-            }, 1500);
-        }
+        // let canvasEcommerceUserOrders = JSON.parse(localStorage.getItem("canvas-ecommerce-user-orders"));
+        // if (canvasEcommerceUserOrders) {
+        //     canvasEcommerceUserOrders.push(orderedProductInfo);
+        //     localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
+        //     setTimeout(() => {
+        //         setIsWaitOrdering(false);
+        //         deleteProduct(orderedProductInfo._id);
+        //         router.push("/orders");
+        //     }, 1500);
+        // } else {
+        //     let canvasEcommerceUserOrders = [];
+        //     canvasEcommerceUserOrders.push(orderedProductInfo);
+        //     localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
+        //     setTimeout(() => {
+        //         setIsWaitOrdering(false);
+        //         deleteProduct(orderedProductInfo._id);
+        //         router.push("/orders");
+        //     }, 1500);
+        // }
     }
     const deleteAllProductsFromCart = () => {
         localStorage.removeItem("tavlorify-store-user-cart");
@@ -277,7 +257,7 @@ const Cart = () => {
             {/* Start Popup Box */}
             {isAppearedOrderFormPopup && <div className="popup-box">
                 <div className="popup p-4">
-                    <form className="order-form">
+                    {userId ? <form className="order-form">
                         <h3 className="mb-3 text-center">Please Write Shipping Address Info</h3>
                         <input
                             type="text"
@@ -342,7 +322,12 @@ const Cart = () => {
                                 Close
                             </button>}
                         </div>
-                    </form>
+                    </form> : <div className="authentication-box h-100 d-flex align-items-center justify-content-center flex-column">
+                        <h3 className="mb-3 text-center bg-danger p-3 border border-2 mb-4">Sorry, You Can't Order This Product !!</h3>
+                        <h5 className="mb-3 text-center mb-4">Please Login, Or Sign Up</h5>
+                        <Link href="/login" className="login-link btn btn-success d-block mb-3 w-25">Login</Link>
+                        <Link href="/sign-up" className="login-link btn btn-success w-25">Signup</Link>
+                    </div>}
                 </div>
             </div>}
             {/* End Popup Box */}
