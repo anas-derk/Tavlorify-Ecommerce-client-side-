@@ -49,8 +49,8 @@ const Login = () => {
                 const res = await Axios.get(`${process.env.BASE_API_URL}/users/login?email=${email}&password=${password}`);
                 const data = await res.data;
                 setTimeout(() => {
-                    setIsLoginingStatus(false);
                     if (typeof data === "string") {
+                        setIsLoginingStatus(false);
                         setErrorMsg(data);
                     } else {
                         localStorage.setItem("tavlorify-store-user-id", data._id);
