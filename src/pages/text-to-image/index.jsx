@@ -5,8 +5,6 @@ import Axios from "axios";
 import global_data from "../../../public/data/global";
 import nodeCodeGenerator from "node-code-generator";
 import { useRouter } from "next/router";
-import previewImageForPoster from "../../../public/images/previewImageForPoster.png";
-import previewImageForCanvas from "../../../public/images/previewImageForCanvas.png";
 /* Start Import Frame Corner Images */
 import blackFrameCornerImage from "../../../public/images/frames/frameCorners/black.png";
 import whiteFrameCornerImage from "../../../public/images/frames/frameCorners/white.png";
@@ -214,11 +212,11 @@ const TextToImage = ({ printsName }) => {
                                 height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
                             });
                             if (printsName === "poster") {
-                                setGeneratedImageURL(previewImageForPoster.src);
-                                setPaintingURL(previewImageForPoster.src);
+                                setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPoster.png`);
+                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPoster.png`);
                             } else if (printsName === "canvas") {
-                                setGeneratedImageURL(previewImageForCanvas.src);
-                                setPaintingURL(previewImageForCanvas.src);
+                                setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForCanvas.png`);
+                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForCanvas.png`);
                             }
                         })
                         .catch((err) => console.log(err));
