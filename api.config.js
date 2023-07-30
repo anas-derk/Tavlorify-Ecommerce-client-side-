@@ -8,7 +8,7 @@ const BASE_API_URL = "https://api1.outcircle2023.com";
 
 const requestOrigin = "https://tavlorify.se";
 
-const requestReceiver = "//api1.outcircle2023.com/(.*)m";
+const requestReceiver = "//api1.outcircle2023.com/(.*)";
 
 // const BASE_API_URL = "http://localhost:5300";
 
