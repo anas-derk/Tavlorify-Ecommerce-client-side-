@@ -62,6 +62,9 @@ import darkWoodFrame_70_50_Image from "../../../public/images/frames/darkWood/H/
 import darkWoodFrame_100_70_Image from "../../../public/images/frames/darkWood/H/100_70.png";
 /* End Import Horizontal Frame Images */
 import validations from "../../../public/global_functions/validations";
+import { GrFormClose } from "react-icons/gr";
+import { BsCart2 } from "react-icons/bs";
+import Link from "next/link";
 
 const TextToImage = ({ printsName }) => {
 
@@ -189,6 +192,8 @@ const TextToImage = ({ printsName }) => {
     }
 
     const [formValidationErrors, setFormValidationErrors] = useState({});
+
+    const [isOpenCartPopupBox, setIsOpenCartPopupBox] = useState(false);
 
     useEffect(() => {
         Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
@@ -377,7 +382,7 @@ const TextToImage = ({ printsName }) => {
                     localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
                     setTimeout(() => {
                         setIsWaitAddToCart(false);
-                        router.push("/cart");
+                        openCartPopupBox();
                     }, 1500);
                 } else {
                     let canvasEcommerceUserCartList = [];
@@ -385,7 +390,7 @@ const TextToImage = ({ printsName }) => {
                     localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCartList));
                     setTimeout(() => {
                         setIsWaitAddToCart(false);
-                        router.push("/cart");
+                        openCartPopupBox();
                     }, 1500);
                 }
             }
@@ -400,6 +405,14 @@ const TextToImage = ({ printsName }) => {
         }
     }
 
+    const openCartPopupBox = () => {
+        setIsOpenCartPopupBox(true);
+    }
+
+    const closeCartPopupBox = () => {
+        setIsOpenCartPopupBox(false);
+    }
+
     return (
         // Start Text To Image Service Page
         <div className="text-to-image-service">
@@ -407,6 +420,41 @@ const TextToImage = ({ printsName }) => {
                 <title>Tavlorify Store - Text To Image</title>
             </Head>
             <Header />
+            {/* Start Overlay Box */}
+            {isOpenCartPopupBox && <div className="overlay">
+                <aside className="cart-popup-box p-3">
+                    <div className="row align-items-center border border-2 border-dark p-2 mb-4">
+                        <div className="col-md-4">
+                            <BsCart2 className="cart-icon" />
+                        </div>
+                        <div className="col-md-4 text-center fw-bold">
+                            Cart
+                        </div>
+                        <div className="col-md-4 text-end" onClick={closeCartPopupBox}>
+                            <GrFormClose className="close-overlay-icon" />
+                        </div>
+                    </div>
+                    <hr />
+                    <div className="options-box">
+                        <button
+                            className="btn btn-dark w-100 d-block text-center mb-4"
+                            onClick={closeCartPopupBox}
+                        >
+                            Return To Text To Image
+                        </button>
+                        <Link
+                            className="btn btn-success w-100 d-block text-center"
+                            href="/cart"
+                        >
+                            Open Cart Page
+                        </Link>
+                    </div>
+                </aside>
+            </div>}
+            {/* End Overlay Box */}
+            <div className="open-cart-popup-box" onClick={openCartPopupBox}>
+                <BsCart2 className="cart-icon" />
+            </div>
             {/* Start Page Content */}
             <div className="page-content">
                 {/* Start Container */}
