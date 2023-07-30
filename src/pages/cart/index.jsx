@@ -326,7 +326,13 @@ const Cart = () => {
                         <h3 className="mb-3 text-center bg-danger p-3 border border-2 mb-4">Sorry, You Can't Order This Product !!</h3>
                         <h5 className="mb-3 text-center mb-4">Please Login, Or Sign Up</h5>
                         <Link href="/login" className="login-link btn btn-success d-block mb-3 w-25">Login</Link>
-                        <Link href="/sign-up" className="login-link btn btn-success w-25">Signup</Link>
+                        <Link href="/sign-up" className="login-link btn btn-success d-block mb-3 w-25 ">Signup</Link>
+                        <button
+                            className="btn btn-danger w-25"
+                            onClick={closeOrderPopup}
+                        >
+                            Close
+                        </button>
                     </div>}
                 </div>
             </div>}
