@@ -1,19 +1,25 @@
 import Header from "@/components/Header";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const Orders = () => {
     const [canvasEcommerceUserOrdersList, setCanvasEcommerceUserOrdersList] = useState([]);
     const [total, setTotal] = useState(0);
+    const [userId, setUserId] = useState("");
     useEffect(() => {
-        let canvasEcommerceUserOrders = JSON.parse(localStorage.getItem("canvas-ecommerce-user-orders"));
-        if (canvasEcommerceUserOrders) {
-            setCanvasEcommerceUserOrdersList(canvasEcommerceUserOrders);
-            let total = 0;
-            canvasEcommerceUserOrders.forEach((product) => {
-                total += product.price * product.count;
-            });
-            setTotal(total);
+        const userId = localStorage.getItem("tavlorify-store-user-id");
+        if (userId) {
+            setUserId(userId);
+            // let canvasEcommerceUserOrders = JSON.parse(localStorage.getItem("tavlorify-user-orders"));
+            // if (canvasEcommerceUserOrders) {
+            //     setCanvasEcommerceUserOrdersList(canvasEcommerceUserOrders);
+            //     let total = 0;
+            //     canvasEcommerceUserOrders.forEach((product) => {
+            //         total += product.price * product.count;
+            //     });
+            //     setTotal(total);
+            // }
         }
     }, []);
     return (
@@ -24,9 +30,9 @@ const Orders = () => {
             </Head>
             <Header />
             {/* Start Container From Bootstrap */}
-            <div className="container pt-4 pb-4">
-                <h1 className="text-center mb-4">Hello To You In Orders Page</h1>
-                {canvasEcommerceUserOrdersList.length > 0 ? <table className="products-table mb-4">
+            <div className="container-fluid pt-4 pb-4">
+                <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hello To You In Orders Page</h1>
+                {userId ? (canvasEcommerceUserOrdersList.length > 0 ? <table className="products-table mb-4">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -70,11 +76,15 @@ const Orders = () => {
                         ))}
                         {canvasEcommerceUserOrdersList.length >= 2 && <tr>
                             <td colSpan={7}>
-                                total: { total }
+                                total: {total}
                             </td>
                         </tr>}
                     </tbody>
-                </table> : <p className="alert alert-danger">Sorry, Not Found Any Products Added To Your Cart !!</p>}
+                </table> : <p className="alert alert-danger">Sorry, Not Found Any Products Ordered !!</p>) : <div className="user-not-logged-box alert alert-danger">
+                    <h5 className="text-center mb-4 fw-bold">Sorry, You Don't Login Now Please Login Or Sign Up</h5>
+                    <Link href="/login" className="btn btn-dark w-25 d-block mx-auto mb-4">Login</Link>
+                    <Link href="/sign-up" className="btn btn-dark w-25 d-block mx-auto">Sign Up</Link>
+                </div>}
             </div>
             {/* End Container From Bootstrap */}
         </div >

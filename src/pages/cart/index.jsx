@@ -348,7 +348,7 @@ const Cart = () => {
             {/* End Popup Box */}
             {/* Start Container From Bootstrap */}
             <div className="container-fluid pt-4 pb-4">
-                <h1 className="text-center mb-4 fw-bold">Hello To You In Cart Page</h1>
+                <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hello To You In Cart Page</h1>
                 {canvasEcommerceProductsList.length > 0 ? <table className="products-table mb-4">
                     <thead>
                         <tr>

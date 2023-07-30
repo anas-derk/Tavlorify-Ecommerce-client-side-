@@ -335,49 +335,47 @@ const TextToImage = ({ printsName }) => {
     const addToCart = async () => {
         setIsWaitAddToCart(true);
         const userId = localStorage.getItem("tavlorify-store-user-id");
-        if (!userId) {
-            try {
-                const result = await Axios.post(`${process.env.BASE_API_URL}/download-created-image`, {
-                    imageUrl: generatedImageURL,
-                    imageName: `${textPrompt}.png`,
-                });
-                const codeGenerator = new nodeCodeGenerator();
-                const productInfoToCart = {
-                    _id: codeGenerator.generateCodes("###**##########****###**")[0],
-                    name: textPrompt,
-                    type: paintingType,
-                    frameColor: frameColor,
-                    dimentions: dimentionsInCm,
-                    price: 100,
-                    imageSrc: result.data.imageUrl,
-                    count: quantity,
-                }
-                let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-                if (canvasEcommerceUserCart) {
-                    canvasEcommerceUserCart.push(productInfoToCart);
-                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
-                    setTimeout(() => {
-                        setIsWaitAddToCart(false);
-                        router.push("/cart");
-                    }, 1500);
-                } else {
-                    let canvasEcommerceUserCartList = [];
-                    canvasEcommerceUserCartList.push(productInfoToCart);
-                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCartList));
-                    setTimeout(() => {
-                        setIsWaitAddToCart(false);
-                        router.push("/cart");
-                    }, 1500);
-                }
+        try {
+            const result = await Axios.post(`${process.env.BASE_API_URL}/download-created-image`, {
+                imageUrl: generatedImageURL,
+                imageName: `${textPrompt}.png`,
+            });
+            const codeGenerator = new nodeCodeGenerator();
+            const productInfoToCart = {
+                _id: codeGenerator.generateCodes("###**##########****###**")[0],
+                name: textPrompt,
+                type: paintingType,
+                frameColor: frameColor,
+                dimentions: dimentionsInCm,
+                price: 100,
+                imageSrc: result.data.imageUrl,
+                count: quantity,
             }
-            catch (err) {
-                console.log(err);
-                setIsWaitAddToCart(false);
-                setErrorInAddToCart("Sorry, Something Went Wrong !!");
+            let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+            if (canvasEcommerceUserCart) {
+                canvasEcommerceUserCart.push(productInfoToCart);
+                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
                 setTimeout(() => {
-                    setErrorInAddToCart("");
-                }, 2000);
+                    setIsWaitAddToCart(false);
+                    router.push("/cart");
+                }, 1500);
+            } else {
+                let canvasEcommerceUserCartList = [];
+                canvasEcommerceUserCartList.push(productInfoToCart);
+                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCartList));
+                setTimeout(() => {
+                    setIsWaitAddToCart(false);
+                    router.push("/cart");
+                }, 1500);
             }
+        }
+        catch (err) {
+            console.log(err);
+            setIsWaitAddToCart(false);
+            setErrorInAddToCart("Sorry, Something Went Wrong !!");
+            setTimeout(() => {
+                setErrorInAddToCart("");
+            }, 2000);
         }
     }
 
@@ -648,7 +646,7 @@ const TextToImage = ({ printsName }) => {
                                                 Add To Cart
                                             </button>}
                                             {isWaitAddToCart && <button className="btn btn-dark w-100 p-2" disabled >wating ...</button>}
-                                            {errorInAddToCart && <button className="btn btn-dark w-100 p-2" disabled >{ errorInAddToCart }</button>}
+                                            {errorInAddToCart && <button className="btn btn-dark w-100 p-2" disabled >{errorInAddToCart}</button>}
                                         </div>
                                     </div>
                                 </section>
