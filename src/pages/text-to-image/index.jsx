@@ -63,6 +63,7 @@ import darkWoodFrame_40_30_Image from "../../../public/images/frames/darkWood/H/
 import darkWoodFrame_70_50_Image from "../../../public/images/frames/darkWood/H/70_50.png";
 import darkWoodFrame_100_70_Image from "../../../public/images/frames/darkWood/H/100_70.png";
 /* End Import Horizontal Frame Images */
+import validations from "../../../public/global_functions/validations";
 
 const TextToImage = ({ printsName }) => {
 
@@ -102,7 +103,7 @@ const TextToImage = ({ printsName }) => {
 
     const [errorInAddToCart, setErrorInAddToCart] = useState("");
 
-    const [quantity, setQuantity] = useState(0);
+    const [quantity, setQuantity] = useState(1);
 
     const router = useRouter();
 
@@ -188,6 +189,8 @@ const TextToImage = ({ printsName }) => {
             },
         }
     }
+
+    const [formValidationErrors, setFormValidationErrors] = useState({});
 
     useEffect(() => {
         Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
@@ -333,49 +336,69 @@ const TextToImage = ({ printsName }) => {
     }
 
     const addToCart = async () => {
-        setIsWaitAddToCart(true);
-        const userId = localStorage.getItem("tavlorify-store-user-id");
-        try {
-            const result = await Axios.post(`${process.env.BASE_API_URL}/download-created-image`, {
-                imageUrl: generatedImageURL,
-                imageName: `${textPrompt}.png`,
-            });
-            const codeGenerator = new nodeCodeGenerator();
-            const productInfoToCart = {
-                _id: codeGenerator.generateCodes("###**##########****###**")[0],
-                name: textPrompt,
-                type: paintingType,
-                frameColor: frameColor,
-                dimentions: dimentionsInCm,
-                price: 100,
-                imageSrc: result.data.imageUrl,
-                count: quantity,
+        setFormValidationErrors({});
+        let errorsObject = validations.inputValuesValidation([
+            {
+                name: "quantity",
+                value: quantity,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't Be Field Is Empty !!",
+                    },
+                    minNumber: {
+                        value: 1,
+                        msg: "Sorry, Can't Be Quantity Less Than One !!",
+                    }
+                },
+            },
+        ]);
+        setFormValidationErrors(errorsObject);
+        console.log(errorsObject)
+        if (Object.keys(errorsObject).length == 0) {
+            setIsWaitAddToCart(true);
+            const userId = localStorage.getItem("tavlorify-store-user-id");
+            try {
+                const result = await Axios.post(`${process.env.BASE_API_URL}/download-created-image`, {
+                    imageUrl: generatedImageURL,
+                    imageName: `${textPrompt}.png`,
+                });
+                const codeGenerator = new nodeCodeGenerator();
+                const productInfoToCart = {
+                    _id: codeGenerator.generateCodes("###**##########****###**")[0],
+                    name: textPrompt,
+                    type: paintingType,
+                    frameColor: frameColor,
+                    dimentions: dimentionsInCm,
+                    price: 100,
+                    imageSrc: result.data.imageUrl,
+                    count: quantity,
+                }
+                let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+                if (canvasEcommerceUserCart) {
+                    canvasEcommerceUserCart.push(productInfoToCart);
+                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
+                    setTimeout(() => {
+                        setIsWaitAddToCart(false);
+                        router.push("/cart");
+                    }, 1500);
+                } else {
+                    let canvasEcommerceUserCartList = [];
+                    canvasEcommerceUserCartList.push(productInfoToCart);
+                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCartList));
+                    setTimeout(() => {
+                        setIsWaitAddToCart(false);
+                        router.push("/cart");
+                    }, 1500);
+                }
             }
-            let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-            if (canvasEcommerceUserCart) {
-                canvasEcommerceUserCart.push(productInfoToCart);
-                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
+            catch (err) {
+                console.log(err);
+                setIsWaitAddToCart(false);
+                setErrorInAddToCart("Sorry, Something Went Wrong !!");
                 setTimeout(() => {
-                    setIsWaitAddToCart(false);
-                    router.push("/cart");
-                }, 1500);
-            } else {
-                let canvasEcommerceUserCartList = [];
-                canvasEcommerceUserCartList.push(productInfoToCart);
-                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCartList));
-                setTimeout(() => {
-                    setIsWaitAddToCart(false);
-                    router.push("/cart");
-                }, 1500);
+                    setErrorInAddToCart("");
+                }, 2000);
             }
-        }
-        catch (err) {
-            console.log(err);
-            setIsWaitAddToCart(false);
-            setErrorInAddToCart("Sorry, Something Went Wrong !!");
-            setTimeout(() => {
-                setErrorInAddToCart("");
-            }, 2000);
         }
     }
 
@@ -634,9 +657,12 @@ const TextToImage = ({ printsName }) => {
                                         <div className="col-md-6">
                                             <input
                                                 type="number"
-                                                className="quantity form-control"
+                                                placeholder="Quantity"
+                                                className={`quantity form-control border-2 ${formValidationErrors["quantity"] ? "border-danger" : "border-dark"}`}
                                                 onChange={(e) => setQuantity(e.target.value)}
+                                                defaultValue={quantity}
                                             />
+                                            {formValidationErrors["quantity"] && <p className='error-msg text-danger'>{formValidationErrors["quantity"]}</p>}
                                         </div>
                                         <div className="col-md-6">
                                             {!isWaitAddToCart && !errorInAddToCart && <button

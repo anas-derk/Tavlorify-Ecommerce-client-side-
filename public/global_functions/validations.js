@@ -125,6 +125,15 @@ function inputValuesValidation(inputs) {
                 continue;
             }
         }
+        // التحقق من كون القاعدة داخل كائن القواعد موجودة 
+        if (typeof inputRules.minNumber !== "undefined") {
+            // التحقق من أنّ القاعدة محققة ، وفي حالة لم تكن محققة فإننا نضيف الخطأ إلى مصفوفة الأخطاء
+            if (Number(input.value) < inputRules.minNumber.value) {
+                errorsObject[input.name] = inputRules.minNumber.msg;
+                // في حالة وجود خطأ نقوم بتجاهل كل التعليمات اللاحقة داخل التكرار الحالي للحلقة والانتقال إلى التكرار التالي
+                continue;
+            }
+        }
     }
     return errorsObject;
 }

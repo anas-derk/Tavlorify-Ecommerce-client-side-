@@ -36,7 +36,7 @@ const Cart = () => {
     const deleteProduct = (id) => {
         let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         canvasEcommerceUserCart = canvasEcommerceUserCart.filter((product) => product._id != id);
-        localStorage.setItem("canvas-ecommerce-user-cart", JSON.stringify(canvasEcommerceUserCart));
+        localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
         setCanvasEcommerceProductsList(canvasEcommerceUserCart);
     }
     const orderProduct = async (e) => {
@@ -248,7 +248,7 @@ const Cart = () => {
         }
     }
     const deleteAllProductsFromCart = () => {
-        localStorage.removeItem("canvas-ecommerce-user-cart");
+        localStorage.removeItem("tavlorify-store-user-cart");
         setCanvasEcommerceProductsList([]);
     }
     const orderAllProductsFromCart = () => {
