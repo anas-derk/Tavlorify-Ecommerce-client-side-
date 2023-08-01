@@ -82,7 +82,7 @@ const Products = () => {
             </Head>
             <Header />
             {/* Start Container */}
-            <div className="container">
+            <div className="container-fluid">
                 {/* Start Grid System */}
                 <div className="row pt-3 pb-3">
                     {/* Start Column */}
@@ -100,7 +100,20 @@ const Products = () => {
                                     name="product-types"
                                     onChange={handleInputsCheckedChange}
                                 />
-                                <label htmlFor="canvas-input">Canvas Prints</label>
+                                <label htmlFor="canvas-input">Subject</label>
+                            </div>
+                            {/* End Input Box */}
+                            {/* Start Input Box */}
+                            <div className="input-box mb-3">
+                                <input
+                                    type="checkbox"
+                                    id="framed-input"
+                                    className="me-2"
+                                    value="framed-prints"
+                                    name="product-types"
+                                    onChange={handleInputsCheckedChange}
+                                />
+                                <label htmlFor="framed-input">Style</label>
                             </div>
                             {/* End Input Box */}
                             {/* Start Input Box */}
@@ -113,7 +126,7 @@ const Products = () => {
                                     name="product-types"
                                     onChange={handleInputsCheckedChange}
                                 />
-                                <label htmlFor="framed-input">Framed Prints</label>
+                                <label htmlFor="framed-input">Room</label>
                             </div>
                             {/* End Input Box */}
                         </form>

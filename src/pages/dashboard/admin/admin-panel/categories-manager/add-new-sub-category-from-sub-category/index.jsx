@@ -9,13 +9,17 @@ const AddNewSubCategoryFromSubCategory = () => {
 
     const [categoriesList, setCategoriesList] = useState([]);
 
-    const [categoryName, setCategoryName] = useState("");
+    const [categoriesListByCategoryType, setCategoriesListByCategoryType] = useState([]);
 
-    const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(-1);
+    const [categoryType, setCategoryType] = useState("");
+
+    const [categoryName, setCategoryName] = useState("");
 
     const [subCategoryName, setSubCategoryName] = useState("");
 
     const [subCategoryFromSubCategoryName, setSubCategoryFromSubCategoryName] = useState("");
+
+    const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(-1);
 
     const [isAddingStatus, setIsAddingStatus] = useState(false);
 
@@ -44,16 +48,31 @@ const AddNewSubCategoryFromSubCategory = () => {
         }
     }, []);
 
+    const handleSelectCategoryType = (categoryType) => {
+        setCategoryType(categoryType);
+        const categoriesListByCategoryType = categoriesList.filter((category) => category.categoryType === categoryType);
+        setCategoriesListByCategoryType(categoriesListByCategoryType);
+    }
+
     const handleSelectCategoryName = (categoryNameAndIndex) => {
         const categoryAsArray = categoryNameAndIndex.split("-");
         setCategoryName(categoryAsArray[0]);
-        setSelectedCategoryIndex(categoryAsArray[1]);
+        setSelectedCategoryIndex(Number(categoryAsArray[1]));
     }
 
     const addNewSubCategoryFromSubCategory = async (e) => {
         e.preventDefault();
         setFormValidationErrors({});
         let errorsObject = validations.inputValuesValidation([
+            {
+                name: "categoryType",
+                value: categoryType,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't Be Field Is Empty !!",
+                    },
+                },
+            },
             {
                 name: "categoryName",
                 value: categoryName,
@@ -86,7 +105,7 @@ const AddNewSubCategoryFromSubCategory = () => {
         if (Object.keys(errorsObject).length == 0) {
             setIsAddingStatus(true);
             try {
-                const res = await Axios.post(`${process.env.BASE_API_URL}/categories/add-new-sub-category-from-sub-category/${categoryName}/${subCategoryName}`, {
+                const res = await Axios.post(`${process.env.BASE_API_URL}/categories/add-new-sub-category-from-sub-category/${categoryType}/${categoryName}/${subCategoryName}`, {
                     subCategoryFromSubCategoryName: subCategoryFromSubCategoryName,
                 });
                 const result = await res.data;
@@ -128,23 +147,36 @@ const AddNewSubCategoryFromSubCategory = () => {
                     <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Hello To You In Add New Sub Category From Sub Category Page</h1>
                     {(categoriesList.length > 0) ? <form className="add-new-category-form w-50 mx-auto mb-3" onSubmit={addNewSubCategoryFromSubCategory}>
                         <select
-                            className={`form-control p-2 ${formValidationErrors["categoryName"] ? "border border-danger mb-2" : "mb-4"}`}
-                            onChange={(e) => handleSelectCategoryName(e.target.value)}
+                            className={`form-control p-2 ${formValidationErrors["categoryType"] ? "border border-danger mb-2" : "mb-4"}`}
+                            onChange={(e) => handleSelectCategoryType(e.target.value)}
                         >
-                            <option hidden value="">Please Select Category Name</option>
-                            {categoriesList.map((category, index) => (
-                                <option value={`${category.name}-${index}`} key={category._id}>{category.name}</option>
-                            ))}
+                            <option hidden value="">Please Select Category Type</option>
+                            <option value="subjects">Subjects</option>
+                            <option value="styles">Styles</option>
+                            <option value="rooms">Rooms</option>
+                            <option value="colors">Colors</option>
                         </select>
-                        {formValidationErrors["categoryName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryName"]}</p>}
-                        {selectedCategoryIndex !== -1 && <>
+                        {formValidationErrors["categoryType"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryType"]}</p>}
+                        {categoriesListByCategoryType.length > 0 && <>
+                            <select
+                                className={`form-control p-2 ${formValidationErrors["categoryName"] ? "border border-danger mb-2" : "mb-4"}`}
+                                onChange={(e) => handleSelectCategoryName(e.target.value)}
+                            >
+                                <option hidden value="">Please Select Category Name</option>
+                                {categoriesListByCategoryType.map((category, index) => (
+                                    <option value={`${category.name}-${index}`} key={category._id}>{category.name}</option>
+                                ))}
+                            </select>
+                            {formValidationErrors["categoryName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryName"]}</p>}
+                        </>}
+                        {selectedCategoryIndex > -1 && <>
                             <select
                                 className={`form-control p-2 ${formValidationErrors["subCategoryName"] ? "border border-danger mb-2" : "mb-4"}`}
                                 onChange={(e) => setSubCategoryName(e.target.value)}
                             >
                                 <option hidden value="">Please Select Sub Category Name</option>
-                                {categoriesList[selectedCategoryIndex].subCategories.map((subCategory, index) => (
-                                    <option value={subCategory.subCategoryName} key={index}>{subCategory.subCategoryName}</option>
+                                {categoriesListByCategoryType[selectedCategoryIndex].subCategories.map((subCategory) => (
+                                    <option value={subCategory.name} key={subCategory._id}>{subCategory.subCategoryName}</option>
                                 ))}
                             </select>
                             {formValidationErrors["subCategoryName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["subCategoryName"]}</p>}

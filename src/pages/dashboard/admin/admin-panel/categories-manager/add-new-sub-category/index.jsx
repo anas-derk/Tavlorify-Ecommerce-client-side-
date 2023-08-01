@@ -9,6 +9,10 @@ const AddNewSubCategory = () => {
 
     const [categoriesList, setCategoriesList] = useState([]);
 
+    const [categoriesListByCategoryType, setCategoriesListByCategoryType] = useState([]);
+
+    const [categoryType, setCategoryType] = useState("");
+
     const [categoryName, setCategoryName] = useState("");
 
     const [subCategoryName, setSubCategoryName] = useState("");
@@ -23,20 +27,25 @@ const AddNewSubCategory = () => {
 
     const router = useRouter();
 
+    const handleSelectCategoryType = (categoryType) => {
+        setCategoryType(categoryType);
+        const categoriesListByCategoryType = categoriesList.filter((category) => category.categoryType === categoryType);
+        setCategoriesListByCategoryType(categoriesListByCategoryType);
+    } 
+
     useEffect(() => {
         const adminId = localStorage.getItem("tavlorify-store-admin-id");
         if (!adminId) {
             router.push("/dashboard/admin/login");
         } else {
             Axios.get(`${process.env.BASE_API_URL}/categories/all-categories`)
-            .then((res) => {
-                console.log(res.data);
-                setCategoriesList(res.data);
-            })
-            .catch((err) => {
-                console.log(err);
-                setErrorMsg("Sorry, Something Went Wrong");
-            });
+                .then((res) => {
+                    setCategoriesList(res.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setErrorMsg("Sorry, Something Went Wrong");
+                });
         }
     }, []);
 
@@ -44,6 +53,15 @@ const AddNewSubCategory = () => {
         e.preventDefault();
         setFormValidationErrors({});
         let errorsObject = validations.inputValuesValidation([
+            {
+                name: "categoryType",
+                value: categoryType,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't Be Field Is Empty !!",
+                    },
+                },
+            },
             {
                 name: "categoryName",
                 value: categoryName,
@@ -67,7 +85,7 @@ const AddNewSubCategory = () => {
         if (Object.keys(errorsObject).length == 0) {
             setIsAddingStatus(true);
             try {
-                const res = await Axios.post(`${process.env.BASE_API_URL}/categories/add-new-sub-category/${categoryName}`, {
+                const res = await Axios.post(`${process.env.BASE_API_URL}/categories/add-new-sub-category/${categoryType}/${categoryName}`, {
                     subCategoryName: subCategoryName,
                 });
                 const result = await res.data;
@@ -109,14 +127,25 @@ const AddNewSubCategory = () => {
                     <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Hello To You In Add New Sub Category Page</h1>
                     {(categoriesList.length > 0) ? <form className="add-new-category-form w-50 mx-auto mb-3" onSubmit={addNewSubCategory}>
                         <select
+                            className={`form-control p-2 ${formValidationErrors["categoryType"] ? "border border-danger mb-2" : "mb-4"}`}
+                            onChange={(e) => handleSelectCategoryType(e.target.value)}
+                        >
+                            <option hidden value="">Please Select Category Type</option>
+                            <option value="subjects">Subjects</option>
+                            <option value="styles">Styles</option>
+                            <option value="rooms">Rooms</option>
+                            <option value="colors">Colors</option>
+                        </select>
+                        {formValidationErrors["categoryType"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryType"]}</p>}
+                        {categoriesListByCategoryType.length > 0 && <select
                             className={`form-control p-2 ${formValidationErrors["categoryName"] ? "border border-danger mb-2" : "mb-4"}`}
                             onChange={(e) => setCategoryName(e.target.value)}
                         >
                             <option hidden value="">Please Select Category Name</option>
-                            {categoriesList.map((category) => (
+                            {categoriesListByCategoryType.map((category) => (
                                 <option value={category.name} key={category._id}>{category.name}</option>
                             ))}
-                        </select>
+                        </select>}
                         {formValidationErrors["categoryName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryName"]}</p>}
                         <input
                             type="text"

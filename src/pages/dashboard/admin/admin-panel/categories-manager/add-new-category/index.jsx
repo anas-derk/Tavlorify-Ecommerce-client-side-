@@ -5,7 +5,9 @@ import Axios from "axios";
 import validations from "../../../../../../../public/global_functions/validations";
 import { useRouter } from "next/router";
 
-const AddNewCategory = () => {
+const AddCategory = () => {
+
+    const [categoryType, setCategoryType] = useState("");
 
     const [categoryName, setCategoryName] = useState("");
 
@@ -26,10 +28,19 @@ const AddNewCategory = () => {
         }
     }, []);
 
-    const addNewCategory = async (e) => {
+    const AddNewCategory = async (e) => {
         e.preventDefault();
         setFormValidationErrors({});
         let errorsObject = validations.inputValuesValidation([
+            {
+                name: "categoryType",
+                value: categoryType,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't Be Field Is Empty !!",
+                    },
+                },
+            },
             {
                 name: "categoryName",
                 value: categoryName,
@@ -44,7 +55,7 @@ const AddNewCategory = () => {
         if (Object.keys(errorsObject).length == 0) {
             setIsAddingStatus(true);
             try {
-                const res = await Axios.post(`${process.env.BASE_API_URL}/categories/add-new-category`, {
+                const res = await Axios.post(`${process.env.BASE_API_URL}/categories/add-new-category/${categoryType}`, {
                     categoryName: categoryName,
                 });
                 const result = await res.data;
@@ -76,7 +87,7 @@ const AddNewCategory = () => {
     }
 
     return (
-        <div className="add-new-categoty">
+        <div className="add-new-category">
             <Head>
                 <title>Tavlorify Store - Add New Category</title>
             </Head>
@@ -84,7 +95,18 @@ const AddNewCategory = () => {
             <div className="content text-center pt-4 pb-4">
                 <div className="container-fluid">
                     <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Hello To You In Add New Category Page</h1>
-                    <form className="add-new-category-form w-50 mx-auto" onSubmit={addNewCategory}>
+                    <form className="add-new-category-form w-50 mx-auto mb-3" onSubmit={AddNewCategory}>
+                        <select
+                            className={`form-control p-2 ${formValidationErrors["categoryType"] ? "border border-danger mb-2" : "mb-4"}`}
+                            onChange={(e) => setCategoryType(e.target.value)}
+                        >
+                            <option hidden value="">Please Select Category Type</option>
+                            <option value="subjects">Subjects</option>
+                            <option value="styles">Styles</option>
+                            <option value="rooms">Rooms</option>
+                            <option value="colors">Colors</option>
+                        </select>
+                        {formValidationErrors["categoryType"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryType"]}</p>}
                         <input
                             type="text"
                             className={`form-control p-2 ${formValidationErrors["categoryName"] ? "border border-danger mb-2" : "mb-4"}`}
@@ -103,4 +125,4 @@ const AddNewCategory = () => {
     );
 }
 
-export default AddNewCategory;
+export default AddCategory;
