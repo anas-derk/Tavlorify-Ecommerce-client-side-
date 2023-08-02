@@ -75,21 +75,30 @@ const AddProduct = () => {
                 const productCategoriesTemp = productCategories;
                 productCategories["subject"].mainSubject = subjects[categoryAsArray[1]].name;
                 setProductCategories(productCategoriesTemp);
-                setSelectedSubjectIndex(Number(categoryAsArray[1]));
+                setSelectedSubjectIndex(-1);
+                setTimeout(() => {
+                    setSelectedSubjectIndex(Number(categoryAsArray[1]));
+                }, 500);
                 break;
             }
             case "style": {
                 const productCategoriesTemp = productCategories;
                 productCategories["style"].mainStyle = styles[categoryAsArray[1]].name;
                 setProductCategories(productCategoriesTemp);
-                setSelectedStyleIndex(Number(categoryAsArray[1]));
+                setSelectedStyleIndex(-1);
+                setTimeout(() => {
+                    setSelectedStyleIndex(Number(categoryAsArray[1]));
+                }, 500);
                 break;
             }
             case "room": {
                 const productCategoriesTemp = productCategories;
                 productCategories["room"].mainRoom = styles[categoryAsArray[1]].name;
                 setProductCategories(productCategoriesTemp);
-                setSelectedRoomIndex(Number(categoryAsArray[1]));
+                setSelectedRoomIndex(-1);
+                setTimeout(() => {
+                    setSelectedRoomIndex(Number(categoryAsArray[1]));
+                }, 500);
                 break;
             }
             default: {
@@ -105,36 +114,48 @@ const AddProduct = () => {
                 const productCategoriesTemp = productCategories;
                 if (subCategoryAsArray[1] !== "-1") {
                     productCategories["subject"].subSubject = subjects[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
+                    setSelectedSubSubjectIndex(-1);
+                    setTimeout(() => {
+                        setSelectedSubSubjectIndex(Number(subCategoryAsArray[1]));
+                    }, 200);
                 } else {
                     productCategories["subject"].subSubject = "";
                     productCategories["subject"].subFromSubSubject = "";
+                    setSelectedSubSubjectIndex(Number(subCategoryAsArray[1]));
                 }
                 setProductCategories(productCategoriesTemp);
-                setSelectedSubSubjectIndex(Number(subCategoryAsArray[1]));
                 break;
             }
             case "style": {
                 const productCategoriesTemp = productCategories;
                 if (subCategoryAsArray[1] !== "-1") {
                     productCategories["style"].subStyle = styles[selectedStyleIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
+                    setSelectedSubStyleIndex(-1);
+                    setTimeout(() => {
+                        setSelectedSubStyleIndex(Number(subCategoryAsArray[1]));
+                    }, 200);
                 } else {
                     productCategories["style"].subStyle = "";
                     productCategories["style"].subFromSubStyle = "";
+                    setSelectedSubStyleIndex(Number(subCategoryAsArray[1]));
                 }
                 setProductCategories(productCategoriesTemp);
-                setSelectedSubStyleIndex(Number(subCategoryAsArray[1]));
                 break;
             }
             case "room": {
                 const productCategoriesTemp = productCategories;
                 if (subCategoryAsArray[1] !== "-1") {
                     productCategories["room"].subRoom = rooms[selectedRoomIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
+                    setSelectedSubRoomIndex(-1);
+                    setTimeout(() => {
+                        setSelectedSubRoomIndex(Number(subCategoryAsArray[1]));
+                    }, 200);
                 } else {
                     productCategories["room"].subRoom = "";
                     productCategories["room"].subFromSubRoom = "";
+                    setSelectedSubRoomIndex(Number(subCategoryAsArray[1]));
                 }
                 setProductCategories(productCategoriesTemp);
-                setSelectedSubRoomIndex(Number(subCategoryAsArray[1]));
                 break;
             }
             default: {
