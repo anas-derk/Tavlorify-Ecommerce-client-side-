@@ -1,31 +1,132 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
-import text_to_image_data from "../../../../../../../public/data/global";
 import Axios from "axios";
 import validations from "../../../../../../../public/global_functions/validations";
 
 const AddProduct = () => {
-
     const router = useRouter();
+    const [productCategories, setProductCategories] = useState({
+        "subject": {
+            mainSubject: "",
+            subSubject: "",
+            subFromSubSubject: "",
+        },
+        "style": {
+            mainStyle: "",
+            subStyle: "",
+            subFromSubStyle: "",
+        },
+        "room": {
+            mainRoom: "",
+            subRoom: "",
+            subFromSubRoom: "",
+        },
+    });
+    const [subjects, setSubjects] = useState([]);
+    const [styles, setStyles] = useState([]);
+    const [rooms, setRooms] = useState([]);
+    const [colors, setColors] = useState([]);
     const [file, setFile] = useState("");
-    const [productName, setProductName] = useState("");
-    const [productType, setProductType] = useState("");
-    const [productDimetionsType, setProductDimetionsType] = useState("");
-    const [productDimetions, setProductDimetions] = useState("");
-    const [productPrice, setProductPrice] = useState("0.0");
+    const [name, setProductName] = useState("");
+    const [orientation, setOrientation] = useState("");
+    const [price, setPrice] = useState("0.0");
     const [waitMsg, setWaitMsg] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
     const [formValidationErrors, setFormValidationErrors] = useState({});
+    const categoryTypesWithoutColorCategoryType = ["Subject", "Style", "Room"];
+    const [selectedSubjectIndex, setSelectedSubjectIndex] = useState(-1);
+    const [selectedStyleIndex, setSelectedStyleIndex] = useState(-1);
+    const [selectedRoomIndex, setSelectedRoomIndex] = useState(-1);
+    const [selectedSubSubjectIndex, setSelectedSubSubjectIndex] = useState(-1);
+    const [selectedSubStyleIndex, setSelectedSubStyleIndex] = useState(-1);
+    const [selectedSubRoomIndex, setSelectedSubRoomIndex] = useState(-1);
 
     useEffect(() => {
         const adminId = localStorage.getItem("tavlorify-store-admin-id");
         if (!adminId) {
             router.push("/dashboard/admin/login");
+        } else {
+            Axios.get(`${process.env.BASE_API_URL}/categories/all-categories`)
+                .then((res) => {
+                    const categories = res.data;
+                    const subjects = categories.filter((category) => category.categoryType === "subjects");
+                    const styles = categories.filter((category) => category.categoryType === "styles");
+                    const rooms = categories.filter((category) => category.categoryType === "rooms");
+                    const colors = categories.filter((category) => category.categoryType === "colors");
+                    setSubjects(subjects);
+                    setStyles(styles);
+                    setRooms(rooms);
+                    setColors(colors);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setErrorMsg("Sorry, Something Went Wrong");
+                });
         }
     }, []);
+
+    const handleSelectCategoryTypeAndName = (categoryTypeAndIndex) => {
+        const categoryAsArray = categoryTypeAndIndex.split("-");
+        switch (categoryAsArray[0]) {
+            case "subject": {
+                const productCategoriesTemp = productCategories;
+                productCategories["subject"].mainSubject = subjects[categoryAsArray[1]].name;
+                setProductCategories(productCategoriesTemp);
+                setSelectedSubjectIndex(categoryAsArray[1]);
+                break;
+            }
+            case "style": {
+                const productCategoriesTemp = productCategories;
+                productCategories["style"].mainStyle = styles[categoryAsArray[1]].name;
+                setProductCategories(productCategoriesTemp);
+                setSelectedStyleIndex(categoryAsArray[1]);
+                break;
+            }
+            case "room": {
+                const productCategoriesTemp = productCategories;
+                productCategories["room"].mainRoom = styles[categoryAsArray[1]].name;
+                setProductCategories(productCategoriesTemp);
+                setSelectedRoomIndex(categoryAsArray[1]);
+                break;
+            }
+            default: {
+                console.log("Error !!");
+            }
+        }
+    }
+
+    const handleSelectSubCategoryTypeAndName = (subCategoryTypeAndIndex) => {
+        const subCategoryAsArray = subCategoryTypeAndIndex.split("-");
+        switch (subCategoryAsArray[0]) {
+            case "subject": {
+                const productCategoriesTemp = productCategories;
+                productCategories["subject"].subSubject = subjects[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
+                setProductCategories(productCategoriesTemp);
+                setSelectedSubSubjectIndex(subCategoryAsArray[1]);
+                break;
+            }
+            case "style": {
+                const productCategoriesTemp = productCategories;
+                productCategories["style"].subSubject = styles[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
+                setProductCategories(productCategoriesTemp);
+                setSelectedSubStyleIndex(subCategoryAsArray[1]);
+                break;
+            }
+            case "room": {
+                const productCategoriesTemp = productCategories;
+                productCategories["room"].subSubject = rooms[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
+                setProductCategories(productCategoriesTemp);
+                setSelectedSubRoomIndex(subCategoryAsArray[1]);
+                break;
+            }
+            default: {
+                console.log("Error !!");
+            }
+        }
+    }
 
     const addProduct = async (e) => {
         e.preventDefault();
@@ -44,8 +145,8 @@ const AddProduct = () => {
                 },
             },
             {
-                name: "productName",
-                value: productName,
+                name: "name",
+                value: name,
                 rules: {
                     isRequired: {
                         msg: "Sorry, Can't Be Field Is Empty !!",
@@ -53,8 +154,8 @@ const AddProduct = () => {
                 },
             },
             {
-                name: "productType",
-                value: productType,
+                name: "orientation",
+                value: orientation,
                 rules: {
                     isRequired: {
                         msg: "Sorry, Can't Be Field Is Empty !!",
@@ -62,26 +163,8 @@ const AddProduct = () => {
                 },
             },
             {
-                name: "productDimetionsType",
-                value: productDimetionsType,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't Be Field Is Empty !!",
-                    },
-                },
-            },
-            {
-                name: "productDimetions",
-                value: productDimetions,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't Be Field Is Empty !!",
-                    },
-                },
-            },
-            {
-                name: "productPrice",
-                value: productPrice,
+                name: "price",
+                value: price,
                 rules: {
                     isRequired: {
                         msg: "Sorry, Can't Be Field Is Empty !!",
@@ -93,10 +176,9 @@ const AddProduct = () => {
         if (Object.keys(errorsObject).length == 0) {
             let productData = new FormData();
             productData.append("imageSrc", file);
-            productData.append("name", productName);
-            productData.append("type", productType);
-            productData.append("dimentions", productDimetions);
-            productData.append("price", );
+            productData.append("name", name);
+            productData.append("orientation", orientation);
+            productData.append("price", price);
             setWaitMsg("please wait ...");
             try {
                 let res = await Axios.post(`${process.env.BASE_API_URL}/products/add-new-product`, productData, {
@@ -137,7 +219,7 @@ const AddProduct = () => {
             <section className="content text-center pt-4 pb-4">
                 <div className="container-fluid">
                     <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Hello To You In Add Product Page</h1>
-                    <form className="add-product-form w-50 mx-auto" onSubmit={addProduct}>
+                    <form className="add-product-form w-75 mx-auto" onSubmit={addProduct}>
                         <div
                             className={`file-box p-3 bg-white form-control ${formValidationErrors["file"] ? "border border-danger mb-2" : "mb-2"}`}
                         >
@@ -152,53 +234,84 @@ const AddProduct = () => {
                         <input
                             type="text"
                             placeholder="product name"
-                            className={`form-control p-2 ${formValidationErrors["productName"] ? "border border-danger mb-2" : "mb-4"}`}
+                            className={`form-control p-2 ${formValidationErrors["name"] ? "border border-danger mb-2" : "mb-4"}`}
                             onChange={(e) => setProductName(e.target.value.trim())}
                         />
-                        {formValidationErrors["productName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["productName"]}</p>}
-                        <h6 className="fw-bold">Please Select Product Type</h6>
+                        {formValidationErrors["name"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["name"]}</p>}
+                        <h6 className="fw-bold">Please Select Product Orientation</h6>
                         <select
-                            className={`form-control p-2 ${formValidationErrors["productType"] ? "border border-danger mb-2" : "mb-4"}`}
-                            onChange={(e) => setProductType(e.target.value)}
+                            className={`form-control p-2 ${formValidationErrors["orientation"] ? "border border-danger mb-2" : "mb-4"}`}
+                            onChange={(e) => setOrientation(e.target.value)}
                         >
-                            <option value="" hidden>Product Type</option>
-                            <option value="canvas-prints">Canvas Prints</option>
-                            <option value="framed-prints">Framed Prints</option>
-                        </select>
-                        {formValidationErrors["productType"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["productType"]}</p>}
-                        <h6 className="fw-bold">Please Select Product Type Dimentions</h6>
-                        <select
-                            className={`form-control p-2 ${formValidationErrors["productDimetionsType"] ? "border border-danger mb-2" : "mb-4"}`}
-                            onChange={(e) => setProductDimetionsType(e.target.value)}
-                        >
-                            <option value="" hidden>Select Product Type Dimentions</option>
+                            <option value="" hidden>Select Product Orientation</option>
                             <option value="horizontal">Horizontal</option>
                             <option value="vertical">Vertical</option>
                             <option value="square">Square</option>
                         </select>
-                        {formValidationErrors["productDimetionsType"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["productDimetionsType"]}</p>}
-                        {productDimetionsType && <>
-                            <h6 className="fw-bold">Please Select Product Dimentions</h6>
-                            <select
-                                className={`form-control p-2 ${formValidationErrors["productDimetions"] ? "border border-danger mb-2" : "mb-4"}`}
-                                onChange={(e) => setProductDimetions(e.target.value)}
-                            >
-                                <option value="" hidden>Select Product Dimentions</option>
-                                {text_to_image_data.allDimetions[productDimetionsType].map((dimentions, index) => (
-                                    <option value={dimentions} key={index}>{dimentions}</option>
-                                ))}
-                            </select>
-                            {formValidationErrors["productDimetions"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["productDimetions"]}</p>}
-                        </>}
+                        {formValidationErrors["orientation"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["orientation"]}</p>}
+                        {categoryTypesWithoutColorCategoryType.map((categoryType, index) => (
+                            <Fragment key={index}>
+                                <h6 className="fw-bold">Please Select Product Category By {categoryType}</h6>
+                                <div className="row">
+                                    <div className="col-md-4">
+                                        <select
+                                            className={`form-control p-2 ${formValidationErrors["orientation"] ? "border border-danger mb-2" : "mb-4"}`}
+                                            onChange={(e) => handleSelectCategoryTypeAndName(e.target.value)}
+                                        >
+                                            <option value="" hidden>Select Main {categoryType}</option>
+                                            {categoryType === "Subject" && subjects.map((subject, subjectIndex) => (
+                                                <option value={`subject-${subjectIndex}`} key={subjectIndex}>{subject.name}</option>
+                                            ))}
+                                            {categoryType === "Style" && styles.map((style, styleIndex) => (
+                                                <option value={`style-${styleIndex}`} key={styleIndex}>{style.name}</option>
+                                            ))}
+                                            {categoryType === "Room" && rooms.map((room, roomIndex) => (
+                                                <option value={`room-${roomIndex}`} key={roomIndex}>{room.name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <select
+                                            className={`form-control p-2 ${formValidationErrors["orientation"] ? "border border-danger mb-2" : "mb-4"}`}
+                                            onChange={(e) => handleSelectSubCategoryTypeAndName(e.target.value)}
+                                        >
+                                            <option value="" hidden>Select Sub {categoryType}</option>
+                                            {categoryType === "Subject" && selectedSubjectIndex > -1 && subjects[selectedSubjectIndex].subCategories.map((subSubject, subSubjectIndex) => (
+                                                <option value={`subject-${subSubjectIndex}`} key={subSubjectIndex}>{subSubject.subCategoryName}</option>
+                                            ))}
+                                            {categoryType === "Style" && selectedStyleIndex > -1 && styles[selectedStyleIndex].subCategories.map((subSubject, subSubjectIndex) => (
+                                                <option value={`style-${subSubjectIndex}`} key={subSubjectIndex}>{subSubject.subCategoryName}</option>
+                                            ))}
+                                            {categoryType === "Room" && selectedRoomIndex > -1 && rooms[selectedRoomIndex].subCategories.map((subSubject, subSubjectIndex) => (
+                                                <option value={`room-${subSubjectIndex}`} key={subSubjectIndex}>{subSubject.subCategoryName}</option>
+                                            ))}
+                                            <option value="none">None</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <select
+                                            className={`form-control p-2 ${formValidationErrors["orientation"] ? "border border-danger mb-2" : "mb-4"}`}
+                                            onChange={(e) => setOrientation(e.target.value)}
+                                        >
+                                            <option value="" hidden>Select Sub From Sub {categoryType}</option>
+                                            {categoryType === "Subject" && selectedSubjectIndex > -1 && selectedSubSubjectIndex > -1 && subjects[selectedSubjectIndex].subCategories[selectedSubSubjectIndex].subCategories.map((subSubject, subSubjectIndex) => (
+                                                <option value={`subject-${subSubjectIndex}`} key={subSubjectIndex}>{subSubject.subCategoryName}</option>
+                                            ))}
+                                            <option value="none">None</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </Fragment>
+                        ))}
                         <h6 className="fw-bold">Please Enter Product Price</h6>
                         <input
                             type="number"
                             placeholder="product price"
-                            className={`form-control p-2 ${formValidationErrors["productPrice"] ? "border border-danger mb-2" : "mb-4"}`}
+                            className={`form-control p-2 ${formValidationErrors["price"] ? "border border-danger mb-2" : "mb-4"}`}
                             onChange={(e) => setProductPrice(e.target.value)}
-                            defaultValue={productPrice}
+                            defaultValue={price}
                         />
-                        {formValidationErrors["productPrice"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["productPrice"]}</p>}
+                        {formValidationErrors["price"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["price"]}</p>}
                         {!waitMsg && !errorMsg && !successMsg && <button type="submit" className="btn btn-success w-100 p-2">Add Product</button>}
                         {waitMsg && <button className="btn btn-warning w-100" disabled>Wait</button>}
                         {errorMsg && <p className="alert alert-danger mt-4">{waitMsg}</p>}

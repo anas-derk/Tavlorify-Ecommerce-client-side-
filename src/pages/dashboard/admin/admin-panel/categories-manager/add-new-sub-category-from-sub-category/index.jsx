@@ -154,7 +154,6 @@ const AddNewSubCategoryFromSubCategory = () => {
                             <option value="subjects">Subjects</option>
                             <option value="styles">Styles</option>
                             <option value="rooms">Rooms</option>
-                            <option value="colors">Colors</option>
                         </select>
                         {formValidationErrors["categoryType"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryType"]}</p>}
                         {categoriesListByCategoryType.length > 0 && <>
