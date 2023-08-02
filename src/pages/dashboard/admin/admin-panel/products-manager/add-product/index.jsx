@@ -75,21 +75,21 @@ const AddProduct = () => {
                 const productCategoriesTemp = productCategories;
                 productCategories["subject"].mainSubject = subjects[categoryAsArray[1]].name;
                 setProductCategories(productCategoriesTemp);
-                setSelectedSubjectIndex(categoryAsArray[1]);
+                setSelectedSubjectIndex(Number(categoryAsArray[1]));
                 break;
             }
             case "style": {
                 const productCategoriesTemp = productCategories;
                 productCategories["style"].mainStyle = styles[categoryAsArray[1]].name;
                 setProductCategories(productCategoriesTemp);
-                setSelectedStyleIndex(categoryAsArray[1]);
+                setSelectedStyleIndex(Number(categoryAsArray[1]));
                 break;
             }
             case "room": {
                 const productCategoriesTemp = productCategories;
                 productCategories["room"].mainRoom = styles[categoryAsArray[1]].name;
                 setProductCategories(productCategoriesTemp);
-                setSelectedRoomIndex(categoryAsArray[1]);
+                setSelectedRoomIndex(Number(categoryAsArray[1]));
                 break;
             }
             default: {
@@ -104,37 +104,37 @@ const AddProduct = () => {
             case "subject": {
                 const productCategoriesTemp = productCategories;
                 if (subCategoryAsArray[1] !== "-1") {
-                    productCategories["subject"].subSubject = subjects[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;productCategories["subject"].subSubject = subjects[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
+                    productCategories["subject"].subSubject = subjects[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
                 } else {
                     productCategories["subject"].subSubject = "";
                     productCategories["subject"].subFromSubSubject = "";
                 }
                 setProductCategories(productCategoriesTemp);
-                setSelectedSubSubjectIndex(subCategoryAsArray[1]);
+                setSelectedSubSubjectIndex(Number(subCategoryAsArray[1]));
                 break;
             }
             case "style": {
                 const productCategoriesTemp = productCategories;
                 if (subCategoryAsArray[1] !== "-1") {
-                    productCategories["style"].subStyle = styles[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
+                    productCategories["style"].subStyle = styles[selectedStyleIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
                 } else {
                     productCategories["style"].subStyle = "";
                     productCategories["style"].subFromSubStyle = "";
                 }
                 setProductCategories(productCategoriesTemp);
-                setSelectedSubStyleIndex(subCategoryAsArray[1]);
+                setSelectedSubStyleIndex(Number(subCategoryAsArray[1]));
                 break;
             }
             case "room": {
                 const productCategoriesTemp = productCategories;
                 if (subCategoryAsArray[1] !== "-1") {
-                    productCategories["room"].subRoom = rooms[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
+                    productCategories["room"].subRoom = rooms[selectedRoomIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
                 } else {
                     productCategories["room"].subRoom = "";
                     productCategories["room"].subFromSubRoom = "";
                 }
                 setProductCategories(productCategoriesTemp);
-                setSelectedSubRoomIndex(subCategoryAsArray[1]);
+                setSelectedSubRoomIndex(Number(subCategoryAsArray[1]));
                 break;
             }
             default: {
@@ -339,7 +339,13 @@ const AddProduct = () => {
                                             {categoryType === "Room" && selectedRoomIndex > -1 && rooms[selectedRoomIndex].subCategories.map((subSubject, subSubjectIndex) => (
                                                 <option value={`room_${subSubjectIndex}`} key={subSubjectIndex}>{subSubject.subCategoryName}</option>
                                             ))}
-                                            <option value={`${categoryType.toLowerCase()}_-1`}>None</option>
+                                            <option value={`${categoryType.toLowerCase()}_-1`}
+                                                selected={
+                                                    (categoryType === "Subject" && selectedSubjectIndex === -1)
+                                                    || (categoryType === "Style" && selectedStyleIndex === -1)
+                                                    || (categoryType === "Room" && selectedRoomIndex === -1)
+                                                }
+                                            >None</option>
                                         </select>
                                     </div>
                                     <div className="col-md-4">
@@ -351,7 +357,19 @@ const AddProduct = () => {
                                             {categoryType === "Subject" && selectedSubjectIndex > -1 && selectedSubSubjectIndex > -1 && subjects[selectedSubjectIndex].subCategories[selectedSubSubjectIndex].subCategories.map((subFromSubSubject, subFromSubjectIndex) => (
                                                 <option value={`subject_${subFromSubSubject.subCategoryName}`} key={subFromSubjectIndex}>{subFromSubSubject.subCategoryName}</option>
                                             ))}
-                                            <option value={`${categoryType.toLowerCase()}_none`}>None</option>
+                                            {categoryType === "Style" && selectedStyleIndex > -1 && selectedSubStyleIndex > -1 && styles[selectedStyleIndex].subCategories[selectedSubStyleIndex].subCategories.map((subFromSubSubject, subFromSubjectIndex) => (
+                                                <option value={`style_${subFromSubSubject.subCategoryName}`} key={subFromSubjectIndex}>{subFromSubSubject.subCategoryName}</option>
+                                            ))}
+                                            {categoryType === "Room" && selectedRoomIndex > -1 && selectedSubRoomIndex > -1 && rooms[selectedRoomIndex].subCategories[selectedSubRoomIndex].subCategories.map((subFromSubSubject, subFromSubjectIndex) => (
+                                                <option value={`room_${subFromSubSubject.subCategoryName}`} key={subFromSubjectIndex}>{subFromSubSubject.subCategoryName}</option>
+                                            ))}
+                                            <option value={`${categoryType.toLowerCase()}_none`}
+                                                selected={
+                                                    (categoryType === "Subject" && selectedSubSubjectIndex === -1)
+                                                    || (categoryType === "Style" && selectedSubStyleIndex === -1)
+                                                    || (categoryType === "Room" && selectedSubRoomIndex === -1)
+                                                }
+                                            >None</option>
                                         </select>
                                     </div>
                                 </div>
