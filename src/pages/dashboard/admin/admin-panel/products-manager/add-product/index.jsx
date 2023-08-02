@@ -36,13 +36,13 @@ const AddProduct = () => {
     const [successMsg, setSuccessMsg] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
     const [formValidationErrors, setFormValidationErrors] = useState({});
-    const categoryTypesWithoutColorCategoryType = ["Subject", "Style", "Room"];
     const [selectedSubjectIndex, setSelectedSubjectIndex] = useState(-1);
     const [selectedStyleIndex, setSelectedStyleIndex] = useState(-1);
     const [selectedRoomIndex, setSelectedRoomIndex] = useState(-1);
     const [selectedSubSubjectIndex, setSelectedSubSubjectIndex] = useState(-1);
     const [selectedSubStyleIndex, setSelectedSubStyleIndex] = useState(-1);
     const [selectedSubRoomIndex, setSelectedSubRoomIndex] = useState(-1);
+    const categoryTypesWithoutColorCategoryType = ["Subject", "Style", "Room"];
 
     useEffect(() => {
         const adminId = localStorage.getItem("tavlorify-store-admin-id");
@@ -69,7 +69,7 @@ const AddProduct = () => {
     }, []);
 
     const handleSelectCategoryTypeAndName = (categoryTypeAndIndex) => {
-        const categoryAsArray = categoryTypeAndIndex.split("-");
+        const categoryAsArray = categoryTypeAndIndex.split("_");
         switch (categoryAsArray[0]) {
             case "subject": {
                 const productCategoriesTemp = productCategories;
@@ -99,27 +99,81 @@ const AddProduct = () => {
     }
 
     const handleSelectSubCategoryTypeAndName = (subCategoryTypeAndIndex) => {
-        const subCategoryAsArray = subCategoryTypeAndIndex.split("-");
+        const subCategoryAsArray = subCategoryTypeAndIndex.split("_");
         switch (subCategoryAsArray[0]) {
             case "subject": {
                 const productCategoriesTemp = productCategories;
-                productCategories["subject"].subSubject = subjects[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
+                if (subCategoryAsArray[1] !== "-1") {
+                    productCategories["subject"].subSubject = subjects[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;productCategories["subject"].subSubject = subjects[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
+                } else {
+                    productCategories["subject"].subSubject = "";
+                    productCategories["subject"].subFromSubSubject = "";
+                }
                 setProductCategories(productCategoriesTemp);
                 setSelectedSubSubjectIndex(subCategoryAsArray[1]);
                 break;
             }
             case "style": {
                 const productCategoriesTemp = productCategories;
-                productCategories["style"].subSubject = styles[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
+                if (subCategoryAsArray[1] !== "-1") {
+                    productCategories["style"].subStyle = styles[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
+                } else {
+                    productCategories["style"].subStyle = "";
+                    productCategories["style"].subFromSubStyle = "";
+                }
                 setProductCategories(productCategoriesTemp);
                 setSelectedSubStyleIndex(subCategoryAsArray[1]);
                 break;
             }
             case "room": {
                 const productCategoriesTemp = productCategories;
-                productCategories["room"].subSubject = rooms[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
+                if (subCategoryAsArray[1] !== "-1") {
+                    productCategories["room"].subRoom = rooms[selectedSubjectIndex].subCategories[subCategoryAsArray[1]].subCategoryName;
+                } else {
+                    productCategories["room"].subRoom = "";
+                    productCategories["room"].subFromSubRoom = "";
+                }
                 setProductCategories(productCategoriesTemp);
                 setSelectedSubRoomIndex(subCategoryAsArray[1]);
+                break;
+            }
+            default: {
+                console.log("Error !!");
+            }
+        }
+    }
+
+    const handleSelectSubCategoryFromSubCategory = (categoryTypeAndSubFromSubCategoryName) => {
+        const subCategoryFromSubCategoryAsArray = categoryTypeAndSubFromSubCategoryName.split("_");
+        switch (subCategoryFromSubCategoryAsArray[0]) {
+            case "subject": {
+                const productCategoriesTemp = productCategories;
+                if (subCategoryFromSubCategoryAsArray[1] !== "none") {
+                    productCategories["subject"].subFromSubSubject = subCategoryFromSubCategoryAsArray[1];
+                } else {
+                    productCategories["subject"].subFromSubSubject = "";
+                }
+                setProductCategories(productCategoriesTemp);
+                break;
+            }
+            case "style": {
+                const productCategoriesTemp = productCategories;
+                if (subCategoryFromSubCategoryAsArray[1] !== "none") {
+                    productCategories["style"].subFromSubStyle = subCategoryFromSubCategoryAsArray[1];
+                } else {
+                    productCategories["style"].subFromSubStyle = "";
+                }
+                setProductCategories(productCategoriesTemp);
+                break;
+            }
+            case "room": {
+                const productCategoriesTemp = productCategories;
+                if (subCategoryFromSubCategoryAsArray[1] !== "none") {
+                    productCategories["room"].subFromSubRoom = subCategoryFromSubCategoryAsArray[1];
+                } else {
+                    productCategories["room"].subFromSubRoom = "";
+                }
+                setProductCategories(productCategoriesTemp);
                 break;
             }
             default: {
@@ -260,13 +314,13 @@ const AddProduct = () => {
                                         >
                                             <option value="" hidden>Select Main {categoryType}</option>
                                             {categoryType === "Subject" && subjects.map((subject, subjectIndex) => (
-                                                <option value={`subject-${subjectIndex}`} key={subjectIndex}>{subject.name}</option>
+                                                <option value={`subject_${subjectIndex}`} key={subjectIndex}>{subject.name}</option>
                                             ))}
                                             {categoryType === "Style" && styles.map((style, styleIndex) => (
-                                                <option value={`style-${styleIndex}`} key={styleIndex}>{style.name}</option>
+                                                <option value={`style_${styleIndex}`} key={styleIndex}>{style.name}</option>
                                             ))}
                                             {categoryType === "Room" && rooms.map((room, roomIndex) => (
-                                                <option value={`room-${roomIndex}`} key={roomIndex}>{room.name}</option>
+                                                <option value={`room_${roomIndex}`} key={roomIndex}>{room.name}</option>
                                             ))}
                                         </select>
                                     </div>
@@ -277,27 +331,27 @@ const AddProduct = () => {
                                         >
                                             <option value="" hidden>Select Sub {categoryType}</option>
                                             {categoryType === "Subject" && selectedSubjectIndex > -1 && subjects[selectedSubjectIndex].subCategories.map((subSubject, subSubjectIndex) => (
-                                                <option value={`subject-${subSubjectIndex}`} key={subSubjectIndex}>{subSubject.subCategoryName}</option>
+                                                <option value={`subject_${subSubjectIndex}`} key={subSubjectIndex}>{subSubject.subCategoryName}</option>
                                             ))}
                                             {categoryType === "Style" && selectedStyleIndex > -1 && styles[selectedStyleIndex].subCategories.map((subSubject, subSubjectIndex) => (
-                                                <option value={`style-${subSubjectIndex}`} key={subSubjectIndex}>{subSubject.subCategoryName}</option>
+                                                <option value={`style_${subSubjectIndex}`} key={subSubjectIndex}>{subSubject.subCategoryName}</option>
                                             ))}
                                             {categoryType === "Room" && selectedRoomIndex > -1 && rooms[selectedRoomIndex].subCategories.map((subSubject, subSubjectIndex) => (
-                                                <option value={`room-${subSubjectIndex}`} key={subSubjectIndex}>{subSubject.subCategoryName}</option>
+                                                <option value={`room_${subSubjectIndex}`} key={subSubjectIndex}>{subSubject.subCategoryName}</option>
                                             ))}
-                                            <option value="none">None</option>
+                                            <option value={`${categoryType.toLowerCase()}_-1`}>None</option>
                                         </select>
                                     </div>
                                     <div className="col-md-4">
                                         <select
                                             className={`form-control p-2 ${formValidationErrors["orientation"] ? "border border-danger mb-2" : "mb-4"}`}
-                                            onChange={(e) => setOrientation(e.target.value)}
+                                            onChange={(e) => handleSelectSubCategoryFromSubCategory(e.target.value)}
                                         >
                                             <option value="" hidden>Select Sub From Sub {categoryType}</option>
-                                            {categoryType === "Subject" && selectedSubjectIndex > -1 && selectedSubSubjectIndex > -1 && subjects[selectedSubjectIndex].subCategories[selectedSubSubjectIndex].subCategories.map((subSubject, subSubjectIndex) => (
-                                                <option value={`subject-${subSubjectIndex}`} key={subSubjectIndex}>{subSubject.subCategoryName}</option>
+                                            {categoryType === "Subject" && selectedSubjectIndex > -1 && selectedSubSubjectIndex > -1 && subjects[selectedSubjectIndex].subCategories[selectedSubSubjectIndex].subCategories.map((subFromSubSubject, subFromSubjectIndex) => (
+                                                <option value={`subject_${subFromSubSubject.subCategoryName}`} key={subFromSubjectIndex}>{subFromSubSubject.subCategoryName}</option>
                                             ))}
-                                            <option value="none">None</option>
+                                            <option value={`${categoryType.toLowerCase()}_none`}>None</option>
                                         </select>
                                     </div>
                                 </div>
@@ -308,7 +362,7 @@ const AddProduct = () => {
                             type="number"
                             placeholder="product price"
                             className={`form-control p-2 ${formValidationErrors["price"] ? "border border-danger mb-2" : "mb-4"}`}
-                            onChange={(e) => setProductPrice(e.target.value)}
+                            onChange={(e) => setPrice(e.target.value)}
                             defaultValue={price}
                         />
                         {formValidationErrors["price"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["price"]}</p>}
