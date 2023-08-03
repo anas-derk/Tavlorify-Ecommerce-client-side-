@@ -268,7 +268,22 @@ const AddProduct = () => {
             productData.append("imageSrc", file);
             productData.append("name", name);
             productData.append("orientation", orientation);
-            productData.append("productCategories", productCategories);
+            productData.append("subjects", [
+                productCategories["subject"].mainSubject,
+                productCategories["subject"].subSubject,
+                productCategories["subject"].subFromSubSubject,
+            ]);
+            productData.append("styles", [
+                productCategories["style"].mainStyle,
+                productCategories["style"].subStyle,
+                productCategories["style"].subFromSubStyle,
+            ]);
+            productData.append("rooms", [
+                productCategories["room"].mainRoom,
+                productCategories["room"].subRoom,
+                productCategories["room"].subFromSubRoom,
+            ]);
+            productData.append("colors", productCategories["colors"]);
             productData.append("price", price);
             setWaitMsg("please wait ...");
             try {
