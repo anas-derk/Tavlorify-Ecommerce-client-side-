@@ -5,8 +5,13 @@ import { IoIosClose } from "react-icons/io";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Axios from "axios";
+import { MdOutlinePlayArrow } from "react-icons/md"
 
 const Products = () => {
+    const [subjects, setSubjects] = useState([]);
+    const [styles, setStyles] = useState([]);
+    const [rooms, setRooms] = useState([]);
+    const [colors, setColors] = useState([]);
     const [productsData, setProductsData] = useState([]);
     const [allProducts, setAllProducts] = useState([]);
     const [errorMsg, setErrorMsg] = useState("");
@@ -15,9 +20,6 @@ const Products = () => {
     const [isWaitStatus, setIsWaitStatus] = useState(false);
     const getProductsByProductName = (productName) => {
         return productsData.filter(product => product.name === productName);
-    }
-    const getProductsByType = async (type) => {
-        
     }
     const handleInputsCheckedChange = (e) => {
         const { value, checked } = e.target;
@@ -57,23 +59,38 @@ const Products = () => {
     }
     useEffect(() => {
         setIsWaitStatus(true);
-        Axios.get(`${process.env.BASE_API_URL}/products/all-products`)
-            .then((res) => {
-                let result = res.data;
-                setIsWaitStatus(false);
-                if (typeof result === "string") {
-                    setErrorMsg(result);
-                } else {
-                    if (result.length > 0) {
-                        setAllProducts(result);
-                        setProductsData(result);
-                    }
-                    else {
-                        setErrorMsg("Sorry Not Found Any Products Now !");
-                    }
-                }
-            })
-            .catch((err) => setErrorMsg(err));
+        async function fetchAllCategories() {
+            try {
+                const res = await Axios.get(`${process.env.BASE_API_URL}/categories/all-categories`);
+                const result = await res.data;
+                console.log(res.data);
+                const subjects = result.filter((category) => category.categoryType === "subjects");
+                const styles = result.filter((category) => category.categoryType === "styles");
+                const rooms = result.filter((category) => category.categoryType === "rooms");
+                const colors = result.filter((category) => category.categoryType === "colors");
+                setSubjects(subjects);
+                setStyles(styles);
+                setRooms(rooms);
+                setColors(colors);
+            }
+            catch (err) {
+                console.log(err);
+                setErrorMsg("Sorry, Something Went Wrong");
+            }
+        }
+        async function fetchAllProducts() {
+            try {
+                const res = await Axios.get(`${process.env.BASE_API_URL}/products/all-products`);
+                const result = await res.data;
+                setAllProducts(result);
+                setProductsData(result);
+            }
+            catch (err) {
+                console.log(err);
+                setErrorMsg("Sorry, Something Went Wrong");
+            }
+        }
+        fetchAllCategories().then(() => fetchAllProducts());
     }, []);
     return (
         <div className="products">
@@ -86,54 +103,57 @@ const Products = () => {
                 {/* Start Grid System */}
                 <div className="row pt-3 pb-3">
                     {/* Start Column */}
-                    <div className="col-md-3">
+                    <div className="col-md-5">
                         <h5 className="text-center">Product Category</h5>
                         <hr />
                         <form className="select-category-form">
-                            {/* Start Input Box */}
-                            <div className="input-box mb-3">
-                                <input
-                                    type="checkbox"
-                                    id="canvas-input"
-                                    className="me-2"
-                                    value="canvas-prints"
-                                    name="product-types"
-                                    onChange={handleInputsCheckedChange}
-                                />
-                                <label htmlFor="canvas-input">Subject</label>
+                            <div className="row">
+                                <div className="col-md-3">
+                                    {/* Start Input Box */}
+                                    <div className="input-box">
+                                        <input
+                                            type="checkbox"
+                                            id="subject-input"
+                                            className="me-2"
+                                            value="subject"
+                                            onChange={handleInputsCheckedChange}
+                                        />
+                                        <label htmlFor="subject-input">Subject</label>
+                                        <MdOutlinePlayArrow />
+                                    </div>
+                                    {/* End Input Box */}
+                                </div>
+                                <div className="col-md-3"></div>
+                                <div className="col-md-3"></div>
+                                <div className="col-md-3"></div>
                             </div>
-                            {/* End Input Box */}
-                            {/* Start Input Box */}
-                            <div className="input-box mb-3">
-                                <input
-                                    type="checkbox"
-                                    id="framed-input"
-                                    className="me-2"
-                                    value="framed-prints"
-                                    name="product-types"
-                                    onChange={handleInputsCheckedChange}
-                                />
-                                <label htmlFor="framed-input">Style</label>
-                            </div>
-                            {/* End Input Box */}
-                            {/* Start Input Box */}
-                            <div className="input-box">
-                                <input
-                                    type="checkbox"
-                                    id="framed-input"
-                                    className="me-2"
-                                    value="framed-prints"
-                                    name="product-types"
-                                    onChange={handleInputsCheckedChange}
-                                />
-                                <label htmlFor="framed-input">Room</label>
-                            </div>
-                            {/* End Input Box */}
+                            {subjects.map((subject, subjectIndex) => (
+                                <div className="row mb-2" key={subject._id}>
+                                    <div className="col-md-3"></div>
+                                    <div className="col-md-3">
+                                        {/* Start Input Box */}
+                                        <div className="input-box">
+                                            <input
+                                                type="checkbox"
+                                                id="canvas-input"
+                                                className="me-2"
+                                                value="subject"
+                                                onChange={handleInputsCheckedChange}
+                                            />
+                                            <label htmlFor="canvas-input">Subject</label>
+                                            <MdOutlinePlayArrow />
+                                        </div>
+                                        {/* End Input Box */}
+                                    </div>
+                                    <div className="col-md-3"></div>
+                                    <div className="col-md-3"></div>
+                                </div>
+                            ))}
                         </form>
                     </div>
                     {/* End Column */}
                     {/* Start Column */}
-                    <div className="col-md-9">
+                    <div className="col-md-7">
                         {/* Start Grid System */}
                         <div className="row">
                             {/* Start Column */}
