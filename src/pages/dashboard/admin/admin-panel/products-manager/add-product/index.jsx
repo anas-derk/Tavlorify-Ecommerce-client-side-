@@ -23,6 +23,7 @@ const AddProduct = () => {
             subRoom: "",
             subFromSubRoom: "",
         },
+        "colors": [],
     });
     const [subjects, setSubjects] = useState([]);
     const [styles, setStyles] = useState([]);
@@ -203,7 +204,21 @@ const AddProduct = () => {
         }
     }
 
-    const addProduct = async (e) => {
+    const handleSelectColor = (isChecked, checkedValue) => {
+        if (isChecked) {
+            setProductCategories({
+                ...productCategories,
+                colors: [...productCategories["colors"], checkedValue],
+            });
+        } else {
+            setProductCategories({
+                ...productCategories,
+                colors: productCategories["colors"].filter((color) => color !== checkedValue),
+            });
+        }
+    }
+
+    const addNewProduct = async (e) => {
         e.preventDefault();
         setFormValidationErrors({});
         let errorsObject = validations.inputValuesValidation([
@@ -253,6 +268,7 @@ const AddProduct = () => {
             productData.append("imageSrc", file);
             productData.append("name", name);
             productData.append("orientation", orientation);
+            productData.append("productCategories", productCategories);
             productData.append("price", price);
             setWaitMsg("please wait ...");
             try {
@@ -294,18 +310,18 @@ const AddProduct = () => {
             <section className="content text-center pt-4 pb-4">
                 <div className="container-fluid">
                     <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Hello To You In Add Product Page</h1>
-                    <form className="add-product-form w-75 mx-auto" onSubmit={addProduct}>
+                    <form className="add-product-form w-75 mx-auto" onSubmit={addNewProduct}>
                         <div
                             className={`file-box p-3 bg-white form-control ${formValidationErrors["file"] ? "border border-danger mb-2" : "mb-2"}`}
                         >
-                            <h6 className="fw-bold">Please Upload Product Image</h6>
+                            <h6 className="fw-bold mb-3">Please Upload Product Image</h6>
                             <input
                                 type="file"
                                 onChange={(e) => setFile(e.target.files[0])}
                             />
                         </div>
                         {formValidationErrors["file"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["file"]}</p>}
-                        <h6 className="fw-bold">Please Enter Product Name</h6>
+                        <h6 className="fw-bold mb-3">Please Enter Product Name</h6>
                         <input
                             type="text"
                             placeholder="product name"
@@ -313,7 +329,7 @@ const AddProduct = () => {
                             onChange={(e) => setProductName(e.target.value.trim())}
                         />
                         {formValidationErrors["name"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["name"]}</p>}
-                        <h6 className="fw-bold">Please Select Product Orientation</h6>
+                        <h6 className="fw-bold mb-3">Please Select Product Orientation</h6>
                         <select
                             className={`form-control p-2 ${formValidationErrors["orientation"] ? "border border-danger mb-2" : "mb-4"}`}
                             onChange={(e) => setOrientation(e.target.value)}
@@ -326,7 +342,7 @@ const AddProduct = () => {
                         {formValidationErrors["orientation"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["orientation"]}</p>}
                         {categoryTypesWithoutColorCategoryType.map((categoryType, index) => (
                             <Fragment key={index}>
-                                <h6 className="fw-bold">Please Select Product Category By {categoryType}</h6>
+                                <h6 className="fw-bold mb-3">Please Select Product Category By {categoryType}</h6>
                                 <div className="row">
                                     <div className="col-md-4">
                                         <select
@@ -396,7 +412,22 @@ const AddProduct = () => {
                                 </div>
                             </Fragment>
                         ))}
-                        <h6 className="fw-bold">Please Enter Product Price</h6>
+                        <h6 className="fw-bold mb-3">Please Enter Product Colors</h6>
+                        <div className="row justify-content-center mb-3">
+                            {colors.map((color, colorIndex) => (
+                                <div className="col-md-2 bg-white p-2 border border-3 border-dark" key={colorIndex}>
+                                    <input
+                                        type="checkbox"
+                                        className="color-input me-2 "
+                                        id={`color-input${colorIndex + 1}`}
+                                        value={color.name}
+                                        onChange={(e) => handleSelectColor(e.target.checked, e.target.value)}
+                                    />
+                                    <label htmlFor={`color-input${colorIndex + 1}`} className="fw-bold">{color.name}</label>
+                                </div>
+                            ))}
+                        </div>
+                        <h6 className="fw-bold mb-3">Please Enter Product Price</h6>
                         <input
                             type="number"
                             placeholder="product price"
