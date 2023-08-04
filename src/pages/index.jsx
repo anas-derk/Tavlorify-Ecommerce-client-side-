@@ -6,10 +6,11 @@ import Link from 'next/link';
 import Carousel from 'react-bootstrap/Carousel';
 import { AiOutlineContacts } from "react-icons/ai";
 
-export default function Home() {
+export default function Home({ ip }) {
   const [productsData, setProductsData] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
   useEffect(() => {
+    console.log(ip)
     Axios.get(`${process.env.BASE_API_URL}/products/all-products`)
       .then((res) => {
         let result = res.data;
@@ -147,4 +148,13 @@ export default function Home() {
       {/* End Contact Us Section */}
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  console.log(context.req.connection.remoteAddress);
+  return {
+    props: {
+      ip: context.req.connection.remoteAddress
+    }
+  }
 }
