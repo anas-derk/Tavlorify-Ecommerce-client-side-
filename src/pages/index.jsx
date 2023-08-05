@@ -6,11 +6,11 @@ import Link from 'next/link';
 import Carousel from 'react-bootstrap/Carousel';
 import { AiOutlineContacts } from "react-icons/ai";
 
-export default function Home({ ip }) {
+export default function Home({ clientIP }) {
   const [productsData, setProductsData] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
   useEffect(() => {
-    console.log(ip)
+    console.log(clientIP)
     Axios.get(`${process.env.BASE_API_URL}/products/all-products`)
       .then((res) => {
         let result = res.data;
@@ -150,11 +150,11 @@ export default function Home({ ip }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  console.log(context.req.connection.remoteAddress);
+export async function getServerSideProps({ req }) {
+  const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   return {
     props: {
-      ip: context.req.connection.remoteAddress
+      clientIP: clientIP,
     }
   }
 }
