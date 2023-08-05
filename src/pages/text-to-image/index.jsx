@@ -12,19 +12,33 @@ import woodFrameCornerImage from "../../../public/images/frames/frameCorners/woo
 import darkWoodFrameCornerImage from "../../../public/images/frames/frameCorners/dark-wood.png";
 /* End Import Frame Corner Images */
 /* Start Import Normal Frame Images */
-import normalBlackFrameImageHorizontal from "../../../public/images/frames/black/H/600.png";
-import normalBlackFrameImageSquare from "../../../public/images/frames/black/S/600q.png";
-import normalBlackFrameImageVertical from "../../../public/images/frames/black/V/600v.png";
-import normalWhiteFrameImageHorizontal from "../../../public/images/frames/white/H/600.png";
-import normalWhiteFrameImageSquare from "../../../public/images/frames/white/S/600q.png";
-import normalWhiteFrameImageVertical from "../../../public/images/frames/white/V/600v.png";
-import normalWoodFrameImageHorizontal from "../../../public/images/frames/wood/H/600.png";
-import normalWoodFrameImageSquare from "../../../public/images/frames/wood/S/600q.png";
-import normalWoodFrameImageVertical from "../../../public/images/frames/wood/V/600v.png";
-import normalDarkWoodFrameImageHorizontal from "../../../public/images/frames/darkWood/H/600.png";
-import normalDarkWoodFrameImageSquare from "../../../public/images/frames/darkWood/S/600q.png";
-import normalDarkWoodFrameImageVertical from "../../../public/images/frames/darkWood/V/600v.png";
-/* End Import Normal Frame Images */
+import normalPosterBlackFrameImageHorizontal from "../../../public/images/frames/normalPoster/black/H/600.png";
+import normalPosterBlackFrameImageSquare from "../../../public/images/frames/normalPoster/black/S/600q.png";
+import normalPosterBlackFrameImageVertical from "../../../public/images/frames/normalPoster/black/V/600v.png";
+import normalPosterWhiteFrameImageHorizontal from "../../../public/images/frames/normalPoster/white/H/600.png";
+import normalPosterWhiteFrameImageSquare from "../../../public/images/frames/normalPoster/white/S/600q.png";
+import normalPosterWhiteFrameImageVertical from "../../../public/images/frames/normalPoster/white/V/600v.png";
+import normalPosterWoodFrameImageHorizontal from "../../../public/images/frames/normalPoster/wood/H/600.png";
+import normalPosterWoodFrameImageSquare from "../../../public/images/frames/normalPoster/wood/S/600q.png";
+import normalPosterWoodFrameImageVertical from "../../../public/images/frames/normalPoster/wood/V/600v.png";
+import normalPosterDarkWoodFrameImageHorizontal from "../../../public/images/frames/normalPoster/darkWood/H/600.png";
+import normalPosterDarkWoodFrameImageSquare from "../../../public/images/frames/normalPoster/darkWood/S/600q.png";
+import normalPosterDarkWoodFrameImageVertical from "../../../public/images/frames/normalPoster/darkWood/V/600v.png";
+/* End Import normalPoster Frame Images */
+/* Start Import Frame With Hangers Images */
+import posterWithHangersBlackFrameImageHorizontal from "../../../public/images/frames/posterWithHangers/black/H/600.png";
+import posterWithHangersBlackFrameImageSquare from "../../../public/images/frames/posterWithHangers/black/S//600.png";
+import posterWithHangersBlackFrameImageVertical from "../../../public/images/frames/posterWithHangers/black/V/600.png";
+import posterWithHangersWhiteFrameImageHorizontal from "../../../public/images/frames/posterWithHangers/white/H/600.png";
+import posterWithHangersWhiteFrameImageSquare from "../../../public/images/frames/posterWithHangers/white/S/600.png";
+import posterWithHangersWhiteFrameImageVertical from "../../../public/images/frames/posterWithHangers/white/V/600.png";
+import posterWithHangersWoodFrameImageHorizontal from "../../../public/images/frames/posterWithHangers/wood/H/600.png";
+import posterWithHangersWoodFrameImageSquare from "../../../public/images/frames/posterWithHangers/wood/S/600.png";
+import posterWithHangersWoodFrameImageVertical from "../../../public/images/frames/posterWithHangers/wood/V/600.png";
+import posterWithHangersDarkWoodFrameImageHorizontal from "../../../public/images/frames/posterWithHangers/darkWood/H/600.png";
+import posterWithHangersDarkWoodFrameImageSquare from "../../../public/images/frames/posterWithHangers/darkWood/S/600.png";
+import posterWithHangersDarkWoodFrameImageVertical from "../../../public/images/frames/posterWithHangers/darkWood/V/600.png";
+/* End Import Frame With Hangers Images */
 import validations from "../../../public/global_functions/validations";
 import { GrFormClose } from "react-icons/gr";
 import { BsCart2 } from "react-icons/bs";
@@ -79,80 +93,158 @@ const TextToImage = ({ printsName }) => {
     const [tempImageType, setTempImageType] = useState("vertical");
 
     const frameImages = {
-        "square": {
-            "natural-wood": {
-                "30x30": normalWoodFrameImageSquare.src,
-                "50x50": normalWoodFrameImageSquare.src,
-                "70x70": normalWoodFrameImageSquare.src,
+        "poster": {
+            "square": {
+                "natural-wood": {
+                    "30x30": normalPosterWoodFrameImageSquare.src,
+                    "50x50": normalPosterWoodFrameImageSquare.src,
+                    "70x70": normalPosterWoodFrameImageSquare.src,
+                },
+                "black": {
+                    "30x30": normalPosterBlackFrameImageSquare.src,
+                    "50x50": normalPosterBlackFrameImageSquare.src,
+                    "70x70": normalPosterBlackFrameImageSquare.src,
+                },
+                "white": {
+                    "30x30": normalPosterWhiteFrameImageSquare.src,
+                    "50x50": normalPosterWhiteFrameImageSquare.src,
+                    "70x70": normalPosterWhiteFrameImageSquare.src,
+                },
+                "dark-wood": {
+                    "30x30": normalPosterDarkWoodFrameImageSquare.src,
+                    "50x50": normalPosterDarkWoodFrameImageSquare.src,
+                    "70x70": normalPosterDarkWoodFrameImageSquare.src,
+                },
             },
-            "black": {
-                "30x30": normalBlackFrameImageSquare.src,
-                "50x50": normalBlackFrameImageSquare.src,
-                "70x70": normalBlackFrameImageSquare.src,
+            "vertical": {
+                "natural-wood": {
+                    "21x29,7": normalPosterWoodFrameImageVertical.src,
+                    "30x40": normalPosterWoodFrameImageVertical.src,
+                    "50x70": normalPosterWoodFrameImageVertical.src,
+                    "70x100": normalPosterWoodFrameImageVertical.src,
+                },
+                "black": {
+                    "21x29,7": normalPosterBlackFrameImageVertical.src,
+                    "30x40": normalPosterBlackFrameImageVertical.src,
+                    "50x70": normalPosterBlackFrameImageVertical.src,
+                    "70x100": normalPosterBlackFrameImageVertical.src,
+                },
+                "white": {
+                    "21x29,7": normalPosterWhiteFrameImageVertical.src,
+                    "30x40": normalPosterWhiteFrameImageVertical.src,
+                    "50x70": normalPosterWhiteFrameImageVertical.src,
+                    "70x100": normalPosterWhiteFrameImageVertical.src,
+                },
+                "dark-wood": {
+                    "21x29,7": normalPosterDarkWoodFrameImageVertical.src,
+                    "30x40": normalPosterDarkWoodFrameImageVertical.src,
+                    "50x70": normalPosterDarkWoodFrameImageVertical.src,
+                    "70x100": normalPosterDarkWoodFrameImageVertical.src,
+                },
             },
-            "white": {
-                "30x30": normalWhiteFrameImageSquare.src,
-                "50x50": normalWhiteFrameImageSquare.src,
-                "70x70": normalWhiteFrameImageSquare.src,
-            },
-            "dark-wood": {
-                "30x30": normalDarkWoodFrameImageSquare.src,
-                "50x50": normalDarkWoodFrameImageSquare.src,
-                "70x70": normalDarkWoodFrameImageSquare.src,
-            },
+            "horizontal": {
+                "natural-wood": {
+                    "29,7x21": normalPosterWoodFrameImageHorizontal.src,
+                    "40x30": normalPosterWoodFrameImageHorizontal.src,
+                    "70x50": normalPosterWoodFrameImageHorizontal.src,
+                    "100x70": normalPosterWoodFrameImageHorizontal.src,
+                },
+                "black": {
+                    "29,7x21": normalPosterBlackFrameImageHorizontal.src,
+                    "40x30": normalPosterBlackFrameImageHorizontal.src,
+                    "70x50": normalPosterBlackFrameImageHorizontal.src,
+                    "100x70": normalPosterBlackFrameImageHorizontal.src,
+                },
+                "white": {
+                    "29,7x21": normalPosterWhiteFrameImageHorizontal.src,
+                    "40x30": normalPosterWhiteFrameImageHorizontal.src,
+                    "70x50": normalPosterWhiteFrameImageHorizontal.src,
+                    "100x70": normalPosterWhiteFrameImageHorizontal.src,
+                },
+                "dark-wood": {
+                    "29,7x21": normalPosterDarkWoodFrameImageHorizontal.src,
+                    "40x30": normalPosterDarkWoodFrameImageHorizontal.src,
+                    "70x50": normalPosterDarkWoodFrameImageHorizontal.src,
+                    "100x70": normalPosterDarkWoodFrameImageHorizontal.src,
+                },
+            }
         },
-        "vertical": {
-            "natural-wood": {
-                "21x29,7": normalWoodFrameImageVertical.src,
-                "30x40": normalWoodFrameImageVertical.src,
-                "50x70": normalWoodFrameImageVertical.src,
-                "70x100": normalWoodFrameImageVertical.src,
+        "poster-with-hangers": {
+            "square": {
+                "natural-wood": {
+                    "30x30": posterWithHangersWoodFrameImageSquare.src,
+                    "50x50": posterWithHangersWoodFrameImageSquare.src,
+                    "70x70": posterWithHangersWoodFrameImageSquare.src,
+                },
+                "black": {
+                    "30x30": posterWithHangersBlackFrameImageSquare.src,
+                    "50x50": posterWithHangersBlackFrameImageSquare.src,
+                    "70x70": posterWithHangersBlackFrameImageSquare.src,
+                },
+                "white": {
+                    "30x30": posterWithHangersWhiteFrameImageSquare.src,
+                    "50x50": posterWithHangersWhiteFrameImageSquare.src,
+                    "70x70": posterWithHangersWhiteFrameImageSquare.src,
+                },
+                "dark-wood": {
+                    "30x30": posterWithHangersDarkWoodFrameImageSquare.src,
+                    "50x50": posterWithHangersDarkWoodFrameImageSquare.src,
+                    "70x70": posterWithHangersDarkWoodFrameImageSquare.src,
+                },
             },
-            "black": {
-                "21x29,7": normalBlackFrameImageVertical.src,
-                "30x40": normalBlackFrameImageVertical.src,
-                "50x70": normalBlackFrameImageVertical.src,
-                "70x100": normalBlackFrameImageVertical.src,
+            "vertical": {
+                "natural-wood": {
+                    "21x29,7": posterWithHangersWoodFrameImageVertical.src,
+                    "30x40": posterWithHangersWoodFrameImageVertical.src,
+                    "50x70": posterWithHangersWoodFrameImageVertical.src,
+                    "70x100": posterWithHangersWoodFrameImageVertical.src,
+                },
+                "black": {
+                    "21x29,7": posterWithHangersBlackFrameImageVertical.src,
+                    "30x40": posterWithHangersBlackFrameImageVertical.src,
+                    "50x70": posterWithHangersBlackFrameImageVertical.src,
+                    "70x100": posterWithHangersBlackFrameImageVertical.src,
+                },
+                "white": {
+                    "21x29,7": posterWithHangersWhiteFrameImageVertical.src,
+                    "30x40": posterWithHangersWhiteFrameImageVertical.src,
+                    "50x70": posterWithHangersWhiteFrameImageVertical.src,
+                    "70x100": posterWithHangersWhiteFrameImageVertical.src,
+                },
+                "dark-wood": {
+                    "21x29,7": posterWithHangersDarkWoodFrameImageVertical.src,
+                    "30x40": posterWithHangersDarkWoodFrameImageVertical.src,
+                    "50x70": posterWithHangersDarkWoodFrameImageVertical.src,
+                    "70x100": posterWithHangersDarkWoodFrameImageVertical.src,
+                },
             },
-            "white": {
-                "21x29,7": normalWhiteFrameImageVertical.src,
-                "30x40": normalWhiteFrameImageVertical.src,
-                "50x70": normalWhiteFrameImageVertical.src,
-                "70x100": normalWhiteFrameImageVertical.src,
-            },
-            "dark-wood": {
-                "21x29,7": normalDarkWoodFrameImageVertical.src,
-                "30x40": normalDarkWoodFrameImageVertical.src,
-                "50x70": normalDarkWoodFrameImageVertical.src,
-                "70x100": normalDarkWoodFrameImageVertical.src,
-            },
+            "horizontal": {
+                "natural-wood": {
+                    "29,7x21": posterWithHangersWoodFrameImageHorizontal.src,
+                    "40x30": posterWithHangersWoodFrameImageHorizontal.src,
+                    "70x50": posterWithHangersWoodFrameImageHorizontal.src,
+                    "100x70": posterWithHangersWoodFrameImageHorizontal.src,
+                },
+                "black": {
+                    "29,7x21": posterWithHangersBlackFrameImageHorizontal.src,
+                    "40x30": posterWithHangersBlackFrameImageHorizontal.src,
+                    "70x50": posterWithHangersBlackFrameImageHorizontal.src,
+                    "100x70": posterWithHangersBlackFrameImageHorizontal.src,
+                },
+                "white": {
+                    "29,7x21": posterWithHangersWhiteFrameImageHorizontal.src,
+                    "40x30": posterWithHangersWhiteFrameImageHorizontal.src,
+                    "70x50": posterWithHangersWhiteFrameImageHorizontal.src,
+                    "100x70": posterWithHangersWhiteFrameImageHorizontal.src,
+                },
+                "dark-wood": {
+                    "29,7x21": posterWithHangersDarkWoodFrameImageHorizontal.src,
+                    "40x30": posterWithHangersDarkWoodFrameImageHorizontal.src,
+                    "70x50": posterWithHangersDarkWoodFrameImageHorizontal.src,
+                    "100x70": posterWithHangersDarkWoodFrameImageHorizontal.src,
+                },
+            }
         },
-        "horizontal": {
-            "natural-wood": {
-                "29,7x21": normalWoodFrameImageHorizontal.src,
-                "40x30": normalWoodFrameImageHorizontal.src,
-                "70x50": normalWoodFrameImageHorizontal.src,
-                "100x70": normalWoodFrameImageHorizontal.src,
-            },
-            "black": {
-                "29,7x21": normalBlackFrameImageHorizontal.src,
-                "40x30": normalBlackFrameImageHorizontal.src,
-                "70x50": normalBlackFrameImageHorizontal.src,
-                "100x70": normalBlackFrameImageHorizontal.src,
-            },
-            "white": {
-                "29,7x21": normalWhiteFrameImageHorizontal.src,
-                "40x30": normalWhiteFrameImageHorizontal.src,
-                "70x50": normalWhiteFrameImageHorizontal.src,
-                "100x70": normalWhiteFrameImageHorizontal.src,
-            },
-            "dark-wood": {
-                "29,7x21": normalDarkWoodFrameImageHorizontal.src,
-                "40x30": normalDarkWoodFrameImageHorizontal.src,
-                "70x50": normalDarkWoodFrameImageHorizontal.src,
-                "100x70": normalDarkWoodFrameImageHorizontal.src,
-            },
-        }
     }
 
     const [formValidationErrors, setFormValidationErrors] = useState({});
@@ -298,7 +390,8 @@ const TextToImage = ({ printsName }) => {
             });
     }
 
-    const handleSelectFrame = (frameColor) => {
+    const handleSelectFrame = (paintingType, frameColor) => {
+        setPaintingType(paintingType);
         setFrameColor(frameColor);
     }
 
@@ -437,7 +530,7 @@ const TextToImage = ({ printsName }) => {
                                     className="frame-image-box"
                                 >
                                     {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
-                                        src={frameImages[tempImageType][frameColor][tempDimentionsInCm]}
+                                        src={frameImages[paintingType][tempImageType][frameColor][tempDimentionsInCm]}
                                         alt="Image"
                                         style={{ maxWidth: "100%", maxHeight: "100%" }}
                                     />}
@@ -445,8 +538,8 @@ const TextToImage = ({ printsName }) => {
                                 <div
                                     className="generated-image-box"
                                     style={{
-                                        width: `${global_data.appearedImageSizes[tempImageType][tempDimentionsInCm].width}px`,
-                                        height: `${global_data.appearedImageSizes[tempImageType][tempDimentionsInCm].height}px`,
+                                        width: `${global_data.appearedImageSizes[paintingType][tempImageType][tempDimentionsInCm].width}px`,
+                                        height: `${global_data.appearedImageSizes[paintingType][tempImageType][tempDimentionsInCm].height}px`,
                                         position: frameColor === "none" ? "static" : "absolute",
                                     }}
                                 >
@@ -565,7 +658,7 @@ const TextToImage = ({ printsName }) => {
                                         <li
                                             className="p-2 pe-3 ps-3"
                                             onClick={() => setPaintingType("poster")}
-                                            style={paintingType === "poster" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
+                                            style={(paintingType === "poster" || paintingType === "poster-with-hangers") ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
                                         >
                                             Poster
                                         </li>
@@ -620,46 +713,78 @@ const TextToImage = ({ printsName }) => {
                                         ))}
                                     </ul>
                                     {/* End Sizes List */}
-                                    {paintingType === "poster" && <h5 className="fw-bold">Frames</h5>}
+                                    {(paintingType === "poster" || paintingType === "poster-with-hangers") && <h5 className="fw-bold">Frames</h5>}
                                     {/* Start Frames List */}
-                                    {paintingType === "poster" && <ul className="framed-list mb-4 text-center pb-3">
+                                    {(paintingType === "poster" || paintingType === "poster-with-hangers") && <ul className="framed-list mb-4 text-center pb-3">
                                         <li
-                                            style={frameColor === "none" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("none")}
+                                            style={(frameColor === "none" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("poster", "none")}
                                         >
                                             none
                                         </li>
                                         <li
                                             className="p-2"
-                                            style={frameColor === "black" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("black")}
+                                            style={(frameColor === "black" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("poster", "black")}
                                         >
                                             <span className="frame-color d-block fw-bold">Black</span>
                                             <img src={blackFrameCornerImage.src} alt="Black Frame Image" width="50" />
                                         </li>
                                         <li
                                             className="p-2"
-                                            style={frameColor === "white" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("white")}
+                                            style={(frameColor === "white" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("poster", "white")}
                                         >
                                             <span className="frame-color d-block fw-bold">White</span>
                                             <img src={whiteFrameCornerImage.src} alt="White Frame Image" width="50" />
                                         </li>
                                         <li
                                             className="p-2"
-                                            style={frameColor === "natural-wood" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("natural-wood")}
+                                            style={(frameColor === "natural-wood" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("poster", "natural-wood")}
                                         >
                                             <span className="frame-color d-block fw-bold">Wood</span>
                                             <img src={woodFrameCornerImage.src} alt="Wood Frame Image" width="50" />
                                         </li>
                                         <li
                                             className="p-2"
-                                            style={frameColor === "dark-wood" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("dark-wood")}
+                                            style={(frameColor === "dark-wood" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("poster", "dark-wood")}
                                         >
                                             <span className="frame-color d-block fw-bold">Dark Wood</span>
                                             <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" />
+                                        </li>
+                                        <li
+                                            className="p-2"
+                                            style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("poster-with-hangers", "black")}
+                                        >
+                                            <span className="frame-color d-block fw-bold">Black With Hangers</span>
+                                            <img src={blackFrameCornerImage.src} alt="Black Frame With Hangers Image" width="50" />
+                                        </li>
+                                        <li
+                                            className="p-2"
+                                            style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("poster-with-hangers", "white")}
+                                        >
+                                            <span className="frame-color d-block fw-bold">White With Hangers</span>
+                                            <img src={whiteFrameCornerImage.src} alt="White Frame With Hangers Image" width="50" />
+                                        </li>
+                                        <li
+                                            className="p-2"
+                                            style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("poster-with-hangers", "natural-wood")}
+                                        >
+                                            <span className="frame-color d-block fw-bold">Wood With Hangers</span>
+                                            <img src={woodFrameCornerImage.src} alt="Wood Frame With Hangers Image" width="50" />
+                                        </li>
+                                        <li
+                                            className="p-2"
+                                            style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("poster-with-hangers", "dark-wood")}
+                                        >
+                                            <span className="frame-color d-block fw-bold">Dark Wood With Hangers</span>
+                                            <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" width="50" />
                                         </li>
                                     </ul>}
                                     {/* End Frames List */}
@@ -702,7 +827,7 @@ const TextToImage = ({ printsName }) => {
 }
 
 export async function getServerSideProps(context) {
-    let printsName = context.query.printsName;
+    const printsName = context.query.printsName;
     return {
         props: {
             printsName,
