@@ -351,8 +351,30 @@ const ImageToImage = ({ printsName }) => {
         setFrameColor(frameColor);
     }
 
-    const imageToImage = (e) => {
-
+    const imageToImage = () => {
+        setErrorMsg("");
+        setPaintingURL("");
+        setIsWaitStatus(true);
+        let imageToImageData = new FormData();
+        imageToImageData.append("imageFile", imageFile);
+        imageToImageData.append("prompt", categoryStyles[styleSelectedIndex].prompt);
+        imageToImageData.append("negative_prompt", categoryStyles[styleSelectedIndex].negative_prompt);
+        imageToImageData.append("modelName", modelName);
+        imageToImageData.append("ddim_steps", categoryStyles[styleSelectedIndex].ddim_steps);
+        imageToImageData.append("strength", categoryStyles[styleSelectedIndex].strength);
+        imageToImageData.append("category", categoriesData[categorySelectedIndex].name);
+        imageToImageData.append("image_resolution", "512");
+        Axios.post(`${process.env.BASE_API_URL}/image-to-image/generate-image`, imageToImageData)
+            .then((res) => {
+                const result = res.data;
+                console.log(result);
+                setPaintingURL(result);
+                setIsWaitStatus(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                setErrorMsg("Sorry, Something Went Wrong !!");
+            });
     }
 
     return (
@@ -392,7 +414,7 @@ const ImageToImage = ({ printsName }) => {
                                         zIndex: "-1",
                                         width: globalData.framesDimentions[paintingType][imageType][dimentionsInCm].width,
                                         height: globalData.framesDimentions[paintingType][imageType][dimentionsInCm].height,
-                                        backgroundImage: `url(${testImage.src})`
+                                        backgroundImage: `url(${paintingURL})`
                                     }}
                                 ></div>}
                                 {isWaitStatus && !errorMsg && <span className="loader"></span>}
