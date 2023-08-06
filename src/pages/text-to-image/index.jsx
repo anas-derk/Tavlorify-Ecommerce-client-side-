@@ -66,6 +66,8 @@ const TextToImage = ({ printsName }) => {
 
     const [paintingType, setPaintingType] = useState(printsName);
 
+    const [isExistWhiteBorderWithPoster, setIsExistWhiteBorderWithPoster] = useState("without-border");
+
     const [frameColor, setFrameColor] = useState("none");
 
     const [dimentions, setDimentions] = useState({});
@@ -272,7 +274,7 @@ const TextToImage = ({ printsName }) => {
                                 width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
                                 height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
                             });
-                            if (printsName === "poster") {
+                            if (printsName === "poster" || printsName === "poster-with-hangers") {
                                 setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPoster.png`);
                                 setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPoster.png`);
                             } else if (printsName === "canvas") {
@@ -358,6 +360,10 @@ const TextToImage = ({ printsName }) => {
             width: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.width,
             height: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.height,
         });
+    }
+
+    const handleIsExistWhiteBorderWithPoster = (isExistWhiteBorderWithPoster) => {
+        setIsExistWhiteBorderWithPoster(isExistWhiteBorderWithPoster);
     }
 
     const generatedImageWithAI = (e) => {
@@ -528,6 +534,11 @@ const TextToImage = ({ printsName }) => {
                             >
                                 <div
                                     className="frame-image-box"
+                                    style={{
+                                        width: `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width}px`,
+                                        height: `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height}px`,
+                                        boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 3px #000" : "",
+                                    }}
                                 >
                                     {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
                                         src={frameImages[paintingType][tempImageType][frameColor][tempDimentionsInCm]}
@@ -538,9 +549,8 @@ const TextToImage = ({ printsName }) => {
                                 <div
                                     className="generated-image-box"
                                     style={{
-                                        width: `${global_data.appearedImageSizes[paintingType][tempImageType][tempDimentionsInCm].width}px`,
-                                        height: `${global_data.appearedImageSizes[paintingType][tempImageType][tempDimentionsInCm].height}px`,
-                                        position: frameColor === "none" ? "static" : "absolute",
+                                        width: `${global_data.appearedImageSizes[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`,
+                                        height: `${global_data.appearedImageSizes[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`,
                                     }}
                                 >
                                     {!isWaitStatus && !errorMsg && paintingURL && <img
@@ -713,6 +723,23 @@ const TextToImage = ({ printsName }) => {
                                         ))}
                                     </ul>
                                     {/* End Sizes List */}
+                                    {(paintingType === "poster" || paintingType === "poster-with-hangers") && <h5 className="fw-bold">Border</h5>}
+                                    {/* Start White Border */}
+                                    <ul className="white-borders-list mb-4 text-center">
+                                        <li
+                                            onClick={() => handleIsExistWhiteBorderWithPoster("without-border")}
+                                            style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                        >
+                                            none
+                                        </li>
+                                        <li
+                                            onClick={() => handleIsExistWhiteBorderWithPoster("with-border")}
+                                            style={isExistWhiteBorderWithPoster === "with-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                        >
+                                            With Border
+                                        </li>
+                                    </ul>
+                                    {/* Start White Border */}
                                     {(paintingType === "poster" || paintingType === "poster-with-hangers") && <h5 className="fw-bold">Frames</h5>}
                                     {/* Start Frames List */}
                                     {(paintingType === "poster" || paintingType === "poster-with-hangers") && <ul className="framed-list mb-4 text-center pb-3">

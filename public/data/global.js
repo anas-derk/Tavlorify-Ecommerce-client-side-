@@ -2938,83 +2938,126 @@ const gelatoDimetions = {
 
 const appearedImageSizes = {
     "poster": {
-        "square": {
-            "30x30": { width: 584, height: 584 },
-            "50x50": { width: 584, height: 584 },
-            "70x70": { width: 584, height: 584 },
+        "without-border": {
+            "square": {
+                "30x30": { width: 584, height: 584 },
+                "50x50": { width: 584, height: 584 },
+                "70x70": { width: 584, height: 584 },
+            },
+            "vertical": {
+                "21x29,7": { width: 417, height: 584 },
+                "30x40": { width: 417, height: 584 },
+                "50x70": { width: 417, height: 584 },
+                "70x100": { width: 417, height: 584 },
+            },
+            "horizontal": {
+                "29,7x21": { width: 584, height: 417 },
+                "40x30": { width: 584, height: 417 },
+                "70x50": { width: 584, height: 417 },
+                "100x70": { width: 584, height: 417 },
+            },
         },
-        "vertical": {
-            "21x29,7": { width: 417, height: 584 },
-            "30x40": { width: 417, height: 584 },
-            "50x70": { width: 417, height: 584 },
-            "70x100": { width: 417, height: 584 },
-        },
-        "horizontal": {
-            "29,7x21": { width: 584, height: 417 },
-            "40x30": { width: 584, height: 417 },
-            "70x50": { width: 584, height: 417 },
-            "100x70": { width: 584, height: 417 },
+        "with-border": {
+            "square": {
+                "30x30": { width: 525, height: 525 },
+                "50x50": { width: 525, height: 525 },
+                "70x70": { width: 525, height: 525 },
+            },
+            "vertical": {
+                "21x29,7": { width: 375, height: 525 },
+                "30x40": { width: 375, height: 525 },
+                "50x70": { width: 375, height: 525 },
+                "70x100": { width: 375, height: 525 },
+            },
+            "horizontal": {
+                "29,7x21": { width: 525, height: 375 },
+                "40x30": { width: 525, height: 375 },
+                "70x50": { width: 525, height: 375 },
+                "100x70": { width: 525, height: 375 },
+            },
         },
     },
     "poster-with-hangers": {
-        "square": {
-            "30x30": { width: 584, height: 584 },
-            "50x50": { width: 584, height: 584 },
-            "70x70": { width: 584, height: 584 },
+        "without-border": {
+            "square": {
+                "30x30": { width: 584, height: 584 },
+                "50x50": { width: 584, height: 584 },
+                "70x70": { width: 584, height: 584 },
+            },
+            "vertical": {
+                "21x29,7": { width: 417, height: 584 },
+                "30x40": { width: 417, height: 584 },
+                "50x70": { width: 417, height: 584 },
+                "70x100": { width: 417, height: 584 },
+            },
+            "horizontal": {
+                "29,7x21": { width: 584, height: 417 },
+                "40x30": { width: 584, height: 417 },
+                "70x50": { width: 584, height: 417 },
+                "100x70": { width: 584, height: 417 },
+            },
         },
-        "vertical": {
-            "21x29,7": { width: 417, height: 584 },
-            "30x40": { width: 417, height: 584 },
-            "50x70": { width: 417, height: 584 },
-            "70x100": { width: 417, height: 584 },
-        },
-        "horizontal": {
-            "29,7x21": { width: 584, height: 417 },
-            "40x30": { width: 584, height: 417 },
-            "70x50": { width: 584, height: 417 },
-            "100x70": { width: 584, height: 417 },
+        "with-border": {
+            "square": {
+                "30x30": { width: 525, height: 525 },
+                "50x50": { width: 525, height: 525 },
+                "70x70": { width: 525, height: 525 },
+            },
+            "vertical": {
+                "21x29,7": { width: 375, height: 525 },
+                "30x40": { width: 375, height: 525 },
+                "50x70": { width: 375, height: 525 },
+                "70x100": { width: 375, height: 525 },
+            },
+            "horizontal": {
+                "29,7x21": { width: 525, height: 375 },
+                "40x30": { width: 525, height: 375 },
+                "70x50": { width: 525, height: 375 },
+                "100x70": { width: 525, height: 375 },
+            },
         },
     },
 }
 
 const framesDimentions = {
-    "square": {
-        "30x30": { width: 500, height: 500 },
-        "50x50": { width: 500, height: 500 },
-        "70x70": { width: 500, height: 500 },
+    "poster": {
+        "square": {
+            "30x30": { width: 600, height: 600 },
+            "50x50": { width: 600, height: 600 },
+            "70x70": { width: 600, height: 600 },
+        },
+        "vertical": {
+            "21x29,7": { width: 435, height: 600 },
+            "30x40": { width: 435, height: 600 },
+            "50x70": { width: 435, height: 600 },
+            "70x100": { width: 435, height: 600 },
+        },
+        "horizontal": {
+            "29,7x21": { width: 600, height: 435 },
+            "40x30": { width: 600, height: 435 },
+            "70x50": { width: 600, height: 435 },
+            "100x70": { width: 600, height: 435 },
+        },
     },
-    "vertical": {
-        "21x29,7": { width: 370.625, height: 500 },
-        "30x40": { width: 386.875, height: 500 },
-        "50x70": { width: 366.875, height: 500 },
-        "70x100": { width: 358.75, height: 500 },
+    "poster-with-hangers": {
+        "square": {
+            "30x30": { width: 600, height: 600 },
+            "50x50": { width: 600, height: 600 },
+            "70x70": { width: 600, height: 600 },
+        },
+        "vertical": {
+            "21x29,7": { width: 428, height: 600 },
+            "30x40": { width: 428, height: 600 },
+            "50x70": { width: 428, height: 600 },
+            "70x100": { width: 428, height: 600 },
+        },
+        "horizontal": {
+            "29,7x21": { width: 600, height: 428 },
+            "40x30": { width: 600, height: 428 },
+            "70x50": { width: 600, height: 428 },
+            "100x70": { width: 600, height: 428 },
+        },
     },
-    "horizontal": {
-        "29,7x21": { width: 654, height: 483 },
-        "40x30": { width: 654, height: 505 },
-        "70x50": { width: 654, height: 478 },
-        "100x70": { width: 654, height: 467 },
-    },
-};
-
-const allDimetions = {
-    "square": [
-        "30x30",
-        "50x50",
-        "70x70",
-    ],
-    "horizontal": [
-        "29,7x21",
-        "40x30",
-        "70x50",
-        "100X70",
-    ],
-    "vertical": [
-        "21x29,7",
-        "30x40",
-        "50x70",
-        "70X100",
-    ],
 };
 
 const countries = [
@@ -3027,6 +3070,5 @@ export default {
     gelatoDimetions,
     appearedImageSizes,
     framesDimentions,
-    allDimetions,
     countries,
 };

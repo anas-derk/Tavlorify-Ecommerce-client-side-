@@ -140,6 +140,17 @@
                             border: 1px solid #CCC;
                         }
                     }
+                    .white-borders-list{
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
+                        gap: 10px;
+                        line-height: 100px;
+                        li{
+                            cursor: pointer;
+                            border: 1px solid #CCC;
+                            height: 100px;
+                        }
+                    }
                     .framed-list{
                         display: grid;
                         grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
