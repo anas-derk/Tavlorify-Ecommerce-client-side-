@@ -524,7 +524,7 @@ const TextToImage = ({ printsName }) => {
                 <div className="container-fluid pt-4 pb-4">
                     <h1 className="text-center mb-5 welcome-msg pb-3">Welcome To You In Text To Image AI Service</h1>
                     {/* Start Grid System */}
-                    <div className="row">
+                    <div className="row align-items-center">
                         {/* Start Column */}
                         <div className="col-md-6">
                             {/* Start Art Painting Section */}
@@ -537,7 +537,6 @@ const TextToImage = ({ printsName }) => {
                                     style={{
                                         width: `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width}px`,
                                         height: `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height}px`,
-                                        boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 3px #000" : "",
                                     }}
                                 >
                                     {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
@@ -547,16 +546,20 @@ const TextToImage = ({ printsName }) => {
                                     />}
                                 </div>
                                 <div
-                                    className="generated-image-box"
+                                    className="generated-image-box d-flex align-items-center justify-content-center"
                                     style={{
-                                        width: `${global_data.appearedImageSizes[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`,
-                                        height: `${global_data.appearedImageSizes[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`,
+                                        width: `${global_data.appearedImageSizes[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width}px`,
+                                        height: `${global_data.appearedImageSizes[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height}px`,
+                                        boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 3px #000" : "",
                                     }}
                                 >
                                     {!isWaitStatus && !errorMsg && paintingURL && <img
                                         src={paintingURL}
-                                        className="mw-100 mh-100"
                                         alt="Generated Image !!"
+                                        style={{
+                                            width: `${global_data.appearedImageSizes[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`,
+                                            height: `${global_data.appearedImageSizes[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`,
+                                        }}
                                     />}
                                 </div>
                                 {isWaitStatus && !errorMsg && <span className="loader"></span>}
