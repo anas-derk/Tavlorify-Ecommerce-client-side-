@@ -51,7 +51,7 @@
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options {
-  height: 250px;
+  height: 400px;
   overflow-y: scroll;
 }
 
@@ -123,6 +123,19 @@
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list li {
   cursor: pointer;
   border: 1px solid #CCC;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .white-borders-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
+  gap: 10px;
+  line-height: 100px;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .white-borders-list li {
+  cursor: pointer;
+  border: 1px solid #CCC;
+  height: 100px;
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .framed-list {

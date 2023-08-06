@@ -366,6 +366,11 @@ const TextToImage = ({ printsName }) => {
         setIsExistWhiteBorderWithPoster(isExistWhiteBorderWithPoster);
     }
 
+    const handleSelectFrame = (paintingType, frameColor) => {
+        setPaintingType(paintingType);
+        setFrameColor(frameColor);
+    }
+
     const generatedImageWithAI = (e) => {
         e.preventDefault();
         setErrorMsg("");
@@ -394,11 +399,6 @@ const TextToImage = ({ printsName }) => {
                 console.log(err);
                 setErrorMsg("Sorry, Something Went Wrong !!");
             });
-    }
-
-    const handleSelectFrame = (paintingType, frameColor) => {
-        setPaintingType(paintingType);
-        setFrameColor(frameColor);
     }
 
     const addToCart = async () => {
@@ -728,7 +728,7 @@ const TextToImage = ({ printsName }) => {
                                     {/* End Sizes List */}
                                     {(paintingType === "poster" || paintingType === "poster-with-hangers") && <h5 className="fw-bold">Border</h5>}
                                     {/* Start White Border */}
-                                    <ul className="white-borders-list mb-4 text-center">
+                                    {(paintingType === "poster" || paintingType === "poster-with-hangers") && <ul className="white-borders-list mb-4 text-center">
                                         <li
                                             onClick={() => handleIsExistWhiteBorderWithPoster("without-border")}
                                             style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -741,7 +741,7 @@ const TextToImage = ({ printsName }) => {
                                         >
                                             With Border
                                         </li>
-                                    </ul>
+                                    </ul>}
                                     {/* Start White Border */}
                                     {(paintingType === "poster" || paintingType === "poster-with-hangers") && <h5 className="fw-bold">Frames</h5>}
                                     {/* Start Frames List */}
