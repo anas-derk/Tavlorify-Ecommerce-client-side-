@@ -368,7 +368,7 @@ const ImageToImage = ({ printsName }) => {
             .then((res) => {
                 const result = res.data;
                 console.log(result);
-                setPaintingURL(result);
+                setPaintingURL(result[1]);
                 setIsWaitStatus(false);
             })
             .catch((err) => {
