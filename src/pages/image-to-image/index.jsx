@@ -271,7 +271,7 @@ const ImageToImage = ({ printsName }) => {
 
     const handleSelectCategory = (index) => {
         setCategorySelectedIndex(index);
-        Axios.get(`${process.env.BASE_API_URL}/styles/category-styles-data?categoryName=${categoriesData[index].name}`)
+        Axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[index].name}`)
             .then((res) => {
                 setCategoryStyles(res.data);
                 setStyleSelectedIndex(0);
