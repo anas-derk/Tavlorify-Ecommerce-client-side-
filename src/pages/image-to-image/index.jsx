@@ -368,7 +368,7 @@ const ImageToImage = ({ printsName }) => {
         imageToImageData.append("strength", categoryStyles[styleSelectedIndex].strength);
         imageToImageData.append("category", categoriesData[categorySelectedIndex].name);
         imageToImageData.append("image_resolution", "512");
-        Axios.post(`${process.env.BASE_API_URL}/image-to-image/generate-image`, imageToImageData)
+        Axios.post(`https://newapi.tavlorify.se/image-to-image/generate-image`, imageToImageData)
             .then((res) => {
                 const result = res.data;
                 console.log(result);
@@ -420,6 +420,7 @@ const ImageToImage = ({ printsName }) => {
                                         height: globalData.framesDimentions[paintingType][imageType][dimentionsInCm].height,
                                         backgroundImage: `url(${paintingURL})`,
                                         backgroundRepeat: "no-repeat",
+                                        backgroundPosition: "center",
                                     }}
                                 ></div>}
                                 {isWaitStatus && !errorMsg && <span className="loader"></span>}
