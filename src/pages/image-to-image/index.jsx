@@ -418,7 +418,8 @@ const ImageToImage = ({ printsName }) => {
                                         zIndex: "-1",
                                         width: globalData.framesDimentions[paintingType][imageType][dimentionsInCm].width,
                                         height: globalData.framesDimentions[paintingType][imageType][dimentionsInCm].height,
-                                        backgroundImage: `url(${paintingURL})`
+                                        backgroundImage: `url(${paintingURL})`,
+                                        backgroundRepeat: "no-repeat",
                                     }}
                                 ></div>}
                                 {isWaitStatus && !errorMsg && <span className="loader"></span>}
