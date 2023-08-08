@@ -275,11 +275,11 @@ const TextToImage = ({ printsName }) => {
                                 height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
                             });
                             if (printsName === "poster" || printsName === "poster-with-hangers") {
-                                setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPoster.png`);
-                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPoster.png`);
+                                setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInTextToImage.png`);
+                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInTextToImage.png`);
                             } else if (printsName === "canvas") {
-                                setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForCanvas.png`);
-                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForCanvas.png`);
+                                setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForCanvasInTextToImage.png`);
+                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForCanvasInTextToImage.png`);
                             }
                         })
                         .catch((err) => console.log(err));

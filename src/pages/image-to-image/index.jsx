@@ -251,7 +251,11 @@ const ImageToImage = ({ printsName }) => {
                                 width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
                                 height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
                             });
-                            setPaintingURL(testImage.src);
+                            if (printsName === "poster" || printsName === "poster-with-hangers") {
+                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
+                            } else if (printsName === "canvas") {
+                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
+                            }
                         })
                         .catch((err) => console.log(err));
                 }
