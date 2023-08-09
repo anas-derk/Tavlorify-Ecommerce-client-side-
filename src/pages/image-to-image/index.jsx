@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Header from "@/components/Header";
-import testImage from "../../../public/images/previewImageForPoster.png";
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import global_data from "../../../public/data/global";
@@ -75,6 +74,8 @@ const ImageToImage = ({ printsName }) => {
     const [imageFile, setImageFile] = useState({});
 
     const [imageLink, setImageLink] = useState("");
+
+    const [orientationNumber, setOrientationNumber] = useState("");
 
     const frameImages = {
         "poster": {
@@ -264,8 +265,16 @@ const ImageToImage = ({ printsName }) => {
     }, []);
 
     const handleSelectImageFile = (file) => {
-        setImageLink(URL.createObjectURL(file));
-        setImageFile(file);
+        let imageToImageData = new FormData();
+        imageToImageData.append("imageFile", file);
+        Axios.post(`${process.env.BASE_API_URL}/image-to-image/upload-image-and-processing`, imageToImageData)
+        .then((res) => {
+            setImageLink(res.data.imageLink);
+            setOrientationNumber(res.data.orientationNumber);
+        }).catch((err) => {
+            console.log(err);
+        });
+
     }
 
     const removeImage = () => {
@@ -359,16 +368,7 @@ const ImageToImage = ({ printsName }) => {
         setErrorMsg("");
         setPaintingURL("");
         setIsWaitStatus(true);
-        let imageToImageData = new FormData();
-        imageToImageData.append("imageFile", imageFile);
-        imageToImageData.append("prompt", categoryStyles[styleSelectedIndex].prompt);
-        imageToImageData.append("negative_prompt", categoryStyles[styleSelectedIndex].negative_prompt);
-        imageToImageData.append("modelName", modelName);
-        imageToImageData.append("ddim_steps", categoryStyles[styleSelectedIndex].ddim_steps);
-        imageToImageData.append("strength", categoryStyles[styleSelectedIndex].strength);
-        imageToImageData.append("category", categoriesData[categorySelectedIndex].name);
-        imageToImageData.append("image_resolution", "512");
-        Axios.post(`https://newapi.tavlorify.se/image-to-image/generate-image`, imageToImageData)
+        Axios.get(`${process.env.BASE_API_URL}/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=512&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}`)
             .then((res) => {
                 const result = res.data;
                 console.log(result);
@@ -443,6 +443,7 @@ const ImageToImage = ({ printsName }) => {
                                         className="close-icon"
                                         onClick={removeImage}
                                     />
+                                    <h4 className="fw-bold">Orientation Number: { orientationNumber }</h4>
                                 </div>}
                                 {/* End Downloaded Image Box */}
                                 {/* Start Select Image Box */}
