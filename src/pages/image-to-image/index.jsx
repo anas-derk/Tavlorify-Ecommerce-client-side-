@@ -77,7 +77,7 @@ const ImageToImage = ({ printsName }) => {
 
     const [imageLink, setImageLink] = useState("");
 
-    const [orientationNumber, setOrientationNumber] = useState("");
+    const [tempImageType, setTempImageType] = useState("");
 
     const frameImages = {
         "poster": {
@@ -272,7 +272,7 @@ const ImageToImage = ({ printsName }) => {
         Axios.post(`${process.env.BASE_API_URL}/image-to-image/upload-image-and-processing`, imageToImageData)
             .then((res) => {
                 setImageLink(res.data.imageLink);
-                setOrientationNumber(res.data.orientationNumber);
+                setTempImageType(res.data.imageType);
             }).catch((err) => {
                 console.log(err);
             });
@@ -323,32 +323,29 @@ const ImageToImage = ({ printsName }) => {
             .then((res) => {
                 const result = res.data;
                 console.log(result);
-                if(Array.isArray(result)) {
-                    const generatedImage = new Image();
-                    generatedImage.src = result[1];
-                    generatedImage.onload = function () {
-                        const generatedImageWidth = this.width;
-                        const generatedImageHeight = this.height;
-                        setPaintingWidth(generatedImageWidth);
-                        setPaintingHeight(generatedImageHeight);
-                        if (generatedImageWidth > generatedImageHeight) {
-                            setImageType("horizontal");
-                            setDimentionsInCm("70x50");
-                            setPaintingURL(result[1]);
-                            setIsWaitStatus(false);
-                        } else if (generatedImageWidth < generatedImageHeight) {
-                            setImageType("vertical");
+                setIsWaitStatus(false);
+                if (Array.isArray(result)) {
+                    setImageType(tempImageType);
+                    switch(tempImageType) {
+                        case "vertical": {
                             setDimentionsInCm("50x70");
                             setPaintingURL(result[1]);
-                            setIsWaitStatus(false);
-                        } else {
-                            setImageType("square");
+                            break;
+                        }
+                        case "horizontal": {
+                            setDimentionsInCm("70x50");
+                            setPaintingURL(result[1]);
+                            break;
+                        }
+                        case "square": {
                             setDimentionsInCm("30x30");
-                            setIsWaitStatus(false);
+                            setPaintingURL(result[1]);
+                        }
+                        default: {
+                            console.log("Error !!!");
                         }
                     }
                 } else {
-                    setIsWaitStatus(false);
                     setErrorMsg("Sorry, Something Went Wrong !!");
                 }
             })
@@ -421,7 +418,6 @@ const ImageToImage = ({ printsName }) => {
                                         className="close-icon"
                                         onClick={removeImage}
                                     />
-                                    <h4 className="fw-bold">Orientation Number: {orientationNumber}</h4>
                                 </div>}
                                 {/* End Downloaded Image Box */}
                                 {/* Start Select Image Box */}
@@ -548,7 +544,7 @@ const ImageToImage = ({ printsName }) => {
                                                 {
                                                     border: imageType === "vertical" ? "4px solid #000" : "",
                                                     fontWeight: imageType === "vertical" ? "bold" : "",
-                                                    textDecoration: (paintingWidth > paintingHeight || paintingWidth === paintingHeight) ? "line-through" : "",
+                                                    textDecoration: imageType !== "vertical" ? "line-through" : "",
                                                 }
                                             }
                                         >
@@ -560,7 +556,7 @@ const ImageToImage = ({ printsName }) => {
                                                 {
                                                     border: imageType === "horizontal" ? "4px solid #000" : "",
                                                     fontWeight: imageType === "horizontal" ? "bold" : "",
-                                                    textDecoration: (paintingWidth < paintingHeight || paintingWidth === paintingHeight) ? "line-through" : "",
+                                                    textDecoration: imageType !== "horizontal" ? "line-through" : "",
                                                 }
                                             }
                                         >
@@ -572,7 +568,7 @@ const ImageToImage = ({ printsName }) => {
                                                 {
                                                     border: imageType === "square" ? "4px solid #000" : "",
                                                     fontWeight: imageType === "square" ? "bold" : "",
-                                                    textDecoration: (paintingWidth < paintingHeight || paintingWidth > paintingHeight) ? "line-through" : "",
+                                                    textDecoration: imageType !== "square" ? "line-through" : "",
                                                 }
                                             }
                                         >
