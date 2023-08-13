@@ -323,8 +323,8 @@ const ImageToImage = ({ printsName }) => {
             .then((res) => {
                 const result = res.data;
                 console.log(result);
+                setIsWaitStatus(false);
                 if(Array.isArray(result)) {
-                    setPaintingURL(result[1]);
                     const generatedImage = new Image();
                     generatedImage.src = result[1];
                     generatedImage.onload = function () {
@@ -335,18 +335,20 @@ const ImageToImage = ({ printsName }) => {
                         if (generatedImageWidth > generatedImageHeight) {
                             setImageType("horizontal");
                             setDimentionsInCm("70x50");
+                            setPaintingURL(result[1]);
                         } else if (generatedImageWidth < generatedImageHeight) {
                             setImageType("vertical");
                             setDimentionsInCm("50x70");
+                            setPaintingURL(result[1]);
                         } else {
                             setImageType("square");
                             setDimentionsInCm("30x30");
+                            setPaintingURL(result[1]);
                         }
                     }
                 } else {
                     setErrorMsg("Sorry, Something Went Wrong !!");
                 }
-                setIsWaitStatus(false);
             })
             .catch((err) => {
                 console.log(err);
