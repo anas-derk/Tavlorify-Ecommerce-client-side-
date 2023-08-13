@@ -323,7 +323,29 @@ const ImageToImage = ({ printsName }) => {
             .then((res) => {
                 const result = res.data;
                 console.log(result);
-                setPaintingURL(result[1]);
+                if(Array.isArray(result)) {
+                    setPaintingURL(result[1]);
+                    const generatedImage = new Image();
+                    generatedImage.src = result[1];
+                    generatedImage.onload = function () {
+                        const generatedImageWidth = this.width;
+                        const generatedImageHeight = this.height;
+                        setPaintingWidth(generatedImageWidth);
+                        setPaintingHeight(generatedImageHeight);
+                        if (generatedImageWidth > generatedImageHeight) {
+                            setImageType("horizontal");
+                            setDimentionsInCm("70x50");
+                        } else if (generatedImageWidth < generatedImageHeight) {
+                            setImageType("vertical");
+                            setDimentionsInCm("50x70");
+                        } else {
+                            setImageType("square");
+                            setDimentionsInCm("30x30");
+                        }
+                    }
+                } else {
+                    setErrorMsg("Sorry, Something Went Wrong !!");
+                }
                 setIsWaitStatus(false);
             })
             .catch((err) => {
