@@ -59,11 +59,13 @@ const ImageToImage = ({ printsName }) => {
 
     const [paintingType, setPaintingType] = useState(printsName);
 
+    const [paintingWidth, setPaintingWidth] = useState(null);
+
+    const [paintingHeight, setPaintingHeight] = useState(null);
+
     const [isExistWhiteBorderWithPoster, setIsExistWhiteBorderWithPoster] = useState("without-border");
 
     const [frameColor, setFrameColor] = useState("natural-wood");
-
-    const [dimentions, setDimentions] = useState({});
 
     const [dimentionsInCm, setDimentionsInCm] = useState(printsName === "poster" ? "21x29,7" : "30x40");
 
@@ -245,15 +247,15 @@ const ImageToImage = ({ printsName }) => {
                         .then((res) => {
                             const categoryStylesTemp = res.data;
                             setCategoryStyles(categoryStylesTemp);
-                            const tempModelName = categoryStylesTemp[0].modelName;
-                            setModelName(tempModelName);
-                            const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
-                            setDimentions({
-                                width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
-                                height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
-                            });
+                            setModelName(categoryStylesTemp[0].modelName);
                             if (printsName === "poster" || printsName === "poster-with-hangers") {
                                 setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
+                                let image = new Image();
+                                image.src = `${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`;
+                                image.onload = function () {
+                                    setPaintingWidth(this.width);
+                                    setPaintingHeight(this.height);
+                                }
                             } else if (printsName === "canvas") {
                                 setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
                             }
@@ -268,12 +270,12 @@ const ImageToImage = ({ printsName }) => {
         let imageToImageData = new FormData();
         imageToImageData.append("imageFile", file);
         Axios.post(`${process.env.BASE_API_URL}/image-to-image/upload-image-and-processing`, imageToImageData)
-        .then((res) => {
-            setImageLink(res.data.imageLink);
-            setOrientationNumber(res.data.orientationNumber);
-        }).catch((err) => {
-            console.log(err);
-        });
+            .then((res) => {
+                setImageLink(res.data.imageLink);
+                setOrientationNumber(res.data.orientationNumber);
+            }).catch((err) => {
+                console.log(err);
+            });
 
     }
 
@@ -290,11 +292,6 @@ const ImageToImage = ({ printsName }) => {
                 setStyleSelectedIndex(0);
                 const tempModelName = res.data[0].modelName;
                 setModelName(tempModelName);
-                const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
-                setDimentions({
-                    width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
-                    height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
-                });
             })
             .catch((err) => console.log(err));
     }
@@ -303,56 +300,10 @@ const ImageToImage = ({ printsName }) => {
         setStyleSelectedIndex(index);
         let tempModelName = categoryStyles[index].modelName;
         setModelName(tempModelName);
-        const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
-        setDimentions({
-            width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
-            height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
-        });
-    }
-
-    const handleSelectImageType = (imgType) => {
-        setImageType(imgType);
-        switch (imgType) {
-            case "horizontal": {
-                setDimentionsInCm("70x50");
-                const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "70x50");
-                setDimentions({
-                    width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                    height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
-                });
-                break;
-            }
-            case "vertical": {
-                setDimentionsInCm("50x70");
-                const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "50x70");
-                setDimentions({
-                    width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                    height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
-                });
-                break;
-            }
-            case "square": {
-                setDimentionsInCm("30x30");
-                const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "30x30");
-                setDimentions({
-                    width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                    height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
-                });
-                break;
-            }
-            default: {
-                console.log("error in select image position");
-            }
-        }
     }
 
     const handleSelectImageDimentions = (inCm) => {
-        const dimsIndex = global_data.modelsDimentions[modelName][imageType].findIndex((el) => el.inCm == inCm);
         setDimentionsInCm(inCm);
-        setDimentions({
-            width: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.width,
-            height: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.height,
-        });
     }
 
     const handleIsExistWhiteBorderWithPoster = (isExistWhiteBorderWithPoster) => {
@@ -368,7 +319,7 @@ const ImageToImage = ({ printsName }) => {
         setErrorMsg("");
         setPaintingURL("");
         setIsWaitStatus(true);
-        Axios.get(`${process.env.BASE_API_URL}/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=512&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}`)
+        Axios.get(`${process.env.BASE_API_URL}/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}`)
             .then((res) => {
                 const result = res.data;
                 console.log(result);
@@ -416,11 +367,12 @@ const ImageToImage = ({ printsName }) => {
                                     style={{
                                         position: frameColor === "none" ? "static" : "absolute",
                                         zIndex: "-1",
-                                        width: globalData.framesDimentions[paintingType][imageType][dimentionsInCm].width,
-                                        height: globalData.framesDimentions[paintingType][imageType][dimentionsInCm].height,
+                                        width: globalData.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width,
+                                        height: globalData.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height,
                                         backgroundImage: `url(${paintingURL})`,
                                         backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
+                                        backgroundPosition: "0 0",
+                                        backgroundSize: "cover",
                                     }}
                                 ></div>}
                                 {isWaitStatus && !errorMsg && <span className="loader"></span>}
@@ -443,7 +395,7 @@ const ImageToImage = ({ printsName }) => {
                                         className="close-icon"
                                         onClick={removeImage}
                                     />
-                                    <h4 className="fw-bold">Orientation Number: { orientationNumber }</h4>
+                                    <h4 className="fw-bold">Orientation Number: {orientationNumber}</h4>
                                 </div>}
                                 {/* End Downloaded Image Box */}
                                 {/* Start Select Image Box */}
@@ -566,22 +518,37 @@ const ImageToImage = ({ printsName }) => {
                                     <ul className="positions-list mb-4 text-center">
                                         <li
                                             className="p-3"
-                                            style={imageType === "vertical" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectImageType("vertical")}
+                                            style={
+                                                {
+                                                    border: imageType === "vertical" ? "4px solid #000" : "",
+                                                    fontWeight: imageType === "vertical" ? "bold" : "",
+                                                    textDecoration: (paintingWidth > paintingHeight || paintingWidth === paintingHeight) ? "line-through" : "",
+                                                }
+                                            }
                                         >
                                             Vertical
                                         </li>
                                         <li
                                             className="p-3"
-                                            style={imageType === "horizontal" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectImageType("horizontal")}
+                                            style={
+                                                {
+                                                    border: imageType === "horizontal" ? "4px solid #000" : "",
+                                                    fontWeight: imageType === "horizontal" ? "bold" : "",
+                                                    textDecoration: (paintingWidth < paintingHeight || paintingWidth === paintingHeight) ? "line-through" : "",
+                                                }
+                                            }
                                         >
                                             Horizontal
                                         </li>
                                         <li
                                             className="p-3"
-                                            style={imageType === "square" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectImageType("square")}
+                                            style={
+                                                {
+                                                    border: imageType === "square" ? "4px solid #000" : "",
+                                                    fontWeight: imageType === "square" ? "bold" : "",
+                                                    textDecoration: (paintingWidth < paintingHeight || paintingWidth > paintingHeight) ? "line-through" : "",
+                                                }
+                                            }
                                         >
                                             Square
                                         </li>

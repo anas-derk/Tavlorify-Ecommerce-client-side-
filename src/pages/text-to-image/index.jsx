@@ -548,8 +548,8 @@ const TextToImage = ({ printsName }) => {
                                 <div
                                     className="generated-image-box d-flex align-items-center justify-content-center"
                                     style={{
-                                        width: `${global_data.appearedImageSizes[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width}px`,
-                                        height: `${global_data.appearedImageSizes[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height}px`,
+                                        width: `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width}px`,
+                                        height: `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height}px`,
                                         boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 3px #000" : "",
                                     }}
                                 >
@@ -557,8 +557,8 @@ const TextToImage = ({ printsName }) => {
                                         src={paintingURL}
                                         alt="Generated Image !!"
                                         style={{
-                                            width: `${global_data.appearedImageSizes[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`,
-                                            height: `${global_data.appearedImageSizes[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`,
+                                            width: `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`,
+                                            height: `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`,
                                         }}
                                     />}
                                 </div>
