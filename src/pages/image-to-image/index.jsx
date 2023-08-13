@@ -323,28 +323,32 @@ const ImageToImage = ({ printsName }) => {
             .then((res) => {
                 const result = res.data;
                 console.log(result);
-                setIsWaitStatus(false);
-                if (Array.isArray(result)) {
+                if(Array.isArray(result)) {
                     const generatedImage = new Image();
                     generatedImage.src = result[1];
-                    const generatedImageWidth = generatedImage.width;
-                    const generatedImageHeight = generatedImage.height;
-                    setPaintingWidth(generatedImageWidth);
-                    setPaintingHeight(generatedImageHeight);
-                    if (generatedImageWidth > generatedImageHeight) {
-                        setImageType("horizontal");
-                        setDimentionsInCm("70x50");
-                        setPaintingURL(result[1]);
-                    } else if (generatedImageWidth < generatedImageHeight) {
-                        setImageType("vertical");
-                        setDimentionsInCm("50x70");
-                        setPaintingURL(result[1]);
-                    } else {
-                        setImageType("square");
-                        setDimentionsInCm("30x30");
-                        setPaintingURL(result[1]);
+                    generatedImage.onload = function () {
+                        const generatedImageWidth = this.width;
+                        const generatedImageHeight = this.height;
+                        setPaintingWidth(generatedImageWidth);
+                        setPaintingHeight(generatedImageHeight);
+                        if (generatedImageWidth > generatedImageHeight) {
+                            setImageType("horizontal");
+                            setDimentionsInCm("70x50");
+                            setPaintingURL(result[1]);
+                            setIsWaitStatus(false);
+                        } else if (generatedImageWidth < generatedImageHeight) {
+                            setImageType("vertical");
+                            setDimentionsInCm("50x70");
+                            setPaintingURL(result[1]);
+                            setIsWaitStatus(false);
+                        } else {
+                            setImageType("square");
+                            setDimentionsInCm("30x30");
+                            setIsWaitStatus(false);
+                        }
                     }
                 } else {
+                    setIsWaitStatus(false);
                     setErrorMsg("Sorry, Something Went Wrong !!");
                 }
             })
