@@ -7,6 +7,19 @@
   margin: 0 auto;
 }
 
+.image-to-image-service .page-content .container-fluid .row .art-painting .image-box .displacement-icons-box {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting .image-box .displacement-icons-box .displacement-icon {
+  font-size: 70px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
 .image-to-image-service .page-content .container-fluid .row .image-before-processing-box .select-image-box {
   border: 2px dashed #CCC;
   position: relative;

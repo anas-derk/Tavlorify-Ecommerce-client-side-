@@ -40,6 +40,7 @@ import posterWithHangersDarkWoodFrameImageVertical from "../../../public/images/
 import { BsCloudUpload } from "react-icons/bs";
 import { AiFillCloseCircle } from "react-icons/ai";
 import globalData from "../../../public/data/global";
+import { CgArrowsHAlt, CgArrowsVAlt } from "react-icons/cg";
 
 const ImageToImage = ({ printsName }) => {
 
@@ -78,6 +79,14 @@ const ImageToImage = ({ printsName }) => {
     const [imageLink, setImageLink] = useState("");
 
     const [tempImageType, setTempImageType] = useState("");
+
+    const [isWillTheImageBeMoved, setIsWillTheImageBeMoved] = useState(false);
+
+    const [theDirectionOfImageDisplacement, setTheDirectionOfImageDisplacement] = useState("");
+
+    const [theAmountOfImageDisplacement, setTheAmountOfImageDisplacement] = useState(null);
+
+    const [backgroundPosition, setBackgroundPosition] = useState("0px 0px");
 
     const frameImages = {
         "poster": {
@@ -253,8 +262,8 @@ const ImageToImage = ({ printsName }) => {
                                 let image = new Image();
                                 image.src = `${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`;
                                 image.onload = function () {
-                                    setPaintingWidth(this.width);
-                                    setPaintingHeight(this.height);
+                                    setPaintingWidth(this.naturalWidth);
+                                    setPaintingHeight(this.naturalWidth);
                                 }
                             } else if (printsName === "canvas") {
                                 setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
@@ -318,6 +327,12 @@ const ImageToImage = ({ printsName }) => {
     const imageToImage = () => {
         setErrorMsg("");
         setPaintingURL("");
+        setPaintingWidth(null);
+        setPaintingHeight(null);
+        setIsWillTheImageBeMoved(false);
+        setTheDirectionOfImageDisplacement("");
+        setTheAmountOfImageDisplacement(null);
+        setBackgroundPosition("0px 0px");
         setIsWaitStatus(true);
         Axios.get(`${process.env.BASE_API_URL}/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}`)
             .then((res) => {
@@ -326,15 +341,41 @@ const ImageToImage = ({ printsName }) => {
                 setIsWaitStatus(false);
                 if (Array.isArray(result)) {
                     setImageType(tempImageType);
-                    switch(tempImageType) {
+                    switch (tempImageType) {
                         case "vertical": {
                             setDimentionsInCm("50x70");
                             setPaintingURL(result[1]);
+                            let image = new Image();
+                            image.src = result[1];
+                            image.onload = function () {
+                                const naturalWidthTemp = this.naturalWidth;
+                                const naturalHeightTemp = this.naturalHeight;
+                                setPaintingWidth(naturalWidthTemp);
+                                setPaintingHeight(naturalHeightTemp);
+                                if (naturalHeightTemp / naturalWidthTemp != 1.4) {
+                                    setIsWillTheImageBeMoved(true);
+                                    setTheDirectionOfImageDisplacement("vertical");
+                                    setTheAmountOfImageDisplacement((naturalHeightTemp - 585) / 2 - 0.5);
+                                }
+                            }
                             break;
                         }
                         case "horizontal": {
                             setDimentionsInCm("70x50");
                             setPaintingURL(result[1]);
+                            let image = new Image();
+                            image.src = result[1];
+                            image.onload = function () {
+                                const naturalWidthTemp = this.naturalWidth;
+                                const naturalHeightTemp = this.naturalHeight;
+                                setPaintingWidth(naturalWidthTemp);
+                                setPaintingHeight(naturalHeightTemp);
+                                if (naturalWidthTemp / naturalHeightTemp != 1.4) {
+                                    setIsWillTheImageBeMoved(true);
+                                    setTheDirectionOfImageDisplacement("horizontal");
+                                    setTheAmountOfImageDisplacement((naturalWidthTemp - 585) / 2 - 0.5);
+                                }
+                            }
                             break;
                         }
                         case "square": {
@@ -353,6 +394,23 @@ const ImageToImage = ({ printsName }) => {
                 console.log(err);
                 setErrorMsg("Sorry, Something Went Wrong !!");
             });
+    }
+
+    const handleMouseMove = (e) => {
+        const xOffset = e.nativeEvent.offsetX;
+        const yOffset = e.nativeEvent.offsetY;
+        const percentageX = (xOffset / e.target.offsetWidth) * 100;
+        const percentageY = (yOffset / e.target.offsetHeight) * 100;
+        setBackgroundPosition(percentageX);
+        console.log(e.nativeEvent.offsetX)
+        if (isWillTheImageBeMoved) {
+            if (theDirectionOfImageDisplacement === "vertical") {
+
+            } else {
+
+            }
+            console.log(e.nativeEvent.offsetX)
+        }
     }
 
     return (
@@ -378,6 +436,7 @@ const ImageToImage = ({ printsName }) => {
                             >
                                 <div
                                     className="frame-image-box"
+                                    onMouseEnter={handleMouseMove}
                                 >
                                     {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
                                         src={frameImages[paintingType][imageType][frameColor][dimentionsInCm]}
@@ -385,19 +444,35 @@ const ImageToImage = ({ printsName }) => {
                                         style={{ maxWidth: "100%", maxHeight: "100%" }}
                                     />}
                                 </div>
-                                {!isWaitStatus && !errorMsg && paintingURL && <div
-                                    className="generated-image-box"
+                                <div
+                                    className="image-box"
                                     style={{
-                                        position: frameColor === "none" ? "static" : "absolute",
+                                        position: "absolute",
                                         zIndex: "-1",
                                         width: globalData.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width,
                                         height: globalData.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height,
-                                        backgroundImage: `url(${paintingURL})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "0 0",
-                                        backgroundSize: "cover",
                                     }}
-                                ></div>}
+
+                                >
+                                    {isWillTheImageBeMoved && <div
+                                        className="displacement-icons-box d-flex align-items-center justify-content-center"
+                                    >
+                                        {theDirectionOfImageDisplacement === "horizontal" && <CgArrowsHAlt className="displacement-icon" />}
+                                        {theDirectionOfImageDisplacement === "vertical" && <CgArrowsVAlt className="displacement-icon" />}
+                                    </div>}
+                                    {!isWaitStatus && !errorMsg && paintingURL && <div
+                                        className="generated-image-box"
+                                        style={{
+                                            width: globalData.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width,
+                                            height: globalData.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height,
+                                            backgroundImage: `url(${paintingURL})`,
+                                            backgroundRepeat: "no-repeat",
+                                            backgroundPosition: backgroundPosition,
+                                            backgroundSize: "cover",
+                                            cursor: isWillTheImageBeMoved ? "move" : "",
+                                        }}
+                                    ></div>}
+                                </div>
                                 {isWaitStatus && !errorMsg && <span className="loader"></span>}
                                 {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
                             </section>
