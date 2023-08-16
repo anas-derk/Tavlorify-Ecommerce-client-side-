@@ -7,6 +7,10 @@
   margin: 0 auto;
 }
 
+.image-to-image-service .page-content .container-fluid .row .art-painting {
+  position: relative;
+}
+
 .image-to-image-service .page-content .container-fluid .row .art-painting .image-box .displacement-icons-box {
   position: absolute;
   left: 0;

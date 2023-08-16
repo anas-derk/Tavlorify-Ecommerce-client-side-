@@ -263,7 +263,10 @@ const ImageToImage = ({ printsName }) => {
                                 image.src = `${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`;
                                 image.onload = function () {
                                     setPaintingWidth(this.naturalWidth);
-                                    setPaintingHeight(this.naturalWidth);
+                                    setPaintingHeight(this.naturalHeight);
+                                    setIsWillTheImageBeMoved(true);
+                                    setTheDirectionOfImageDisplacement("vertical");
+                                    setTheAmountOfImageDisplacement((this.naturalHeight - 585) / 2 - 0.5);
                                 }
                             } else if (printsName === "canvas") {
                                 setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
@@ -397,20 +400,7 @@ const ImageToImage = ({ printsName }) => {
     }
 
     const handleMouseMove = (e) => {
-        const xOffset = e.nativeEvent.offsetX;
-        const yOffset = e.nativeEvent.offsetY;
-        const percentageX = (xOffset / e.target.offsetWidth) * 100;
-        const percentageY = (yOffset / e.target.offsetHeight) * 100;
-        setBackgroundPosition(percentageX);
-        console.log(e.nativeEvent.offsetX)
-        if (isWillTheImageBeMoved) {
-            if (theDirectionOfImageDisplacement === "vertical") {
-
-            } else {
-
-            }
-            console.log(e.nativeEvent.offsetX)
-        }
+        
     }
 
     return (
@@ -469,7 +459,7 @@ const ImageToImage = ({ printsName }) => {
                                             backgroundRepeat: "no-repeat",
                                             backgroundPosition: backgroundPosition,
                                             backgroundSize: "cover",
-                                            cursor: isWillTheImageBeMoved ? "move" : "",
+                                            cursor: isWillTheImageBeMoved ? "grap" : "",
                                         }}
                                     ></div>}
                                 </div>
