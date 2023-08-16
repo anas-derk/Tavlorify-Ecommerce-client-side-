@@ -403,12 +403,10 @@ const ImageToImage = ({ printsName }) => {
 
     const handleMouseDown = () => {
         setIsDraggable(true);
-        console.log("down");
     }
 
     const handleMouseUp = () => {
         setIsDraggable(false);
-        console.log("up");
     }
 
     const handleMouseMove = (e) => {
@@ -439,9 +437,13 @@ const ImageToImage = ({ printsName }) => {
                             >
                                 <div
                                     className="frame-image-box"
+                                    onDragStart={(e) => e.preventDefault()}
                                     onMouseDown={handleMouseDown}
                                     onMouseUp={handleMouseUp}
                                     onMouseMove={handleMouseMove}
+                                    style={{
+                                        cursor: isWillTheImageBeMoved ? "grab": "",
+                                    }}
                                 >
                                     {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
                                         src={frameImages[paintingType][imageType][frameColor][dimentionsInCm]}
