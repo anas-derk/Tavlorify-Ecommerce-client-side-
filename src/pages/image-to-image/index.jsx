@@ -56,7 +56,7 @@ const ImageToImage = ({ printsName }) => {
 
     const [modelName, setModelName] = useState("");
 
-    const [imageType, setImageType] = useState("horizontal");
+    const [imageType, setImageType] = useState("vertical");
 
     const [paintingType, setPaintingType] = useState(printsName);
 
@@ -68,7 +68,7 @@ const ImageToImage = ({ printsName }) => {
 
     const [frameColor, setFrameColor] = useState("natural-wood");
 
-    const [dimentionsInCm, setDimentionsInCm] = useState(printsName === "poster" ? "29,7x21" : "40x30");
+    const [dimentionsInCm, setDimentionsInCm] = useState(printsName === "poster" ? "21x29,7" : "30x40");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -86,7 +86,7 @@ const ImageToImage = ({ printsName }) => {
 
     const [theCapacityOfImageDisplacement, setTheCapacityOfImageDisplacement] = useState(null);
 
-    const [backgroundPosition, setBackgroundPosition] = useState({ x: -72.5, y: 0 });
+    const [backgroundPosition, setBackgroundPosition] = useState({ x: 0, y: -72.5 });
 
     const [isDraggable, setIsDraggable] = useState(false);
 
@@ -264,14 +264,14 @@ const ImageToImage = ({ printsName }) => {
                             setCategoryStyles(categoryStylesTemp);
                             setModelName(categoryStylesTemp[0].modelName);
                             if (printsName === "poster" || printsName === "poster-with-hangers") {
-                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImageH.png`);
+                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
                                 let image = new Image();
-                                image.src = `${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImageH.png`;
+                                image.src = `${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`;
                                 image.onload = function () {
                                     setPaintingWidth(this.naturalWidth);
                                     setPaintingHeight(this.naturalHeight);
                                     setIsWillTheImageBeMoved(true);
-                                    setTheDirectionOfImageDisplacement("horizontal");
+                                    setTheDirectionOfImageDisplacement("vertical");
                                     setTheCapacityOfImageDisplacement(145);
                                 }
                             } else if (printsName === "canvas") {
@@ -438,7 +438,6 @@ const ImageToImage = ({ printsName }) => {
                 setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement > 0 ? 0 : backgroundPosition.y + amountOfDisplacement });
             }
         } else if (theDirectionOfImageDisplacement === "horizontal") {
-            console.log("ttt")
             const newOffestX = e.nativeEvent.offsetX;
             const amountOfDisplacement = newOffestX - initialOffsetValue.x;
             if (amountOfDisplacement < 0) {
