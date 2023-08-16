@@ -84,11 +84,15 @@ const ImageToImage = ({ printsName }) => {
 
     const [theDirectionOfImageDisplacement, setTheDirectionOfImageDisplacement] = useState("");
 
-    const [theAmountOfImageDisplacement, setTheAmountOfImageDisplacement] = useState(null);
+    const [theCapacityOfImageDisplacement, setTheCapacityOfImageDisplacement] = useState(null);
 
-    const [backgroundPosition, setBackgroundPosition] = useState("0px 0px");
+    const [backgroundPosition, setBackgroundPosition] = useState({ x: 0, y: 0 });
 
     const [isDraggable, setIsDraggable] = useState(false);
+
+    const [initialOffsetValue, setInitialOffsetValue] = useState({ x: 0, y: 0 });
+
+    const [theAmountOfImageDisplacement, setTheAmountOfImageDisplacement] = useState({ x: 0, y: 0 });
 
     const frameImages = {
         "poster": {
@@ -268,7 +272,7 @@ const ImageToImage = ({ printsName }) => {
                                     setPaintingHeight(this.naturalHeight);
                                     setIsWillTheImageBeMoved(true);
                                     setTheDirectionOfImageDisplacement("vertical");
-                                    setTheAmountOfImageDisplacement((this.naturalHeight - 585) / 2 - 0.5);
+                                    setTheCapacityOfImageDisplacement(145);
                                 }
                             } else if (printsName === "canvas") {
                                 setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
@@ -336,8 +340,8 @@ const ImageToImage = ({ printsName }) => {
         setPaintingHeight(null);
         setIsWillTheImageBeMoved(false);
         setTheDirectionOfImageDisplacement("");
-        setTheAmountOfImageDisplacement(null);
-        setBackgroundPosition("0px 0px");
+        setTheCapacityOfImageDisplacement(null);
+        setBackgroundPosition({ x: 0, y: 0 });
         setIsWaitStatus(true);
         Axios.get(`${process.env.BASE_API_URL}/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}`)
             .then((res) => {
@@ -360,7 +364,7 @@ const ImageToImage = ({ printsName }) => {
                                 if (naturalHeightTemp / naturalWidthTemp != 1.4) {
                                     setIsWillTheImageBeMoved(true);
                                     setTheDirectionOfImageDisplacement("vertical");
-                                    setTheAmountOfImageDisplacement((naturalHeightTemp - 585) / 2 - 0.5);
+                                    setTheCapacityOfImageDisplacement(145);
                                 }
                             }
                             break;
@@ -378,7 +382,7 @@ const ImageToImage = ({ printsName }) => {
                                 if (naturalWidthTemp / naturalHeightTemp != 1.4) {
                                     setIsWillTheImageBeMoved(true);
                                     setTheDirectionOfImageDisplacement("horizontal");
-                                    setTheAmountOfImageDisplacement((naturalWidthTemp - 585) / 2 - 0.5);
+                                    setTheCapacityOfImageDisplacement(145);
                                 }
                             }
                             break;
@@ -401,17 +405,29 @@ const ImageToImage = ({ printsName }) => {
             });
     }
 
-    const handleMouseDown = () => {
+    const handleMouseDown = (e) => {
+        setInitialOffsetValue({ ...initialOffsetValue, y: e.nativeEvent.offsetY });
         setIsDraggable(true);
     }
 
-    const handleMouseUp = () => {
+    const handleMouseUp = (e) => {
         setIsDraggable(false);
+        setInitialOffsetValue({ ...initialOffsetValue, y: backgroundPosition.y });
     }
 
     const handleMouseMove = (e) => {
         if (!isDraggable) return;
-        console.log("move");
+        const newOffestY = e.nativeEvent.offsetY;
+        const amountOfDisplacement = newOffestY - initialOffsetValue.y;
+        if (amountOfDisplacement < 0 && backgroundPosition.y != 0) {
+            console.log("up")
+            setBackgroundPosition({ ...backgroundPosition, y: amountOfDisplacement });
+            setTheAmountOfImageDisplacement({ ...theAmountOfImageDisplacement, y: Math.abs(amountOfDisplacement) });
+        } else if (amountOfDisplacement > 0 && backgroundPosition.y != 145) {
+            console.log("down")
+            setBackgroundPosition({ ...backgroundPosition, y: amountOfDisplacement });
+            setTheAmountOfImageDisplacement({ ...theAmountOfImageDisplacement, y: Math.abs(amountOfDisplacement) });
+        }
     }
 
     return (
@@ -442,7 +458,7 @@ const ImageToImage = ({ printsName }) => {
                                     onMouseUp={handleMouseUp}
                                     onMouseMove={handleMouseMove}
                                     style={{
-                                        cursor: isWillTheImageBeMoved ? "grab": "",
+                                        cursor: isWillTheImageBeMoved ? "grab" : "",
                                     }}
                                 >
                                     {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
@@ -475,7 +491,7 @@ const ImageToImage = ({ printsName }) => {
                                             height: globalData.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height,
                                             backgroundImage: `url(${paintingURL})`,
                                             backgroundRepeat: "no-repeat",
-                                            backgroundPosition: backgroundPosition,
+                                            backgroundPosition: `${backgroundPosition.x}px ${backgroundPosition.y}px`,
                                             backgroundSize: "cover",
                                             cursor: isWillTheImageBeMoved ? "grap" : "",
                                             maxWidth: "100%",
