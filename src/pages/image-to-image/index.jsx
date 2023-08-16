@@ -86,7 +86,7 @@ const ImageToImage = ({ printsName }) => {
 
     const [theCapacityOfImageDisplacement, setTheCapacityOfImageDisplacement] = useState(null);
 
-    const [backgroundPosition, setBackgroundPosition] = useState({ x: 0, y: 0 });
+    const [backgroundPosition, setBackgroundPosition] = useState({ x: 0, y: -72.5 });
 
     const [isDraggable, setIsDraggable] = useState(false);
 
@@ -412,21 +412,19 @@ const ImageToImage = ({ printsName }) => {
 
     const handleMouseUp = (e) => {
         setIsDraggable(false);
-        setInitialOffsetValue({ ...initialOffsetValue, y: backgroundPosition.y });
+        setInitialOffsetValue({ ...initialOffsetValue, y: e.nativeEvent.y });
     }
 
     const handleMouseMove = (e) => {
         if (!isDraggable) return;
         const newOffestY = e.nativeEvent.offsetY;
         const amountOfDisplacement = newOffestY - initialOffsetValue.y;
-        if (amountOfDisplacement < 0 && backgroundPosition.y != 0) {
-            console.log("up")
-            setBackgroundPosition({ ...backgroundPosition, y: amountOfDisplacement });
-            setTheAmountOfImageDisplacement({ ...theAmountOfImageDisplacement, y: Math.abs(amountOfDisplacement) });
-        } else if (amountOfDisplacement > 0 && backgroundPosition.y != 145) {
-            console.log("down")
-            setBackgroundPosition({ ...backgroundPosition, y: amountOfDisplacement });
-            setTheAmountOfImageDisplacement({ ...theAmountOfImageDisplacement, y: Math.abs(amountOfDisplacement) });
+        if (amountOfDisplacement < 0) {
+            setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement < -145 ? -145 : backgroundPosition.y + amountOfDisplacement })
+        }
+        if (amountOfDisplacement > 0) {
+            console.log(backgroundPosition.y + amountOfDisplacement);
+            setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement > 0 ? 0 : backgroundPosition.y + amountOfDisplacement })
         }
     }
 
