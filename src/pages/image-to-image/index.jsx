@@ -88,6 +88,8 @@ const ImageToImage = ({ printsName }) => {
 
     const [backgroundPosition, setBackgroundPosition] = useState("0px 0px");
 
+    const [isDraggable, setIsDraggable] = useState(false);
+
     const frameImages = {
         "poster": {
             "square": {
@@ -399,8 +401,19 @@ const ImageToImage = ({ printsName }) => {
             });
     }
 
+    const handleMouseDown = () => {
+        setIsDraggable(true);
+        console.log("down");
+    }
+
+    const handleMouseUp = () => {
+        setIsDraggable(false);
+        console.log("up");
+    }
+
     const handleMouseMove = (e) => {
-        
+        if (!isDraggable) return;
+        console.log("move");
     }
 
     return (
@@ -426,7 +439,9 @@ const ImageToImage = ({ printsName }) => {
                             >
                                 <div
                                     className="frame-image-box"
-                                    onMouseEnter={handleMouseMove}
+                                    onMouseDown={handleMouseDown}
+                                    onMouseUp={handleMouseUp}
+                                    onMouseMove={handleMouseMove}
                                 >
                                     {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
                                         src={frameImages[paintingType][imageType][frameColor][dimentionsInCm]}
@@ -441,8 +456,9 @@ const ImageToImage = ({ printsName }) => {
                                         zIndex: "-1",
                                         width: globalData.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width,
                                         height: globalData.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height,
+                                        maxWidth: "95%",
+                                        maxHeight: "97.5%",
                                     }}
-
                                 >
                                     {isWillTheImageBeMoved && <div
                                         className="displacement-icons-box d-flex align-items-center justify-content-center"
@@ -460,6 +476,8 @@ const ImageToImage = ({ printsName }) => {
                                             backgroundPosition: backgroundPosition,
                                             backgroundSize: "cover",
                                             cursor: isWillTheImageBeMoved ? "grap" : "",
+                                            maxWidth: "100%",
+                                            maxHeight: "100%",
                                         }}
                                     ></div>}
                                 </div>
