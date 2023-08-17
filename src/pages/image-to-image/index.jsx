@@ -342,7 +342,7 @@ const ImageToImage = ({ printsName }) => {
         setTheDirectionOfImageDisplacement("");
         setTheCapacityOfImageDisplacement(null);
         setBackgroundPosition({ x: 0, y: 0 });
-        setInitialOffsetValue({ x: 0, y : 0 });
+        setInitialOffsetValue({ x: 0, y: 0 });
         setIsWaitStatus(true);
         Axios.get(`https://newapi.tavlorify.se/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}`)
             .then((res) => {
@@ -449,6 +449,42 @@ const ImageToImage = ({ printsName }) => {
         }
     }
 
+    const handleTouchStart = (e) => {
+        document.body.style.overflow = "hidden";
+        if (theDirectionOfImageDisplacement === "vertical") {
+            setInitialOffsetValue({ ...initialOffsetValue, y: e.touches[0].clientY });
+        } else if (theDirectionOfImageDisplacement === "horizontal") {
+            setInitialOffsetValue({ ...initialOffsetValue, x: e.touches[0].clientX });
+        }
+        setIsDraggable(true);
+    }
+
+    const handleTouchMove = (e) => {
+        if (theDirectionOfImageDisplacement === "vertical") {
+            const newPointPositionY = e.targetTouches[0].clientY;
+            const amountOfDisplacement = newPointPositionY - initialOffsetValue.y;
+            if (amountOfDisplacement < 0) {
+                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement < -145 ? -145 : backgroundPosition.y + amountOfDisplacement });
+            }
+            if (amountOfDisplacement > 0) {
+                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement > 0 ? 0 : backgroundPosition.y + amountOfDisplacement });
+            }
+        } else if (theDirectionOfImageDisplacement === "horizontal") {
+            const newPointPositionX = e.targetTouches[0].clientX;
+            const amountOfDisplacement = newPointPositionX - initialOffsetValue.x;
+            if (amountOfDisplacement < 0) {
+                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x + amountOfDisplacement < -145 ? -145 : backgroundPosition.x + amountOfDisplacement });
+            }
+            if (amountOfDisplacement > 0) {
+                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x + amountOfDisplacement > 0 ? 0 : backgroundPosition.x + amountOfDisplacement });
+            }
+        }
+    }
+
+    const handleTouchEnd = () => {
+        document.body.style.overflow = "auto";
+    }
+
     return (
         // Start Image To Image Page
         <div className="image-to-image-service">
@@ -476,6 +512,9 @@ const ImageToImage = ({ printsName }) => {
                                     onMouseDown={handleMouseDown}
                                     onMouseUp={handleMouseUp}
                                     onMouseMove={handleMouseMove}
+                                    onTouchStart={handleTouchStart}
+                                    onTouchMove={handleTouchMove}
+                                    onTouchEnd={handleTouchEnd}
                                     style={{
                                         cursor: isWillTheImageBeMoved ? "grab" : "",
                                     }}
