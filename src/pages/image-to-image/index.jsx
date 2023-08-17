@@ -56,7 +56,7 @@ const ImageToImage = ({ printsName }) => {
 
     const [modelName, setModelName] = useState("");
 
-    const [imageType, setImageType] = useState("vertical");
+    const [imageType, setImageType] = useState("horizontal");
 
     const [paintingType, setPaintingType] = useState(printsName);
 
@@ -68,7 +68,7 @@ const ImageToImage = ({ printsName }) => {
 
     const [frameColor, setFrameColor] = useState("natural-wood");
 
-    const [dimentionsInCm, setDimentionsInCm] = useState(printsName === "poster" ? "21x29,7" : "30x40");
+    const [dimentionsInCm, setDimentionsInCm] = useState(printsName === "poster" ? "29,7x21" : "40x30");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -84,15 +84,11 @@ const ImageToImage = ({ printsName }) => {
 
     const [theDirectionOfImageDisplacement, setTheDirectionOfImageDisplacement] = useState("");
 
-    const [theCapacityOfImageDisplacement, setTheCapacityOfImageDisplacement] = useState(null);
-
-    const [backgroundPosition, setBackgroundPosition] = useState({ x: 0, y: -72.5 });
+    const [backgroundPosition, setBackgroundPosition] = useState({ x: 50, y: 50 });
 
     const [isDraggable, setIsDraggable] = useState(false);
 
     const [initialOffsetValue, setInitialOffsetValue] = useState({ x: 0, y: 0 });
-
-    const [theAmountOfImageDisplacement, setTheAmountOfImageDisplacement] = useState({ x: 0, y: 0 });
 
     const frameImages = {
         "poster": {
@@ -264,15 +260,14 @@ const ImageToImage = ({ printsName }) => {
                             setCategoryStyles(categoryStylesTemp);
                             setModelName(categoryStylesTemp[0].modelName);
                             if (printsName === "poster" || printsName === "poster-with-hangers") {
-                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
+                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImageH.png`);
                                 let image = new Image();
-                                image.src = `${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`;
+                                image.src = `${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImageH.png`;
                                 image.onload = function () {
                                     setPaintingWidth(this.naturalWidth);
                                     setPaintingHeight(this.naturalHeight);
                                     setIsWillTheImageBeMoved(true);
-                                    setTheDirectionOfImageDisplacement("vertical");
-                                    setTheCapacityOfImageDisplacement(145);
+                                    setTheDirectionOfImageDisplacement("horizontal");
                                 }
                             } else if (printsName === "canvas") {
                                 setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
@@ -340,8 +335,7 @@ const ImageToImage = ({ printsName }) => {
         setPaintingHeight(null);
         setIsWillTheImageBeMoved(false);
         setTheDirectionOfImageDisplacement("");
-        setTheCapacityOfImageDisplacement(null);
-        setBackgroundPosition({ x: 0, y: 0 });
+        setBackgroundPosition({ x: 50, y: 50 });
         setInitialOffsetValue({ x: 0, y: 0 });
         setIsWaitStatus(true);
         Axios.get(`https://newapi.tavlorify.se/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}`)
@@ -365,8 +359,6 @@ const ImageToImage = ({ printsName }) => {
                                 if (naturalHeightTemp / naturalWidthTemp != 1.4) {
                                     setIsWillTheImageBeMoved(true);
                                     setTheDirectionOfImageDisplacement("vertical");
-                                    setTheCapacityOfImageDisplacement(145);
-                                    setBackgroundPosition({ x: 0, y: -72.5 });
                                 }
                             }
                             break;
@@ -384,8 +376,6 @@ const ImageToImage = ({ printsName }) => {
                                 if (naturalWidthTemp / naturalHeightTemp != 1.4) {
                                     setIsWillTheImageBeMoved(true);
                                     setTheDirectionOfImageDisplacement("horizontal");
-                                    setTheCapacityOfImageDisplacement(145);
-                                    setBackgroundPosition({ x: -72.5, y: 0 });
                                 }
                             }
                             break;
@@ -430,21 +420,21 @@ const ImageToImage = ({ printsName }) => {
         if (!isDraggable) return;
         if (theDirectionOfImageDisplacement === "vertical") {
             const newOffestY = e.nativeEvent.offsetY;
-            const amountOfDisplacement = newOffestY - initialOffsetValue.y;
+            const amountOfDisplacement = ((newOffestY - initialOffsetValue.y) / initialOffsetValue.y) * 100;
             if (amountOfDisplacement < 0) {
-                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement < -145 ? -145 : backgroundPosition.y + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement < 0 ? 0 : backgroundPosition.y + amountOfDisplacement });
             }
             if (amountOfDisplacement > 0) {
-                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement > 0 ? 0 : backgroundPosition.y + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement > 100 ? 100 : backgroundPosition.y + amountOfDisplacement });
             }
         } else if (theDirectionOfImageDisplacement === "horizontal") {
             const newOffestX = e.nativeEvent.offsetX;
-            const amountOfDisplacement = newOffestX - initialOffsetValue.x;
+            const amountOfDisplacement = ((newOffestX - initialOffsetValue.x) / initialOffsetValue.x) * 100;
             if (amountOfDisplacement < 0) {
-                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x + amountOfDisplacement < -145 ? -145 : backgroundPosition.x + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x + amountOfDisplacement < 0 ? 0 : backgroundPosition.x + amountOfDisplacement });
             }
             if (amountOfDisplacement > 0) {
-                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x + amountOfDisplacement > 0 ? 0 : backgroundPosition.x + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x + amountOfDisplacement > 100 ? 100 : backgroundPosition.x + amountOfDisplacement });
             }
         }
     }
@@ -462,21 +452,21 @@ const ImageToImage = ({ printsName }) => {
     const handleTouchMove = (e) => {
         if (theDirectionOfImageDisplacement === "vertical") {
             const newPointPositionY = e.targetTouches[0].clientY;
-            const amountOfDisplacement = newPointPositionY - initialOffsetValue.y;
+            const amountOfDisplacement = ((newPointPositionY - initialOffsetValue.y) / initialOffsetValue.y) * 100;
             if (amountOfDisplacement < 0) {
-                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement < -145 ? -145 : backgroundPosition.y + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement < 0 ? 0 : backgroundPosition.y + amountOfDisplacement });
             }
             if (amountOfDisplacement > 0) {
-                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement > 0 ? 0 : backgroundPosition.y + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement > 100 ? 100 : backgroundPosition.y + amountOfDisplacement });
             }
         } else if (theDirectionOfImageDisplacement === "horizontal") {
             const newPointPositionX = e.targetTouches[0].clientX;
-            const amountOfDisplacement = newPointPositionX - initialOffsetValue.x;
+            const amountOfDisplacement = ((newPointPositionX - initialOffsetValue.x) / initialOffsetValue.x) * 100;
             if (amountOfDisplacement < 0) {
-                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x + amountOfDisplacement < -145 ? -145 : backgroundPosition.x + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x + amountOfDisplacement < 0 ? 0 : backgroundPosition.x + amountOfDisplacement });
             }
             if (amountOfDisplacement > 0) {
-                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x + amountOfDisplacement > 0 ? 0 : backgroundPosition.x + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x + amountOfDisplacement > 100 ? 100 : backgroundPosition.x + amountOfDisplacement });
             }
         }
     }
@@ -549,7 +539,7 @@ const ImageToImage = ({ printsName }) => {
                                             height: globalData.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height,
                                             backgroundImage: `url(${paintingURL})`,
                                             backgroundRepeat: "no-repeat",
-                                            backgroundPosition: `${backgroundPosition.x}px ${backgroundPosition.y}px`,
+                                            backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
                                             backgroundSize: "cover",
                                             cursor: isWillTheImageBeMoved ? "grap" : "",
                                             maxWidth: "100%",
