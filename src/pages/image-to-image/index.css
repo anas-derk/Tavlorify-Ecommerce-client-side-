@@ -1,3 +1,56 @@
+.image-to-image-service {
+  position: relative;
+}
+
+.image-to-image-service .overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 3;
+}
+
+.image-to-image-service .overlay .cart-popup-box {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 300px;
+  min-height: inherit;
+  background-color: #FFF;
+}
+
+.image-to-image-service .overlay .cart-popup-box .cart-icon {
+  font-size: 30px;
+}
+
+.image-to-image-service .overlay .cart-popup-box .close-overlay-icon {
+  font-size: 30px;
+  background-color: #FFF;
+  cursor: pointer;
+}
+
+.image-to-image-service .open-cart-popup-box {
+  position: fixed;
+  right: 60px;
+  bottom: 80px;
+  z-index: 2;
+  background-color: #000;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  cursor: pointer;
+  border: 2px solid #DDD;
+}
+
+.image-to-image-service .open-cart-popup-box .cart-icon {
+  color: #FFF;
+  font-size: 30px;
+}
+
 .image-to-image-service .page-content .container-fluid .welcome-msg {
   font-family: 'Caveat', cursive;
   font-weight: bold;

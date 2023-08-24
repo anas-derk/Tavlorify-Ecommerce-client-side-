@@ -41,6 +41,8 @@ import { BsCloudUpload } from "react-icons/bs";
 import { AiFillCloseCircle } from "react-icons/ai";
 import globalData from "../../../public/data/global";
 import { CgArrowsHAlt, CgArrowsVAlt } from "react-icons/cg";
+import validations from "../../../public/global_functions/validations";
+import { BsCart2 } from "react-icons/bs";
 
 const ImageToImage = ({ printsName }) => {
 
@@ -56,7 +58,7 @@ const ImageToImage = ({ printsName }) => {
 
     const [modelName, setModelName] = useState("");
 
-    const [imageType, setImageType] = useState("vertical");
+    const [imageType, setImageType] = useState("horizontal");
 
     const [paintingType, setPaintingType] = useState(printsName);
 
@@ -68,7 +70,7 @@ const ImageToImage = ({ printsName }) => {
 
     const [frameColor, setFrameColor] = useState("natural-wood");
 
-    const [dimentionsInCm, setDimentionsInCm] = useState(printsName === "poster" ? "21x29,7" : "30x40");
+    const [dimentionsInCm, setDimentionsInCm] = useState(printsName === "poster" ? "29,7x21" : "40x30");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -89,6 +91,18 @@ const ImageToImage = ({ printsName }) => {
     const [isDraggable, setIsDraggable] = useState(false);
 
     const [initialOffsetValue, setInitialOffsetValue] = useState({ x: 0, y: 0 });
+
+    const [isSaveGeneratedImageAndInfo, setIsSaveGeneratedImageAndInfo] = useState(false);
+
+    const [generatedImageURLInMyServer, setGeneratedImageURLInMyServer] = useState("");
+
+    const [isWaitAddToCart, setIsWaitAddToCart] = useState(false);
+
+    const [errorInAddToCart, setErrorInAddToCart] = useState("");
+
+    const [quantity, setQuantity] = useState(1);
+
+    const [formValidationErrors, setFormValidationErrors] = useState({});
 
     const frameImages = {
         "poster": {
@@ -245,6 +259,8 @@ const ImageToImage = ({ printsName }) => {
         },
     }
 
+    const [isOpenCartPopupBox, setIsOpenCartPopupBox] = useState(false);
+
     useEffect(() => {
         Axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`)
             .then((res) => {
@@ -260,14 +276,14 @@ const ImageToImage = ({ printsName }) => {
                             setCategoryStyles(categoryStylesTemp);
                             setModelName(categoryStylesTemp[0].modelName);
                             if (printsName === "poster" || printsName === "poster-with-hangers") {
-                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
+                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImageH.png`);
                                 let image = new Image();
-                                image.src = `${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`;
+                                image.src = `${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImageH.png`;
                                 image.onload = function () {
                                     setPaintingWidth(this.naturalWidth);
                                     setPaintingHeight(this.naturalHeight);
                                     setIsWillTheImageBeMoved(true);
-                                    setTheDirectionOfImageDisplacement("vertical");
+                                    setTheDirectionOfImageDisplacement("horizontal");
                                 }
                             } else if (printsName === "canvas") {
                                 setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
@@ -341,7 +357,6 @@ const ImageToImage = ({ printsName }) => {
         Axios.get(`https://newapi.tavlorify.se/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}`)
             .then((res) => {
                 const result = res.data;
-                console.log(result);
                 setIsWaitStatus(false);
                 if (Array.isArray(result)) {
                     setImageType(tempImageType);
@@ -360,6 +375,20 @@ const ImageToImage = ({ printsName }) => {
                                     setIsWillTheImageBeMoved(true);
                                     setTheDirectionOfImageDisplacement("vertical");
                                 }
+                                setIsSaveGeneratedImageAndInfo(true);
+                                let saveGeneratedImageTimeout = setTimeout(() => {
+                                    Axios.post(`${process.env.BASE_API_URL}/users/generated-image-and-info-it`, {
+                                        imageUrl: this.src,
+                                    }).then((res) => {
+                                        setIsSaveGeneratedImageAndInfo(false);
+                                        const imageUrl = res.data.imageUrl;
+                                        setGeneratedImageURLInMyServer(`${imageUrl}`);
+                                        clearTimeout(saveGeneratedImageTimeout);
+                                    }).catch((err) => {
+                                        console.log(err);
+                                        clearTimeout(saveGeneratedImageTimeout);
+                                    });
+                                }, 1000);
                             }
                             break;
                         }
@@ -377,12 +406,40 @@ const ImageToImage = ({ printsName }) => {
                                     setIsWillTheImageBeMoved(true);
                                     setTheDirectionOfImageDisplacement("horizontal");
                                 }
+                                setIsSaveGeneratedImageAndInfo(true);
+                                let saveGeneratedImageTimeout = setTimeout(() => {
+                                    Axios.post(`${process.env.BASE_API_URL}/users/generated-image-and-info-it`, {
+                                        imageUrl: this.src,
+                                    }).then((res) => {
+                                        setIsSaveGeneratedImageAndInfo(false);
+                                        const imageUrl = res.data.imageUrl;
+                                        setGeneratedImageURLInMyServer(`${imageUrl}`);
+                                        clearTimeout(saveGeneratedImageTimeout);
+                                    }).catch((err) => {
+                                        console.log(err);
+                                        clearTimeout(saveGeneratedImageTimeout);
+                                    });
+                                }, 1000);
                             }
                             break;
                         }
                         case "square": {
                             setDimentionsInCm("30x30");
                             setPaintingURL(result[1]);
+                            setIsSaveGeneratedImageAndInfo(true);
+                                let saveGeneratedImageTimeout = setTimeout(() => {
+                                    Axios.post(`${process.env.BASE_API_URL}/users/generated-image-and-info-it`, {
+                                        imageUrl: this.src,
+                                    }).then((res) => {
+                                        setIsSaveGeneratedImageAndInfo(false);
+                                        const imageUrl = res.data.imageUrl;
+                                        setGeneratedImageURLInMyServer(`${imageUrl}`);
+                                        clearTimeout(saveGeneratedImageTimeout);
+                                    }).catch((err) => {
+                                        console.log(err);
+                                        clearTimeout(saveGeneratedImageTimeout);
+                                    });
+                                }, 1000);
                         }
                         default: {
                             console.log("Error !!!");
@@ -475,6 +532,18 @@ const ImageToImage = ({ printsName }) => {
         document.body.style.overflow = "auto";
     }
 
+    const addToCart = async () => {
+
+    }
+
+    const openCartPopupBox = () => {
+        setIsOpenCartPopupBox(true);
+    }
+
+    const closeCartPopupBox = () => {
+        setIsOpenCartPopupBox(false);
+    }
+
     return (
         // Start Image To Image Page
         <div className="image-to-image-service">
@@ -482,6 +551,41 @@ const ImageToImage = ({ printsName }) => {
                 <title>Tavlorify Store - Image To Image</title>
             </Head>
             <Header />
+            {/* Start Overlay Box */}
+            {isOpenCartPopupBox && <div className="overlay">
+                <aside className="cart-popup-box p-3">
+                    <div className="row align-items-center border border-2 border-dark p-2 mb-4">
+                        <div className="col-md-4">
+                            <BsCart2 className="cart-icon" />
+                        </div>
+                        <div className="col-md-4 text-center fw-bold">
+                            Cart
+                        </div>
+                        <div className="col-md-4 text-end" onClick={closeCartPopupBox}>
+                            <GrFormClose className="close-overlay-icon" />
+                        </div>
+                    </div>
+                    <hr />
+                    <div className="options-box">
+                        <button
+                            className="btn btn-dark w-100 d-block text-center mb-4"
+                            onClick={closeCartPopupBox}
+                        >
+                            Return To Text To Image
+                        </button>
+                        <Link
+                            className="btn btn-success w-100 d-block text-center"
+                            href="/cart"
+                        >
+                            Open Cart Page
+                        </Link>
+                    </div>
+                </aside>
+            </div>}
+            {/* End Overlay Box */}
+            <div className="open-cart-popup-box" onClick={openCartPopupBox}>
+                <BsCart2 className="cart-icon" />
+            </div>
             {/* Start Page Content */}
             <div className="page-content">
                 {/* Start Container */}
@@ -551,6 +655,7 @@ const ImageToImage = ({ printsName }) => {
                                 {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
                             </section>
                             {/* End Art Painting Section */}
+                            {isSaveGeneratedImageAndInfo && !errorMsg && <p className="alert alert-danger mt-5 text-center">Saving Generated Image Now ...</p>}
                         </div>
                         {/* End Column */}
                         {/* Start Column */}
@@ -833,6 +938,28 @@ const ImageToImage = ({ printsName }) => {
                                         </li>
                                     </ul>}
                                     {/* End Frames List */}
+                                    <div className="row mb-3">
+                                        <div className="col-md-6">
+                                            <input
+                                                type="number"
+                                                placeholder="Quantity"
+                                                className={`quantity form-control border-2 ${formValidationErrors["quantity"] ? "border-danger" : "border-dark"}`}
+                                                onChange={(e) => setQuantity(e.target.value)}
+                                                defaultValue={quantity}
+                                            />
+                                            {formValidationErrors["quantity"] && <p className='error-msg text-danger'>{formValidationErrors["quantity"]}</p>}
+                                        </div>
+                                        <div className="col-md-6">
+                                            {!isWaitAddToCart && !errorInAddToCart && <button
+                                                className="btn btn-dark w-100 p-2"
+                                                onClick={addToCart}
+                                            >
+                                                Add To Cart
+                                            </button>}
+                                            {isWaitAddToCart && <button className="btn btn-dark w-100 p-2" disabled >wating ...</button>}
+                                            {errorInAddToCart && <button className="btn btn-dark w-100 p-2" disabled >{errorInAddToCart}</button>}
+                                        </div>
+                                    </div>
                                 </section>
                                 {/* End Displaying Art Painting Options Section */}
                             </section>
