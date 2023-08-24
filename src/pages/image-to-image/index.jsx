@@ -585,10 +585,8 @@ const ImageToImage = ({ printsName }) => {
                     if (canvasEcommerceUserCart) {
                         canvasEcommerceUserCart.push(productInfoToCart);
                         localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
-                        setTimeout(() => {
-                            setIsWaitAddToCart(false);
-                            openCartPopupBox();
-                        }, 1500);
+                        setIsWaitAddToCart(false);
+                        openCartPopupBox();
                     } else {
                         let canvasEcommerceUserCartList = [];
                         canvasEcommerceUserCartList.push(productInfoToCart);
