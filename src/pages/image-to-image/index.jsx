@@ -43,6 +43,8 @@ import globalData from "../../../public/data/global";
 import { CgArrowsHAlt, CgArrowsVAlt } from "react-icons/cg";
 import validations from "../../../public/global_functions/validations";
 import { BsCart2 } from "react-icons/bs";
+import { GrFormClose } from "react-icons/gr";
+import Link from "next/link";
 
 const ImageToImage = ({ printsName }) => {
 
@@ -284,6 +286,7 @@ const ImageToImage = ({ printsName }) => {
                                     setPaintingHeight(this.naturalHeight);
                                     setIsWillTheImageBeMoved(true);
                                     setTheDirectionOfImageDisplacement("horizontal");
+                                    setGeneratedImageURLInMyServer("assets/images/generatedImages/previewImageForPosterInImageToImageH.png");
                                 }
                             } else if (printsName === "canvas") {
                                 setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
@@ -533,7 +536,23 @@ const ImageToImage = ({ printsName }) => {
     }
 
     const addToCart = async () => {
-
+        const theRatioBetweenTheHeightAndTheWidth = paintingWidth / paintingHeight;
+        if (theRatioBetweenTheHeightAndTheWidth !== 1.4) {
+            const newHeigth = 417;
+            const newWidth = theRatioBetweenTheHeightAndTheWidth * newHeigth;
+            const left = Math.floor((newWidth - 1.4 * newHeigth) * ( backgroundPosition.x / 100 ));
+            const res = await Axios.post(`${process.env.BASE_API_URL}/users/crop-image`, {
+                imagePath: generatedImageURLInMyServer,
+                left: left,
+                top: 0,
+                width: 585,
+                height: 417,
+            });
+            const result = await res.data;
+            console.log(result);
+        } else {
+            console.log("no");
+        }
     }
 
     const openCartPopupBox = () => {
