@@ -45,6 +45,7 @@ import validations from "../../../public/global_functions/validations";
 import { BsCart2 } from "react-icons/bs";
 import { GrFormClose } from "react-icons/gr";
 import Link from "next/link";
+import nodeCodeGenerator from "node-code-generator";
 
 const ImageToImage = ({ printsName }) => {
 
@@ -430,19 +431,19 @@ const ImageToImage = ({ printsName }) => {
                             setDimentionsInCm("30x30");
                             setPaintingURL(result[1]);
                             setIsSaveGeneratedImageAndInfo(true);
-                                let saveGeneratedImageTimeout = setTimeout(() => {
-                                    Axios.post(`${process.env.BASE_API_URL}/users/generated-image-and-info-it`, {
-                                        imageUrl: this.src,
-                                    }).then((res) => {
-                                        setIsSaveGeneratedImageAndInfo(false);
-                                        const imageUrl = res.data.imageUrl;
-                                        setGeneratedImageURLInMyServer(`${imageUrl}`);
-                                        clearTimeout(saveGeneratedImageTimeout);
-                                    }).catch((err) => {
-                                        console.log(err);
-                                        clearTimeout(saveGeneratedImageTimeout);
-                                    });
-                                }, 1000);
+                            let saveGeneratedImageTimeout = setTimeout(() => {
+                                Axios.post(`${process.env.BASE_API_URL}/users/generated-image-and-info-it`, {
+                                    imageUrl: this.src,
+                                }).then((res) => {
+                                    setIsSaveGeneratedImageAndInfo(false);
+                                    const imageUrl = res.data.imageUrl;
+                                    setGeneratedImageURLInMyServer(`${imageUrl}`);
+                                    clearTimeout(saveGeneratedImageTimeout);
+                                }).catch((err) => {
+                                    console.log(err);
+                                    clearTimeout(saveGeneratedImageTimeout);
+                                });
+                            }, 1000);
                         }
                         default: {
                             console.log("Error !!!");
@@ -536,22 +537,106 @@ const ImageToImage = ({ printsName }) => {
     }
 
     const addToCart = async () => {
-        const theRatioBetweenTheHeightAndTheWidth = paintingWidth / paintingHeight;
-        if (theRatioBetweenTheHeightAndTheWidth !== 1.4) {
-            const newHeigth = 417;
-            const newWidth = theRatioBetweenTheHeightAndTheWidth * newHeigth;
-            const left = Math.floor((newWidth - 1.4 * newHeigth) * ( backgroundPosition.x / 100 ));
-            const res = await Axios.post(`${process.env.BASE_API_URL}/users/crop-image`, {
-                imagePath: generatedImageURLInMyServer,
-                left: left,
-                top: 0,
-                width: 585,
-                height: 417,
-            });
-            const result = await res.data;
-            console.log(result);
-        } else {
-            console.log("no");
+        setFormValidationErrors({});
+        let errorsObject = validations.inputValuesValidation([
+            {
+                name: "quantity",
+                value: quantity,
+                rules: {
+                    isRequired: {
+                        msg: "Sorry, Can't Be Field Is Empty !!",
+                    },
+                    minNumber: {
+                        value: 1,
+                        msg: "Sorry, Can't Be Quantity Less Than One !!",
+                    }
+                },
+            },
+        ]);
+        setFormValidationErrors(errorsObject);
+        if (Object.keys(errorsObject).length == 0) {
+            setIsWaitAddToCart(true);
+            const theRatioBetweenTheHeightAndTheWidth = paintingWidth / paintingHeight;
+            if (theRatioBetweenTheHeightAndTheWidth !== 1.4) {
+                const newHeigth = 417;
+                const newWidth = theRatioBetweenTheHeightAndTheWidth * newHeigth;
+                const left = Math.floor((newWidth - 1.4 * newHeigth) * (backgroundPosition.x / 100));
+                try {
+                    const res = await Axios.post(`${process.env.BASE_API_URL}/users/crop-image`, {
+                        imagePath: generatedImageURLInMyServer,
+                        left: left,
+                        top: 0,
+                        width: 585,
+                        height: 417,
+                    });
+                    const result = await res.data;
+                    const codeGenerator = new nodeCodeGenerator();
+                    const productInfoToCart = {
+                        _id: codeGenerator.generateCodes("###**##########****###**")[0],
+                        name: "painting",
+                        type: paintingType,
+                        frameColor: frameColor,
+                        dimentions: dimentionsInCm,
+                        price: 100,
+                        imageSrc: `${result}`,
+                        count: quantity,
+                    }
+                    let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+                    if (canvasEcommerceUserCart) {
+                        canvasEcommerceUserCart.push(productInfoToCart);
+                        localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
+                        setTimeout(() => {
+                            setIsWaitAddToCart(false);
+                            openCartPopupBox();
+                        }, 1500);
+                    } else {
+                        let canvasEcommerceUserCartList = [];
+                        canvasEcommerceUserCartList.push(productInfoToCart);
+                        localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCartList));
+                        setTimeout(() => {
+                            setIsWaitAddToCart(false);
+                            openCartPopupBox();
+                        }, 1500);
+                    }
+                }
+                catch (err) {
+                    console.log(err);
+                    setIsWaitAddToCart(false);
+                    setErrorInAddToCart("Sorry, Something Went Wrong !!");
+                    setTimeout(() => {
+                        setErrorInAddToCart("");
+                    }, 2000);
+                }
+            } else {
+                const codeGenerator = new nodeCodeGenerator();
+                const productInfoToCart = {
+                    _id: codeGenerator.generateCodes("###**##########****###**")[0],
+                    name: "painting",
+                    type: paintingType,
+                    frameColor: frameColor,
+                    dimentions: dimentionsInCm,
+                    price: 100,
+                    imageSrc: generatedImageURLInMyServer,
+                    count: quantity,
+                }
+                let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+                if (canvasEcommerceUserCart) {
+                    canvasEcommerceUserCart.push(productInfoToCart);
+                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
+                    setTimeout(() => {
+                        setIsWaitAddToCart(false);
+                        openCartPopupBox();
+                    }, 1500);
+                } else {
+                    let canvasEcommerceUserCartList = [];
+                    canvasEcommerceUserCartList.push(productInfoToCart);
+                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCartList));
+                    setTimeout(() => {
+                        setIsWaitAddToCart(false);
+                        openCartPopupBox();
+                    }, 1500);
+                }
+            }
         }
     }
 
