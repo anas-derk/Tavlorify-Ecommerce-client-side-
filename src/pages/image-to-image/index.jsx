@@ -491,11 +491,12 @@ const ImageToImage = ({ printsName }) => {
         } else if (theDirectionOfImageDisplacement === "horizontal") {
             const newOffestX = e.nativeEvent.offsetX;
             const amountOfDisplacement = ((newOffestX - initialOffsetValue.x) / initialOffsetValue.x) * 100;
+            console.log(amountOfDisplacement);
             if (amountOfDisplacement < 0) {
-                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x + amountOfDisplacement < 0 ? 0 : backgroundPosition.x + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x - amountOfDisplacement > 100 ? 100 : backgroundPosition.x - amountOfDisplacement });
             }
             if (amountOfDisplacement > 0) {
-                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x + amountOfDisplacement > 100 ? 100 : backgroundPosition.x + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x - amountOfDisplacement < 0 ? 0 : backgroundPosition.x - amountOfDisplacement });
             }
         }
     }
