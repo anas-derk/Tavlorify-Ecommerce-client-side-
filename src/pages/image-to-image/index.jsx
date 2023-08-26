@@ -566,7 +566,7 @@ const ImageToImage = ({ printsName }) => {
                         imagePath: generatedImageURLInMyServer,
                         left: left,
                         top: 0,
-                        width: 585,
+                        width: left + 585 > newWidth ? Math.floor(newWidth) - left : 585,
                         height: 417,
                     });
                     const result = await res.data;
