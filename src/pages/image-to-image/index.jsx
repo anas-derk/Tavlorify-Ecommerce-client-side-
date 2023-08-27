@@ -61,7 +61,7 @@ const ImageToImage = ({ printsName }) => {
 
     const [modelName, setModelName] = useState("");
 
-    const [imageType, setImageType] = useState("horizontal");
+    const [imageType, setImageType] = useState("vertical");
 
     const [paintingType, setPaintingType] = useState(printsName);
 
@@ -73,7 +73,7 @@ const ImageToImage = ({ printsName }) => {
 
     const [frameColor, setFrameColor] = useState("natural-wood");
 
-    const [dimentionsInCm, setDimentionsInCm] = useState(printsName === "poster" ? "29,7x21" : "40x30");
+    const [dimentionsInCm, setDimentionsInCm] = useState(printsName === "poster" ? "21x29,7" : "30x40");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -279,15 +279,15 @@ const ImageToImage = ({ printsName }) => {
                             setCategoryStyles(categoryStylesTemp);
                             setModelName(categoryStylesTemp[0].modelName);
                             if (printsName === "poster" || printsName === "poster-with-hangers") {
-                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImageH.png`);
+                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
                                 let image = new Image();
-                                image.src = `${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImageH.png`;
+                                image.src = `${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`;
                                 image.onload = function () {
                                     setPaintingWidth(this.naturalWidth);
                                     setPaintingHeight(this.naturalHeight);
                                     setIsWillTheImageBeMoved(true);
-                                    setTheDirectionOfImageDisplacement("horizontal");
-                                    setGeneratedImageURLInMyServer("assets/images/generatedImages/previewImageForPosterInImageToImageH.png");
+                                    setTheDirectionOfImageDisplacement("vertical");
+                                    setGeneratedImageURLInMyServer("assets/images/generatedImages/previewImageForPosterInImageToImage.png");
                                 }
                             } else if (printsName === "canvas") {
                                 setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
@@ -483,10 +483,10 @@ const ImageToImage = ({ printsName }) => {
             const newOffestY = e.nativeEvent.offsetY;
             const amountOfDisplacement = ((newOffestY - initialOffsetValue.y) / initialOffsetValue.y) * 100;
             if (amountOfDisplacement < 0) {
-                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement < 0 ? 0 : backgroundPosition.y + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y - amountOfDisplacement > 100 ? 100 : backgroundPosition.y - amountOfDisplacement });
             }
             if (amountOfDisplacement > 0) {
-                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement > 100 ? 100 : backgroundPosition.y + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y - amountOfDisplacement < 0 ? 0 : backgroundPosition.y - amountOfDisplacement });
             }
         } else if (theDirectionOfImageDisplacement === "horizontal") {
             const newOffestX = e.nativeEvent.offsetX;
@@ -516,19 +516,19 @@ const ImageToImage = ({ printsName }) => {
             const newPointPositionY = e.targetTouches[0].clientY;
             const amountOfDisplacement = ((newPointPositionY - initialOffsetValue.y) / initialOffsetValue.y) * 100;
             if (amountOfDisplacement < 0) {
-                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement < 0 ? 0 : backgroundPosition.y + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y - amountOfDisplacement > 100 ? 100 : backgroundPosition.y - amountOfDisplacement });
             }
             if (amountOfDisplacement > 0) {
-                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y + amountOfDisplacement > 100 ? 100 : backgroundPosition.y + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y - amountOfDisplacement < 0 ? 0 : backgroundPosition.y - amountOfDisplacement });
             }
         } else if (theDirectionOfImageDisplacement === "horizontal") {
             const newPointPositionX = e.targetTouches[0].clientX;
             const amountOfDisplacement = ((newPointPositionX - initialOffsetValue.x) / initialOffsetValue.x) * 100;
             if (amountOfDisplacement < 0) {
-                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x + amountOfDisplacement < 0 ? 0 : backgroundPosition.x + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x - amountOfDisplacement > 100 ? 100 : backgroundPosition.x - amountOfDisplacement });
             }
             if (amountOfDisplacement > 0) {
-                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x + amountOfDisplacement > 100 ? 100 : backgroundPosition.x + amountOfDisplacement });
+                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x - amountOfDisplacement < 0 ? 0 : backgroundPosition.x - amountOfDisplacement });
             }
         }
     }
@@ -557,18 +557,46 @@ const ImageToImage = ({ printsName }) => {
         setFormValidationErrors(errorsObject);
         if (Object.keys(errorsObject).length == 0) {
             setIsWaitAddToCart(true);
-            const theRatioBetweenTheHeightAndTheWidth = paintingWidth / paintingHeight;
-            if (theRatioBetweenTheHeightAndTheWidth !== 1.4) {
-                const newHeigth = 417;
-                const newWidth = theRatioBetweenTheHeightAndTheWidth * newHeigth;
-                const left = Math.floor((newWidth - 1.4 * newHeigth) * (backgroundPosition.x / 100));
+            let theRatioBetweenTheHeightAndTheWidth;
+            let newWidth;
+            let newHeight;
+            let left;
+            let top;
+            let width;
+            let height;
+            if (isWillTheImageBeMoved) {
+                switch (theDirectionOfImageDisplacement) {
+                    case "vertical": {
+                        theRatioBetweenTheHeightAndTheWidth = paintingHeight / paintingWidth;
+                        newWidth = 417;
+                        newHeight = theRatioBetweenTheHeightAndTheWidth * newWidth;
+                        left = 0;
+                        top = Math.floor((newHeight - 1.4 * newWidth) * (backgroundPosition.y / 100));
+                        width = newWidth;
+                        height = top + 585 > newHeight ? Math.floor(newHeight) - top : 585;
+                        break;
+                    }
+                    case "horizontal": {
+                        theRatioBetweenTheHeightAndTheWidth = paintingWidth / paintingHeight;
+                        newHeight = 417;
+                        newWidth = theRatioBetweenTheHeightAndTheWidth * newHeight;
+                        left = Math.floor((newWidth - 1.4 * newHeight) * (backgroundPosition.x / 100));
+                        top = 0;
+                        width = left + 585 > newWidth ? Math.floor(newWidth) - left : 585;
+                        height = newHeight;
+                        break;
+                    }
+                    default: {
+                        console.log("Error !!");
+                    }
+                }
                 try {
                     const res = await Axios.post(`${process.env.BASE_API_URL}/users/crop-image`, {
                         imagePath: generatedImageURLInMyServer,
                         left: left,
-                        top: 0,
-                        width: left + 585 > newWidth ? Math.floor(newWidth) - left : 585,
-                        height: 417,
+                        top: top,
+                        width: width,
+                        height: height,
                     });
                     const result = await res.data;
                     const codeGenerator = new nodeCodeGenerator();
@@ -606,7 +634,8 @@ const ImageToImage = ({ printsName }) => {
                         setErrorInAddToCart("");
                     }, 2000);
                 }
-            } else {
+            }
+            else {
                 const codeGenerator = new nodeCodeGenerator();
                 const productInfoToCart = {
                     _id: codeGenerator.generateCodes("###**##########****###**")[0],
