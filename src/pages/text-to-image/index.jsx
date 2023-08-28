@@ -486,7 +486,12 @@ const TextToImage = ({ printsName }) => {
         return (
             <div
                 className="art-painting d-flex justify-content-center align-items-center mb-4"
-                style={isWaitStatus ? { backgroundColor: "#989492" } : {}}
+                style={
+                    {
+                        backgroundColor: isWaitStatus ? "#989492" : "",
+                        cursor: !isWaitStatus && imageSize === "minimize-image" ? "pointer": "",
+                    }
+                }
             >
                 {(paintingType === "poster" || paintingType === "poster-with-hangers") && <>
                     <div
