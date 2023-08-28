@@ -497,7 +497,7 @@ const TextToImage = ({ printsName }) => {
         }
     }
 
-    const getArtPaintingBox = (width, height, imageSize) => {
+    const getArtPaintingBox = (width, height, imageSize, isImageInsideRoom, isRoomImageMinimize) => {
         return (
             (imageMode == "normal-size-image" || imageSize === "minimize-image") && <div
                 className="art-painting d-flex justify-content-center align-items-center mb-4"
@@ -513,8 +513,12 @@ const TextToImage = ({ printsName }) => {
                     <div
                         className="frame-image-box"
                         style={{
-                            width: imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width}px`,
-                            height: imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height}px`,
+                            width: !isRoomImageMinimize ? (
+                                imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width}px`
+                            ) : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 10}px`,
+                            height: !isRoomImageMinimize ? (
+                                imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height}px`
+                            ) : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 10}px`,
                         }}
                     >
                         {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
@@ -544,7 +548,11 @@ const TextToImage = ({ printsName }) => {
                 {paintingType === "canvas" && <div className="canvas-image-box">
                     <img
                         src={paintingURL}
-                        className={imageSize !== "minimize-image" ? "canvas-image" : "minimize-canvas-image"}
+                        className={
+                            !isImageInsideRoom ? (
+                                imageSize !== "minimize-image" ? "canvas-image" : "minimize-canvas-image"
+                            ) : ""
+                        }
                         alt="canvas image"
                         width={width}
                         height={height}
@@ -571,6 +579,13 @@ const TextToImage = ({ printsName }) => {
                 }
             >
                 <img src={room1Image.src} alt="Room Image1 !!" />
+                {getArtPaintingBox(
+                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 10}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`,
+                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 10}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`,
+                    "minimize-image",
+                    true,
+                    imageSize === "minimize-room-image" ? true : false,
+                )}
             </div>
         );
     }
@@ -627,19 +642,19 @@ const TextToImage = ({ printsName }) => {
                         {/* Start Column */}
                         <div className="col-md-2">
                             {/* Start Art Painting Box */}
-                            {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image")}
+                            {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image", false )}
                             {/* End Art Painting Box */}
                             {getImageInsideRoom1Box(200, 150, "minimize-room-image")}
                         </div>
                         {/* End Column */}
                         {/* Start Column */}
-                        <div className={imageMode === "image-inside-room1" || imageMode === "image-inside-room2" ? "col-md-5" : "col-md-4"}>
-                            {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined)}
+                        <div className="col-md-5">
+                            {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined, false)}
                             {getImageInsideRoom1Box(600, 450, undefined)}
                         </div>
                         {/* End Column */}
                         {/* Start Column */}
-                        <div className={imageMode === "image-inside-room1" || imageMode === "image-inside-room2" ? "col-md-5" : "col-md-6"}>
+                        <div className="col-md-5">
                             <section className="art-painting-options pe-3">
                                 {/* Start Generating Image Options Section */}
                                 <section className="generating-image-options">

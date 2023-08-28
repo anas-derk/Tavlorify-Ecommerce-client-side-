@@ -60,9 +60,20 @@
   margin: 0 auto;
 }
 
+.text-to-image-service .page-content .container-fluid .room-image-box {
+  position: relative;
+}
+
 .text-to-image-service .page-content .container-fluid .room-image-box img {
   max-width: 100%;
   max-width: 100%;
+}
+
+.text-to-image-service .page-content .container-fluid .room-image-box .art-painting {
+  position: absolute;
+  left: 30%;
+  top: 20%;
+  z-index: 1;
 }
 
 .text-to-image-service .page-content .container-fluid .art-painting {

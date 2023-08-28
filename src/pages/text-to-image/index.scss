@@ -54,9 +54,16 @@
                 margin: 0 auto;
             }
             .room-image-box{
+                position: relative;
                 img{
                     max-width: 100%;
                     max-width: 100%;
+                }
+                .art-painting{
+                    position: absolute;
+                    left: 30%;
+                    top: 20%;
+                    z-index: 1;
                 }
             }
             .art-painting{
