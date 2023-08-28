@@ -492,7 +492,6 @@ const TextToImage = ({ printsName }) => {
             setImageMode("image-inside-room1");
         }
         if (imageMode === "image-inside-room2") {
-            console.log("bbb")
             setImageMode("image-inside-room2");
         }
     }
@@ -564,11 +563,11 @@ const TextToImage = ({ printsName }) => {
         );
     }
 
-    const getImageInsideRoom1Box = (roomImageWidth, roomImageHeight, imageSize) => {
+    const getImageInsideRoomBox = (roomNumber, roomImageWidth, roomImageHeight, imageSize) => {
         return (
-            (imageMode === "image-inside-room1" || imageSize === "minimize-room-image") && <div
-                className="room1-image-box room-image-box mx-auto border border-2 border-dark mb-4"
-                onClick={() => handleDisplayImageMode("image-inside-room1")}
+            (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image") && <div
+                className={`room${roomNumber}-image-box room-image-box mx-auto border border-2 border-dark mb-4`}
+                onClick={() => handleDisplayImageMode(`image-inside-room${roomNumber}`)}
                 style={
                     {
                         backgroundColor: isWaitStatus ? "#989492" : "",
@@ -578,7 +577,34 @@ const TextToImage = ({ printsName }) => {
                     }
                 }
             >
-                <img src={room1Image.src} alt="Room Image1 !!" />
+                {roomNumber === 1 && <img src={room1Image.src} alt="Room Image1 !!" />}
+                {roomNumber === 2 && <img src={room2Image.src} alt="Room Image2 !!" />}
+                {getArtPaintingBox(
+                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 10}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`,
+                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 10}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`,
+                    "minimize-image",
+                    true,
+                    imageSize === "minimize-room-image" ? true : false,
+                )}
+            </div>
+        );
+    }
+
+    const getImageInsideRoom2Box = (roomImageWidth, roomImageHeight, imageSize) => {
+        return (
+            (imageMode === "image-inside-room2" || imageSize === "minimize-room-image") && <div
+                className="room2-image-box room-image-box mx-auto border border-2 border-dark mb-4"
+                onClick={() => handleDisplayImageMode("image-inside-room2")}
+                style={
+                    {
+                        backgroundColor: isWaitStatus ? "#989492" : "",
+                        cursor: !isWaitStatus && imageSize === "minimize-room-image" ? "pointer" : "",
+                        width: roomImageWidth,
+                        height: roomImageHeight,
+                    }
+                }
+            >
+                <img src={room2Image.src} alt="Room Image2 !!" />
                 {getArtPaintingBox(
                     imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 10}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`,
                     imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 10}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`,
@@ -644,13 +670,15 @@ const TextToImage = ({ printsName }) => {
                             {/* Start Art Painting Box */}
                             {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image", false )}
                             {/* End Art Painting Box */}
-                            {getImageInsideRoom1Box(200, 150, "minimize-room-image")}
+                            {getImageInsideRoomBox(1, 200, 150, "minimize-room-image")}
+                            {getImageInsideRoomBox(2, 200, 150, "minimize-room-image")}
                         </div>
                         {/* End Column */}
                         {/* Start Column */}
                         <div className="col-md-5">
                             {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined, false)}
-                            {getImageInsideRoom1Box(600, 450, undefined)}
+                            {getImageInsideRoomBox(1, 600, 450, undefined)}
+                            {getImageInsideRoomBox(2, 600, 450, undefined)}
                         </div>
                         {/* End Column */}
                         {/* Start Column */}
