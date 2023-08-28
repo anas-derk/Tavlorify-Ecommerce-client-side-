@@ -91,6 +91,8 @@ const TextToImage = ({ printsName }) => {
 
     const [tempImageType, setTempImageType] = useState("vertical");
 
+    const [imageMode, setImageMode] = useState("normal-size-image");
+
     const frameImages = {
         "poster": {
             "square": {
@@ -482,14 +484,28 @@ const TextToImage = ({ printsName }) => {
         setIsOpenCartPopupBox(false);
     }
 
+    const handleDisplayImageMode = (imageMode) => {
+        if (imageMode === "minimize-image") {
+            setImageMode("normal-size-image");
+        }
+        if (imageMode === "image-inside-room1") {
+            setImageMode("image-inside-room1");
+        }
+        if (imageMode === "image-inside-room2") {
+            console.log("bbb")
+            setImageMode("image-inside-room2");
+        }
+    }
+
     const getArtPaintingBox = (width, height, imageSize) => {
         return (
-            <div
+            (imageMode == "normal-size-image" || imageSize === "minimize-image") && <div
                 className="art-painting d-flex justify-content-center align-items-center mb-4"
+                onClick={() => handleDisplayImageMode(imageSize)}
                 style={
                     {
                         backgroundColor: isWaitStatus ? "#989492" : "",
-                        cursor: !isWaitStatus && imageSize === "minimize-image" ? "pointer": "",
+                        cursor: !isWaitStatus && imageSize === "minimize-image" ? "pointer" : "",
                     }
                 }
             >
@@ -528,7 +544,7 @@ const TextToImage = ({ printsName }) => {
                 {paintingType === "canvas" && <div className="canvas-image-box">
                     <img
                         src={paintingURL}
-                        className="minimize-canvas-image"
+                        className={imageSize !== "minimize-image" ? "canvas-image" : "minimize-canvas-image"}
                         alt="canvas image"
                         width={width}
                         height={height}
@@ -536,6 +552,25 @@ const TextToImage = ({ printsName }) => {
                 </div>}
                 {isWaitStatus && !errorMsg && <span className="loader"></span>}
                 {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
+            </div>
+        );
+    }
+
+    const getImageInsideRoom1Box = (roomImageWidth, roomImageHeight, imageSize) => {
+        return (
+            (imageMode === "image-inside-room1" || imageSize === "minimize-room-image") && <div
+                className="room1-image-box room-image-box mx-auto border border-2 border-dark mb-4"
+                onClick={() => handleDisplayImageMode("image-inside-room1")}
+                style={
+                    {
+                        backgroundColor: isWaitStatus ? "#989492" : "",
+                        cursor: !isWaitStatus && imageSize === "minimize-room-image" ? "pointer" : "",
+                        width: roomImageWidth,
+                        height: roomImageHeight,
+                    }
+                }
+            >
+                <img src={room1Image.src} alt="Room Image1 !!" />
             </div>
         );
     }
@@ -594,21 +629,17 @@ const TextToImage = ({ printsName }) => {
                             {/* Start Art Painting Box */}
                             {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image")}
                             {/* End Art Painting Box */}
-                            <div className="room1-image-box room-image-box mx-auto border border-2 border-dark mb-4">
-                                <img src={room1Image.src} alt="Room1 Image !!" />
-                            </div>
-                            <div className="room2-image-box room-image-box mx-auto border border-2 border-dark mb-4">
-                                <img src={room2Image.src} alt="Room2 Image !!" />
-                            </div>
+                            {getImageInsideRoom1Box(200, 150, "minimize-room-image")}
                         </div>
                         {/* End Column */}
                         {/* Start Column */}
-                        <div className="col-md-4">
-                        {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined)}
+                        <div className={imageMode === "image-inside-room1" || imageMode === "image-inside-room2" ? "col-md-5" : "col-md-4"}>
+                            {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined)}
+                            {getImageInsideRoom1Box(600, 450, undefined)}
                         </div>
                         {/* End Column */}
                         {/* Start Column */}
-                        <div className="col-md-6">
+                        <div className={imageMode === "image-inside-room1" || imageMode === "image-inside-room2" ? "col-md-5" : "col-md-6"}>
                             <section className="art-painting-options pe-3">
                                 {/* Start Generating Image Options Section */}
                                 <section className="generating-image-options">

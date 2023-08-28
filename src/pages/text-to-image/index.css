@@ -60,12 +60,6 @@
   margin: 0 auto;
 }
 
-.text-to-image-service .page-content .container-fluid .room-image-box {
-  width: 200px;
-  height: 150px;
-  cursor: pointer;
-}
-
 .text-to-image-service .page-content .container-fluid .room-image-box img {
   max-width: 100%;
   max-width: 100%;
