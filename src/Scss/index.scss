@@ -60,7 +60,7 @@ a{
     width: 100%;
 }
 
-.canvas-prints-image{
+.canvas-image{
     --x: 10px;
     --y: 13px;
     --o: 0px;
@@ -73,10 +73,6 @@ a{
     transform: perspective(1000px) rotateY(8deg);
     outline: calc(var(--y) + var(--o)) solid rgba(0, 0, 0, 0.2);
     outline-offset: calc(-1*(var(--y) + var(--o)));
-}
-
-.poster-image{
-    box-shadow: 1px 1px 10px #CCC;
 }
 
 .admin-panel,
