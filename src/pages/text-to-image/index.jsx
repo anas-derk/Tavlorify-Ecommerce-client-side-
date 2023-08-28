@@ -504,7 +504,7 @@ const TextToImage = ({ printsName }) => {
                 style={
                     {
                         backgroundColor: isWaitStatus ? "#989492" : "",
-                        cursor: !isWaitStatus && imageSize === "minimize-image" ? "pointer" : "",
+                        cursor: !isWaitStatus && imageSize === "minimize-image" && !isImageInsideRoom ? "pointer" : "",
                     }
                 }
             >
@@ -565,7 +565,7 @@ const TextToImage = ({ printsName }) => {
 
     const getImageInsideRoomBox = (roomNumber, roomImageWidth, roomImageHeight, imageSize) => {
         return (
-            (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image") && <div
+            (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image") && !isWaitStatus && !errorMsg && paintingURL && <div
                 className={`room${roomNumber}-image-box room-image-box mx-auto border border-2 border-dark mb-4`}
                 onClick={() => handleDisplayImageMode(`image-inside-room${roomNumber}`)}
                 style={

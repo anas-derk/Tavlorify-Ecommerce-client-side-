@@ -71,7 +71,7 @@
 
 .text-to-image-service .page-content .container-fluid .room-image-box .art-painting {
   position: absolute;
-  left: 30%;
+  left: 25%;
   top: 20%;
   z-index: 1;
 }
