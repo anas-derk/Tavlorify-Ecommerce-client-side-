@@ -57,9 +57,9 @@ const TextToImage = ({ printsName }) => {
 
     const [errorMsg, setErrorMsg] = useState("");
 
-    const [categorySelectedIndex, setCategorySelectedIndex] = useState(6);
+    const [categorySelectedIndex, setCategorySelectedIndex] = useState(0);
 
-    const [styleSelectedIndex, setStyleSelectedIndex] = useState(5);
+    const [styleSelectedIndex, setStyleSelectedIndex] = useState(0);
 
     const [modelName, setModelName] = useState("");
 
