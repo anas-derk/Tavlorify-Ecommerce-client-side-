@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import global_data from "../../../public/data/global";
 import nodeCodeGenerator from "node-code-generator";
-import { useRouter } from "next/router";
 /* Start Import Frame Corner Images */
 import blackFrameCornerImage from "../../../public/images/frames/frameCorners/black.png";
 import whiteFrameCornerImage from "../../../public/images/frames/frameCorners/white.png";
@@ -43,6 +42,8 @@ import validations from "../../../public/global_functions/validations";
 import { GrFormClose } from "react-icons/gr";
 import { BsCart2 } from "react-icons/bs";
 import Link from "next/link";
+import room1Image from "@/../../public/images/Rooms/room1.jpg";
+import room2Image from "@/../../public/images/Rooms/room2.jpg";
 
 const TextToImage = ({ printsName }) => {
 
@@ -56,9 +57,9 @@ const TextToImage = ({ printsName }) => {
 
     const [errorMsg, setErrorMsg] = useState("");
 
-    const [categorySelectedIndex, setCategorySelectedIndex] = useState(0);
+    const [categorySelectedIndex, setCategorySelectedIndex] = useState(6);
 
-    const [styleSelectedIndex, setStyleSelectedIndex] = useState(0);
+    const [styleSelectedIndex, setStyleSelectedIndex] = useState(5);
 
     const [modelName, setModelName] = useState("");
 
@@ -72,7 +73,7 @@ const TextToImage = ({ printsName }) => {
 
     const [dimentions, setDimentions] = useState({});
 
-    const [dimentionsInCm, setDimentionsInCm] = useState(printsName === "poster" ? "21x29,7" : "30x40");
+    const [dimentionsInCm, setDimentionsInCm] = useState("50x70");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -258,11 +259,11 @@ const TextToImage = ({ printsName }) => {
                 } else {
                     // console.log(result)
                     setCategoriesData(result);
-                    Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${result[0].name}`)
+                    Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${result[categorySelectedIndex].name}`)
                         .then((res) => {
                             const categoryStylesTemp = res.data;
                             setCategoryStyles(categoryStylesTemp);
-                            const tempModelName = categoryStylesTemp[0].modelName;
+                            const tempModelName = categoryStylesTemp[styleSelectedIndex].modelName;
                             setTempModelName(tempModelName);
                             setModelName(tempModelName);
                             const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
@@ -481,6 +482,59 @@ const TextToImage = ({ printsName }) => {
         setIsOpenCartPopupBox(false);
     }
 
+    const getArtPaintingBox = (width, height, imageSize) => {
+        return (
+            <div
+                className="art-painting d-flex justify-content-center align-items-center mb-4"
+                style={isWaitStatus ? { backgroundColor: "#989492" } : {}}
+            >
+                {(paintingType === "poster" || paintingType === "poster-with-hangers") && <>
+                    <div
+                        className="frame-image-box"
+                        style={{
+                            width: imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width}px`,
+                            height: imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height}px`,
+                        }}
+                    >
+                        {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
+                            src={frameImages[paintingType][tempImageType][frameColor][tempDimentionsInCm]}
+                            alt="Image"
+                            style={{ maxWidth: "100%", maxHeight: "100%" }}
+                        />}
+                    </div>
+                    <div
+                        className="generated-image-box d-flex align-items-center justify-content-center"
+                        style={{
+                            width: width,
+                            height: height,
+                            boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 3px #000" : "",
+                        }}
+                    >
+                        {!isWaitStatus && !errorMsg && paintingURL && <img
+                            src={paintingURL}
+                            alt="Generated Image !!"
+                            style={{
+                                width: width,
+                                height: height,
+                            }}
+                        />}
+                    </div>
+                </>}
+                {paintingType === "canvas" && <div className="canvas-image-box">
+                    <img
+                        src={paintingURL}
+                        className="minimize-canvas-image"
+                        alt="canvas image"
+                        width={width}
+                        height={height}
+                    />
+                </div>}
+                {isWaitStatus && !errorMsg && <span className="loader"></span>}
+                {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
+            </div>
+        );
+    }
+
     return (
         // Start Text To Image Service Page
         <div className="text-to-image-service">
@@ -531,57 +585,21 @@ const TextToImage = ({ printsName }) => {
                     {/* Start Grid System */}
                     <div className="row align-items-center">
                         {/* Start Column */}
-                        <div className="col-md-6">
-                            {/* Start Art Painting Section */}
-                            <section
-                                className="art-painting d-flex justify-content-center align-items-center"
-                                style={isWaitStatus ? { backgroundColor: "#989492" } : {}}
-                            >
-                                {(paintingType === "poster" || paintingType === "poster-with-hangers") && <>
-                                    <div
-                                        className="frame-image-box"
-                                        style={{
-                                            width: `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width}px`,
-                                            height: `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height}px`,
-                                        }}
-                                    >
-                                        {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
-                                            src={frameImages[paintingType][tempImageType][frameColor][tempDimentionsInCm]}
-                                            alt="Image"
-                                            style={{ maxWidth: "100%", maxHeight: "100%" }}
-                                        />}
-                                    </div>
-                                    <div
-                                        className="generated-image-box d-flex align-items-center justify-content-center"
-                                        style={{
-                                            width: `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width}px`,
-                                            height: `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height}px`,
-                                            boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 3px #000" : "",
-                                        }}
-                                    >
-                                        {!isWaitStatus && !errorMsg && paintingURL && <img
-                                            src={paintingURL}
-                                            alt="Generated Image !!"
-                                            style={{
-                                                width: `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`,
-                                                height: `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`,
-                                            }}
-                                        />}
-                                    </div>
-                                </>}
-                                {paintingType === "canvas" && <div className="canvas-image-box">
-                                    <img
-                                        src={paintingURL}
-                                        className="canvas-image"
-                                        alt="canvas image"
-                                        width={`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`}
-                                        height={`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`}
-                                    />
-                                </div>}
-                                {isWaitStatus && !errorMsg && <span className="loader"></span>}
-                                {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
-                            </section>
-                            {/* End Art Painting Section */}
+                        <div className="col-md-2">
+                            {/* Start Art Painting Box */}
+                            {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image")}
+                            {/* End Art Painting Box */}
+                            <div className="room1-image-box room-image-box mx-auto border border-2 border-dark mb-4">
+                                <img src={room1Image.src} alt="Room1 Image !!" />
+                            </div>
+                            <div className="room2-image-box room-image-box mx-auto border border-2 border-dark mb-4">
+                                <img src={room2Image.src} alt="Room2 Image !!" />
+                            </div>
+                        </div>
+                        {/* End Column */}
+                        {/* Start Column */}
+                        <div className="col-md-4">
+                        {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined)}
                         </div>
                         {/* End Column */}
                         {/* Start Column */}

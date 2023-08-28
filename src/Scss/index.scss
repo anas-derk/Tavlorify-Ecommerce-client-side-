@@ -60,19 +60,26 @@ a{
     width: 100%;
 }
 
-.canvas-image{
-    --x: 10px;
-    --y: 13px;
-    --o: 0px;
+.canvas-image, .minimize-canvas-image{
     clip-path: polygon(0 calc(var(--x) + var(--y)), var(--y) var(--y),
             calc(100% - var(--y)) var(--y), calc(100% - var(--y)) calc(100% - var(--y)),
             var(--y) calc(100% - var(--y)), 0 calc(100% - var(--x) - var(--y)));
-    /* -webkit-mask: linear-gradient(to right, rgba(0, 0, 0, 0.7) var(--y), #fff 0); */
-    /* mask: linear-gradient(to right, rgba(0, 0, 0, 0.3) var(--y), #fff 0); */
     transform-origin: left;
     transform: perspective(1000px) rotateY(8deg);
     outline: calc(var(--y) + var(--o)) solid rgba(0, 0, 0, 0.2);
     outline-offset: calc(-1*(var(--y) + var(--o)));
+}
+
+.canvas-image{
+    --x: 10px;
+    --y: 13px;
+    --o: 0px;
+}
+
+.minimize-canvas-image{
+    --x: 10px;
+    --y: 4px;
+    --o: 4px;
 }
 
 .admin-panel,
