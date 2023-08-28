@@ -314,7 +314,10 @@ const TextToImage = ({ printsName }) => {
     }
 
     const handleSelectPaintingType = (paintingType) => {
-        if (paintingType === "canvas") setIsExistWhiteBorderWithPoster("without-border");
+        if (paintingType === "canvas") {
+            setIsExistWhiteBorderWithPoster("without-border");
+            setFrameColor("none");
+        };
         setPaintingType(paintingType);
     }
 
