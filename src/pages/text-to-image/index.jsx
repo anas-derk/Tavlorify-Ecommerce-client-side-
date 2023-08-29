@@ -518,12 +518,17 @@ const TextToImage = ({ printsName }) => {
                             height: !isRoomImageMinimize ? (
                                 imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height}px`
                             ) : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 10}px`,
+                            boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 3px #000" : "",
+                            backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
                         }}
                     >
                         {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
                             src={frameImages[paintingType][tempImageType][frameColor][tempDimentionsInCm]}
                             alt="Image"
-                            style={{ maxWidth: "100%", maxHeight: "100%" }}
+                            style={{
+                                maxWidth: "100%",
+                                maxHeight: "100%",
+                            }}
                         />}
                     </div>
                     <div
@@ -531,7 +536,7 @@ const TextToImage = ({ printsName }) => {
                         style={{
                             width: width,
                             height: height,
-                            boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 3px #000" : "",
+                            zIndex: isExistWhiteBorderWithPoster === "with-border" ? "" : "-1",
                         }}
                     >
                         {!isWaitStatus && !errorMsg && paintingURL && <img
