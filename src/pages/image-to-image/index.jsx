@@ -46,6 +46,8 @@ import { BsCart2 } from "react-icons/bs";
 import { GrFormClose } from "react-icons/gr";
 import Link from "next/link";
 import nodeCodeGenerator from "node-code-generator";
+import room1Image from "@/../../public/images/Rooms/room1.jpg";
+import room2Image from "@/../../public/images/Rooms/room2.jpg";
 
 const ImageToImage = ({ printsName }) => {
 
@@ -106,6 +108,8 @@ const ImageToImage = ({ printsName }) => {
     const [quantity, setQuantity] = useState(1);
 
     const [formValidationErrors, setFormValidationErrors] = useState({});
+
+    const [imageMode, setImageMode] = useState("normal-size-image");
 
     const frameImages = {
         "poster": {
@@ -676,6 +680,144 @@ const ImageToImage = ({ printsName }) => {
         setIsOpenCartPopupBox(false);
     }
 
+    const handleDisplayImageMode = (imageMode) => {
+        if (imageMode === "minimize-image") {
+            setImageMode("normal-size-image");
+        }
+        if (imageMode === "image-inside-room1") {
+            setImageMode("image-inside-room1");
+        }
+        if (imageMode === "image-inside-room2") {
+            setImageMode("image-inside-room2");
+        }
+    }
+
+    const getArtPaintingBox = (width, height, imageSize, isImageInsideRoom, isRoomImageMinimize) => {
+        return (
+            (imageMode == "normal-size-image" || imageSize === "minimize-image") && <div
+                className="art-painting d-flex justify-content-center align-items-center mb-4"
+                onClick={() => handleDisplayImageMode(imageSize)}
+                style={
+                    {
+                        backgroundColor: isWaitStatus ? "#989492" : "",
+                        cursor: !isWaitStatus && imageSize === "minimize-image" && !isImageInsideRoom ? "pointer" : "",
+                    }
+                }
+            >
+                {(paintingType === "poster" || paintingType === "poster-with-hangers") && <>
+                    <div
+                        className="frame-image-box"
+                        onDragStart={(e) => e.preventDefault()}
+                        onMouseDown={handleMouseDown}
+                        onMouseUp={handleMouseUp}
+                        onMouseMove={handleMouseMove}
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                        style={{
+                            width: !isRoomImageMinimize ? (
+                                imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 3}px` : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width}px`
+                            ) : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 10}px`,
+                            height: !isRoomImageMinimize ? (
+                                imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 3}px` : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height}px`
+                            ) : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 10}px`,
+                            cursor: isWillTheImageBeMoved ? "grab" : "",
+                        }}
+                    >
+                        {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
+                            src={frameImages[paintingType][imageType][frameColor][dimentionsInCm]}
+                            alt="Image"
+                            style={{
+                                maxWidth: "100%",
+                                maxHeight: "100%",
+                            }}
+                        />}
+                    </div>
+                    <div
+                        className="image-box d-flex align-items-center justify-content-center"
+                        style={{
+                            position: "absolute",
+                            zIndex: "-1",
+                            width: !isRoomImageMinimize ? (
+                                imageSize === "minimize-image" ? `${(global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width - 5) / 3}px` : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width}px`
+                            ) : `${(global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width - 5) / 10}px`,
+                            height: !isRoomImageMinimize ? (
+                                imageSize === "minimize-image" ? `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 3}px` : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height}px`
+                            ) : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 10}px`,
+                            backgroundColor: isExistWhiteBorderWithPoster === "with-border" && paintingURL ? "#FFF" : "",
+                            boxShadow: isExistWhiteBorderWithPoster === "with-border" && paintingURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
+                            maxWidth: "95%",
+                            maxHeight: "97.5%",
+                        }}
+                    >
+                        {isWillTheImageBeMoved && imageSize !== "minimize-image" && !isImageInsideRoom && <div
+                            className="displacement-icons-box d-flex align-items-center justify-content-center"
+                        >
+                            {theDirectionOfImageDisplacement === "horizontal" && <CgArrowsHAlt className="displacement-icon" />}
+                            {theDirectionOfImageDisplacement === "vertical" && <CgArrowsVAlt className="displacement-icon" />}
+                        </div>}
+                        <div
+                            className="generated-image-box"
+                            style={{
+                                width: width,
+                                height: height,
+                                backgroundImage: `url(${paintingURL})`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
+                                backgroundSize: "cover",
+                                cursor: isWillTheImageBeMoved ? "grap" : "",
+                                maxWidth: "100%",
+                                maxHeight: "100%",
+                            }}
+                        ></div>
+                    </div>
+                </>}
+                {paintingType === "canvas" && <div className="canvas-image-box">
+                    <img
+                        src={paintingURL}
+                        className={
+                            !isImageInsideRoom ? (
+                                imageSize !== "minimize-image" ? "canvas-image" : "minimize-canvas-image"
+                            ) : ""
+                        }
+                        alt="canvas image"
+                        width={width}
+                        height={height}
+                    />
+                </div>}
+                {isWaitStatus && !errorMsg && <span className="loader"></span>}
+                {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
+            </div>
+        );
+    }
+
+    const getImageInsideRoomBox = (roomNumber, roomImageWidth, roomImageHeight, imageSize) => {
+        return (
+            (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image") && !isWaitStatus && !errorMsg && paintingURL && <div
+                className={`room${roomNumber}-image-box room-image-box mx-auto border border-2 border-dark mb-4`}
+                onClick={() => handleDisplayImageMode(`image-inside-room${roomNumber}`)}
+                style={
+                    {
+                        backgroundColor: isWaitStatus ? "#989492" : "",
+                        cursor: !isWaitStatus && imageSize === "minimize-room-image" ? "pointer" : "",
+                        width: roomImageWidth,
+                        height: roomImageHeight,
+                    }
+                }
+            >
+                {roomNumber === 1 && <img src={room1Image.src} alt="Room Image1 !!" />}
+                {roomNumber === 2 && <img src={room2Image.src} alt="Room Image2 !!" />}
+                {getArtPaintingBox(
+                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 10}px` : `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 3}px`,
+                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 10}px` : `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 3}px`,
+                    "minimize-image",
+                    true,
+                    imageSize === "minimize-room-image" ? true : false,
+                )}
+            </div>
+        );
+    }
+
     return (
         // Start Image To Image Page
         <div className="image-to-image-service">
@@ -726,72 +868,26 @@ const ImageToImage = ({ printsName }) => {
                     {/* Start Grid System */}
                     <div className="row align-items-center">
                         {/* Start Column */}
-                        <div className="col-md-6">
+                        <div className="col-md-2">
+                            {/* Start Art Painting Box */}
+                            {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 3}px`, "minimize-image", false )}
+                            {/* End Art Painting Box */}
+                            {getImageInsideRoomBox(1, 200, 150, "minimize-room-image")}
+                            {getImageInsideRoomBox(2, 200, 150, "minimize-room-image")}
+                        </div>
+                        {/* End Column */}
+                        {/* Start Column */}
+                        <div className="col-md-5">
                             {/* Start Art Painting Section */}
-                            <section
-                                className="art-painting d-flex justify-content-center align-items-center"
-                                style={isWaitStatus ? { backgroundColor: "#989492" } : {}}
-                            >
-                                <div
-                                    className="frame-image-box"
-                                    onDragStart={(e) => e.preventDefault()}
-                                    onMouseDown={handleMouseDown}
-                                    onMouseUp={handleMouseUp}
-                                    onMouseMove={handleMouseMove}
-                                    onTouchStart={handleTouchStart}
-                                    onTouchMove={handleTouchMove}
-                                    onTouchEnd={handleTouchEnd}
-                                    style={{
-                                        cursor: isWillTheImageBeMoved ? "grab" : "",
-                                    }}
-                                >
-                                    {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
-                                        src={frameImages[paintingType][imageType][frameColor][dimentionsInCm]}
-                                        alt="Image"
-                                        style={{ maxWidth: "100%", maxHeight: "100%" }}
-                                    />}
-                                </div>
-                                <div
-                                    className="image-box"
-                                    style={{
-                                        position: "absolute",
-                                        zIndex: "-1",
-                                        width: globalData.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width,
-                                        height: globalData.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height,
-                                        maxWidth: "95%",
-                                        maxHeight: "97.5%",
-                                    }}
-                                >
-                                    {isWillTheImageBeMoved && <div
-                                        className="displacement-icons-box d-flex align-items-center justify-content-center"
-                                    >
-                                        {theDirectionOfImageDisplacement === "horizontal" && <CgArrowsHAlt className="displacement-icon" />}
-                                        {theDirectionOfImageDisplacement === "vertical" && <CgArrowsVAlt className="displacement-icon" />}
-                                    </div>}
-                                    {!isWaitStatus && !errorMsg && paintingURL && <div
-                                        className="generated-image-box"
-                                        style={{
-                                            width: globalData.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width,
-                                            height: globalData.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height,
-                                            backgroundImage: `url(${paintingURL})`,
-                                            backgroundRepeat: "no-repeat",
-                                            backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
-                                            backgroundSize: "cover",
-                                            cursor: isWillTheImageBeMoved ? "grap" : "",
-                                            maxWidth: "100%",
-                                            maxHeight: "100%",
-                                        }}
-                                    ></div>}
-                                </div>
-                                {isWaitStatus && !errorMsg && <span className="loader"></span>}
-                                {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
-                            </section>
+                            {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height}px`, undefined, false)}
                             {/* End Art Painting Section */}
+                            {getImageInsideRoomBox(1, 600, 450, undefined)}
+                            {getImageInsideRoomBox(2, 600, 450, undefined)}
                             {isSaveGeneratedImageAndInfo && !errorMsg && <p className="alert alert-danger mt-5 text-center">Saving Generated Image Now ...</p>}
                         </div>
                         {/* End Column */}
                         {/* Start Column */}
-                        <div className="col-md-6">
+                        <div className="col-md-5">
                             <div className="image-before-processing-box">
                                 {/* Start Downloaded Image Box */}
                                 {imageLink && <div className="downloaded-image-box mx-auto">

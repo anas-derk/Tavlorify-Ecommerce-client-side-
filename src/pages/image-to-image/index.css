@@ -60,6 +60,22 @@
   margin: 0 auto;
 }
 
+.image-to-image-service .page-content .container-fluid .row .room-image-box {
+  position: relative;
+}
+
+.image-to-image-service .page-content .container-fluid .row .room-image-box img {
+  max-width: 100%;
+  max-width: 100%;
+}
+
+.image-to-image-service .page-content .container-fluid .row .room-image-box .art-painting {
+  position: absolute;
+  left: 25%;
+  top: 20%;
+  z-index: 1;
+}
+
 .image-to-image-service .page-content .container-fluid .row .art-painting {
   position: relative;
 }
