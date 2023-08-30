@@ -371,6 +371,7 @@ const ImageToImage = ({ printsName }) => {
         setTheDirectionOfImageDisplacement("");
         setBackgroundPosition({ x: 50, y: 50 });
         setInitialOffsetValue({ x: 0, y: 0 });
+        setIsMouseDownActivate(false);
         setIsWaitStatus(true);
         Axios.get(`https://newapi.tavlorify.se/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}`)
             .then((res) => {
