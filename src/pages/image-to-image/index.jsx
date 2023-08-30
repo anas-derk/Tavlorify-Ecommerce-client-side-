@@ -266,6 +266,8 @@ const ImageToImage = ({ printsName }) => {
         },
     }
 
+    const [isMouseDownActivate, setIsMouseDownActivate] = useState(false);
+
     const [isOpenCartPopupBox, setIsOpenCartPopupBox] = useState(false);
 
     useEffect(() => {
@@ -337,6 +339,14 @@ const ImageToImage = ({ printsName }) => {
         setStyleSelectedIndex(index);
         let tempModelName = categoryStyles[index].modelName;
         setModelName(tempModelName);
+    }
+
+    const handleSelectPaintingType = (paintingType) => {
+        if (paintingType === "canvas") {
+            setIsExistWhiteBorderWithPoster("without-border");
+            setFrameColor("none");
+        };
+        setPaintingType(paintingType);
     }
 
     const handleSelectImageDimentions = (inCm) => {
@@ -470,6 +480,7 @@ const ImageToImage = ({ printsName }) => {
             setInitialOffsetValue({ ...initialOffsetValue, x: e.nativeEvent.offsetX });
         }
         setIsDraggable(true);
+        setIsMouseDownActivate(true);
     }
 
     const handleMouseUp = (e) => {
@@ -750,7 +761,7 @@ const ImageToImage = ({ printsName }) => {
                             maxHeight: "97.5%",
                         }}
                     >
-                        {isWillTheImageBeMoved && imageSize !== "minimize-image" && !isImageInsideRoom && <div
+                        {isWillTheImageBeMoved && !isMouseDownActivate && imageSize !== "minimize-image" && !isImageInsideRoom && <div
                             className="displacement-icons-box d-flex align-items-center justify-content-center"
                         >
                             {theDirectionOfImageDisplacement === "horizontal" && <CgArrowsHAlt className="displacement-icon" />}
@@ -772,7 +783,51 @@ const ImageToImage = ({ printsName }) => {
                         ></div>
                     </div>
                 </>}
-                {paintingType === "canvas" && <div className="canvas-image-box">
+                {paintingType === "canvas" && <div
+                    className={`
+                        image-box d-flex align-items-center justify-content-center
+                        ${!isImageInsideRoom ? (
+                            imageSize !== "minimize-image" ? "canvas-image" : "minimize-canvas-image"
+                        ) : ""}
+                    `}
+                    style={{
+                        width: width,
+                        height: height,
+                        cursor: isWillTheImageBeMoved ? "grab" : "",
+                    }}
+                    onDragStart={(e) => e.preventDefault()}
+                    onMouseDown={handleMouseDown}
+                    onMouseUp={handleMouseUp}
+                    onMouseMove={handleMouseMove}
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
+                >
+                    <div
+                        style={{
+                            width: width,
+                            height: height,
+                            backgroundImage: `url(${paintingURL})`,
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
+                            backgroundSize: "cover",
+                            cursor: isWillTheImageBeMoved ? "grap" : "",
+                            maxWidth: "100%",
+                            maxHeight: "100%",
+                        }}
+                    ></div>
+                    {isWillTheImageBeMoved && !isMouseDownActivate && imageSize !== "minimize-image" && !isImageInsideRoom && <div
+                        className="displacement-icons-box d-flex align-items-center justify-content-center"
+                    >
+                        {theDirectionOfImageDisplacement === "horizontal" && <CgArrowsHAlt className="displacement-icon" />}
+                        {theDirectionOfImageDisplacement === "vertical" && <CgArrowsVAlt className="displacement-icon" />}
+                    </div>}
+                </div>}
+
+
+
+
+                {/* {paintingType === "canvas" && <div className="canvas-image-box">
                     <img
                         src={paintingURL}
                         className={
@@ -784,7 +839,7 @@ const ImageToImage = ({ printsName }) => {
                         width={width}
                         height={height}
                     />
-                </div>}
+                </div>} */}
                 {isWaitStatus && !errorMsg && <span className="loader"></span>}
                 {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
             </div>
@@ -870,7 +925,7 @@ const ImageToImage = ({ printsName }) => {
                         {/* Start Column */}
                         <div className="col-md-2">
                             {/* Start Art Painting Box */}
-                            {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 3}px`, "minimize-image", false )}
+                            {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 3}px`, "minimize-image", false)}
                             {/* End Art Painting Box */}
                             {getImageInsideRoomBox(1, 200, 150, "minimize-room-image")}
                             {getImageInsideRoomBox(2, 200, 150, "minimize-room-image")}
@@ -1003,14 +1058,14 @@ const ImageToImage = ({ printsName }) => {
                                     <ul className="art-names-list d-flex flex-wrap mb-4">
                                         <li
                                             className="p-2 pe-3 ps-3"
-                                            onClick={() => setPaintingType("poster")}
+                                            onClick={() => handleSelectPaintingType("poster")}
                                             style={paintingType === "poster" || paintingType === "poster-with-hangers" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
                                         >
                                             Poster
                                         </li>
                                         <li
                                             className="p-2 pe-3 ps-3"
-                                            onClick={() => setPaintingType("canvas")}
+                                            onClick={() => handleSelectPaintingType("canvas")}
                                             style={paintingType === "canvas" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
                                         >
                                             Canvas

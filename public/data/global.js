@@ -3121,6 +3121,27 @@ const appearedImageSizesForImageToImage = {
             },
         },
     },
+    "canvas": {
+        "without-border": {
+            "square": {
+                "30x30": { width: 584, height: 584 },
+                "50x50": { width: 584, height: 584 },
+                "70x70": { width: 584, height: 584 },
+            },
+            "vertical": {
+                "21x29,7": { width: 417, height: 584 },
+                "30x40": { width: 417, height: 584 },
+                "50x70": { width: 417, height: 584 },
+                "70x100": { width: 417, height: 584 },
+            },
+            "horizontal": {
+                "29,7x21": { width: 584, height: 417 },
+                "40x30": { width: 584, height: 417 },
+                "70x50": { width: 584, height: 417 },
+                "100x70": { width: 584, height: 417 },
+            },
+        },
+    },
 }
 
 const framesDimentions = {
