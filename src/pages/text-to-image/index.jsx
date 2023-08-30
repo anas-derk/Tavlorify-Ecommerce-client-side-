@@ -518,8 +518,6 @@ const TextToImage = ({ printsName }) => {
                             height: !isRoomImageMinimize ? (
                                 imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height}px`
                             ) : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 10}px`,
-                            boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 3px #000" : "",
-                            backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
                         }}
                     >
                         {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
@@ -534,16 +532,22 @@ const TextToImage = ({ printsName }) => {
                     <div
                         className="generated-image-box d-flex align-items-center justify-content-center"
                         style={{
-                            width: width,
-                            height: height,
-                            zIndex: isExistWhiteBorderWithPoster === "with-border" ? "" : "-1",
+                            width: !isRoomImageMinimize ? (
+                                imageSize === "minimize-image" ? `${(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width - 14) / 3}px` : `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width}px`
+                            ) : `${(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width - 14) / 10}px`,
+                            height: !isRoomImageMinimize ? (
+                                imageSize === "minimize-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 3}px` : `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height}px`
+                            ) : `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 10}px`,
+                            zIndex: -1,
+                            boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
+                            backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
                         }}
                     >
                         {!isWaitStatus && !errorMsg && paintingURL && <img
                             src={paintingURL}
                             alt="Generated Image !!"
                             style={{
-                                width: width,
+                                width: imageSize === "minimize-image" || isImageInsideRoom  ? `calc(${width} - 5px)` : width,
                                 height: height,
                             }}
                         />}
@@ -584,32 +588,6 @@ const TextToImage = ({ printsName }) => {
             >
                 {roomNumber === 1 && <img src={room1Image.src} alt="Room Image1 !!" />}
                 {roomNumber === 2 && <img src={room2Image.src} alt="Room Image2 !!" />}
-                {getArtPaintingBox(
-                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 10}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`,
-                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 10}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`,
-                    "minimize-image",
-                    true,
-                    imageSize === "minimize-room-image" ? true : false,
-                )}
-            </div>
-        );
-    }
-
-    const getImageInsideRoom2Box = (roomImageWidth, roomImageHeight, imageSize) => {
-        return (
-            (imageMode === "image-inside-room2" || imageSize === "minimize-room-image") && <div
-                className="room2-image-box room-image-box mx-auto border border-2 border-dark mb-4"
-                onClick={() => handleDisplayImageMode("image-inside-room2")}
-                style={
-                    {
-                        backgroundColor: isWaitStatus ? "#989492" : "",
-                        cursor: !isWaitStatus && imageSize === "minimize-room-image" ? "pointer" : "",
-                        width: roomImageWidth,
-                        height: roomImageHeight,
-                    }
-                }
-            >
-                <img src={room2Image.src} alt="Room Image2 !!" />
                 {getArtPaintingBox(
                     imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 10}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`,
                     imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 10}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`,
