@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-const apiConfig = require("./api.config");
 const nextConfig = {
   reactStrictMode: false,
   env: {
