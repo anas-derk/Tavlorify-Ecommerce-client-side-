@@ -3,17 +3,17 @@ const apiConfig = require("./api.config");
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    BASE_API_URL: apiConfig.BASE_API_URL,
+    BASE_API_URL: process.env.NODE_ENV === "development" ? "http://localhost:5300" : "https://newapi.tavlorify.se",
   },
   async headers() {
     return [
       {
-        source: apiConfig.requestReceiver,
+        source: process.env.NODE_ENV === "development" ? "//localhost:5300/(.*)" : "//newapi.tavlorify.se/(.*)",
         headers: [
           { key: "Access-Control-Allow-Credentials", value: "true" },
           {
             key: "Access-Control-Allow-Origin",
-            value: apiConfig.requestOrigin,
+            value: process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://tavlorify.se",
           },
           {
             key: "Access-Control-Allow-Methods",
