@@ -14,6 +14,8 @@ const UpdateCategoryStyleInfo = () => {
 
     const [isUpdateStatus, setIsUpdateStatus] = useState(false);
 
+    const [isUpdateStyleImageStatus, setIsUpdateStyleImageStatus] = useState(false);
+
     const [isDeleteStatus, setIsDeleteStatus] = useState(false);
 
     const [categoryData, setCategoryData] = useState(null);
@@ -22,9 +24,13 @@ const UpdateCategoryStyleInfo = () => {
 
     const [categoryStylesData, setCategoryStylesData] = useState([]);
 
+    const [updatedStyleImageIndex, setUpdatedStyleImageIndex] = useState(-1);
+
     const [updatedStyleIndex, setUpdatedStyleIndex] = useState(-1);
 
     const [deletedStyleIndex, setDeletedStyleIndex] = useState(-1);
+
+    const [files, setFiles] = useState([]);
 
     useEffect(() => {
         const adminId = localStorage.getItem("tavlorify-store-admin-id");
@@ -44,6 +50,12 @@ const UpdateCategoryStyleInfo = () => {
         }
     }, []);
 
+    const changeStyleName = (styleIndex, newValue) => {
+        let categoriesDataTemp = categoryData;
+        categoryStylesData[styleIndex].name = newValue;
+        setCategoryData(categoriesDataTemp);
+    }
+
     const changeStylePrompt = (styleIndex, newValue) => {
         let categoriesDataTemp = categoryData;
         categoryStylesData[styleIndex].prompt = newValue;
@@ -56,8 +68,15 @@ const UpdateCategoryStyleInfo = () => {
         setCategoryData(categoriesDataTemp);
     }
 
+    const changeStyleImage = (styleIndex, newValue) => {
+        let styleFiles = files;
+        styleFiles[styleIndex] = newValue;
+        setFiles(styleFiles);
+    }
+
     const getCategoryStyles = (e) => {
         e.preventDefault();
+        setFiles([]);
         setIsWaitStatus(true);
         Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categoryIndex].name}`)
             .then((res) => {
@@ -67,10 +86,18 @@ const UpdateCategoryStyleInfo = () => {
             .catch((err) => console.log(err));
     }
 
+    const updateStyleImage = (styleIndex) => {
+        if (typeof files[styleIndex] === "object") {
+            setUpdatedStyleImageIndex(styleIndex);
+            setIsUpdateStyleImageStatus(true);
+        }
+    }
+
     const updateStyleData = (styleIndex) => {
         setUpdatedStyleIndex(styleIndex);
         setIsUpdateStatus(true);
         Axios.put(`${process.env.BASE_API_URL}/text-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}`, {
+            newName: categoryStylesData[styleIndex].name,
             newPrompt: categoryStylesData[styleIndex].prompt,
             newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
         })
@@ -129,13 +156,21 @@ const UpdateCategoryStyleInfo = () => {
                                     <th>Prompt</th>
                                     <th>Negative Prompt</th>
                                     <th>Model Name</th>
+                                    <th>Image</th>
                                     <th>Process</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {categoryStylesData.map((style, styleIndex) => (
                                     <tr key={styleIndex}>
-                                        <td className="style-name-cell">{style.name}</td>
+                                        <td className="style-name-cell">
+                                            <input
+                                                type="text"
+                                                className="style-name p-2"
+                                                defaultValue={style.name}
+                                                onChange={(e) => changeStyleName(styleIndex, e.target.value.trim())}
+                                            />
+                                        </td>
                                         <td>
                                             <textarea
                                                 placeholder="Enter Negative Prompt"
@@ -153,6 +188,30 @@ const UpdateCategoryStyleInfo = () => {
                                             ></textarea>
                                         </td>
                                         <td className="model-name-cell">{style.modelName}</td>
+                                        <td className="style-image-cell">
+                                            <img
+                                                src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
+                                                alt={`${style.name} Image`}
+                                                width="100"
+                                                height="100"
+                                                className="d-block mx-auto mb-3"
+                                            />
+                                            <input
+                                                type="file"
+                                                className="form-control mx-auto mb-3"
+                                                style={{
+                                                    width: "257px"
+                                                }}
+                                                onChange={(e) => changeStyleImage(styleIndex, e.target.files[0])}
+                                            />
+                                            {styleIndex !== updatedStyleImageIndex && <button
+                                                className="btn btn-danger"
+                                                onClick={() => updateStyleImage(styleIndex)}
+                                            >
+                                                Change Image
+                                            </button>}
+                                            {isUpdateStyleImageStatus && styleIndex === updatedStyleImageIndex && <p className="alert alert-primary mb-3 d-block">Update ...</p>}
+                                        </td>
                                         <td className="update-and-delete-cell">
                                             {styleIndex !== updatedStyleIndex && <button
                                                 className="btn btn-danger mb-3 d-block w-100"

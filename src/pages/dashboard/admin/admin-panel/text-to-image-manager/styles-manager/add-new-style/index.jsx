@@ -194,7 +194,7 @@ const AddNewCategoryStyle = () => {
                             <option value="dreamshaper">Dreamshaper</option>
                             <option value="stable-diffusion">Stable Diffusion</option>
                             <option value="deliberate-v2">Deliberate</option>
-                            <option value="kandinsky-2">kandinsky</option>
+                            <option value="sdxl">Sdxl</option>
                             <option value="openjourney">Openjourney</option>
                         </select>
                         {formValidationErrors["modelName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["modelName"]}</p>}

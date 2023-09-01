@@ -19,7 +19,7 @@ const ControlPanelHeader = () => {
                     </button>
                     <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                         <ul className="navbar-nav mb-2 mb-lg-0">
-                            <li className="nav-item dropdown">
+                            {/* <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Categories
                                 </a>
@@ -40,8 +40,8 @@ const ControlPanelHeader = () => {
                                         <Link className="dropdown-item" href="/dashboard/admin/admin-panel/categories-manager/update-and-delete-categories">Update And Delete Categories</Link>
                                     </li>
                                 </ul>
-                            </li>
-                            <li className="nav-item dropdown">
+                            </li> */}
+                            {/* <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Products
                                 </a>
@@ -54,7 +54,7 @@ const ControlPanelHeader = () => {
                                         <Link className="dropdown-item" href="/dashboard/admin/admin-panel/products-manager/update-and-delete-products">Update And Delete Products</Link>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> */}
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Text To Image
