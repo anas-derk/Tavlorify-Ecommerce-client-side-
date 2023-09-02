@@ -17,8 +17,6 @@ const AddNewCategoryStyle = () => {
 
     const [styleNegativePrompt, setStyleNegativePrompt] = useState("");
 
-    const [modelName, setModelName] = useState("");
-
     const [ddim_steps, setDdim_steps] = useState("");
 
     const [strength, setStrength] = useState("");
@@ -94,15 +92,6 @@ const AddNewCategoryStyle = () => {
                 },
             },
             {
-                name: "modelName",
-                value: modelName,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't Be Field Is Empty !!",
-                    },
-                },
-            },
-            {
                 name: "ddim_steps",
                 value: ddim_steps,
                 rules: {
@@ -140,7 +129,6 @@ const AddNewCategoryStyle = () => {
             formData.append("styleName", styleName);
             formData.append("stylePrompt", stylePrompt);
             formData.append("styleNegativePrompt", styleNegativePrompt);
-            formData.append("modelName", modelName);
             formData.append("ddim_steps", ddim_steps);
             formData.append("strength", strength);
             formData.append("styleImgFile", styleImageFile);
@@ -209,15 +197,6 @@ const AddNewCategoryStyle = () => {
                             onChange={(e) => setStyleNegativePrompt(e.target.value.trim())}
                         ></textarea>
                         {formValidationErrors["styleNegativePrompt"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleNegativePrompt"]}</p>}
-                        <select
-                            type="text"
-                            className={`form-control p-2 ${formValidationErrors["modelName"] ? "border border-danger mb-2" : "mb-4"}`}
-                            onChange={(e) => setModelName(e.target.value)}
-                        >
-                            <option hidden value="">Please Select Model Name</option>
-                            <option value="controlnet-1.1-x-realistic-vision-v2.0">Controlnet-1.1-x-realistic-vision-v2.0</option>
-                        </select>
-                        {formValidationErrors["modelName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["modelName"]}</p>}
                         <input
                             type="text"
                             className={`form-control p-2 ${formValidationErrors["ddim_steps"] ? "border border-danger mb-2" : "mb-4"}`}

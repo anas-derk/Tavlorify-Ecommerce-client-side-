@@ -96,7 +96,7 @@ const UpdateCategoryStyleInfo = () => {
             try {
                 let formData = new FormData();
                 formData.append("styleImage", files[styleIndex]);
-                const res = await Axios.put(`${process.env.BASE_API_URL}/admin/update-style-image?service=text-to-image&styleId=${categoryStylesData[styleIndex]._id}`, formData);
+                await Axios.put(`${process.env.BASE_API_URL}/admin/update-style-image?service=text-to-image&styleId=${categoryStylesData[styleIndex]._id}`, formData);
                 getCategoryStyles();
                 setIsUpdateStyleImageStatus(false);
                 setUpdatedStyleImageIndex(-1);
@@ -230,7 +230,7 @@ const UpdateCategoryStyleInfo = () => {
                                                 className="btn btn-danger mb-3 d-block w-100"
                                                 onClick={() => updateStyleData(styleIndex)}
                                             >Update</button>}
-                                            {isDeleteStatus && styleIndex === updatedStyleIndex && <p className="alert alert-primary mb-3 d-block">Update ...</p>}
+                                            {isUpdateStatus && styleIndex === updatedStyleIndex && <p className="alert alert-primary mb-3 d-block">Update ...</p>}
                                             {styleIndex !== deletedStyleIndex && <button
                                                 className="btn btn-danger d-block w-100"
                                                 onClick={() => deleteStyle(styleIndex)}
