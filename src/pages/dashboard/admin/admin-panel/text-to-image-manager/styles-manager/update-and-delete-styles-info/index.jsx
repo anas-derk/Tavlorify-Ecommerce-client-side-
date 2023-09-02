@@ -178,6 +178,7 @@ const UpdateCategoryStyleInfo = () => {
                                         <td className="style-name-cell">
                                             <input
                                                 type="text"
+                                                placeholder="Enter Style Name"
                                                 className="style-name p-2"
                                                 defaultValue={style.name}
                                                 onChange={(e) => changeStyleName(styleIndex, e.target.value.trim())}

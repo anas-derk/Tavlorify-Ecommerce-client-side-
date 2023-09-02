@@ -50,6 +50,12 @@ const UpdateCategoryStyleInfo = () => {
         }
     }, []);
 
+    const changeStyleName = (styleIndex, newValue) => {
+        let categoriesDataTemp = categoryData;
+        categoryStylesData[styleIndex].name = newValue;
+        setCategoryData(categoriesDataTemp);
+    }
+
     const changeStylePrompt = (styleIndex, newValue) => {
         let categoriesDataTemp = categoryData;
         categoryStylesData[styleIndex].prompt = newValue;
@@ -113,6 +119,7 @@ const UpdateCategoryStyleInfo = () => {
         setUpdatedStyleIndex(styleIndex);
         setIsUpdateStatus(true);
         Axios.put(`${process.env.BASE_API_URL}/image-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}`, {
+            newName: categoryStylesData[styleIndex].name,
             newPrompt: categoryStylesData[styleIndex].prompt,
             newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
             newDdimSteps: categoryStylesData[styleIndex].ddim_steps,
@@ -178,7 +185,14 @@ const UpdateCategoryStyleInfo = () => {
                             <tbody>
                                 {categoryStylesData.map((style, styleIndex) => (
                                     <tr key={styleIndex}>
-                                        <td className="style-name-cell">{style.name}</td>
+                                        <td className="style-name-cell">
+                                            <input
+                                                placeholder="Enter Style Name"
+                                                defaultValue={style.name}
+                                                className="p-2"
+                                                onChange={(e) => changeStyleName(styleIndex, e.target.value)}
+                                            />
+                                        </td>
                                         <td>
                                             <textarea
                                                 placeholder="Enter Prompt"
