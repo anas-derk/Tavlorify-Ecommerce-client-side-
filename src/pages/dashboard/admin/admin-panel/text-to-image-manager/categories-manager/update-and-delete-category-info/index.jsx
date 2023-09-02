@@ -108,10 +108,10 @@ const UpdateAndDeleteCategoryInfo = () => {
                         <tbody>
                             {categoriesData.map((category, index) => (
                                 <tr key={index}>
-                                    <td className="category-name-cell">
+                                    <td className="category-sort-number-cell">
                                         {category.sortNumber}
                                     </td>
-                                    <td className="category-sort-number-cell">
+                                    <td className="select-category-sort-number-cell">
                                         <select className="form-control" onChange={(e) => changeCategorySortNumber(index, e.target.value)}>
                                             <option value="" hidden>Please Select Sort</option>
                                             {categoriesData.map((category, index) => (
