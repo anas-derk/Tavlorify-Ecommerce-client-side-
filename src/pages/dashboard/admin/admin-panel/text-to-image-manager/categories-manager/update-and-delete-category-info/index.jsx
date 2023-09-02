@@ -43,19 +43,26 @@ const UpdateAndDeleteCategoryInfo = () => {
         }
     }, []);
 
+    const changeCategorySortNumber = (categoryIndex, newValue) => {
+        let categoriesDataTemp = updatedCategoriesData;
+        categoriesDataTemp[categoryIndex].sortNumber = Number(newValue);
+        setUpdatedCategoriesData(categoriesDataTemp);
+    }
+
     const changeCategoryName = (categoryIndex, newValue) => {
         let categoriesDataTemp = updatedCategoriesData;
         categoriesDataTemp[categoryIndex].name = newValue;
         setUpdatedCategoriesData(categoriesDataTemp);
     }
 
-    const updateCategoryName = (categoryIndex) => {
+    const updateCategoryInfo = (categoryIndex) => {
         setUpdatedCategoryIndex(categoryIndex);
         setIsUpdateStatus(true);
         Axios.put(`${process.env.BASE_API_URL}/text-to-image/categories/update-category-data/${categoriesData[categoryIndex]._id}?oldCategoryName=${categoriesData[categoryIndex].name}`, {
+            newCategorySortNumber: updatedCategoriesData[categoryIndex].sortNumber,
             newCategoryName: updatedCategoriesData[categoryIndex].name,
         })
-            .then((res) => {
+            .then(() => {
                 setTimeout(() => {
                     setIsUpdateStatus(false);
                     router.reload();
@@ -92,13 +99,26 @@ const UpdateAndDeleteCategoryInfo = () => {
                     {categoriesData.length > 0 ? <table className="categories-table mb-4 text-center">
                         <thead>
                             <tr>
+                                <th>Old Category Sort</th>
+                                <th>New Category Sort</th>
                                 <th>Category Name</th>
-                                <th>Processes</th>
+                                <th>Proceses</th>
                             </tr>
                         </thead>
                         <tbody>
                             {categoriesData.map((category, index) => (
                                 <tr key={index}>
+                                    <td className="category-name-cell">
+                                        {category.sortNumber}
+                                    </td>
+                                    <td className="category-sort-number-cell">
+                                        <select className="form-control" onChange={(e) => changeCategorySortNumber(index, e.target.value)}>
+                                            <option value="" hidden>Please Select Sort</option>
+                                            {categoriesData.map((category, index) => (
+                                                <option value={index + 1} key={category.sortNumber}>{index + 1}</option>
+                                            ))}
+                                        </select>
+                                    </td>
                                     <td className="category-name-cell">
                                         <input
                                             type="text"
@@ -111,7 +131,7 @@ const UpdateAndDeleteCategoryInfo = () => {
                                     <td className="update-and-delete-cell">
                                         {index !== updatedCategoryIndex && <button
                                             className="btn btn-danger mb-3 d-block w-100"
-                                            onClick={() => updateCategoryName(index)}
+                                            onClick={() => updateCategoryInfo(index)}
                                         >Update</button>}
                                         {isUpdateStatus && index === updatedCategoryIndex && <p className="alert alert-primary mb-3 d-block">Update ...</p>}
                                         {index !== deletedCategoryIndex && <button
