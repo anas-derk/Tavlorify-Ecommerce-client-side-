@@ -54,6 +54,12 @@ const UpdateCategoryStyleInfo = () => {
         }
     }, []);
 
+    const changeCategorySortNumber = (styleIndex, newValue) => {
+        let categoriesDataTemp = categoryData;
+        categoryStylesData[styleIndex].sortNumber = newValue;
+        setCategoryData(categoriesDataTemp);
+    }
+
     const changeStyleName = (styleIndex, newValue) => {
         let categoriesDataTemp = categoryData;
         categoryStylesData[styleIndex].name = newValue;
@@ -112,6 +118,7 @@ const UpdateCategoryStyleInfo = () => {
         setUpdatedStyleIndex(styleIndex);
         setIsUpdateStatus(true);
         Axios.put(`${process.env.BASE_API_URL}/text-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}`, {
+            newCategoryStyleSortNumber: categoryStylesData[styleIndex].sortNumber,
             newName: categoryStylesData[styleIndex].name,
             newPrompt: categoryStylesData[styleIndex].prompt,
             newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
@@ -121,6 +128,7 @@ const UpdateCategoryStyleInfo = () => {
                     setUpdatedStyleIndex(-1);
                     setIsWaitStatus(false);
                     setIsUpdateStatus(false);
+                    getCategoryStyles();
                 }
             })
             .catch((err) => console.log(err));
@@ -164,6 +172,7 @@ const UpdateCategoryStyleInfo = () => {
                         <table className="categories-and-styles-table mb-4">
                             <thead>
                                 <tr>
+                                    <th>Old + New Style Sort</th>
                                     <th>Style Name</th>
                                     <th>Prompt</th>
                                     <th>Negative Prompt</th>
@@ -175,6 +184,16 @@ const UpdateCategoryStyleInfo = () => {
                             <tbody>
                                 {categoryStylesData.map((style, styleIndex) => (
                                     <tr key={styleIndex}>
+                                        <td className="style-sort-number">
+                                            <h6 className="old-style-sort-number fw-bold">Old: {style.sortNumber}</h6>
+                                            <hr />
+                                            <select className="form-control" onChange={(e) => changeCategorySortNumber(styleIndex, e.target.value)}>
+                                                <option value="" hidden>Please Select New Sort</option>
+                                                {categoryStylesData.map((style, index) => (
+                                                    <option value={index + 1} key={index}>{index + 1}</option>
+                                                ))}
+                                            </select>
+                                        </td>
                                         <td className="style-name-cell">
                                             <input
                                                 type="text"
