@@ -34,7 +34,7 @@ const UpdateAndDeleteCategoryInfo = () => {
                         setCategoriesData(result);
                         setUpdatedCategoriesData(result.map((category) => {
                             return {
-                                name: category.name,
+                                ...category
                             }
                         }));
                     }

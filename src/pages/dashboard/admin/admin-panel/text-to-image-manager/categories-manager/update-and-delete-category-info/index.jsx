@@ -34,7 +34,7 @@ const UpdateAndDeleteCategoryInfo = () => {
                         setCategoriesData(result);
                         setUpdatedCategoriesData(result.map((category) => {
                             return {
-                                name: category.name,
+                                ...category,
                             }
                         }));
                     }
@@ -58,6 +58,7 @@ const UpdateAndDeleteCategoryInfo = () => {
     const updateCategoryInfo = (categoryIndex) => {
         setUpdatedCategoryIndex(categoryIndex);
         setIsUpdateStatus(true);
+        console.log(updatedCategoriesData[categoryIndex].sortNumber);
         Axios.put(`${process.env.BASE_API_URL}/text-to-image/categories/update-category-data/${categoriesData[categoryIndex]._id}?oldCategoryName=${categoriesData[categoryIndex].name}`, {
             newCategorySortNumber: updatedCategoriesData[categoryIndex].sortNumber,
             newCategoryName: updatedCategoriesData[categoryIndex].name,
