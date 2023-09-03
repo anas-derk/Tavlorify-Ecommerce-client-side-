@@ -58,7 +58,7 @@ const UpdateAndDeleteCategoryInfo = () => {
     const updateCategoryInfo = (categoryIndex) => {
         setUpdatedCategoryIndex(categoryIndex);
         setIsUpdateStatus(true);
-        Axios.put(`${process.env.BASE_API_URL}/image-to-image/categories/update-category-data/${categoriesData[categoryIndex]._id}?oldCategoryName=${categoriesData[categoryIndex].name}`, {
+        Axios.put(`${process.env.BASE_API_URL}/image-to-image/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
             newCategorySortNumber: updatedCategoriesData[categoryIndex].sortNumber,
             newCategoryName: updatedCategoriesData[categoryIndex].name,
         })
@@ -109,13 +109,13 @@ const UpdateAndDeleteCategoryInfo = () => {
                             {categoriesData.map((category, index) => (
                                 <tr key={index}>
                                     <td className="category-sort-number-cell">
-                                        {category.sortNumber}
+                                        {index + 1}
                                     </td>
                                     <td className="select-category-sort-number-cell">
                                         <select className="form-control" onChange={(e) => changeCategorySortNumber(index, e.target.value)}>
                                             <option value="" hidden>Please Select Sort</option>
                                             {categoriesData.map((category, index) => (
-                                                <option value={index + 1} key={category.sortNumber}>{index + 1}</option>
+                                                <option value={index + 1} key={index}>{index + 1}</option>
                                             ))}
                                         </select>
                                     </td>
