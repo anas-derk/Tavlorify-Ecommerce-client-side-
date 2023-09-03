@@ -124,7 +124,7 @@ const UpdateCategoryStyleInfo = () => {
     const updateStyleData = (styleIndex) => {
         setUpdatedStyleIndex(styleIndex);
         setIsUpdateStatus(true);
-        Axios.put(`${process.env.BASE_API_URL}/image-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}`, {
+        Axios.put(`${process.env.BASE_API_URL}/image-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}?categoryName=${categoryStylesData[styleIndex].categoryName}`, {
             newCategoryStyleSortNumber: categoryStylesData[styleIndex].sortNumber,
             newName: categoryStylesData[styleIndex].name,
             newPrompt: categoryStylesData[styleIndex].prompt,
@@ -133,12 +133,10 @@ const UpdateCategoryStyleInfo = () => {
             newStrength: categoryStylesData[styleIndex].strength,
         })
             .then((res) => {
-                if (typeof res.data !== "string") {
-                    setUpdatedStyleIndex(-1);
-                    setIsWaitStatus(false);
-                    setIsUpdateStatus(false);
-                    getCategoryStyles();
-                }
+                setUpdatedStyleIndex(-1);
+                setIsWaitStatus(false);
+                setIsUpdateStatus(false);
+                getCategoryStyles();
             })
             .catch((err) => console.log(err));
     }
