@@ -54,7 +54,7 @@ const UpdateCategoryStyleInfo = () => {
         }
     }, []);
 
-    const changeCategorySortNumber = (styleIndex, newValue) => {
+    const changeStyleSortNumber = (styleIndex, newValue) => {
         let categoriesDataTemp = categoryData;
         categoryStylesData[styleIndex].sortNumber = newValue;
         setCategoryData(categoriesDataTemp);
@@ -75,6 +75,12 @@ const UpdateCategoryStyleInfo = () => {
     const changeStyleNegativePrompt = (styleIndex, newValue) => {
         let categoriesDataTemp = categoryData;
         categoryStylesData[styleIndex].negative_prompt = newValue;
+        setCategoryData(categoriesDataTemp);
+    }
+
+    const changeStyleModel = (styleIndex, newValue) => {
+        let categoriesDataTemp = categoryData;
+        categoryStylesData[styleIndex].modelName = newValue;
         setCategoryData(categoriesDataTemp);
     }
 
@@ -122,6 +128,7 @@ const UpdateCategoryStyleInfo = () => {
             newName: categoryStylesData[styleIndex].name,
             newPrompt: categoryStylesData[styleIndex].prompt,
             newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
+            newModelName: categoryStylesData[styleIndex].modelName,
         })
             .then((res) => {
                 setUpdatedStyleIndex(-1);
@@ -174,7 +181,7 @@ const UpdateCategoryStyleInfo = () => {
                                     <th>Style Name</th>
                                     <th>Prompt</th>
                                     <th>Negative Prompt</th>
-                                    <th>Model Name</th>
+                                    <th width="320">Old + New Model Name</th>
                                     <th>Image</th>
                                     <th>Process</th>
                                 </tr>
@@ -185,7 +192,7 @@ const UpdateCategoryStyleInfo = () => {
                                         <td className="style-sort-number">
                                             <h6 className="old-style-sort-number fw-bold">Old: {style.sortNumber}</h6>
                                             <hr />
-                                            <select className="form-control" onChange={(e) => changeCategorySortNumber(styleIndex, e.target.value)}>
+                                            <select className="form-control" onChange={(e) => changeStyleSortNumber(styleIndex, e.target.value)}>
                                                 <option value="" hidden>Please Select New Sort</option>
                                                 {categoryStylesData.map((style, index) => (
                                                     <option value={index + 1} key={index}>{index + 1}</option>
@@ -217,7 +224,18 @@ const UpdateCategoryStyleInfo = () => {
                                                 onChange={(e) => changeStyleNegativePrompt(styleIndex, e.target.value.trim())}
                                             ></textarea>
                                         </td>
-                                        <td className="model-name-cell">{style.modelName}</td>
+                                        <td className="model-name-cell">
+                                            <h6 className="old-style-sort-number fw-bold">Old: {style.modelName}</h6>
+                                            <hr />
+                                            <select className="form-control" onChange={(e) => changeStyleModel(styleIndex, e.target.value)}>
+                                                <option hidden value="">Please Select New Model Name</option>
+                                                <option value="dreamshaper">Dreamshaper</option>
+                                                <option value="stable-diffusion">Stable Diffusion</option>
+                                                <option value="deliberate-v2">Deliberate</option>
+                                                <option value="sdxl">Sdxl</option>
+                                                <option value="openjourney">Openjourney</option>
+                                            </select>
+                                        </td>
                                         <td className="style-image-cell">
                                             <img
                                                 src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
