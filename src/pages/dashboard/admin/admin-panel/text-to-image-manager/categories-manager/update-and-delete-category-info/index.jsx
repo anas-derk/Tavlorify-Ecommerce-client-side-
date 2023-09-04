@@ -134,7 +134,7 @@ const UpdateAndDeleteCategoryInfo = () => {
                                             onClick={() => updateCategoryInfo(index)}
                                         >Update</button>}
                                         {isUpdateStatus && index === updatedCategoryIndex && <p className="alert alert-primary mb-3 d-block">Update ...</p>}
-                                        {index !== deletedCategoryIndex && <button
+                                        {categoriesData.length > 1 && index !== deletedCategoryIndex && <button
                                             className="btn btn-danger d-block w-100"
                                             onClick={() => deleteCategory(index)}
                                         >Delete</button>}

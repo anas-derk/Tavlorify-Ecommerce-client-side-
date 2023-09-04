@@ -273,7 +273,7 @@ const UpdateCategoryStyleInfo = () => {
                                                 onClick={() => updateStyleData(styleIndex)}
                                             >Update</button>}
                                             {isUpdateStatus && styleIndex === updatedStyleIndex && <p className="alert alert-primary mb-3 d-block">Update ...</p>}
-                                            {styleIndex !== deletedStyleIndex && <button
+                                            {categoryStylesData.length > 1 && styleIndex !== deletedStyleIndex && <button
                                                 className="btn btn-danger d-block w-100"
                                                 onClick={() => deleteStyle(styleIndex)}
                                             >Delete</button>}
