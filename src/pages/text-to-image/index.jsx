@@ -411,22 +411,17 @@ const TextToImage = ({ printsName }) => {
     }
 
     const saveNewGeneratedImageData = async (generatedImageURL) => {
-        try {
-            const res = await Axios.post(`${process.env.BASE_API_URL}/generated-images/save-new-generated-image-data`, {
-                service: "text-to-image",
-                textPrompt: textPrompt,
-                categoryName: categoriesData[categorySelectedIndex].name,
-                styleName: categoryStyles[styleSelectedIndex].name,
-                position: imageType,
-                size: dimentionsInCm,
-                generatedImageURL: generatedImageURL,
-            });
-            const result = await res.data;
-            return result;
-        }
-        catch (err) {
-            console.log(err);
-        }
+        const res = await Axios.post(`${process.env.BASE_API_URL}/generated-images/save-new-generated-image-data`, {
+            service: "text-to-image",
+            textPrompt: textPrompt,
+            categoryName: categoriesData[categorySelectedIndex].name,
+            styleName: categoryStyles[styleSelectedIndex].name,
+            position: imageType,
+            size: dimentionsInCm,
+            generatedImageURL: generatedImageURL,
+        });
+        const result = await res.data;
+        return result;
     }
 
     const addToCart = async () => {

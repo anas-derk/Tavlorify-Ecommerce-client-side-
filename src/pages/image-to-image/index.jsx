@@ -85,8 +85,6 @@ const ImageToImage = ({ printsName }) => {
 
     const [imageLink, setImageLink] = useState("");
 
-    const [tempImageType, setTempImageType] = useState("");
-
     const [isWillTheImageBeMoved, setIsWillTheImageBeMoved] = useState(false);
 
     const [theDirectionOfImageDisplacement, setTheDirectionOfImageDisplacement] = useState("");
@@ -277,7 +275,6 @@ const ImageToImage = ({ printsName }) => {
                 if (typeof result === "string") {
                     // console.log(result);
                 } else {
-                    // console.log(result)
                     setCategoriesData(result);
                     Axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${result[0].name}`)
                         .then((res) => {
@@ -311,7 +308,11 @@ const ImageToImage = ({ printsName }) => {
         Axios.post(`https://newapi.tavlorify.se/image-to-image/upload-image-and-processing`, imageToImageData)
             .then((res) => {
                 setImageLink(res.data.imageLink);
-                setTempImageType(res.data.imageType);
+                const tempImageType = res.data.imageType;
+                setImageType(tempImageType);
+                if (tempImageType === "vertical") setDimentionsInCm("50x70");
+                else if (tempImageType === "horizontal") setDimentionsInCm("70x50");
+                else setDimentionsInCm("30x30");
             }).catch((err) => {
                 console.log(err);
             });
@@ -362,7 +363,14 @@ const ImageToImage = ({ printsName }) => {
         setFrameColor(frameColor);
     }
 
-    const imageToImage = () => {
+    const determine_is_will_the_image_be_moved_and_the_direction_of_displacement = (theFirstOfDimention, theSecondOfDimention, theDirectionOfDisplacement) => {
+        if (theFirstOfDimention / theSecondOfDimention != 1.4) {
+            setIsWillTheImageBeMoved(true);
+            setTheDirectionOfImageDisplacement(theDirectionOfDisplacement);
+        }
+    }
+
+    const imageToImageGenerateByAI = async () => {
         setErrorMsg("");
         setPaintingURL("");
         setPaintingWidth(null);
@@ -373,105 +381,77 @@ const ImageToImage = ({ printsName }) => {
         setInitialOffsetValue({ x: 0, y: 0 });
         setIsMouseDownActivate(false);
         setIsWaitStatus(true);
-        Axios.get(`https://newapi.tavlorify.se/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}`)
-            .then((res) => {
-                const result = res.data;
-                setIsWaitStatus(false);
-                if (Array.isArray(result)) {
-                    setImageType(tempImageType);
-                    switch (tempImageType) {
-                        case "vertical": {
-                            setDimentionsInCm("50x70");
-                            setPaintingURL(result[1]);
-                            let image = new Image();
-                            image.src = result[1];
-                            image.onload = function () {
-                                const naturalWidthTemp = this.naturalWidth;
-                                const naturalHeightTemp = this.naturalHeight;
-                                setPaintingWidth(naturalWidthTemp);
-                                setPaintingHeight(naturalHeightTemp);
-                                if (naturalHeightTemp / naturalWidthTemp != 1.4) {
-                                    setIsWillTheImageBeMoved(true);
-                                    setTheDirectionOfImageDisplacement("vertical");
-                                }
-                                setIsSaveGeneratedImageAndInfo(true);
-                                let saveGeneratedImageTimeout = setTimeout(() => {
-                                    Axios.post(`${process.env.BASE_API_URL}/users/generated-image-and-info-it`, {
-                                        imageUrl: this.src,
-                                    }).then((res) => {
-                                        setIsSaveGeneratedImageAndInfo(false);
-                                        const imageUrl = res.data.imageUrl;
-                                        setGeneratedImageURLInMyServer(`${imageUrl}`);
-                                        clearTimeout(saveGeneratedImageTimeout);
-                                    }).catch((err) => {
-                                        console.log(err);
-                                        clearTimeout(saveGeneratedImageTimeout);
-                                    });
-                                }, 1000);
-                            }
-                            break;
-                        }
-                        case "horizontal": {
-                            setDimentionsInCm("70x50");
-                            setPaintingURL(result[1]);
-                            let image = new Image();
-                            image.src = result[1];
-                            image.onload = function () {
-                                const naturalWidthTemp = this.naturalWidth;
-                                const naturalHeightTemp = this.naturalHeight;
-                                setPaintingWidth(naturalWidthTemp);
-                                setPaintingHeight(naturalHeightTemp);
-                                if (naturalWidthTemp / naturalHeightTemp != 1.4) {
-                                    setIsWillTheImageBeMoved(true);
-                                    setTheDirectionOfImageDisplacement("horizontal");
-                                }
-                                setIsSaveGeneratedImageAndInfo(true);
-                                let saveGeneratedImageTimeout = setTimeout(() => {
-                                    Axios.post(`${process.env.BASE_API_URL}/users/generated-image-and-info-it`, {
-                                        imageUrl: this.src,
-                                    }).then((res) => {
-                                        setIsSaveGeneratedImageAndInfo(false);
-                                        const imageUrl = res.data.imageUrl;
-                                        setGeneratedImageURLInMyServer(`${imageUrl}`);
-                                        clearTimeout(saveGeneratedImageTimeout);
-                                    }).catch((err) => {
-                                        console.log(err);
-                                        clearTimeout(saveGeneratedImageTimeout);
-                                    });
-                                }, 1000);
-                            }
-                            break;
-                        }
-                        case "square": {
-                            setDimentionsInCm("30x30");
-                            setPaintingURL(result[1]);
+        try {
+            const res = await Axios.get(`https://newapi.tavlorify.se/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}`);
+            const result = await res.data;
+            setIsWaitStatus(false);
+            if (Array.isArray(result) && result.length > 0) {
+                setPaintingURL(result[1]);
+                switch (imageType) {
+                    case "vertical": {
+                        let image = new Image();
+                        image.src = result[1];
+                        image.onload = async function () {
+                            const naturalWidthTemp = this.naturalWidth;
+                            const naturalHeightTemp = this.naturalHeight;
+                            setPaintingWidth(naturalWidthTemp);
+                            setPaintingHeight(naturalHeightTemp);
+                            determine_is_will_the_image_be_moved_and_the_direction_of_displacement(naturalHeightTemp, naturalWidthTemp, "vertical");
                             setIsSaveGeneratedImageAndInfo(true);
-                            let saveGeneratedImageTimeout = setTimeout(() => {
-                                Axios.post(`${process.env.BASE_API_URL}/users/generated-image-and-info-it`, {
-                                    imageUrl: this.src,
-                                }).then((res) => {
-                                    setIsSaveGeneratedImageAndInfo(false);
-                                    const imageUrl = res.data.imageUrl;
-                                    setGeneratedImageURLInMyServer(`${imageUrl}`);
-                                    clearTimeout(saveGeneratedImageTimeout);
-                                }).catch((err) => {
-                                    console.log(err);
-                                    clearTimeout(saveGeneratedImageTimeout);
-                                });
-                            }, 1000);
+                            const result1 = await saveNewGeneratedImageData(result[1]);
+                            setIsSaveGeneratedImageAndInfo(false);
+                            setGeneratedImageURLInMyServer(result1.generatedImageURL);
                         }
-                        default: {
-                            console.log("Error !!!");
-                        }
+                        break;
                     }
-                } else {
-                    setErrorMsg("Sorry, Something Went Wrong !!");
+                    case "horizontal": {
+                        let image = new Image();
+                        image.src = result[1];
+                        image.onload = async function () {
+                            const naturalWidthTemp = this.naturalWidth;
+                            const naturalHeightTemp = this.naturalHeight;
+                            setPaintingWidth(naturalWidthTemp);
+                            setPaintingHeight(naturalHeightTemp);
+                            determine_is_will_the_image_be_moved_and_the_direction_of_displacement(naturalWidthTemp, naturalHeightTemp, "horizontal");
+                            setIsSaveGeneratedImageAndInfo(true);
+                            const result1 = await saveNewGeneratedImageData(result[1]);
+                            setIsSaveGeneratedImageAndInfo(false);
+                            setGeneratedImageURLInMyServer(result1.generatedImageURL);
+                        }
+                        break;
+                    }
+                    case "square": {
+                        setIsSaveGeneratedImageAndInfo(true);
+                        const result1 = await saveNewGeneratedImageData(result[1]);
+                        setIsSaveGeneratedImageAndInfo(false);
+                        setGeneratedImageURLInMyServer(result1.generatedImageURL);
+                    }
+                    default: {
+                        console.log("Error !!!");
+                    }
                 }
-            })
-            .catch((err) => {
-                console.log(err);
+            } else {
                 setErrorMsg("Sorry, Something Went Wrong !!");
-            });
+            }
+        }
+        catch (err) {
+            console.log(err);
+            setErrorMsg("Sorry, Something Went Wrong !!");
+        }
+    }
+
+    const saveNewGeneratedImageData = async (generatedImageURL) => {
+        const res = await Axios.post(`${process.env.BASE_API_URL}/generated-images/save-new-generated-image-data`, {
+            service: "image-to-image",
+            uploadedImageURL: imageLink,
+            categoryName: categoriesData[categorySelectedIndex].name,
+            styleName: categoryStyles[styleSelectedIndex].name,
+            position: imageType,
+            size: dimentionsInCm,
+            generatedImageURL: generatedImageURL,
+        });
+        const result = await res.data;
+        return result;
     }
 
     const handleMouseDown = (e) => {
@@ -507,7 +487,6 @@ const ImageToImage = ({ printsName }) => {
         } else if (theDirectionOfImageDisplacement === "horizontal") {
             const newOffestX = e.nativeEvent.offsetX;
             const amountOfDisplacement = ((newOffestX - initialOffsetValue.x) / initialOffsetValue.x) * 100;
-            console.log(amountOfDisplacement);
             if (amountOfDisplacement < 0) {
                 setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x - amountOfDisplacement > 100 ? 100 : backgroundPosition.x - amountOfDisplacement });
             }
@@ -978,7 +957,7 @@ const ImageToImage = ({ printsName }) => {
                             </div>
                             <hr className="mb-2 mt-2" />
                             {!isWaitStatus && !errorMsg &&
-                                <button className="btn btn-dark w-50 mx-auto d-block" onClick={imageToImage}>Create</button>
+                                <button className="btn btn-dark w-50 mx-auto d-block" onClick={imageToImageGenerateByAI}>Create</button>
                             }
                             {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block" disabled>Creating ...</button>}
                             <hr className="mb-2 mt-2" />
