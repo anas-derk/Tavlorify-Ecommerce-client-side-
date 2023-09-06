@@ -363,10 +363,33 @@ const ImageToImage = ({ printsName }) => {
         setFrameColor(frameColor);
     }
 
-    const determine_is_will_the_image_be_moved_and_the_direction_of_displacement = (theFirstOfDimention, theSecondOfDimention, theDirectionOfDisplacement) => {
-        if (theFirstOfDimention / theSecondOfDimention != 1.4) {
-            setIsWillTheImageBeMoved(true);
-            setTheDirectionOfImageDisplacement(theDirectionOfDisplacement);
+    const determine_is_will_the_image_be_moved_and_the_direction_of_displacement = (generatedImageURL) => {
+        let image = new Image();
+        image.src = generatedImageURL;
+        image.onload = function () {
+            const naturalWidthTemp = this.naturalWidth;
+            const naturalHeightTemp = this.naturalHeight;
+            setPaintingWidth(naturalWidthTemp);
+            setPaintingHeight(naturalHeightTemp);
+            switch (imageType) {
+                case "vertical": {
+                    if (naturalHeightTemp / naturalWidthTemp != 1.4) {
+                        setIsWillTheImageBeMoved(true);
+                        setTheDirectionOfImageDisplacement("vertical");
+                    }
+                    break;
+                }
+                case "horizontal": {
+                    if (naturalWidthTemp / naturalHeightTemp != 1.4) {
+                        setIsWillTheImageBeMoved(true);
+                        setTheDirectionOfImageDisplacement("horizontal");
+                    }
+                    break;
+                }
+                default: {
+                    console.log("Error !!!");
+                }
+            }
         }
     }
 
@@ -387,49 +410,11 @@ const ImageToImage = ({ printsName }) => {
             setIsWaitStatus(false);
             if (Array.isArray(result) && result.length > 0) {
                 setPaintingURL(result[1]);
-                switch (imageType) {
-                    case "vertical": {
-                        let image = new Image();
-                        image.src = result[1];
-                        image.onload = async function () {
-                            const naturalWidthTemp = this.naturalWidth;
-                            const naturalHeightTemp = this.naturalHeight;
-                            setPaintingWidth(naturalWidthTemp);
-                            setPaintingHeight(naturalHeightTemp);
-                            determine_is_will_the_image_be_moved_and_the_direction_of_displacement(naturalHeightTemp, naturalWidthTemp, "vertical");
-                            setIsSaveGeneratedImageAndInfo(true);
-                            const result1 = await saveNewGeneratedImageData(result[1]);
-                            setIsSaveGeneratedImageAndInfo(false);
-                            setGeneratedImageURLInMyServer(result1.generatedImageURL);
-                        }
-                        break;
-                    }
-                    case "horizontal": {
-                        let image = new Image();
-                        image.src = result[1];
-                        image.onload = async function () {
-                            const naturalWidthTemp = this.naturalWidth;
-                            const naturalHeightTemp = this.naturalHeight;
-                            setPaintingWidth(naturalWidthTemp);
-                            setPaintingHeight(naturalHeightTemp);
-                            determine_is_will_the_image_be_moved_and_the_direction_of_displacement(naturalWidthTemp, naturalHeightTemp, "horizontal");
-                            setIsSaveGeneratedImageAndInfo(true);
-                            const result1 = await saveNewGeneratedImageData(result[1]);
-                            setIsSaveGeneratedImageAndInfo(false);
-                            setGeneratedImageURLInMyServer(result1.generatedImageURL);
-                        }
-                        break;
-                    }
-                    case "square": {
-                        setIsSaveGeneratedImageAndInfo(true);
-                        const result1 = await saveNewGeneratedImageData(result[1]);
-                        setIsSaveGeneratedImageAndInfo(false);
-                        setGeneratedImageURLInMyServer(result1.generatedImageURL);
-                    }
-                    default: {
-                        console.log("Error !!!");
-                    }
-                }
+                determine_is_will_the_image_be_moved_and_the_direction_of_displacement(result[1]);
+                setIsSaveGeneratedImageAndInfo(true);
+                const result1 = await saveNewGeneratedImageData(result[1]);
+                setIsSaveGeneratedImageAndInfo(false);
+                setGeneratedImageURLInMyServer(result1.generatedImageURL);
             } else {
                 setErrorMsg("Sorry, Something Went Wrong !!");
             }
