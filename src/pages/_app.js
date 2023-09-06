@@ -22,6 +22,7 @@ import "../pages/orders/index.css";
 import "../pages/dashboard/admin/login/index.css";
 import "../pages/login/index.css";
 import "../pages/sign-up/index.css";
+import "../pages/dashboard/admin/admin-panel/generated-images/index.css";
 
 export default function App({ Component, pageProps }) {
   return (

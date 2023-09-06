@@ -102,7 +102,7 @@ a {
 .add-new-sub-category .content,
 .add-new-sub-category-from-sub-category .content,
 .users-manager .content,
-.generated-images .content {
+.generated-images-data .content {
   background-color: #EEE;
   min-height: calc(100vh - 72px);
 }
@@ -123,7 +123,7 @@ a {
 .add-new-sub-category .content .welcome-msg,
 .add-new-sub-category-from-sub-category .content .welcome-msg,
 .users-manager .content .welcome-msg,
-.generated-images .content .welcome-msg {
+.generated-images-data .content .welcome-msg {
   border-bottom: 3px solid;
   width: fit-content;
 }
