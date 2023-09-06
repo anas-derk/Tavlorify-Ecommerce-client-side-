@@ -958,6 +958,109 @@ const TextToImage = ({ printsName }) => {
                         {/* End Column */}
                     </div>
                     {/* End Grid System */}
+                    <hr />
+                    {/* Start Grid System */}
+                    <section className="row align-items-center generated-images">
+                        <div className="col-md-2 text-center">
+                            <h5 className="m-0 fw-bold d-inline">Generated Images: (0)</h5>
+                        </div>
+                        <div className="col-md-10">
+                            <ul className="generated-images-list text-center d-flex p-4">
+                                <li className="generated-images-item m-0 me-4">
+                                    <img
+                                        src={`${process.env.BASE_API_URL}/assets/images/categories/textToImage/Vehicles.png`}
+                                        alt="Generated Image !!"
+                                        className="generated-image"
+                                    />
+                                </li>
+                                <li className="generated-images-item m-0 me-4">
+                                    <img
+                                        src={`${process.env.BASE_API_URL}/assets/images/categories/textToImage/Vehicles.png`}
+                                        alt="Generated Image !!"
+                                        className="generated-image"
+                                    />
+                                </li>
+                                <li className="generated-images-item m-0 me-3">
+                                    <img
+                                        src={`${process.env.BASE_API_URL}/assets/images/categories/textToImage/Vehicles.png`}
+                                        alt="Generated Image !!"
+                                        className="generated-image"
+                                    />
+                                </li>
+                                <li className="generated-images-item m-0 me-3">
+                                    <img
+                                        src={`${process.env.BASE_API_URL}/assets/images/categories/textToImage/Vehicles.png`}
+                                        alt="Generated Image !!"
+                                        className="generated-image"
+                                    />
+                                </li>
+                                <li className="generated-images-item m-0 me-3">
+                                    <img
+                                        src={`${process.env.BASE_API_URL}/assets/images/categories/textToImage/Vehicles.png`}
+                                        alt="Generated Image !!"
+                                        className="generated-image"
+                                    />
+                                </li>
+                                <li className="generated-images-item m-0 me-3">
+                                    <img
+                                        src={`${process.env.BASE_API_URL}/assets/images/categories/textToImage/Vehicles.png`}
+                                        alt="Generated Image !!"
+                                        className="generated-image"
+                                    />
+                                </li>
+                                <li className="generated-images-item m-0 me-3">
+                                    <img
+                                        src={`${process.env.BASE_API_URL}/assets/images/categories/textToImage/Vehicles.png`}
+                                        alt="Generated Image !!"
+                                        className="generated-image"
+                                    />
+                                </li>
+                                <li className="generated-images-item m-0 me-3">
+                                    <img
+                                        src={`${process.env.BASE_API_URL}/assets/images/categories/textToImage/Vehicles.png`}
+                                        alt="Generated Image !!"
+                                        className="generated-image"
+                                    />
+                                </li>
+                                <li className="generated-images-item m-0 me-3">
+                                    <img
+                                        src={`${process.env.BASE_API_URL}/assets/images/categories/textToImage/Vehicles.png`}
+                                        alt="Generated Image !!"
+                                        className="generated-image"
+                                    />
+                                </li>
+                                <li className="generated-images-item m-0 me-3">
+                                    <img
+                                        src={`${process.env.BASE_API_URL}/assets/images/categories/textToImage/Vehicles.png`}
+                                        alt="Generated Image !!"
+                                        className="generated-image"
+                                    />
+                                </li>
+                                <li className="generated-images-item m-0 me-3">
+                                    <img
+                                        src={`${process.env.BASE_API_URL}/assets/images/categories/textToImage/Vehicles.png`}
+                                        alt="Generated Image !!"
+                                        className="generated-image"
+                                    />
+                                </li>
+                                <li className="generated-images-item m-0 me-3">
+                                    <img
+                                        src={`${process.env.BASE_API_URL}/assets/images/categories/textToImage/Vehicles.png`}
+                                        alt="Generated Image !!"
+                                        className="generated-image"
+                                    />
+                                </li>
+                                <li className="generated-images-item m-0 me-3">
+                                    <img
+                                        src={`${process.env.BASE_API_URL}/assets/images/categories/textToImage/Vehicles.png`}
+                                        alt="Generated Image !!"
+                                        className="generated-image"
+                                    />
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    {/* End Grid System */}
                 </div>
                 {/* End Container */}
             </div>
