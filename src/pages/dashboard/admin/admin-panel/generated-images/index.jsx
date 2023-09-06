@@ -11,7 +11,7 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
             <ControlPanelHeader />
             <div className="content text-center pt-4 pb-4">
                 <div className="container-fluid">
-                    <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Generated Images For Text To Image Page</h1>
+                    <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Generated Images For { pageName } Page</h1>
                     {generatedImagesData.length > 0 && <div className="generated-images-data-box p-3">
                         <table className="generated-images-data-tabel">
                             <thead>
@@ -22,6 +22,7 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                     <th>Style Name</th>
                                     <th>Position</th>
                                     <th>Size</th>
+                                    <th>Generated Image</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -55,6 +56,7 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                             </tbody>
                         </table>
                     </div>}
+                    {generatedImagesData.length == 0 && <p className="alert alert-danger">Sorry, Can't Find Any Generated Images !!</p>}
                 </div>
             </div>
         </div>
@@ -65,8 +67,7 @@ export default GeneratedImages;
 
 export async function getServerSideProps(context) {
     try {
-        // const pageName = context.query.pageName;
-        const pageName = "image-to-image";
+        const pageName = context.query.pageName;
         const res = await Axios.get(`${process.env.BASE_API_URL}/generated-images/specific-generated-images-data?service=${pageName}`);
         const result = await res.data;
         return {

@@ -106,6 +106,15 @@ const ControlPanelHeader = () => {
                                     <li>
                                         <Link className="dropdown-item" href="/dashboard/admin/admin-panel/image-to-image-manager/styles-manager/update-and-delete-styles-info">Update And Delete Style</Link>
                                     </li>
+                                    <li><hr className="dropdown-divider" /></li>
+                                    <li>
+                                        <Link className="dropdown-item" href={{
+                                            pathname: "/dashboard/admin/admin-panel/generated-images",
+                                            query: {
+                                                pageName: "image-to-image",
+                                            }
+                                        }}>Generated Images</Link>
+                                    </li>
                                 </ul>
                             </li>
                             <li
