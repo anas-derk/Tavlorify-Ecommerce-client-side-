@@ -378,35 +378,49 @@ const TextToImage = ({ printsName }) => {
         setFrameColor(frameColor);
     }
 
-    const generatedImageWithAI = (e) => {
+    const generatedImageWithAI = async (e) => {
         e.preventDefault();
         setErrorMsg("");
         setGeneratedImageURL("");
         setPaintingURL("");
         setIsWaitStatus(true);
-        Axios.get(
-            `${process.env.BASE_API_URL}/text-to-image/generate-image?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
-        `)
-            .then((res) => {
-                let result = res.data;
-                console.log(result)
-                setIsWaitStatus(false);
-                if (Array.isArray(result)) {
-                    setTempModelName(modelName);
-                    setGeneratedImageURL(result[0]);
-                    setPaintingURL(result[0]);
-                    setTempImageType(imageType);
-                    setTempDimentionsInCm(dimentionsInCm);
-                    setErrorMsg("");
-                } else {
-                    setErrorMsg("Something Went Wrong !!");
-                    setGeneratedImageURL("");
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-                setErrorMsg("Sorry, Something Went Wrong !!");
+        try {
+            const res = await Axios.get(
+                `${process.env.BASE_API_URL}/text-to-image/generate-image?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
+            `);
+            const result = await res.data;
+            setIsWaitStatus(false);
+            if (Array.isArray(result) && result.length > 0) {
+                setTempModelName(modelName);
+                setGeneratedImageURL(result[0]);
+                setPaintingURL(result[0]);
+                setTempImageType(imageType);
+                setTempDimentionsInCm(dimentionsInCm);
+                setErrorMsg("");
+                const result1 = await saveNewGeneratedImageData(result[0]);
+                console.log(result1);
+            } else {
+                setErrorMsg("Something Went Wrong !!");
+                setGeneratedImageURL("");
+            }
+        }
+        catch (err) {
+            console.log(err);
+            setErrorMsg("Sorry, Something Went Wrong !!");
+        }
+    }
+
+    const saveNewGeneratedImageData = async (generatedImageURL) => {
+        try {
+            const res = await Axios.post(`${process.env.BASE_API_URL}/generated-images/save-new-generated-image-data`, {
+                generatedImageURL: generatedImageURL,
             });
+            const result = await res.data;
+            return result;
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 
     const addToCart = async () => {
@@ -547,7 +561,7 @@ const TextToImage = ({ printsName }) => {
                             src={paintingURL}
                             alt="Generated Image !!"
                             style={{
-                                width: imageSize === "minimize-image" || isImageInsideRoom  ? `calc(${width} - 5px)` : width,
+                                width: imageSize === "minimize-image" || isImageInsideRoom ? `calc(${width} - 5px)` : width,
                                 height: height,
                             }}
                         />}
@@ -651,7 +665,7 @@ const TextToImage = ({ printsName }) => {
                         {/* Start Column */}
                         <div className="col-md-2">
                             {/* Start Art Painting Box */}
-                            {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image", false )}
+                            {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image", false)}
                             {/* End Art Painting Box */}
                             {getImageInsideRoomBox(1, 200, 150, "minimize-room-image")}
                             {getImageInsideRoomBox(2, 200, 150, "minimize-room-image")}
