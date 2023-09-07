@@ -51,8 +51,6 @@ const TextToImage = ({ printsName }) => {
 
     const [generatedImageURL, setGeneratedImageURL] = useState("");
 
-    const [paintingURL, setPaintingURL] = useState("");
-
     const [isWaitStatus, setIsWaitStatus] = useState(false);
 
     const [errorMsg, setErrorMsg] = useState("");
@@ -277,10 +275,8 @@ const TextToImage = ({ printsName }) => {
                             });
                             if (printsName === "poster" || printsName === "poster-with-hangers") {
                                 setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInTextToImage.png`);
-                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInTextToImage.png`);
                             } else if (printsName === "canvas") {
                                 setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForCanvasInTextToImage.png`);
-                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForCanvasInTextToImage.png`);
                             }
                             setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")));
                         })
@@ -385,7 +381,6 @@ const TextToImage = ({ printsName }) => {
         e.preventDefault();
         setErrorMsg("");
         setGeneratedImageURL("");
-        setPaintingURL("");
         setIsWaitStatus(true);
         try {
             const res = await Axios.get(
@@ -396,7 +391,6 @@ const TextToImage = ({ printsName }) => {
             if (Array.isArray(result) && result.length > 0) {
                 setTempModelName(modelName);
                 setGeneratedImageURL(result[0]);
-                setPaintingURL(result[0]);
                 setTempImageType(imageType);
                 setTempDimentionsInCm(dimentionsInCm);
                 setErrorMsg("");
@@ -552,7 +546,7 @@ const TextToImage = ({ printsName }) => {
                             ) : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 10}px`,
                         }}
                     >
-                        {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
+                        {!isWaitStatus && !errorMsg && generatedImageURL && frameColor !== "none" && <img
                             src={frameImages[paintingType][tempImageType][frameColor][tempDimentionsInCm]}
                             alt="Image"
                             style={{
@@ -575,8 +569,8 @@ const TextToImage = ({ printsName }) => {
                             backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
                         }}
                     >
-                        {!isWaitStatus && !errorMsg && paintingURL && <img
-                            src={paintingURL}
+                        {!isWaitStatus && !errorMsg && generatedImageURL && <img
+                            src={generatedImageURL}
                             alt="Generated Image !!"
                             style={{
                                 width: imageSize === "minimize-image" || isImageInsideRoom ? `calc(${width} - 5px)` : width,
@@ -587,7 +581,7 @@ const TextToImage = ({ printsName }) => {
                 </>}
                 {paintingType === "canvas" && <div className="canvas-image-box">
                     <img
-                        src={paintingURL}
+                        src={generatedImageURL}
                         className={
                             !isImageInsideRoom ? (
                                 imageSize !== "minimize-image" ? "canvas-image" : "minimize-canvas-image"
@@ -606,7 +600,7 @@ const TextToImage = ({ printsName }) => {
 
     const getImageInsideRoomBox = (roomNumber, roomImageWidth, roomImageHeight, imageSize) => {
         return (
-            (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image") && !isWaitStatus && !errorMsg && paintingURL && <div
+            (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image") && !isWaitStatus && !errorMsg && generatedImageURL && <div
                 className={`room${roomNumber}-image-box room-image-box mx-auto border border-2 border-dark mb-4`}
                 onClick={() => handleDisplayImageMode(`image-inside-room${roomNumber}`)}
                 style={
