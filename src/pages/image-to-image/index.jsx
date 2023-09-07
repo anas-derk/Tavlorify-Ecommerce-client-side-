@@ -51,7 +51,7 @@ import room2Image from "@/../../public/images/Rooms/room2.jpg";
 
 const ImageToImage = ({ printsName }) => {
 
-    const [paintingURL, setPaintingURL] = useState("");
+    const [generatedImageURL, setGeneratedImageURL] = useState("");
 
     const [isWaitStatus, setIsWaitStatus] = useState(false);
 
@@ -284,7 +284,7 @@ const ImageToImage = ({ printsName }) => {
                             setCategoryStyles(categoryStylesTemp);
                             setModelName(categoryStylesTemp[0].modelName);
                             if (printsName === "poster" || printsName === "poster-with-hangers") {
-                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
+                                setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
                                 let image = new Image();
                                 image.src = `${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`;
                                 image.onload = function () {
@@ -295,7 +295,7 @@ const ImageToImage = ({ printsName }) => {
                                     setGeneratedImageURLInMyServer("assets/images/generatedImages/previewImageForPosterInImageToImage.png");
                                 }
                             } else if (printsName === "canvas") {
-                                setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
+                                setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
                             }
                             setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image")));
                         })
@@ -395,7 +395,7 @@ const ImageToImage = ({ printsName }) => {
         }
     }
 
-    const determine_is_will_the_image_be_moved_and_the_direction_of_displacement = (generatedImageWidth, generatedImageHeight) => {
+    const determine_is_will_the_image_be_moved_and_the_direction_of_displacement = (generatedImageWidth, generatedImageHeight, imageType) => {
         switch (imageType) {
             case "vertical": {
                 if (generatedImageHeight / generatedImageWidth != 1.4) {
@@ -419,7 +419,7 @@ const ImageToImage = ({ printsName }) => {
 
     const imageToImageGenerateByAI = async () => {
         setErrorMsg("");
-        setPaintingURL("");
+        setGeneratedImageURL("");
         setPaintingWidth(null);
         setPaintingHeight(null);
         setIsWillTheImageBeMoved(false);
@@ -432,7 +432,7 @@ const ImageToImage = ({ printsName }) => {
             const res = await Axios.get(`https://newapi.tavlorify.se/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}`);
             const result = await res.data;
             if (Array.isArray(result) && result.length > 0) {
-                setPaintingURL(result[1]);
+                setGeneratedImageURL(result[1]);
                 setIsWaitStatus(false);
                 let image = new Image();
                 image.src = result[1];
@@ -441,7 +441,7 @@ const ImageToImage = ({ printsName }) => {
                     const naturalHeightTemp = this.naturalHeight;
                     setPaintingWidth(naturalWidthTemp);
                     setPaintingHeight(naturalHeightTemp);
-                    determine_is_will_the_image_be_moved_and_the_direction_of_displacement(naturalWidthTemp, naturalHeightTemp);
+                    determine_is_will_the_image_be_moved_and_the_direction_of_displacement(naturalWidthTemp, naturalHeightTemp, imageType);
                     const tempGeneratedImageData = {
                         uploadedImageURL: imageLink,
                         categoryName: categoriesData[categorySelectedIndex].name,
@@ -501,6 +501,26 @@ const ImageToImage = ({ printsName }) => {
             localStorage.setItem("tavlorify-store-user-generated-images-data-image-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForTextToImage));
             setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForTextToImage);
         }
+    }
+
+    const displayPreviousGeneratedImageInsideArtPainting = (generatedImageData) => {
+        setIsWillTheImageBeMoved(false);
+        setTheDirectionOfImageDisplacement("");
+        setBackgroundPosition({ x: 50, y: 50 });
+        setInitialOffsetValue({ x: 0, y: 0 });
+        setIsMouseDownActivate(false);
+        setPaintingType(generatedImageData.paintingType);
+        const imageType = generatedImageData.position;
+        setImageType(imageType);
+        setDimentionsInCm(generatedImageData.size);
+        const   generatedImageWidth = generatedImageData.width,
+                generatedImageHeight = generatedImageData.height;
+        setPaintingWidth(generatedImageData.width);
+        setPaintingHeight(generatedImageData.height);
+        setIsExistWhiteBorderWithPoster(generatedImageData.isExistWhiteBorder);
+        setFrameColor(generatedImageData.frameColor);
+        determine_is_will_the_image_be_moved_and_the_direction_of_displacement(generatedImageWidth, generatedImageHeight, imageType);
+        setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
     }
 
     const handleMouseDown = (e) => {
@@ -764,7 +784,7 @@ const ImageToImage = ({ printsName }) => {
                             cursor: isWillTheImageBeMoved ? "grab" : "",
                         }}
                     >
-                        {!isWaitStatus && !errorMsg && paintingURL && frameColor !== "none" && <img
+                        {!isWaitStatus && !errorMsg && generatedImageURL && frameColor !== "none" && <img
                             src={frameImages[paintingType][imageType][frameColor][dimentionsInCm]}
                             alt="Image"
                             style={{
@@ -784,8 +804,8 @@ const ImageToImage = ({ printsName }) => {
                             height: !isRoomImageMinimize ? (
                                 imageSize === "minimize-image" ? `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 3}px` : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height}px`
                             ) : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 10}px`,
-                            backgroundColor: isExistWhiteBorderWithPoster === "with-border" && paintingURL ? "#FFF" : "",
-                            boxShadow: isExistWhiteBorderWithPoster === "with-border" && paintingURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
+                            backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
+                            boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
                             maxWidth: "95%",
                             maxHeight: "97.5%",
                         }}
@@ -801,7 +821,7 @@ const ImageToImage = ({ printsName }) => {
                             style={{
                                 width: width,
                                 height: height,
-                                backgroundImage: `url(${paintingURL})`,
+                                backgroundImage: `url(${generatedImageURL})`,
                                 backgroundRepeat: "no-repeat",
                                 backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
                                 backgroundSize: "cover",
@@ -836,7 +856,7 @@ const ImageToImage = ({ printsName }) => {
                         style={{
                             width: width,
                             height: height,
-                            backgroundImage: `url(${paintingURL})`,
+                            backgroundImage: `url(${generatedImageURL})`,
                             backgroundRepeat: "no-repeat",
                             backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
                             backgroundSize: "cover",
@@ -852,23 +872,6 @@ const ImageToImage = ({ printsName }) => {
                         {theDirectionOfImageDisplacement === "vertical" && <CgArrowsVAlt className="displacement-icon" />}
                     </div>}
                 </div>}
-
-
-
-
-                {/* {paintingType === "canvas" && <div className="canvas-image-box">
-                    <img
-                        src={paintingURL}
-                        className={
-                            !isImageInsideRoom ? (
-                                imageSize !== "minimize-image" ? "canvas-image" : "minimize-canvas-image"
-                            ) : ""
-                        }
-                        alt="canvas image"
-                        width={width}
-                        height={height}
-                    />
-                </div>} */}
                 {isWaitStatus && !errorMsg && <span className="loader"></span>}
                 {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
             </div>
@@ -877,7 +880,7 @@ const ImageToImage = ({ printsName }) => {
 
     const getImageInsideRoomBox = (roomNumber, roomImageWidth, roomImageHeight, imageSize) => {
         return (
-            (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image") && !isWaitStatus && !errorMsg && paintingURL && <div
+            (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image") && !isWaitStatus && !errorMsg && generatedImageURL && <div
                 className={`room${roomNumber}-image-box room-image-box mx-auto border border-2 border-dark mb-4`}
                 onClick={() => handleDisplayImageMode(`image-inside-room${roomNumber}`)}
                 style={
@@ -1289,7 +1292,11 @@ const ImageToImage = ({ printsName }) => {
                         <div className="col-md-10">
                             {generatedImagesData ? <ul className="generated-images-list text-center d-flex p-4">
                                 {generatedImagesData.map((generatedImageData, index) => (
-                                    <li className="generated-images-item m-0 me-4" key={generatedImageData._id}>
+                                    <li
+                                        className="generated-images-item m-0 me-4"
+                                        key={generatedImageData._id}
+                                        onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData)}
+                                    >
                                         <img
                                             src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
                                             alt="Generated Image !!"
