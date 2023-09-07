@@ -20,8 +20,12 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                     {pageName === "text-to-image" && <th>Text Prompt</th>}
                                     <th>Category Name</th>
                                     <th>Style Name</th>
+                                    <th>Painting Type</th>
                                     <th>Position</th>
                                     <th>Size</th>
+                                    <th>Is Exist White Border</th>
+                                    <th>Width</th>
+                                    <th>Height</th>
                                     <th>Generated Image</th>
                                 </tr>
                             </thead>
@@ -40,8 +44,12 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                         {pageName === "text-to-image" && <td className="text-prompt-cell">{generatedImageData.textPrompt}</td>}
                                         <td className="category-name-cell">{generatedImageData.categoryName}</td>
                                         <td className="style-name-cell">{generatedImageData.styleName}</td>
+                                        <td className="painting-type-cell">{generatedImageData.paintingType}</td>
                                         <td className="position-cell">{generatedImageData.position}</td>
                                         <td className="size-cell">{generatedImageData.size}</td>
+                                        <td className="is-exist-white-border-cell">{generatedImageData.isExistWhiteBorder}</td>
+                                        <td className="width-cell">{generatedImageData.width}</td>
+                                        <td className="height-cell">{generatedImageData.height}</td>
                                         <td>
                                             <img
                                                 src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}

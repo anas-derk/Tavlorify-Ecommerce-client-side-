@@ -375,12 +375,16 @@ const TextToImage = ({ printsName }) => {
     }
 
     const handleIsExistWhiteBorderWithPoster = (isExistWhiteBorderWithPoster) => {
-        setIsExistWhiteBorderWithPoster(isExistWhiteBorderWithPoster);
+        if(!isWaitStatus) {
+            setIsExistWhiteBorderWithPoster(isExistWhiteBorderWithPoster);
+        }
     }
 
     const handleSelectFrame = (paintingType, frameColor) => {
-        setPaintingType(paintingType);
-        setFrameColor(frameColor);
+        if (!isWaitStatus) {
+            setPaintingType(paintingType);
+            setFrameColor(frameColor);
+        }
     }
 
     const generatedImageWithAI = async (e) => {
@@ -398,8 +402,19 @@ const TextToImage = ({ printsName }) => {
                 setTempImageType(imageType);
                 setTempDimentionsInCm(dimentionsInCm);
                 setErrorMsg("");
+                const tempGeneratedImageData = {
+                    generatedImageURL: result[0],
+                    categoryName: categoriesData[categorySelectedIndex].name,
+                    styleName: categoryStyles[styleSelectedIndex].name,
+                    paintingType: paintingType,
+                    position: imageType,
+                    size: dimentionsInCm,
+                    isExistWhiteBorder: isExistWhiteBorderWithPoster,
+                    width: dimentions.width,
+                    height: dimentions.height,
+                }
                 setIsWaitStatus(false);
-                const generatedImageData = await saveNewGeneratedImageData(result[0]);
+                const generatedImageData = await saveNewGeneratedImageData(tempGeneratedImageData);
                 saveNewGeneratedImageDataInLocalStorage(generatedImageData);
             } else {
                 setErrorMsg("Something Went Wrong !!");
@@ -412,15 +427,19 @@ const TextToImage = ({ printsName }) => {
         }
     }
 
-    const saveNewGeneratedImageData = async (generatedImageURL) => {
+    const saveNewGeneratedImageData = async (generatedImageData) => {
         const res = await Axios.post(`${process.env.BASE_API_URL}/generated-images/save-new-generated-image-data`, {
             service: "text-to-image",
             textPrompt: textPrompt,
-            categoryName: categoriesData[categorySelectedIndex].name,
-            styleName: categoryStyles[styleSelectedIndex].name,
-            position: imageType,
-            size: dimentionsInCm,
-            generatedImageURL: generatedImageURL,
+            categoryName: generatedImageData.categoryName,
+            styleName: generatedImageData.styleName,
+            paintingType: generatedImageData.paintingType,
+            position: generatedImageData.position,
+            size: generatedImageData.size,
+            isExistWhiteBorder: generatedImageData.isExistWhiteBorder,
+            width: generatedImageData.width,
+            height: generatedImageData.height,
+            generatedImageURL: generatedImageData.generatedImageURL,
         });
         const result = await res.data;
         return result;
