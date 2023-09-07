@@ -75,7 +75,7 @@ const ImageToImage = ({ printsName }) => {
 
     const [frameColor, setFrameColor] = useState("natural-wood");
 
-    const [dimentionsInCm, setDimentionsInCm] = useState(printsName === "poster" ? "21x29,7" : "30x40");
+    const [dimentionsInCm, setDimentionsInCm] = useState(printsName === "poster" ? "50x70" : "50x70");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -328,70 +328,91 @@ const ImageToImage = ({ printsName }) => {
     }
 
     const handleSelectCategory = (index) => {
-        setCategorySelectedIndex(index);
-        Axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[index].name}`)
-            .then((res) => {
-                setCategoryStyles(res.data);
-                setStyleSelectedIndex(0);
-                const tempModelName = res.data[0].modelName;
-                setModelName(tempModelName);
-            })
-            .catch((err) => console.log(err));
+        if (!isWaitStatus) {
+            setCategorySelectedIndex(index);
+            Axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[index].name}`)
+                .then((res) => {
+                    setCategoryStyles(res.data);
+                    setStyleSelectedIndex(0);
+                    const tempModelName = res.data[0].modelName;
+                    setModelName(tempModelName);
+                })
+                .catch((err) => console.log(err));
+        }
     }
 
     const handleSelectStyle = (index) => {
-        setStyleSelectedIndex(index);
-        let tempModelName = categoryStyles[index].modelName;
-        setModelName(tempModelName);
+        if (!isWaitStatus) {
+            setStyleSelectedIndex(index);
+            let tempModelName = categoryStyles[index].modelName;
+            setModelName(tempModelName);
+        }
     }
 
     const handleSelectPaintingType = (paintingType) => {
-        if (paintingType === "canvas") {
-            setIsExistWhiteBorderWithPoster("without-border");
-            setFrameColor("none");
-        };
-        setPaintingType(paintingType);
+        if (!isWaitStatus) {
+            if (paintingType === "canvas") {
+                setIsExistWhiteBorderWithPoster("without-border");
+                setFrameColor("none");
+                switch (imageType) {
+                    case "vertical": {
+                        setDimentionsInCm("50x70");
+                        break;
+                    }
+                    case "horizontal": {
+                        setDimentionsInCm("70x50");
+                        break;
+                    }
+                    case "square": {
+                        setDimentionsInCm("30x30");
+                        break;
+                    }
+                    default: {
+                        console.log("Error In Select Painting Type !!");
+                    }
+                }
+            };
+            setPaintingType(paintingType);
+        }
     }
 
     const handleSelectImageDimentions = (inCm) => {
-        setDimentionsInCm(inCm);
+        if (!isWaitStatus) {
+            setDimentionsInCm(inCm);
+        }
     }
 
     const handleIsExistWhiteBorderWithPoster = (isExistWhiteBorderWithPoster) => {
-        setIsExistWhiteBorderWithPoster(isExistWhiteBorderWithPoster);
+        if (!isWaitStatus) {
+            setIsExistWhiteBorderWithPoster(isExistWhiteBorderWithPoster);
+        }
     }
 
     const handleSelectFrame = (paintingType, frameColor) => {
-        setPaintingType(paintingType);
-        setFrameColor(frameColor);
+        if (!isWaitStatus) {
+            setPaintingType(paintingType);
+            setFrameColor(frameColor);
+        }
     }
 
-    const determine_is_will_the_image_be_moved_and_the_direction_of_displacement = (generatedImageURL) => {
-        let image = new Image();
-        image.src = generatedImageURL;
-        image.onload = function () {
-            const naturalWidthTemp = this.naturalWidth;
-            const naturalHeightTemp = this.naturalHeight;
-            setPaintingWidth(naturalWidthTemp);
-            setPaintingHeight(naturalHeightTemp);
-            switch (imageType) {
-                case "vertical": {
-                    if (naturalHeightTemp / naturalWidthTemp != 1.4) {
-                        setIsWillTheImageBeMoved(true);
-                        setTheDirectionOfImageDisplacement("vertical");
-                    }
-                    break;
+    const determine_is_will_the_image_be_moved_and_the_direction_of_displacement = (generatedImageWidth, generatedImageHeight) => {
+        switch (imageType) {
+            case "vertical": {
+                if (generatedImageHeight / generatedImageWidth != 1.4) {
+                    setIsWillTheImageBeMoved(true);
+                    setTheDirectionOfImageDisplacement("vertical");
                 }
-                case "horizontal": {
-                    if (naturalWidthTemp / naturalHeightTemp != 1.4) {
-                        setIsWillTheImageBeMoved(true);
-                        setTheDirectionOfImageDisplacement("horizontal");
-                    }
-                    break;
+                break;
+            }
+            case "horizontal": {
+                if (generatedImageWidth / generatedImageHeight != 1.4) {
+                    setIsWillTheImageBeMoved(true);
+                    setTheDirectionOfImageDisplacement("horizontal");
                 }
-                default: {
-                    console.log("Error !!!");
-                }
+                break;
+            }
+            default: {
+                console.log("Error !!!");
             }
         }
     }
@@ -410,14 +431,34 @@ const ImageToImage = ({ printsName }) => {
         try {
             const res = await Axios.get(`https://newapi.tavlorify.se/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}`);
             const result = await res.data;
-            setIsWaitStatus(false);
             if (Array.isArray(result) && result.length > 0) {
                 setPaintingURL(result[1]);
-                determine_is_will_the_image_be_moved_and_the_direction_of_displacement(result[1]);
-                setIsSaveGeneratedImageAndInfo(true);
-                const generatedImageData = await saveNewGeneratedImageData(result[1]);
-                setIsSaveGeneratedImageAndInfo(false);
-                saveNewGeneratedImageDataInLocalStorage(generatedImageData);
+                setIsWaitStatus(false);
+                let image = new Image();
+                image.src = result[1];
+                image.onload = async function () {
+                    const naturalWidthTemp = this.naturalWidth;
+                    const naturalHeightTemp = this.naturalHeight;
+                    setPaintingWidth(naturalWidthTemp);
+                    setPaintingHeight(naturalHeightTemp);
+                    determine_is_will_the_image_be_moved_and_the_direction_of_displacement(naturalWidthTemp, naturalHeightTemp);
+                    const tempGeneratedImageData = {
+                        uploadedImageURL: imageLink,
+                        categoryName: categoriesData[categorySelectedIndex].name,
+                        styleName: categoryStyles[styleSelectedIndex].name,
+                        paintingType: paintingType,
+                        position: imageType,
+                        size: dimentionsInCm,
+                        isExistWhiteBorder: isExistWhiteBorderWithPoster,
+                        width: naturalWidthTemp,
+                        height: naturalHeightTemp,
+                        generatedImageURL: result[1],
+                    }
+                    setIsSaveGeneratedImageAndInfo(true);
+                    const generatedImageData = await saveNewGeneratedImageData(tempGeneratedImageData);
+                    setIsSaveGeneratedImageAndInfo(false);
+                    saveNewGeneratedImageDataInLocalStorage(generatedImageData);
+                }
             } else {
                 setErrorMsg("Sorry, Something Went Wrong !!");
             }
@@ -428,15 +469,19 @@ const ImageToImage = ({ printsName }) => {
         }
     }
 
-    const saveNewGeneratedImageData = async (generatedImageURL) => {
+    const saveNewGeneratedImageData = async (generatedImageData) => {
         const res = await Axios.post(`${process.env.BASE_API_URL}/generated-images/save-new-generated-image-data`, {
             service: "image-to-image",
-            uploadedImageURL: imageLink,
-            categoryName: categoriesData[categorySelectedIndex].name,
-            styleName: categoryStyles[styleSelectedIndex].name,
-            position: imageType,
-            size: dimentionsInCm,
-            generatedImageURL: generatedImageURL,
+            uploadedImageURL: generatedImageData.uploadedImageURL,
+            categoryName: generatedImageData.categoryName,
+            styleName: generatedImageData.styleName,
+            paintingType: generatedImageData.paintingType,
+            position: generatedImageData.position,
+            size: generatedImageData.size,
+            isExistWhiteBorder: generatedImageData.isExistWhiteBorder,
+            width: generatedImageData.width,
+            height: generatedImageData.height,
+            generatedImageURL: generatedImageData.generatedImageURL,
         });
         const result = await res.data;
         return result;
