@@ -26,6 +26,7 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                     <th>Is Exist White Border</th>
                                     <th>Width</th>
                                     <th>Height</th>
+                                    <th>Frame</th>
                                     <th>Generated Image</th>
                                 </tr>
                             </thead>
@@ -50,6 +51,7 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                         <td className="is-exist-white-border-cell">{generatedImageData.isExistWhiteBorder}</td>
                                         <td className="width-cell">{generatedImageData.width}</td>
                                         <td className="height-cell">{generatedImageData.height}</td>
+                                        <td className="frame-cell">{generatedImageData.frameColor}</td>
                                         <td>
                                             <img
                                                 src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}

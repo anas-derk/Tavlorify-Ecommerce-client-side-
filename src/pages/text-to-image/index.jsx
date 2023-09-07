@@ -403,7 +403,6 @@ const TextToImage = ({ printsName }) => {
                 setTempDimentionsInCm(dimentionsInCm);
                 setErrorMsg("");
                 const tempGeneratedImageData = {
-                    generatedImageURL: result[0],
                     categoryName: categoriesData[categorySelectedIndex].name,
                     styleName: categoryStyles[styleSelectedIndex].name,
                     paintingType: paintingType,
@@ -412,6 +411,8 @@ const TextToImage = ({ printsName }) => {
                     isExistWhiteBorder: isExistWhiteBorderWithPoster,
                     width: dimentions.width,
                     height: dimentions.height,
+                    frameColor: frameColor,
+                    generatedImageURL: result[0],
                 }
                 setIsWaitStatus(false);
                 const generatedImageData = await saveNewGeneratedImageData(tempGeneratedImageData);
@@ -439,6 +440,7 @@ const TextToImage = ({ printsName }) => {
             isExistWhiteBorder: generatedImageData.isExistWhiteBorder,
             width: generatedImageData.width,
             height: generatedImageData.height,
+            frameColor: generatedImageData.frameColor,
             generatedImageURL: generatedImageData.generatedImageURL,
         });
         const result = await res.data;

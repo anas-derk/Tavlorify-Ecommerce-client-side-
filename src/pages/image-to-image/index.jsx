@@ -452,6 +452,7 @@ const ImageToImage = ({ printsName }) => {
                         isExistWhiteBorder: isExistWhiteBorderWithPoster,
                         width: naturalWidthTemp,
                         height: naturalHeightTemp,
+                        frameColor: frameColor,
                         generatedImageURL: result[1],
                     }
                     setIsSaveGeneratedImageAndInfo(true);
@@ -481,6 +482,7 @@ const ImageToImage = ({ printsName }) => {
             isExistWhiteBorder: generatedImageData.isExistWhiteBorder,
             width: generatedImageData.width,
             height: generatedImageData.height,
+            frameColor: generatedImageData.frameColor,
             generatedImageURL: generatedImageData.generatedImageURL,
         });
         const result = await res.data;
