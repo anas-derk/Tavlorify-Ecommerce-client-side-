@@ -83,8 +83,6 @@ const TextToImage = ({ printsName }) => {
 
     const [quantity, setQuantity] = useState(1);
 
-    const [tempModelName, setTempModelName] = useState("");
-
     const [tempDimentionsInCm, setTempDimentionsInCm] = useState(printsName === "poster" ? "21x29,7" : "30x40");
 
     const [tempImageType, setTempImageType] = useState("vertical");
@@ -266,7 +264,6 @@ const TextToImage = ({ printsName }) => {
                             const categoryStylesTemp = res.data;
                             setCategoryStyles(categoryStylesTemp);
                             const tempModelName = categoryStylesTemp[styleSelectedIndex].modelName;
-                            setTempModelName(tempModelName);
                             setModelName(tempModelName);
                             const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
                             setDimentions({
@@ -287,85 +284,94 @@ const TextToImage = ({ printsName }) => {
     }, []);
 
     const handleSelectCategory = (index) => {
-        setCategorySelectedIndex(index);
-        Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[index].name}`)
-            .then((res) => {
-                setCategoryStyles(res.data);
-                setStyleSelectedIndex(0);
-                const tempModelName = res.data[0].modelName;
-                setTempModelName(tempModelName);
-                setModelName(tempModelName);
-                const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
-                setDimentions({
-                    width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
-                    height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
-                });
-            })
-            .catch((err) => console.log(err));
+        if (!isWaitStatus) {
+            setCategorySelectedIndex(index);
+            Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[index].name}`)
+                .then((res) => {
+                    setCategoryStyles(res.data);
+                    setStyleSelectedIndex(0);
+                    const tempModelName = res.data[0].modelName;
+                    setModelName(tempModelName);
+                    const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
+                    setDimentions({
+                        width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
+                        height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+                    });
+                })
+                .catch((err) => console.log(err));
+        }
     }
 
     const handleSelectStyle = (index) => {
-        setStyleSelectedIndex(index);
-        let tempModelName = categoryStyles[index].modelName;
-        setModelName(tempModelName);
-        const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
-        setDimentions({
-            width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
-            height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
-        });
+        if (!isWaitStatus) {
+            setStyleSelectedIndex(index);
+            let tempModelName = categoryStyles[index].modelName;
+            setModelName(tempModelName);
+            const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
+            setDimentions({
+                width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
+                height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+            });
+        }
     }
 
     const handleSelectPaintingType = (paintingType) => {
-        if (paintingType === "canvas") {
-            setIsExistWhiteBorderWithPoster("without-border");
-            setFrameColor("none");
-        };
-        setPaintingType(paintingType);
+        if (!isWaitStatus) {
+            if (paintingType === "canvas") {
+                setIsExistWhiteBorderWithPoster("without-border");
+                setFrameColor("none");
+            };
+            setPaintingType(paintingType);
+        }
     }
 
     const handleSelectImageType = (imgType) => {
-        setImageType(imgType);
-        switch (imgType) {
-            case "horizontal": {
-                setDimentionsInCm("70x50");
-                const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "70x50");
-                setDimentions({
-                    width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                    height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
-                });
-                break;
-            }
-            case "vertical": {
-                setDimentionsInCm("50x70");
-                const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "50x70");
-                setDimentions({
-                    width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                    height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
-                });
-                break;
-            }
-            case "square": {
-                setDimentionsInCm("30x30");
-                const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "30x30");
-                setDimentions({
-                    width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                    height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
-                });
-                break;
-            }
-            default: {
-                console.log("error in select image position");
+        if (!isWaitStatus) {
+            setImageType(imgType);
+            switch (imgType) {
+                case "horizontal": {
+                    setDimentionsInCm("70x50");
+                    const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "70x50");
+                    setDimentions({
+                        width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                        height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                    });
+                    break;
+                }
+                case "vertical": {
+                    setDimentionsInCm("50x70");
+                    const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "50x70");
+                    setDimentions({
+                        width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                        height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                    });
+                    break;
+                }
+                case "square": {
+                    setDimentionsInCm("30x30");
+                    const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "30x30");
+                    setDimentions({
+                        width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                        height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                    });
+                    break;
+                }
+                default: {
+                    console.log("error in select image position");
+                }
             }
         }
     }
 
     const handleSelectImageDimentions = (inCm) => {
-        const dimsIndex = global_data.modelsDimentions[modelName][imageType].findIndex((el) => el.inCm == inCm);
-        setDimentionsInCm(inCm);
-        setDimentions({
-            width: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.width,
-            height: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.height,
-        });
+        if (!isWaitStatus) {
+            const dimsIndex = global_data.modelsDimentions[modelName][imageType].findIndex((el) => el.inCm == inCm);
+            setDimentionsInCm(inCm);
+            setDimentions({
+                width: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.width,
+                height: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.height,
+            });
+        }
     }
 
     const handleIsExistWhiteBorderWithPoster = (isExistWhiteBorderWithPoster) => {
@@ -389,7 +395,6 @@ const TextToImage = ({ printsName }) => {
             const result = await res.data;
             setIsWaitStatus(false);
             if (Array.isArray(result) && result.length > 0) {
-                setTempModelName(modelName);
                 setGeneratedImageURL(result[0]);
                 setTempImageType(imageType);
                 setTempDimentionsInCm(dimentionsInCm);
