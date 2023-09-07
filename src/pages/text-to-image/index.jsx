@@ -83,9 +83,9 @@ const TextToImage = ({ printsName }) => {
 
     const [quantity, setQuantity] = useState(1);
 
-    const [tempDimentionsInCm, setTempDimentionsInCm] = useState(printsName === "poster" ? "21x29,7" : "30x40");
-
     const [tempImageType, setTempImageType] = useState("vertical");
+
+    const [tempDimentionsInCm, setTempDimentionsInCm] = useState(printsName === "poster" ? "21x29,7" : "30x40");
 
     const [imageMode, setImageMode] = useState("normal-size-image");
 
@@ -393,12 +393,12 @@ const TextToImage = ({ printsName }) => {
                 `${process.env.BASE_API_URL}/text-to-image/generate-image?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
             `);
             const result = await res.data;
-            setIsWaitStatus(false);
             if (Array.isArray(result) && result.length > 0) {
                 setGeneratedImageURL(result[0]);
                 setTempImageType(imageType);
                 setTempDimentionsInCm(dimentionsInCm);
                 setErrorMsg("");
+                setIsWaitStatus(false);
                 const generatedImageData = await saveNewGeneratedImageData(result[0]);
                 saveNewGeneratedImageDataInLocalStorage(generatedImageData);
             } else {
