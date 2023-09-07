@@ -461,6 +461,22 @@ const TextToImage = ({ printsName }) => {
         }
     }
 
+    const displayPreviousGeneratedImageInsideArtPainting = (generatedImageData) => {
+        setTextPrompt(generatedImageData.textPrompt);
+        setPaintingType(generatedImageData.paintingType);
+        setImageType(generatedImageData.position);
+        setDimentionsInCm(generatedImageData.size);
+        setTempImageType(generatedImageData.position);
+        setTempDimentionsInCm(generatedImageData.size);
+        setDimentions({
+            width: generatedImageData.width,
+            height: generatedImageData.height,
+        });
+        setIsExistWhiteBorderWithPoster(generatedImageData.isExistWhiteBorder);
+        setFrameColor(generatedImageData.frameColor);
+        setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
+    }
+
     const addToCart = async () => {
         setFormValidationErrors({});
         let errorsObject = validations.inputValuesValidation([
@@ -727,7 +743,7 @@ const TextToImage = ({ printsName }) => {
                                         placeholder="a dog riding a bicycle"
                                         className="form-control mb-3 text-prompt"
                                         onChange={(e) => setTextPrompt(e.target.value)}
-                                        defaultValue={textPrompt}
+                                        value={textPrompt}
                                     ></textarea>
                                     <div className="row align-items-center">
                                         <div className="col-md-7">
@@ -1004,7 +1020,11 @@ const TextToImage = ({ printsName }) => {
                         <div className="col-md-10">
                             {generatedImagesData ? <ul className="generated-images-list text-center d-flex p-4">
                                 {generatedImagesData.map((generatedImageData, index) => (
-                                    <li className="generated-images-item m-0 me-4" key={generatedImageData._id}>
+                                    <li
+                                        className="generated-images-item m-0 me-4"
+                                        key={generatedImageData._id}
+                                        onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData)}
+                                    >
                                         <img
                                             src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
                                             alt="Generated Image !!"
