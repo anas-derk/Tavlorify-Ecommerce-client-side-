@@ -268,6 +268,8 @@ const ImageToImage = ({ printsName }) => {
 
     const [isOpenCartPopupBox, setIsOpenCartPopupBox] = useState(false);
 
+    const [generatedImagesData, setGeneratedImagesData] = useState([]);
+
     useEffect(() => {
         Axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`)
             .then((res) => {
@@ -295,6 +297,7 @@ const ImageToImage = ({ printsName }) => {
                             } else if (printsName === "canvas") {
                                 setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
                             }
+                            setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image")));
                         })
                         .catch((err) => console.log(err));
                 }
@@ -412,9 +415,9 @@ const ImageToImage = ({ printsName }) => {
                 setPaintingURL(result[1]);
                 determine_is_will_the_image_be_moved_and_the_direction_of_displacement(result[1]);
                 setIsSaveGeneratedImageAndInfo(true);
-                const result1 = await saveNewGeneratedImageData(result[1]);
+                const generatedImageData = await saveNewGeneratedImageData(result[1]);
                 setIsSaveGeneratedImageAndInfo(false);
-                setGeneratedImageURLInMyServer(result1.generatedImageURL);
+                saveNewGeneratedImageDataInLocalStorage(generatedImageData);
             } else {
                 setErrorMsg("Sorry, Something Went Wrong !!");
             }
@@ -437,6 +440,20 @@ const ImageToImage = ({ printsName }) => {
         });
         const result = await res.data;
         return result;
+    }
+
+    const saveNewGeneratedImageDataInLocalStorage = (generatedImageData) => {
+        let tavlorifyStoreUserGeneratedImagesDataForTextToImage = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image"));
+        if (tavlorifyStoreUserGeneratedImagesDataForTextToImage) {
+            tavlorifyStoreUserGeneratedImagesDataForTextToImage.push(generatedImageData);
+            localStorage.setItem("tavlorify-store-user-generated-images-data-image-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForTextToImage));
+            setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForTextToImage);
+        } else {
+            let tavlorifyStoreUserGeneratedImagesDataForTextToImage = [];
+            tavlorifyStoreUserGeneratedImagesDataForTextToImage.push(generatedImageData);
+            localStorage.setItem("tavlorify-store-user-generated-images-data-image-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForTextToImage));
+            setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForTextToImage);
+        }
     }
 
     const handleMouseDown = (e) => {
@@ -1216,6 +1233,28 @@ const ImageToImage = ({ printsName }) => {
                         {/* End Column */}
                     </div>
                     {/* End Grid System */}
+                    <hr />
+                    {/* Start Generated Images Section */}
+                    <section className={`row align-items-center generated-images ${generatedImagesData ? "" : "p-4"}`}>
+                        <div className="col-md-2 text-center">
+                            <h5 className="m-0 fw-bold d-inline">Generated Images: ({generatedImagesData ? generatedImagesData.length : 0})</h5>
+                        </div>
+                        <div className="col-md-10">
+                            {generatedImagesData ? <ul className="generated-images-list text-center d-flex p-4">
+                                {generatedImagesData.map((generatedImageData, index) => (
+                                    <li className="generated-images-item m-0 me-4" key={generatedImageData._id}>
+                                        <img
+                                            src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
+                                            alt="Generated Image !!"
+                                            className="generated-image"
+                                            loading="lazy"
+                                        />
+                                    </li>
+                                ))}
+                            </ul> : <p className="alert alert-danger m-0">Sorry, Can't Find Any Generated Images From You !!</p>}
+                        </div>
+                    </section>
+                    {/* Start Generated Images Section */}
                 </div>
                 {/* End Container */}
             </div>

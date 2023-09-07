@@ -282,8 +282,7 @@ const TextToImage = ({ printsName }) => {
                                 setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForCanvasInTextToImage.png`);
                                 setPaintingURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForCanvasInTextToImage.png`);
                             }
-                            const tavlorifyStoreUserGeneratedImagesDataForTextToImage = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image"));
-                            setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForTextToImage);
+                            setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")));
                         })
                         .catch((err) => console.log(err));
                 }
@@ -977,7 +976,7 @@ const TextToImage = ({ printsName }) => {
                     </div>
                     {/* End Grid System */}
                     <hr />
-                    {/* Start Grid System */}
+                    {/* Start Generated Images Section */}
                     <section className={`row align-items-center generated-images ${generatedImagesData ? "" : "p-4"}`}>
                         <div className="col-md-2 text-center">
                             <h5 className="m-0 fw-bold d-inline">Generated Images: ({generatedImagesData ? generatedImagesData.length : 0})</h5>
@@ -997,7 +996,7 @@ const TextToImage = ({ printsName }) => {
                             </ul> : <p className="alert alert-danger m-0">Sorry, Can't Find Any Generated Images From You !!</p>}
                         </div>
                     </section>
-                    {/* End Grid System */}
+                    {/* Start Generated Images Section */}
                 </div>
                 {/* End Container */}
             </div>

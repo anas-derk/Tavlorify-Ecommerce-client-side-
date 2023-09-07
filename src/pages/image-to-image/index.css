@@ -235,3 +235,24 @@
   cursor: pointer;
   border: 1px solid #CCC;
 }
+
+.image-to-image-service .page-content .container-fluid .generated-images {
+  background-color: #EEE;
+}
+
+.image-to-image-service .page-content .container-fluid .generated-images .generated-images-list {
+  overflow-x: scroll;
+  flex-wrap: nowrap;
+}
+
+.image-to-image-service .page-content .container-fluid .generated-images .generated-images-list .generated-images-item {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.image-to-image-service .page-content .container-fluid .generated-images .generated-images-list .generated-images-item .generated-image {
+  width: inherit;
+  height: inherit;
+}
