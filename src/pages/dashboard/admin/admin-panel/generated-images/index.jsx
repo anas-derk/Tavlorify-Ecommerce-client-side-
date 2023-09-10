@@ -9,6 +9,16 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
     const [isDownloadGeneratedImage, setIsDownloadGeneratedImage] = useState(false);
     const [selectedGeneratedImageDataIndexForDelete, setSelectedGeneratedImageDataIndexForDelete] = useState(-1);
     const [isDeleteGeneratedImageData, setIsDeleteGeneratedImageData] = useState(false);
+
+    const getDateFormated = (generateDate) => {
+        let generateDateInDateFormat = new Date(generateDate);
+        const year = generateDateInDateFormat.getFullYear();
+        const month = generateDateInDateFormat.getMonth() + 1;
+        const day = generateDateInDateFormat.getDate();
+        generateDateInDateFormat = `${year} / ${month} / ${day}`;
+        return generateDateInDateFormat;
+    }
+
     const downloadImage = async (URL, imageType, selectedImageIndexForDownload) => {
         try {
             setSelectedImageIndexForDownload(selectedImageIndexForDownload);
@@ -23,7 +33,7 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
             tempAnchorLink.click();
             setIsDownloadUploadedImage(false);
             setSelectedImageIndexForDownload(-1);
-        } catch(err) {
+        } catch (err) {
             if (imageType === "uploaded-image") setIsDownloadUploadedImage(false);
             else setIsDownloadGeneratedImage(false);
             setSelectedImageIndexForDownload(-1);
@@ -41,7 +51,7 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
             setIsDeleteGeneratedImageData(false);
             setSelectedGeneratedImageDataIndexForDelete(-1);
         }
-        catch(err){
+        catch (err) {
             setSelectedGeneratedImageDataIndexForDelete(-1);
             console.log(err);
         }
@@ -60,23 +70,21 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                         <table className="generated-images-data-tabel">
                             <thead>
                                 <tr>
+                                    <th>Number</th>
                                     {pageName === "image-to-image" && <th>uploaded Image</th>}
                                     {pageName === "text-to-image" && <th>Text Prompt</th>}
                                     <th>Category Name</th>
                                     <th>Style Name</th>
                                     <th>Painting Type</th>
-                                    <th>Position</th>
-                                    <th>Size</th>
                                     <th>Is Exist White Border</th>
-                                    <th>Width</th>
-                                    <th>Height</th>
-                                    <th>Frame</th>
                                     <th>Generated Image</th>
+                                    <th>Generating Date</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {generatedImagesData.map((generatedImageData, index) => (
                                     <tr key={index}>
+                                        <td className="fw-bold">{index + 1}</td>
                                         {pageName === "image-to-image" && <td className="uploaded-image-cell">
                                             <img
                                                 src={generatedImageData.uploadedImageURL}
@@ -103,12 +111,8 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                         <td className="category-name-cell">{generatedImageData.categoryName}</td>
                                         <td className="style-name-cell">{generatedImageData.styleName}</td>
                                         <td className="painting-type-cell">{generatedImageData.paintingType}</td>
-                                        <td className="position-cell">{generatedImageData.position}</td>
-                                        <td className="size-cell">{generatedImageData.size}</td>
                                         <td className="is-exist-white-border-cell">{generatedImageData.isExistWhiteBorder}</td>
-                                        <td className="width-cell">{generatedImageData.width}</td>
-                                        <td className="height-cell">{generatedImageData.height}</td>
-                                        <td className="frame-cell">{generatedImageData.frameColor}</td>
+                                        <td>{ getDateFormated(generatedImageData.imageGegenerationDate) }</td>
                                         <td>
                                             <img
                                                 src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
