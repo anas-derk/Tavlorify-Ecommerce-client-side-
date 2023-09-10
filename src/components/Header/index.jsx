@@ -44,7 +44,6 @@ const Header = () => {
                                 </li>
                                 <li className="nav-item dropdown me-2">
                                     <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {/* <MdProductionQuantityLimits /> */}
                                         <span>Poster</span>
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -73,20 +72,6 @@ const Header = () => {
                                                 }}
                                             >
                                                 Image To Image
-                                            </Link>
-                                        </li>
-                                        <li><hr className="dropdown-divider" /></li>
-                                        <li>
-                                            <Link
-                                                className="dropdown-item"
-                                                href={{
-                                                    pathname: "/products",
-                                                    query: {
-                                                        printsName: "poster",
-                                                    }
-                                                }}
-                                            >
-                                                Products
                                             </Link>
                                         </li>
                                     </ul>
@@ -121,20 +106,6 @@ const Header = () => {
                                                 }}
                                             >
                                                 Image To Image
-                                            </Link>
-                                        </li>
-                                        <li><hr className="dropdown-divider" /></li>
-                                        <li>
-                                            <Link
-                                                className="dropdown-item"
-                                                href={{
-                                                    pathname: "/products",
-                                                    query: {
-                                                        printsName: "canvas",
-                                                    }
-                                                }}
-                                            >
-                                                Products
                                             </Link>
                                         </li>
                                     </ul>
