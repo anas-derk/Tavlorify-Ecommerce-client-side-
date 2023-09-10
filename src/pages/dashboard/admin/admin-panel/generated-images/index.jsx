@@ -1,11 +1,17 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import Axios from "axios";
+import { useState } from "react";
 
 const GeneratedImages = ({ pageName, generatedImagesData }) => {
-
-    const downloadImage = async (URL) => {
+    const [selectedImageIndexForDownload, setSelectedImageIndexForDownload] = useState(-1);
+    const [isDownloadUploadedImage, setIsDownloadUploadedImage] = useState(false);
+    const [isDownloadGeneratedImage, setIsDownloadGeneratedImage] = useState(false);
+    const downloadImage = async (URL, imageType, selectedImageIndexForDownload) => {
         try {
+            setSelectedImageIndexForDownload(selectedImageIndexForDownload);
+            if (imageType === "uploaded-image") setIsDownloadUploadedImage(true);
+            else setIsDownloadGeneratedImage(true);
             const res = await Axios.get(URL, { responseType: "blob" });
             const imageAsBlob = await res.data;
             const localURL = window.URL.createObjectURL(imageAsBlob);
@@ -13,7 +19,12 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
             tempAnchorLink.href = localURL;
             tempAnchorLink.download = "generated-image.png";
             tempAnchorLink.click();
+            setIsDownloadUploadedImage(false);
+            setSelectedImageIndexForDownload(-1);
         } catch(err) {
+            if (imageType === "uploaded-image") setIsDownloadUploadedImage(false);
+            else setIsDownloadGeneratedImage(false);
+            setSelectedImageIndexForDownload(-1);
             console.log(err);
         }
     }
@@ -56,12 +67,19 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                                 height="100"
                                                 className="d-block mx-auto mb-3"
                                             />
-                                            <button
+                                            {selectedImageIndexForDownload !== index && <button
                                                 className="btn btn-success"
-                                                onClick={() => downloadImage(generatedImageData.uploadedImageURL)}
+                                                onClick={() => downloadImage(generatedImageData.uploadedImageURL, "uploaded-image", index)}
                                             >
                                                 Download
-                                            </button>
+                                            </button>}
+                                            {selectedImageIndexForDownload === index && isDownloadUploadedImage && <button
+                                                className="btn btn-info"
+                                                disabled
+                                                onClick={() => downloadImage(generatedImageData.uploadedImageURL, "uploaded-image", index)}
+                                            >
+                                                Download Now ...
+                                            </button>}
                                         </td>}
                                         {pageName === "text-to-image" && <td className="text-prompt-cell">{generatedImageData.textPrompt}</td>}
                                         <td className="category-name-cell">{generatedImageData.categoryName}</td>
@@ -81,12 +99,19 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                                 height="100"
                                                 className="d-block mx-auto mb-3"
                                             />
-                                            <button
+                                            {selectedImageIndexForDownload !== index && <button
                                                 className="btn btn-success"
-                                                onClick={() => downloadImage(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`)}
+                                                onClick={() => downloadImage(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`, "generated-image", index)}
                                             >
                                                 Download
-                                            </button>
+                                            </button>}
+                                            {selectedImageIndexForDownload === index && isDownloadGeneratedImage && <button
+                                                className="btn btn-info"
+                                                disabled
+                                                onClick={() => downloadImage(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`, "generated-image", index)}
+                                            >
+                                                Download Now ...
+                                            </button>}
                                         </td>
                                     </tr>
                                 ))}
