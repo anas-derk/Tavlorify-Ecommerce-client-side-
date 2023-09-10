@@ -3,6 +3,21 @@ import ControlPanelHeader from "@/components/ControlPanelHeader";
 import Axios from "axios";
 
 const GeneratedImages = ({ pageName, generatedImagesData }) => {
+
+    const downloadImage = async (URL) => {
+        try {
+            const res = await Axios.get(URL, { responseType: "blob" });
+            const imageAsBlob = await res.data;
+            const localURL = window.URL.createObjectURL(imageAsBlob);
+            const tempAnchorLink = document.createElement("a");
+            tempAnchorLink.href = localURL;
+            tempAnchorLink.download = "generated-image.png";
+            tempAnchorLink.click();
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
     return (
         <div className="generated-images-data">
             <Head>
@@ -11,7 +26,7 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
             <ControlPanelHeader />
             <div className="content text-center pt-4 pb-4">
                 <div className="container-fluid">
-                    <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Generated Images For { pageName } Page</h1>
+                    <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Generated Images For {pageName} Page</h1>
                     {generatedImagesData.length > 0 && <div className="generated-images-data-box p-3">
                         <table className="generated-images-data-tabel">
                             <thead>
@@ -41,13 +56,12 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                                 height="100"
                                                 className="d-block mx-auto mb-3"
                                             />
-                                            <a
-                                                href={generatedImageData.uploadedImageURL}
+                                            <button
                                                 className="btn btn-success"
-                                                download
+                                                onClick={() => downloadImage(generatedImageData.uploadedImageURL)}
                                             >
                                                 Download
-                                            </a>
+                                            </button>
                                         </td>}
                                         {pageName === "text-to-image" && <td className="text-prompt-cell">{generatedImageData.textPrompt}</td>}
                                         <td className="category-name-cell">{generatedImageData.categoryName}</td>
@@ -67,13 +81,12 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                                 height="100"
                                                 className="d-block mx-auto mb-3"
                                             />
-                                            <a
-                                                href={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
+                                            <button
                                                 className="btn btn-success"
-                                                download
+                                                onClick={() => downloadImage(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`)}
                                             >
                                                 Download
-                                            </a>
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}
