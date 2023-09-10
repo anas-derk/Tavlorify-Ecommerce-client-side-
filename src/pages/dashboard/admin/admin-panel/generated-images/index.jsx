@@ -7,6 +7,8 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
     const [selectedImageIndexForDownload, setSelectedImageIndexForDownload] = useState(-1);
     const [isDownloadUploadedImage, setIsDownloadUploadedImage] = useState(false);
     const [isDownloadGeneratedImage, setIsDownloadGeneratedImage] = useState(false);
+    const [selectedGeneratedImageDataIndexForDelete, setSelectedGeneratedImageDataIndexForDelete] = useState(-1);
+    const [isDeleteGeneratedImageData, setIsDeleteGeneratedImageData] = useState(false);
     const downloadImage = async (URL, imageType, selectedImageIndexForDownload) => {
         try {
             setSelectedImageIndexForDownload(selectedImageIndexForDownload);
@@ -25,6 +27,22 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
             if (imageType === "uploaded-image") setIsDownloadUploadedImage(false);
             else setIsDownloadGeneratedImage(false);
             setSelectedImageIndexForDownload(-1);
+            console.log(err);
+        }
+    }
+
+    const deleteGeneratedImageData = async (index) => {
+        try {
+            setIsDeleteGeneratedImageData(true);
+            setSelectedGeneratedImageDataIndexForDelete(index);
+            const res = await Axios.delete(`${process.env.BASE_API_URL}/generated-images/generated-image-data/${generatedImagesData[index]._id}`);
+            const result = await res.data;
+            console.log(result);
+            setIsDeleteGeneratedImageData(false);
+            setSelectedGeneratedImageDataIndexForDelete(-1);
+        }
+        catch(err){
+            setSelectedGeneratedImageDataIndexForDelete(-1);
             console.log(err);
         }
     }
@@ -100,17 +118,30 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                                 className="d-block mx-auto mb-3"
                                             />
                                             {selectedImageIndexForDownload !== index && <button
-                                                className="btn btn-success"
+                                                className="btn btn-success d-block mx-auto mb-3"
                                                 onClick={() => downloadImage(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`, "generated-image", index)}
                                             >
                                                 Download
                                             </button>}
                                             {selectedImageIndexForDownload === index && isDownloadGeneratedImage && <button
-                                                className="btn btn-info"
+                                                className="btn btn-info d-block mx-auto mb-3"
                                                 disabled
                                                 onClick={() => downloadImage(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`, "generated-image", index)}
                                             >
-                                                Download Now ...
+                                                Downloading Now ...
+                                            </button>}
+                                            {selectedGeneratedImageDataIndexForDelete !== index && <button
+                                                className="btn btn-danger"
+                                                onClick={() => deleteGeneratedImageData(index)}
+                                            >
+                                                Delete
+                                            </button>}
+                                            {selectedGeneratedImageDataIndexForDelete === index && isDeleteGeneratedImageData && <button
+                                                className="btn btn-info"
+                                                disabled
+                                                onClick={() => deleteGeneratedImageData(index)}
+                                            >
+                                                Deleting Now ...
                                             </button>}
                                         </td>
                                     </tr>
