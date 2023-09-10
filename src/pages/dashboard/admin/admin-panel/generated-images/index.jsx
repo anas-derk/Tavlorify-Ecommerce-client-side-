@@ -35,12 +35,19 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                     <tr key={index}>
                                         {pageName === "image-to-image" && <td className="uploaded-image-cell">
                                             <img
-                                                src={`${generatedImageData.uploadedImageURL}`}
+                                                src={generatedImageData.uploadedImageURL}
                                                 alt="Generated Image !!"
                                                 width="100"
                                                 height="100"
                                                 className="d-block mx-auto mb-3"
                                             />
+                                            <a
+                                                href={generatedImageData.uploadedImageURL}
+                                                className="btn btn-success"
+                                                download
+                                            >
+                                                Download
+                                            </a>
                                         </td>}
                                         {pageName === "text-to-image" && <td className="text-prompt-cell">{generatedImageData.textPrompt}</td>}
                                         <td className="category-name-cell">{generatedImageData.categoryName}</td>
@@ -60,6 +67,13 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                                 height="100"
                                                 className="d-block mx-auto mb-3"
                                             />
+                                            <a
+                                                href={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
+                                                className="btn btn-success"
+                                                download
+                                            >
+                                                Download
+                                            </a>
                                         </td>
                                     </tr>
                                 ))}
