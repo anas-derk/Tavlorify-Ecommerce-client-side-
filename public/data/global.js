@@ -623,7 +623,7 @@ const gelatoDimetions = {
             },
         ],
     },
-    "wooden-framed-poster": {
+    "poster-with-wooden-frames": {
         "horizontal": [
             {
                 inCm: "29,7x21",
@@ -792,6 +792,46 @@ const appearedImageSizesForTextToImage = {
             },
         },
     },
+    "poster-with-wooden-frames": {
+        "without-border": {
+            "square": {
+                "30x30": { width: 584, height: 584 },
+                "50x50": { width: 584, height: 584 },
+                "70x70": { width: 584, height: 584 },
+            },
+            "vertical": {
+                "21x29,7": { width: 417, height: 585 },
+                "30x40": { width: 417, height: 585 },
+                "50x70": { width: 417, height: 585 },
+                "70x100": { width: 417, height: 585 },
+            },
+            "horizontal": {
+                "29,7x21": { width: 585, height: 417 },
+                "40x30": { width: 585, height: 417 },
+                "70x50": { width: 585, height: 417 },
+                "100x70": { width: 585, height: 417 },
+            },
+        },
+        "with-border": {
+            "square": {
+                "30x30": { width: 525, height: 525 },
+                "50x50": { width: 525, height: 525 },
+                "70x70": { width: 525, height: 525 },
+            },
+            "vertical": {
+                "21x29,7": { width: 375, height: 525 },
+                "30x40": { width: 375, height: 525 },
+                "50x70": { width: 375, height: 525 },
+                "70x100": { width: 375, height: 525 },
+            },
+            "horizontal": {
+                "29,7x21": { width: 525, height: 375 },
+                "40x30": { width: 525, height: 375 },
+                "70x50": { width: 525, height: 375 },
+                "100x70": { width: 525, height: 375 },
+            },
+        },
+    },
     "poster-with-hangers": {
         "without-border": {
             "square": {
@@ -896,6 +936,46 @@ const appearedImageSizesForImageToImage = {
             },
         },
     },
+    "poster-with-wooden-frames": {
+        "without-border": {
+            "square": {
+                "30x30": { width: 584, height: 584 },
+                "50x50": { width: 584, height: 584 },
+                "70x70": { width: 584, height: 584 },
+            },
+            "vertical": {
+                "21x29,7": { width: 417, height: 585 },
+                "30x40": { width: 417, height: 585 },
+                "50x70": { width: 417, height: 585 },
+                "70x100": { width: 417, height: 585 },
+            },
+            "horizontal": {
+                "29,7x21": { width: 585, height: 417 },
+                "40x30": { width: 585, height: 417 },
+                "70x50": { width: 585, height: 417 },
+                "100x70": { width: 585, height: 417 },
+            },
+        },
+        "with-border": {
+            "square": {
+                "30x30": { width: 525, height: 525 },
+                "50x50": { width: 525, height: 525 },
+                "70x70": { width: 525, height: 525 },
+            },
+            "vertical": {
+                "21x29,7": { width: 375, height: 525 },
+                "30x40": { width: 375, height: 525 },
+                "50x70": { width: 375, height: 525 },
+                "70x100": { width: 375, height: 525 },
+            },
+            "horizontal": {
+                "29,7x21": { width: 525, height: 375 },
+                "40x30": { width: 525, height: 375 },
+                "70x50": { width: 525, height: 375 },
+                "100x70": { width: 525, height: 375 },
+            },
+        },
+    },
     "poster-with-hangers": {
         "without-border": {
             "square": {
@@ -961,6 +1041,25 @@ const appearedImageSizesForImageToImage = {
 
 const framesDimentions = {
     "poster": {
+        "square": {
+            "30x30": { width: 600, height: 600 },
+            "50x50": { width: 600, height: 600 },
+            "70x70": { width: 600, height: 600 },
+        },
+        "vertical": {
+            "21x29,7": { width: 435, height: 600 },
+            "30x40": { width: 435, height: 600 },
+            "50x70": { width: 435, height: 600 },
+            "70x100": { width: 435, height: 600 },
+        },
+        "horizontal": {
+            "29,7x21": { width: 600, height: 435 },
+            "40x30": { width: 600, height: 435 },
+            "70x50": { width: 600, height: 435 },
+            "100x70": { width: 600, height: 435 },
+        },
+    },
+    "poster-with-wooden-frames": {
         "square": {
             "30x30": { width: 600, height: 600 },
             "50x50": { width: 600, height: 600 },
