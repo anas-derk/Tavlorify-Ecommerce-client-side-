@@ -102,7 +102,6 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                             {selectedImageIndexForDownload === index && isDownloadUploadedImage && <button
                                                 className="btn btn-info"
                                                 disabled
-                                                onClick={() => downloadImage(generatedImageData.uploadedImageURL, "uploaded-image", index)}
                                             >
                                                 Download Now ...
                                             </button>}
@@ -130,7 +129,6 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                             {selectedImageIndexForDownload === index && isDownloadGeneratedImage && <button
                                                 className="btn btn-info d-block mx-auto mb-3"
                                                 disabled
-                                                onClick={() => downloadImage(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`, "generated-image", index)}
                                             >
                                                 Downloading Now ...
                                             </button>}
@@ -143,7 +141,6 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                             {selectedGeneratedImageDataIndexForDelete === index && isDeleteGeneratedImageData && <button
                                                 className="btn btn-info"
                                                 disabled
-                                                onClick={() => deleteGeneratedImageData(index)}
                                             >
                                                 Deleting Now ...
                                             </button>}

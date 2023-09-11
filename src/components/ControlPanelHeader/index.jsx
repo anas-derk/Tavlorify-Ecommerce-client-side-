@@ -19,42 +19,48 @@ const ControlPanelHeader = () => {
                     </button>
                     <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                         <ul className="navbar-nav mb-2 mb-lg-0">
-                            {/* <li className="nav-item dropdown">
+                            <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Categories
+                                    Prices
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/categories-manager/add-new-category">Add New Category</Link>
+                                        <Link className="dropdown-item" href={{
+                                            pathname: "/dashboard/admin/admin-panel/product-prices",
+                                            query: {
+                                                productName: "poster",
+                                            }
+                                        }}>Poster</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/categories-manager/add-new-sub-category">Add New Sub Category</Link>
+                                        <Link className="dropdown-item" href={{
+                                            pathname: "/dashboard/admin/admin-panel/product-prices",
+                                            query: {
+                                                productName: "wooden-frames",
+                                            }
+                                        }}>Wooden Frames</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/categories-manager/add-new-sub-category-from-sub-category">Add New Sub Category From Sub Category</Link>
+                                        <Link className="dropdown-item" href={{
+                                            pathname: "/dashboard/admin/admin-panel/product-prices",
+                                            query: {
+                                                productName: "hangers",
+                                            }
+                                        }}>Hangers</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/categories-manager/update-and-delete-categories">Update And Delete Categories</Link>
+                                        <Link className="dropdown-item" href={{
+                                            pathname: "/dashboard/admin/admin-panel/product-prices",
+                                            query: {
+                                                productName: "canvas",
+                                            }
+                                        }}>Canvas</Link>
                                     </li>
                                 </ul>
-                            </li> */}
-                            {/* <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Products
-                                </a>
-                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/products-manager/add-product">Add Product</Link>
-                                    </li>
-                                    <li><hr className="dropdown-divider" /></li>
-                                    <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/products-manager/update-and-delete-products">Update And Delete Products</Link>
-                                    </li>
-                                </ul>
-                            </li> */}
+                            </li>
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Text To Image
