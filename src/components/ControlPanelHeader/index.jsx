@@ -37,7 +37,7 @@ const ControlPanelHeader = () => {
                                         <Link className="dropdown-item" href={{
                                             pathname: "/dashboard/admin/admin-panel/product-prices",
                                             query: {
-                                                productName: "wooden-frames",
+                                                productName: "wooden-frame",
                                             }
                                         }}>Wooden Frames</Link>
                                     </li>
@@ -46,7 +46,7 @@ const ControlPanelHeader = () => {
                                         <Link className="dropdown-item" href={{
                                             pathname: "/dashboard/admin/admin-panel/product-prices",
                                             query: {
-                                                productName: "hangers",
+                                                productName: "hanger",
                                             }
                                         }}>Hangers</Link>
                                     </li>

@@ -9,7 +9,11 @@ const ProductPrices = ({ productName, productsData }) => {
 
     const [updatedProductPriceIndex, setUpdatedProductPriceIndex] = useState(-1);
 
-    const changeProductPrice = (productIndex, newValue) => {
+    const changeProductPriceBeforeDiscount = (productIndex, newValue) => {
+        console.log(productIndex, newValue);
+    }
+
+    const changeProductPriceAfterDiscount = (productIndex, newValue) => {
         console.log(productIndex, newValue);
     }
 
@@ -26,9 +30,12 @@ const ProductPrices = ({ productName, productsData }) => {
                         <table className="product-data-tabel">
                             <thead>
                                 <tr>
+                                    <th>Number</th>
                                     <th>Dimentions</th>
                                     <th>Position</th>
-                                    <th>Price</th>
+                                    <th>Price Before Discount</th>
+                                    <th>Price After Discount</th>
+                                    <th>Process</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,9 +49,17 @@ const ProductPrices = ({ productName, productsData }) => {
                                         <td>
                                             <input
                                                 type="number"
-                                                className="form-control w-100 p-2 product-price"
-                                                value={productData.price}
-                                                onClick={(e) => changeProductPrice(index, e.target.value)}
+                                                className="form-control w-100 p-2 product-price-before-discount"
+                                                value={productData.priceBeforeDiscount}
+                                                onClick={(e) => changeProductPriceBeforeDiscount(index, e.target.value)}
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                className="form-control w-100 p-2 product-price-after-discount"
+                                                value={productData.priceAfterDiscount}
+                                                onClick={(e) => changeProductPriceAfterDiscount(index, e.target.value)}
                                             />
                                         </td>
                                         <td>
@@ -77,12 +92,14 @@ export default ProductPrices;
 
 export async function getServerSideProps(context) {
     const productName = context.query.productName;
-    console.log(productName);
     try {
+        const res = await Axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-name?productName=${productName}`);
+        const productsData  = await res.data;
+        console.log(productsData);
         return {
             props: {
                 productName: productName,
-                productsData: [],
+                productsData: productsData,
             }
         }
     }
