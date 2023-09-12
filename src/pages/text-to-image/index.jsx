@@ -61,6 +61,10 @@ const TextToImage = ({ printsName }) => {
 
     const [modelName, setModelName] = useState("");
 
+    const [productPriceBeforeDiscount, setProductPriceBeforeDiscount] = useState(300);
+
+    const [productPriceAfterDiscount, setProductPriceAfterDiscount] = useState(229);
+
     const [imageType, setImageType] = useState("vertical");
 
     const [paintingType, setPaintingType] = useState(printsName);
@@ -315,45 +319,52 @@ const TextToImage = ({ printsName }) => {
         }
     }
 
-    const handleSelectPaintingType = (paintingType) => {
+    const handleSelectPaintingType = async (paintingType) => {
         if (!isWaitStatus) {
             if (paintingType === "canvas") {
                 setIsExistWhiteBorderWithPoster("without-border");
                 setFrameColor("none");
             };
             setPaintingType(paintingType);
+            await getProductPrice(paintingType, imageType, dimentionsInCm);
         }
     }
 
-    const handleSelectImageType = (imgType) => {
+    const handleSelectImageType = async (imgType) => {
         if (!isWaitStatus) {
             setImageType(imgType);
             switch (imgType) {
                 case "horizontal": {
-                    setDimentionsInCm("70x50");
-                    const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "70x50");
+                    const tempDimentionsInCm = "70x50";
+                    setDimentionsInCm(tempDimentionsInCm);
+                    const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == tempDimentionsInCm);
                     setDimentions({
                         width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
                         height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
                     });
+                    await getProductPrice(paintingType, imgType, tempDimentionsInCm);
                     break;
                 }
                 case "vertical": {
-                    setDimentionsInCm("50x70");
-                    const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "50x70");
+                    const tempDimentionsInCm = "50x70";
+                    setDimentionsInCm(tempDimentionsInCm);
+                    const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == tempDimentionsInCm);
                     setDimentions({
                         width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
                         height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
                     });
+                    await getProductPrice(paintingType, imgType, tempDimentionsInCm);
                     break;
                 }
                 case "square": {
-                    setDimentionsInCm("30x30");
-                    const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == "30x30");
+                    const tempDimentionsInCm = "30x30";
+                    setDimentionsInCm(tempDimentionsInCm);
+                    const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == tempDimentionsInCm);
                     setDimentions({
                         width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
                         height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
                     });
+                    await getProductPrice(paintingType, imgType, tempDimentionsInCm);
                     break;
                 }
                 default: {
@@ -363,7 +374,7 @@ const TextToImage = ({ printsName }) => {
         }
     }
 
-    const handleSelectImageDimentions = (inCm) => {
+    const handleSelectImageDimentions = async (inCm) => {
         if (!isWaitStatus) {
             const dimsIndex = global_data.modelsDimentions[modelName][imageType].findIndex((el) => el.inCm == inCm);
             setDimentionsInCm(inCm);
@@ -371,6 +382,7 @@ const TextToImage = ({ printsName }) => {
                 width: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.width,
                 height: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.height,
             });
+            await getProductPrice(paintingType, imageType, inCm);
         }
     }
 
@@ -380,10 +392,11 @@ const TextToImage = ({ printsName }) => {
         }
     }
 
-    const handleSelectFrame = (paintingType, frameColor) => {
+    const handleSelectFrame = async (paintingType, frameColor) => {
         if (!isWaitStatus) {
             setPaintingType(paintingType);
             setFrameColor(frameColor);
+            await getProductPrice(paintingType, imageType, dimentionsInCm);
         }
     }
 
@@ -667,6 +680,19 @@ const TextToImage = ({ printsName }) => {
         );
     }
 
+    const getProductPrice = async (paintingType, position, dimentions) => {
+        try{
+            const res = await Axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
+            const result = await res.data;
+            if (result)
+            setProductPriceBeforeDiscount(result.priceBeforeDiscount);
+            setProductPriceAfterDiscount(result.priceBeforeDiscount);
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+
     return (
         // Start Text To Image Service Page
         <div className="text-to-image-service">
@@ -821,8 +847,8 @@ const TextToImage = ({ printsName }) => {
                                             <h4 className="art-name fw-bold">Art Name: {paintingType}</h4>
                                         </div>
                                         <div className="col-md-4 text-end price-box">
-                                            <h4 className="price mb-0 fw-bold">341,10 kr</h4>
-                                            <h6 className="discount fw-bold">229 kr</h6>
+                                            <h4 className="price mb-0 fw-bold">{ productPriceAfterDiscount } kr</h4>
+                                            {productPriceBeforeDiscount != productPriceAfterDiscount && <h6 className="discount fw-bold">{ productPriceBeforeDiscount } kr</h6>}
                                         </div>
                                     </div>
                                     {/* End Grid System */}
