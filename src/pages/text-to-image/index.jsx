@@ -94,7 +94,7 @@ const TextToImage = ({ printsName }) => {
     const [imageMode, setImageMode] = useState("normal-size-image");
 
     const frameImages = {
-        "poster-with-wooden-frames": {
+        "poster-with-wooden-frame": {
             "square": {
                 "natural-wood": {
                     "30x30": normalPosterWoodFrameImageSquare.src,
@@ -274,7 +274,7 @@ const TextToImage = ({ printsName }) => {
                                 width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
                                 height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
                             });
-                            if (printsName === "poster" || printsName === "poster-with-wooden-frames" || printsName === "poster-with-hangers") {
+                            if (printsName === "poster" || printsName === "poster-with-wooden-frame" || printsName === "poster-with-hangers") {
                                 setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInTextToImage.png`);
                             } else if (printsName === "canvas") {
                                 setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForCanvasInTextToImage.png`);
@@ -589,7 +589,7 @@ const TextToImage = ({ printsName }) => {
                     }
                 }
             >
-                {(paintingType === "poster" || paintingType === "poster-with-wooden-frames" || paintingType === "poster-with-hangers") && <>
+                {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <>
                     <div
                         className="frame-image-box"
                         style={{
@@ -684,7 +684,6 @@ const TextToImage = ({ printsName }) => {
         try{
             const res = await Axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
             const result = await res.data;
-            if (result)
             setProductPriceBeforeDiscount(result.priceBeforeDiscount);
             setProductPriceAfterDiscount(result.priceBeforeDiscount);
         }
@@ -861,7 +860,7 @@ const TextToImage = ({ printsName }) => {
                                         <li
                                             className="p-2 pe-3 ps-3"
                                             onClick={() => handleSelectPaintingType("poster")}
-                                            style={(paintingType === "poster" || paintingType === "poster-with-wooden-frames" || paintingType === "poster-with-hangers") ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
+                                            style={(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
                                         >
                                             Poster
                                         </li>
@@ -916,9 +915,9 @@ const TextToImage = ({ printsName }) => {
                                         ))}
                                     </ul>
                                     {/* End Sizes List */}
-                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frames" || paintingType === "poster-with-hangers") && <h5 className="fw-bold">Border</h5>}
+                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h5 className="fw-bold">Border</h5>}
                                     {/* Start White Border */}
-                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frames" || paintingType === "poster-with-hangers") && <ul className="white-borders-list mb-4 text-center">
+                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list mb-4 text-center">
                                         <li
                                             onClick={() => handleIsExistWhiteBorderWithPoster("without-border")}
                                             style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -933,9 +932,9 @@ const TextToImage = ({ printsName }) => {
                                         </li>
                                     </ul>}
                                     {/* Start White Border */}
-                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frames" || paintingType === "poster-with-hangers") && <h5 className="fw-bold">Frames</h5>}
+                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h5 className="fw-bold">Frames</h5>}
                                     {/* Start Frames List */}
-                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frames" || paintingType === "poster-with-hangers") && <ul className="framed-list mb-4 text-center pb-3">
+                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="framed-list mb-4 text-center pb-3">
                                         <li
                                             style={(frameColor === "none" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster", "none")}
@@ -944,32 +943,32 @@ const TextToImage = ({ printsName }) => {
                                         </li>
                                         <li
                                             className="p-2"
-                                            style={(frameColor === "black" && paintingType === "poster-with-wooden-frames") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("poster-with-wooden-frames", "black")}
+                                            style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("poster-with-wooden-frame", "black")}
                                         >
                                             <span className="frame-color d-block fw-bold">Black</span>
                                             <img src={blackFrameCornerImage.src} alt="Black Frame Image" width="50" />
                                         </li>
                                         <li
                                             className="p-2"
-                                            style={(frameColor === "white" && paintingType === "poster-with-wooden-frames") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("poster-with-wooden-frames", "white")}
+                                            style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("poster-with-wooden-frame", "white")}
                                         >
                                             <span className="frame-color d-block fw-bold">White</span>
                                             <img src={whiteFrameCornerImage.src} alt="White Frame Image" width="50" />
                                         </li>
                                         <li
                                             className="p-2"
-                                            style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frames") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("poster-with-wooden-frames", "natural-wood")}
+                                            style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("poster-with-wooden-frame", "natural-wood")}
                                         >
                                             <span className="frame-color d-block fw-bold">Wood</span>
                                             <img src={woodFrameCornerImage.src} alt="Wood Frame Image" width="50" />
                                         </li>
                                         <li
                                             className="p-2"
-                                            style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frames") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("poster-with-wooden-frames", "dark-wood")}
+                                            style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            onClick={() => handleSelectFrame("poster-with-wooden-frame", "dark-wood")}
                                         >
                                             <span className="frame-color d-block fw-bold">Dark Wood</span>
                                             <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" />

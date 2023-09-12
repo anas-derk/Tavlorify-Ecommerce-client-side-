@@ -623,7 +623,7 @@ const gelatoDimetions = {
             },
         ],
     },
-    "poster-with-wooden-frames": {
+    "poster-with-wooden-frame": {
         "horizontal": [
             {
                 inCm: "29,7x21",
@@ -792,7 +792,7 @@ const appearedImageSizesForTextToImage = {
             },
         },
     },
-    "poster-with-wooden-frames": {
+    "poster-with-wooden-frame": {
         "without-border": {
             "square": {
                 "30x30": { width: 584, height: 584 },
@@ -936,7 +936,7 @@ const appearedImageSizesForImageToImage = {
             },
         },
     },
-    "poster-with-wooden-frames": {
+    "poster-with-wooden-frame": {
         "without-border": {
             "square": {
                 "30x30": { width: 584, height: 584 },
@@ -1059,7 +1059,7 @@ const framesDimentions = {
             "100x70": { width: 600, height: 435 },
         },
     },
-    "poster-with-wooden-frames": {
+    "poster-with-wooden-frame": {
         "square": {
             "30x30": { width: 600, height: 600 },
             "50x50": { width: 600, height: 600 },
