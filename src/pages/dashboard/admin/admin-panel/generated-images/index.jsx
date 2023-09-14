@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 
 const GeneratedImages = ({ pageName, generatedImagesData }) => {
+    const [allGeneratedImagesData, setAllGeneratedImagesData] = useState([]);
     const [selectedImageIndexForDownload, setSelectedImageIndexForDownload] = useState(-1);
     const [isDownloadUploadedImage, setIsDownloadUploadedImage] = useState(false);
     const [isDownloadGeneratedImage, setIsDownloadGeneratedImage] = useState(false);
@@ -17,10 +18,21 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
     useEffect(() => {
         const generatedImagesDataLength = generatedImagesData.length;
         if (generatedImagesDataLength > 0) {
-            getCurrentSliceFromGeneratedImageDataList(currentPage);
+            setAllGeneratedImagesData(generatedImagesData);
             setTotalPagesCount(Math.ceil(generatedImagesDataLength / pageSize));
+            getCurrentSliceFromGeneratedImageDataList(currentPage, generatedImagesData);
         }
     }, []);
+    const getAllGeneratedImagesData = async () => {
+        try {
+            const res = await Axios.get(`${process.env.BASE_API_URL}/generated-images/specific-generated-images-data?service=${pageName}`);
+            const result = await res.data;
+            return result;
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
     const getDateFormated = (generateDate) => {
         let generateDateInDateFormat = new Date(generateDate);
         const year = generateDateInDateFormat.getFullYear();
@@ -59,27 +71,31 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
             console.log(result);
             setIsDeleteGeneratedImageData(false);
             setSelectedGeneratedImageDataIndexForDelete(-1);
+            const allGeneratedImagesData = await getAllGeneratedImagesData();
+            setAllGeneratedImagesData(allGeneratedImagesData);
+            setTotalPagesCount(Math.ceil(allGeneratedImagesData.length / pageSize));
+            getCurrentSliceFromGeneratedImageDataList(currentPage, allGeneratedImagesData);
         }
         catch (err) {
             setSelectedGeneratedImageDataIndexForDelete(-1);
             console.log(err);
         }
     }
-    const getCurrentSliceFromGeneratedImageDataList = (currentPage) => {
+    const getCurrentSliceFromGeneratedImageDataList = (currentPage, allGeneratedImagesData) => {
         setCurrentPage(currentPage);
         const startPageIndex = (currentPage - 1) * pageSize;
         const endPageIndex = startPageIndex + pageSize;
-        setCurrentSliceFromGeneratedImageDataList(generatedImagesData.slice(startPageIndex, endPageIndex));
+        setCurrentSliceFromGeneratedImageDataList(allGeneratedImagesData.slice(startPageIndex, endPageIndex));
     }
     const getPreviousPage = () => {
         const newCurrentPage = currentPage - 1;
         setCurrentPage(newCurrentPage);
-        getCurrentSliceFromGeneratedImageDataList(newCurrentPage);
+        getCurrentSliceFromGeneratedImageDataList(newCurrentPage, allGeneratedImagesData);
     }
     const getNextPage = () => {
         const newCurrentPage = currentPage + 1;
         setCurrentPage(newCurrentPage);
-        getCurrentSliceFromGeneratedImageDataList(newCurrentPage);
+        getCurrentSliceFromGeneratedImageDataList(newCurrentPage, allGeneratedImagesData);
     }
     const paginationBar = () => {
         const paginationButtons = [];
@@ -88,7 +104,7 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                 <button
                     key={i}
                     className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === i ? "selection" : ""} ${i === 1 ? "ms-3" : ""}`}
-                    onClick={() => getCurrentSliceFromGeneratedImageDataList(i)}
+                    onClick={() => getCurrentSliceFromGeneratedImageDataList(i, allGeneratedImagesData)}
                 >
                     {i}
                 </button>
