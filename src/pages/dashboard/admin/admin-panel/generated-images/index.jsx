@@ -1,7 +1,8 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import Axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 
 const GeneratedImages = ({ pageName, generatedImagesData }) => {
     const [selectedImageIndexForDownload, setSelectedImageIndexForDownload] = useState(-1);
@@ -9,7 +10,17 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
     const [isDownloadGeneratedImage, setIsDownloadGeneratedImage] = useState(false);
     const [selectedGeneratedImageDataIndexForDelete, setSelectedGeneratedImageDataIndexForDelete] = useState(-1);
     const [isDeleteGeneratedImageData, setIsDeleteGeneratedImageData] = useState(false);
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPagesCount, setTotalPagesCount] = useState(0);
+    const [currentSliceFromGeneratedImageDataList, setCurrentSliceFromGeneratedImageDataList] = useState([]);
+    const pageSize = 3;
+    useEffect(() => {
+        const generatedImagesDataLength = generatedImagesData.length;
+        if (generatedImagesDataLength > 0) {
+            getCurrentSliceFromGeneratedImageDataList(currentPage);
+            setTotalPagesCount(Math.ceil(generatedImagesDataLength / pageSize));
+        }
+    }, []);
     const getDateFormated = (generateDate) => {
         let generateDateInDateFormat = new Date(generateDate);
         const year = generateDateInDateFormat.getFullYear();
@@ -18,7 +29,6 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
         generateDateInDateFormat = `${year} / ${month} / ${day}`;
         return generateDateInDateFormat;
     }
-
     const downloadImage = async (URL, imageType, selectedImageIndexForDownload) => {
         try {
             setSelectedImageIndexForDownload(selectedImageIndexForDownload);
@@ -40,7 +50,6 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
             console.log(err);
         }
     }
-
     const deleteGeneratedImageData = async (index) => {
         try {
             setIsDeleteGeneratedImageData(true);
@@ -56,6 +65,48 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
             console.log(err);
         }
     }
+    const getCurrentSliceFromGeneratedImageDataList = (currentPage) => {
+        setCurrentPage(currentPage);
+        const startPageIndex = (currentPage - 1) * pageSize;
+        const endPageIndex = startPageIndex + pageSize;
+        setCurrentSliceFromGeneratedImageDataList(generatedImagesData.slice(startPageIndex, endPageIndex));
+    }
+    const getPreviousPage = () => {
+        const newCurrentPage = currentPage - 1;
+        setCurrentPage(newCurrentPage);
+        getCurrentSliceFromGeneratedImageDataList(newCurrentPage);
+    }
+    const getNextPage = () => {
+        const newCurrentPage = currentPage + 1;
+        setCurrentPage(newCurrentPage);
+        getCurrentSliceFromGeneratedImageDataList(newCurrentPage);
+    }
+    const paginationBar = () => {
+        const paginationButtons = [];
+        for (let i = 1; i <= totalPagesCount; i++) {
+            paginationButtons.push(
+                <button
+                    key={i}
+                    className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === i ? "selection" : ""} ${i === 1 ? "ms-3" : ""}`}
+                    onClick={() => getCurrentSliceFromGeneratedImageDataList(i)}
+                >
+                    {i}
+                </button>
+            )
+        }
+        return (
+            <section className="pagination d-flex justify-content-center align-items-center">
+                {currentPage !== 1 && <BsArrowLeftSquare
+                    className="previous-page-icon pagination-icon"
+                    onClick={getPreviousPage}
+                />}
+                {paginationButtons}
+                {currentPage !== totalPagesCount && <BsArrowRightSquare
+                    className="next-page-icon pagination-icon"
+                    onClick={getNextPage}
+                />}
+            </section>);
+    }
 
     return (
         <div className="generated-images-data">
@@ -66,7 +117,7 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
             <div className="content text-center pt-4 pb-4">
                 <div className="container-fluid">
                     <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Generated Images For {pageName} Page</h1>
-                    {generatedImagesData.length > 0 && <div className="generated-images-data-box p-3">
+                    {currentSliceFromGeneratedImageDataList.length > 0 && <div className="generated-images-data-box p-3 mb-2">
                         <table className="generated-images-data-tabel">
                             <thead>
                                 <tr>
@@ -82,7 +133,7 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {generatedImagesData.map((generatedImageData, index) => (
+                                {currentSliceFromGeneratedImageDataList.map((generatedImageData, index) => (
                                     <tr key={index}>
                                         <td className="fw-bold">{index + 1}</td>
                                         {pageName === "image-to-image" && <td className="uploaded-image-cell">
@@ -111,7 +162,7 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                                         <td className="style-name-cell">{generatedImageData.styleName}</td>
                                         <td className="painting-type-cell">{generatedImageData.paintingType}</td>
                                         <td className="is-exist-white-border-cell">{generatedImageData.isExistWhiteBorder}</td>
-                                        <td>{ getDateFormated(generatedImageData.imageGegenerationDate) }</td>
+                                        <td>{getDateFormated(generatedImageData.imageGegenerationDate)}</td>
                                         <td>
                                             <img
                                                 src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
@@ -151,6 +202,7 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                         </table>
                     </div>}
                     {generatedImagesData.length == 0 && <p className="alert alert-danger">Sorry, Can't Find Any Generated Images !!</p>}
+                    {totalPagesCount > 0 && paginationBar()}
                 </div>
             </div>
         </div>
