@@ -519,16 +519,18 @@ const ImageToImage = ({ printsName }) => {
         }
     }
 
-    const displayPreviousGeneratedImageInsideArtPainting = (generatedImageData) => {
+    const displayPreviousGeneratedImageInsideArtPainting = async (generatedImageData) => {
         setIsWillTheImageBeMoved(false);
         setTheDirectionOfImageDisplacement("");
         setBackgroundPosition({ x: 50, y: 50 });
         setInitialOffsetValue({ x: 0, y: 0 });
         setIsMouseDownActivate(false);
-        setPaintingType(generatedImageData.paintingType);
+        const tempPaintingType = generatedImageData.paintingType;
+        setPaintingType(tempPaintingType);
         const imageType = generatedImageData.position;
         setImageType(imageType);
-        setDimentionsInCm(generatedImageData.size);
+        const tempImageSize = generatedImageData.size;
+        setDimentionsInCm(tempImageSize);
         const   generatedImageWidth = generatedImageData.width,
                 generatedImageHeight = generatedImageData.height;
         setPaintingWidth(generatedImageData.width);
@@ -537,6 +539,7 @@ const ImageToImage = ({ printsName }) => {
         setFrameColor(generatedImageData.frameColor);
         determine_is_will_the_image_be_moved_and_the_direction_of_displacement(generatedImageWidth, generatedImageHeight, imageType);
         setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
+        await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
     }
 
     const handleMouseDown = (e) => {

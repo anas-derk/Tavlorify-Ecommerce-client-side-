@@ -474,13 +474,16 @@ const TextToImage = ({ printsName }) => {
         }
     }
 
-    const displayPreviousGeneratedImageInsideArtPainting = (generatedImageData) => {
+    const displayPreviousGeneratedImageInsideArtPainting = async (generatedImageData) => {
         setTextPrompt(generatedImageData.textPrompt);
-        setPaintingType(generatedImageData.paintingType);
-        setImageType(generatedImageData.position);
-        setDimentionsInCm(generatedImageData.size);
+        const tempPaintingType = generatedImageData.paintingType;
+        setPaintingType(tempPaintingType);
+        const tempPosition = generatedImageData.position;
+        setImageType(tempPosition);
+        const tempImageSize = generatedImageData.size;
+        setDimentionsInCm(tempImageSize);
         setTempImageType(generatedImageData.position);
-        setTempDimentionsInCm(generatedImageData.size);
+        setTempDimentionsInCm(tempImageSize);
         setDimentions({
             width: generatedImageData.width,
             height: generatedImageData.height,
@@ -488,6 +491,7 @@ const TextToImage = ({ printsName }) => {
         setIsExistWhiteBorderWithPoster(generatedImageData.isExistWhiteBorder);
         setFrameColor(generatedImageData.frameColor);
         setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
+        await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
     }
 
     const addToCart = async () => {
@@ -684,8 +688,9 @@ const TextToImage = ({ printsName }) => {
         try{
             const res = await Axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
             const result = await res.data;
+            console.log(result.priceBeforeDiscount, result.priceBeforeDiscount);
             setProductPriceBeforeDiscount(result.priceBeforeDiscount);
-            setProductPriceAfterDiscount(result.priceBeforeDiscount);
+            setProductPriceAfterDiscount(result.priceAfterDiscount);
         }
         catch(err){
             console.log(err);
