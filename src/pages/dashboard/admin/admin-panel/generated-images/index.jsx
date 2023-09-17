@@ -106,7 +106,7 @@ const GeneratedImages = ({ pageName }) => {
     const paginationBar = () => {
         const paginationButtons = [];
         for (let i = 1; i <= totalPagesCount; i++) {
-            if (i < 5) {
+            if (i < 11) {
                 paginationButtons.push(
                     <button
                         key={i}
@@ -118,7 +118,7 @@ const GeneratedImages = ({ pageName }) => {
                 );
             }
         }
-        if (totalPagesCount > 4) {
+        if (totalPagesCount > 10) {
             paginationButtons.push(
                 <span className="me-3 fw-bold" key={`${Math.random()}-${Date.now()}`}>...</span>
             );
