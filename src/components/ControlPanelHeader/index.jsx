@@ -26,7 +26,7 @@ const ControlPanelHeader = () => {
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
                                         <Link className="dropdown-item" href={{
-                                            pathname: "/dashboard/admin/admin-panel/product-prices",
+                                            pathname: "/dashboard/admin/admin-panel/prices-manager",
                                             query: {
                                                 productName: "poster",
                                             }
@@ -35,7 +35,7 @@ const ControlPanelHeader = () => {
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
                                         <Link className="dropdown-item" href={{
-                                            pathname: "/dashboard/admin/admin-panel/product-prices",
+                                            pathname: "/dashboard/admin/admin-panel/prices-manager",
                                             query: {
                                                 productName: "wooden-frame",
                                             }
@@ -44,7 +44,7 @@ const ControlPanelHeader = () => {
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
                                         <Link className="dropdown-item" href={{
-                                            pathname: "/dashboard/admin/admin-panel/product-prices",
+                                            pathname: "/dashboard/admin/admin-panel/prices-manager",
                                             query: {
                                                 productName: "hanger",
                                             }
@@ -53,7 +53,7 @@ const ControlPanelHeader = () => {
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
                                         <Link className="dropdown-item" href={{
-                                            pathname: "/dashboard/admin/admin-panel/product-prices",
+                                            pathname: "/dashboard/admin/admin-panel/prices-manager",
                                             query: {
                                                 productName: "canvas",
                                             }

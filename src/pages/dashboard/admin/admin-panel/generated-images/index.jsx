@@ -4,7 +4,7 @@ import Axios from "axios";
 import { useEffect, useState } from "react";
 import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 
-const GeneratedImages = ({ pageName, generatedImagesData }) => {
+const GeneratedImages = ({ pageName }) => {
     const [allGeneratedImagesData, setAllGeneratedImagesData] = useState([]);
     const [selectedImageIndexForDownload, setSelectedImageIndexForDownload] = useState(-1);
     const [isDownloadUploadedImage, setIsDownloadUploadedImage] = useState(false);
@@ -16,13 +16,18 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
     const [currentSliceFromGeneratedImageDataList, setCurrentSliceFromGeneratedImageDataList] = useState([]);
     const pageSize = 3;
     useEffect(() => {
-        const generatedImagesDataLength = generatedImagesData.length;
-        if (generatedImagesDataLength > 0) {
-            setAllGeneratedImagesData(generatedImagesData);
-            setTotalPagesCount(Math.ceil(generatedImagesDataLength / pageSize));
-            getCurrentSliceFromGeneratedImageDataList(currentPage, generatedImagesData);
-        }
-    }, []);
+        setAllGeneratedImagesData([]);
+        setTotalPagesCount(0);
+        setCurrentSliceFromGeneratedImageDataList([]);
+        getAllGeneratedImagesData()
+            .then((result) => {
+                if (result.length > 0) {
+                    setAllGeneratedImagesData(result);
+                    setTotalPagesCount(Math.ceil(result.length / pageSize));
+                    getCurrentSliceFromGeneratedImageDataList(currentPage, result);
+                }
+            });
+    }, [pageName]);
     const getAllGeneratedImagesData = async () => {
         try {
             const res = await Axios.get(`${process.env.BASE_API_URL}/generated-images/specific-generated-images-data?service=${pageName}`);
@@ -217,7 +222,7 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
                             </tbody>
                         </table>
                     </div>}
-                    {generatedImagesData.length == 0 && <p className="alert alert-danger">Sorry, Can't Find Any Generated Images !!</p>}
+                    {allGeneratedImagesData.length == 0 && <p className="alert alert-danger">Sorry, Can't Find Any Generated Images !!</p>}
                     {totalPagesCount > 0 && paginationBar()}
                 </div>
             </div>
@@ -227,24 +232,10 @@ const GeneratedImages = ({ pageName, generatedImagesData }) => {
 
 export default GeneratedImages;
 
-export async function getServerSideProps(context) {
-    try {
-        const pageName = context.query.pageName;
-        const res = await Axios.get(`${process.env.BASE_API_URL}/generated-images/specific-generated-images-data?service=${pageName}`);
-        const result = await res.data;
-        return {
-            props: {
-                pageName: pageName,
-                generatedImagesData: result,
-            }
+export function getServerSideProps(context) {
+    return {
+        props: {
+            pageName: context.query.pageName
         }
-    }
-    catch (err) {
-        return {
-            props: {
-                pageName: pageName,
-                generatedImagesData: [],
-            }
-        }
-    }
+    };
 }

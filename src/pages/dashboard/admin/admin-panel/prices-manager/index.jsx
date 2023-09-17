@@ -3,17 +3,37 @@ import ControlPanelHeader from "@/components/ControlPanelHeader";
 import Axios from "axios";
 import { useEffect, useState } from "react";
 
-const ProductPrices = ({ productName, productsData }) => {
+const ProductPrices = ({ productName }) => {
 
     const [isUpdateProductPriceStatus, setIsUpdateProductPriceStatus] = useState(false);
 
     const [updatedProductPriceIndex, setUpdatedProductPriceIndex] = useState(-1);
 
+    const [productPricesData, setProductPricesData] = useState([]);
+
     const [updatedProductPrices, setUpdatedProductPrices] = useState([]);
 
     useEffect(() => {
-        setUpdatedProductPrices(productsData);
-    }, []);
+        setProductPricesData([]);
+        setIsUpdateProductPriceStatus([]);
+        getProductPricesData()
+        .then((result) => {
+            console.log(result);
+            setProductPricesData(result);
+            setUpdatedProductPrices(result);
+        });
+    }, [productName]);
+
+    const getProductPricesData = async () => {
+        try {
+            const res = await Axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-name?productName=${productName}`);
+            const productsData  = await res.data;
+            return productsData;
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
 
     const changeProductPriceBeforeDiscount = (productIndex, newValue) => {
         let updatedProductPricesTemp = updatedProductPrices;
@@ -31,7 +51,7 @@ const ProductPrices = ({ productName, productsData }) => {
         setUpdatedProductPriceIndex(productIndex);
         setIsUpdateProductPriceStatus(true);
         try {
-            await Axios.put(`${process.env.BASE_API_URL}/prices/update-product-price/${productsData[productIndex]._id}`, {
+            await Axios.put(`${process.env.BASE_API_URL}/prices/update-product-price/${productPricesData[productIndex]._id}`, {
                 newProductPriceBeforeDiscount: updatedProductPrices[productIndex].priceBeforeDiscount,
                 newProductPriceAfterDiscount: updatedProductPrices[productIndex].priceAfterDiscount,
             });
@@ -54,7 +74,7 @@ const ProductPrices = ({ productName, productsData }) => {
             <div className="content text-center pt-4 pb-4">
                 <div className="container-fluid">
                     <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Prices Page For { productName.toUpperCase() }</h1>
-                    {productsData.length > 0 && <div className="product-data-box p-3">
+                    {productPricesData.length > 0 && <div className="product-data-box p-3">
                         <table className="product-data-tabel">
                             <thead>
                                 <tr>
@@ -67,7 +87,7 @@ const ProductPrices = ({ productName, productsData }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {productsData.map((productData, index) => (
+                                {productPricesData.map((productData, index) => (
                                     <tr key={index}>
                                         <td className="fw-bold">{index + 1}</td>
                                         <td className="product-dimentions-cell">
@@ -109,7 +129,7 @@ const ProductPrices = ({ productName, productsData }) => {
                             </tbody>
                         </table>
                     </div>}
-                    {productsData.length === 0 && <p className="alert alert-danger">Sorry, Can't Find Any Product Prices !!</p>}
+                    {productPricesData.length === 0 && <p className="alert alert-danger">Sorry, Can't Find Any Product Prices !!</p>}
                 </div>
             </div>
         </div>
@@ -118,24 +138,11 @@ const ProductPrices = ({ productName, productsData }) => {
 
 export default ProductPrices;
 
-export async function getServerSideProps(context) {
+export function getServerSideProps(context) {
     const productName = context.query.productName;
-    try {
-        const res = await Axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-name?productName=${productName}`);
-        const productsData  = await res.data;
-        return {
-            props: {
-                productName: productName,
-                productsData: productsData,
-            }
-        }
-    }
-    catch (err) {
-        return {
-            props: {
-                productName: productName,
-                productsData: [],
-            }
+    return {
+        props: {
+            productName: productName,
         }
     }
 }
