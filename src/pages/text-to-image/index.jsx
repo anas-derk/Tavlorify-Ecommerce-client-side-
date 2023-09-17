@@ -80,7 +80,7 @@ const TextToImage = ({ printsName }) => {
     const [categoriesData, setCategoriesData] = useState([]);
 
     const [categoryStyles, setCategoryStyles] = useState([]);
-
+    
     const [isWaitAddToCart, setIsWaitAddToCart] = useState(false);
 
     const [errorInAddToCart, setErrorInAddToCart] = useState("");
@@ -429,6 +429,7 @@ const TextToImage = ({ printsName }) => {
                 }
                 setIsWaitStatus(false);
                 const generatedImageData = await saveNewGeneratedImageData(tempGeneratedImageData);
+                setGeneratedImageURLInMyServer(generatedImageData.generatedImageURL);
                 saveNewGeneratedImageDataInLocalStorage(generatedImageData);
             } else {
                 setErrorMsg("Something Went Wrong !!");
@@ -512,51 +513,31 @@ const TextToImage = ({ printsName }) => {
             },
         ]);
         setFormValidationErrors(errorsObject);
-        console.log(errorsObject)
         if (Object.keys(errorsObject).length == 0) {
             setIsWaitAddToCart(true);
-            const userId = localStorage.getItem("tavlorify-store-user-id");
-            try {
-                const result = await Axios.post(`${process.env.BASE_API_URL}/download-created-image`, {
-                    imageUrl: generatedImageURL,
-                    imageName: `${textPrompt}.png`,
-                });
-                const codeGenerator = new nodeCodeGenerator();
-                const productInfoToCart = {
-                    _id: codeGenerator.generateCodes("###**##########****###**")[0],
-                    name: textPrompt,
-                    type: paintingType,
-                    frameColor: frameColor,
-                    dimentions: dimentionsInCm,
-                    price: 100,
-                    imageSrc: result.data.imageUrl,
-                    count: quantity,
-                }
-                let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-                if (canvasEcommerceUserCart) {
-                    canvasEcommerceUserCart.push(productInfoToCart);
-                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
-                    setTimeout(() => {
-                        setIsWaitAddToCart(false);
-                        openCartPopupBox();
-                    }, 1500);
-                } else {
-                    let canvasEcommerceUserCartList = [];
-                    canvasEcommerceUserCartList.push(productInfoToCart);
-                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCartList));
-                    setTimeout(() => {
-                        setIsWaitAddToCart(false);
-                        openCartPopupBox();
-                    }, 1500);
-                }
+            const codeGenerator = new nodeCodeGenerator();
+            const productInfoToCart = {
+                _id: codeGenerator.generateCodes("###**##########****###**")[0],
+                name: textPrompt,
+                type: paintingType,
+                frameColor: frameColor,
+                dimentions: dimentionsInCm,
+                price: productPriceAfterDiscount,
+                imageSrc: generatedImageURL,
+                count: quantity,
             }
-            catch (err) {
-                console.log(err);
+            let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+            if (canvasEcommerceUserCart) {
+                canvasEcommerceUserCart.push(productInfoToCart);
+                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
                 setIsWaitAddToCart(false);
-                setErrorInAddToCart("Sorry, Something Went Wrong !!");
-                setTimeout(() => {
-                    setErrorInAddToCart("");
-                }, 2000);
+                openCartPopupBox();
+            } else {
+                let canvasEcommerceUserCartList = [];
+                canvasEcommerceUserCartList.push(productInfoToCart);
+                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCartList));
+                setIsWaitAddToCart(false);
+                openCartPopupBox();
             }
         }
     }

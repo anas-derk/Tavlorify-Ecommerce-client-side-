@@ -53,6 +53,8 @@ const ImageToImage = ({ printsName }) => {
 
     const [generatedImageURL, setGeneratedImageURL] = useState("");
 
+    const [generatedImagePathInMyServer, setGeneratedImagePathInMyServer] = useState("");
+
     const [isWaitStatus, setIsWaitStatus] = useState(false);
 
     const [errorMsg, setErrorMsg] = useState("");
@@ -100,8 +102,6 @@ const ImageToImage = ({ printsName }) => {
     const [initialOffsetValue, setInitialOffsetValue] = useState({ x: 0, y: 0 });
 
     const [isSaveGeneratedImageAndInfo, setIsSaveGeneratedImageAndInfo] = useState(false);
-
-    const [generatedImageURLInMyServer, setGeneratedImageURLInMyServer] = useState("");
 
     const [isWaitAddToCart, setIsWaitAddToCart] = useState(false);
 
@@ -296,11 +296,11 @@ const ImageToImage = ({ printsName }) => {
                                     setPaintingHeight(this.naturalHeight);
                                     setIsWillTheImageBeMoved(true);
                                     setTheDirectionOfImageDisplacement("vertical");
-                                    setGeneratedImageURLInMyServer("assets/images/generatedImages/previewImageForPosterInImageToImage.png");
                                 }
                             } else if (printsName === "canvas") {
                                 setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
                             }
+                            setGeneratedImagePathInMyServer("assets/images/generatedImages/previewImageForPosterInImageToImage.png");
                             setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image")));
                         })
                         .catch((err) => console.log(err));
@@ -386,7 +386,7 @@ const ImageToImage = ({ printsName }) => {
                 await getProductPrice(paintingType, imageType, dimentionsInCm);
             }
             setPaintingType(paintingType);
-            
+
         }
     }
 
@@ -474,6 +474,7 @@ const ImageToImage = ({ printsName }) => {
                     setIsSaveGeneratedImageAndInfo(true);
                     const generatedImageData = await saveNewGeneratedImageData(tempGeneratedImageData);
                     setIsSaveGeneratedImageAndInfo(false);
+                    setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
                     saveNewGeneratedImageDataInLocalStorage(generatedImageData);
                 }
             } else {
@@ -527,18 +528,19 @@ const ImageToImage = ({ printsName }) => {
         setIsMouseDownActivate(false);
         const tempPaintingType = generatedImageData.paintingType;
         setPaintingType(tempPaintingType);
-        const imageType = generatedImageData.position;
-        setImageType(imageType);
+        const tempPosition = generatedImageData.position;
+        setImageType(tempPosition);
         const tempImageSize = generatedImageData.size;
         setDimentionsInCm(tempImageSize);
-        const   generatedImageWidth = generatedImageData.width,
-                generatedImageHeight = generatedImageData.height;
+        const generatedImageWidth = generatedImageData.width,
+            generatedImageHeight = generatedImageData.height;
         setPaintingWidth(generatedImageData.width);
         setPaintingHeight(generatedImageData.height);
         setIsExistWhiteBorderWithPoster(generatedImageData.isExistWhiteBorder);
         setFrameColor(generatedImageData.frameColor);
-        determine_is_will_the_image_be_moved_and_the_direction_of_displacement(generatedImageWidth, generatedImageHeight, imageType);
+        determine_is_will_the_image_be_moved_and_the_direction_of_displacement(generatedImageWidth, generatedImageHeight, tempPosition);
         setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
+        setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
         await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
     }
 
@@ -675,7 +677,7 @@ const ImageToImage = ({ printsName }) => {
                 }
                 try {
                     const res = await Axios.post(`${process.env.BASE_API_URL}/users/crop-image`, {
-                        imagePath: generatedImageURLInMyServer,
+                        imagePath: generatedImagePathInMyServer,
                         left: left,
                         top: top,
                         width: width,
@@ -689,8 +691,8 @@ const ImageToImage = ({ printsName }) => {
                         type: paintingType,
                         frameColor: frameColor,
                         dimentions: dimentionsInCm,
-                        price: 100,
-                        imageSrc: `${result}`,
+                        price: productPriceAfterDiscount,
+                        imageSrc: `${process.env.BASE_API_URL}/${result}`,
                         count: quantity,
                     }
                     let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
@@ -719,6 +721,7 @@ const ImageToImage = ({ printsName }) => {
                 }
             }
             else {
+                console.log(generatedImagePathInMyServer);
                 const codeGenerator = new nodeCodeGenerator();
                 const productInfoToCart = {
                     _id: codeGenerator.generateCodes("###**##########****###**")[0],
@@ -726,26 +729,22 @@ const ImageToImage = ({ printsName }) => {
                     type: paintingType,
                     frameColor: frameColor,
                     dimentions: dimentionsInCm,
-                    price: 100,
-                    imageSrc: generatedImageURLInMyServer,
+                    price: productPriceAfterDiscount,
+                    imageSrc: `${process.env.BASE_API_URL}/${generatedImagePathInMyServer}`,
                     count: quantity,
                 }
                 let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
                 if (canvasEcommerceUserCart) {
                     canvasEcommerceUserCart.push(productInfoToCart);
                     localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
-                    setTimeout(() => {
-                        setIsWaitAddToCart(false);
-                        openCartPopupBox();
-                    }, 1500);
+                    setIsWaitAddToCart(false);
+                    openCartPopupBox();
                 } else {
                     let canvasEcommerceUserCartList = [];
                     canvasEcommerceUserCartList.push(productInfoToCart);
                     localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCartList));
-                    setTimeout(() => {
-                        setIsWaitAddToCart(false);
-                        openCartPopupBox();
-                    }, 1500);
+                    setIsWaitAddToCart(false);
+                    openCartPopupBox();
                 }
             }
         }
@@ -925,13 +924,13 @@ const ImageToImage = ({ printsName }) => {
     }
 
     const getProductPrice = async (paintingType, position, dimentions) => {
-        try{
+        try {
             const res = await Axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
             const result = await res.data;
             setProductPriceBeforeDiscount(result.priceBeforeDiscount);
             setProductPriceAfterDiscount(result.priceBeforeDiscount);
         }
-        catch(err){
+        catch (err) {
             console.log(err);
         }
     }
@@ -1109,8 +1108,8 @@ const ImageToImage = ({ printsName }) => {
                                             <h4 className="art-name fw-bold">Art Name: {paintingType}</h4>
                                         </div>
                                         <div className="col-md-4 text-end price-box">
-                                            <h4 className="price mb-0 fw-bold">{ productPriceAfterDiscount } kr</h4>
-                                            {productPriceBeforeDiscount != productPriceAfterDiscount && <h6 className="discount fw-bold">{ productPriceBeforeDiscount } kr</h6>}
+                                            <h4 className="price mb-0 fw-bold">{productPriceAfterDiscount} kr</h4>
+                                            {productPriceBeforeDiscount != productPriceAfterDiscount && <h6 className="discount fw-bold">{productPriceBeforeDiscount} kr</h6>}
                                         </div>
                                     </div>
                                     {/* End Grid System */}

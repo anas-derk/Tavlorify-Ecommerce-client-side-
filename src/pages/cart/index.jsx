@@ -373,7 +373,7 @@ const Cart = () => {
                                     {productInfo.price}
                                 </td>
                                 <td className="product-image-cell">
-                                    <img src={`${process.env.BASE_API_URL}/${productInfo.imageSrc}`} alt={`${productInfo.name}`} width="100" height="100" />
+                                    <img src={`${productInfo.imageSrc}`} alt={`${productInfo.name}`} width="100" height="100" />
                                 </td>
                                 <td className="product-count-cell">
                                     {productInfo.count}
