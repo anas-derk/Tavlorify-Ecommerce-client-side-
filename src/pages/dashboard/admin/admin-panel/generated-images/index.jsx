@@ -14,6 +14,7 @@ const GeneratedImages = ({ pageName }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPagesCount, setTotalPagesCount] = useState(0);
     const [currentSliceFromGeneratedImageDataList, setCurrentSliceFromGeneratedImageDataList] = useState([]);
+    const [pageNumber, setPageNumber] = useState(0);
     const pageSize = 3;
     useEffect(() => {
         setAllGeneratedImagesData([]);
@@ -105,15 +106,31 @@ const GeneratedImages = ({ pageName }) => {
     const paginationBar = () => {
         const paginationButtons = [];
         for (let i = 1; i <= totalPagesCount; i++) {
+            if (i < 5) {
+                paginationButtons.push(
+                    <button
+                        key={i}
+                        className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === i ? "selection" : ""} ${i === 1 ? "ms-3" : ""}`}
+                        onClick={() => getCurrentSliceFromGeneratedImageDataList(i, allGeneratedImagesData)}
+                    >
+                        {i}
+                    </button>
+                );
+            }
+        }
+        if (totalPagesCount > 4) {
+            paginationButtons.push(
+                <span className="me-3 fw-bold" key={`${Math.random()}-${Date.now()}`}>...</span>
+            );
             paginationButtons.push(
                 <button
-                    key={i}
-                    className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === i ? "selection" : ""} ${i === 1 ? "ms-3" : ""}`}
-                    onClick={() => getCurrentSliceFromGeneratedImageDataList(i, allGeneratedImagesData)}
+                    key={totalPagesCount}
+                    className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === totalPagesCount ? "selection" : ""}`}
+                    onClick={() => getCurrentSliceFromGeneratedImageDataList(totalPagesCount, allGeneratedImagesData)}
                 >
-                    {i}
+                    {totalPagesCount}
                 </button>
-            )
+            );
         }
         return (
             <section className="pagination d-flex justify-content-center align-items-center">
@@ -123,10 +140,28 @@ const GeneratedImages = ({ pageName }) => {
                 />}
                 {paginationButtons}
                 {currentPage !== totalPagesCount && <BsArrowRightSquare
-                    className="next-page-icon pagination-icon"
+                    className="next-page-icon pagination-icon me-3"
                     onClick={getNextPage}
                 />}
-            </section>);
+                <span className="current-page-number-and-count-of-pages p-3 bg-secondary text-white me-3">The Page { currentPage } of { totalPagesCount } Pages</span>
+                <form
+                    className="navigate-to-specific-page w-25"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        getCurrentSliceFromGeneratedImageDataList(pageNumber, allGeneratedImagesData);
+                    }}
+                >
+                    <input
+                        type="number"
+                        className="form-control p-2"
+                        placeholder="Enter Page Number"
+                        min="1"
+                        max={totalPagesCount}
+                        onChange={(e) => setPageNumber(e.target.valueAsNumber)}
+                    />
+                </form>
+            </section>
+        );
     }
 
     return (
@@ -149,8 +184,8 @@ const GeneratedImages = ({ pageName }) => {
                                     <th>Style Name</th>
                                     <th>Painting Type</th>
                                     <th>Is Exist White Border</th>
-                                    <th>Generated Image</th>
                                     <th>Generating Date</th>
+                                    <th>Generated Image</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -181,7 +216,13 @@ const GeneratedImages = ({ pageName }) => {
                                         {pageName === "text-to-image" && <td className="text-prompt-cell">{generatedImageData.textPrompt}</td>}
                                         <td className="category-name-cell">{generatedImageData.categoryName}</td>
                                         <td className="style-name-cell">{generatedImageData.styleName}</td>
-                                        <td className="painting-type-cell">{generatedImageData.paintingType}</td>
+                                        <td className="painting-type-cell">
+                                            <h6>{generatedImageData.paintingType}</h6>
+                                            <hr />
+                                            <h6>{generatedImageData.position}</h6>
+                                            <hr />
+                                            <h6>{generatedImageData.size}</h6>
+                                        </td>
                                         <td className="is-exist-white-border-cell">{generatedImageData.isExistWhiteBorder}</td>
                                         <td>{getDateFormated(generatedImageData.imageGegenerationDate)}</td>
                                         <td>
