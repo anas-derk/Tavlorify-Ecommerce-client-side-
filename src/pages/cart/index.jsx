@@ -25,25 +25,25 @@ const Cart = () => {
             purchase_country: "SE",
             purchase_currency: "SEK",
             locale: "sv-SE",
-            order_amount: 10000,
+            order_amount: Number(productInfo.count) * productInfo.price * 100,
             order_tax_amount: 0,
             order_lines: [
                 {
                     type: "physical",
-                    reference: "19-402-USA",
+                    reference: productInfo._id,
                     name: "Art Painting",
-                    quantity: 1,
+                    quantity: Number(productInfo.count),
                     quantity_unit: "pcs",
-                    unit_price: 10000,
+                    unit_price: productInfo.price * 100,
                     tax_rate: 0,
-                    total_amount: 10000,
+                    total_amount: Number(productInfo.count) * productInfo.price * 100,
                     total_discount_amount: 0,
-                    total_tax_amount: 0
+                    total_tax_amount: 0,
                 }
             ],
             merchant_urls: {
                 terms: `${process.env.BASE_API_URL}/terms`,
-                checkout: "https://www.example.com/checkout.html?order_id={checkout.order.id}",
+                checkout: "https://www.example.com/checkout/{checkout.order.id}",
                 confirmation: "https://www.example.com/confirmation.html?order_id={checkout.order.id}",
                 push: "https://www.example.com/api/push?order_id={checkout.order.id}"
             }
