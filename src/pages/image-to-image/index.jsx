@@ -687,13 +687,14 @@ const ImageToImage = ({ printsName }) => {
                     const codeGenerator = new nodeCodeGenerator();
                     const productInfoToCart = {
                         _id: codeGenerator.generateCodes("###**##########****###**")[0],
-                        name: "painting",
-                        type: paintingType,
+                        paintingType: paintingType,
+                        isExistWhiteBorder: isExistWhiteBorderWithPoster,
                         frameColor: frameColor,
-                        dimentions: dimentionsInCm,
+                        position: imageType,
+                        size: dimentionsInCm,
                         price: productPriceAfterDiscount,
-                        imageSrc: `${process.env.BASE_API_URL}/${result}`,
-                        count: quantity,
+                        generatedImageURL: `${process.env.BASE_API_URL}/${result}`,
+                        quantity: quantity,
                     }
                     let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
                     if (canvasEcommerceUserCart) {
@@ -721,17 +722,17 @@ const ImageToImage = ({ printsName }) => {
                 }
             }
             else {
-                console.log(generatedImagePathInMyServer);
                 const codeGenerator = new nodeCodeGenerator();
                 const productInfoToCart = {
                     _id: codeGenerator.generateCodes("###**##########****###**")[0],
-                    name: "painting",
-                    type: paintingType,
+                    paintingType: paintingType,
+                    isExistWhiteBorder: isExistWhiteBorderWithPoster,
                     frameColor: frameColor,
-                    dimentions: dimentionsInCm,
+                    position: imageType,
+                    size: dimentionsInCm,
                     price: productPriceAfterDiscount,
-                    imageSrc: `${process.env.BASE_API_URL}/${generatedImagePathInMyServer}`,
-                    count: quantity,
+                    generatedImageURL: `${process.env.BASE_API_URL}/${generatedImagePathInMyServer}`,
+                    quantity: quantity,
                 }
                 let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
                 if (canvasEcommerceUserCart) {

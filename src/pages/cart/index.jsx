@@ -15,30 +15,32 @@ const Cart = () => {
             setCanvasEcommerceProductsList(canvasEcommerceProducts);
             let total = 0;
             canvasEcommerceProducts.forEach((product) => {
-                total += product.price * product.count;
+                total += product.price * product.quantity;
             });
             setTotal(total);
         }
     }, []);
     const orderProduct = async (productInfo) => {
+        console.log()
         const orderDetails = {
             purchase_country: "SE",
             purchase_currency: "SEK",
             locale: "sv-SE",
-            order_amount: Number(productInfo.count) * productInfo.price * 100,
+            order_amount: productInfo.quantity * productInfo.price * 100,
             order_tax_amount: 0,
             order_lines: [
                 {
                     type: "physical",
                     reference: productInfo._id,
-                    name: "Art Painting",
-                    quantity: Number(productInfo.count),
+                    name: `${productInfo.paintingType}, ${productInfo.frameColor} Frame, ${productInfo.isExistWhiteBorder}, ${productInfo.position}, ${productInfo.size} Cm`,
+                    quantity: productInfo.quantity,
                     quantity_unit: "pcs",
                     unit_price: productInfo.price * 100,
                     tax_rate: 0,
-                    total_amount: Number(productInfo.count) * productInfo.price * 100,
+                    total_amount: productInfo.quantity * productInfo.price * 100,
                     total_discount_amount: 0,
                     total_tax_amount: 0,
+                    image_url: `${productInfo.generatedImageURL}`,
                 }
             ],
             merchant_urls: {
@@ -86,43 +88,47 @@ const Cart = () => {
                 {canvasEcommerceProductsList.length > 0 ? <table className="products-table mb-4">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Type</th>
+                            <th>Painting Type</th>
                             <th>Frame Color</th>
+                            <th>position</th>
                             <th>dimentions</th>
+                            <th>is Exist White Border</th>
                             <th>price</th>
-                            <th>Image</th>
-                            <th>Count</th>
+                            <th>Quantity</th>
                             <th>Total Price</th>
+                            <th>Image</th>
                             <th>Process</th>
                         </tr>
                     </thead>
                     <tbody>
                         {canvasEcommerceProductsList.map((productInfo, index) => (
                             <tr key={index}>
-                                <td className="product-name-cell">
-                                    {productInfo.name}
-                                </td>
                                 <td>
-                                    {productInfo.type}
+                                    {productInfo.paintingType}
                                 </td>
                                 <td>
                                     {productInfo.frameColor}
                                 </td>
                                 <td>
-                                    {productInfo.dimentions} cm
+                                    {productInfo.position}
+                                </td>
+                                <td>
+                                    {productInfo.size} cm
+                                </td>
+                                <td>
+                                    {productInfo.isExistWhiteBorder}
                                 </td>
                                 <td className="product-price-cell">
                                     {productInfo.price}
                                 </td>
-                                <td className="product-image-cell">
-                                    <img src={`${productInfo.imageSrc}`} alt={`${productInfo.name}`} width="100" height="100" />
-                                </td>
                                 <td className="product-count-cell">
-                                    {productInfo.count}
+                                    {productInfo.quantity}
                                 </td>
                                 <td className="total-price-cell">
-                                    {productInfo.price * productInfo.count}
+                                    {productInfo.price * productInfo.quantity}
+                                </td>
+                                <td className="product-image-cell">
+                                    <img src={`${productInfo.generatedImageURL}`} alt={`${productInfo._id}`} width="100" height="100" />
                                 </td>
                                 <td className="proceses-cell">
                                     <button
@@ -147,7 +153,7 @@ const Cart = () => {
                             </tr>
                         ))}
                         {canvasEcommerceProductsList.length >= 2 && <tr>
-                            <td colSpan={8}>
+                            <td colSpan={9}>
                                 total: {total}
                             </td>
                             <td>

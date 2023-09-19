@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Axios from "axios";
 

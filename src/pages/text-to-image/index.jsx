@@ -51,6 +51,8 @@ const TextToImage = ({ printsName }) => {
 
     const [generatedImageURL, setGeneratedImageURL] = useState("");
 
+    const [generatedImagePathInMyServer, setGeneratedImagePathInMyServer] = useState("");
+
     const [isWaitStatus, setIsWaitStatus] = useState(false);
 
     const [errorMsg, setErrorMsg] = useState("");
@@ -429,7 +431,7 @@ const TextToImage = ({ printsName }) => {
                 }
                 setIsWaitStatus(false);
                 const generatedImageData = await saveNewGeneratedImageData(tempGeneratedImageData);
-                setGeneratedImageURLInMyServer(generatedImageData.generatedImageURL);
+                setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
                 saveNewGeneratedImageDataInLocalStorage(generatedImageData);
             } else {
                 setErrorMsg("Something Went Wrong !!");
@@ -492,6 +494,7 @@ const TextToImage = ({ printsName }) => {
         setIsExistWhiteBorderWithPoster(generatedImageData.isExistWhiteBorder);
         setFrameColor(generatedImageData.frameColor);
         setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
+        setGeneratedImagePathInMyServer(`${generatedImageData.generatedImageURL}`);
         await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
     }
 
@@ -518,13 +521,14 @@ const TextToImage = ({ printsName }) => {
             const codeGenerator = new nodeCodeGenerator();
             const productInfoToCart = {
                 _id: codeGenerator.generateCodes("###**##########****###**")[0],
-                name: textPrompt,
-                type: paintingType,
+                paintingType: paintingType,
+                isExistWhiteBorder: isExistWhiteBorderWithPoster,
                 frameColor: frameColor,
-                dimentions: dimentionsInCm,
-                price: productPriceAfterDiscount,
-                imageSrc: generatedImageURL,
-                count: quantity,
+                position: tempImageType,
+                size: dimentionsInCm,
+                price: productPriceAfterDiscount,frameColor,
+                generatedImageURL: `${process.env.BASE_API_URL}/${generatedImagePathInMyServer}`,
+                quantity: quantity,
             }
             let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
             if (canvasEcommerceUserCart) {
