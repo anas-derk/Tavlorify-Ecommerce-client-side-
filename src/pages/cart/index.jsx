@@ -1,30 +1,14 @@
 import Header from "@/components/Header";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import global_functions from "../../../public/global_functions/validations";
 import Axios from "axios";
-import nodeCodeGenerator from "node-code-generator";
-import global from "../../../public/data/global";
 import Link from "next/link";
 
 const Cart = () => {
     const [canvasEcommerceProductsList, setCanvasEcommerceProductsList] = useState([]);
-    const [total, setTotal] = useState(0);
     const [isWaitOrdering, setIsWaitOrdering] = useState(false);
-    const [isWaitOrderingAllProducts, setIsWaitOrderingAllProducts] = useState(false);
-    const [orderedProductInfo, setOrderedProductInfo] = useState({});
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [addressLine1, setAddressLine1] = useState("");
-    const [city, setCity] = useState("");
-    const [postCode, setPostCode] = useState("");
-    const [email, setEmail] = useState("");
-    const [isAppearedOrderFormPopup, setIsAppearedOrderFormPopup] = useState(false);
-    const [errors, setErrors] = useState({});
-    const router = useRouter();
-    const [userId, setUserId] = useState("");
-
+    const [productOrderedID, setProductOrderedID] = useState("");
+    const [total, setTotal] = useState(0);
     useEffect(() => {
         let canvasEcommerceProducts = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         if (canvasEcommerceProducts) {
@@ -34,218 +18,60 @@ const Cart = () => {
                 total += product.price * product.count;
             });
             setTotal(total);
-            setUserId(localStorage.getItem("tavlorify-store-user-id"));
         }
     }, []);
+    const orderProduct = async (productInfo) => {
+        const orderDetails = {
+            purchase_country: "SE",
+            purchase_currency: "SEK",
+            locale: "sv-SE",
+            order_amount: 10000,
+            order_tax_amount: 0,
+            order_lines: [
+                {
+                    type: "physical",
+                    reference: "19-402-USA",
+                    name: "Art Painting",
+                    quantity: 1,
+                    quantity_unit: "pcs",
+                    unit_price: 10000,
+                    tax_rate: 0,
+                    total_amount: 10000,
+                    total_discount_amount: 0,
+                    total_tax_amount: 0
+                }
+            ],
+            merchant_urls: {
+                terms: `${process.env.BASE_API_URL}/terms`,
+                checkout: "https://www.example.com/checkout.html?order_id={checkout.order.id}",
+                confirmation: "https://www.example.com/confirmation.html?order_id={checkout.order.id}",
+                push: "https://www.example.com/api/push?order_id={checkout.order.id}"
+            }
+        }
+        try {
+            setIsWaitOrdering(true);
+            setProductOrderedID(productInfo._id);
+            const res = await Axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-klarna`, orderDetails);
+            const result = await res.data;
+            setIsWaitOrdering(false);
+            setProductOrderedID("");
+            window.open(`/checkout/${result.order_id}`, "_blank");
+        }
+        catch (err) {
+            setIsWaitOrdering(false);
+            setProductOrderedID("");
+            console.log(err.response.data);
+        }
+    }
     const deleteProduct = (id) => {
         let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         canvasEcommerceUserCart = canvasEcommerceUserCart.filter((product) => product._id != id);
         localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
         setCanvasEcommerceProductsList(canvasEcommerceUserCart);
     }
-    const orderProduct = async (e) => {
-        e.preventDefault();
-        setErrors({});
-        const orderDimentions = orderedProductInfo.dimentions.split("x");
-        const width = parseInt(orderDimentions[0]);
-        const height = parseInt(orderDimentions[1]);
-        let imageType = { toWebsite: "", toGelatoAPI: "" };
-        if (width === height) {
-            imageType.toWebsite = "square";
-            imageType.toGelatoAPI = "hor";
-        } else if (width < height) {
-            imageType.toWebsite = "vertical";
-            imageType.toGelatoAPI = "ver";
-        } else {
-            imageType.toWebsite = "horizontal";
-            imageType.toGelatoAPI = "hor";
-        }
-        const requiredDimentionsObject = global.gelatoDimetions[orderedProductInfo.type][imageType.toWebsite].find(dimentions => dimentions.inCm === orderedProductInfo.dimentions);
-        let gelatoProductUid;
-        switch (orderedProductInfo.type) {
-            case "canvas": {
-                gelatoProductUid = `canvas_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_canvas_wood-fsc-slim_4-0_${imageType.toGelatoAPI}`;
-                break;
-            }
-            case "poster": {
-                if (orderedProductInfo.frameColor === "none") {
-                    switch (requiredDimentionsObject.imMm) {
-                        case "210x297": {
-                            gelatoProductUid = `flat_a4-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
-                            break;
-                        }
-                        default: {
-                            gelatoProductUid = `flat_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
-                        }
-                    }
-                } else {
-                    switch (requiredDimentionsObject.imMm) {
-                        case "210x297": {
-                            gelatoProductUid = `framed_poster_mounted_210x297mm-8x12-inch_${orderedProductInfo.frameColor}_wood_w12xt22-mm_plexiglass_a4-8x12-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
-                            break;
-                        }
-                        default: {
-                            gelatoProductUid = `framed_poster_mounted_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_${orderedProductInfo.frameColor}_wood_w12xt22-mm_plexiglass_${requiredDimentionsObject.imMm}-mm-${requiredDimentionsObject.inInch}-inch_200-gsm-80lb-uncoated_4-0_${imageType.toGelatoAPI}`;
-                        }
-                    }
-                }
-                break;
-            }
-            default: {
-                console.log("Error In Input");
-            }
-        }
-        const errorsObject = global_functions.inputValuesValidation([
-            {
-                name: "firstName",
-                value: firstName,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't be This Field Is Empty !!",
-                    },
-                    maxLength: {
-                        value: 30,
-                        msg: "Sorry, Must Be Characters Count At Most 30",
-                    }
-                },
-            },
-            {
-                name: "lastName",
-                value: lastName,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't be This Field Is Empty !!",
-                    },
-                    maxLength: {
-                        value: 30,
-                        msg: "Sorry, Must Be Characters Count At Most 30",
-                    }
-                },
-            },
-            {
-                name: "addressLine1",
-                value: addressLine1,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't be This Field Is Empty !!",
-                    },
-                },
-            },
-            {
-                name: "city",
-                value: city,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't be This Field Is Empty !!",
-                    },
-                },
-            },
-            {
-                name: "postCode",
-                value: postCode,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't be This Field Is Empty !!",
-                    },
-                    maxLength: {
-                        value: 5,
-                        msg: "Sorry, Must Be Numbers Count At Most 5",
-                    },
-                },
-            },
-            {
-                name: "email",
-                value: email,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't be This Field Is Empty !!",
-                    },
-                    isEmail: {
-                        msg: "Sorry, The Email Is Not Valid !!",
-                    },
-                },
-            },
-        ]);
-        setErrors(errorsObject);
-        if (Object.keys(errorsObject).length == 0) {
-            setIsWaitOrdering(true);
-            const codeGenerator = new nodeCodeGenerator();
-            try {
-                const res = await Axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-gelato`,
-                    {
-                        orderType: "order",
-                        orderReferenceId: codeGenerator.generateCodes("###**#####**###****###**")[0],
-                        customerReferenceId: codeGenerator.generateCodes("###**##########****###**")[0],
-                        currency: "SEK",
-                        items: [
-                            {
-                                itemReferenceId: orderedProductInfo._id,
-                                productUid: gelatoProductUid,
-                                files: [
-                                    {
-                                        type: "default",
-                                        url: `${process.env.BASE_API_URL}/${orderedProductInfo.imageSrc}`
-                                    }
-                                ],
-                                quantity: parseInt(orderedProductInfo.count),
-                            }
-                        ],
-                        shippingAddress: {
-                            firstName: firstName,
-                            lastName: lastName,
-                            addressLine1: addressLine1,
-                            city: city,
-                            postCode: postCode,
-                            country: "SE",
-                            email: email,
-                        }
-                    });
-                const result = await res.data;
-                setIsWaitOrdering(false);
-            }
-            catch (err) {
-                console.log(err);
-            }
-        }
-        // let canvasEcommerceUserOrders = JSON.parse(localStorage.getItem("canvas-ecommerce-user-orders"));
-        // if (canvasEcommerceUserOrders) {
-        //     canvasEcommerceUserOrders.push(orderedProductInfo);
-        //     localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
-        //     setTimeout(() => {
-        //         setIsWaitOrdering(false);
-        //         deleteProduct(orderedProductInfo._id);
-        //         router.push("/orders");
-        //     }, 1500);
-        // } else {
-        //     let canvasEcommerceUserOrders = [];
-        //     canvasEcommerceUserOrders.push(orderedProductInfo);
-        //     localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceUserOrders));
-        //     setTimeout(() => {
-        //         setIsWaitOrdering(false);
-        //         deleteProduct(orderedProductInfo._id);
-        //         router.push("/orders");
-        //     }, 1500);
-        // }
-    }
     const deleteAllProductsFromCart = () => {
         localStorage.removeItem("tavlorify-store-user-cart");
         setCanvasEcommerceProductsList([]);
-    }
-    const orderAllProductsFromCart = () => {
-        setIsWaitOrderingAllProducts(true);
-        localStorage.setItem("canvas-ecommerce-user-orders", JSON.stringify(canvasEcommerceProductsList));
-        deleteAllProductsFromCart();
-        setTimeout(() => {
-            router.push("/orders");
-        }, 1500);
-    }
-    const openOrderFormPopup = (orderInfo) => {
-        setIsAppearedOrderFormPopup(true);
-        setOrderedProductInfo(orderInfo);
-    }
-    const closeOrderPopup = () => {
-        setIsAppearedOrderFormPopup(false);
-        setErrors({});
     }
     return (
         // Start Cart Page
@@ -254,89 +80,6 @@ const Cart = () => {
                 <title>Tavlorify Store - Cart</title>
             </Head>
             <Header />
-            {/* Start Popup Box */}
-            {isAppearedOrderFormPopup && <div className="popup-box">
-                <div className="popup p-4">
-                    {userId ? <form className="order-form">
-                        <h3 className="mb-3 text-center">Please Write Shipping Address Info</h3>
-                        <input
-                            type="text"
-                            className="form-control first-name-input mb-4 p-3"
-                            placeholder="First Name"
-                            onChange={(e) => setFirstName(e.target.value)}
-                        />
-                        {errors["firstName"] && <p className="bg-danger p-3">{errors["firstName"]}</p>}
-                        <input
-                            type="text"
-                            className="form-control first-name-input mb-4 p-3"
-                            placeholder="Last Name"
-                            onChange={(e) => setLastName(e.target.value)}
-                        />
-                        {errors["lastName"] && <p className="bg-danger p-3">{errors["lastName"]}</p>}
-                        <input
-                            type="text"
-                            className="form-control address-input mb-4 p-3"
-                            placeholder="Address"
-                            onChange={(e) => setAddressLine1(e.target.value)}
-                        />
-                        {errors["addressLine1"] && <p className="bg-danger p-3">{errors["addressLine1"]}</p>}
-                        <input
-                            type="text"
-                            className="form-control city-input mb-4 p-3"
-                            placeholder="City"
-                            onChange={(e) => setCity(e.target.value)}
-                        />
-                        {errors["city"] && <p className="bg-danger p-3">{errors["city"]}</p>}
-                        <input
-                            type="text"
-                            className="form-control post-code-input mb-4 p-3"
-                            placeholder="Post Code"
-                            onChange={(e) => setPostCode(e.target.value)}
-                        />
-                        {errors["postCode"] && <p className="bg-danger p-3">{errors["postCode"]}</p>}
-                        <input
-                            type="email"
-                            className="form-control email-input mb-4 p-3"
-                            placeholder="Email"
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        {errors["email"] && <p className="bg-danger p-3">{errors["email"]}</p>}
-                        <div className="process-buttons d-flex justify-content-center align-items-center">
-                            {!isWaitOrdering && <button
-                                type="submit"
-                                className="btn btn-success"
-                                onClick={(e) => orderProduct(e)}
-                            >
-                                Order
-                            </button>}
-                            {isWaitOrdering && <button
-                                className="btn btn-warning"
-                                disabled
-                            >
-                                Wait Ordering ...
-                            </button>}
-                            {!isWaitOrdering && <button
-                                className="btn btn-danger"
-                                onClick={closeOrderPopup}
-                            >
-                                Close
-                            </button>}
-                        </div>
-                    </form> : <div className="authentication-box h-100 d-flex align-items-center justify-content-center flex-column">
-                        <h3 className="mb-3 text-center bg-danger p-3 border border-2 mb-4">Sorry, You Can't Order This Product !!</h3>
-                        <h5 className="mb-3 text-center mb-4">Please Login, Or Sign Up</h5>
-                        <Link href="/login" className="login-link btn btn-success d-block mb-3 w-25">Login</Link>
-                        <Link href="/sign-up" className="login-link btn btn-success d-block mb-3 w-25 ">Signup</Link>
-                        <button
-                            className="btn btn-danger w-25"
-                            onClick={closeOrderPopup}
-                        >
-                            Close
-                        </button>
-                    </div>}
-                </div>
-            </div>}
-            {/* End Popup Box */}
             {/* Start Container From Bootstrap */}
             <div className="container-fluid pt-4 pb-4">
                 <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hello To You In Cart Page</h1>
@@ -388,12 +131,18 @@ const Cart = () => {
                                     >
                                         Delete
                                     </button>
-                                    <button
+                                    {!isWaitOrdering && <button
                                         className="btn btn-success"
-                                        onClick={() => openOrderFormPopup(productInfo)}
+                                        onClick={() => orderProduct(productInfo)}
                                     >
                                         Order
-                                    </button>
+                                    </button>}
+                                    {isWaitOrdering && productOrderedID === productInfo._id && <button
+                                        className="btn btn-danger"
+                                        disabled
+                                    >
+                                        Waiting Order ...
+                                    </button>}
                                 </td>
                             </tr>
                         ))}
@@ -408,17 +157,6 @@ const Cart = () => {
                                 >
                                     Delete All
                                 </button>
-                                {/* {!isWaitOrderingAllProducts && <button
-                                    className="btn btn-success"
-                                    onClick={orderAllProductsFromCart}
-                                >
-                                    Order All
-                                </button>}
-                                {isWaitOrderingAllProducts && <button
-                                    className="btn btn-warning"
-                                >
-                                    Wait Ordering All
-                                </button>} */}
                             </td>
                         </tr>}
                     </tbody>
