@@ -45,9 +45,9 @@ const Cart = () => {
             ],
             merchant_urls: {
                 terms: `${process.env.BASE_API_URL}/terms`,
-                checkout: "https://www.example.com/checkout/{checkout.order.id}",
-                confirmation: "https://www.example.com/confirmation.html?order_id={checkout.order.id}",
-                push: "https://www.example.com/api/push?order_id={checkout.order.id}"
+                checkout: `${process.env.BASE_API_URL}/checkout/{checkout.order.id}`,
+                confirmation: `${process.env.BASE_API_URL}/confirmation/{checkout.order.id}`,
+                push: `${process.env.BASE_API_URL}/confirmation/{checkout.order.id}`,
             }
         }
         try {

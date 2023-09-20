@@ -4,14 +4,14 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Axios from "axios";
 
-const Checkout = () => {
+const Confirmation = () => {
     const router = useRouter();
     const { id } = router.query;
     useEffect(() => {
         if (id) {
             getKlarnaOrderDetails(id)
                 .then((result) => {
-                    renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
+                    renderKlarnaConfirmationHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
                 }).catch((err) => console.log(err));
         }
     }, [id]);
@@ -25,11 +25,11 @@ const Checkout = () => {
             throw Error(err.response.data);
         }
     }
-    const renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI = (htmlSnippet) => {
+    const renderKlarnaConfirmationHtmlSnippetFromKlarnaCheckoutAPI = (htmlSnippet) => {
         try {
-            let checkoutContainer = document.getElementById("my-checkout-container");
-            checkoutContainer.innerHTML = htmlSnippet;
-            let scriptsTags = checkoutContainer.getElementsByTagName("script");
+            let confirmationContainer  = document.getElementById("my-confirmation-container");
+            confirmationContainer .innerHTML = htmlSnippet;
+            let scriptsTags = confirmationContainer .getElementsByTagName("script");
             for (let i = 0; i < scriptsTags.length; i++) {
                 let parentNode = scriptsTags[i].parentNode;
                 let newScriptTag = document.createElement("script");
@@ -44,20 +44,20 @@ const Checkout = () => {
         }
     }
     return (
-        // Start Checkout Page
-        <div className="checkout">
+        // Start Confirmation Page
+        <div className="confirmation">
             <Head>
-                <title>Tavlorify Store - Checkout</title>
+                <title>Tavlorify Store - Confirmation</title>
             </Head>
             <Header />
             {/* Start Container From Bootstrap */}
             <div className="container-fluid pt-4 pb-4">
-                <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hello To You In Checkout Page</h1>
+                <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hello To You In Confirmation Page</h1>
             </div>
             {/* End Container From Bootstrap */}
-            <div id="my-checkout-container"></div>
+            <div id="my-confirmation-container"></div>
         </div>
     );
 }
 
-export default Checkout;
+export default Confirmation;
