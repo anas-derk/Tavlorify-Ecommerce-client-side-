@@ -21,13 +21,14 @@ const Cart = () => {
         }
     }, []);
     const orderProduct = async (productInfo) => {
-        console.log()
+        const total_amount = productInfo.quantity * productInfo.price * 100;
+        const total_tax_amount = total_amount - (total_amount * 10000) / (10000 + 2000);
         const orderDetails = {
             purchase_country: "SE",
             purchase_currency: "SEK",
             locale: "sv-SE",
-            order_amount: productInfo.quantity * productInfo.price * 100,
-            order_tax_amount: 0,
+            order_amount: total_amount,
+            order_tax_amount: total_tax_amount,
             order_lines: [
                 {
                     type: "physical",
@@ -36,18 +37,21 @@ const Cart = () => {
                     quantity: productInfo.quantity,
                     quantity_unit: "pcs",
                     unit_price: productInfo.price * 100,
-                    tax_rate: 0,
-                    total_amount: productInfo.quantity * productInfo.price * 100,
+                    tax_rate: 20 * 100,
+                    total_amount: total_amount,
                     total_discount_amount: 0,
-                    total_tax_amount: 0,
+                    total_tax_amount: total_tax_amount,
                     image_url: `${productInfo.generatedImageURL}`,
                 }
             ],
             merchant_urls: {
-                terms: `${process.env.BASE_API_URL}/terms`,
-                checkout: `${process.env.BASE_API_URL}/checkout/{checkout.order.id}`,
-                confirmation: `${process.env.BASE_API_URL}/confirmation/{checkout.order.id}`,
-                push: `${process.env.BASE_API_URL}/confirmation/{checkout.order.id}`,
+                terms: `https://tavlorify.se/terms`,
+                checkout: `https://tavlorify.se/checkout/{checkout.order.id}`,
+                confirmation: `https://tavlorify.se/confirmation/{checkout.order.id}`,
+                push: `https://tavlorify.se/confirmation/{checkout.order.id}`,
+            },
+            options: {
+                allow_separate_shipping_address: true,
             }
         }
         try {
