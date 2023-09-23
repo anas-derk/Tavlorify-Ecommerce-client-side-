@@ -11,9 +11,9 @@ const Checkout = () => {
     const [isWaitOrdering, setIsWaitOrdering] = useState(false);
     const [productOrderedID, setProductOrderedID] = useState("");
     const [pricesDetailsSummary, setPricesDetailsSummary] = useState({
-        regularPrice: 0,
+        totalPriceBeforeDiscount: 0,
         totalDiscount: 0,
-        totalPrice: 0
+        totalPriceAfterDiscount: 0,
     });
     const router = useRouter();
     const { id } = router.query;
@@ -21,11 +21,15 @@ const Checkout = () => {
         let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         if (allProductsData) {
             setAllProductsData(allProductsData);
-            let totalPrice = 0;
-            allProductsData.forEach((product) => {
-                totalPrice += product.priceAfterDiscount * product.quantity;
+            let totalPriceBeforeDiscount = calcTotalPriceBeforeDiscount(allProductsData);
+            let totalDiscount = calcTotalDiscount(allProductsData);
+            let totalPriceAfterDiscount = calcTotalPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
+            setPricesDetailsSummary({
+                ...pricesDetailsSummary,
+                totalPriceBeforeDiscount,
+                totalDiscount,
+                totalPriceAfterDiscount,
             });
-            setPricesDetailsSummary({ ...pricesDetailsSummary, totalPrice: totalPrice });
         }
         // if (id) {
         //     getKlarnaOrderDetails(id)
@@ -34,6 +38,23 @@ const Checkout = () => {
         //         }).catch((err) => console.log(err));
         // }
     }, [id]);
+    const calcTotalPriceBeforeDiscount = (allProductsData) => {
+        let tempTotalPriceBeforeDiscount = 0;
+        allProductsData.forEach((product) => {
+            tempTotalPriceBeforeDiscount += product.priceBeforeDiscount * product.quantity;
+        });
+        return tempTotalPriceBeforeDiscount;
+    }
+    const calcTotalDiscount = (allProductsData) => {
+        let tempTotalDiscount = 0;
+        allProductsData.forEach((product) => {
+            tempTotalDiscount += product.priceAfterDiscount * product.quantity;
+        });
+        return tempTotalDiscount;
+    }
+    const calcTotalPriceAfterDiscount = (totalPriceBeforeDiscount, totalPriceAfterDiscount) => {
+        return totalPriceBeforeDiscount - totalPriceAfterDiscount;
+    }
     const getKlarnaOrderDetails = async (orderId) => {
         try {
             const res = await Axios.get(`${process.env.BASE_API_URL}/orders/order-details-from-klarna/${orderId}`);
@@ -62,15 +83,11 @@ const Checkout = () => {
             throw Error(err);
         }
     }
-    const deleteProduct = (id) => {
+    const deleteProductFromCart = (id) => {
         let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         allProductsData = allProductsData.filter((product) => product._id != id);
         localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
         setAllProductsData(allProductsData);
-    }
-    const deleteAllProductsFromCart = () => {
-        localStorage.removeItem("tavlorify-store-user-cart");
-        setCanvasEcommerceProductsList([]);
     }
     return (
         // Start Checkout Page
@@ -114,7 +131,7 @@ const Checkout = () => {
                             <div className="col-md-1">
                                 <BsTrash
                                     className="trash-icon"
-                                    onClick={() => deleteProduct(productData._id)}
+                                    onClick={() => deleteProductFromCart(productData._id)}
                                 />
                             </div>
                         </div>
@@ -125,12 +142,12 @@ const Checkout = () => {
                         </div>
                         <div className="col-md-6 p-3 fw-bold">
                             <div className="row mb-3">
-                                <div className="col-md-9 text-start">Regular Price</div>
-                                <div className="col-md-3 text-end">{ pricesDetailsSummary.regularPrice } kr</div>
+                                <div className="col-md-9 text-start">Total Price Before Discount</div>
+                                <div className="col-md-3 text-end">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
                             </div>
                             <div className="row mb-3">
-                                <div className="col-md-9 text-start">Discount</div>
-                                <div className="col-md-3 text-danger text-end">-{ pricesDetailsSummary.totalDiscount } kr</div>
+                                <div className="col-md-9 text-start">Total Discount</div>
+                                <div className="col-md-3 text-danger text-end">-{pricesDetailsSummary.totalDiscount} kr</div>
                             </div>
                             <div className="row">
                                 <div className="col-md-9 text-start">Shipping</div>
@@ -138,8 +155,8 @@ const Checkout = () => {
                             </div>
                             <hr />
                             <div className="row">
-                                <div className="col-md-9 text-start">Total</div>
-                                <div className="col-md-3 text-end">{ pricesDetailsSummary.totalPrice } kr</div>
+                                <div className="col-md-9 text-start">Total Price After Discount</div>
+                                <div className="col-md-3 text-end">{pricesDetailsSummary.totalPriceAfterDiscount} kr</div>
                             </div>
                         </div>
                     </div>
