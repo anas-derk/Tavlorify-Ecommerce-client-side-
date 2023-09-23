@@ -21,9 +21,9 @@ const Checkout = () => {
         let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         if (allProductsData) {
             setAllProductsData(allProductsData);
-            let totalPriceBeforeDiscount = calcTotalPriceBeforeDiscount(allProductsData);
-            let totalDiscount = calcTotalDiscount(allProductsData);
-            let totalPriceAfterDiscount = calcTotalPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
+            let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(allProductsData);
+            let totalDiscount = calcTotalOrderDiscount(allProductsData);
+            let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
             setPricesDetailsSummary({
                 ...pricesDetailsSummary,
                 totalPriceBeforeDiscount,
@@ -31,29 +31,29 @@ const Checkout = () => {
                 totalPriceAfterDiscount,
             });
         }
-        // if (id) {
-        //     getKlarnaOrderDetails(id)
-        //         .then((result) => {
-        //             renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
-        //         }).catch((err) => console.log(err));
-        // }
+        if (id) {
+            getKlarnaOrderDetails(id)
+                .then((result) => {
+                    renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
+                }).catch((err) => console.log(err));
+        }
     }, [id]);
-    const calcTotalPriceBeforeDiscount = (allProductsData) => {
+    const calcTotalOrderPriceBeforeDiscount = (allProductsData) => {
         let tempTotalPriceBeforeDiscount = 0;
         allProductsData.forEach((product) => {
             tempTotalPriceBeforeDiscount += product.priceBeforeDiscount * product.quantity;
         });
         return tempTotalPriceBeforeDiscount;
     }
-    const calcTotalDiscount = (allProductsData) => {
+    const calcTotalOrderDiscount = (allProductsData) => {
         let tempTotalDiscount = 0;
         allProductsData.forEach((product) => {
             tempTotalDiscount += (product.priceBeforeDiscount - product.priceAfterDiscount) * product.quantity ;
         });
         return tempTotalDiscount;
     }
-    const calcTotalPriceAfterDiscount = (totalPriceBeforeDiscount, totalPriceAfterDiscount) => {
-        return totalPriceBeforeDiscount - totalPriceAfterDiscount;
+    const calcTotalOrderPriceAfterDiscount = (totalPriceBeforeDiscount, totalDiscount) => {
+        return totalPriceBeforeDiscount - totalDiscount;
     }
     const getKlarnaOrderDetails = async (orderId) => {
         try {

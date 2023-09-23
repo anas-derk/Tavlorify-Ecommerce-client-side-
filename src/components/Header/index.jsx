@@ -24,30 +24,56 @@ const Header = () => {
         localStorage.removeItem("tavlorify-store-user-id");
         router.reload();
     }
+    const calcTotalOrderPriceBeforeDiscount = (allProductsData) => {
+        let tempTotalPriceBeforeDiscount = 0;
+        allProductsData.forEach((product) => {
+            tempTotalPriceBeforeDiscount += product.priceBeforeDiscount * product.quantity;
+        });
+        return tempTotalPriceBeforeDiscount;
+    }
+    const calcTotalOrderDiscount = (allProductsData) => {
+        let tempTotalDiscount = 0;
+        allProductsData.forEach((product) => {
+            tempTotalDiscount += (product.priceBeforeDiscount - product.priceAfterDiscount) * product.quantity;
+        });
+        return tempTotalDiscount;
+    }
+    const calcTotalOrderPriceAfterDiscount = (totalPriceBeforeDiscount, totalDiscount) => {
+        return totalPriceBeforeDiscount - totalDiscount;
+    }
+    const calcTotalProductPriceDiscountForKlarnaCheckoutAPI = (priceBeforeDiscount, priceAfterDiscount, quantity) => {
+        return (priceBeforeDiscount - priceAfterDiscount) * quantity;
+    }
+    const calcTotalProductPriceIncludedDiscountForKlarnaCheckoutAPI = (priceAfterDiscount, quantity) => {
+        return priceAfterDiscount * quantity;
+    }
+    const getOrderLinesForKlarnaCheckoutAPI = (allProductsData) => {
+        let order_lines = [];
+        allProductsData.forEach((product) => {
+            order_lines.push({
+                type: "physical",
+                reference: product._id,
+                name: `${product.paintingType}, ${product.frameColor} Frame, ${product.isExistWhiteBorder}, ${product.position}, ${product.size} Cm`,
+                quantity: product.quantity,
+                quantity_unit: "pcs",
+                unit_price: product.priceBeforeDiscount * 100,
+                tax_rate: 0,
+                total_amount: calcTotalProductPriceIncludedDiscountForKlarnaCheckoutAPI(product.priceAfterDiscount, product.quantity) * 100,
+                total_discount_amount: calcTotalProductPriceDiscountForKlarnaCheckoutAPI(product.priceBeforeDiscount, product.priceAfterDiscount, product.quantity) * 100,
+                total_tax_amount: 0,
+                image_url: `${product.generatedImageURL}`,
+            });
+        });
+        return order_lines;
+    }
     const orderAllProducts = async () => {
-        const total_amount = allProductsData[0].quantity * allProductsData[0].priceAfterDiscount * 100;
-        const total_tax_amount = total_amount - (total_amount * 10000) / (10000 + 2000);
         const orderDetails = {
             purchase_country: "SE",
             purchase_currency: "SEK",
             locale: "sv-SE",
-            order_amount: total_amount,
-            order_tax_amount: total_tax_amount,
-            order_lines: [
-                {
-                    type: "physical",
-                    reference: allProductsData[0]._id,
-                    name: `${allProductsData[0].paintingType}, ${allProductsData[0].frameColor} Frame, ${allProductsData[0].isExistWhiteBorder}, ${allProductsData[0].position}, ${allProductsData[0].size} Cm`,
-                    quantity: allProductsData[0].quantity,
-                    quantity_unit: "pcs",
-                    unit_price: allProductsData[0].priceAfterDiscount * 100,
-                    tax_rate: 20 * 100,
-                    total_amount: total_amount,
-                    total_discount_amount: 0,
-                    total_tax_amount: total_tax_amount,
-                    image_url: `${allProductsData[0].generatedImageURL}`,
-                }
-            ],
+            order_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(allProductsData), calcTotalOrderDiscount(allProductsData)) * 100,
+            order_tax_amount: 0,
+            order_lines: getOrderLinesForKlarnaCheckoutAPI(allProductsData),
             merchant_urls: {
                 terms: `https://tavlorify.se/terms`,
                 checkout: `https://tavlorify.se/checkout/{checkout.order.id}`,
