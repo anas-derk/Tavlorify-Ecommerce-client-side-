@@ -2,7 +2,6 @@ import Header from "@/components/Header";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
@@ -11,18 +10,22 @@ const Checkout = () => {
     const [allProductsData, setAllProductsData] = useState([]);
     const [isWaitOrdering, setIsWaitOrdering] = useState(false);
     const [productOrderedID, setProductOrderedID] = useState("");
-    const [total, setTotal] = useState(0);
+    const [pricesDetailsSummary, setPricesDetailsSummary] = useState({
+        regularPrice: 0,
+        totalDiscount: 0,
+        totalPrice: 0
+    });
     const router = useRouter();
     const { id } = router.query;
     useEffect(() => {
         let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         if (allProductsData) {
             setAllProductsData(allProductsData);
-            let total = 0;
+            let totalPrice = 0;
             allProductsData.forEach((product) => {
-                total += product.price * product.quantity;
+                totalPrice += product.priceAfterDiscount * product.quantity;
             });
-            setTotal(total);
+            setPricesDetailsSummary({ ...pricesDetailsSummary, totalPrice: totalPrice });
         }
         // if (id) {
         //     getKlarnaOrderDetails(id)
@@ -105,8 +108,8 @@ const Checkout = () => {
                                 <AiOutlinePlus className="quantity-control-icon" />
                             </div>
                             <div className="col-md-2 p-3 text-end">
-                                <h6 className="fw-bold price-after-discount">{productData.price} kr</h6>
-                                <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.price} kr</h6>
+                                <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount} kr</h6>
+                                {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount} kr</h6>}
                             </div>
                             <div className="col-md-1">
                                 <BsTrash
@@ -123,11 +126,11 @@ const Checkout = () => {
                         <div className="col-md-6 p-3 fw-bold">
                             <div className="row mb-3">
                                 <div className="col-md-9 text-start">Regular Price</div>
-                                <div className="col-md-3 text-end">27 kr</div>
+                                <div className="col-md-3 text-end">{ pricesDetailsSummary.regularPrice } kr</div>
                             </div>
                             <div className="row mb-3">
                                 <div className="col-md-9 text-start">Discount</div>
-                                <div className="col-md-3 text-danger text-end">-27 kr</div>
+                                <div className="col-md-3 text-danger text-end">-{ pricesDetailsSummary.totalDiscount } kr</div>
                             </div>
                             <div className="row">
                                 <div className="col-md-9 text-start">Shipping</div>
@@ -136,7 +139,7 @@ const Checkout = () => {
                             <hr />
                             <div className="row">
                                 <div className="col-md-9 text-start">Total</div>
-                                <div className="col-md-3 text-end">0 kr</div>
+                                <div className="col-md-3 text-end">{ pricesDetailsSummary.totalPrice } kr</div>
                             </div>
                         </div>
                     </div>

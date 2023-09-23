@@ -39,13 +39,12 @@ import posterWithHangersDarkWoodFrameImageVertical from "../../../public/images/
 /* End Import Frame With Hangers Images */
 import { BsCloudUpload } from "react-icons/bs";
 import { AiFillCloseCircle } from "react-icons/ai";
-import globalData from "../../../public/data/global";
 import { CgArrowsHAlt, CgArrowsVAlt } from "react-icons/cg";
 import validations from "../../../public/global_functions/validations";
 import { BsCart2 } from "react-icons/bs";
 import { GrFormClose } from "react-icons/gr";
 import Link from "next/link";
-import nodeCodeGenerator from "node-code-generator";
+import { v4 as generateUniqueID } from "uuid";
 import room1Image from "@/../../public/images/Rooms/room1.jpg";
 import room2Image from "@/../../public/images/Rooms/room2.jpg";
 
@@ -684,28 +683,28 @@ const ImageToImage = ({ printsName }) => {
                         height: height,
                     });
                     const result = await res.data;
-                    const codeGenerator = new nodeCodeGenerator();
                     const productInfoToCart = {
-                        _id: codeGenerator.generateCodes("###**##########****###**")[0],
+                        _id: generateUniqueID(),
                         paintingType: paintingType,
                         isExistWhiteBorder: isExistWhiteBorderWithPoster,
                         frameColor: frameColor,
                         position: imageType,
                         size: dimentionsInCm,
-                        price: productPriceAfterDiscount,
+                        priceBeforeDiscount: productPriceBeforeDiscount,
+                        priceAfterDiscount: productPriceAfterDiscount,
                         generatedImageURL: `${process.env.BASE_API_URL}/${result}`,
                         quantity: quantity,
                     }
-                    let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-                    if (canvasEcommerceUserCart) {
-                        canvasEcommerceUserCart.push(productInfoToCart);
-                        localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
+                    let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+                    if (allProductsData) {
+                        allProductsData.push(productInfoToCart);
+                        localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
                         setIsWaitAddToCart(false);
                         openCartPopupBox();
                     } else {
-                        let canvasEcommerceUserCartList = [];
-                        canvasEcommerceUserCartList.push(productInfoToCart);
-                        localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCartList));
+                        let allProductsData = [];
+                        allProductsData.push(productInfoToCart);
+                        localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
                         setTimeout(() => {
                             setIsWaitAddToCart(false);
                             openCartPopupBox();
@@ -722,28 +721,28 @@ const ImageToImage = ({ printsName }) => {
                 }
             }
             else {
-                const codeGenerator = new nodeCodeGenerator();
                 const productInfoToCart = {
-                    _id: codeGenerator.generateCodes("###**##########****###**")[0],
+                    _id: generateUniqueID(),
                     paintingType: paintingType,
                     isExistWhiteBorder: isExistWhiteBorderWithPoster,
                     frameColor: frameColor,
                     position: imageType,
                     size: dimentionsInCm,
-                    price: productPriceAfterDiscount,
+                    priceBeforeDiscount: productPriceBeforeDiscount,
+                    priceAfterDiscount: productPriceAfterDiscount,
                     generatedImageURL: `${process.env.BASE_API_URL}/${generatedImagePathInMyServer}`,
                     quantity: quantity,
                 }
-                let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-                if (canvasEcommerceUserCart) {
-                    canvasEcommerceUserCart.push(productInfoToCart);
-                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
+                let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+                if (allProductsData) {
+                    allProductsData.push(productInfoToCart);
+                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
                     setIsWaitAddToCart(false);
                     openCartPopupBox();
                 } else {
-                    let canvasEcommerceUserCartList = [];
-                    canvasEcommerceUserCartList.push(productInfoToCart);
-                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCartList));
+                    let allProductsData = [];
+                    allProductsData.push(productInfoToCart);
+                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
                     setIsWaitAddToCart(false);
                     openCartPopupBox();
                 }

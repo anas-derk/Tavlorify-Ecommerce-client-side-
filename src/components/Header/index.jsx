@@ -25,7 +25,7 @@ const Header = () => {
         router.reload();
     }
     const orderAllProducts = async () => {
-        const total_amount = allProductsData[0].quantity * allProductsData[0].price * 100;
+        const total_amount = allProductsData[0].quantity * allProductsData[0].priceAfterDiscount * 100;
         const total_tax_amount = total_amount - (total_amount * 10000) / (10000 + 2000);
         const orderDetails = {
             purchase_country: "SE",
@@ -40,7 +40,7 @@ const Header = () => {
                     name: `${allProductsData[0].paintingType}, ${allProductsData[0].frameColor} Frame, ${allProductsData[0].isExistWhiteBorder}, ${allProductsData[0].position}, ${allProductsData[0].size} Cm`,
                     quantity: allProductsData[0].quantity,
                     quantity_unit: "pcs",
-                    unit_price: allProductsData[0].price * 100,
+                    unit_price: allProductsData[0].priceAfterDiscount * 100,
                     tax_rate: 20 * 100,
                     total_amount: total_amount,
                     total_discount_amount: 0,

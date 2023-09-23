@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import global_data from "../../../public/data/global";
-import nodeCodeGenerator from "node-code-generator";
+import { v4 as generateUniqueID } from "uuid";
 /* Start Import Frame Corner Images */
 import blackFrameCornerImage from "../../../public/images/frames/frameCorners/black.png";
 import whiteFrameCornerImage from "../../../public/images/frames/frameCorners/white.png";
@@ -518,28 +518,28 @@ const TextToImage = ({ printsName }) => {
         setFormValidationErrors(errorsObject);
         if (Object.keys(errorsObject).length == 0) {
             setIsWaitAddToCart(true);
-            const codeGenerator = new nodeCodeGenerator();
             const productInfoToCart = {
-                _id: codeGenerator.generateCodes("###**##########****###**")[0],
-                paintingType: paintingType,
+                _id: generateUniqueID(),
+                paintingType,
                 isExistWhiteBorder: isExistWhiteBorderWithPoster,
-                frameColor: frameColor,
+                frameColor,
                 position: tempImageType,
                 size: dimentionsInCm,
-                price: productPriceAfterDiscount,frameColor,
+                priceBeforeDiscount: productPriceBeforeDiscount,
+                priceAfterDiscount: productPriceAfterDiscount,
                 generatedImageURL: `${process.env.BASE_API_URL}/${generatedImagePathInMyServer}`,
                 quantity: quantity,
             }
-            let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-            if (canvasEcommerceUserCart) {
-                canvasEcommerceUserCart.push(productInfoToCart);
-                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
+            let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+            if (allProductsData) {
+                allProductsData.push(productInfoToCart);
+                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
                 setIsWaitAddToCart(false);
                 openCartPopupBox();
             } else {
-                let canvasEcommerceUserCartList = [];
-                canvasEcommerceUserCartList.push(productInfoToCart);
-                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCartList));
+                let allProductsData = [];
+                allProductsData.push(productInfoToCart);
+                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
                 setIsWaitAddToCart(false);
                 openCartPopupBox();
             }
