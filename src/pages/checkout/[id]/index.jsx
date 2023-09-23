@@ -24,12 +24,12 @@ const Checkout = () => {
             });
             setTotal(total);
         }
-        if (id) {
-            getKlarnaOrderDetails(id)
-                .then((result) => {
-                    renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
-                }).catch((err) => console.log(err));
-        }
+        // if (id) {
+        //     getKlarnaOrderDetails(id)
+        //         .then((result) => {
+        //             renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
+        //         }).catch((err) => console.log(err));
+        // }
     }, [id]);
     const getKlarnaOrderDetails = async (orderId) => {
         try {
@@ -60,10 +60,10 @@ const Checkout = () => {
         }
     }
     const deleteProduct = (id) => {
-        let canvasEcommerceUserCart = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-        canvasEcommerceUserCart = canvasEcommerceUserCart.filter((product) => product._id != id);
-        localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(canvasEcommerceUserCart));
-        setCanvasEcommerceProductsList(canvasEcommerceUserCart);
+        let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+        allProductsData = allProductsData.filter((product) => product._id != id);
+        localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
+        setAllProductsData(allProductsData);
     }
     const deleteAllProductsFromCart = () => {
         localStorage.removeItem("tavlorify-store-user-cart");
@@ -109,7 +109,10 @@ const Checkout = () => {
                                 <h6 className="fw-bold price-before-discount">{productData.price} kr</h6>
                             </div>
                             <div className="col-md-1">
-                                <BsTrash className="trash-icon" />
+                                <BsTrash
+                                    className="trash-icon"
+                                    onClick={() => deleteProduct(productData._id)}
+                                />
                             </div>
                         </div>
                     ))}
