@@ -126,7 +126,7 @@ const Checkout = () => {
                             </div>
                             <div className="col-md-2 p-3 text-end">
                                 <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
-                                {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount} kr</h6>}
+                                {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount * productData.quantity} kr</h6>}
                             </div>
                             <div className="col-md-1">
                                 <BsTrash
