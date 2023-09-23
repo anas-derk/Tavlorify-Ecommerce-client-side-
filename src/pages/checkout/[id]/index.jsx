@@ -48,7 +48,7 @@ const Checkout = () => {
     const calcTotalDiscount = (allProductsData) => {
         let tempTotalDiscount = 0;
         allProductsData.forEach((product) => {
-            tempTotalDiscount += product.priceAfterDiscount * product.quantity;
+            tempTotalDiscount += (product.priceBeforeDiscount - product.priceAfterDiscount) * product.quantity ;
         });
         return tempTotalDiscount;
     }
@@ -125,7 +125,7 @@ const Checkout = () => {
                                 <AiOutlinePlus className="quantity-control-icon" />
                             </div>
                             <div className="col-md-2 p-3 text-end">
-                                <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount} kr</h6>
+                                <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
                                 {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount} kr</h6>}
                             </div>
                             <div className="col-md-1">
