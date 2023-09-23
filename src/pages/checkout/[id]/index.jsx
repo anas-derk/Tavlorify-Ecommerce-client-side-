@@ -4,20 +4,22 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { BsTrash } from "react-icons/bs";
 
 const Checkout = () => {
-    const [canvasEcommerceProductsList, setCanvasEcommerceProductsList] = useState([]);
+    const [allProductsData, setAllProductsData] = useState([]);
     const [isWaitOrdering, setIsWaitOrdering] = useState(false);
     const [productOrderedID, setProductOrderedID] = useState("");
     const [total, setTotal] = useState(0);
     const router = useRouter();
     const { id } = router.query;
     useEffect(() => {
-        let canvasEcommerceProducts = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-        if (canvasEcommerceProducts) {
-            setCanvasEcommerceProductsList(canvasEcommerceProducts);
+        let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+        if (allProductsData) {
+            setAllProductsData(allProductsData);
             let total = 0;
-            canvasEcommerceProducts.forEach((product) => {
+            allProductsData.forEach((product) => {
                 total += product.price * product.quantity;
             });
             setTotal(total);
@@ -74,94 +76,47 @@ const Checkout = () => {
                 <title>Tavlorify Store - Checkout</title>
             </Head>
             <Header />
-            {/* Start Container From Bootstrap */}
-            <div className="container-fluid pt-4 pb-4">
-                <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hello To You In Checkout Page</h1>
-                {canvasEcommerceProductsList.length > 0 ? <table className="products-table mb-4">
-                    <thead>
-                        <tr>
-                            <th>Painting Type</th>
-                            <th>Frame Color</th>
-                            <th>position</th>
-                            <th>dimentions</th>
-                            <th>is Exist White Border</th>
-                            <th>price</th>
-                            <th>Quantity</th>
-                            <th>Total Price</th>
-                            <th>Image</th>
-                            <th>Process</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {canvasEcommerceProductsList.map((productInfo, index) => (
-                            <tr key={index}>
-                                <td>
-                                    {productInfo.paintingType}
-                                </td>
-                                <td>
-                                    {productInfo.frameColor}
-                                </td>
-                                <td>
-                                    {productInfo.position}
-                                </td>
-                                <td>
-                                    {productInfo.size} cm
-                                </td>
-                                <td>
-                                    {productInfo.isExistWhiteBorder}
-                                </td>
-                                <td className="product-price-cell">
-                                    {productInfo.price}
-                                </td>
-                                <td className="product-count-cell">
-                                    {productInfo.quantity}
-                                </td>
-                                <td className="total-price-cell">
-                                    {productInfo.price * productInfo.quantity}
-                                </td>
-                                <td className="product-image-cell">
-                                    <img src={`${productInfo.generatedImageURL}`} alt={`${productInfo._id}`} width="100" height="100" />
-                                </td>
-                                <td className="proceses-cell">
-                                    <button
-                                        className="btn btn-danger d-block mx-auto mb-3"
-                                        onClick={() => deleteProduct(productInfo._id)}
-                                    >
-                                        Delete
-                                    </button>
-                                    {!isWaitOrdering && <button
-                                        className="btn btn-success"
-                                        onClick={() => orderProduct(productInfo)}
-                                    >
-                                        Order
-                                    </button>}
-                                    {isWaitOrdering && productOrderedID === productInfo._id && <button
-                                        className="btn btn-danger"
-                                        disabled
-                                    >
-                                        Waiting Order ...
-                                    </button>}
-                                </td>
-                            </tr>
-                        ))}
-                        {canvasEcommerceProductsList.length >= 2 && <tr>
-                            <td colSpan={9}>
-                                total: {total}
-                            </td>
-                            <td>
-                                <button
-                                    className="btn btn-danger d-block mx-auto mb-3"
-                                    onClick={deleteAllProductsFromCart}
-                                >
-                                    Delete All
-                                </button>
-                            </td>
-                        </tr>}
-                    </tbody>
-                </table> : <p className="alert alert-danger">Sorry, Not Found Any Products Added To Your Cart !!</p>}
-            </div>
-            {/* End Container From Bootstrap */}
-            <div id="my-checkout-container"></div>
+            <section className="page-content">
+                {/* Start Container From Bootstrap */}
+                <div className="container-fluid pt-4 pb-4">
+                    <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hello To You In Checkout Page</h1>
+                    {allProductsData.map((productData) => (
+                        <div className="row w-50 mx-auto bg-white border border-2 align-items-center" key={productData._id}>
+                            <div className="col-md-2 p-3 text-center">
+                                <img
+                                    src={productData.generatedImageURL}
+                                    alt="product Image !!"
+                                    className="product-image"
+                                    width="100"
+                                    height="100"
+                                />
+                            </div>
+                            <div className="col-md-4 p-3">
+                                <h6 className="fw-bold">{productData.paintingType}</h6>
+                                <h6>Frame: {productData.frameColor}</h6>
+                                <h6>{productData.isExistWhiteBorder}</h6>
+                                <h6>{productData.position}</h6>
+                                <h6>{productData.size} Cm</h6>
+                            </div>
+                            <div className="col-md-3 p-3">
+                                <span>Quantity: </span>
+                                <AiOutlineMinus className="quantity-control-icon me-2" />
+                                <span className="fw-bold me-2">{productData.quantity}</span>
+                                <AiOutlinePlus className="quantity-control-icon" />
+                            </div>
+                            <div className="col-md-2 p-3 text-end">
+                                <h6 className="fw-bold price-after-discount">{productData.price} kr</h6>
+                                <h6 className="fw-bold price-before-discount">{productData.price} kr</h6>
+                            </div>
+                            <div className="col-md-1">
+                                <BsTrash className="trash-icon" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                {/* End Container From Bootstrap */}
+                <div id="my-checkout-container"></div>
+            </section>
         </div >
         // End Checkout Page
     );
