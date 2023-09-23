@@ -106,7 +106,7 @@ const Checkout = () => {
                             </div>
                             <div className="col-md-2 p-3 text-end">
                                 <h6 className="fw-bold price-after-discount">{productData.price} kr</h6>
-                                <h6 className="fw-bold price-before-discount">{productData.price} kr</h6>
+                                <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.price} kr</h6>
                             </div>
                             <div className="col-md-1">
                                 <BsTrash
@@ -116,6 +116,30 @@ const Checkout = () => {
                             </div>
                         </div>
                     ))}
+                    <div className="row w-50 mx-auto bg-white border border-2 align-items-center text-center">
+                        <div className="col-md-6 p-3">
+                            <h6 className="fw-bold">Summary</h6>
+                        </div>
+                        <div className="col-md-6 p-3 fw-bold">
+                            <div className="row mb-3">
+                                <div className="col-md-9 text-start">Regular Price</div>
+                                <div className="col-md-3 text-end">27 kr</div>
+                            </div>
+                            <div className="row mb-3">
+                                <div className="col-md-9 text-start">Discount</div>
+                                <div className="col-md-3 text-danger text-end">-27 kr</div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-9 text-start">Shipping</div>
+                                <div className="col-md-3 text-end">0 kr</div>
+                            </div>
+                            <hr />
+                            <div className="row">
+                                <div className="col-md-9 text-start">Total</div>
+                                <div className="col-md-3 text-end">0 kr</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 {/* End Container From Bootstrap */}
                 <div id="my-checkout-container"></div>
