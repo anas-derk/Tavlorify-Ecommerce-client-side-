@@ -10,7 +10,6 @@ export default function Home({ clientIP }) {
   const [productsData, setProductsData] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
   useEffect(() => {
-    console.log(clientIP)
     Axios.get(`${process.env.BASE_API_URL}/products/all-products`)
       .then((res) => {
         let result = res.data;
@@ -67,44 +66,6 @@ export default function Home({ clientIP }) {
         {/* End Carousel Component From Bootstrap */}
       </section>
       {/* End Introduction Section */}
-      {/* Start Most Popular Of Products Section */}
-      <section className="most-popular-products pt-5 pb-5">
-        {/* Start Custom Container */}
-        <div className="container text-center pt-4 pb-4">
-          <h4 className="section-name mb-4">Most Popular Of Products</h4>
-          {/* Start Grid System */}
-          <div className="row mb-3">
-            {productsData.map((productInfo, index) => (
-              /* Start Column */
-              index < 12 && <div className="col-md-3" key={index}>
-                <div className="product-box">
-                  <Link href={`/products/${productInfo.name}/${productInfo._id}`}>
-                    <img
-                      src={`${process.env.BASE_API_URL}/${productInfo.imageSrc}`}
-                      alt={productInfo.name}
-                      // className="product-image mb-3 canvas-prints-image prints-image"
-                      className="product-image mb-3"
-                    />
-                  </Link>
-                  <h6 className="product-name">{productInfo.name}</h6>
-                  <h6 className="product-type">{productInfo.type}</h6>
-                </div>
-              </div>
-              /* End Column */
-            ))}
-          </div>
-          {/* End Grid System */}
-          <Link
-            href="/products"
-            className='btn btn-dark'
-            target='_blank'
-          >
-            View All Products
-          </Link>
-        </div>
-        {/* End Custom Container */}
-      </section>
-      {/* End Most Popular Of Products Section */}
       {/* Start Contact Us Section */}
       <section className="contact-us pt-5 pb-5">
         {/* Start Custom Container */}

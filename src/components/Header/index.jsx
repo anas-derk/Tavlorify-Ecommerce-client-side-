@@ -1,28 +1,75 @@
 import Link from "next/link";
 import { CgProfile } from "react-icons/cg";
 import { GoSignOut } from "react-icons/go";
-import { BiBrain } from "react-icons/bi"
 import { BsCart2, BsInfoCircle } from "react-icons/bs";
-import { AiOutlineHome, AiOutlineUserAdd, AiOutlineContacts } from "react-icons/ai";
-import { MdProductionQuantityLimits } from "react-icons/md";
-import { HiArrowSmDown } from "react-icons/hi";
+import { AiOutlineHome, AiOutlineUserAdd } from "react-icons/ai";
 import { FiLogIn } from "react-icons/fi";
 import { FaQuestion } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router.js";
+import Axios from "axios";
 
 const Header = () => {
     const [userId, setUserId] = useState({});
-    const [optionsLinkName, setOptionsLinkName] = useState("");
+    const [allProductsData, setAllProductsData] = useState("");
+    const [isWaitOrdering, setIsWaitOrdering] = useState("");
     const router = useRouter();
+    useEffect(() => {
+        let userId = localStorage.getItem("tavlorify-store-user-id");
+        setUserId(userId);
+        const allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+        setAllProductsData(allProductsData);
+    }, []);
     const signOut = () => {
         localStorage.removeItem("tavlorify-store-user-id");
         router.reload();
     }
-    useEffect(() => {
-        let userId = localStorage.getItem("tavlorify-store-user-id");
-        setUserId(userId);
-    }, []);
+    const orderAllProducts = async () => {
+        const total_amount = allProductsData[0].quantity * allProductsData[0].price * 100;
+        const total_tax_amount = total_amount - (total_amount * 10000) / (10000 + 2000);
+        const orderDetails = {
+            purchase_country: "SE",
+            purchase_currency: "SEK",
+            locale: "sv-SE",
+            order_amount: total_amount,
+            order_tax_amount: total_tax_amount,
+            order_lines: [
+                {
+                    type: "physical",
+                    reference: allProductsData[0]._id,
+                    name: `${allProductsData[0].paintingType}, ${allProductsData[0].frameColor} Frame, ${allProductsData[0].isExistWhiteBorder}, ${allProductsData[0].position}, ${allProductsData[0].size} Cm`,
+                    quantity: allProductsData[0].quantity,
+                    quantity_unit: "pcs",
+                    unit_price: allProductsData[0].price * 100,
+                    tax_rate: 20 * 100,
+                    total_amount: total_amount,
+                    total_discount_amount: 0,
+                    total_tax_amount: total_tax_amount,
+                    image_url: `${allProductsData[0].generatedImageURL}`,
+                }
+            ],
+            merchant_urls: {
+                terms: `https://tavlorify.se/terms`,
+                checkout: `https://tavlorify.se/checkout/{checkout.order.id}`,
+                confirmation: `https://tavlorify.se/confirmation/{checkout.order.id}`,
+                push: `https://tavlorify.se/confirmation/{checkout.order.id}`,
+            },
+            options: {
+                allow_separate_shipping_address: true,
+            }
+        }
+        try {
+            setIsWaitOrdering(true);
+            const res = await Axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-klarna`, orderDetails);
+            const result = await res.data;
+            setIsWaitOrdering(false);
+            window.open(`/checkout/${result.order_id}`, "_blank");
+        }
+        catch (err) {
+            setIsWaitOrdering(false);
+            console.log(err.response.data);
+        }
+    }
     return (
         // Start Global Header
         <header className="global-header">
@@ -143,16 +190,12 @@ const Header = () => {
                                     </li>
                                 </>}
                                 <li className="nav-item me-2">
-                                    <Link className="nav-link" aria-current="page" href="/cart">
+                                    <button
+                                        className="nav-link btn"
+                                        onClick={orderAllProducts}
+                                    >
                                         <BsCart2 style={{ fontSize: "25px" }} />
-                                        {/* <span className="ms-2">My Cart</span> */}
-                                    </Link>
-                                </li>   
-                                <li className="nav-item">
-                                    <Link className="nav-link" aria-current="page" href="/orders">
-                                        <MdProductionQuantityLimits style={{ fontSize: "25px" }} />
-                                        {/* <span className="ms-2">My Orders</span> */}
-                                    </Link>
+                                    </button>
                                 </li>
                                 {userId && <>
                                     <li className="nav-item">
