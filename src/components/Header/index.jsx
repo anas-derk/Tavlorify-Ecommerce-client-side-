@@ -20,7 +20,7 @@ const Header = ({ newTotalProductsCount }) => {
         let userId = localStorage.getItem("tavlorify-store-user-id");
         setUserId(userId);
         const allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-        if (allProductsData.length > 0) {
+        if (allProductsData) {
             setAllProductsData(allProductsData);
             setTotalProductsCount(allProductsData.length);
         } else setTotalProductsCount(0);
