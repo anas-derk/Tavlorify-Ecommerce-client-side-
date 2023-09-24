@@ -20,28 +20,23 @@ const Checkout = () => {
     const { id } = router.query;
     useEffect(() => {
         if (id) {
-            if (id == "285NV7143091631GJ6V892UR") {
-                localStorage.removeItem("tavlorify-store-user-cart");
-                setNewTotalProductsCount(0);
-            } else {
-                let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-                if (allProductsData) {
-                    setAllProductsData(allProductsData);
-                    let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(allProductsData);
-                    let totalDiscount = calcTotalOrderDiscount(allProductsData);
-                    let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
-                    setPricesDetailsSummary({
-                        ...pricesDetailsSummary,
-                        totalPriceBeforeDiscount,
-                        totalDiscount,
-                        totalPriceAfterDiscount,
-                    });
-                }
-                getKlarnaOrderDetails(id)
-                    .then((result) => {
-                        renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
-                    }).catch((err) => console.log(err));
+            let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+            if (allProductsData) {
+                setAllProductsData(allProductsData);
+                let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(allProductsData);
+                let totalDiscount = calcTotalOrderDiscount(allProductsData);
+                let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
+                setPricesDetailsSummary({
+                    ...pricesDetailsSummary,
+                    totalPriceBeforeDiscount,
+                    totalDiscount,
+                    totalPriceAfterDiscount,
+                });
             }
+            getKlarnaOrderDetails(id)
+                .then((result) => {
+                    renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
+                }).catch((err) => console.log(err));
         }
     }, [id]);
     const calcTotalOrderPriceBeforeDiscount = (allProductsData) => {
@@ -112,12 +107,12 @@ const Checkout = () => {
                 <title>Tavlorify Store - Checkout</title>
             </Head>
             <Header newTotalProductsCount={newTotalProductsCount} />
-            <section className="page-content">
+            <section className="page-content pt-4 pb-4">
                 {/* Start Container From Bootstrap */}
-                <div className="container-fluid pt-4 pb-4">
+                <div className="container-fluid">
                     <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hello To You In Checkout Page</h1>
                     {allProductsData.length > 0 ? allProductsData.map((productData) => (
-                        <div className="row w-50 mx-auto bg-white border border-2 align-items-center" key={productData._id}>
+                        <div className="row w-75 mx-auto bg-white border border-2 align-items-center" key={productData._id}>
                             <div className="col-md-2 p-3 text-center">
                                 <img
                                     src={productData.generatedImageURL}
@@ -144,7 +139,7 @@ const Checkout = () => {
                                 <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
                                 {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount * productData.quantity} kr</h6>}
                             </div>
-                            <div className="col-md-1">
+                            <div className="col-md-1 text-center">
                                 <BsTrash
                                     className="trash-icon"
                                     onClick={() => deleteProductFromCart(productData._id)}
@@ -155,7 +150,7 @@ const Checkout = () => {
                         <BsCart2 className="cart-icon mb-4" />
                         <h4 className="fw-bold">Sorry, Your Cart Is Empty !!</h4>
                     </div>}
-                    {allProductsData.length > 0 && <div className="row w-50 mx-auto bg-white border border-2 align-items-center text-center">
+                    {allProductsData.length > 0 && <div className="row w-75 mx-auto bg-white border border-2 align-items-center text-center">
                         <div className="col-md-6 p-3">
                             <h6 className="fw-bold">Summary</h6>
                         </div>
@@ -181,7 +176,7 @@ const Checkout = () => {
                     </div>}
                 </div>
                 {/* End Container From Bootstrap */}
-                <div id="my-checkout-container"></div>
+                <div id="my-checkout-container" className="mx-auto mt-4"></div>
             </section>
         </div >
         // End Checkout Page

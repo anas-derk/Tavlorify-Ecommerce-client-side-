@@ -33,3 +33,7 @@
 .checkout .page-content .not-found-any-products-alert-box .cart-icon {
   font-size: 100px;
 }
+
+.checkout .page-content #my-checkout-container {
+  width: 74%;
+}
