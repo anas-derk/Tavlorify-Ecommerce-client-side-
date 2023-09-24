@@ -256,6 +256,8 @@ const TextToImage = ({ printsName }) => {
 
     const [generatedImagesData, setGeneratedImagesData] = useState([]);
 
+    const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
+
     useEffect(() => {
         Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
             .then((res) => {
@@ -535,13 +537,13 @@ const TextToImage = ({ printsName }) => {
                 allProductsData.push(productInfoToCart);
                 localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
                 setIsWaitAddToCart(false);
-                openCartPopupBox();
+                setNewTotalProductsCount(allProductsData.length);
             } else {
                 let allProductsData = [];
                 allProductsData.push(productInfoToCart);
                 localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
                 setIsWaitAddToCart(false);
-                openCartPopupBox();
+                setNewTotalProductsCount(allProductsData.length);
             }
         }
     }
@@ -688,7 +690,7 @@ const TextToImage = ({ printsName }) => {
             <Head>
                 <title>Tavlorify Store - Text To Image</title>
             </Head>
-            <Header />
+            <Header newTotalProductsCount={newTotalProductsCount} />
             {/* Start Overlay Box */}
             {isOpenCartPopupBox && <div className="overlay">
                 <aside className="cart-popup-box p-3">

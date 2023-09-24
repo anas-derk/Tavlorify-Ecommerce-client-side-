@@ -273,6 +273,8 @@ const ImageToImage = ({ printsName }) => {
 
     const [generatedImagesData, setGeneratedImagesData] = useState([]);
 
+    const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
+
     useEffect(() => {
         Axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`)
             .then((res) => {
@@ -700,14 +702,14 @@ const ImageToImage = ({ printsName }) => {
                         allProductsData.push(productInfoToCart);
                         localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
                         setIsWaitAddToCart(false);
-                        openCartPopupBox();
+                        setNewTotalProductsCount(allProductsData.length);
                     } else {
                         let allProductsData = [];
                         allProductsData.push(productInfoToCart);
                         localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
                         setTimeout(() => {
                             setIsWaitAddToCart(false);
-                            openCartPopupBox();
+                            setNewTotalProductsCount(allProductsData.length);
                         }, 1500);
                     }
                 }
@@ -941,7 +943,7 @@ const ImageToImage = ({ printsName }) => {
             <Head>
                 <title>Tavlorify Store - Image To Image</title>
             </Head>
-            <Header />
+            <Header newTotalProductsCount={newTotalProductsCount} />
             {/* Start Overlay Box */}
             {isOpenCartPopupBox && <div className="overlay">
                 <aside className="cart-popup-box p-3">

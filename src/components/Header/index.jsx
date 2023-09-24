@@ -10,16 +10,20 @@ import { useRouter } from "next/router.js";
 import Axios from "axios";
 import { v4 as generateUniqueID } from "uuid";
 
-const Header = () => {
+const Header = ({ newTotalProductsCount }) => {
     const [userId, setUserId] = useState({});
     const [allProductsData, setAllProductsData] = useState("");
+    const [totalProductsCount, setTotalProductsCount] = useState("");
     const [isWaitOrdering, setIsWaitOrdering] = useState("");
     const router = useRouter();
     useEffect(() => {
         let userId = localStorage.getItem("tavlorify-store-user-id");
         setUserId(userId);
         const allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-        setAllProductsData(allProductsData);
+        if (allProductsData.length > 0) {
+            setAllProductsData(allProductsData);
+            setTotalProductsCount(allProductsData.length);
+        } else setTotalProductsCount(0);
     }, []);
     const signOut = () => {
         localStorage.removeItem("tavlorify-store-user-id");
@@ -68,13 +72,15 @@ const Header = () => {
         return order_lines;
     }
     const orderAllProducts = async () => {
+        const tempAllProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+        setAllProductsData(tempAllProductsData);
         const orderDetails = {
             purchase_country: "SE",
             purchase_currency: "SEK",
             locale: "sv-SE",
-            order_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(allProductsData), calcTotalOrderDiscount(allProductsData)) * 100,
+            order_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(tempAllProductsData), calcTotalOrderDiscount(tempAllProductsData)) * 100,
             order_tax_amount: 0,
-            order_lines: getOrderLinesForKlarnaCheckoutAPI(allProductsData),
+            order_lines: getOrderLinesForKlarnaCheckoutAPI(tempAllProductsData),
             merchant_urls: {
                 terms: `https://tavlorify.se/terms`,
                 checkout: `https://tavlorify.se/checkout/{checkout.order.id}`,
@@ -112,10 +118,8 @@ const Header = () => {
     }
     return (
         // Start Global Header
-        <header className="global-header">
-            {/* Start Top Header */}
-            <div className="top-header pt-2 pb-2">
-                <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <header className="global-header pt-3 pb-2">
+            <nav className="navbar navbar-expand-lg bg-body-tertiary">
                     <div className="container-fluid">
                         <Link className="navbar-brand fw-bold" href="/">Tavlorify Store</Link>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -231,10 +235,11 @@ const Header = () => {
                                 </>}
                                 <li className="nav-item me-2">
                                     <button
-                                        className="nav-link btn"
+                                        className="nav-link btn order-all-products-btn"
                                         onClick={orderAllProducts}
                                     >
-                                        <BsCart2 style={{ fontSize: "25px" }} />
+                                        <BsCart2 className="cart-icon" />
+                                        <div className="total-products-count-box fw-bold">{ newTotalProductsCount ? newTotalProductsCount: totalProductsCount }</div>
                                     </button>
                                 </li>
                                 {userId && <>
@@ -256,8 +261,6 @@ const Header = () => {
                         </div>
                     </div>
                 </nav>
-            </div>
-            {/* End Top Header */}
         </header>
         // End Global Header
     );

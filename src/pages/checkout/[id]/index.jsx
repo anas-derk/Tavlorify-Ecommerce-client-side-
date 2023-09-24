@@ -9,7 +9,7 @@ import { BsTrash } from "react-icons/bs";
 const Checkout = () => {
     const [allProductsData, setAllProductsData] = useState([]);
     const [isWaitOrdering, setIsWaitOrdering] = useState(false);
-    const [productOrderedID, setProductOrderedID] = useState("");
+    const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
     const [pricesDetailsSummary, setPricesDetailsSummary] = useState({
         totalPriceBeforeDiscount: 0,
         totalDiscount: 0,
@@ -48,7 +48,7 @@ const Checkout = () => {
     const calcTotalOrderDiscount = (allProductsData) => {
         let tempTotalDiscount = 0;
         allProductsData.forEach((product) => {
-            tempTotalDiscount += (product.priceBeforeDiscount - product.priceAfterDiscount) * product.quantity ;
+            tempTotalDiscount += (product.priceBeforeDiscount - product.priceAfterDiscount) * product.quantity;
         });
         return tempTotalDiscount;
     }
@@ -88,6 +88,16 @@ const Checkout = () => {
         allProductsData = allProductsData.filter((product) => product._id != id);
         localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
         setAllProductsData(allProductsData);
+        setNewTotalProductsCount(allProductsData.length);
+        let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(allProductsData);
+        let totalDiscount = calcTotalOrderDiscount(allProductsData);
+        let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
+        setPricesDetailsSummary({
+            ...pricesDetailsSummary,
+            totalPriceBeforeDiscount,
+            totalDiscount,
+            totalPriceAfterDiscount,
+        });
     }
     return (
         // Start Checkout Page
@@ -95,7 +105,7 @@ const Checkout = () => {
             <Head>
                 <title>Tavlorify Store - Checkout</title>
             </Head>
-            <Header />
+            <Header newTotalProductsCount={newTotalProductsCount} />
             <section className="page-content">
                 {/* Start Container From Bootstrap */}
                 <div className="container-fluid pt-4 pb-4">
