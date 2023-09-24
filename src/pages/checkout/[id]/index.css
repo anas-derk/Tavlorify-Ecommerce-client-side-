@@ -24,3 +24,12 @@
   cursor: pointer;
   font-size: 22px;
 }
+
+.checkout .page-content .not-found-any-products-alert-box {
+  background-color: #FFF;
+  height: 300px;
+}
+
+.checkout .page-content .not-found-any-products-alert-box .cart-icon {
+  font-size: 100px;
+}

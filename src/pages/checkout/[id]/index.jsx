@@ -5,6 +5,7 @@ import Axios from "axios";
 import { useRouter } from "next/router";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
+import { BsCart2 } from "react-icons/bs";
 
 const Checkout = () => {
     const [allProductsData, setAllProductsData] = useState([]);
@@ -18,24 +19,29 @@ const Checkout = () => {
     const router = useRouter();
     const { id } = router.query;
     useEffect(() => {
-        let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-        if (allProductsData) {
-            setAllProductsData(allProductsData);
-            let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(allProductsData);
-            let totalDiscount = calcTotalOrderDiscount(allProductsData);
-            let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
-            setPricesDetailsSummary({
-                ...pricesDetailsSummary,
-                totalPriceBeforeDiscount,
-                totalDiscount,
-                totalPriceAfterDiscount,
-            });
-        }
         if (id) {
-            getKlarnaOrderDetails(id)
-                .then((result) => {
-                    renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
-                }).catch((err) => console.log(err));
+            if (id == "285NV7143091631GJ6V892UR") {
+                localStorage.removeItem("tavlorify-store-user-cart");
+                setNewTotalProductsCount(0);
+            } else {
+                let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+                if (allProductsData) {
+                    setAllProductsData(allProductsData);
+                    let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(allProductsData);
+                    let totalDiscount = calcTotalOrderDiscount(allProductsData);
+                    let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
+                    setPricesDetailsSummary({
+                        ...pricesDetailsSummary,
+                        totalPriceBeforeDiscount,
+                        totalDiscount,
+                        totalPriceAfterDiscount,
+                    });
+                }
+                getKlarnaOrderDetails(id)
+                    .then((result) => {
+                        renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
+                    }).catch((err) => console.log(err));
+            }
         }
     }, [id]);
     const calcTotalOrderPriceBeforeDiscount = (allProductsData) => {
@@ -110,66 +116,71 @@ const Checkout = () => {
                 {/* Start Container From Bootstrap */}
                 <div className="container-fluid pt-4 pb-4">
                     <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hello To You In Checkout Page</h1>
-                    {allProductsData.map((productData) => (
-                        <div className="row w-50 mx-auto bg-white border border-2 align-items-center" key={productData._id}>
-                            <div className="col-md-2 p-3 text-center">
-                                <img
-                                    src={productData.generatedImageURL}
-                                    alt="product Image !!"
-                                    className="product-image"
-                                    width="100"
-                                    height="100"
-                                />
+                    {allProductsData.length > 0 ? allProductsData.map((productData) => (
+                        <>
+                            <div className="row w-50 mx-auto bg-white border border-2 align-items-center" key={productData._id}>
+                                <div className="col-md-2 p-3 text-center">
+                                    <img
+                                        src={productData.generatedImageURL}
+                                        alt="product Image !!"
+                                        className="product-image"
+                                        width="100"
+                                        height="100"
+                                    />
+                                </div>
+                                <div className="col-md-4 p-3">
+                                    <h6 className="fw-bold">{productData.paintingType}</h6>
+                                    <h6>Frame: {productData.frameColor}</h6>
+                                    <h6>{productData.isExistWhiteBorder}</h6>
+                                    <h6>{productData.position}</h6>
+                                    <h6>{productData.size} Cm</h6>
+                                </div>
+                                <div className="col-md-3 p-3">
+                                    <span>Quantity: </span>
+                                    <AiOutlineMinus className="quantity-control-icon me-2" />
+                                    <span className="fw-bold me-2">{productData.quantity}</span>
+                                    <AiOutlinePlus className="quantity-control-icon" />
+                                </div>
+                                <div className="col-md-2 p-3 text-end">
+                                    <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
+                                    {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount * productData.quantity} kr</h6>}
+                                </div>
+                                <div className="col-md-1">
+                                    <BsTrash
+                                        className="trash-icon"
+                                        onClick={() => deleteProductFromCart(productData._id)}
+                                    />
+                                </div>
                             </div>
-                            <div className="col-md-4 p-3">
-                                <h6 className="fw-bold">{productData.paintingType}</h6>
-                                <h6>Frame: {productData.frameColor}</h6>
-                                <h6>{productData.isExistWhiteBorder}</h6>
-                                <h6>{productData.position}</h6>
-                                <h6>{productData.size} Cm</h6>
+                            <div className="row w-50 mx-auto bg-white border border-2 align-items-center text-center">
+                                <div className="col-md-6 p-3">
+                                    <h6 className="fw-bold">Summary</h6>
+                                </div>
+                                <div className="col-md-6 p-3 fw-bold">
+                                    <div className="row mb-3">
+                                        <div className="col-md-9 text-start">Total Price Before Discount</div>
+                                        <div className="col-md-3 text-end">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
+                                    </div>
+                                    <div className="row mb-3">
+                                        <div className="col-md-9 text-start">Total Discount</div>
+                                        <div className="col-md-3 text-danger text-end">-{pricesDetailsSummary.totalDiscount} kr</div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-9 text-start">Shipping</div>
+                                        <div className="col-md-3 text-end">0 kr</div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-md-9 text-start">Total Price After Discount</div>
+                                        <div className="col-md-3 text-end">{pricesDetailsSummary.totalPriceAfterDiscount} kr</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="col-md-3 p-3">
-                                <span>Quantity: </span>
-                                <AiOutlineMinus className="quantity-control-icon me-2" />
-                                <span className="fw-bold me-2">{productData.quantity}</span>
-                                <AiOutlinePlus className="quantity-control-icon" />
-                            </div>
-                            <div className="col-md-2 p-3 text-end">
-                                <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
-                                {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount * productData.quantity} kr</h6>}
-                            </div>
-                            <div className="col-md-1">
-                                <BsTrash
-                                    className="trash-icon"
-                                    onClick={() => deleteProductFromCart(productData._id)}
-                                />
-                            </div>
-                        </div>
-                    ))}
-                    <div className="row w-50 mx-auto bg-white border border-2 align-items-center text-center">
-                        <div className="col-md-6 p-3">
-                            <h6 className="fw-bold">Summary</h6>
-                        </div>
-                        <div className="col-md-6 p-3 fw-bold">
-                            <div className="row mb-3">
-                                <div className="col-md-9 text-start">Total Price Before Discount</div>
-                                <div className="col-md-3 text-end">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
-                            </div>
-                            <div className="row mb-3">
-                                <div className="col-md-9 text-start">Total Discount</div>
-                                <div className="col-md-3 text-danger text-end">-{pricesDetailsSummary.totalDiscount} kr</div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-9 text-start">Shipping</div>
-                                <div className="col-md-3 text-end">0 kr</div>
-                            </div>
-                            <hr />
-                            <div className="row">
-                                <div className="col-md-9 text-start">Total Price After Discount</div>
-                                <div className="col-md-3 text-end">{pricesDetailsSummary.totalPriceAfterDiscount} kr</div>
-                            </div>
-                        </div>
-                    </div>
+                        </>
+                    )) : <div className="not-found-any-products-alert-box fw-bold text-center d-flex flex-column align-items-center justify-content-center">
+                            <BsCart2 className="cart-icon mb-4" />
+                            <h4 className="fw-bold">Sorry, Your Cart Is Empty !!</h4>
+                        </div>}
                 </div>
                 {/* End Container From Bootstrap */}
                 <div id="my-checkout-container"></div>
