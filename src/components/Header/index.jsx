@@ -110,7 +110,7 @@ const Header = ({ newTotalProductsCount }) => {
                 const res = await Axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-klarna`, orderDetails);
                 const result = await res.data;
                 setIsWaitOrdering(false);
-                window.open(`/checkout/${result.order_id}`, "_blank");
+                router.push(`/checkout/${result.order_id}`);
             }
             catch (err) {
                 setIsWaitOrdering(false);
