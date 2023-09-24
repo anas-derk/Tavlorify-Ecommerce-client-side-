@@ -8,6 +8,7 @@ import { FaQuestion } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router.js";
 import Axios from "axios";
+import { v4 as generateUniqueID } from "uuid";
 
 const Header = () => {
     const [userId, setUserId] = useState({});
@@ -82,7 +83,20 @@ const Header = () => {
             },
             options: {
                 allow_separate_shipping_address: true,
-            }
+            },
+            shipping_options: [
+                {
+                    id: "4db52f01-67e4-4d70-af73-1913792f0bfe",
+                    name: "Tavlorify",
+                    description: "EXPRESS 1-2 Days",
+                    preselected: true,
+                    shipping_method: "Own",
+                    price: 0,
+                    tax_amount: 0,
+                    tax_rate: 0,
+                    tms_reference: generateUniqueID(),
+                }
+            ]
         }
         try {
             setIsWaitOrdering(true);
