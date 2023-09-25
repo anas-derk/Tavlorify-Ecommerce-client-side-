@@ -2,29 +2,26 @@ import Header from "@/components/Header";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import { useRouter } from "next/router";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
 import { BsCart2 } from "react-icons/bs";
 import { v4 as generateUniqueID } from "uuid";
-import global_data from "../../../../public/data/global";
+import global_data from "../../../public/data/global";
 
 const Checkout = () => {
     const [allProductsData, setAllProductsData] = useState([]);
     const [isWaitOrdering, setIsWaitOrdering] = useState(false);
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
+    const [klarnaOrderId, setKlarnaOrderId] = useState("");
     const [pricesDetailsSummary, setPricesDetailsSummary] = useState({
         totalPriceBeforeDiscount: 0,
         totalDiscount: 0,
         totalPriceAfterDiscount: 0,
     });
-    const router = useRouter();
-    const { id } = router.query;
     useEffect(() => {
-        if (id) {
-            let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-            if (allProductsData) {
-                setAllProductsData(allProductsData);
+        let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+        if (Array.isArray(allProductsData)) {
+            if (allProductsData.length > 0) {
                 let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(allProductsData);
                 let totalDiscount = calcTotalOrderDiscount(allProductsData);
                 let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
@@ -34,13 +31,15 @@ const Checkout = () => {
                     totalDiscount,
                     totalPriceAfterDiscount,
                 });
+                setAllProductsData(allProductsData);
+                orderAllProducts()
+                    .then((result) => {
+                        setKlarnaOrderId(result.order_id);
+                        renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
+                    }).catch((err) => console.log(err));
             }
-            getKlarnaOrderDetails(id)
-                .then((result) => {
-                    renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
-                }).catch((err) => console.log(err));
         }
-    }, [id]);
+    }, []);
     const calcTotalOrderPriceBeforeDiscount = (allProductsData) => {
         let tempTotalPriceBeforeDiscount = 0;
         allProductsData.forEach((product) => {
@@ -57,16 +56,6 @@ const Checkout = () => {
     }
     const calcTotalOrderPriceAfterDiscount = (totalPriceBeforeDiscount, totalDiscount) => {
         return totalPriceBeforeDiscount - totalDiscount;
-    }
-    const getKlarnaOrderDetails = async (orderId) => {
-        try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/orders/order-details-from-klarna/${orderId}`);
-            const result = await res.data;
-            return result;
-        }
-        catch (err) {
-            throw Error(err.response.data);
-        }
     }
     const calcTotalProductPriceDiscountForKlarnaCheckoutAPI = (priceBeforeDiscount, priceAfterDiscount, quantity) => {
         return (priceBeforeDiscount - priceAfterDiscount) * quantity;
@@ -92,6 +81,54 @@ const Checkout = () => {
             });
         });
         return order_lines;
+    }
+    const orderAllProducts = async () => {
+        const tempAllProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+        if (Array.isArray(tempAllProductsData)) {
+            if (tempAllProductsData.length > 0) {
+                const orderDetails = {
+                    purchase_country: "SE",
+                    purchase_currency: "SEK",
+                    locale: "sv-SE",
+                    order_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(tempAllProductsData), calcTotalOrderDiscount(tempAllProductsData)) * 100,
+                    order_tax_amount: 0,
+                    order_lines: getOrderLinesForKlarnaCheckoutAPI(tempAllProductsData),
+                    merchant_urls: {
+                        terms: `https://tavlorify.se/terms`,
+                        checkout: `https://tavlorify.se/checkout/{checkout.order.id}`,
+                        confirmation: `https://tavlorify.se/confirmation/{checkout.order.id}`,
+                        push: `https://tavlorify.se/confirmation/{checkout.order.id}`,
+                    },
+                    options: {
+                        allow_separate_shipping_address: true,
+                    },
+                    shipping_options: [
+                        {
+                            id: "4db52f01-67e4-4d70-af73-1913792f0bfe",
+                            name: "Tavlorify",
+                            description: "EXPRESS 1-2 Days",
+                            preselected: true,
+                            shipping_method: "Own",
+                            price: 0,
+                            tax_amount: 0,
+                            tax_rate: 0,
+                            tms_reference: generateUniqueID(),
+                        }
+                    ]
+                }
+                try {
+                    setIsWaitOrdering(true);
+                    const res = await Axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-klarna`, orderDetails);
+                    const result = await res.data;
+                    setIsWaitOrdering(false);
+                    return result;
+                }
+                catch (err) {
+                    setIsWaitOrdering(false);
+                    console.log(err.response.data);
+                }
+            }
+        }
     }
     const renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI = (htmlSnippet) => {
         try {
@@ -227,12 +264,12 @@ const Checkout = () => {
                                 <span>Quantity: </span>
                                 <AiOutlineMinus
                                     className="quantity-control-icon me-2"
-                                    onClick={() => updateOrder(productData._id, "decrease-product-quantity", id)}
+                                    onClick={() => updateOrder(productData._id, "decrease-product-quantity", klarnaOrderId)}
                                 />
                                 <span className="fw-bold me-2">{productData.quantity}</span>
                                 <AiOutlinePlus
                                     className="quantity-control-icon"
-                                    onClick={() => updateOrder(productData._id, "increase-product-quantity", id)}
+                                    onClick={() => updateOrder(productData._id, "increase-product-quantity", klarnaOrderId)}
                                 />
                             </div>
                             <div className="col-md-2 p-3 text-end">
@@ -242,7 +279,7 @@ const Checkout = () => {
                             <div className="col-md-1 text-center">
                                 <BsTrash
                                     className="trash-icon"
-                                    onClick={() => updateOrder(productData._id, "delete-product", id)}
+                                    onClick={() => updateOrder(productData._id, "delete-product", klarnaOrderId)}
                                 />
                             </div>
                         </div>

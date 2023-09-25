@@ -25,10 +25,6 @@ const Header = ({ newTotalProductsCount }) => {
             setTotalProductsCount(allProductsData.length);
         } else setTotalProductsCount(0);
     }, []);
-    const signOut = () => {
-        localStorage.removeItem("tavlorify-store-user-id");
-        router.reload();
-    }
     const calcTotalOrderPriceBeforeDiscount = (allProductsData) => {
         let tempTotalPriceBeforeDiscount = 0;
         allProductsData.forEach((product) => {
@@ -46,78 +42,31 @@ const Header = ({ newTotalProductsCount }) => {
     const calcTotalOrderPriceAfterDiscount = (totalPriceBeforeDiscount, totalDiscount) => {
         return totalPriceBeforeDiscount - totalDiscount;
     }
-    const calcTotalProductPriceDiscountForKlarnaCheckoutAPI = (priceBeforeDiscount, priceAfterDiscount, quantity) => {
-        return (priceBeforeDiscount - priceAfterDiscount) * quantity;
-    }
-    const calcTotalProductPriceIncludedDiscountForKlarnaCheckoutAPI = (priceAfterDiscount, quantity) => {
-        return priceAfterDiscount * quantity;
-    }
-    const getOrderLinesForKlarnaCheckoutAPI = (allProductsData) => {
-        let order_lines = [];
-        allProductsData.forEach((product) => {
-            order_lines.push({
-                type: "physical",
-                reference: product._id,
-                name: `${product.paintingType}, ${product.frameColor} Frame, ${product.isExistWhiteBorder}, ${product.position}, ${product.size} Cm`,
-                quantity: product.quantity,
-                quantity_unit: "pcs",
-                unit_price: product.priceBeforeDiscount * 100,
-                tax_rate: 0,
-                total_amount: calcTotalProductPriceIncludedDiscountForKlarnaCheckoutAPI(product.priceAfterDiscount, product.quantity) * 100,
-                total_discount_amount: calcTotalProductPriceDiscountForKlarnaCheckoutAPI(product.priceBeforeDiscount, product.priceAfterDiscount, product.quantity) * 100,
-                total_tax_amount: 0,
-                image_url: `${product.generatedImageURL}`,
-            });
-        });
-        return order_lines;
-    }
-    const orderAllProducts = async () => {
-        const tempAllProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-        if (Array.isArray(tempAllProductsData)) {
-            if (tempAllProductsData.length > 0) {
-                const orderDetails = {
-                    purchase_country: "SE",
-                    purchase_currency: "SEK",
-                    locale: "sv-SE",
-                    order_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(tempAllProductsData), calcTotalOrderDiscount(tempAllProductsData)) * 100,
-                    order_tax_amount: 0,
-                    order_lines: getOrderLinesForKlarnaCheckoutAPI(tempAllProductsData),
-                    merchant_urls: {
-                        terms: `https://tavlorify.se/terms`,
-                        checkout: `https://tavlorify.se/checkout/{checkout.order.id}`,
-                        confirmation: `https://tavlorify.se/confirmation/{checkout.order.id}`,
-                        push: `https://tavlorify.se/confirmation/{checkout.order.id}`,
-                    },
-                    options: {
-                        allow_separate_shipping_address: true,
-                    },
-                    shipping_options: [
-                        {
-                            id: "4db52f01-67e4-4d70-af73-1913792f0bfe",
-                            name: "Tavlorify",
-                            description: "EXPRESS 1-2 Days",
-                            preselected: true,
-                            shipping_method: "Own",
-                            price: 0,
-                            tax_amount: 0,
-                            tax_rate: 0,
-                            tms_reference: generateUniqueID(),
-                        }
-                    ]
-                }
-                try {
-                    setIsWaitOrdering(true);
-                    const res = await Axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-klarna`, orderDetails);
-                    const result = await res.data;
-                    setIsWaitOrdering(false);
-                    router.push(`/checkout/${result.order_id}`);
-                }
-                catch (err) {
-                    setIsWaitOrdering(false);
-                    console.log(err.response.data);
-                }
+    const updateProductQuantity = (allProductsData, productId, operation) => {
+        switch (operation) {
+            case "increase-product-quantity": {
+                allProductsData.forEach((product) => {
+                    if (product._id === productId) product.quantity++;
+                });
+                return allProductsData;
+            }
+            case "decrease-product-quantity": {
+                allProductsData.forEach((product) => {
+                    if (product._id === productId) product.quantity--;
+                });
+                return allProductsData;
+            }
+            default: {
+                console.log("Error, Wrong Operation !!");
             }
         }
+    }
+    const deleteProduct = (productId) => {
+        return allProductsData.filter((product) => product._id != productId);
+    }
+    const signOut = () => {
+        localStorage.removeItem("tavlorify-store-user-id");
+        router.reload();
     }
     return (
         // Start Global Header
@@ -237,13 +186,13 @@ const Header = ({ newTotalProductsCount }) => {
                                 </li>
                             </>}
                             <li className="nav-item me-2">
-                                <button
+                                <Link
                                     className="nav-link btn order-all-products-btn"
-                                    onClick={orderAllProducts}
+                                    href="/checkout"
                                 >
                                     <BsCart2 className="cart-icon" />
                                     <div className="total-products-count-box fw-bold">{newTotalProductsCount ? newTotalProductsCount : totalProductsCount}</div>
-                                </button>
+                                </Link>
                             </li>
                             {userId && <>
                                 <li className="nav-item">

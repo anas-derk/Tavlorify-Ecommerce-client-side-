@@ -23,7 +23,7 @@ import "../pages/login/index.css";
 import "../pages/sign-up/index.css";
 import "../pages/dashboard/admin/admin-panel/generated-images/index.css";
 import "./dashboard/admin/admin-panel/prices-manager/index.css";
-import "./checkout/[id]/index.css";
+import "./checkout/index.css";
 import "./confirmation/[id]/index.css";
 
 export default function App({ Component, pageProps }) {
