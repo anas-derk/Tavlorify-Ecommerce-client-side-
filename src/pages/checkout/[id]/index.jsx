@@ -172,8 +172,8 @@ const Checkout = () => {
             const result = await res.data;
             setIsWaitOrdering(false);
             localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(newProductsData));
-            setAllProductsData(allProductsData);
-            setNewTotalProductsCount(allProductsData.length);
+            setAllProductsData(newProductsData);
+            setNewTotalProductsCount(newProductsData.length);
             let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(newProductsData);
             let totalDiscount = calcTotalOrderDiscount(newProductsData);
             let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
@@ -275,7 +275,7 @@ const Checkout = () => {
                     </div>}
                 </div>
                 {/* End Container From Bootstrap */}
-                <div id="my-checkout-container" className="mx-auto mt-4"></div>
+                {allProductsData.length > 0 && <div id="my-checkout-container" className="mx-auto mt-4"></div>}
             </section>
         </div >
         // End Checkout Page

@@ -531,6 +531,7 @@ const TextToImage = ({ printsName }) => {
                 priceAfterDiscount: productPriceAfterDiscount,
                 generatedImageURL: `${process.env.BASE_API_URL}/${generatedImagePathInMyServer}`,
                 quantity: quantity,
+                service: "text-to-image",
             }
             let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
             if (allProductsData) {

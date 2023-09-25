@@ -696,6 +696,7 @@ const ImageToImage = ({ printsName }) => {
                         priceAfterDiscount: productPriceAfterDiscount,
                         generatedImageURL: `${process.env.BASE_API_URL}/${result}`,
                         quantity: quantity,
+                        service: "image-to-image",
                     }
                     let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
                     if (allProductsData) {
@@ -734,6 +735,7 @@ const ImageToImage = ({ printsName }) => {
                     priceAfterDiscount: productPriceAfterDiscount,
                     generatedImageURL: `${process.env.BASE_API_URL}/${generatedImagePathInMyServer}`,
                     quantity: quantity,
+                    service: "image-to-image",
                 }
                 let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
                 if (allProductsData) {

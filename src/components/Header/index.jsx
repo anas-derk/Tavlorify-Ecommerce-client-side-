@@ -73,48 +73,49 @@ const Header = ({ newTotalProductsCount }) => {
     }
     const orderAllProducts = async () => {
         const tempAllProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-        if (tempAllProductsData) {
-            setAllProductsData(tempAllProductsData);
-            const orderDetails = {
-                purchase_country: "SE",
-                purchase_currency: "SEK",
-                locale: "sv-SE",
-                order_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(tempAllProductsData), calcTotalOrderDiscount(tempAllProductsData)) * 100,
-                order_tax_amount: 0,
-                order_lines: getOrderLinesForKlarnaCheckoutAPI(tempAllProductsData),
-                merchant_urls: {
-                    terms: `https://tavlorify.se/terms`,
-                    checkout: `https://tavlorify.se/checkout/{checkout.order.id}`,
-                    confirmation: `https://tavlorify.se/confirmation/{checkout.order.id}`,
-                    push: `https://tavlorify.se/confirmation/{checkout.order.id}`,
-                },
-                options: {
-                    allow_separate_shipping_address: true,
-                },
-                shipping_options: [
-                    {
-                        id: "4db52f01-67e4-4d70-af73-1913792f0bfe",
-                        name: "Tavlorify",
-                        description: "EXPRESS 1-2 Days",
-                        preselected: true,
-                        shipping_method: "Own",
-                        price: 0,
-                        tax_amount: 0,
-                        tax_rate: 0,
-                        tms_reference: generateUniqueID(),
-                    }
-                ]
-            }
-            try {
-                setIsWaitOrdering(true);
-                const res = await Axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-klarna`, orderDetails);
-                const result = await res.data;
-                setIsWaitOrdering(false);
-                router.push(`/checkout/${result.order_id}`);
-            }
-            catch (err) {
-                setIsWaitOrdering(false);
-                console.log(err.response.data);
+        if (Array.isArray(tempAllProductsData)) {
+            if (tempAllProductsData.length > 0) {
+                const orderDetails = {
+                    purchase_country: "SE",
+                    purchase_currency: "SEK",
+                    locale: "sv-SE",
+                    order_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(tempAllProductsData), calcTotalOrderDiscount(tempAllProductsData)) * 100,
+                    order_tax_amount: 0,
+                    order_lines: getOrderLinesForKlarnaCheckoutAPI(tempAllProductsData),
+                    merchant_urls: {
+                        terms: `https://tavlorify.se/terms`,
+                        checkout: `https://tavlorify.se/checkout/{checkout.order.id}`,
+                        confirmation: `https://tavlorify.se/confirmation/{checkout.order.id}`,
+                        push: `https://tavlorify.se/confirmation/{checkout.order.id}`,
+                    },
+                    options: {
+                        allow_separate_shipping_address: true,
+                    },
+                    shipping_options: [
+                        {
+                            id: "4db52f01-67e4-4d70-af73-1913792f0bfe",
+                            name: "Tavlorify",
+                            description: "EXPRESS 1-2 Days",
+                            preselected: true,
+                            shipping_method: "Own",
+                            price: 0,
+                            tax_amount: 0,
+                            tax_rate: 0,
+                            tms_reference: generateUniqueID(),
+                        }
+                    ]
+                }
+                try {
+                    setIsWaitOrdering(true);
+                    const res = await Axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-klarna`, orderDetails);
+                    const result = await res.data;
+                    setIsWaitOrdering(false);
+                    router.push(`/checkout/${result.order_id}`);
+                }
+                catch (err) {
+                    setIsWaitOrdering(false);
+                    console.log(err.response.data);
+                }
             }
         }
     }

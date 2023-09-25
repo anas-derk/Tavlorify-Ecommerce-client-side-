@@ -51,19 +51,6 @@
   text-align: center;
 }
 
-.home .most-popular-products .container {
-  background-color: #f2f2f2;
-  border-radius: 15px;
-  box-shadow: 1px 1px 10px #000;
-}
-
-.home .most-popular-products .product-box .product-image {
-  max-width: 100%;
-  min-height: 270px;
-  max-height: 100%;
-  cursor: pointer;
-}
-
 .home .contact-us {
   background-color: #f2f2f2;
 }

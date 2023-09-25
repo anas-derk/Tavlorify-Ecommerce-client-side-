@@ -13,24 +13,6 @@ a{
     text-decoration: none;
 }
 
-.custom-container{
-    width: 95%;
-    margin: auto;
-}
-
-.generate-images-from-text-form{
-    .search-btn{
-        .search-icon{
-            font-size: 60px;
-            color: #198754;
-            transition: font-size .3s;
-            &:hover{
-                font-size: 70px;
-            }
-        }
-    }
-}
-
 .loader {
     position: relative;
     width: 85px;

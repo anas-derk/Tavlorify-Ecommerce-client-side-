@@ -10,16 +10,6 @@ export default function Home({ clientIP }) {
   const [productsData, setProductsData] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
   useEffect(() => {
-    Axios.get(`${process.env.BASE_API_URL}/products/all-products`)
-      .then((res) => {
-        let result = res.data;
-        if (typeof result === "string") {
-          setErrorMsg(result);
-        } else {
-          setProductsData(result);
-        }
-      })
-      .catch((err) => setErrorMsg(err));
     let header = document.querySelector("#__next .global-header"),
       introduction = document.querySelector(".home .introduction");
     introduction.style.minHeight = `calc(100vh - ${header.clientHeight}px)`;
@@ -69,7 +59,7 @@ export default function Home({ clientIP }) {
       {/* Start Contact Us Section */}
       <section className="contact-us pt-5 pb-5">
         {/* Start Custom Container */}
-        <div className="custom-container text-center">
+        <div className="container text-center">
           <h2 className="section-name mb-5">Contact Us</h2>
           {/* Start Grid System */}
           <div className="row">
