@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
 import { BsCart2 } from "react-icons/bs";
+import { v4 as generateUniqueID } from "uuid";
 
 const Checkout = () => {
     const [allProductsData, setAllProductsData] = useState([]);
@@ -66,6 +67,31 @@ const Checkout = () => {
             throw Error(err.response.data);
         }
     }
+    const calcTotalProductPriceDiscountForKlarnaCheckoutAPI = (priceBeforeDiscount, priceAfterDiscount, quantity) => {
+        return (priceBeforeDiscount - priceAfterDiscount) * quantity;
+    }
+    const calcTotalProductPriceIncludedDiscountForKlarnaCheckoutAPI = (priceAfterDiscount, quantity) => {
+        return priceAfterDiscount * quantity;
+    }
+    const getOrderLinesForKlarnaCheckoutAPI = (allProductsData) => {
+        let order_lines = [];
+        allProductsData.forEach((product) => {
+            order_lines.push({
+                type: "physical",
+                reference: product._id,
+                name: `${product.paintingType}, ${product.frameColor} Frame, ${product.isExistWhiteBorder}, ${product.position}, ${product.size} Cm`,
+                quantity: product.quantity,
+                quantity_unit: "pcs",
+                unit_price: product.priceBeforeDiscount * 100,
+                tax_rate: 0,
+                total_amount: calcTotalProductPriceIncludedDiscountForKlarnaCheckoutAPI(product.priceAfterDiscount, product.quantity) * 100,
+                total_discount_amount: calcTotalProductPriceDiscountForKlarnaCheckoutAPI(product.priceBeforeDiscount, product.priceAfterDiscount, product.quantity) * 100,
+                total_tax_amount: 0,
+                image_url: `${product.generatedImageURL}`,
+            });
+        });
+        return order_lines;
+    }
     const renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI = (htmlSnippet) => {
         try {
             let checkoutContainer = document.getElementById("my-checkout-container");
@@ -84,21 +110,88 @@ const Checkout = () => {
             throw Error(err);
         }
     }
-    const deleteProductFromCart = (id) => {
-        let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-        allProductsData = allProductsData.filter((product) => product._id != id);
-        localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
-        setAllProductsData(allProductsData);
-        setNewTotalProductsCount(allProductsData.length);
-        let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(allProductsData);
-        let totalDiscount = calcTotalOrderDiscount(allProductsData);
-        let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
-        setPricesDetailsSummary({
-            ...pricesDetailsSummary,
-            totalPriceBeforeDiscount,
-            totalDiscount,
-            totalPriceAfterDiscount,
-        });
+    const updateProductQuantity = (allProductsData, productId, operation) => {
+        switch (operation) {
+            case "increase-product-quantity": {
+                allProductsData.forEach((product) => {
+                    if (product._id === productId) product.quantity++;
+                });
+                return allProductsData;
+            }
+            case "decrease-product-quantity": {
+                allProductsData.forEach((product) => {
+                    if (product._id === productId) product.quantity--;
+                });
+                return allProductsData;
+            }
+            default: {
+                console.log("Error, Wrong Operation !!");
+            }
+        }
+    }
+    const updateOrder = async (productId, operation, orderId) => {
+        let newProductsData = [];
+        if (operation === "increase-product-quantity" || operation === "decrease-product-quantity") {
+            newProductsData = updateProductQuantity(allProductsData, productId, operation);
+        } else if (operation === "delete-product") {
+            newProductsData = deleteProduct(productId);
+        }
+        const orderDetails = {
+            purchase_country: "SE",
+            purchase_currency: "SEK",
+            locale: "sv-SE",
+            order_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(newProductsData), calcTotalOrderDiscount(newProductsData)) * 100,
+            order_tax_amount: 0,
+            order_lines: getOrderLinesForKlarnaCheckoutAPI(newProductsData),
+            merchant_urls: {
+                terms: `https://tavlorify.se/terms`,
+                checkout: `https://tavlorify.se/checkout/{checkout.order.id}`,
+                confirmation: `https://tavlorify.se/confirmation/{checkout.order.id}`,
+                push: `https://tavlorify.se/confirmation/{checkout.order.id}`,
+            },
+            options: {
+                allow_separate_shipping_address: true,
+            },
+            shipping_options: [
+                {
+                    id: "4db52f01-67e4-4d70-af73-1913792f0bfe",
+                    name: "Tavlorify",
+                    description: "EXPRESS 1-2 Days",
+                    preselected: true,
+                    shipping_method: "Own",
+                    price: 0,
+                    tax_amount: 0,
+                    tax_rate: 0,
+                    tms_reference: generateUniqueID(),
+                }
+            ]
+        }
+        try {
+            setIsWaitOrdering(true);
+            const res = await Axios.put(`${process.env.BASE_API_URL}/orders/update-order/${orderId}`, orderDetails);
+            const result = await res.data;
+            setIsWaitOrdering(false);
+            localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(newProductsData));
+            setAllProductsData(allProductsData);
+            setNewTotalProductsCount(allProductsData.length);
+            let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(newProductsData);
+            let totalDiscount = calcTotalOrderDiscount(newProductsData);
+            let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
+            setPricesDetailsSummary({
+                ...pricesDetailsSummary,
+                totalPriceBeforeDiscount,
+                totalDiscount,
+                totalPriceAfterDiscount,
+            });
+            renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
+        }
+        catch (err) {
+            setIsWaitOrdering(false);
+            console.log(err.response.data);
+        }
+    }
+    const deleteProduct = (productId) => {
+        return allProductsData.filter((product) => product._id != productId);
     }
     return (
         // Start Checkout Page
@@ -131,9 +224,15 @@ const Checkout = () => {
                             </div>
                             <div className="col-md-3 p-3">
                                 <span>Quantity: </span>
-                                <AiOutlineMinus className="quantity-control-icon me-2" />
+                                <AiOutlineMinus
+                                    className="quantity-control-icon me-2"
+                                    onClick={() => updateOrder(productData._id, "decrease-product-quantity", id)}
+                                />
                                 <span className="fw-bold me-2">{productData.quantity}</span>
-                                <AiOutlinePlus className="quantity-control-icon" />
+                                <AiOutlinePlus
+                                    className="quantity-control-icon"
+                                    onClick={() => updateOrder(productData._id, "increase-product-quantity", id)}
+                                />
                             </div>
                             <div className="col-md-2 p-3 text-end">
                                 <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
@@ -142,7 +241,7 @@ const Checkout = () => {
                             <div className="col-md-1 text-center">
                                 <BsTrash
                                     className="trash-icon"
-                                    onClick={() => deleteProductFromCart(productData._id)}
+                                    onClick={() => updateOrder(productData._id, "delete-product", id)}
                                 />
                             </div>
                         </div>
@@ -159,10 +258,10 @@ const Checkout = () => {
                                 <div className="col-md-9 text-start">Total Price Before Discount</div>
                                 <div className="col-md-3 text-end">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
                             </div>
-                            <div className="row mb-3">
+                            {pricesDetailsSummary.totalDiscount > 0 && <div className="row mb-3">
                                 <div className="col-md-9 text-start">Total Discount</div>
                                 <div className="col-md-3 text-danger text-end">-{pricesDetailsSummary.totalDiscount} kr</div>
-                            </div>
+                            </div>}
                             <div className="row">
                                 <div className="col-md-9 text-start">Shipping</div>
                                 <div className="col-md-3 text-end">0 kr</div>
