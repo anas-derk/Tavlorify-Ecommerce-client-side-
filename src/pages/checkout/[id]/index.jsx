@@ -7,6 +7,7 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
 import { BsCart2 } from "react-icons/bs";
 import { v4 as generateUniqueID } from "uuid";
+import global_data from "../../../../public/data/global";
 
 const Checkout = () => {
     const [allProductsData, setAllProductsData] = useState([]);
@@ -211,8 +212,8 @@ const Checkout = () => {
                                     src={productData.generatedImageURL}
                                     alt="product Image !!"
                                     className="product-image"
-                                    width="100"
-                                    height="100"
+                                    width={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].width / 4}`}
+                                    height={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].height / 4}`}
                                 />
                             </div>
                             <div className="col-md-4 p-3">
