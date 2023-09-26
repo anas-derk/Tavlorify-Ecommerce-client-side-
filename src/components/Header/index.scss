@@ -14,9 +14,9 @@
                 }
                 .nav-link{
                     color: #000;
-                    &.order-all-products-btn{
+                    &.show-all-products-btn{
                         position: relative;
-                        .cart-icon{
+                        .cart-icon, .close-all-product-managment-box{
                             font-size: 25px;
                         }
                         .total-products-count-box{
@@ -28,6 +28,41 @@
                             height: 25px;
                             color: #FFF;
                             border-radius: 50%;
+                        }
+                        .all-products-managment-box{
+                            position: absolute;
+                            right: 0;
+                            top: 120%;
+                            width: 600px;
+                            max-height: 500px;
+                            overflow-x: hidden;
+                            overflow-y: auto;
+                            border-radius: 5px;
+                            z-index: 1001;
+                            border: 3px solid;
+                            background-color: #FFF;
+                            .quantity-control-icon{
+                                cursor: pointer;
+                                border: 2px solid #CCC;
+                                border-radius: 50%;
+                                width: 25px;
+                                height: 25px;
+                                line-height: 25px;
+                                &:hover{
+                                    background-color: #EEE;
+                                }
+                            }
+                            .trash-icon{
+                                cursor: pointer;
+                                font-size: 22px;
+                            }
+                            .not-found-any-products-alert-box{
+                                background-color: #FFF;
+                                height: 100%;
+                                .cart-icon{
+                                    font-size: 100px;
+                                }
+                            }
                         }
                     }
                 }

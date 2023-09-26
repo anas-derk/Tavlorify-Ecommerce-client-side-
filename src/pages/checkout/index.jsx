@@ -152,13 +152,13 @@ const Checkout = () => {
         switch (operation) {
             case "increase-product-quantity": {
                 allProductsData.forEach((product) => {
-                    if (product._id === productId) product.quantity++;
+                    if (product._id === productId && product.quantity < 50) product.quantity++;
                 });
                 return allProductsData;
             }
             case "decrease-product-quantity": {
                 allProductsData.forEach((product) => {
-                    if (product._id === productId) product.quantity--;
+                    if (product._id === productId && product.quantity > 1) product.quantity--;
                 });
                 return allProductsData;
             }
