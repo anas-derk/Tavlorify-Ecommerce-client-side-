@@ -27,16 +27,14 @@ const Header = ({ newTotalProductsCount }) => {
         let userId = localStorage.getItem("tavlorify-store-user-id");
         setUserId(userId);
         const allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-        if (Array.isArray(allProductsData)) {
-            if (allProductsData.length > 0) {
-                setAllProductsData(allProductsData);
-                setTotalProductsCount(allProductsData.length);
-            }
+        if (allProductsData) {
+            setAllProductsData(allProductsData);
+            setTotalProductsCount(allProductsData.length);
         }
     }, [newTotalProductsCount]);
     const displayAllProductManagmentBox = () => {
         let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-        if (Array.isArray(allProductsData)) {
+        if (allProductsData) {
             if (allProductsData.length > 0) {
                 let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(allProductsData);
                 let totalDiscount = calcTotalOrderDiscount(allProductsData);
