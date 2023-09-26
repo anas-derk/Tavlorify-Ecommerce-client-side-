@@ -30,23 +30,21 @@ const Header = ({ newTotalProductsCount }) => {
         if (allProductsData) {
             setAllProductsData(allProductsData);
             setTotalProductsCount(allProductsData.length);
-        }
+        } else setTotalProductsCount(0);
     }, [newTotalProductsCount]);
     const displayAllProductManagmentBox = () => {
         let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         if (allProductsData) {
-            if (allProductsData.length > 0) {
-                let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(allProductsData);
-                let totalDiscount = calcTotalOrderDiscount(allProductsData);
-                let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
-                setPricesDetailsSummary({
-                    ...pricesDetailsSummary,
-                    totalPriceBeforeDiscount,
-                    totalDiscount,
-                    totalPriceAfterDiscount,
-                });
-                setAllProductsData(allProductsData);
-            }
+            let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(allProductsData);
+            let totalDiscount = calcTotalOrderDiscount(allProductsData);
+            let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
+            setPricesDetailsSummary({
+                ...pricesDetailsSummary,
+                totalPriceBeforeDiscount,
+                totalDiscount,
+                totalPriceAfterDiscount,
+            });
+            setAllProductsData(allProductsData);
         }
         setIsDisplayAllProductManagmentBox(true);
     }
@@ -240,7 +238,7 @@ const Header = ({ newTotalProductsCount }) => {
                                 <div className="nav-link btn show-all-products-btn">
                                     {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon" onClick={displayAllProductManagmentBox} />}
                                     {isDisplayAllProductManagmentBox && <GrFormClose className="close-all-product-managment-box" onClick={closeAllProductManagmentBox} />}
-                                    {!isDisplayAllProductManagmentBox && <span className="total-products-count-box fw-bold">{ totalProductsCount }</span>}
+                                    {!isDisplayAllProductManagmentBox && <span className="total-products-count-box fw-bold">{totalProductsCount}</span>}
                                     {isDisplayAllProductManagmentBox && <div className="all-products-managment-box pb-3 ps-3 pe-3">
                                         {allProductsData.length > 0 ? allProductsData.map((productData) => (
                                             <div className="row bg-white border border-2 align-items-center" key={productData._id}>
