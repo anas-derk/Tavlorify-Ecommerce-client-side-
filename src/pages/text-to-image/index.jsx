@@ -85,6 +85,8 @@ const TextToImage = ({ printsName }) => {
     
     const [isWaitAddToCart, setIsWaitAddToCart] = useState(false);
 
+    const [isSuccessAddToCart, setIsSuccessAddToCart] = useState(false);
+
     const [errorInAddToCart, setErrorInAddToCart] = useState("");
 
     const [quantity, setQuantity] = useState(1);
@@ -251,9 +253,7 @@ const TextToImage = ({ printsName }) => {
     }
 
     const [formValidationErrors, setFormValidationErrors] = useState({});
-
-    const [isOpenCartPopupBox, setIsOpenCartPopupBox] = useState(false);
-
+    
     const [generatedImagesData, setGeneratedImagesData] = useState([]);
 
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
@@ -538,23 +538,25 @@ const TextToImage = ({ printsName }) => {
                 allProductsData.push(productInfoToCart);
                 localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
                 setIsWaitAddToCart(false);
+                setIsSuccessAddToCart(true);
+                let successAddToCartTimeout = setTimeout(() => {
+                    setIsSuccessAddToCart(false);
+                    clearTimeout(successAddToCartTimeout);
+                }, 1500);
                 setNewTotalProductsCount(allProductsData.length);
             } else {
                 let allProductsData = [];
                 allProductsData.push(productInfoToCart);
                 localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
                 setIsWaitAddToCart(false);
+                setIsSuccessAddToCart(true);
+                let successAddToCartTimeout = setTimeout(() => {
+                    setIsSuccessAddToCart(false);
+                    clearTimeout(successAddToCartTimeout);
+                }, 1500);
                 setNewTotalProductsCount(allProductsData.length);
             }
         }
-    }
-
-    const openCartPopupBox = () => {
-        setIsOpenCartPopupBox(true);
-    }
-
-    const closeCartPopupBox = () => {
-        setIsOpenCartPopupBox(false);
     }
 
     const handleDisplayImageMode = (imageMode) => {
@@ -692,41 +694,6 @@ const TextToImage = ({ printsName }) => {
                 <title>Tavlorify Store - Text To Image</title>
             </Head>
             <Header newTotalProductsCount={newTotalProductsCount} />
-            {/* Start Overlay Box */}
-            {isOpenCartPopupBox && <div className="overlay">
-                <aside className="cart-popup-box p-3">
-                    <div className="row align-items-center border border-2 border-dark p-2 mb-4">
-                        <div className="col-md-4">
-                            <BsCart2 className="cart-icon" />
-                        </div>
-                        <div className="col-md-4 text-center fw-bold">
-                            Cart
-                        </div>
-                        <div className="col-md-4 text-end" onClick={closeCartPopupBox}>
-                            <GrFormClose className="close-overlay-icon" />
-                        </div>
-                    </div>
-                    <hr />
-                    <div className="options-box">
-                        <button
-                            className="btn btn-dark w-100 d-block text-center mb-4"
-                            onClick={closeCartPopupBox}
-                        >
-                            Return To Text To Image
-                        </button>
-                        <Link
-                            className="btn btn-success w-100 d-block text-center"
-                            href="/cart"
-                        >
-                            Open Cart Page
-                        </Link>
-                    </div>
-                </aside>
-            </div>}
-            {/* End Overlay Box */}
-            <div className="open-cart-popup-box" onClick={openCartPopupBox}>
-                <BsCart2 className="cart-icon" />
-            </div>
             {/* Start Page Content */}
             <div className="page-content">
                 {/* Start Container */}
@@ -1012,14 +979,15 @@ const TextToImage = ({ printsName }) => {
                                             {formValidationErrors["quantity"] && <p className='error-msg text-danger'>{formValidationErrors["quantity"]}</p>}
                                         </div>
                                         <div className="col-md-6">
-                                            {!isWaitAddToCart && !errorInAddToCart && <button
+                                            {!isWaitAddToCart && !errorInAddToCart && !isSuccessAddToCart && <button
                                                 className="btn btn-dark w-100 p-2"
                                                 onClick={addToCart}
                                             >
                                                 Add To Cart
                                             </button>}
-                                            {isWaitAddToCart && <button className="btn btn-dark w-100 p-2" disabled >wating ...</button>}
-                                            {errorInAddToCart && <button className="btn btn-dark w-100 p-2" disabled >{errorInAddToCart}</button>}
+                                            {isWaitAddToCart && <button className="btn btn-dark w-100 p-2" disabled>Waiting ...</button>}
+                                            {isSuccessAddToCart && <button className="btn btn-success w-100 p-2" disabled>Success Is Adding To Cart ...</button>}
+                                            {errorInAddToCart && <button className="btn btn-danger w-100 p-2" disabled>{errorInAddToCart}</button>}
                                         </div>
                                     </div>
                                 </section>
@@ -1037,7 +1005,7 @@ const TextToImage = ({ printsName }) => {
                         </div>
                         <div className="col-md-10">
                             {generatedImagesData ? <ul className="generated-images-list text-center d-flex p-4">
-                                {generatedImagesData.map((generatedImageData, index) => (
+                                {generatedImagesData.map((generatedImageData) => (
                                     <li
                                         className="generated-images-item m-0 me-4"
                                         key={generatedImageData._id}
@@ -1047,7 +1015,6 @@ const TextToImage = ({ printsName }) => {
                                             src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
                                             alt="Generated Image !!"
                                             className="generated-image"
-                                            loading="lazy"
                                         />
                                     </li>
                                 ))}
