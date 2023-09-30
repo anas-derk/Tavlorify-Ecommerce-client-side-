@@ -145,7 +145,12 @@ const Header = ({ newTotalProductsCount }) => {
                                             href={{
                                                 pathname: "/text-to-image",
                                                 query: {
-                                                    printsName: "poster",
+                                                    generatedImagePathInMyServerAsQuery: "assets/images/generatedImages/previewImageForPosterInTextToImage.png",
+                                                    paintingTypeAsQuery: "poster",
+                                                    positionAsQuery: "vertical",
+                                                    sizeAsQuery: "50x70",
+                                                    isExistWhiteBorderAsQuery: "without-border",
+                                                    frameColorAsQuery: "none",
                                                 }
                                             }}
                                         >
@@ -159,7 +164,7 @@ const Header = ({ newTotalProductsCount }) => {
                                             href={{
                                                 pathname: "/image-to-image",
                                                 query: {
-                                                    printsName: "poster",
+                                                    paintingType: "poster",
                                                 }
                                             }}
                                         >
@@ -179,7 +184,12 @@ const Header = ({ newTotalProductsCount }) => {
                                             href={{
                                                 pathname: "/text-to-image",
                                                 query: {
-                                                    printsName: "canvas",
+                                                    generatedImagePathInMyServerAsQuery: "assets/images/generatedImages/previewImageForCanvasInTextToImage.png",
+                                                    paintingTypeAsQuery: "canvas",
+                                                    positionAsQuery: "vertical",
+                                                    sizeAsQuery: "30x40",
+                                                    isExistWhiteBorderAsQuery: "without-border",
+                                                    frameColorAsQuery: "none",
                                                 }
                                             }}
                                         >
@@ -193,7 +203,7 @@ const Header = ({ newTotalProductsCount }) => {
                                             href={{
                                                 pathname: "/image-to-image",
                                                 query: {
-                                                    printsName: "canvas",
+                                                    paintingType: "canvas",
                                                 }
                                             }}
                                         >
@@ -244,7 +254,7 @@ const Header = ({ newTotalProductsCount }) => {
                                             <div className="row bg-white border border-2 align-items-center" key={productData._id}>
                                                 <div className="col-md-3 p-3 text-center">
                                                     <img
-                                                        src={productData.generatedImageURL}
+                                                        src={`${process.env.BASE_API_URL}/${productData.generatedImageURL}`}
                                                         alt="product Image !!"
                                                         className="product-image"
                                                         width={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].width / 6}`}

@@ -7,10 +7,10 @@ import { BsTrash } from "react-icons/bs";
 import { BsCart2 } from "react-icons/bs";
 import { v4 as generateUniqueID } from "uuid";
 import global_data from "../../../public/data/global";
+import Link from "next/link";
 
 const Checkout = () => {
     const [allProductsData, setAllProductsData] = useState([]);
-    const [isWaitOrdering, setIsWaitOrdering] = useState(false);
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
     const [klarnaOrderId, setKlarnaOrderId] = useState("");
     const [pricesDetailsSummary, setPricesDetailsSummary] = useState({
@@ -117,14 +117,11 @@ const Checkout = () => {
                     ]
                 }
                 try {
-                    setIsWaitOrdering(true);
                     const res = await Axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-klarna`, orderDetails);
                     const result = await res.data;
-                    setIsWaitOrdering(false);
                     return result;
                 }
                 catch (err) {
-                    setIsWaitOrdering(false);
                     console.log(err.response.data);
                 }
             }
@@ -205,10 +202,8 @@ const Checkout = () => {
             ]
         }
         try {
-            setIsWaitOrdering(true);
             const res = await Axios.put(`${process.env.BASE_API_URL}/orders/update-order/${orderId}`, orderDetails);
             const result = await res.data;
-            setIsWaitOrdering(false);
             localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(newProductsData));
             setAllProductsData(newProductsData);
             setNewTotalProductsCount(newProductsData.length);
@@ -224,7 +219,6 @@ const Checkout = () => {
             renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
         }
         catch (err) {
-            setIsWaitOrdering(false);
             console.log(err.response.data);
         }
     }
@@ -245,13 +239,29 @@ const Checkout = () => {
                     {allProductsData.length > 0 ? allProductsData.map((productData) => (
                         <div className="row w-75 mx-auto bg-white border border-2 align-items-center" key={productData._id}>
                             <div className="col-md-2 p-3 text-center">
-                                <img
-                                    src={productData.generatedImageURL}
-                                    alt="product Image !!"
-                                    className="product-image"
-                                    width={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].width / 4}`}
-                                    height={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].height / 4}`}
-                                />
+                                <Link href={{
+                                    pathname: `/${productData.service}`,
+                                    query: {
+                                        generatedImagePathInMyServerAsQuery: productData.generatedImageURL,
+                                        uploadedImageURLAsQuery: productData.uploadedImageURL,
+                                        textPromptAsQuery: productData.textPrompt,
+                                        paintingTypeAsQuery: productData.paintingType,
+                                        positionAsQuery: productData.position,
+                                        sizeAsQuery: productData.size,
+                                        isExistWhiteBorderAsQuery: productData.isExistWhiteBorder,
+                                        frameColorAsQuery: productData.frameColor,
+                                        widthAsQuery: productData.width,
+                                        heightAsQuery: productData.height,
+                                    }
+                                }}>
+                                    <img
+                                        src={`${process.env.BASE_API_URL}/${productData.generatedImageURL}`}
+                                        alt="product Image !!"
+                                        className="product-image"
+                                        width={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].width / 4}`}
+                                        height={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].height / 4}`}
+                                    />
+                                </Link>
                             </div>
                             <div className="col-md-4 p-3">
                                 <h6 className="fw-bold">{productData.paintingType}</h6>

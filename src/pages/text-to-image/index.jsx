@@ -39,13 +39,17 @@ import posterWithHangersDarkWoodFrameImageSquare from "../../../public/images/fr
 import posterWithHangersDarkWoodFrameImageVertical from "../../../public/images/frames/posterWithHangers/darkWood/V/600.png";
 /* End Import Frame With Hangers Images */
 import validations from "../../../public/global_functions/validations";
-import { GrFormClose } from "react-icons/gr";
-import { BsCart2 } from "react-icons/bs";
-import Link from "next/link";
 import room1Image from "@/../../public/images/Rooms/room1.jpg";
 import room2Image from "@/../../public/images/Rooms/room2.jpg";
 
-const TextToImage = ({ printsName }) => {
+const TextToImage = ({
+    generatedImagePathInMyServerAsQuery,
+    paintingTypeAsQuery,
+    positionAsQuery,
+    sizeAsQuery,
+    isExistWhiteBorderAsQuery,
+    frameColorAsQuery,
+}) => {
 
     const [textPrompt, setTextPrompt] = useState("a dog");
 
@@ -63,13 +67,13 @@ const TextToImage = ({ printsName }) => {
 
     const [modelName, setModelName] = useState("");
 
-    const [productPriceBeforeDiscount, setProductPriceBeforeDiscount] = useState(300);
+    const [productPriceBeforeDiscount, setProductPriceBeforeDiscount] = useState(0);
 
-    const [productPriceAfterDiscount, setProductPriceAfterDiscount] = useState(229);
+    const [productPriceAfterDiscount, setProductPriceAfterDiscount] = useState(0);
 
     const [imageType, setImageType] = useState("vertical");
 
-    const [paintingType, setPaintingType] = useState(printsName);
+    const [paintingType, setPaintingType] = useState("poster");
 
     const [isExistWhiteBorderWithPoster, setIsExistWhiteBorderWithPoster] = useState("without-border");
 
@@ -82,7 +86,7 @@ const TextToImage = ({ printsName }) => {
     const [categoriesData, setCategoriesData] = useState([]);
 
     const [categoryStyles, setCategoryStyles] = useState([]);
-    
+
     const [isWaitAddToCart, setIsWaitAddToCart] = useState(false);
 
     const [isSuccessAddToCart, setIsSuccessAddToCart] = useState(false);
@@ -93,7 +97,7 @@ const TextToImage = ({ printsName }) => {
 
     const [tempImageType, setTempImageType] = useState("vertical");
 
-    const [tempDimentionsInCm, setTempDimentionsInCm] = useState(printsName === "poster" ? "21x29,7" : "30x40");
+    const [tempDimentionsInCm, setTempDimentionsInCm] = useState("50x70");
 
     const [imageMode, setImageMode] = useState("normal-size-image");
 
@@ -253,73 +257,87 @@ const TextToImage = ({ printsName }) => {
     }
 
     const [formValidationErrors, setFormValidationErrors] = useState({});
-    
+
     const [generatedImagesData, setGeneratedImagesData] = useState([]);
 
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
 
+    const getAllText2ImageCategoriesData = async () => {
+        try {
+            const res = await Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`);
+            const result = await res.data;
+            return result;
+        }
+        catch (err) {
+            throw Error(err.response.data);
+        }
+    }
+
+    const getAllText2ImageCategoryStylesData = async (categoriesData, categorySelectedIndex) => {
+        try {
+            const res = await Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
+            const result = await res.data;
+            return result;
+        }
+        catch (err) {
+            throw Error(err.response.data);
+        }
+    }
+
     useEffect(() => {
-        Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
-            .then((res) => {
-                const result = res.data;
-                if (typeof result === "string") {
-                    // console.log(result);
-                } else {
-                    // console.log(result)
-                    setCategoriesData(result);
-                    Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${result[categorySelectedIndex].name}`)
-                        .then((res) => {
-                            const categoryStylesTemp = res.data;
-                            setCategoryStyles(categoryStylesTemp);
-                            const tempModelName = categoryStylesTemp[styleSelectedIndex].modelName;
-                            setModelName(tempModelName);
-                            const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
-                            setDimentions({
-                                width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
-                                height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
-                            });
-                            if (printsName === "poster" || printsName === "poster-with-wooden-frame" || printsName === "poster-with-hangers") {
-                                setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInTextToImage.png`);
-                            } else if (printsName === "canvas") {
-                                setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForCanvasInTextToImage.png`);
-                            }
-                            setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")));
-                        })
-                        .catch((err) => console.log(err));
-                }
+        getAllText2ImageCategoriesData()
+            .then(async (categoriesData) => {
+                setCategoriesData(categoriesData);
+                const categoryStylesTemp = await getAllText2ImageCategoryStylesData(categoriesData, 0);
+                setCategoryStyles(categoryStylesTemp);
+                const tempModelName = categoryStylesTemp[0].modelName;
+                setModelName(tempModelName);
+                setPaintingType(paintingTypeAsQuery);
+                setImageType(positionAsQuery);
+                setDimentionsInCm(sizeAsQuery);
+                const dimsIndex = global_data.modelsDimentions[tempModelName][positionAsQuery].findIndex((el) => el.inCm == sizeAsQuery);
+                setDimentions({
+                    width: global_data.modelsDimentions[tempModelName][positionAsQuery][dimsIndex].inPixel.width,
+                    height: global_data.modelsDimentions[tempModelName][positionAsQuery][dimsIndex].inPixel.height,
+                });
+                setIsExistWhiteBorderWithPoster(isExistWhiteBorderAsQuery);
+                setFrameColor(frameColorAsQuery);
+                setGeneratedImagePathInMyServer(generatedImagePathInMyServerAsQuery);
+                setTempImageType(positionAsQuery);
+                setTempDimentionsInCm(sizeAsQuery);
+                setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImagePathInMyServerAsQuery}`);
+                setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")));
             })
             .catch((err) => console.log(err));
     }, []);
 
-    const handleSelectCategory = (index) => {
+    const handleSelectCategory = async (categoryIndex) => {
         if (!isWaitStatus) {
-            setCategorySelectedIndex(index);
-            Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[index].name}`)
-                .then((res) => {
-                    setCategoryStyles(res.data);
-                    setStyleSelectedIndex(0);
-                    const tempModelName = res.data[0].modelName;
-                    setModelName(tempModelName);
-                    const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
-                    setDimentions({
-                        width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
-                        height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
-                    });
-                })
-                .catch((err) => console.log(err));
-        }
-    }
-
-    const handleSelectStyle = (index) => {
-        if (!isWaitStatus) {
-            setStyleSelectedIndex(index);
-            let tempModelName = categoryStyles[index].modelName;
+            setCategorySelectedIndex(categoryIndex);
+            const res = await Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categoryIndex].name}`)
+            const result = await res.data;
+            setCategoryStyles(result);
+            setStyleSelectedIndex(0);
+            const tempModelName = result[0].modelName;
             setModelName(tempModelName);
             const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
             setDimentions({
                 width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
                 height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
             });
+        }
+    }
+
+    const handleSelectStyle = (styleIndex) => {
+        if (!isWaitStatus) {
+            let tempModelName = categoryStyles[styleIndex].modelName;
+            setModelName(tempModelName);
+            const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
+            setDimentions({
+                width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
+                height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+            });
+            setStyleSelectedIndex(styleIndex);
         }
     }
 
@@ -391,7 +409,7 @@ const TextToImage = ({ printsName }) => {
     }
 
     const handleIsExistWhiteBorderWithPoster = (isExistWhiteBorderWithPoster) => {
-        if(!isWaitStatus) {
+        if (!isWaitStatus) {
             setIsExistWhiteBorderWithPoster(isExistWhiteBorderWithPoster);
         }
     }
@@ -496,7 +514,7 @@ const TextToImage = ({ printsName }) => {
         setIsExistWhiteBorderWithPoster(generatedImageData.isExistWhiteBorder);
         setFrameColor(generatedImageData.frameColor);
         setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
-        setGeneratedImagePathInMyServer(`${generatedImageData.generatedImageURL}`);
+        setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
         await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
     }
 
@@ -529,7 +547,7 @@ const TextToImage = ({ printsName }) => {
                 size: dimentionsInCm,
                 priceBeforeDiscount: productPriceBeforeDiscount,
                 priceAfterDiscount: productPriceAfterDiscount,
-                generatedImageURL: `${process.env.BASE_API_URL}/${generatedImagePathInMyServer}`,
+                generatedImageURL: generatedImagePathInMyServer,
                 quantity: quantity,
                 service: "text-to-image",
             }
@@ -675,14 +693,14 @@ const TextToImage = ({ printsName }) => {
     }
 
     const getProductPrice = async (paintingType, position, dimentions) => {
-        try{
+        try {
             const res = await Axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
             const result = await res.data;
             console.log(result.priceBeforeDiscount, result.priceBeforeDiscount);
             setProductPriceBeforeDiscount(result.priceBeforeDiscount);
             setProductPriceAfterDiscount(result.priceAfterDiscount);
         }
-        catch(err){
+        catch (err) {
             console.log(err);
         }
     }
@@ -806,8 +824,8 @@ const TextToImage = ({ printsName }) => {
                                             <h4 className="art-name fw-bold">Art Name: {paintingType}</h4>
                                         </div>
                                         <div className="col-md-4 text-end price-box">
-                                            <h4 className="price mb-0 fw-bold">{ productPriceAfterDiscount } kr</h4>
-                                            {productPriceBeforeDiscount != productPriceAfterDiscount && <h6 className="discount fw-bold">{ productPriceBeforeDiscount } kr</h6>}
+                                            <h4 className="price mb-0 fw-bold">{productPriceAfterDiscount} kr</h4>
+                                            {productPriceBeforeDiscount != productPriceAfterDiscount && <h6 className="discount fw-bold">{productPriceBeforeDiscount} kr</h6>}
                                         </div>
                                     </div>
                                     {/* End Grid System */}
@@ -1032,10 +1050,20 @@ const TextToImage = ({ printsName }) => {
 }
 
 export async function getServerSideProps(context) {
-    const printsName = context.query.printsName;
+    const generatedImagePathInMyServerAsQuery = context.query.generatedImagePathInMyServerAsQuery,
+        paintingTypeAsQuery = context.query.paintingTypeAsQuery,
+        positionAsQuery = context.query.positionAsQuery,
+        sizeAsQuery = context.query.sizeAsQuery,
+        isExistWhiteBorderAsQuery = context.query.isExistWhiteBorderAsQuery,
+        frameColorAsQuery = context.query.frameColorAsQuery;
     return {
         props: {
-            printsName,
+            generatedImagePathInMyServerAsQuery,
+            paintingTypeAsQuery,
+            positionAsQuery,
+            sizeAsQuery,
+            isExistWhiteBorderAsQuery,
+            frameColorAsQuery,
         },
     }
 }
