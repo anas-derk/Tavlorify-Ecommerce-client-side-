@@ -6,14 +6,15 @@ import Axios from "axios";
 
 const Confirmation = () => {
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(null);
+    const [allOrderData, setAllOrderData] = useState({});
     const router = useRouter();
     const { id } = router.query;
     useEffect(() => {
         if (id) {
             getKlarnaOrderDetails(id)
                 .then((result) => {
-                    console.log(result);
                     if (result.status === "checkout_complete") {
+                        setAllOrderData(result);
                         localStorage.removeItem("tavlorify-store-user-cart");
                         setNewTotalProductsCount(0);
                         renderKlarnaConfirmationHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
@@ -59,6 +60,28 @@ const Confirmation = () => {
             {/* Start Container From Bootstrap */}
             <div className="container-fluid pt-4 pb-4">
                 <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hello To You In Confirmation Page</h1>
+                {allOrderData.length > 0 && <div className="all-order-data">
+                    <p>Billing Addres:</p>
+                    <p>City: {allOrderData.billing_address.city}</p>
+                    <p>email: {allOrderData.billing_address.email}</p>
+                    <p>given_name: {allOrderData.billing_address.given_name}</p>
+                    <p>family_name: {allOrderData.billing_address.family_name}</p>
+                    <p>phone: {allOrderData.billing_address.phone}</p>
+                    <p>postal_code: {allOrderData.billing_address.postal_code}</p>
+                    <p>street_address: {allOrderData.billing_address.street_address}</p>
+                    <hr />
+                    <p>shipping_address:</p>
+                    <p>City: {allOrderData.shipping_address.city}</p>
+                    <p>email: {allOrderData.shipping_address.email}</p>
+                    <p>given_name: {allOrderData.shipping_address.given_name}</p>
+                    <p>family_name: {allOrderData.shipping_address.family_name}</p>
+                    <p>phone: {allOrderData.shipping_address.phone}</p>
+                    <p>postal_code: {allOrderData.shipping_address.postal_code}</p>
+                    <p>street_address: {allOrderData.shipping_address.street_address}</p>
+                    <hr />
+                    <p>completed_at: {allOrderData.completed_at}</p>
+                    <p>order id: {allOrderData.order_id}</p>
+                </div>}
             </div>
             {/* End Container From Bootstrap */}
             <div id="my-confirmation-container"></div>
