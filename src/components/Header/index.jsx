@@ -28,6 +28,7 @@ const Header = ({ newTotalProductsCount }) => {
         setUserId(userId);
         const allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         if (allProductsData) {
+            console.log("aa")
             setAllProductsData(allProductsData);
             setTotalProductsCount(allProductsData.length);
         } else setTotalProductsCount(0);
