@@ -31,6 +31,9 @@ const Header = ({ newTotalProductsCount }) => {
         if (Array.isArray(allProductsData)) {
             setAllProductsData(allProductsData);
             setTotalProductsCount(allProductsData.length);
+        } else {
+            setAllProductsData([]);
+            setTotalProductsCount(0);
         }
     }, [newTotalProductsCount]);
     const displayAllProductManagmentBox = () => {
