@@ -60,7 +60,7 @@ const Confirmation = () => {
             {/* Start Container From Bootstrap */}
             <div className="container-fluid pt-4 pb-4">
                 <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hello To You In Confirmation Page</h1>
-                {allOrderData && <div className="all-order-data">
+                {Object.keys(allOrderData).length > 0 && <div className="all-order-data">
                     <p>Billing Addres:</p>
                     <p>City: {allOrderData.billing_address.city}</p>
                     <p>email: {allOrderData.billing_address.email}</p>
