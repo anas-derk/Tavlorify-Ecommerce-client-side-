@@ -13,6 +13,7 @@ const Confirmation = () => {
                 .then((result) => {
                     console.log(result);
                     if (result.status === "checkout_complete") {
+                        localStorage.removeItem("tavlorify-store-user-cart");
                         renderKlarnaConfirmationHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
                     }
                 }).catch((err) => console.log(err));
