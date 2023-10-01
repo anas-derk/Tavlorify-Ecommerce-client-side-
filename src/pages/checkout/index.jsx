@@ -63,9 +63,13 @@ const Checkout = () => {
     const calcTotalProductPriceIncludedDiscountForKlarnaCheckoutAPI = (priceAfterDiscount, quantity) => {
         return priceAfterDiscount * quantity;
     }
+    const calcTotalOrderTaxAmountForKlarnaCheckoutAPI = (totalAmount) => {
+        return totalAmount - totalAmount * 10000 / ( 10000 + 2500 );
+    }
     const getOrderLinesForKlarnaCheckoutAPI = (allProductsData) => {
         let order_lines = [];
         allProductsData.forEach((product) => {
+            const tempTotalAmount = calcTotalProductPriceIncludedDiscountForKlarnaCheckoutAPI(product.priceAfterDiscount, product.quantity);
             order_lines.push({
                 type: "physical",
                 reference: product._id,
@@ -73,11 +77,11 @@ const Checkout = () => {
                 quantity: product.quantity,
                 quantity_unit: "pcs",
                 unit_price: product.priceBeforeDiscount * 100,
-                tax_rate: 0,
-                total_amount: calcTotalProductPriceIncludedDiscountForKlarnaCheckoutAPI(product.priceAfterDiscount, product.quantity) * 100,
+                tax_rate: 2500,
+                total_amount: tempTotalAmount * 100,
                 total_discount_amount: calcTotalProductPriceDiscountForKlarnaCheckoutAPI(product.priceBeforeDiscount, product.priceAfterDiscount, product.quantity) * 100,
-                total_tax_amount: 0,
-                image_url: `${product.generatedImageURL}`,
+                total_tax_amount: calcTotalOrderTaxAmountForKlarnaCheckoutAPI(tempTotalAmount * 100),
+                image_url: `${process.env.BASE_API_URL}/${product.generatedImageURL}`,
             });
         });
         return order_lines;
@@ -91,7 +95,7 @@ const Checkout = () => {
                     purchase_currency: "SEK",
                     locale: "sv-SE",
                     order_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(tempAllProductsData), calcTotalOrderDiscount(tempAllProductsData)) * 100,
-                    order_tax_amount: 0,
+                    order_tax_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(tempAllProductsData), calcTotalOrderDiscount(tempAllProductsData)) * 100 * 0.20,
                     order_lines: getOrderLinesForKlarnaCheckoutAPI(tempAllProductsData),
                     merchant_urls: {
                         terms: `https://tavlorify.se/terms`,
