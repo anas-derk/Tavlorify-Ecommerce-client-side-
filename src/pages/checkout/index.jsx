@@ -206,7 +206,7 @@ const Checkout = () => {
             ]
         }
         try {
-            const res = await Axios.put(`${process.env.BASE_API_URL}/orders/update-order/${orderId}`, orderDetails);
+            const res = await Axios.put(`${process.env.BASE_API_URL}/orders/update-klarna-order/${orderId}`, orderDetails);
             const result = await res.data;
             localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(newProductsData));
             setAllProductsData(newProductsData);

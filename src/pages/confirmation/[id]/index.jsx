@@ -11,7 +11,9 @@ const Confirmation = () => {
         if (id) {
             getKlarnaOrderDetails(id)
                 .then((result) => {
-                    renderKlarnaConfirmationHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
+                    if (result.status === "checkout_complete") {
+                        renderKlarnaConfirmationHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
+                    }
                 }).catch((err) => console.log(err));
         }
     }, [id]);
