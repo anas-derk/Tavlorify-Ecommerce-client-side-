@@ -11,6 +11,7 @@ const Confirmation = () => {
         if (id) {
             getKlarnaOrderDetails(id)
                 .then((result) => {
+                    console.log(result);
                     if (result.status === "checkout_complete") {
                         renderKlarnaConfirmationHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
                     }
