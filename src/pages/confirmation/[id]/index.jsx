@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Axios from "axios";
 
 const Confirmation = () => {
-    const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
+    const [newTotalProductsCount, setNewTotalProductsCount] = useState(null);
     const router = useRouter();
     const { id } = router.query;
     useEffect(() => {

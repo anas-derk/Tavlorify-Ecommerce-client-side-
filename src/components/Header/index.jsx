@@ -14,8 +14,8 @@ import { GrFormClose } from "react-icons/gr";
 
 const Header = ({ newTotalProductsCount }) => {
     const [userId, setUserId] = useState({});
-    const [allProductsData, setAllProductsData] = useState("");
-    const [totalProductsCount, setTotalProductsCount] = useState("");
+    const [allProductsData, setAllProductsData] = useState([]);
+    const [totalProductsCount, setTotalProductsCount] = useState(null);
     const [isDisplayAllProductManagmentBox, setIsDisplayAllProductManagmentBox] = useState(false);
     const [pricesDetailsSummary, setPricesDetailsSummary] = useState({
         totalPriceBeforeDiscount: 0,
@@ -27,11 +27,10 @@ const Header = ({ newTotalProductsCount }) => {
         let userId = localStorage.getItem("tavlorify-store-user-id");
         setUserId(userId);
         const allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-        if (allProductsData) {
-            console.log("aa")
+        if (Array.isArray(allProductsData)) {
             setAllProductsData(allProductsData);
             setTotalProductsCount(allProductsData.length);
-        } else setTotalProductsCount(0);
+        }
     }, [newTotalProductsCount]);
     const displayAllProductManagmentBox = () => {
         let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
