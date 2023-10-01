@@ -24,6 +24,7 @@ const Header = ({ newTotalProductsCount }) => {
     });
     const router = useRouter();
     useEffect(() => {
+        console.log("aa")
         let userId = localStorage.getItem("tavlorify-store-user-id");
         setUserId(userId);
         const allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
