@@ -539,41 +539,51 @@ const TextToImage = ({
         setFormValidationErrors(errorsObject);
         if (Object.keys(errorsObject).length == 0) {
             setIsWaitAddToCart(true);
-            const productInfoToCart = {
-                _id: generateUniqueID(),
-                paintingType,
-                isExistWhiteBorder: isExistWhiteBorderWithPoster,
-                frameColor,
-                position: tempImageType,
-                size: dimentionsInCm,
-                priceBeforeDiscount: productPriceBeforeDiscount,
-                priceAfterDiscount: productPriceAfterDiscount,
-                generatedImageURL: generatedImagePathInMyServer,
-                quantity: quantity,
-                service: "text-to-image",
-            }
-            let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-            if (allProductsData) {
-                allProductsData.push(productInfoToCart);
-                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
+            console.log(tempImageType, imageType);
+            if (tempImageType !== imageType) {
                 setIsWaitAddToCart(false);
-                setIsSuccessAddToCart(true);
-                let successAddToCartTimeout = setTimeout(() => {
-                    setIsSuccessAddToCart(false);
-                    clearTimeout(successAddToCartTimeout);
+                setErrorInAddToCart(`Please Select ${tempImageType} Position`);
+                let errorTimeoutInAddToCart = setTimeout(() => {
+                    setErrorInAddToCart("");
+                    clearTimeout(errorTimeoutInAddToCart);
                 }, 1500);
-                setNewTotalProductsCount(allProductsData.length);
             } else {
-                let allProductsData = [];
-                allProductsData.push(productInfoToCart);
-                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
-                setIsWaitAddToCart(false);
-                setIsSuccessAddToCart(true);
-                let successAddToCartTimeout = setTimeout(() => {
-                    setIsSuccessAddToCart(false);
-                    clearTimeout(successAddToCartTimeout);
-                }, 1500);
-                setNewTotalProductsCount(allProductsData.length);
+                const productInfoToCart = {
+                    _id: generateUniqueID(),
+                    paintingType,
+                    isExistWhiteBorder: isExistWhiteBorderWithPoster,
+                    frameColor,
+                    position: tempImageType,
+                    size: dimentionsInCm,
+                    priceBeforeDiscount: productPriceBeforeDiscount,
+                    priceAfterDiscount: productPriceAfterDiscount,
+                    generatedImageURL: generatedImagePathInMyServer,
+                    quantity: quantity,
+                    service: "text-to-image",
+                }
+                let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+                if (allProductsData) {
+                    allProductsData.push(productInfoToCart);
+                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
+                    setIsWaitAddToCart(false);
+                    setIsSuccessAddToCart(true);
+                    let successAddToCartTimeout = setTimeout(() => {
+                        setIsSuccessAddToCart(false);
+                        clearTimeout(successAddToCartTimeout);
+                    }, 1500);
+                    setNewTotalProductsCount(allProductsData.length);
+                } else {
+                    let allProductsData = [];
+                    allProductsData.push(productInfoToCart);
+                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
+                    setIsWaitAddToCart(false);
+                    setIsSuccessAddToCart(true);
+                    let successAddToCartTimeout = setTimeout(() => {
+                        setIsSuccessAddToCart(false);
+                        clearTimeout(successAddToCartTimeout);
+                    }, 1500);
+                    setNewTotalProductsCount(allProductsData.length);
+                }
             }
         }
     }
@@ -697,7 +707,6 @@ const TextToImage = ({
         try {
             const res = await Axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
             const result = await res.data;
-            console.log(result.priceBeforeDiscount, result.priceBeforeDiscount);
             setProductPriceBeforeDiscount(result.priceBeforeDiscount);
             setProductPriceAfterDiscount(result.priceAfterDiscount);
         }
