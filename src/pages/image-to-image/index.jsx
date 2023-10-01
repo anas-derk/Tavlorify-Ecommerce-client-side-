@@ -324,6 +324,7 @@ const ImageToImage = ({
                 }
                 setGeneratedImagePathInMyServer(generatedImagePathInMyServerAsQuery);
                 setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImagePathInMyServerAsQuery}`);
+                await getProductPrice(paintingTypeAsQuery, positionAsQuery, sizeAsQuery);
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image")));
             })
             .catch((err) => console.log(err));

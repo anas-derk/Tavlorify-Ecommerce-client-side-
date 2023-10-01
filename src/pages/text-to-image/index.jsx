@@ -306,6 +306,7 @@ const TextToImage = ({
                 setTempImageType(positionAsQuery);
                 setTempDimentionsInCm(sizeAsQuery);
                 setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImagePathInMyServerAsQuery}`);
+                await getProductPrice(paintingTypeAsQuery, positionAsQuery, sizeAsQuery);
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")));
             })
             .catch((err) => console.log(err));
