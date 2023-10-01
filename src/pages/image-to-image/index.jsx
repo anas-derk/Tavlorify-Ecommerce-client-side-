@@ -45,7 +45,14 @@ import { v4 as generateUniqueID } from "uuid";
 import room1Image from "@/../../public/images/Rooms/room1.jpg";
 import room2Image from "@/../../public/images/Rooms/room2.jpg";
 
-const ImageToImage = ({ printsName }) => {
+const ImageToImage = ({
+    generatedImagePathInMyServerAsQuery,
+    paintingTypeAsQuery,
+    positionAsQuery,
+    sizeAsQuery,
+    isExistWhiteBorderAsQuery,
+    frameColorAsQuery,
+}) => {
 
     const [generatedImageURL, setGeneratedImageURL] = useState("");
 
@@ -61,13 +68,13 @@ const ImageToImage = ({ printsName }) => {
 
     const [modelName, setModelName] = useState("");
 
-    const [productPriceBeforeDiscount, setProductPriceBeforeDiscount] = useState(300);
+    const [productPriceBeforeDiscount, setProductPriceBeforeDiscount] = useState(0);
 
-    const [productPriceAfterDiscount, setProductPriceAfterDiscount] = useState(229);
+    const [productPriceAfterDiscount, setProductPriceAfterDiscount] = useState(0);
 
     const [imageType, setImageType] = useState("vertical");
 
-    const [paintingType, setPaintingType] = useState(printsName);
+    const [paintingType, setPaintingType] = useState("poster");
 
     const [paintingWidth, setPaintingWidth] = useState(null);
 
@@ -77,7 +84,7 @@ const ImageToImage = ({ printsName }) => {
 
     const [frameColor, setFrameColor] = useState("none");
 
-    const [dimentionsInCm, setDimentionsInCm] = useState(printsName === "poster" ? "50x70" : "50x70");
+    const [dimentionsInCm, setDimentionsInCm] = useState("50x70");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -272,37 +279,52 @@ const ImageToImage = ({ printsName }) => {
 
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
 
+    const getAllImage2ImageCategoriesData = async () => {
+        try {
+            const res = await Axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`);
+            const result = await res.data;
+            return result;
+        }
+        catch (err) {
+            throw Error(err.response.data);
+        }
+    }
+
+    const getAllImage2ImageCategoryStylesData = async (categoriesData, categorySelectedIndex) => {
+        try {
+            const res = await Axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
+            const result = await res.data;
+            return result;
+        }
+        catch (err) {
+            throw Error(err.response.data);
+        }
+    }
+
     useEffect(() => {
-        Axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`)
-            .then((res) => {
-                let result = res.data;
-                if (typeof result === "string") {
-                    // console.log(result);
-                } else {
-                    setCategoriesData(result);
-                    Axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${result[0].name}`)
-                        .then((res) => {
-                            const categoryStylesTemp = res.data;
-                            setCategoryStyles(categoryStylesTemp);
-                            setModelName(categoryStylesTemp[0].modelName);
-                            if (printsName === "poster" || printsName === "poster-with-wooden-frame" || printsName === "poster-with-hangers") {
-                                setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
-                                let image = new Image();
-                                image.src = `${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`;
-                                image.onload = function () {
-                                    setPaintingWidth(this.naturalWidth);
-                                    setPaintingHeight(this.naturalHeight);
-                                    setIsWillTheImageBeMoved(true);
-                                    setTheDirectionOfImageDisplacement("vertical");
-                                }
-                            } else if (printsName === "canvas") {
-                                setGeneratedImageURL(`${process.env.BASE_API_URL}/assets/images/generatedImages/previewImageForPosterInImageToImage.png`);
-                            }
-                            setGeneratedImagePathInMyServer("assets/images/generatedImages/previewImageForPosterInImageToImage.png");
-                            setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image")));
-                        })
-                        .catch((err) => console.log(err));
+        getAllImage2ImageCategoriesData()
+            .then(async (categoriesData) => {
+                setCategoriesData(categoriesData);
+                const categoryStylesTemp = await getAllImage2ImageCategoryStylesData(categoriesData, 0);
+                setCategoryStyles(categoryStylesTemp);
+                setModelName(categoryStylesTemp[0].modelName);
+                setPaintingType(paintingTypeAsQuery);
+                setImageType(positionAsQuery);
+                setDimentionsInCm(sizeAsQuery);
+                setIsExistWhiteBorderWithPoster(isExistWhiteBorderAsQuery);
+                setFrameColor(frameColorAsQuery);
+                let image = new Image();
+                image.src = `${process.env.BASE_API_URL}/${generatedImagePathInMyServerAsQuery}`;
+                image.onload = function () {
+                    const tempPaintingWidth = this.naturalWidth,
+                        tempPaintingHeight = this.naturalHeight;
+                    setPaintingWidth(tempPaintingWidth);
+                    setPaintingHeight(tempPaintingHeight);
+                    determine_is_will_the_image_be_moved_and_the_direction_of_displacement(tempPaintingWidth, tempPaintingHeight, positionAsQuery);
                 }
+                setGeneratedImagePathInMyServer(generatedImagePathInMyServerAsQuery);
+                setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImagePathInMyServerAsQuery}`);
+                setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image")));
             })
             .catch((err) => console.log(err));
     }, []);
@@ -412,14 +434,14 @@ const ImageToImage = ({ printsName }) => {
     const determine_is_will_the_image_be_moved_and_the_direction_of_displacement = (generatedImageWidth, generatedImageHeight, imageType) => {
         switch (imageType) {
             case "vertical": {
-                if (generatedImageHeight / generatedImageWidth != 1.4) {
+                if ((generatedImageHeight / generatedImageWidth).toFixed(2) != 1.4) {
                     setIsWillTheImageBeMoved(true);
                     setTheDirectionOfImageDisplacement("vertical");
                 }
                 break;
             }
             case "horizontal": {
-                if (generatedImageWidth / generatedImageHeight != 1.4) {
+                if ((generatedImageWidth / generatedImageHeight).toFixed(2) != 1.4) {
                     setIsWillTheImageBeMoved(true);
                     setTheDirectionOfImageDisplacement("horizontal");
                 }
@@ -691,7 +713,7 @@ const ImageToImage = ({ printsName }) => {
                         size: dimentionsInCm,
                         priceBeforeDiscount: productPriceBeforeDiscount,
                         priceAfterDiscount: productPriceAfterDiscount,
-                        generatedImageURL: `${process.env.BASE_API_URL}/${result}`,
+                        generatedImageURL: result,
                         quantity: quantity,
                         service: "image-to-image",
                     }
@@ -739,7 +761,7 @@ const ImageToImage = ({ printsName }) => {
                     size: dimentionsInCm,
                     priceBeforeDiscount: productPriceBeforeDiscount,
                     priceAfterDiscount: productPriceAfterDiscount,
-                    generatedImageURL: `${process.env.BASE_API_URL}/${generatedImagePathInMyServer}`,
+                    generatedImageURL: generatedImagePathInMyServer,
                     quantity: quantity,
                     service: "image-to-image",
                 }
@@ -1329,10 +1351,20 @@ const ImageToImage = ({ printsName }) => {
 export default ImageToImage;
 
 export async function getServerSideProps(context) {
-    const printsName = context.query.printsName;
+    const generatedImagePathInMyServerAsQuery = context.query.generatedImagePathInMyServerAsQuery,
+        paintingTypeAsQuery = context.query.paintingTypeAsQuery,
+        positionAsQuery = context.query.positionAsQuery,
+        sizeAsQuery = context.query.sizeAsQuery,
+        isExistWhiteBorderAsQuery = context.query.isExistWhiteBorderAsQuery,
+        frameColorAsQuery = context.query.frameColorAsQuery;
     return {
         props: {
-            printsName,
+            generatedImagePathInMyServerAsQuery,
+            paintingTypeAsQuery,
+            positionAsQuery,
+            sizeAsQuery,
+            isExistWhiteBorderAsQuery,
+            frameColorAsQuery,
         },
     }
 }

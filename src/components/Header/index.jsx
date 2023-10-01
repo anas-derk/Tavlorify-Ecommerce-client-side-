@@ -164,7 +164,12 @@ const Header = ({ newTotalProductsCount }) => {
                                             href={{
                                                 pathname: "/image-to-image",
                                                 query: {
-                                                    paintingType: "poster",
+                                                    generatedImagePathInMyServerAsQuery: "assets/images/generatedImages/previewImageForPosterInImageToImage.png",
+                                                    paintingTypeAsQuery: "poster",
+                                                    positionAsQuery: "vertical",
+                                                    sizeAsQuery: "50x70",
+                                                    isExistWhiteBorderAsQuery: "without-border",
+                                                    frameColorAsQuery: "none",
                                                 }
                                             }}
                                         >
@@ -203,7 +208,12 @@ const Header = ({ newTotalProductsCount }) => {
                                             href={{
                                                 pathname: "/image-to-image",
                                                 query: {
-                                                    paintingType: "canvas",
+                                                    generatedImagePathInMyServerAsQuery: "assets/images/generatedImages/previewImageForPosterInImageToImage.png",
+                                                    paintingTypeAsQuery: "canvas",
+                                                    positionAsQuery: "vertical",
+                                                    sizeAsQuery: "30x40",
+                                                    isExistWhiteBorderAsQuery: "without-border",
+                                                    frameColorAsQuery: "none",
                                                 }
                                             }}
                                         >

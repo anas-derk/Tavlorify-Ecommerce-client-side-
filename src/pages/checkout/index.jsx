@@ -243,15 +243,12 @@ const Checkout = () => {
                                     pathname: `/${productData.service}`,
                                     query: {
                                         generatedImagePathInMyServerAsQuery: productData.generatedImageURL,
-                                        uploadedImageURLAsQuery: productData.uploadedImageURL,
                                         textPromptAsQuery: productData.textPrompt,
                                         paintingTypeAsQuery: productData.paintingType,
                                         positionAsQuery: productData.position,
                                         sizeAsQuery: productData.size,
                                         isExistWhiteBorderAsQuery: productData.isExistWhiteBorder,
                                         frameColorAsQuery: productData.frameColor,
-                                        widthAsQuery: productData.width,
-                                        heightAsQuery: productData.height,
                                     }
                                 }}>
                                     <img
