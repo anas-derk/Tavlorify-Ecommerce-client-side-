@@ -1,10 +1,11 @@
 import Header from "@/components/Header";
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Axios from "axios";
 
 const Confirmation = () => {
+    const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
     const router = useRouter();
     const { id } = router.query;
     useEffect(() => {
@@ -14,6 +15,7 @@ const Confirmation = () => {
                     console.log(result);
                     if (result.status === "checkout_complete") {
                         localStorage.removeItem("tavlorify-store-user-cart");
+                        setNewTotalProductsCount(0);
                         renderKlarnaConfirmationHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
                     }
                 }).catch((err) => console.log(err));
@@ -53,7 +55,7 @@ const Confirmation = () => {
             <Head>
                 <title>Tavlorify Store - Confirmation</title>
             </Head>
-            <Header />
+            <Header newTotalProductsCount={newTotalProductsCount} />
             {/* Start Container From Bootstrap */}
             <div className="container-fluid pt-4 pb-4">
                 <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hello To You In Confirmation Page</h1>
