@@ -263,13 +263,26 @@ const Header = ({ newTotalProductsCount }) => {
                                         {allProductsData.length > 0 ? allProductsData.map((productData) => (
                                             <div className="row bg-white border border-2 align-items-center" key={productData._id}>
                                                 <div className="col-md-3 p-3 text-center">
-                                                    <img
-                                                        src={`${process.env.BASE_API_URL}/${productData.generatedImageURL}`}
-                                                        alt="product Image !!"
-                                                        className="product-image"
-                                                        width={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].width / 6}`}
-                                                        height={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].height / 6}`}
-                                                    />
+                                                    <Link href={{
+                                                        pathname: `/${productData.service}`,
+                                                        query: {
+                                                            generatedImagePathInMyServerAsQuery: productData.generatedImageURL,
+                                                            textPromptAsQuery: productData.textPrompt,
+                                                            paintingTypeAsQuery: productData.paintingType,
+                                                            positionAsQuery: productData.position,
+                                                            sizeAsQuery: productData.size,
+                                                            isExistWhiteBorderAsQuery: productData.isExistWhiteBorder,
+                                                            frameColorAsQuery: productData.frameColor,
+                                                        }
+                                                    }}>
+                                                        <img
+                                                            src={`${process.env.BASE_API_URL}/${productData.generatedImageURL}`}
+                                                            alt="product Image !!"
+                                                            className="product-image"
+                                                            width={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].width / 6}`}
+                                                            height={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].height / 6}`}
+                                                        />
+                                                    </Link>
                                                 </div>
                                                 <div className="col-md-7 p-3 text-start">
                                                     <h6 className="fw-bold">{productData.paintingType}</h6>
