@@ -19,6 +19,11 @@ const ControlPanelHeader = () => {
                     </button>
                     <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                         <ul className="navbar-nav mb-2 mb-lg-0">
+                            <li className="nav-item me-2">
+                                <Link className="nav-link text-white" aria-current="page" href="/dashboard/admin/admin-panel/orders-manager">
+                                    Orders
+                                </Link>
+                            </li>
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Prices
