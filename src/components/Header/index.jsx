@@ -11,6 +11,7 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
 import global_data from "../../../public/data/global";
 import { GrFormClose } from "react-icons/gr";
+import Axios from "axios";
 
 const Header = ({ newTotalProductsCount }) => {
     const [userId, setUserId] = useState({});
@@ -22,6 +23,8 @@ const Header = ({ newTotalProductsCount }) => {
         totalDiscount: 0,
         totalPriceAfterDiscount: 0,
     });
+    const [isCreatingOrder, setIsCreatingOrder] = useState(false);
+    const [isExistErrorInCreatingOrder, setIsExistErrorInCreatingOrder] = useState(false);
     const router = useRouter();
     useEffect(() => {
         let userId = localStorage.getItem("tavlorify-store-user-id");
@@ -115,6 +118,23 @@ const Header = ({ newTotalProductsCount }) => {
         });
         setAllProductsData(newAllProductData);
         setTotalProductsCount(newAllProductData.length);
+    }
+    const createNewOrder = async () => {
+        try{
+            setIsCreatingOrder(true);
+            const res = await Axios.post(`${process.env.BASE_API_URL}/orders/create-new-order`);
+            const result = await res.data;
+            if (result.msg === "Creating New Order Has Been Successfuly !!"){
+                router.push(`/checkout?orderId=${result.orderId}`);
+            }
+        }
+        catch(err) {
+            setIsExistErrorInCreatingOrder(true);
+            let errorInCreatedOrderTimeout = setTimeout(() => {
+                setIsExistErrorInCreatingOrder(false);
+                clearTimeout(errorInCreatedOrderTimeout);
+            }, 1500);
+        }
     }
     const signOut = () => {
         localStorage.removeItem("tavlorify-store-user-id");
@@ -338,7 +358,26 @@ const Header = ({ newTotalProductsCount }) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <Link href="/checkout" className="btn btn-dark w-100 p-3">Go To Checkout</Link>
+                                            {!isCreatingOrder && !isExistErrorInCreatingOrder && <button
+                                                className="btn btn-dark w-100 p-3"
+                                                onClick={createNewOrder}
+                                            >
+                                                Go To Checkout
+                                            </button>}
+                                            {isCreatingOrder && <button
+                                                className="btn btn-dark w-100 p-3"
+                                                onClick={createNewOrder}
+                                                disabled
+                                            >
+                                                Please Waiting ..
+                                            </button>}
+                                            {isExistErrorInCreatingOrder && <button
+                                                className="btn btn-dark w-100 p-3"
+                                                onClick={createNewOrder}
+                                                disabled
+                                            >
+                                                Sorry, Something Went Wrong, Please Try Again !!
+                                            </button>}
                                         </>}
                                     </div>}
                                 </div>

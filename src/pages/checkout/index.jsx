@@ -9,7 +9,7 @@ import { v4 as generateUniqueID } from "uuid";
 import global_data from "../../../public/data/global";
 import Link from "next/link";
 
-const Checkout = () => {
+const Checkout = ({ orderId }) => {
     const [allProductsData, setAllProductsData] = useState([]);
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
     const [klarnaOrderId, setKlarnaOrderId] = useState("");
@@ -32,9 +32,10 @@ const Checkout = () => {
                     totalPriceAfterDiscount,
                 });
                 setAllProductsData(allProductsData);
-                orderAllProducts()
+                orderAllProducts(orderId)
                     .then((result) => {
                         setKlarnaOrderId(result.order_id);
+                        console.log(result);
                         renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
                     }).catch((err) => console.log(err));
             }
@@ -64,7 +65,7 @@ const Checkout = () => {
         return priceAfterDiscount * quantity;
     }
     const calcTotalOrderTaxAmountForKlarnaCheckoutAPI = (totalAmount) => {
-        return totalAmount - totalAmount * 10000 / ( 10000 + 2500 );
+        return totalAmount - totalAmount * 10000 / (10000 + 2500);
     }
     const getOrderLinesForKlarnaCheckoutAPI = (allProductsData) => {
         let order_lines = [];
@@ -86,7 +87,7 @@ const Checkout = () => {
         });
         return order_lines;
     }
-    const orderAllProducts = async () => {
+    const orderAllProducts = async (orderId) => {
         const tempAllProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         if (Array.isArray(tempAllProductsData)) {
             if (tempAllProductsData.length > 0) {
@@ -101,8 +102,10 @@ const Checkout = () => {
                         terms: `https://tavlorify.se/terms`,
                         checkout: `https://tavlorify.se/checkout/{checkout.order.id}`,
                         confirmation: `https://tavlorify.se/confirmation/{checkout.order.id}`,
-                        push: `https://tavlorify.se/confirmation/{checkout.order.id}`,
+                        push: `${process.env.BASE_API_URL}/orders/save-klarna-order-details/{checkout.order.id}`,
                     },
+                    merchant_reference1: orderId,
+                    merchant_reference2: orderId,
                     options: {
                         allow_separate_shipping_address: true,
                     },
@@ -176,34 +179,9 @@ const Checkout = () => {
             newProductsData = deleteProduct(productId);
         }
         const orderDetails = {
-            purchase_country: "SE",
-            purchase_currency: "SEK",
-            locale: "sv-SE",
             order_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(newProductsData), calcTotalOrderDiscount(newProductsData)) * 100,
-            order_tax_amount: 0,
+            order_tax_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(newProductsData), calcTotalOrderDiscount(newProductsData)) * 100 * 0.20,
             order_lines: getOrderLinesForKlarnaCheckoutAPI(newProductsData),
-            merchant_urls: {
-                terms: `https://tavlorify.se/terms`,
-                checkout: `https://tavlorify.se/checkout/{checkout.order.id}`,
-                confirmation: `https://tavlorify.se/confirmation/{checkout.order.id}`,
-                push: `https://tavlorify.se/confirmation/{checkout.order.id}`,
-            },
-            options: {
-                allow_separate_shipping_address: true,
-            },
-            shipping_options: [
-                {
-                    id: "4db52f01-67e4-4d70-af73-1913792f0bfe",
-                    name: "Tavlorify",
-                    description: "EXPRESS 1-2 Days",
-                    preselected: true,
-                    shipping_method: "Own",
-                    price: 0,
-                    tax_amount: 0,
-                    tax_rate: 0,
-                    tms_reference: generateUniqueID(),
-                }
-            ]
         }
         try {
             const res = await Axios.put(`${process.env.BASE_API_URL}/orders/update-klarna-order/${orderId}`, orderDetails);
@@ -332,3 +310,12 @@ const Checkout = () => {
 }
 
 export default Checkout;
+
+export async function getServerSideProps(context) {
+    const orderId = context.query.orderId;
+    return {
+        props: {
+            orderId
+        },
+    }
+}
