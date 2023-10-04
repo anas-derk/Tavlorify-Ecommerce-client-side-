@@ -33,9 +33,10 @@ const Checkout = ({ orderId }) => {
                 });
                 setAllProductsData(allProductsData);
                 orderAllProducts(orderId)
-                    .then((result) => {
+                    .then(async (result) => {
                         setKlarnaOrderId(result.order_id);
                         console.log(result);
+                        await updateOrder(orderId, result.order_id);
                         renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
                     }).catch((err) => console.log(err));
             }
@@ -102,7 +103,7 @@ const Checkout = ({ orderId }) => {
                         terms: `https://tavlorify.se/terms`,
                         checkout: `https://tavlorify.se/checkout/{checkout.order.id}`,
                         confirmation: `https://tavlorify.se/confirmation/{checkout.order.id}`,
-                        push: `${process.env.BASE_API_URL}/orders/save-klarna-order-details/{checkout.order.id}`,
+                        push: `${process.env.BASE_API_URL}/orders/handle-klarna-checkout-complete/{checkout.order.id}`,
                     },
                     merchant_reference1: orderId,
                     merchant_reference2: orderId,
@@ -171,7 +172,7 @@ const Checkout = ({ orderId }) => {
             }
         }
     }
-    const updateOrder = async (productId, operation, orderId) => {
+    const updateKlarnaOrder = async (productId, operation, orderId) => {
         let newProductsData = [];
         if (operation === "increase-product-quantity" || operation === "decrease-product-quantity") {
             newProductsData = updateProductQuantity(allProductsData, productId, operation);
@@ -206,6 +207,18 @@ const Checkout = ({ orderId }) => {
     }
     const deleteProduct = (productId) => {
         return allProductsData.filter((product) => product._id != productId);
+    }
+    const updateOrder = async (orderId, klarnaOrderId) => {
+        try{
+            const res = await Axios.put(`${process.env.BASE_API_URL}/orders/update-order/${orderId}`, {
+                klarnaOrderId: klarnaOrderId,
+            });
+            const result = await res.data;
+            console.log(result);
+        }
+        catch(err){
+            console.log(err);
+        }
     }
     return (
         // Start Checkout Page
@@ -258,7 +271,7 @@ const Checkout = ({ orderId }) => {
                                 <span className="fw-bold me-2">{productData.quantity}</span>
                                 <AiOutlinePlus
                                     className="quantity-control-icon"
-                                    onClick={() => updateOrder(productData._id, "increase-product-quantity", klarnaOrderId)}
+                                    onClick={() => updateKlarnaOrder(productData._id, "increase-product-quantity", klarnaOrderId)}
                                 />
                             </div>
                             <div className="col-md-2 p-3 text-end">
@@ -268,7 +281,7 @@ const Checkout = ({ orderId }) => {
                             <div className="col-md-1 text-center">
                                 <BsTrash
                                     className="trash-icon"
-                                    onClick={() => updateOrder(productData._id, "delete-product", klarnaOrderId)}
+                                    onClick={() => updateKlarnaOrder(productData._id, "delete-product", klarnaOrderId)}
                                 />
                             </div>
                         </div>
