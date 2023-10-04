@@ -35,7 +35,6 @@ const Checkout = ({ orderId }) => {
                 orderAllProducts(orderId)
                     .then(async (result) => {
                         setKlarnaOrderId(result.order_id);
-                        console.log(result);
                         await updateOrder(orderId, result.order_id);
                         renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
                     }).catch((err) => console.log(err));
@@ -211,7 +210,7 @@ const Checkout = ({ orderId }) => {
     const updateOrder = async (orderId, klarnaOrderId) => {
         try{
             const res = await Axios.put(`${process.env.BASE_API_URL}/orders/update-order/${orderId}`, {
-                klarnaOrderId: klarnaOrderId,
+                klarnaOrderId: "7ae2f3f1-505c-569f-80c9-b2b3704b2178",
             });
             const result = await res.data;
             console.log(result);
