@@ -210,7 +210,7 @@ const Checkout = ({ orderId }) => {
     const updateOrder = async (orderId, klarnaOrderId) => {
         try{
             const res = await Axios.put(`${process.env.BASE_API_URL}/orders/update-order/${orderId}`, {
-                klarnaOrderId: "7ae2f3f1-505c-569f-80c9-b2b3704b2178",
+                klarnaOrderId: klarnaOrderId,
             });
             const result = await res.data;
             console.log(result);
