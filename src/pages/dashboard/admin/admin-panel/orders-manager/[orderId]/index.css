@@ -1,0 +1,16 @@
+.order-details .order-details-box {
+  height: calc(100vh - 250px);
+  overflow: auto;
+}
+
+.order-details .order-details-box .order-data-table {
+  font-size: 15px;
+  border: 2px solid #000;
+  background-color: #FFF;
+  width: 100%;
+}
+
+.order-details .order-details-box .order-data-table th, .order-details .order-details-box .order-data-table td {
+  border: 2px solid #000;
+  padding: 10px;
+}

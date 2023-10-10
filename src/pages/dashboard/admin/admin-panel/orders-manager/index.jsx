@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import Axios from "axios";
 import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
+import Link from "next/link";
 
 const OrdersManager = () => {
     const [allOrders, setAllOrders] = useState([]);
@@ -163,7 +164,7 @@ const OrdersManager = () => {
                                         <td>
                                             <button className="btn btn-danger d-block mx-auto mb-3">Delete</button>
                                             <button className="btn btn-info d-block mx-auto mb-3">Update</button>
-                                            <button className="btn btn-success d-block mx-auto">Show Details</button>
+                                            <Link href={`/dashboard/admin/admin-panel/orders-manager/${order._id}`} className="btn btn-success d-block mx-auto">Show Details</Link>
                                         </td>
                                     </tr>
                                 ))}
