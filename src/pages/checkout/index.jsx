@@ -32,12 +32,13 @@ const Checkout = ({ orderId }) => {
                     totalPriceAfterDiscount,
                 });
                 setAllProductsData(allProductsData);
-                orderAllProducts(orderId)
-                    .then(async (result) => {
+                getOrderDetails(orderId)
+                    .then(async (order) => {
+                        const result = await orderAllProducts(orderId, order.orderNumber);
                         setKlarnaOrderId(result.order_id);
                         await updateOrder(orderId, result.order_id);
                         renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
-                    }).catch((err) => console.log(err));
+                    });
             }
         }
     }, []);
@@ -87,7 +88,16 @@ const Checkout = ({ orderId }) => {
         });
         return order_lines;
     }
-    const orderAllProducts = async (orderId) => {
+    const getOrderDetails = async (orderId) => {
+        try{
+            const res = await Axios.get(`${process.env.BASE_API_URL}/orders/order-details/${orderId}`);
+            return await res.data;
+        }
+        catch(err){
+            return err.response.data;
+        }
+    }
+    const orderAllProducts = async (orderId, orderNumber) => {
         const tempAllProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         if (Array.isArray(tempAllProductsData)) {
             if (tempAllProductsData.length > 0) {
@@ -104,14 +114,14 @@ const Checkout = ({ orderId }) => {
                         confirmation: `https://tavlorify.se/confirmation/{checkout.order.id}`,
                         push: `${process.env.BASE_API_URL}/orders/handle-klarna-checkout-complete/{checkout.order.id}`,
                     },
-                    merchant_reference1: orderId,
+                    merchant_reference1: orderNumber,
                     merchant_reference2: orderId,
                     customer: {
                         type: "person",
                     },
                     options: {
                         allow_separate_shipping_address: true,
-                        allowed_customer_types: ["person","organization"],
+                        allowed_customer_types: ["person", "organization"],
                     },
                     shipping_options: [
                         {
@@ -212,14 +222,14 @@ const Checkout = ({ orderId }) => {
         return allProductsData.filter((product) => product._id != productId);
     }
     const updateOrder = async (orderId, klarnaOrderId) => {
-        try{
+        try {
             const res = await Axios.put(`${process.env.BASE_API_URL}/orders/update-order/${orderId}`, {
                 klarnaOrderId: klarnaOrderId,
             });
             const result = await res.data;
             console.log(result);
         }
-        catch(err){
+        catch (err) {
             console.log(err);
         }
     }
