@@ -106,8 +106,12 @@ const Checkout = ({ orderId }) => {
                     },
                     merchant_reference1: orderId,
                     merchant_reference2: orderId,
+                    customer: {
+                        type: "person",
+                    },
                     options: {
                         allow_separate_shipping_address: true,
+                        allowed_customer_types: ["person","organization"],
                     },
                     shipping_options: [
                         {
