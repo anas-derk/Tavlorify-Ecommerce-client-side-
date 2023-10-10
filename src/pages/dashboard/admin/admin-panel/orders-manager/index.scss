@@ -13,4 +13,22 @@
             }
         }
     }
+    .pagination{
+        .pagination-icon{
+            font-size: 30px;
+            cursor: pointer;
+            &:hover{
+                background-color: #dc3545;
+                color: #FFF;
+                font-size: 33px;
+            }
+        }
+        .pagination-button{
+            background: #DDD;
+            &.selection{
+                background-color: #dc3545;
+                color: #FFF;
+            }
+        }
+    }
 }

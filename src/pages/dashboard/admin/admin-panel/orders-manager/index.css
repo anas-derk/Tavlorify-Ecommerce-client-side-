@@ -14,3 +14,23 @@
   border: 2px solid #000;
   padding: 10px;
 }
+
+.orders-manager .pagination .pagination-icon {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.orders-manager .pagination .pagination-icon:hover {
+  background-color: #dc3545;
+  color: #FFF;
+  font-size: 33px;
+}
+
+.orders-manager .pagination .pagination-button {
+  background: #DDD;
+}
+
+.orders-manager .pagination .pagination-button.selection {
+  background-color: #dc3545;
+  color: #FFF;
+}
