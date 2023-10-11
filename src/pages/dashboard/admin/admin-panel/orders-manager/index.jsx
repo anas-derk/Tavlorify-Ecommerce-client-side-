@@ -13,10 +13,6 @@ const OrdersManager = () => {
     const [totalPagesCount, setTotalPagesCount] = useState(0);
     const [currentSliceFromOrdersDataList, setCurrentSliceFromOrdersDataList] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
-    const [orderNumber, setOrderNumber] = useState(null);
-    const [orderId, setOrderId] = useState(null);
-    const [klarnaReference, setKlarnaReference] = useState(null);
-    const [orderStatus, setOrderStatus] = useState(null);
     const pageSize = 3;
     useEffect(() => {
         const adminId = localStorage.getItem("tavlorify-store-admin-id");
@@ -28,8 +24,8 @@ const OrdersManager = () => {
                     if (result.length > 0) {
                         setAllOrders(result);
                         setTotalPagesCount(Math.ceil(result.length / pageSize));
-                        const determinatedOrders = getCurrentSliceFromOrdersDataList(currentPage, result);
-                        setCurrentSliceFromOrdersDataList(determinatedOrders);
+                        const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(currentPage, result);
+                        setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
                     }
                 });
         }
@@ -53,7 +49,6 @@ const OrdersManager = () => {
         return orderedDateInDateFormat;
     }
     const getCurrentSliceFromOrdersDataList = (currentPage, allOrders) => {
-        setCurrentPage(currentPage);
         const startPageIndex = (currentPage - 1) * pageSize;
         const endPageIndex = startPageIndex + pageSize;
         const determinatedOrders = allOrders.slice(startPageIndex, endPageIndex);
@@ -79,7 +74,11 @@ const OrdersManager = () => {
                     <button
                         key={i}
                         className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === i ? "selection" : ""} ${i === 1 ? "ms-3" : ""}`}
-                        onClick={() => getCurrentSliceFromOrdersDataList(i, allOrders)}
+                        onClick={() => {
+                            const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(i, allOrders);
+                            setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+                            setCurrentPage(i);
+                        }}
                     >
                         {i}
                     </button>
@@ -94,7 +93,11 @@ const OrdersManager = () => {
                 <button
                     key={totalPagesCount}
                     className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === totalPagesCount ? "selection" : ""}`}
-                    onClick={() => getCurrentSliceFromOrdersDataList(totalPagesCount, allOrders)}
+                    onClick={() => {
+                        const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(pageNumber, allOrders);
+                        setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+                        setCurrentPage(pageNumber);
+                    }}
                 >
                     {totalPagesCount}
                 </button>
@@ -116,7 +119,9 @@ const OrdersManager = () => {
                     className="navigate-to-specific-page w-25"
                     onSubmit={(e) => {
                         e.preventDefault();
-                        getCurrentSliceFromOrdersDataList(pageNumber, allOrders);
+                        const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(pageNumber, allOrders);
+                        setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+                        setCurrentPage(pageNumber);
                     }}
                 >
                     <input
