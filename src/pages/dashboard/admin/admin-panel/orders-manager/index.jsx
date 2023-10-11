@@ -13,6 +13,10 @@ const OrdersManager = () => {
     const [totalPagesCount, setTotalPagesCount] = useState(0);
     const [currentSliceFromOrdersDataList, setCurrentSliceFromOrdersDataList] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
+    const [orderNumber, setOrderNumber] = useState(null);
+    const [orderId, setOrderId] = useState(null);
+    const [klarnaReference, setKlarnaReference] = useState(null);
+    const [orderStatus, setOrderStatus] = useState(null);
     const pageSize = 3;
     useEffect(() => {
         const adminId = localStorage.getItem("tavlorify-store-admin-id");
@@ -24,7 +28,8 @@ const OrdersManager = () => {
                     if (result.length > 0) {
                         setAllOrders(result);
                         setTotalPagesCount(Math.ceil(result.length / pageSize));
-                        getCurrentSliceFromOrdersDataList(currentPage, result);
+                        const determinatedOrders = getCurrentSliceFromOrdersDataList(currentPage, result);
+                        setCurrentSliceFromOrdersDataList(determinatedOrders);
                     }
                 });
         }
@@ -51,17 +56,20 @@ const OrdersManager = () => {
         setCurrentPage(currentPage);
         const startPageIndex = (currentPage - 1) * pageSize;
         const endPageIndex = startPageIndex + pageSize;
-        setCurrentSliceFromOrdersDataList(allOrders.slice(startPageIndex, endPageIndex));
+        const determinatedOrders = allOrders.slice(startPageIndex, endPageIndex);
+        return determinatedOrders;
     }
     const getPreviousPage = () => {
         const newCurrentPage = currentPage - 1;
+        const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(newCurrentPage, allOrders);
+        setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
         setCurrentPage(newCurrentPage);
-        getCurrentSliceFromOrdersDataList(newCurrentPage, allOrders);
     }
     const getNextPage = () => {
         const newCurrentPage = currentPage + 1;
+        const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(newCurrentPage, allOrders);
+        setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
         setCurrentPage(newCurrentPage);
-        getCurrentSliceFromOrdersDataList(newCurrentPage, allOrders);
     }
     const paginationBar = () => {
         const paginationButtons = [];
@@ -123,6 +131,42 @@ const OrdersManager = () => {
             </section>
         );
     }
+    const filterOrders = (e, filterStandard, value) => {
+        e.preventDefault();
+        if (!value) {
+            const determinatedOrders = getCurrentSliceFromOrdersDataList(1, allOrders);
+            setCurrentSliceFromOrdersDataList(determinatedOrders);
+            setTotalPagesCount(Math.ceil(determinatedOrders.length / pageSize));
+        } else {
+            switch (filterStandard) {
+                case "orderNumber": {
+                    setCurrentSliceFromOrdersDataList(allOrders.filter((order) => order.orderNumber == value));
+                    setTotalPagesCount(1);
+                    break;
+                }
+                case "orderId": {
+                    setCurrentSliceFromOrdersDataList(allOrders.filter((order) => order._id == value));
+                    setTotalPagesCount(1);
+                    break;
+                }
+                case "klarnaReference": {
+                    setCurrentSliceFromOrdersDataList(allOrders.filter((order) => order.klarnaReference == value));
+                    setTotalPagesCount(1);
+                    break;
+                }
+                case "status": {
+                    const determinatedOrders = allOrders.filter((order) => order.status == value);
+                    const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(1, determinatedOrders);
+                    setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+                    setTotalPagesCount(Math.ceil(determinatedOrders.length / pageSize));
+                    break;
+                }
+                default: {
+                    return "Error, Wrong Filter Standard !!";
+                }
+            }
+        }
+    }
     return (
         <div className="orders-manager">
             <Head>
@@ -135,57 +179,55 @@ const OrdersManager = () => {
             <section className="content d-flex justify-content-center align-items-center flex-column text-center pt-3 pb-3">
                 <div className="container-fluid">
                     <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In Orders Manager</h1>
-                    {currentSliceFromOrdersDataList.length > 0 ? <div className="orders-managment">
+                    {allOrders.length > 0 && <div className="orders-managment">
                         <section className="filters mb-3 bg-white border-3 border-info p-3 text-start">
                             <h3 className="section-name">Filters: </h3>
                             <hr />
                             <div className="row">
                                 <div className="col-md-3 d-flex align-items-center">
                                     <h6 className="me-2 mb-0 fw-bold text-center">Order Number</h6>
-                                    <form className="order-filter-form w-75">
-                                        <input
-                                            type="number"
-                                            className="form-control"
-                                            placeholder="Pleae Enter Order Number"
-                                            min="1"
-                                            max={allOrders.length}
-                                        />
-                                    </form>
+                                    <input
+                                        type="number"
+                                        className="form-control"
+                                        placeholder="Pleae Enter Order Number"
+                                        min="1"
+                                        max={allOrders.length}
+                                        onChange={(e) => filterOrders(e, "orderNumber", e.target.valueAsNumber)}
+                                    />
                                 </div>
                                 <div className="col-md-3 d-flex align-items-center">
                                     <h6 className="me-2 mb-0 fw-bold text-center">Order Id</h6>
-                                    <form className="order-filter-form w-75">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Pleae Enter Order Id"
-                                        />
-                                    </form>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Pleae Enter Order Id"
+                                        onChange={(e) => filterOrders(e, "orderId", e.target.value)}
+                                    />
                                 </div>
                                 <div className="col-md-3 d-flex align-items-center">
                                     <h6 className="me-2 mb-0 fw-bold text-center">Klarna Reference</h6>
-                                    <form className="order-filter-form w-75">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Pleae Enter Reference"
-                                        />
-                                    </form>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Pleae Enter Reference"
+                                        onChange={(e) => filterOrders(e, "klarnaReference", e.target.value)}
+                                    />
                                 </div>
                                 <div className="col-md-3 d-flex align-items-center">
                                     <h6 className="me-2 mb-0 fw-bold text-center">Status</h6>
-                                    <form className="order-filter-form w-75">
-                                        <select className="select-order-status form-select">
-                                            <option value="">Pleae Enter Status</option>
-                                            <option value="pending">Pending</option>
-                                            <option value="shipping">Shipping</option>
-                                            <option value="completed">Completed</option>
-                                        </select>
-                                    </form>
+                                    <select
+                                        className="select-order-status form-select"
+                                        onChange={(e) => filterOrders(e, "status", e.target.value)}
+                                    >
+                                        <option value="">Pleae Enter Status</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="shipping">Shipping</option>
+                                        <option value="completed">Completed</option>
+                                    </select>
                                 </div>
                             </div>
                         </section>
-                        <section className="orders-data-box p-3">
+                        {currentSliceFromOrdersDataList.length > 0 ? <section className="orders-data-box p-3">
                             <table className="orders-data-table mb-4">
                                 <thead>
                                     <tr>
@@ -220,8 +262,8 @@ const OrdersManager = () => {
                                     ))}
                                 </tbody>
                             </table>
-                        </section>
-                    </div> : <p className="alert alert-danger">Sorry, Can't Find Any Orders !!</p>}
+                        </section> : <p className="alert alert-danger">Sorry, Can't Find Any Orders !!</p>}
+                    </div>}
                     {totalPagesCount > 0 && paginationBar()}
                 </div>
             </section>

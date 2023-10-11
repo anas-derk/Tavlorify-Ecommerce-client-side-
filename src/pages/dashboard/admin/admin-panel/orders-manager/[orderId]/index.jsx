@@ -46,7 +46,7 @@ const OrderDetails = () => {
                         <table className="order-data-table mb-5">
                             <thead>
                                 <tr>
-                                    <th>Reference / Order Id</th>
+                                    <th>Reference / Product Id</th>
                                     <th>Quantity</th>
                                     <th>Name</th>
                                     <th>Unit Price</th>
@@ -88,7 +88,7 @@ const OrderDetails = () => {
                                         <p className="city fw-bold">City: {orderDetails.billing_address.city}</p>
                                         <p className="email fw-bold">Email: {orderDetails.billing_address.email}</p>
                                         <p className="name fw-bold">Name: {orderDetails.billing_address.given_name}</p>
-                                        <p className="family-name fw-bold">Email: {orderDetails.billing_address.family_name}</p>
+                                        <p className="family-name fw-bold">Family Name: {orderDetails.billing_address.family_name}</p>
                                         <p className="phone fw-bold">Phone: {orderDetails.billing_address.phone}</p>
                                         <p className="postal-code fw-bold">Postal Code: {orderDetails.billing_address.postal_code}</p>
                                         <p className="street-address fw-bold">Street Address: {orderDetails.billing_address.street_address}</p>
@@ -101,7 +101,7 @@ const OrderDetails = () => {
                                         <p className="city fw-bold">City: {orderDetails.shipping_address.city}</p>
                                         <p className="email fw-bold">Email: {orderDetails.shipping_address.email}</p>
                                         <p className="name fw-bold">Name: {orderDetails.shipping_address.given_name}</p>
-                                        <p className="family-name fw-bold">Email: {orderDetails.shipping_address.family_name}</p>
+                                        <p className="family-name fw-bold">Family Name: {orderDetails.shipping_address.family_name}</p>
                                         <p className="phone fw-bold">Phone: {orderDetails.shipping_address.phone}</p>
                                         <p className="postal-code fw-bold">Postal Code: {orderDetails.shipping_address.postal_code}</p>
                                         <p className="street-address fw-bold">Street Address: {orderDetails.shipping_address.street_address}</p>
