@@ -132,44 +132,95 @@ const OrdersManager = () => {
             <ControlPanelHeader />
             {/* End Control Panel Header */}
             {/* Start Content Section */}
-            <section className="content d-flex justify-content-center align-items-center flex-column text-center">
+            <section className="content d-flex justify-content-center align-items-center flex-column text-center pt-3 pb-3">
                 <div className="container-fluid">
                     <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In Orders Manager</h1>
-                    {currentSliceFromOrdersDataList.length > 0 ? <div className="orders-data-box p-3">
-                        <table className="orders-data-table mb-4">
-                            <thead>
-                                <tr>
-                                    <th>Order Number</th>
-                                    <th>Order Id</th>
-                                    <th>Klarna Order Id</th>
-                                    <th>Klarna Reference</th>
-                                    <th>Checkout Status</th>
-                                    <th>Status</th>
-                                    <th>Order Total Amount</th>
-                                    <th>Added Date</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {currentSliceFromOrdersDataList.map((order) => (
-                                    <tr key={order._id}>
-                                        <td>{order.orderNumber}</td>
-                                        <td>{order._id}</td>
-                                        <td>{order.klarnaOrderId}</td>
-                                        <td>{order.klarnaReference}</td>
-                                        <td>{order.checkout_status}</td>
-                                        <td>{order.status}</td>
-                                        <td>{order.order_amount / 100}</td>
-                                        <td>{getDateFormated(order.added_date)}</td>
-                                        <td>
-                                            <button className="btn btn-danger d-block mx-auto mb-3">Delete</button>
-                                            <button className="btn btn-info d-block mx-auto mb-3">Update</button>
-                                            <Link href={`/dashboard/admin/admin-panel/orders-manager/${order._id}`} className="btn btn-success d-block mx-auto">Show Details</Link>
-                                        </td>
+                    {currentSliceFromOrdersDataList.length > 0 ? <div className="orders-managment">
+                        <section className="filters mb-3 bg-white border-3 border-info p-3 text-start">
+                            <h3 className="section-name">Filters: </h3>
+                            <hr />
+                            <div className="row">
+                                <div className="col-md-3 d-flex align-items-center">
+                                    <h6 className="me-2 mb-0 fw-bold text-center">Order Number</h6>
+                                    <form className="order-filter-form w-75">
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            placeholder="Pleae Enter Order Number"
+                                            min="1"
+                                            max={allOrders.length}
+                                        />
+                                    </form>
+                                </div>
+                                <div className="col-md-3 d-flex align-items-center">
+                                    <h6 className="me-2 mb-0 fw-bold text-center">Order Id</h6>
+                                    <form className="order-filter-form w-75">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Pleae Enter Order Id"
+                                        />
+                                    </form>
+                                </div>
+                                <div className="col-md-3 d-flex align-items-center">
+                                    <h6 className="me-2 mb-0 fw-bold text-center">Klarna Reference</h6>
+                                    <form className="order-filter-form w-75">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Pleae Enter Reference"
+                                        />
+                                    </form>
+                                </div>
+                                <div className="col-md-3 d-flex align-items-center">
+                                    <h6 className="me-2 mb-0 fw-bold text-center">Status</h6>
+                                    <form className="order-filter-form w-75">
+                                        <select className="select-order-status form-select">
+                                            <option value="">Pleae Enter Status</option>
+                                            <option value="pending">Pending</option>
+                                            <option value="shipping">Shipping</option>
+                                            <option value="completed">Completed</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </div>
+                        </section>
+                        <section className="orders-data-box p-3">
+                            <table className="orders-data-table mb-4">
+                                <thead>
+                                    <tr>
+                                        <th>Order Number</th>
+                                        <th>Order Id</th>
+                                        <th>Klarna Order Id</th>
+                                        <th>Klarna Reference</th>
+                                        <th>Checkout Status</th>
+                                        <th>Status</th>
+                                        <th>Order Total Amount</th>
+                                        <th>Added Date</th>
+                                        <th>Action</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {currentSliceFromOrdersDataList.map((order) => (
+                                        <tr key={order._id}>
+                                            <td>{order.orderNumber}</td>
+                                            <td>{order._id}</td>
+                                            <td>{order.klarnaOrderId}</td>
+                                            <td>{order.klarnaReference}</td>
+                                            <td>{order.checkout_status}</td>
+                                            <td>{order.status}</td>
+                                            <td>{order.order_amount / 100}</td>
+                                            <td>{getDateFormated(order.added_date)}</td>
+                                            <td>
+                                                <button className="btn btn-danger d-block mx-auto mb-3">Delete</button>
+                                                <button className="btn btn-info d-block mx-auto mb-3">Update</button>
+                                                <Link href={`/dashboard/admin/admin-panel/orders-manager/${order._id}`} className="btn btn-success d-block mx-auto">Show Details</Link>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </section>
                     </div> : <p className="alert alert-danger">Sorry, Can't Find Any Orders !!</p>}
                     {totalPagesCount > 0 && paginationBar()}
                 </div>
