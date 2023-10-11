@@ -138,10 +138,10 @@ const OrdersManager = () => {
     }
     const filterOrders = (e, filterStandard, value) => {
         e.preventDefault();
-        if (!value) {
+        if (!value || (filterStandard == "status" && value == "all")) {
             const determinatedOrders = getCurrentSliceFromOrdersDataList(1, allOrders);
             setCurrentSliceFromOrdersDataList(determinatedOrders);
-            setTotalPagesCount(Math.ceil(determinatedOrders.length / pageSize));
+            setTotalPagesCount(Math.ceil(allOrders.length / pageSize));
         } else {
             switch (filterStandard) {
                 case "orderNumber": {
@@ -224,7 +224,8 @@ const OrdersManager = () => {
                                         className="select-order-status form-select"
                                         onChange={(e) => filterOrders(e, "status", e.target.value)}
                                     >
-                                        <option value="">Pleae Enter Status</option>
+                                        <option value="" hidden>Pleae Enter Status</option>
+                                        <option value="all">All</option>
                                         <option value="pending">Pending</option>
                                         <option value="shipping">Shipping</option>
                                         <option value="completed">Completed</option>
