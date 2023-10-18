@@ -159,6 +159,20 @@ const OrdersManager = () => {
                     setTotalPagesCount(1);
                     break;
                 }
+                case "given_name": {
+                    const determinatedOrders = allOrders.filter((order) => order.billing_address.given_name.toLowerCase() == value.toLowerCase());
+                    const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(1, determinatedOrders);
+                    setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+                    setTotalPagesCount(Math.ceil(determinatedOrders.length / pageSize));
+                    break;
+                }
+                case "email": {
+                    const determinatedOrders = allOrders.filter((order) => order.billing_address.email.toLowerCase() == value.toLowerCase());
+                    const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(1, determinatedOrders);
+                    setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+                    setTotalPagesCount(Math.ceil(determinatedOrders.length / pageSize));
+                    break;
+                }
                 case "status": {
                     const determinatedOrders = allOrders.filter((order) => order.status == value);
                     const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(1, determinatedOrders);
@@ -230,6 +244,24 @@ const OrdersManager = () => {
                                         <option value="shipping">Shipping</option>
                                         <option value="completed">Completed</option>
                                     </select>
+                                </div>
+                                <div className="col-md-3 d-flex align-items-center mt-4">
+                                    <h6 className="me-2 mb-0 fw-bold text-center">Customer</h6>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Pleae Enter Customer Name"
+                                        onChange={(e) => filterOrders(e, "given_name", e.target.value.trim())}
+                                    />
+                                </div>
+                                <div className="col-md-3 d-flex align-items-center mt-4">
+                                    <h6 className="me-2 mb-0 fw-bold text-center">Customer</h6>
+                                    <input
+                                        type="email"
+                                        className="form-control"
+                                        placeholder="Pleae Enter Customer Email"
+                                        onChange={(e) => filterOrders(e, "email", e.target.value.trim())}
+                                    />
                                 </div>
                             </div>
                         </section>

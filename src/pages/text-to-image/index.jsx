@@ -539,7 +539,6 @@ const TextToImage = ({
         setFormValidationErrors(errorsObject);
         if (Object.keys(errorsObject).length == 0) {
             setIsWaitAddToCart(true);
-            console.log(tempImageType, imageType);
             if (tempImageType !== imageType) {
                 setIsWaitAddToCart(false);
                 setErrorInAddToCart(`Please Select ${tempImageType} Position`);
