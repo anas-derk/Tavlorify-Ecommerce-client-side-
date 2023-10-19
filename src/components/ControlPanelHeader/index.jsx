@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { GoSignOut } from "react-icons/go";
-import { useState } from "react";
 import { useRouter } from "next/router.js";
 
 const ControlPanelHeader = () => {
@@ -29,7 +28,11 @@ const ControlPanelHeader = () => {
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/orders-manager">Returned</Link>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/returned-orders-manager">Returned</Link>
+                                    </li>
+                                    <li><hr className="dropdown-divider" /></li>
+                                    <li>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/returned-orders-manager/add-new-order">Add New Order</Link>
                                     </li>
                                 </ul>
                             </li>
