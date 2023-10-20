@@ -31,9 +31,9 @@ const ControlPanelHeader = () => {
                                         <Link className="dropdown-item" href="/dashboard/admin/admin-panel/returned-orders-manager">Returned</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
-                                    <li>
+                                    {/* <li>
                                         <Link className="dropdown-item" href="/dashboard/admin/admin-panel/returned-orders-manager/add-new-order">Add New Order</Link>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">

@@ -91,7 +91,8 @@ a {
 .product-prices .content,
 .orders-manager .content,
 .order-details .content,
-.add-new-returned-order .content {
+.add-new-returned-order .content,
+.returned-orders-manager .content {
   background-color: #EEE;
   min-height: calc(100vh - 72px);
 }
@@ -116,7 +117,8 @@ a {
 .product-prices .content .welcome-msg,
 .orders-manager .content .welcome-msg,
 .order-details .content .welcome-msg,
-.add-new-returned-order .content .welcome-msg {
+.add-new-returned-order .content .welcome-msg,
+.returned-orders-manager .content .welcome-msg {
   border-bottom: 3px solid;
   width: fit-content;
 }

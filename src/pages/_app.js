@@ -26,6 +26,7 @@ import "./checkout/index.css";
 import "./confirmation/[id]/index.css";
 import "./dashboard/admin/admin-panel/orders-manager/index.css";
 import "./dashboard/admin/admin-panel/orders-manager/[orderId]/index.css";
+import "./dashboard/admin/admin-panel/returned-orders-manager/index.css";
 
 export default function App({ Component, pageProps }) {
   return (

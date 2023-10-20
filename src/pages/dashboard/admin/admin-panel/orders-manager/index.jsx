@@ -186,6 +186,16 @@ const OrdersManager = () => {
             }
         }
     }
+    const addOrderAsReturned = async (orderId) => {
+        try{
+            const res = await Axios.post(`${process.env.BASE_API_URL}/returned-orders/create-new-order/${orderId}`);
+            const result = await res.data;
+            console.log(result);
+        }
+        catch(err){
+            console.log(err.response.data);
+        }
+    }
     return (
         <div className="orders-manager">
             <Head>
@@ -294,7 +304,8 @@ const OrdersManager = () => {
                                             <td>
                                                 <button className="btn btn-danger d-block mx-auto mb-3">Delete</button>
                                                 <button className="btn btn-info d-block mx-auto mb-3">Update</button>
-                                                <Link href={`/dashboard/admin/admin-panel/orders-manager/${order._id}`} className="btn btn-success d-block mx-auto">Show Details</Link>
+                                                <Link href={`/dashboard/admin/admin-panel/orders-manager/${order._id}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>
+                                                <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>
                                             </td>
                                         </tr>
                                     ))}
