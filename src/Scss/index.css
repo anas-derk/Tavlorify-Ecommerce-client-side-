@@ -92,7 +92,8 @@ a {
 .orders-manager .content,
 .order-details .content,
 .add-new-returned-order .content,
-.returned-orders-manager .content {
+.returned-orders-manage .content,
+.returned-order-details .content {
   background-color: #EEE;
   min-height: calc(100vh - 72px);
 }
@@ -118,7 +119,8 @@ a {
 .orders-manager .content .welcome-msg,
 .order-details .content .welcome-msg,
 .add-new-returned-order .content .welcome-msg,
-.returned-orders-manager .content .welcome-msg {
+.returned-orders-manage .content .welcome-msg,
+.returned-order-details .content .welcome-msg {
   border-bottom: 3px solid;
   width: fit-content;
 }

@@ -292,7 +292,7 @@ const ReturnedOrdersManager = () => {
                                             <td>
                                                 <button className="btn btn-danger d-block mx-auto mb-3">Delete</button>
                                                 <button className="btn btn-info d-block mx-auto mb-3">Update</button>
-                                                <Link href={`/dashboard/admin/admin-panel/orders-manager/${order._id}`} className="btn btn-success d-block mx-auto">Show Details</Link>
+                                                <Link href={`/dashboard/admin/admin-panel/returned-orders-manager/${order._id}`} className="btn btn-success d-block mx-auto">Show Details</Link>
                                             </td>
                                         </tr>
                                     ))}
