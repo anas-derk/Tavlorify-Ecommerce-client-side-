@@ -7,12 +7,16 @@ import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 import Link from "next/link";
 
 const ReturnedOrdersManager = () => {
-    const [allReturnedOrders, setallReturnedOrders] = useState([]);
-    const router = useRouter();
+    const [allReturnedOrders, setAllReturnedOrders] = useState([]);
+    const [updatingOrderIndex, setUpdatingOrderIndex] = useState(-1);
+    const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+    const [isDeletingStatus, setIsDeletingStatus] = useState(false);
+    const [deletingOrderIndex, setDeletingOrderIndex] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPagesCount, setTotalPagesCount] = useState(0);
     const [currentSliceFromOrdersDataList, setCurrentSliceFromOrdersDataList] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
+    const router = useRouter();
     const pageSize = 3;
     useEffect(() => {
         const adminId = localStorage.getItem("tavlorify-store-admin-id");
@@ -22,7 +26,7 @@ const ReturnedOrdersManager = () => {
             getAllReturnedOrders()
                 .then((result) => {
                     if (result.length > 0) {
-                        setallReturnedOrders(result);
+                        setAllReturnedOrders(result);
                         setTotalPagesCount(Math.ceil(result.length / pageSize));
                         const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(currentPage, result);
                         setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
@@ -186,6 +190,46 @@ const ReturnedOrdersManager = () => {
             }
         }
     }
+    const changeReturnedOrderData = (productIndex, fieldName, newValue) => {
+        let returnedOrdersDataTemp = allReturnedOrders;
+        returnedOrdersDataTemp[productIndex][fieldName] = newValue;
+        setAllReturnedOrders(returnedOrdersDataTemp);
+    }
+    const updateReturnedOrderData = async (orderIndex) => {
+        setIsUpdatingStatus(true);
+        setUpdatingOrderIndex(orderIndex);
+        try {
+            const res = await Axios.put(`${process.env.BASE_API_URL}/returned-orders/update-order/${allReturnedOrders[orderIndex]._id}`, {
+                order_amount: allReturnedOrders[orderIndex].order_amount,
+                status: allReturnedOrders[orderIndex].status,
+            });
+            const result = await res.data;
+            if (result === "Updating Returned Order Details Has Been Successfuly !!") {
+                setUpdatingOrderIndex(-1);
+                setIsUpdatingStatus(false);
+            }
+        }
+        catch (err) {
+            console.log(err);
+            setUpdatingOrderIndex(-1);
+            setIsUpdatingStatus(false);
+        }
+    }
+    const deleteOrder = async (orderIndex) => {
+        try {
+            setIsDeletingStatus(true);
+            setDeletingOrderIndex(orderIndex);
+            const res = await Axios.delete(`${process.env.BASE_API_URL}/returned-orders/delete-order/${currentSliceFromOrdersDataList[orderIndex]._id}`);
+            const result = await res.data;
+            setIsDeletingStatus(false);
+            setDeletingOrderIndex(-1);
+        }
+        catch (err) {
+            console.log(err);
+            setIsDeletingStatus(false);
+            setDeletingOrderIndex(-1);
+        }
+    }
     return (
         <div className="returned-orders-manager">
             <Head>
@@ -280,18 +324,61 @@ const ReturnedOrdersManager = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {currentSliceFromOrdersDataList.map((order) => (
+                                    {currentSliceFromOrdersDataList.map((order, orderIndex) => (
                                         <tr key={order._id}>
                                             <td>{order.orderNumber}</td>
                                             <td>{order._id}</td>
-                                            <td>{order.orderNumber}</td>
+                                            <td>{order.returnedOrderNumber}</td>
                                             <td>{order._id}</td>
-                                            <td>{order.status}</td>
-                                            <td>{order.order_amount / 100}</td>
+                                            <td>
+                                                <h6 className="fw-bold">{order.status}</h6>
+                                                <hr />
+                                                <select
+                                                    className="select-returned-order-status form-select"
+                                                    onChange={(e) => changeReturnedOrderData(orderIndex, "status", e.target.value)}
+                                                >
+                                                    <option value="" hidden>Pleae Enter Status</option>
+                                                    <option value="awaiting products">awaiting products</option>
+                                                    <option value="received products">received products</option>
+                                                    <option value="checking products">checking products</option>
+                                                    <option value="returned products">returned products</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input
+                                                    type="number"
+                                                    defaultValue={order.order_amount}
+                                                    className="form-control"
+                                                    placeholder="Pleae Enter Order Amount"
+                                                    onChange={(e) => changeReturnedOrderData(orderIndex, "order_amount", e.target.valueAsNumber)}
+                                                />
+                                            </td>
                                             <td>{getDateFormated(order.added_date)}</td>
                                             <td>
-                                                <button className="btn btn-danger d-block mx-auto mb-3">Delete</button>
-                                                <button className="btn btn-info d-block mx-auto mb-3">Update</button>
+                                                {orderIndex !== updatingOrderIndex && <button
+                                                    className="btn btn-info d-block mx-auto mb-3"
+                                                    onClick={() => updateReturnedOrderData(orderIndex)}
+                                                >
+                                                    Update
+                                                </button>}
+                                                {isUpdatingStatus && orderIndex === updatingOrderIndex && <button
+                                                    className="btn btn-info d-block mx-auto mb-3"
+                                                    disabled
+                                                >
+                                                    Updating ...
+                                                </button>}
+                                                {orderIndex !== deletingOrderIndex && <button
+                                                    className="btn btn-danger d-block mx-auto mb-3"
+                                                    onClick={() => deleteOrder(orderIndex)}
+                                                >
+                                                    Delete
+                                                </button>}
+                                                {isDeletingStatus && orderIndex === deletingOrderIndex && <button
+                                                    className="btn btn-danger d-block mx-auto mb-3"
+                                                    disabled
+                                                >
+                                                    Deleting ...
+                                                </button>}
                                                 <Link href={`/dashboard/admin/admin-panel/returned-orders-manager/${order._id}`} className="btn btn-success d-block mx-auto">Show Details</Link>
                                             </td>
                                         </tr>

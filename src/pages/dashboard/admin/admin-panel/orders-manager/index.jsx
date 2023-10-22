@@ -394,7 +394,7 @@ const OrdersManager = () => {
                                                     Deleting ...
                                                 </button>}
                                                 <Link href={`/dashboard/admin/admin-panel/orders-manager/${order._id}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>
-                                                <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>
+                                                {!order.isReturned && (order.checkout_status === "AUTHORIZED" || order.checkout_status === "CAPTURED")  && <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>}
                                             </td>
                                         </tr>
                                     ))}
