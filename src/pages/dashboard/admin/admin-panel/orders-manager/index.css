@@ -15,6 +15,10 @@
   padding: 10px;
 }
 
+.orders-manager .orders-data-box .orders-data-table .select-order-status {
+  width: max-content;
+}
+
 .orders-manager .pagination .pagination-icon {
   font-size: 30px;
   cursor: pointer;

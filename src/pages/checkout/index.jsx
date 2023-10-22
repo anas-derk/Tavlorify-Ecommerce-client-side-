@@ -26,7 +26,6 @@ const Checkout = ({ orderId }) => {
                 let totalDiscount = calcTotalOrderDiscount(allProductsData);
                 let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
                 setPricesDetailsSummary({
-                    ...pricesDetailsSummary,
                     totalPriceBeforeDiscount,
                     totalDiscount,
                     totalPriceAfterDiscount,
@@ -207,7 +206,6 @@ const Checkout = ({ orderId }) => {
             let totalDiscount = calcTotalOrderDiscount(newProductsData);
             let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
             setPricesDetailsSummary({
-                ...pricesDetailsSummary,
                 totalPriceBeforeDiscount,
                 totalDiscount,
                 totalPriceAfterDiscount,

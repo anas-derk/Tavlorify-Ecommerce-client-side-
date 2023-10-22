@@ -8,12 +8,18 @@ import Link from "next/link";
 
 const OrdersManager = () => {
     const [allOrders, setAllOrders] = useState([]);
-    const router = useRouter();
+    const [updatingOrderIndex, setUpdatingOrderIndex] = useState(-1);
+    const [isWaitStatus, setIsWaitStatus] = useState(false);
+    const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+    const [isDeletingStatus, setIsDeletingStatus] = useState(false);
+    const [deletingOrderIndex, setDeletingOrderIndex] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPagesCount, setTotalPagesCount] = useState(0);
     const [currentSliceFromOrdersDataList, setCurrentSliceFromOrdersDataList] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
+    const router = useRouter();
     const pageSize = 3;
+
     useEffect(() => {
         const adminId = localStorage.getItem("tavlorify-store-admin-id");
         if (!adminId) {
@@ -187,13 +193,38 @@ const OrdersManager = () => {
         }
     }
     const addOrderAsReturned = async (orderId) => {
-        try{
+        try {
             const res = await Axios.post(`${process.env.BASE_API_URL}/returned-orders/create-new-order/${orderId}`);
             const result = await res.data;
             console.log(result);
         }
-        catch(err){
+        catch (err) {
             console.log(err.response.data);
+        }
+    }
+    const changeOrderData = (productIndex, fieldName, newValue) => {
+        let ordersDataTemp = allOrders;
+        ordersDataTemp[productIndex][fieldName] = newValue;
+        setAllOrders(ordersDataTemp);
+    }
+    const updateOrderData = async (orderIndex) => {
+        setIsUpdatingStatus(true);
+        setUpdatingOrderIndex(orderIndex);
+        try{
+            const res = await Axios.put(`${process.env.BASE_API_URL}/orders/update-order/${allOrders[orderIndex]._id}`, {
+                order_amount: allOrders[orderIndex].order_amount,
+                status: allOrders[orderIndex].status,
+            });
+            const result = await res.data;
+            if (result === "Updating Order Details Has Been Successfuly !!") {
+                setUpdatingOrderIndex(-1);
+                setIsUpdatingStatus(false);
+            }
+        }
+        catch(err){
+            console.log(err);
+            setUpdatingOrderIndex(-1);
+            setIsUpdatingStatus(false);
         }
     }
     return (
@@ -291,19 +322,50 @@ const OrdersManager = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {currentSliceFromOrdersDataList.map((order) => (
+                                    {currentSliceFromOrdersDataList.map((order, orderIndex) => (
                                         <tr key={order._id}>
                                             <td>{order.orderNumber}</td>
                                             <td>{order._id}</td>
                                             <td>{order.klarnaOrderId}</td>
                                             <td>{order.klarnaReference}</td>
                                             <td>{order.checkout_status}</td>
-                                            <td>{order.status}</td>
-                                            <td>{order.order_amount / 100}</td>
+                                            <td>
+                                                <h6 className="fw-bold">{order.status}</h6>
+                                                <hr />
+                                                <select
+                                                    className="select-order-status form-select"
+                                                    onChange={(e) => changeOrderData(orderIndex, "status", e.target.value)}
+                                                >
+                                                    <option value="" hidden>Pleae Enter Status</option>
+                                                    <option value="pending">Pending</option>
+                                                    <option value="shipping">Shipping</option>
+                                                    <option value="completed">Completed</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input
+                                                    type="number"
+                                                    defaultValue={order.order_amount}
+                                                    className="form-control"
+                                                    placeholder="Pleae Enter Order Amount"
+                                                    onChange={(e) => changeOrderData(orderIndex, "order_amount", e.target.valueAsNumber)}
+                                                />
+                                            </td>
                                             <td>{getDateFormated(order.added_date)}</td>
                                             <td>
+                                                {orderIndex !== updatingOrderIndex && <button
+                                                    className="btn btn-info d-block mx-auto mb-3"
+                                                    onClick={() => updateOrderData(orderIndex)}
+                                                >
+                                                    Update
+                                                </button>}
+                                                {isUpdatingStatus && orderIndex === updatingOrderIndex && <button
+                                                    className="btn btn-info d-block mx-auto mb-3"
+                                                    disabled
+                                                >
+                                                    Updating ...
+                                                </button>}
                                                 <button className="btn btn-danger d-block mx-auto mb-3">Delete</button>
-                                                <button className="btn btn-info d-block mx-auto mb-3">Update</button>
                                                 <Link href={`/dashboard/admin/admin-panel/orders-manager/${order._id}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>
                                                 <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>
                                             </td>
