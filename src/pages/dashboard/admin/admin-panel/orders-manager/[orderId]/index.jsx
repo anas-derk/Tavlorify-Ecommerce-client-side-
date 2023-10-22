@@ -126,7 +126,7 @@ const OrderDetails = () => {
                                         <td>
                                             <input
                                                 type="number"
-                                                className="form-control quantity"
+                                                className="form-control unit-price"
                                                 defaultValue={orderProduct.unit_price}
                                                 onChange={(e) => changeOrderProductData(orderProductIndex, "unit_price", e.target.valueAsNumber)}
                                             />
@@ -134,7 +134,7 @@ const OrderDetails = () => {
                                         <td>
                                             <input
                                                 type="number"
-                                                className="form-control quantity"
+                                                className="form-control total-amount"
                                                 defaultValue={orderProduct.total_amount}
                                                 onChange={(e) => changeOrderProductData(orderProductIndex, "total_amount", e.target.valueAsNumber)}
                                             />
