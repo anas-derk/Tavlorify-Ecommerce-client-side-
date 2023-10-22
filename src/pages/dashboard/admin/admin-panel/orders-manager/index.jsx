@@ -227,6 +227,22 @@ const OrdersManager = () => {
             setIsUpdatingStatus(false);
         }
     }
+    const deleteOrder = async (orderIndex) => {
+        try{
+            setIsDeletingStatus(true);
+            setDeletingOrderIndex(orderIndex);
+            const res = await Axios.delete(`${process.env.BASE_API_URL}/orders/delete-order/${currentSliceFromOrdersDataList[orderIndex]._id}`);
+            const result = await res.data;
+            console.log(result);
+            setIsDeletingStatus(false);
+            setDeletingOrderIndex(-1);
+        }
+        catch(err) {
+            console.log(err);
+            setIsDeletingStatus(false);
+            setDeletingOrderIndex(-1);
+        }
+    }
     return (
         <div className="orders-manager">
             <Head>
@@ -365,7 +381,18 @@ const OrdersManager = () => {
                                                 >
                                                     Updating ...
                                                 </button>}
-                                                <button className="btn btn-danger d-block mx-auto mb-3">Delete</button>
+                                                {orderIndex !== deletingOrderIndex && <button
+                                                    className="btn btn-danger d-block mx-auto mb-3"
+                                                    onClick={() => deleteOrder(orderIndex)}
+                                                >
+                                                    Delete
+                                                </button>}
+                                                {isDeletingStatus && orderIndex === deletingOrderIndex && <button
+                                                    className="btn btn-danger d-block mx-auto mb-3"
+                                                    disabled
+                                                >
+                                                    Deleting ...
+                                                </button>}
                                                 <Link href={`/dashboard/admin/admin-panel/orders-manager/${order._id}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>
                                                 <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>
                                             </td>
