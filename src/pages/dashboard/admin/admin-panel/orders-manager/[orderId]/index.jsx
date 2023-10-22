@@ -6,6 +6,10 @@ import Axios from "axios";
 
 const OrderDetails = () => {
     const [orderDetails, setOrderDetails] = useState({});
+    const [updatingOrderProductIndex, setUpdatingOrderProductIndex] = useState(-1);
+    const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+    const [isDeletingStatus, setIsDeletingStatus] = useState(false);
+    const [deletingOrderProductIndex, setDeletingOrderProductIndex] = useState(false);
     const router = useRouter();
     const { orderId } = router.query;
     useEffect(() => {
@@ -28,6 +32,50 @@ const OrderDetails = () => {
         }
         catch (err) {
             return err.response.data;
+        }
+    }
+    const changeOrderProductData = (productIndex, fieldName, newValue) => {
+        let orderLinesTemp = orderDetails.order_lines;
+        orderLinesTemp[productIndex][fieldName] = newValue;
+        setOrderDetails({ ...orderDetails, order_lines: orderLinesTemp });
+    }
+    const updateOrderProductData = async (orderProductIndex) => {
+        setIsUpdatingStatus(true);
+        setUpdatingOrderProductIndex(orderProductIndex);
+        try {
+            const res = await Axios.put(`${process.env.BASE_API_URL}/orders/products/update-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`, {
+                quantity: orderDetails.order_lines[orderProductIndex].quantity,
+                name: orderDetails.order_lines[orderProductIndex].name,
+                total_amount: orderDetails.order_lines[orderProductIndex].total_amount,
+                unit_price: orderDetails.order_lines[orderProductIndex].unit_price,
+            });
+            const result = await res.data;
+            if (result === "Updating Order Details Has Been Successfuly !!") {
+                setUpdatingOrderProductIndex(-1);
+                setIsUpdatingStatus(false);
+            }
+        }
+        catch (err) {
+            console.log(err);
+            setDeletingOrderProductIndex(-1);
+            setIsUpdatingStatus(false);
+        }
+    }
+    const deleteProductFromOrder = async (orderProductIndex) => {
+        setIsDeletingStatus(true);
+        setDeletingOrderProductIndex(orderProductIndex);
+        try {
+            const res = await Axios.delete(`${process.env.BASE_API_URL}/orders/products/delete-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`);
+            const result = await res.data;
+            if (result === "Deleting Product From Order Has Been Successfuly !!") {
+                setIsDeletingStatus(false);
+                setDeletingOrderProductIndex(-1);
+            }
+        }
+        catch (err) {
+            console.log(err);
+            setIsDeletingStatus(false);
+            setDeletingOrderProductIndex(-1);
         }
     }
     return (
@@ -56,13 +104,41 @@ const OrderDetails = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {orderDetails.order_lines.map((orderProduct) => (
+                                {orderDetails.order_lines.map((orderProduct, orderProductIndex) => (
                                     orderProduct.name !== "Tavlorify" && <tr key={orderProduct.reference}>
                                         <td>{orderProduct.reference}</td>
-                                        <td>{orderProduct.quantity}</td>
-                                        <td>{orderProduct.name}</td>
-                                        <td>{orderProduct.unit_price / 100}</td>
-                                        <td>{orderProduct.total_amount / 100}</td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                className="form-control quantity"
+                                                defaultValue={orderProduct.quantity}
+                                                onChange={(e) => changeOrderProductData(orderProductIndex, "quantity", e.target.valueAsNumber)}
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                className="form-control name"
+                                                defaultValue={orderProduct.name}
+                                                onChange={(e) => changeOrderProductData(orderProductIndex, "name", e.target.value)}
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                className="form-control quantity"
+                                                defaultValue={orderProduct.unit_price}
+                                                onChange={(e) => changeOrderProductData(orderProductIndex, "unit_price", e.target.valueAsNumber)}
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                className="form-control quantity"
+                                                defaultValue={orderProduct.total_amount}
+                                                onChange={(e) => changeOrderProductData(orderProductIndex, "total_amount", e.target.valueAsNumber)}
+                                            />
+                                        </td>
                                         <td>
                                             <img
                                                 src={orderProduct.image_url}
@@ -72,8 +148,30 @@ const OrderDetails = () => {
                                             />
                                         </td>
                                         <td>
-                                            <button className="btn btn-danger d-block mx-auto mb-3">Delete</button>
-                                            <button className="btn btn-info d-block mx-auto mb-3">Update</button>
+                                            {orderProductIndex !== updatingOrderProductIndex && <button
+                                                className="btn btn-info d-block mx-auto mb-3"
+                                                onClick={() => updateOrderProductData(orderProductIndex)}
+                                            >
+                                                Update
+                                            </button>}
+                                            {isUpdatingStatus && orderProductIndex === updatingOrderProductIndex && <button
+                                                className="btn btn-info d-block mx-auto mb-3"
+                                                disabled
+                                            >
+                                                Updating ...
+                                            </button>}
+                                            {orderProductIndex !== deletingOrderProductIndex && <button
+                                                className="btn btn-danger d-block mx-auto mb-3"
+                                                onClick={() => deleteProductFromOrder(orderProductIndex)}
+                                            >
+                                                Delete
+                                            </button>}
+                                            {isDeletingStatus && orderProductIndex === deletingOrderProductIndex && <button
+                                                className="btn btn-danger d-block mx-auto mb-3"
+                                                disabled
+                                            >
+                                                Deleting ...
+                                            </button>}
                                         </td>
                                     </tr>
                                 ))}

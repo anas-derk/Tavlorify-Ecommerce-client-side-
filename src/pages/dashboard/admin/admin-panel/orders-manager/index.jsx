@@ -8,8 +8,8 @@ import Link from "next/link";
 
 const OrdersManager = () => {
     const [allOrders, setAllOrders] = useState([]);
-    const [updatingOrderIndex, setUpdatingOrderIndex] = useState(-1);
     const [isWaitStatus, setIsWaitStatus] = useState(false);
+    const [updatingOrderIndex, setUpdatingOrderIndex] = useState(-1);
     const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
     const [isDeletingStatus, setIsDeletingStatus] = useState(false);
     const [deletingOrderIndex, setDeletingOrderIndex] = useState(false);
