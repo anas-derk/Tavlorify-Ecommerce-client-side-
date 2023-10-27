@@ -224,7 +224,7 @@ const GeneratedImages = ({ pageName }) => {
                                             <h6>{generatedImageData.size}</h6>
                                         </td>
                                         <td className="is-exist-white-border-cell">{generatedImageData.isExistWhiteBorder}</td>
-                                        <td>{getDateFormated(generatedImageData.imageGegenerationDate)}</td>
+                                        <td>{getDateFormated(generatedImageData.imageGenerationDate)}</td>
                                         <td>
                                             <img
                                                 src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
