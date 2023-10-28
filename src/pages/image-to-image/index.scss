@@ -37,6 +37,34 @@
                             .displacement-icon{
                                 font-size: 50px;
                                 background-color: rgba(255, 255, 255, .5);
+                                &.displacement-vertical{
+                                    animation: displacementToUpAndDown 2s ease 0s infinite both;
+                                    @keyframes displacementToUpAndDown {
+                                        0%{
+                                            transform: translateY(20px);
+                                        }
+                                        50%{
+                                            transform: translateY(-20px);
+                                        }
+                                        100%{
+                                            transform: translateY(20px);
+                                        }
+                                    }
+                                }
+                                &.displacement-horizontal{
+                                    animation: displacementToLeftAndRight 2s ease 0s infinite both;
+                                    @keyframes displacementToLeftAndRight {
+                                        0%{
+                                            transform: translateX(20px);
+                                        }
+                                        50%{
+                                            transform: translateX(-20px);
+                                        }
+                                        100%{
+                                            transform: translateX(20px);
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

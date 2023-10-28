@@ -852,22 +852,20 @@ const ImageToImage = ({
                             position: "absolute",
                             zIndex: "-1",
                             width: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${(global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width - 5) / 3}px` : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width}px`
-                            ) : `${(global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width - 5) / 10}px`,
+                                imageSize === "minimize-image" ? `${(global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width) / 3}px` : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width}px`
+                            ) : `${(global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width) / 10}px`,
                             height: !isRoomImageMinimize ? (
                                 imageSize === "minimize-image" ? `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 3}px` : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height}px`
                             ) : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 10}px`,
                             backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
                             boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
-                            maxWidth: "95%",
-                            maxHeight: "97.5%",
                         }}
                     >
                         {isWillTheImageBeMoved && !isMouseDownActivate && imageSize !== "minimize-image" && !isImageInsideRoom && <div
                             className="displacement-icons-box d-flex align-items-center justify-content-center"
                         >
-                            {theDirectionOfImageDisplacement === "horizontal" && <CgArrowsHAlt className="displacement-icon" />}
-                            {theDirectionOfImageDisplacement === "vertical" && <CgArrowsVAlt className="displacement-icon" />}
+                            {theDirectionOfImageDisplacement === "horizontal" && <CgArrowsHAlt className="displacement-icon displacement-horizontal" />}
+                            {theDirectionOfImageDisplacement === "vertical" && <CgArrowsVAlt className="displacement-icon displacement-vertical" />}
                         </div>}
                         <div
                             className="generated-image-box"
@@ -921,8 +919,8 @@ const ImageToImage = ({
                     {isWillTheImageBeMoved && !isMouseDownActivate && imageSize !== "minimize-image" && !isImageInsideRoom && <div
                         className="displacement-icons-box d-flex align-items-center justify-content-center"
                     >
-                        {theDirectionOfImageDisplacement === "horizontal" && <CgArrowsHAlt className="displacement-icon" />}
-                        {theDirectionOfImageDisplacement === "vertical" && <CgArrowsVAlt className="displacement-icon" />}
+                        {theDirectionOfImageDisplacement === "horizontal" && <CgArrowsHAlt className="displacement-icon displacement-horizontal" />}
+                        {theDirectionOfImageDisplacement === "vertical" && <CgArrowsVAlt className="displacement-icon displacement-vertical" />}
                     </div>}
                 </div>}
                 {isWaitStatus && !errorMsg && <span className="loader"></span>}
@@ -1084,7 +1082,7 @@ const ImageToImage = ({
                                                 >
                                                     <img
                                                         src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
-                                                        alt="aa"
+                                                        alt={`${style.name} Image`}
                                                         className="mb-2 style-image"
                                                         style={index === styleSelectedIndex ? { border: "4px solid #000" } : {}}
                                                     />
