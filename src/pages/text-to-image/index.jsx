@@ -626,18 +626,14 @@ const TextToImage = ({
                         {!isWaitStatus && !errorMsg && generatedImageURL && frameColor !== "none" && <img
                             src={frameImages[paintingType][tempImageType][frameColor][tempDimentionsInCm]}
                             alt="Image"
-                            style={{
-                                maxWidth: "100%",
-                                maxHeight: "100%",
-                            }}
                         />}
                     </div>
                     <div
                         className="generated-image-box d-flex align-items-center justify-content-center"
                         style={{
                             width: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width - 14) / 3}px` : `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width}px`
-                            ) : `${(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width - 14) / 10}px`,
+                                imageSize === "minimize-image" ? `${(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width) / 3}px` : `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width}px`
+                            ) : `${(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width) / 10}px`,
                             height: !isRoomImageMinimize ? (
                                 imageSize === "minimize-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 3}px` : `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height}px`
                             ) : `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 10}px`,
@@ -650,7 +646,7 @@ const TextToImage = ({
                             src={generatedImageURL}
                             alt="Generated Image !!"
                             style={{
-                                width: imageSize === "minimize-image" || isImageInsideRoom ? `calc(${width} - 5px)` : width,
+                                width: width,
                                 height: height,
                             }}
                         />}
@@ -675,17 +671,15 @@ const TextToImage = ({
         );
     }
 
-    const getImageInsideRoomBox = (roomNumber, roomImageWidth, roomImageHeight, imageSize) => {
+    const getImageInsideRoomBox = (roomNumber, imageSize) => {
         return (
             (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image") && !isWaitStatus && !errorMsg && generatedImageURL && <div
-                className={`room${roomNumber}-image-box room-image-box mx-auto border border-2 border-dark mb-4`}
+                className={`room${roomNumber}-image-box room-image-box border border-2 border-dark mb-4`}
                 onClick={() => handleDisplayImageMode(`image-inside-room${roomNumber}`)}
                 style={
                     {
                         backgroundColor: isWaitStatus ? "#989492" : "",
                         cursor: !isWaitStatus && imageSize === "minimize-room-image" ? "pointer" : "",
-                        width: roomImageWidth,
-                        height: roomImageHeight,
                     }
                 }
             >
@@ -729,23 +723,23 @@ const TextToImage = ({
                     {/* Start Grid System */}
                     <div className="row align-items-center">
                         {/* Start Column */}
-                        <div className="col-md-2">
+                        <div className="col-xl-2">
                             {/* Start Art Painting Box */}
                             {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image", false)}
                             {/* End Art Painting Box */}
-                            {getImageInsideRoomBox(1, 200, 150, "minimize-room-image")}
-                            {getImageInsideRoomBox(2, 200, 150, "minimize-room-image")}
+                            {getImageInsideRoomBox(1, "minimize-room-image")}
+                            {getImageInsideRoomBox(2, "minimize-room-image")}
                         </div>
                         {/* End Column */}
                         {/* Start Column */}
-                        <div className="col-md-5">
+                        <div className="col-xl-5">
                             {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined, false)}
-                            {getImageInsideRoomBox(1, 600, 450, undefined)}
-                            {getImageInsideRoomBox(2, 600, 450, undefined)}
+                            {getImageInsideRoomBox(1, undefined)}
+                            {getImageInsideRoomBox(2, undefined)}
                         </div>
                         {/* End Column */}
                         {/* Start Column */}
-                        <div className="col-md-5">
+                        <div className="col-xl-5">
                             <section className="art-painting-options pe-3 mb-3">
                                 {/* Start Generating Image Options Section */}
                                 <section className="generating-image-options">

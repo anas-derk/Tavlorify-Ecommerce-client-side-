@@ -11,6 +11,7 @@
             }
             .room-image-box{
                 position: relative;
+                max-width: 100%;
                 img{
                     max-width: 100%;
                     max-width: 100%;
@@ -18,14 +19,28 @@
                 .art-painting{
                     position: absolute;
                     left: 25%;
-                    top: 20%;
+                    top: 15%;
                     z-index: 1;
                 }
             }
             .art-painting{
                 position: relative;
+                .frame-image-box{
+                    max-width: 100%;
+                    max-height: 100%;
+                    img{
+                        max-width: 100%;
+                        max-height: 100%;
+                    }
+                }
                 .generated-image-box{
                     position: absolute;
+                    max-width: 100%;
+                    max-height: 100%;
+                    img{
+                        max-width: 100%;
+                        max-height: 100%;
+                    }
                 }    
             }
             .art-painting-options{
