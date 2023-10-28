@@ -29,7 +29,7 @@
                 }    
             }
             .art-painting-options{
-                height: 600px;
+                height: 500px;
                 overflow-y: scroll;
                 .generating-image-options{
                     .text-prompt{
@@ -63,7 +63,7 @@
                                     border: 2px solid;
                                 }
                                 .category-name{
-                                    font-size: 15px;
+                                    font-size: 13px;
                                 }
                             }
                         }
@@ -80,7 +80,7 @@
                                 border: 2px solid;
                             }
                             .style-name{
-                                font-size: 15px;
+                                font-size: 13px;
                             }
                         }
                     }
@@ -140,16 +140,31 @@
                     }
                     .framed-list{
                         display: grid;
-                        grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
-                        gap: 10px;
+                        grid-auto-flow: column;
+                        gap: 15px;
                         overflow-x: auto;
                         li{
                             cursor: pointer;
                             border: 1px solid #CCC;
-                            // height: 75px;
-                            // line-height: 75px;
+                            width: 110px;
+                            height: 105px;
+                            font-size: 12px;
+                            &:first-child{
+                                line-height: 100px;
+                            }
+                            img{
+                                height: 40px;
+                            }
                         }
                     }
+                }
+            }
+            .add-to-cart-box{
+                .quantity{
+                    font-size: 13px;
+                }
+                .add-to-cart-managment-btn{
+                    font-size: 13px;
                 }
             }
             .generated-images{

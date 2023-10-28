@@ -724,7 +724,7 @@ const TextToImage = ({
             {/* Start Page Content */}
             <div className="page-content">
                 {/* Start Container */}
-                <div className="container-fluid pt-4 pb-4">
+                <div className="container-fluid pt-2 pb-4">
                     <h1 className="text-center mb-4 welcome-msg pb-3">Welcome To You In Text To Image AI Service</h1>
                     {/* Start Grid System */}
                     <div className="row align-items-center">
@@ -746,7 +746,7 @@ const TextToImage = ({
                         {/* End Column */}
                         {/* Start Column */}
                         <div className="col-md-5">
-                            <section className="art-painting-options pe-3">
+                            <section className="art-painting-options pe-3 mb-3">
                                 {/* Start Generating Image Options Section */}
                                 <section className="generating-image-options">
                                     <h6 className="text-center mb-2 fw-bold option-section-name">Your Text Prompt</h6>
@@ -842,7 +842,7 @@ const TextToImage = ({
                                 {/* Start Displaying Art Painting Options Section */}
                                 <section className="displaying-art-painting-options">
                                     {/* Start Art Names List */}
-                                    <ul className="art-names-list d-flex flex-wrap mb-4">
+                                    <ul className="art-names-list d-flex flex-wrap mb-3">
                                         <li
                                             className="p-2 pe-3 ps-3"
                                             onClick={() => handleSelectPaintingType("poster")}
@@ -893,7 +893,7 @@ const TextToImage = ({
                                                 key={index}
                                                 className="p-3"
                                                 onClick={() => handleSelectImageDimentions(dims.inCm)}
-                                                style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : { }}
+                                                style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             >
                                                 {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0">Popular</h6>}
                                                 {dims.inCm}
@@ -932,7 +932,7 @@ const TextToImage = ({
                                             style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster-with-wooden-frame", "black")}
                                         >
-                                            <span className="frame-color d-block fw-bold">Black</span>
+                                            <span className="frame-color d-block fw-bold mb-2">Black</span>
                                             <img src={blackFrameCornerImage.src} alt="Black Frame Image" width="50" />
                                         </li>
                                         <li
@@ -940,7 +940,7 @@ const TextToImage = ({
                                             style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster-with-wooden-frame", "white")}
                                         >
-                                            <span className="frame-color d-block fw-bold">White</span>
+                                            <span className="frame-color d-block fw-bold mb-2">White</span>
                                             <img src={whiteFrameCornerImage.src} alt="White Frame Image" width="50" />
                                         </li>
                                         <li
@@ -948,7 +948,7 @@ const TextToImage = ({
                                             style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster-with-wooden-frame", "natural-wood")}
                                         >
-                                            <span className="frame-color d-block fw-bold">Wood</span>
+                                            <span className="frame-color d-block fw-bold mb-2">Wood</span>
                                             <img src={woodFrameCornerImage.src} alt="Wood Frame Image" width="50" />
                                         </li>
                                         <li
@@ -956,7 +956,7 @@ const TextToImage = ({
                                             style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster-with-wooden-frame", "dark-wood")}
                                         >
-                                            <span className="frame-color d-block fw-bold">Dark Wood</span>
+                                            <span className="frame-color d-block fw-bold mb-2">Dark Wood</span>
                                             <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" />
                                         </li>
                                         <li
@@ -964,7 +964,7 @@ const TextToImage = ({
                                             style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster-with-hangers", "black")}
                                         >
-                                            <span className="frame-color d-block fw-bold">Black With Hangers</span>
+                                            <span className="frame-color d-block fw-bold mb-2">Black With Hangers</span>
                                             <img src={blackFrameCornerImage.src} alt="Black Frame With Hangers Image" width="50" />
                                         </li>
                                         <li
@@ -972,7 +972,7 @@ const TextToImage = ({
                                             style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster-with-hangers", "white")}
                                         >
-                                            <span className="frame-color d-block fw-bold">White With Hangers</span>
+                                            <span className="frame-color d-block fw-bold mb-2">White With Hangers</span>
                                             <img src={whiteFrameCornerImage.src} alt="White Frame With Hangers Image" width="50" />
                                         </li>
                                         <li
@@ -988,37 +988,41 @@ const TextToImage = ({
                                             style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster-with-hangers", "dark-wood")}
                                         >
-                                            <span className="frame-color d-block fw-bold">Dark Wood With Hangers</span>
+                                            <span className="frame-color d-block fw-bold mb-2">Dark Wood With Hangers</span>
                                             <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" width="50" />
                                         </li>
                                     </ul>}
                                     {/* End Frames List */}
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <input
-                                                type="number"
-                                                placeholder="Quantity"
-                                                className={`quantity form-control border-2 ${formValidationErrors["quantity"] ? "border-danger" : "border-dark"}`}
-                                                onChange={(e) => setQuantity(e.target.value)}
-                                                defaultValue={quantity}
-                                            />
-                                            {formValidationErrors["quantity"] && <p className='error-msg text-danger'>{formValidationErrors["quantity"]}</p>}
-                                        </div>
-                                        <div className="col-md-6">
-                                            {!isWaitAddToCart && !errorInAddToCart && !isSuccessAddToCart && <button
-                                                className="btn btn-dark w-100 p-2"
-                                                onClick={addToCart}
-                                            >
-                                                Add To Cart
-                                            </button>}
-                                            {isWaitAddToCart && <button className="btn btn-dark w-100 p-2" disabled>Waiting ...</button>}
-                                            {isSuccessAddToCart && <button className="btn btn-success w-100 p-2" disabled>Success Is Adding To Cart ...</button>}
-                                            {errorInAddToCart && <button className="btn btn-danger w-100 p-2" disabled>{errorInAddToCart}</button>}
-                                        </div>
-                                    </div>
                                 </section>
                                 {/* End Displaying Art Painting Options Section */}
                             </section>
+                            {/* Start Add To Cart Managment */}
+                            <div className="add-to-cart-box">
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <input
+                                                    type="number"
+                                                    placeholder="Quantity"
+                                                    className={`quantity form-control border-2 ${formValidationErrors["quantity"] ? "border-danger" : "border-dark"}`}
+                                                    onChange={(e) => setQuantity(e.target.value)}
+                                                    defaultValue={quantity}
+                                                />
+                                                {formValidationErrors["quantity"] && <p className='error-msg text-danger'>{formValidationErrors["quantity"]}</p>}
+                                            </div>
+                                            <div className="col-md-6">
+                                                {!isWaitAddToCart && !errorInAddToCart && !isSuccessAddToCart && <button
+                                                    className="btn btn-dark w-100 p-2 add-to-cart-managment-btn"
+                                                    onClick={addToCart}
+                                                >
+                                                    Add To Cart
+                                                </button>}
+                                                {isWaitAddToCart && <button className="btn btn-dark w-100 p-1 add-to-cart-managment-btn" disabled>Waiting ...</button>}
+                                                {isSuccessAddToCart && <button className="btn btn-success w-100 p-2 add-to-cart-managment-btn" disabled>Success Is Adding To Cart ...</button>}
+                                                {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn" disabled>{errorInAddToCart}</button>}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* End Add To Cart Managment */}
                         </div>
                         {/* End Column */}
                     </div>
