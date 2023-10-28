@@ -931,7 +931,7 @@ const ImageToImage = ({
         );
     }
 
-    const getImageInsideRoomBox = (roomNumber, roomImageWidth, roomImageHeight, imageSize) => {
+    const getImageInsideRoomBox = (roomNumber, imageSize) => {
         return (
             (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image") && !isWaitStatus && !errorMsg && generatedImageURL && <div
                 className={`room${roomNumber}-image-box room-image-box mx-auto border border-2 border-dark mb-4`}
@@ -940,8 +940,6 @@ const ImageToImage = ({
                     {
                         backgroundColor: isWaitStatus ? "#989492" : "",
                         cursor: !isWaitStatus && imageSize === "minimize-room-image" ? "pointer" : "",
-                        width: roomImageWidth,
-                        height: roomImageHeight,
                     }
                 }
             >
@@ -981,30 +979,30 @@ const ImageToImage = ({
             <div className="page-content">
                 {/* Start Container */}
                 <div className="container-fluid pt-4 pb-4">
-                    <h1 className="text-center mb-3 welcome-msg pb-3">Welcome To You In Image To Image AI Service</h1>
+                    <h1 className="text-center mb-4 welcome-msg pb-3">Welcome To You In Image To Image AI Service</h1>
                     {/* Start Grid System */}
                     <div className="row align-items-center">
                         {/* Start Column */}
-                        <div className="col-md-2">
+                        <div className="col-xl-2">
                             {/* Start Art Painting Box */}
                             {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 3}px`, "minimize-image", false)}
                             {/* End Art Painting Box */}
-                            {getImageInsideRoomBox(1, 200, 150, "minimize-room-image")}
-                            {getImageInsideRoomBox(2, 200, 150, "minimize-room-image")}
+                            {getImageInsideRoomBox(1, "minimize-room-image")}
+                            {getImageInsideRoomBox(2, "minimize-room-image")}
                         </div>
                         {/* End Column */}
                         {/* Start Column */}
-                        <div className="col-md-5">
+                        <div className="col-xl-5">
                             {/* Start Art Painting Section */}
                             {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height}px`, undefined, false)}
                             {/* End Art Painting Section */}
-                            {getImageInsideRoomBox(1, 600, 450, undefined)}
-                            {getImageInsideRoomBox(2, 600, 450, undefined)}
+                            {getImageInsideRoomBox(1, undefined)}
+                            {getImageInsideRoomBox(2, undefined)}
                             {isSaveGeneratedImageAndInfo && !errorMsg && <p className="alert alert-danger mt-5 text-center">Saving Generated Image Now ...</p>}
                         </div>
                         {/* End Column */}
                         {/* Start Column */}
-                        <div className="col-md-5">
+                        <div className="col-xl-5">
                             <div className="image-before-processing-box">
                                 {/* Start Downloaded Image Box */}
                                 {imageLink && <div className="downloaded-image-box mx-auto">
@@ -1044,13 +1042,13 @@ const ImageToImage = ({
                             {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block" disabled>Creating ...</button>}
                             <hr className="mb-2 mt-2" />
                             {/* Start Art Painting Options Section */}
-                            <section className="art-painting-options">
-                                <h6 className="mb-4 fw-bold">Please Select Category</h6>
+                            <section className="art-painting-options pe-3 mb-3">
+                                <h6 className="mb-3 fw-bold option-section-name">Please Select Category</h6>
                                 {/* Start Categories Section */}
                                 <section className="categories mb-4">
                                     <div className="row">
                                         {categoriesData.map((category, index) => (
-                                            <div className="col-md-2" key={category._id}>
+                                            <div className="col-md-3" key={category._id}>
                                                 {/* Start Category Box */}
                                                 <div
                                                     className="category-box text-center"
@@ -1071,14 +1069,14 @@ const ImageToImage = ({
                                 </section>
                                 {/* End Categories Section */}
                                 <hr />
-                                <h6 className="mb-4 fw-bold">Please Select Style</h6>
+                                <h6 className="mb-3 fw-bold option-section-name">Please Select Style</h6>
                                 {/* Start Styles Section */}
                                 <section className="styles mb-3">
                                     {/* Start Grid System */}
                                     <div className="row">
                                         {/* Start Column */}
                                         {categoryStyles.map((style, index) => (
-                                            <div className="col-md-2" key={index}>
+                                            <div className="col-md-3" key={index}>
                                                 {/* Start Style Box */}
                                                 <div
                                                     className="style-box p-2 text-center"
@@ -1105,10 +1103,10 @@ const ImageToImage = ({
                                     {/* Start Grid System */}
                                     <div className="row">
                                         <div className="col-md-8">
-                                            <h4 className="art-name fw-bold">Art Name: {paintingType}</h4>
+                                            <h5 className="art-name fw-bold">Art Name: {paintingType}</h5>
                                         </div>
                                         <div className="col-md-4 text-end price-box">
-                                            <h4 className="price mb-0 fw-bold">{productPriceAfterDiscount} kr</h4>
+                                            <h5 className="price mb-0 fw-bold">{productPriceAfterDiscount} kr</h5>
                                             {productPriceBeforeDiscount != productPriceAfterDiscount && <h6 className="discount fw-bold">{productPriceBeforeDiscount} kr</h6>}
                                         </div>
                                     </div>
@@ -1118,7 +1116,7 @@ const ImageToImage = ({
                                 {/* Start Displaying Art Painting Options Section */}
                                 <section className="displaying-art-painting-options">
                                     {/* Start Art Names List */}
-                                    <ul className="art-names-list d-flex flex-wrap mb-4">
+                                    <ul className="art-names-list d-flex flex-wrap mb-3">
                                         <li
                                             className="p-2 pe-3 ps-3"
                                             onClick={() => handleSelectPaintingType("poster")}
@@ -1135,7 +1133,7 @@ const ImageToImage = ({
                                         </li>
                                     </ul>
                                     {/* EndArt Names List */}
-                                    <h5 className="fw-bold">Positions</h5>
+                                    <h6 className="fw-bold option-section-name">Positions</h6>
                                     {/* Start Positions List */}
                                     <ul className="positions-list mb-4 text-center">
                                         <li
@@ -1176,7 +1174,7 @@ const ImageToImage = ({
                                         </li>
                                     </ul>
                                     {/* End Positions List */}
-                                    <h5 className="fw-bold">Sizes</h5>
+                                    <h6 className="fw-bold option-section-name">Sizes</h6>
                                     {/* Start Sizes List */}
                                     <ul className="sizes-list mb-4 text-center">
                                         {global_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
@@ -1184,15 +1182,15 @@ const ImageToImage = ({
                                                 key={index}
                                                 className="p-3"
                                                 onClick={() => handleSelectImageDimentions(dims.inCm)}
-                                                style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : { lineHeight: "57px" }}
+                                                style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             >
-                                                {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold">Popular</h6>}
+                                                {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0">Popular</h6>}
                                                 {dims.inCm}
                                             </li>
                                         ))}
                                     </ul>
                                     {/* End Sizes List */}
-                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h5 className="fw-bold">Border</h5>}
+                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">Border</h6>}
                                     {/* Start White Border */}
                                     {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list mb-4 text-center">
                                         <li
@@ -1209,7 +1207,7 @@ const ImageToImage = ({
                                         </li>
                                     </ul>}
                                     {/* Start White Border */}
-                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h5 className="fw-bold">Frames</h5>}
+                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold">Frames</h6>}
                                     {/* Start Frames List */}
                                     {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="framed-list mb-4 text-center pb-3">
                                         <li
@@ -1223,7 +1221,7 @@ const ImageToImage = ({
                                             style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster-with-wooden-frame", "black")}
                                         >
-                                            <span className="frame-color d-block fw-bold">Black</span>
+                                            <span className="frame-color d-block fw-bold mb-2">Black</span>
                                             <img src={blackFrameCornerImage.src} alt="Black Frame Image" width="50" />
                                         </li>
                                         <li
@@ -1231,7 +1229,7 @@ const ImageToImage = ({
                                             style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster-with-wooden-frame", "white")}
                                         >
-                                            <span className="frame-color d-block fw-bold">White</span>
+                                            <span className="frame-color d-block fw-bold mb-2">White</span>
                                             <img src={whiteFrameCornerImage.src} alt="White Frame Image" width="50" />
                                         </li>
                                         <li
@@ -1239,7 +1237,7 @@ const ImageToImage = ({
                                             style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster-with-wooden-frame", "natural-wood")}
                                         >
-                                            <span className="frame-color d-block fw-bold">Wood</span>
+                                            <span className="frame-color d-block fw-bold mb-2">Wood</span>
                                             <img src={woodFrameCornerImage.src} alt="Wood Frame Image" width="50" />
                                         </li>
                                         <li
@@ -1247,7 +1245,7 @@ const ImageToImage = ({
                                             style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster-with-wooden-frame", "dark-wood")}
                                         >
-                                            <span className="frame-color d-block fw-bold">Dark Wood</span>
+                                            <span className="frame-color d-block fw-bold mb-2">Dark Wood</span>
                                             <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" />
                                         </li>
                                         <li
@@ -1255,7 +1253,7 @@ const ImageToImage = ({
                                             style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster-with-hangers", "black")}
                                         >
-                                            <span className="frame-color d-block fw-bold">Black With Hangers</span>
+                                            <span className="frame-color d-block fw-bold mb-2">Black With Hangers</span>
                                             <img src={blackFrameCornerImage.src} alt="Black Frame With Hangers Image" width="50" />
                                         </li>
                                         <li
@@ -1263,7 +1261,7 @@ const ImageToImage = ({
                                             style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster-with-hangers", "white")}
                                         >
-                                            <span className="frame-color d-block fw-bold">White With Hangers</span>
+                                            <span className="frame-color d-block fw-bold mb-2">White With Hangers</span>
                                             <img src={whiteFrameCornerImage.src} alt="White Frame With Hangers Image" width="50" />
                                         </li>
                                         <li
@@ -1271,7 +1269,7 @@ const ImageToImage = ({
                                             style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster-with-hangers", "natural-wood")}
                                         >
-                                            <span className="frame-color d-block fw-bold">Wood With Hangers</span>
+                                            <span className="frame-color d-block fw-bold mb-2">Wood With Hangers</span>
                                             <img src={woodFrameCornerImage.src} alt="Wood Frame With Hangers Image" width="50" />
                                         </li>
                                         <li
@@ -1279,38 +1277,42 @@ const ImageToImage = ({
                                             style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                             onClick={() => handleSelectFrame("poster-with-hangers", "dark-wood")}
                                         >
-                                            <span className="frame-color d-block fw-bold">Dark Wood With Hangers</span>
+                                            <span className="frame-color d-block fw-bold mb-2">Dark Wood With Hangers</span>
                                             <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" width="50" />
                                         </li>
                                     </ul>}
                                     {/* End Frames List */}
-                                    <div className="row mb-3">
-                                        <div className="col-md-6">
-                                            <input
-                                                type="number"
-                                                placeholder="Quantity"
-                                                className={`quantity form-control border-2 ${formValidationErrors["quantity"] ? "border-danger" : "border-dark"}`}
-                                                onChange={(e) => setQuantity(e.target.value)}
-                                                defaultValue={quantity}
-                                            />
-                                            {formValidationErrors["quantity"] && <p className='error-msg text-danger'>{formValidationErrors["quantity"]}</p>}
-                                        </div>
-                                        <div className="col-md-6">
-                                            {!isWaitAddToCart && !errorInAddToCart && !isSuccessAddToCart && <button
-                                                className="btn btn-dark w-100 p-2"
-                                                onClick={addToCart}
-                                            >
-                                                Add To Cart
-                                            </button>}
-                                            {isWaitAddToCart && <button className="btn btn-dark w-100 p-2" disabled>Waiting ...</button>}
-                                            {isSuccessAddToCart && <button className="btn btn-success w-100 p-2" disabled>Success Is Adding To Cart ...</button>}
-                                            {errorInAddToCart && <button className="btn btn-danger w-100 p-2" disabled>{errorInAddToCart}</button>}
-                                        </div>
-                                    </div>
                                 </section>
                                 {/* End Displaying Art Painting Options Section */}
                             </section>
                             {/* End Art Painting Options Section */}
+                            {/* Start Add To Cart Managment */}
+                            <div className="add-to-cart-box">
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <input
+                                            type="number"
+                                            placeholder="Quantity"
+                                            className={`quantity form-control border-2 ${formValidationErrors["quantity"] ? "border-danger" : "border-dark"}`}
+                                            onChange={(e) => setQuantity(e.target.value)}
+                                            defaultValue={quantity}
+                                        />
+                                        {formValidationErrors["quantity"] && <p className='error-msg text-danger'>{formValidationErrors["quantity"]}</p>}
+                                    </div>
+                                    <div className="col-md-6">
+                                        {!isWaitAddToCart && !errorInAddToCart && !isSuccessAddToCart && <button
+                                            className="btn btn-dark w-100 p-2 add-to-cart-managment-btn"
+                                            onClick={addToCart}
+                                        >
+                                            Add To Cart
+                                        </button>}
+                                        {isWaitAddToCart && <button className="btn btn-dark w-100 p-1 add-to-cart-managment-btn" disabled>Waiting ...</button>}
+                                        {isSuccessAddToCart && <button className="btn btn-success w-100 p-2 add-to-cart-managment-btn" disabled>Success Is Adding To Cart ...</button>}
+                                        {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn" disabled>{errorInAddToCart}</button>}
+                                    </div>
+                                </div>
+                            </div>
+                            {/* End Add To Cart Managment */}
                         </div>
                         {/* End Column */}
                     </div>
@@ -1319,11 +1321,11 @@ const ImageToImage = ({
                     {/* Start Generated Images Section */}
                     <section className={`row align-items-center generated-images ${generatedImagesData ? "" : "p-4"}`}>
                         <div className="col-md-2 text-center">
-                            <h5 className="m-0 fw-bold d-inline">Generated Images: ({generatedImagesData ? generatedImagesData.length : 0})</h5>
+                            <h6 className="m-0 fw-bold d-inline">Generated Images: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
                         </div>
                         <div className="col-md-10">
                             {generatedImagesData ? <ul className="generated-images-list text-center d-flex p-4">
-                                {generatedImagesData.map((generatedImageData, index) => (
+                                {generatedImagesData.map((generatedImageData) => (
                                     <li
                                         className="generated-images-item m-0 me-4"
                                         key={generatedImageData._id}

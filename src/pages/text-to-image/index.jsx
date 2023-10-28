@@ -992,31 +992,31 @@ const TextToImage = ({
                             </section>
                             {/* Start Add To Cart Managment */}
                             <div className="add-to-cart-box">
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <input
-                                                    type="number"
-                                                    placeholder="Quantity"
-                                                    className={`quantity form-control border-2 ${formValidationErrors["quantity"] ? "border-danger" : "border-dark"}`}
-                                                    onChange={(e) => setQuantity(e.target.value)}
-                                                    defaultValue={quantity}
-                                                />
-                                                {formValidationErrors["quantity"] && <p className='error-msg text-danger'>{formValidationErrors["quantity"]}</p>}
-                                            </div>
-                                            <div className="col-md-6">
-                                                {!isWaitAddToCart && !errorInAddToCart && !isSuccessAddToCart && <button
-                                                    className="btn btn-dark w-100 p-2 add-to-cart-managment-btn"
-                                                    onClick={addToCart}
-                                                >
-                                                    Add To Cart
-                                                </button>}
-                                                {isWaitAddToCart && <button className="btn btn-dark w-100 p-1 add-to-cart-managment-btn" disabled>Waiting ...</button>}
-                                                {isSuccessAddToCart && <button className="btn btn-success w-100 p-2 add-to-cart-managment-btn" disabled>Success Is Adding To Cart ...</button>}
-                                                {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn" disabled>{errorInAddToCart}</button>}
-                                            </div>
-                                        </div>
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <input
+                                            type="number"
+                                            placeholder="Quantity"
+                                            className={`quantity form-control border-2 ${formValidationErrors["quantity"] ? "border-danger" : "border-dark"}`}
+                                            onChange={(e) => setQuantity(e.target.value)}
+                                            defaultValue={quantity}
+                                        />
+                                        {formValidationErrors["quantity"] && <p className='error-msg text-danger'>{formValidationErrors["quantity"]}</p>}
                                     </div>
-                                    {/* End Add To Cart Managment */}
+                                    <div className="col-md-6">
+                                        {!isWaitAddToCart && !errorInAddToCart && !isSuccessAddToCart && <button
+                                            className="btn btn-dark w-100 p-2 add-to-cart-managment-btn"
+                                            onClick={addToCart}
+                                        >
+                                            Add To Cart
+                                        </button>}
+                                        {isWaitAddToCart && <button className="btn btn-dark w-100 p-1 add-to-cart-managment-btn" disabled>Waiting ...</button>}
+                                        {isSuccessAddToCart && <button className="btn btn-success w-100 p-2 add-to-cart-managment-btn" disabled>Success Is Adding To Cart ...</button>}
+                                        {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn" disabled>{errorInAddToCart}</button>}
+                                    </div>
+                                </div>
+                            </div>
+                            {/* End Add To Cart Managment */}
                         </div>
                         {/* End Column */}
                     </div>
