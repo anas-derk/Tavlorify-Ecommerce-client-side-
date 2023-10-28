@@ -725,7 +725,7 @@ const TextToImage = ({
             <div className="page-content">
                 {/* Start Container */}
                 <div className="container-fluid pt-4 pb-4">
-                    <h1 className="text-center mb-5 welcome-msg pb-3">Welcome To You In Text To Image AI Service</h1>
+                    <h1 className="text-center mb-4 welcome-msg pb-3">Welcome To You In Text To Image AI Service</h1>
                     {/* Start Grid System */}
                     <div className="row align-items-center">
                         {/* Start Column */}
@@ -749,7 +749,7 @@ const TextToImage = ({
                             <section className="art-painting-options pe-3">
                                 {/* Start Generating Image Options Section */}
                                 <section className="generating-image-options">
-                                    <h6 className="text-center mb-3 fw-bold">Your Text Prompt</h6>
+                                    <h6 className="text-center mb-2 fw-bold option-section-name">Your Text Prompt</h6>
                                     <textarea
                                         type="text"
                                         placeholder="a dog riding a bicycle"
@@ -757,24 +757,24 @@ const TextToImage = ({
                                         onChange={(e) => setTextPrompt(e.target.value)}
                                         value={textPrompt}
                                     ></textarea>
-                                    <div className="row align-items-center">
+                                    <div className="row align-items-center generate-image-btn-box">
                                         <div className="col-md-7">
-                                            <h6 className="describe text-start mb-0 fw-bold">Describe what you want the AI to create .</h6>
+                                            <h6 className="describe text-start mb-0 fw-bold">Describe what you want the AI to create</h6>
                                         </div>
                                         <div className="col-md-5 text-end">
                                             {!isWaitStatus && !errorMsg &&
-                                                <button className="btn btn-dark w-100" onClick={generatedImageWithAI}>Create</button>
+                                                <button className="btn btn-dark w-100 generate-image-btn" onClick={generatedImageWithAI}>Create</button>
                                             }
                                             {isWaitStatus && <button className="btn btn-dark w-50" disabled>Creating ...</button>}
                                         </div>
                                     </div>
                                     <hr />
-                                    <h6 className="mb-4 fw-bold">Please Select Category</h6>
+                                    <h6 className="mb-3 fw-bold option-section-name">Please Select Category</h6>
                                     {/* Start Categories Section */}
-                                    <section className="categories mb-4">
+                                    <section className="categories mb-2">
                                         <div className="row">
                                             {categoriesData.map((category, index) => (
-                                                <div className="col-md-2" key={category._id}>
+                                                <div className="col-md-3" key={category._id}>
                                                     {/* Start Category Box */}
                                                     <div
                                                         className="category-box text-center"
@@ -782,7 +782,7 @@ const TextToImage = ({
                                                     >
                                                         <img
                                                             src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
-                                                            alt="aa"
+                                                            alt={`${category.name} Image`}
                                                             className="category-image mb-2"
                                                             style={index === categorySelectedIndex ? { border: "4px solid #000" } : {}}
                                                         />
@@ -794,15 +794,14 @@ const TextToImage = ({
                                         </div>
                                     </section>
                                     {/* End Categories Section */}
-                                    <hr />
-                                    <h6 className="mb-4 fw-bold">Please Select Style</h6>
+                                    <h6 className="mb-2 fw-bold option-section-name">Please Select Style</h6>
                                     {/* Start Styles Section */}
                                     <section className="styles mb-3">
                                         {/* Start Grid System */}
                                         <div className="row">
                                             {/* Start Column */}
                                             {categoryStyles.map((style, index) => (
-                                                <div className="col-md-2" key={index}>
+                                                <div className="col-md-3" key={index}>
                                                     {/* Start Style Box */}
                                                     <div
                                                         className="style-box p-2 text-center"
@@ -810,7 +809,7 @@ const TextToImage = ({
                                                     >
                                                         <img
                                                             src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
-                                                            alt="aa" className="mb-2 style-image"
+                                                            alt={`${style.name} Image`} className="mb-2 style-image"
                                                             style={index === styleSelectedIndex ? { border: "4px solid #000" } : {}}
                                                         />
                                                         <p className="style-name m-0 text-center">{style.name}</p>
@@ -830,10 +829,10 @@ const TextToImage = ({
                                     {/* Start Grid System */}
                                     <div className="row">
                                         <div className="col-md-8">
-                                            <h4 className="art-name fw-bold">Art Name: {paintingType}</h4>
+                                            <h5 className="art-name fw-bold">Art Name: {paintingType}</h5>
                                         </div>
                                         <div className="col-md-4 text-end price-box">
-                                            <h4 className="price mb-0 fw-bold">{productPriceAfterDiscount} kr</h4>
+                                            <h5 className="price mb-0 fw-bold">{productPriceAfterDiscount} kr</h5>
                                             {productPriceBeforeDiscount != productPriceAfterDiscount && <h6 className="discount fw-bold">{productPriceBeforeDiscount} kr</h6>}
                                         </div>
                                     </div>
@@ -860,7 +859,7 @@ const TextToImage = ({
                                         </li>
                                     </ul>
                                     {/* EndArt Names List */}
-                                    <h5 className="fw-bold">Positions</h5>
+                                    <h6 className="fw-bold option-section-name">Positions</h6>
                                     {/* Start Positions List */}
                                     <ul className="positions-list mb-4 text-center">
                                         <li
@@ -886,7 +885,7 @@ const TextToImage = ({
                                         </li>
                                     </ul>
                                     {/* End Positions List */}
-                                    <h5 className="fw-bold">Sizes</h5>
+                                    <h6 className="fw-bold option-section-name">Sizes</h6>
                                     {/* Start Sizes List */}
                                     <ul className="sizes-list mb-4 text-center">
                                         {global_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
@@ -894,15 +893,15 @@ const TextToImage = ({
                                                 key={index}
                                                 className="p-3"
                                                 onClick={() => handleSelectImageDimentions(dims.inCm)}
-                                                style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : { lineHeight: "57px" }}
+                                                style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : { }}
                                             >
-                                                {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold">Popular</h6>}
+                                                {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0">Popular</h6>}
                                                 {dims.inCm}
                                             </li>
                                         ))}
                                     </ul>
                                     {/* End Sizes List */}
-                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h5 className="fw-bold">Border</h5>}
+                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">Border</h6>}
                                     {/* Start White Border */}
                                     {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list mb-4 text-center">
                                         <li
@@ -919,7 +918,7 @@ const TextToImage = ({
                                         </li>
                                     </ul>}
                                     {/* Start White Border */}
-                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h5 className="fw-bold">Frames</h5>}
+                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">Frames</h6>}
                                     {/* Start Frames List */}
                                     {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="framed-list mb-4 text-center pb-3">
                                         <li

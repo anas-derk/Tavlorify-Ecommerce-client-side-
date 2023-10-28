@@ -4,6 +4,7 @@
         .container-fluid{
             .navbar-brand{
                 color: #000;
+                font-size: 18px;
             }
             .nav-item{
                 &.auth-item{
@@ -14,6 +15,7 @@
                 }
                 .nav-link{
                     color: #000;
+                    font-size: 15px;
                     &.show-all-products-btn{
                         position: relative;
                         .cart-icon, .close-all-product-managment-box{
@@ -33,13 +35,16 @@
                             position: absolute;
                             right: 0;
                             top: 120%;
-                            width: 600px;
+                            width: 500px;
                             max-height: 500px;
                             overflow-x: hidden;
                             overflow-y: auto;
                             border-radius: 5px;
                             z-index: 1001;
                             border: 3px solid;
+                            > .row{
+                                border-bottom: 1px solid #CCC;
+                            }
                             background-color: #FFF;
                             .quantity-control-icon{
                                 cursor: pointer;
@@ -62,6 +67,9 @@
                                 .cart-icon{
                                     font-size: 100px;
                                 }
+                            }
+                            .go-to-checkout-managment-btn{
+                                font-size: 14px;
                             }
                         }
                     }

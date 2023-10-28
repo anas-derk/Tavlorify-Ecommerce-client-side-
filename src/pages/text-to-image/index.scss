@@ -1,54 +1,10 @@
 .text-to-image-service{
-    position: relative;
-    .overlay{
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        min-height: 100vh;
-        background-color: rgba($color: #000000, $alpha: 0.7);
-        z-index: 3;
-        .cart-popup-box{
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 300px;
-            min-height: inherit;
-            background-color: #FFF;
-            .cart-icon{
-                font-size: 30px;
-            }
-            .close-overlay-icon{
-                font-size: 30px;
-                background-color: #FFF;
-                cursor: pointer;
-            }
-        }
-    }
-    .open-cart-popup-box{
-        position: fixed;
-        right: 60px;
-        bottom: 80px;
-        z-index: 2;
-        background-color: #000;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        text-align: center;
-        line-height: 60px;
-        cursor: pointer;
-        border: 2px solid #DDD;
-        .cart-icon{
-            color: #FFF;
-            font-size: 30px;
-        }
-    }
     .page-content{
         .container-fluid{
             .welcome-msg{
                 font-family: 'Caveat', cursive;
                 font-weight: bold;
-                font-size: 50px;
+                font-size: 40px;
                 border-bottom: 3px solid #000;
                 width: fit-content;
                 margin: 0 auto;
@@ -78,11 +34,23 @@
                 .generating-image-options{
                     .text-prompt{
                         resize: none;
-                        height: 100px;
+                        height: 70px;
+                        font-size: 14px;
                         &:focus{
                             border: 3px solid #000;
                             box-shadow: none;
                         }
+                    }
+                    .generate-image-btn-box{
+                        .describe{
+                            font-size: 14px;
+                        }
+                        .generate-image-btn{
+                            font-size: 14px;
+                        }
+                    }
+                    .option-section-name{
+                        font-size: 14px;
                     }
                     .categories{
                         .row{
@@ -91,7 +59,7 @@
                             .category-box{
                                 cursor: pointer;
                                 .category-image{
-                                    height: 75px;
+                                    height: 60px;
                                     border: 2px solid;
                                 }
                                 .category-name{
@@ -108,7 +76,7 @@
                         .style-box{
                             cursor: pointer;
                             .style-image{
-                                height: 75px;
+                                height: 60px;
                                 border: 2px solid;
                             }
                             .style-name{
@@ -127,6 +95,7 @@
                 .displaying-art-painting-options{
                     .art-names-list{
                         border-bottom: 1px solid #CCC;
+                        font-size: 14px;
                         li{
                             cursor: pointer;
                             &:hover{
@@ -141,6 +110,8 @@
                         li{
                             cursor: pointer;
                             border: 1px solid #CCC;
+                            font-size: 14px;
+                            height: 60px;
                         }
                     }
                     .sizes-list{
@@ -150,17 +121,21 @@
                         li{
                             cursor: pointer;
                             border: 1px solid #CCC;
+                            font-size: 14px;
+                            height: 80px;
+                            line-height: 40px;
                         }
                     }
                     .white-borders-list{
                         display: grid;
                         grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
                         gap: 10px;
-                        line-height: 100px;
                         li{
                             cursor: pointer;
                             border: 1px solid #CCC;
-                            height: 100px;
+                            font-size: 14px;
+                            height: 75px;
+                            line-height: 75px;
                         }
                     }
                     .framed-list{
@@ -171,6 +146,8 @@
                         li{
                             cursor: pointer;
                             border: 1px solid #CCC;
+                            // height: 75px;
+                            // line-height: 75px;
                         }
                     }
                 }

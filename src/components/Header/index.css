@@ -4,6 +4,7 @@
 
 .global-header .navbar .container-fluid .navbar-brand {
   color: #000;
+  font-size: 18px;
 }
 
 .global-header .navbar .container-fluid .nav-item.auth-item {
@@ -16,6 +17,7 @@
 
 .global-header .navbar .container-fluid .nav-item .nav-link {
   color: #000;
+  font-size: 15px;
 }
 
 .global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn {
@@ -41,7 +43,7 @@
   position: absolute;
   right: 0;
   top: 120%;
-  width: 600px;
+  width: 500px;
   max-height: 500px;
   overflow-x: hidden;
   overflow-y: auto;
@@ -49,6 +51,10 @@
   z-index: 1001;
   border: 3px solid;
   background-color: #FFF;
+}
+
+.global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .all-products-managment-box > .row {
+  border-bottom: 1px solid #CCC;
 }
 
 .global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .all-products-managment-box .quantity-control-icon {
@@ -76,6 +82,10 @@
 
 .global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .all-products-managment-box .not-found-any-products-alert-box .cart-icon {
   font-size: 100px;
+}
+
+.global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .all-products-managment-box .go-to-checkout-managment-btn {
+  font-size: 14px;
 }
 
 .global-header .navbar .container-fluid .nav-item:hover {

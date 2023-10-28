@@ -120,15 +120,15 @@ const Header = ({ newTotalProductsCount }) => {
         setTotalProductsCount(newAllProductData.length);
     }
     const createNewOrder = async () => {
-        try{
+        try {
             setIsCreatingOrder(true);
             const res = await Axios.post(`${process.env.BASE_API_URL}/orders/create-new-order`);
             const result = await res.data;
-            if (result.msg === "Creating New Order Has Been Successfuly !!"){
+            if (result.msg === "Creating New Order Has Been Successfuly !!") {
                 router.push(`/checkout?orderId=${result.orderId}`);
             }
         }
-        catch(err) {
+        catch (err) {
             setIsExistErrorInCreatingOrder(true);
             let errorInCreatedOrderTimeout = setTimeout(() => {
                 setIsExistErrorInCreatingOrder(false);
@@ -142,7 +142,7 @@ const Header = ({ newTotalProductsCount }) => {
     }
     return (
         // Start Global Header
-        <header className="global-header pt-3 pb-2">
+        <header className="global-header pt-2">
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
                 <div className="container-fluid">
                     <Link className="navbar-brand fw-bold" href="/">Tavlorify Store</Link>
@@ -151,13 +151,13 @@ const Header = ({ newTotalProductsCount }) => {
                     </button>
                     <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                         <ul className="navbar-nav mb-2 mb-lg-0">
-                            <li className="nav-item me-2">
+                            <li className="nav-item">
                                 <Link className="nav-link" aria-current="page" href="/">
                                     <AiOutlineHome />
                                     <span className="ms-2">Home</span>
                                 </Link>
                             </li>
-                            <li className="nav-item dropdown me-2">
+                            <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span>Poster</span>
                                 </a>
@@ -201,7 +201,7 @@ const Header = ({ newTotalProductsCount }) => {
                                     </li>
                                 </ul>
                             </li>
-                            <li className="nav-item dropdown me-2">
+                            <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Canvas
                                 </a>
@@ -245,46 +245,46 @@ const Header = ({ newTotalProductsCount }) => {
                                     </li>
                                 </ul>
                             </li>
-                            <li className="nav-item me-2">
+                            <li className="nav-item">
                                 <Link className="nav-link" aria-current="page" href="/who-are-we">
                                     <BsInfoCircle />
                                     <span className="ms-2">Who Are We ?</span>
                                 </Link>
                             </li>
-                            <li className="nav-item me-2">
+                            <li className="nav-item">
                                 <Link className="nav-link" aria-current="page" href="/contact-us">
                                     <BsCart2 />
                                     <span className="ms-2">Contact Us</span>
                                 </Link>
                             </li>
-                            <li className="nav-item me-2">
+                            <li className="nav-item">
                                 <Link className="nav-link" aria-current="page" href="/faq">
                                     <FaQuestion />
                                     <span className="ms-2">FAQ</span>
                                 </Link>
                             </li>
                             {!userId && <>
-                                <li className="nav-item me-2">
+                                <li className="nav-item">
                                     <Link className="nav-link" aria-current="page" href="/login">
                                         <FiLogIn />
                                         <span className="ms-2">Log In</span>
                                     </Link>
                                 </li>
-                                <li className="nav-item bg-dark auth-item me-2">
+                                <li className="nav-item bg-dark auth-item">
                                     <Link className="nav-link text-white" aria-current="page" href="/sign-up">
                                         <AiOutlineUserAdd />
                                         <span className="ms-2">Sign Up for Free</span>
                                     </Link>
                                 </li>
                             </>}
-                            <li className="nav-item me-2">
+                            <li className="nav-item">
                                 <div className="nav-link btn show-all-products-btn">
                                     {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon" onClick={displayAllProductManagmentBox} />}
                                     {isDisplayAllProductManagmentBox && <GrFormClose className="close-all-product-managment-box" onClick={closeAllProductManagmentBox} />}
                                     {!isDisplayAllProductManagmentBox && <span className="total-products-count-box fw-bold">{totalProductsCount}</span>}
                                     {isDisplayAllProductManagmentBox && <div className="all-products-managment-box pb-3 ps-3 pe-3">
                                         {allProductsData.length > 0 ? allProductsData.map((productData) => (
-                                            <div className="row bg-white border border-2 align-items-center" key={productData._id}>
+                                            <div className="row bg-white align-items-center" key={productData._id}>
                                                 <div className="col-md-3 p-3 text-center">
                                                     <Link href={{
                                                         pathname: `/${productData.service}`,
@@ -307,14 +307,15 @@ const Header = ({ newTotalProductsCount }) => {
                                                         />
                                                     </Link>
                                                 </div>
-                                                <div className="col-md-7 p-3 text-start">
+                                                <div className="col-md-4 p-3 text-start">
                                                     <h6 className="fw-bold">{productData.paintingType}</h6>
                                                     <h6>Frame: {productData.frameColor}</h6>
                                                     <h6>{productData.isExistWhiteBorder}</h6>
-                                                    <h6>{productData.position}</h6>
                                                     <h6>{productData.size} Cm</h6>
                                                     <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
                                                     {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount * productData.quantity} kr</h6>}
+                                                </div>
+                                                <div className="col-md-3 text-center">
                                                     <AiOutlineMinus
                                                         className="quantity-control-icon me-2"
                                                         onClick={() => updateProductQuantityInCart(allProductsData, "decrease-product-quantity", productData._id)}
@@ -337,7 +338,7 @@ const Header = ({ newTotalProductsCount }) => {
                                             <h4 className="fw-bold">Sorry, Your Cart Is Empty !!</h4>
                                         </div>}
                                         {allProductsData.length > 0 && <>
-                                            <div className="row bg-white border border-2 align-items-center text-center">
+                                            <div className="row bg-white border border-2 align-items-center text-center mb-3">
                                                 <div className="col-md-12 p-4 pt-3 fw-bold">
                                                     <div className="row mb-3">
                                                         <div className="col-md-9 text-start">Total Price Before Discount</div>
@@ -359,21 +360,19 @@ const Header = ({ newTotalProductsCount }) => {
                                                 </div>
                                             </div>
                                             {!isCreatingOrder && !isExistErrorInCreatingOrder && <button
-                                                className="btn btn-dark w-100 p-3"
+                                                className="btn btn-dark w-100 p-3 create-new-order-btn go-to-checkout-managment-btn"
                                                 onClick={createNewOrder}
                                             >
                                                 Go To Checkout
                                             </button>}
                                             {isCreatingOrder && <button
-                                                className="btn btn-dark w-100 p-3"
-                                                onClick={createNewOrder}
+                                                className="btn btn-dark w-100 p-3 go-to-checkout-managment-btn"
                                                 disabled
                                             >
                                                 Please Waiting ..
                                             </button>}
                                             {isExistErrorInCreatingOrder && <button
-                                                className="btn btn-dark w-100 p-3"
-                                                onClick={createNewOrder}
+                                                className="btn btn-dark w-100 p-3 go-to-checkout-managment-btn"
                                                 disabled
                                             >
                                                 Sorry, Something Went Wrong, Please Try Again !!
