@@ -91,8 +91,6 @@ const ImageToImage = ({
 
     const [categoryStyles, setCategoryStyles] = useState([]);
 
-    const [imageFile, setImageFile] = useState({});
-
     const [imageLink, setImageLink] = useState("");
 
     const [isWillTheImageBeMoved, setIsWillTheImageBeMoved] = useState(false);
@@ -349,7 +347,6 @@ const ImageToImage = ({
 
     const removeImage = () => {
         setImageLink("");
-        setImageFile({});
     }
 
     const handleSelectCategory = (index) => {
