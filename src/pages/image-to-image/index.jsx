@@ -334,7 +334,7 @@ const ImageToImage = ({
         imageToImageData.append("imageFile", file);
         try {
             const res = await Axios.post(`https://newapi.tavlorify.se/image-to-image/upload-image-and-processing`, imageToImageData);
-            setImageLink(await res.data.imageLink);
+            setImageLink(await res.data);
         }
         catch (err) {
             setErrorMsg("Sorry, Something Went Wrong, Please Repeate This Process !!");
