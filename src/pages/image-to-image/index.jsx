@@ -44,6 +44,7 @@ import validations from "../../../public/global_functions/validations";
 import { v4 as generateUniqueID } from "uuid";
 import room1Image from "@/../../public/images/Rooms/room1.jpg";
 import room2Image from "@/../../public/images/Rooms/room2.jpg";
+import { BiError } from "react-icons/bi";
 
 const ImageToImage = ({
     generatedImagePathInMyServerAsQuery,
@@ -330,21 +331,20 @@ const ImageToImage = ({
             .catch((err) => console.log(err));
     }, []);
 
-    const handleSelectImageFile = (file) => {
+    const handleSelectImageFile = async (file) => {
         let imageToImageData = new FormData();
         imageToImageData.append("imageFile", file);
-        Axios.post(`https://newapi.tavlorify.se/image-to-image/upload-image-and-processing`, imageToImageData)
-            .then((res) => {
-                setImageLink(res.data.imageLink);
-                const tempImageType = res.data.imageType;
-                setImageType(tempImageType);
-                if (tempImageType === "vertical") setDimentionsInCm("50x70");
-                else if (tempImageType === "horizontal") setDimentionsInCm("70x50");
-                else setDimentionsInCm("30x30");
-            }).catch((err) => {
-                console.log(err);
-            });
-
+        try {
+            const res = await Axios.post(`https://newapi.tavlorify.se/image-to-image/upload-image-and-processing`, imageToImageData);
+            setImageLink(await res.data.imageLink);
+        }
+        catch (err) {
+            setErrorMsg("Sorry, Something Went Wrong, Please Repeate This Process !!");
+            let errorMsgTimeout = setTimeout(() => {
+                setErrorMsg("");
+                clearTimeout(errorMsgTimeout);
+            }, 3000);
+        }
     }
 
     const removeImage = () => {
@@ -455,8 +455,6 @@ const ImageToImage = ({
     }
 
     const imageToImageGenerateByAI = async () => {
-        setErrorMsg("");
-        setGeneratedImageURL("");
         setPaintingWidth(null);
         setPaintingHeight(null);
         setIsWillTheImageBeMoved(false);
@@ -499,12 +497,21 @@ const ImageToImage = ({
                     saveNewGeneratedImageDataInLocalStorage(generatedImageData);
                 }
             } else {
-                setErrorMsg("Sorry, Something Went Wrong !!");
+                setIsWaitStatus(false);
+                setErrorMsg("Sorry, Something Went Wrong, Please Repeate This Process !!");
+                let errorMsgTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    clearTimeout(errorMsgTimeout);
+                }, 3000);
             }
         }
         catch (err) {
-            console.log(err);
-            setErrorMsg("Sorry, Something Went Wrong !!");
+            setIsWaitStatus(false);
+            setErrorMsg("Sorry, Something Went Wrong, Please Repeate This Process !!");
+            let errorMsgTimeout = setTimeout(() => {
+                setErrorMsg("");
+                clearTimeout(errorMsgTimeout);
+            }, 3000);
         }
     }
 
@@ -530,12 +537,12 @@ const ImageToImage = ({
     const saveNewGeneratedImageDataInLocalStorage = (generatedImageData) => {
         let tavlorifyStoreUserGeneratedImagesDataForTextToImage = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image"));
         if (tavlorifyStoreUserGeneratedImagesDataForTextToImage) {
-            tavlorifyStoreUserGeneratedImagesDataForTextToImage.push(generatedImageData);
+            tavlorifyStoreUserGeneratedImagesDataForTextToImage.unshift(generatedImageData);
             localStorage.setItem("tavlorify-store-user-generated-images-data-image-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForTextToImage));
             setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForTextToImage);
         } else {
             let tavlorifyStoreUserGeneratedImagesDataForTextToImage = [];
-            tavlorifyStoreUserGeneratedImagesDataForTextToImage.push(generatedImageData);
+            tavlorifyStoreUserGeneratedImagesDataForTextToImage.unshift(generatedImageData);
             localStorage.setItem("tavlorify-store-user-generated-images-data-image-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForTextToImage));
             setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForTextToImage);
         }
@@ -884,7 +891,7 @@ const ImageToImage = ({
                         ></div>
                     </div>
                 </>}
-                {paintingType === "canvas" && <div
+                {paintingType === "canvas" && !isWaitStatus && !errorMsg && <div
                     className={`
                         image-box d-flex align-items-center justify-content-center
                         ${!isImageInsideRoom ? (
@@ -982,63 +989,74 @@ const ImageToImage = ({
                     {/* Start Grid System */}
                     <div className="row align-items-center">
                         {/* Start Column */}
-                        <div className="col-xl-2">
-                            {/* Start Art Painting Box */}
-                            {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 3}px`, "minimize-image", false)}
-                            {/* End Art Painting Box */}
-                            {getImageInsideRoomBox(1, "minimize-room-image")}
-                            {getImageInsideRoomBox(2, "minimize-room-image")}
-                        </div>
-                        {/* End Column */}
-                        {/* Start Column */}
-                        <div className="col-xl-5">
-                            {/* Start Art Painting Section */}
-                            {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height}px`, undefined, false)}
-                            {/* End Art Painting Section */}
-                            {getImageInsideRoomBox(1, undefined)}
-                            {getImageInsideRoomBox(2, undefined)}
-                            {isSaveGeneratedImageAndInfo && !errorMsg && <p className="alert alert-danger mt-5 text-center">Saving Generated Image Now ...</p>}
-                        </div>
-                        {/* End Column */}
-                        {/* Start Column */}
-                        <div className="col-xl-5">
-                            <div className="image-before-processing-box">
-                                {/* Start Downloaded Image Box */}
-                                {imageLink && <div className="downloaded-image-box mx-auto">
-                                    <img
-                                        src={imageLink}
-                                        alt="downloaded image !"
-                                        className="downloaded-image"
-                                        onDragStart={(e) => e.preventDefault()}
-                                    />
-                                    <AiFillCloseCircle
-                                        className="close-icon"
-                                        onClick={removeImage}
-                                    />
-                                </div>}
-                                {/* End Downloaded Image Box */}
-                                {/* Start Select Image Box */}
-                                {!imageLink && <div className="select-image-box text-center">
-                                    <label
-                                        htmlFor="image-file"
-                                        className="file-label d-flex align-items-center justify-content-center flex-column"
-                                    >
-                                        <h6 className="fw-bold">Upload Image</h6>
-                                        <BsCloudUpload className="upload-image-icon" />
-                                    </label>
-                                    <input
-                                        type="file"
-                                        className="image-file-input"
-                                        id="image-file"
-                                        onChange={(e) => handleSelectImageFile(e.target.files[0])}
-                                    />
-                                </div>}
-                                {/* End Select Image Box */}
+                        {errorMsg && <div className="col-xl-7">
+                            <div className="error-msg-box p-4 text-center">
+                                <BiError className="error-icon mb-3" />
+                                <h5 className="error-msg fw-bold">{errorMsg}</h5>
                             </div>
-                            <hr className="mb-2 mt-2" />
-                            {!isWaitStatus && !errorMsg &&
-                                <button className="btn btn-dark w-50 mx-auto d-block" onClick={imageToImageGenerateByAI}>Create</button>
-                            }
+                        </div>}
+                        {/* End Column */}
+                        {!errorMsg && <>
+                            {/* Start Column */}
+                            <div className="col-xl-2">
+                                {/* Start Art Painting Box */}
+                                {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 3}px`, "minimize-image", false)}
+                                {/* End Art Painting Box */}
+                                {getImageInsideRoomBox(1, "minimize-room-image")}
+                                {getImageInsideRoomBox(2, "minimize-room-image")}
+                            </div>
+                            {/* End Column */}
+                            {/* Start Column */}
+                            <div className="col-xl-5">
+                                {/* Start Art Painting Section */}
+                                {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height}px`, undefined, false)}
+                                {/* End Art Painting Section */}
+                                {getImageInsideRoomBox(1, undefined)}
+                                {getImageInsideRoomBox(2, undefined)}
+                                {isSaveGeneratedImageAndInfo && !errorMsg && <p className="alert alert-danger mt-5 text-center">Saving Generated Image Now ...</p>}
+                            </div>
+                            {/* End Column */}
+                        </>}
+                        {/* Start Column */}
+                        <div className="col-xl-5">
+                            {!errorMsg && !isWaitStatus && <>
+                                <div className="image-before-processing-box">
+                                    {/* Start Downloaded Image Box */}
+                                    {imageLink && <div className="downloaded-image-box mx-auto">
+                                        <img
+                                            src={imageLink}
+                                            alt="downloaded image !"
+                                            className="downloaded-image"
+                                            onDragStart={(e) => e.preventDefault()}
+                                        />
+                                        <AiFillCloseCircle
+                                            className="close-icon"
+                                            onClick={removeImage}
+                                        />
+                                    </div>}
+                                    {/* End Downloaded Image Box */}
+                                    {/* Start Select Image Box */}
+                                    {!imageLink && <div className="select-image-box text-center">
+                                        <label
+                                            htmlFor="image-file"
+                                            className="file-label d-flex align-items-center justify-content-center flex-column"
+                                        >
+                                            <h6 className="fw-bold">Upload Image</h6>
+                                            <BsCloudUpload className="upload-image-icon" />
+                                        </label>
+                                        <input
+                                            type="file"
+                                            className="image-file-input"
+                                            id="image-file"
+                                            onChange={(e) => handleSelectImageFile(e.target.files[0])}
+                                        />
+                                    </div>}
+                                    {/* End Select Image Box */}
+                                    <hr className="mb-2 mt-2" />
+                                    {imageLink && <button className="btn btn-dark w-50 mx-auto d-block" onClick={imageToImageGenerateByAI}>Create</button>}
+                                    {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block" disabled>Create</button>}
+                                </div>
+                            </>}
                             {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block" disabled>Creating ...</button>}
                             <hr className="mb-2 mt-2" />
                             {/* Start Art Painting Options Section */}
@@ -1289,7 +1307,7 @@ const ImageToImage = ({
                             </section>
                             {/* End Art Painting Options Section */}
                             {/* Start Add To Cart Managment */}
-                            <div className="add-to-cart-box">
+                            {!isWaitStatus && !errorMsg && <div className="add-to-cart-box">
                                 <div className="row">
                                     <div className="col-md-6">
                                         <input
@@ -1313,7 +1331,7 @@ const ImageToImage = ({
                                         {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn" disabled>{errorInAddToCart}</button>}
                                     </div>
                                 </div>
-                            </div>
+                            </div>}
                             {/* End Add To Cart Managment */}
                         </div>
                         {/* End Column */}
@@ -1341,7 +1359,7 @@ const ImageToImage = ({
                                         />
                                     </li>
                                 ))}
-                            </ul> : <p className="alert alert-danger m-0">Sorry, Can't Find Any Generated Images From You !!</p>}
+                            </ul> : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Sorry, Can't Find Any Generated Images From You !!</p>}
                         </div>
                     </section>
                     {/* Start Generated Images Section */}

@@ -2,6 +2,20 @@
   position: relative;
 }
 
+.image-to-image-service .error-msg-box {
+  border: 2px solid #000;
+  animation: popup-animation 2s ease-in-out 0s 1;
+}
+
+.image-to-image-service .error-msg-box .error-icon {
+  font-size: 80px;
+  color: red;
+}
+
+.image-to-image-service .error-msg-box .error-msg {
+  line-height: 1.5;
+}
+
 .image-to-image-service .page-content .container-fluid .welcome-msg {
   font-family: 'Caveat', cursive;
   font-weight: bold;
@@ -269,4 +283,17 @@
 .image-to-image-service .page-content .container-fluid .generated-images .generated-images-list .generated-images-item .generated-image {
   width: inherit;
   height: inherit;
+}
+
+.image-to-image-service .page-content .container-fluid .not-find-generated-images-for-you-err {
+  font-size: 14px;
+}
+
+@keyframes popup-animation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

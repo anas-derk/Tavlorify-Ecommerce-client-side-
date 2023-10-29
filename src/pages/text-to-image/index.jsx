@@ -454,8 +454,12 @@ const TextToImage = ({
                 setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
                 saveNewGeneratedImageDataInLocalStorage(generatedImageData);
             } else {
-                setErrorMsg("Something Went Wrong !!");
-                setGeneratedImageURL("");
+                setIsWaitStatus(false);
+                setErrorMsg("Sorry, Something Went Wrong, Please Repeate This Process !!");
+                let errorMsgTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    clearTimeout(errorMsgTimeout);
+                }, 3000);
             }
         }
         catch (err) {
