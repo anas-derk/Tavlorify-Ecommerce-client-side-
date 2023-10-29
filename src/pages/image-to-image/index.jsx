@@ -1009,6 +1009,7 @@ const ImageToImage = ({
                                         src={imageLink}
                                         alt="downloaded image !"
                                         className="downloaded-image"
+                                        onDragStart={(e) => e.preventDefault()}
                                     />
                                     <AiFillCloseCircle
                                         className="close-icon"
