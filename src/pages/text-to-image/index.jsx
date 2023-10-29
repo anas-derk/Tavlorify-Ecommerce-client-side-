@@ -41,6 +41,7 @@ import posterWithHangersDarkWoodFrameImageVertical from "../../../public/images/
 import validations from "../../../public/global_functions/validations";
 import room1Image from "@/../../public/images/Rooms/room1.jpg";
 import room2Image from "@/../../public/images/Rooms/room2.jpg";
+import { BiError } from "react-icons/bi";
 
 const TextToImage = ({
     generatedImagePathInMyServerAsQuery,
@@ -425,12 +426,10 @@ const TextToImage = ({
 
     const generatedImageWithAI = async (e) => {
         e.preventDefault();
-        setErrorMsg("");
-        setGeneratedImageURL("");
         setIsWaitStatus(true);
         try {
             const res = await Axios.get(
-                `${process.env.BASE_API_URL}/text-to-image/generate-image?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
+                `https://newapi.tavlorify.se/text-to-image/generate-image?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
             `);
             const result = await res.data;
             if (Array.isArray(result) && result.length > 0) {
@@ -460,8 +459,12 @@ const TextToImage = ({
             }
         }
         catch (err) {
-            console.log(err);
-            setErrorMsg("Sorry, Something Went Wrong !!");
+            setIsWaitStatus(false);
+            setErrorMsg("Sorry, Something Went Wrong, Please Repeate This Process !!");
+            let errorMsgTimeout = setTimeout(() => {
+                setErrorMsg("");
+                clearTimeout(errorMsgTimeout);
+            }, 3000);
         }
     }
 
@@ -487,12 +490,12 @@ const TextToImage = ({
     const saveNewGeneratedImageDataInLocalStorage = (generatedImageData) => {
         let tavlorifyStoreUserGeneratedImagesDataForTextToImage = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image"));
         if (tavlorifyStoreUserGeneratedImagesDataForTextToImage) {
-            tavlorifyStoreUserGeneratedImagesDataForTextToImage.push(generatedImageData);
+            tavlorifyStoreUserGeneratedImagesDataForTextToImage.unshift(generatedImageData);
             localStorage.setItem("tavlorify-store-user-generated-images-data-text-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForTextToImage));
             setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForTextToImage);
         } else {
             let tavlorifyStoreUserGeneratedImagesDataForTextToImage = [];
-            tavlorifyStoreUserGeneratedImagesDataForTextToImage.push(generatedImageData);
+            tavlorifyStoreUserGeneratedImagesDataForTextToImage.unshift(generatedImageData);
             localStorage.setItem("tavlorify-store-user-generated-images-data-text-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForTextToImage));
             setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForTextToImage);
         }
@@ -654,7 +657,7 @@ const TextToImage = ({
                         />}
                     </div>
                 </>}
-                {paintingType === "canvas" && <div className="canvas-image-box">
+                {paintingType === "canvas" && !isWaitStatus && !errorMsg && <div className="canvas-image-box">
                     <img
                         src={generatedImageURL}
                         className={
@@ -669,7 +672,6 @@ const TextToImage = ({
                     />
                 </div>}
                 {isWaitStatus && !errorMsg && <span className="loader"></span>}
-                {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
             </div>
         );
     }
@@ -726,21 +728,31 @@ const TextToImage = ({
                     {/* Start Grid System */}
                     <div className="row align-items-center">
                         {/* Start Column */}
-                        <div className="col-xl-2">
-                            {/* Start Art Painting Box */}
-                            {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image", false)}
-                            {/* End Art Painting Box */}
-                            {getImageInsideRoomBox(1, "minimize-room-image")}
-                            {getImageInsideRoomBox(2, "minimize-room-image")}
-                        </div>
+                        {errorMsg && <div className="col-xl-7">
+                            <div className="error-msg-box p-4 text-center">
+                                <BiError className="error-icon mb-3" />
+                                <h5 className="error-msg fw-bold">{errorMsg}</h5>
+                            </div>
+                        </div>}
                         {/* End Column */}
-                        {/* Start Column */}
-                        <div className="col-xl-5">
-                            {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined, false)}
-                            {getImageInsideRoomBox(1, undefined)}
-                            {getImageInsideRoomBox(2, undefined)}
-                        </div>
-                        {/* End Column */}
+                        {!errorMsg && <>
+                            {/* Start Column */}
+                            <div className="col-xl-2">
+                                {/* Start Art Painting Box */}
+                                {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image", false)}
+                                {/* End Art Painting Box */}
+                                {getImageInsideRoomBox(1, "minimize-room-image")}
+                                {getImageInsideRoomBox(2, "minimize-room-image")}
+                            </div>
+                            {/* End Column */}
+                            {/* Start Column */}
+                            <div className="col-xl-5">
+                                {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined, false)}
+                                {getImageInsideRoomBox(1, undefined)}
+                                {getImageInsideRoomBox(2, undefined)}
+                            </div>
+                            {/* End Column */}
+                        </>}
                         {/* Start Column */}
                         <div className="col-xl-5">
                             <section className="art-painting-options pe-3 mb-3">
@@ -996,7 +1008,7 @@ const TextToImage = ({
                                 {/* End Displaying Art Painting Options Section */}
                             </section>
                             {/* Start Add To Cart Managment */}
-                            <div className="add-to-cart-box">
+                            {!isWaitStatus && !errorMsg && <div className="add-to-cart-box">
                                 <div className="row">
                                     <div className="col-md-6">
                                         <input
@@ -1020,7 +1032,7 @@ const TextToImage = ({
                                         {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn" disabled>{errorInAddToCart}</button>}
                                     </div>
                                 </div>
-                            </div>
+                            </div>}
                             {/* End Add To Cart Managment */}
                         </div>
                         {/* End Column */}
@@ -1030,12 +1042,12 @@ const TextToImage = ({
                     {/* Start Generated Images Section */}
                     <section className={`row align-items-center generated-images ${generatedImagesData ? "" : "p-4"}`}>
                         <div className="col-md-2 text-center">
-                            <h5 className="m-0 fw-bold d-inline">Generated Images: ({generatedImagesData ? generatedImagesData.length : 0})</h5>
+                            <h6 className="m-0 fw-bold d-inline">Generated Images: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
                         </div>
                         <div className="col-md-10">
                             {generatedImagesData ? <ul className="generated-images-list text-center d-flex p-4">
-                                {generatedImagesData.map((generatedImageData) => (
-                                    <li
+                                {generatedImagesData.map((generatedImageData, index) => (
+                                    index < 10 && <li
                                         className="generated-images-item m-0 me-4"
                                         key={generatedImageData._id}
                                         onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData)}
@@ -1048,7 +1060,7 @@ const TextToImage = ({
                                         />
                                     </li>
                                 ))}
-                            </ul> : <p className="alert alert-danger m-0">Sorry, Can't Find Any Generated Images From You !!</p>}
+                            </ul> : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Sorry, Can't Find Any Generated Images From You !!</p>}
                         </div>
                     </section>
                     {/* Start Generated Images Section */}

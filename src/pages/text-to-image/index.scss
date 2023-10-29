@@ -1,4 +1,15 @@
 .text-to-image-service{
+    .error-msg-box{
+        border: 2px solid #000;
+        animation: popup-animation 2s ease-in-out 0s 1;
+        .error-icon{
+            font-size: 80px;
+            color: red;
+        }
+        .error-msg{
+            line-height: 1.5;
+        }
+    }
     .page-content{
         .container-fluid{
             .welcome-msg{
@@ -198,6 +209,9 @@
                         }
                     }
                 }
+            }
+            .not-find-generated-images-for-you-err{
+                font-size: 14px;
             }
         }
     }
