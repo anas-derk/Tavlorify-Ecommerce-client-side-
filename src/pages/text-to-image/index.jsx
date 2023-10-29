@@ -626,6 +626,7 @@ const TextToImage = ({
                         {!isWaitStatus && !errorMsg && generatedImageURL && frameColor !== "none" && <img
                             src={frameImages[paintingType][tempImageType][frameColor][tempDimentionsInCm]}
                             alt="Image"
+                            onDragStart={(e) => e.preventDefault()}
                         />}
                     </div>
                     <div
@@ -649,6 +650,7 @@ const TextToImage = ({
                                 width: width,
                                 height: height,
                             }}
+                            onDragStart={(e) => e.preventDefault()}
                         />}
                     </div>
                 </>}
@@ -663,6 +665,7 @@ const TextToImage = ({
                         alt="canvas image"
                         width={width}
                         height={height}
+                        onDragStart={(e) => e.preventDefault()}
                     />
                 </div>}
                 {isWaitStatus && !errorMsg && <span className="loader"></span>}
@@ -683,8 +686,8 @@ const TextToImage = ({
                     }
                 }
             >
-                {roomNumber === 1 && <img src={room1Image.src} alt="Room Image1 !!" />}
-                {roomNumber === 2 && <img src={room2Image.src} alt="Room Image2 !!" />}
+                {roomNumber === 1 && <img src={room1Image.src} alt="Room Image1 !!" onDragStart={(e) => e.preventDefault()} />}
+                {roomNumber === 2 && <img src={room2Image.src} alt="Room Image2 !!" onDragStart={(e) => e.preventDefault()} />}
                 {getArtPaintingBox(
                     imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 10}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`,
                     imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 10}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`,
@@ -779,6 +782,7 @@ const TextToImage = ({
                                                             alt={`${category.name} Image`}
                                                             className="category-image mb-2"
                                                             style={index === categorySelectedIndex ? { border: "4px solid #000" } : {}}
+                                                            onDragStart={(e) => e.preventDefault()}
                                                         />
                                                         <h6 className="category-name text-center">{category.name}</h6>
                                                     </div>
@@ -805,6 +809,7 @@ const TextToImage = ({
                                                             src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
                                                             alt={`${style.name} Image`} className="mb-2 style-image"
                                                             style={index === styleSelectedIndex ? { border: "4px solid #000" } : {}}
+                                                            onDragStart={(e) => e.preventDefault()}
                                                         />
                                                         <p className="style-name m-0 text-center">{style.name}</p>
                                                     </div>
@@ -927,7 +932,7 @@ const TextToImage = ({
                                             onClick={() => handleSelectFrame("poster-with-wooden-frame", "black")}
                                         >
                                             <span className="frame-color d-block fw-bold mb-2">Black</span>
-                                            <img src={blackFrameCornerImage.src} alt="Black Frame Image" width="50" />
+                                            <img src={blackFrameCornerImage.src} alt="Black Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                         </li>
                                         <li
                                             className="p-2"
@@ -935,7 +940,7 @@ const TextToImage = ({
                                             onClick={() => handleSelectFrame("poster-with-wooden-frame", "white")}
                                         >
                                             <span className="frame-color d-block fw-bold mb-2">White</span>
-                                            <img src={whiteFrameCornerImage.src} alt="White Frame Image" width="50" />
+                                            <img src={whiteFrameCornerImage.src} alt="White Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                         </li>
                                         <li
                                             className="p-2"
@@ -943,7 +948,7 @@ const TextToImage = ({
                                             onClick={() => handleSelectFrame("poster-with-wooden-frame", "natural-wood")}
                                         >
                                             <span className="frame-color d-block fw-bold mb-2">Wood</span>
-                                            <img src={woodFrameCornerImage.src} alt="Wood Frame Image" width="50" />
+                                            <img src={woodFrameCornerImage.src} alt="Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                         </li>
                                         <li
                                             className="p-2"
@@ -951,7 +956,7 @@ const TextToImage = ({
                                             onClick={() => handleSelectFrame("poster-with-wooden-frame", "dark-wood")}
                                         >
                                             <span className="frame-color d-block fw-bold mb-2">Dark Wood</span>
-                                            <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" />
+                                            <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                         </li>
                                         <li
                                             className="p-2"
@@ -959,7 +964,7 @@ const TextToImage = ({
                                             onClick={() => handleSelectFrame("poster-with-hangers", "black")}
                                         >
                                             <span className="frame-color d-block fw-bold mb-2">Black With Hangers</span>
-                                            <img src={blackFrameCornerImage.src} alt="Black Frame With Hangers Image" width="50" />
+                                            <img src={blackFrameCornerImage.src} alt="Black Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                         </li>
                                         <li
                                             className="p-2"
@@ -967,7 +972,7 @@ const TextToImage = ({
                                             onClick={() => handleSelectFrame("poster-with-hangers", "white")}
                                         >
                                             <span className="frame-color d-block fw-bold mb-2">White With Hangers</span>
-                                            <img src={whiteFrameCornerImage.src} alt="White Frame With Hangers Image" width="50" />
+                                            <img src={whiteFrameCornerImage.src} alt="White Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                         </li>
                                         <li
                                             className="p-2"
@@ -975,7 +980,7 @@ const TextToImage = ({
                                             onClick={() => handleSelectFrame("poster-with-hangers", "natural-wood")}
                                         >
                                             <span className="frame-color d-block fw-bold">Wood With Hangers</span>
-                                            <img src={woodFrameCornerImage.src} alt="Wood Frame With Hangers Image" width="50" />
+                                            <img src={woodFrameCornerImage.src} alt="Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                         </li>
                                         <li
                                             className="p-2"
@@ -983,7 +988,7 @@ const TextToImage = ({
                                             onClick={() => handleSelectFrame("poster-with-hangers", "dark-wood")}
                                         >
                                             <span className="frame-color d-block fw-bold mb-2">Dark Wood With Hangers</span>
-                                            <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" width="50" />
+                                            <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                         </li>
                                     </ul>}
                                     {/* End Frames List */}
@@ -1039,6 +1044,7 @@ const TextToImage = ({
                                             src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
                                             alt="Generated Image !!"
                                             className="generated-image"
+                                            onDragStart={(e) => e.preventDefault()}
                                         />
                                     </li>
                                 ))}
