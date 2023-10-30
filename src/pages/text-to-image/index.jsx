@@ -1020,12 +1020,16 @@ const TextToImage = ({
                             <h6 className="m-0 fw-bold d-inline">Generated Images: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
                         </div>
                         <div className="col-md-10">
-                            {generatedImagesData ? <ul className="generated-images-list text-center d-flex p-4">
+                            {generatedImagesData ? <ul className="generated-images-list text-center p-4">
                                 {generatedImagesData.map((generatedImageData, index) => (
                                     index < 10 && <li
-                                        className="generated-images-item m-0 me-4"
+                                        className="generated-images-item m-0"
                                         key={generatedImageData._id}
                                         onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData)}
+                                        style={{
+                                            width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
+                                            height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`
+                                        }}
                                     >
                                         <img
                                             src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
@@ -1035,6 +1039,7 @@ const TextToImage = ({
                                         />
                                     </li>
                                 ))}
+                                {generatedImagesData.length > 10 && <button className="show-more-generate-images-btn btn btn-dark">Show More</button>}
                             </ul> : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Sorry, Can't Find Any Generated Images From You !!</p>}
                         </div>
                     </section>

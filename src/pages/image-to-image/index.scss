@@ -108,9 +108,6 @@
                             border: 2px dashed #000;
                         }
                     }
-                    .uploading-box{
-                        
-                    }
                     .downloaded-image-box{
                         width: 200px;
                         position: relative;
@@ -244,13 +241,14 @@
             }
             .generated-images{
                 background-color: #EEE;
+                box-shadow: 1px 1px 5px #000;
                 .generated-images-list{
-                    overflow-x: scroll;
-                    flex-wrap: nowrap;
+                    display: grid;
+                    grid-auto-flow: column;
+                    gap: 30px;
+                    overflow-x: auto;
+                    align-items: center;
                     .generated-images-item{
-                        width: 100px;
-                        height: 100px;
-                        display: inline-block;
                         cursor: pointer;
                         .generated-image{
                             width: inherit;
