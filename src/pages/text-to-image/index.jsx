@@ -263,6 +263,10 @@ const TextToImage = ({
 
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
 
+    const [selectedPreviousGeneratedImageIndex, setSelectedPreviousGeneratedImageIndex] = useState(-1);
+
+    const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(false);
+
     const getAllText2ImageCategoriesData = async () => {
         try {
             const res = await Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`);
@@ -476,7 +480,7 @@ const TextToImage = ({
         }
     }
 
-    const displayPreviousGeneratedImageInsideArtPainting = async (generatedImageData) => {
+    const displayPreviousGeneratedImageInsideArtPainting = async (generatedImageData, selectedImageIndex) => {
         setTextPrompt(generatedImageData.textPrompt);
         const tempPaintingType = generatedImageData.paintingType;
         setPaintingType(tempPaintingType);
@@ -495,6 +499,7 @@ const TextToImage = ({
         setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
         setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
         await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
+        setSelectedPreviousGeneratedImageIndex(selectedImageIndex);
     }
 
     const addToCart = async () => {
@@ -695,6 +700,34 @@ const TextToImage = ({
                 <title>Tavlorify Store - Text To Image</title>
             </Head>
             <Header newTotalProductsCount={newTotalProductsCount} />
+            {/* Start Overlay */}
+            {/* <div className="overlay">
+                <div className="rest-generated-images-box d-flex flex-column align-items-center justify-content-center p-4">
+                    <h3 className="fw-bold border-bottom border-2 border-dark pb-2 mb-3">More Gererated Images</h3>
+                    <h6 className="fw-bold mb-5">Please Select Image Then Click Ok !!</h6>
+                    <ul className="generated-images-list w-100 p-4">
+                        {generatedImagesData.map((generatedImageData, index) => (
+                            index < 10 && <li
+                                className="generated-images-item m-0"
+                                key={generatedImageData._id}
+                                // onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData)}
+                                style={{
+                                    width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
+                                    height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`
+                                }}
+                            >
+                                <img
+                                    src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
+                                    alt="Generated Image !!"
+                                    className="generated-image"
+                                    onDragStart={(e) => e.preventDefault()}
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div> */}
+            {/* End Overlay */}
             {/* Start Page Content */}
             <div className="page-content">
                 {/* Start Container */}
@@ -1025,7 +1058,7 @@ const TextToImage = ({
                                     index < 10 && <li
                                         className="generated-images-item m-0"
                                         key={generatedImageData._id}
-                                        onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData)}
+                                        onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
                                         style={{
                                             width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
                                             height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`
@@ -1034,7 +1067,7 @@ const TextToImage = ({
                                         <img
                                             src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
                                             alt="Generated Image !!"
-                                            className="generated-image"
+                                            className={`generated-image ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
                                             onDragStart={(e) => e.preventDefault()}
                                         />
                                     </li>

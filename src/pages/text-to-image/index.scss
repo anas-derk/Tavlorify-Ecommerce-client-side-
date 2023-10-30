@@ -10,6 +10,42 @@
             line-height: 1.5;
         }
     }
+    .generated-images-list{
+        display: grid;
+        grid-auto-flow: column;
+        gap: 30px;
+        overflow-x: auto;
+        align-items: center;
+        .generated-images-item{
+            cursor: pointer;
+            .generated-image{
+                width: inherit;
+                height: inherit;
+                &.selected-image{
+                    padding: 10px;
+                    border: 4px solid #000;
+                }
+            }
+        }
+    }
+    .overlay{
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba($color: #000, $alpha: 0.5);
+        z-index: 3;
+        .rest-generated-images-box{
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 75%;
+            height: 75%;
+            background-color: #CCC;
+        }
+    }
     .page-content{
         .container-fluid{
             .welcome-msg{
@@ -196,20 +232,6 @@
             .generated-images{
                 background-color: #EEE;
                 box-shadow: 1px 1px 5px #000;
-                .generated-images-list{
-                    display: grid;
-                    grid-auto-flow: column;
-                    gap: 30px;
-                    overflow-x: auto;
-                    align-items: center;
-                    .generated-images-item{
-                        cursor: pointer;
-                        .generated-image{
-                            width: inherit;
-                            height: inherit;
-                        }
-                    }
-                }
             }
             .not-find-generated-images-for-you-err{
                 font-size: 14px;
