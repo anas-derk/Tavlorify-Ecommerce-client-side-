@@ -429,38 +429,28 @@ const TextToImage = ({
         setIsWaitStatus(true);
         try {
             const res = await Axios.get(
-                `https://newapi.tavlorify.se/text-to-image/generate-image?textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&category=${categoriesData[categorySelectedIndex].name}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
+                `${process.env.BASE_API_URL}/text-to-image/generate-image?service=text-to-image&textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&position=${imageType}&dimentionsInCm=${dimentionsInCm}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
             `);
             const result = await res.data;
-            if (Array.isArray(result) && result.length > 0) {
-                setGeneratedImageURL(result[0]);
-                setTempImageType(imageType);
-                setTempDimentionsInCm(dimentionsInCm);
-                setErrorMsg("");
-                const tempGeneratedImageData = {
-                    categoryName: categoriesData[categorySelectedIndex].name,
-                    styleName: categoryStyles[styleSelectedIndex].name,
-                    paintingType: paintingType,
-                    position: imageType,
-                    size: dimentionsInCm,
-                    isExistWhiteBorder: isExistWhiteBorderWithPoster,
-                    width: dimentions.width,
-                    height: dimentions.height,
-                    frameColor: frameColor,
-                    generatedImageURL: result[0],
-                }
-                setIsWaitStatus(false);
-                const generatedImageData = await saveNewGeneratedImageData(tempGeneratedImageData);
-                setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
-                saveNewGeneratedImageDataInLocalStorage(generatedImageData);
-            } else {
-                setIsWaitStatus(false);
-                setErrorMsg("Sorry, Something Went Wrong, Please Repeate This Process !!");
-                let errorMsgTimeout = setTimeout(() => {
-                    setErrorMsg("");
-                    clearTimeout(errorMsgTimeout);
-                }, 3000);
-            }
+            const imageURL = `${process.env.BASE_API_URL}/${result}`;
+            setTempImageType(imageType);
+            setTempDimentionsInCm(dimentionsInCm);
+            setIsWaitStatus(false);
+            setGeneratedImageURL(imageURL);
+            setGeneratedImagePathInMyServer(result);
+            saveNewGeneratedImageDataInLocalStorage({
+                uploadedImageURL: "",
+                categoryName: categoriesData[categorySelectedIndex].name,
+                styleName: categoryStyles[styleSelectedIndex].name,
+                paintingType: paintingType,
+                position: imageOrientation,
+                size: tempDimentionsInCm,
+                isExistWhiteBorder: isExistWhiteBorderWithPoster,
+                width: naturalWidthTemp,
+                height: naturalHeightTemp,
+                frameColor: frameColor,
+                generatedImageURL: result,
+            });
         }
         catch (err) {
             setIsWaitStatus(false);
