@@ -91,12 +91,9 @@
   }
 }
 
-.image-to-image-service .page-content .container-fluid .row .image-before-processing-box .select-image-box {
+.image-to-image-service .page-content .container-fluid .row .image-before-processing-box .select-image-box .file-label {
   border: 2px dashed #CCC;
   position: relative;
-}
-
-.image-to-image-service .page-content .container-fluid .row .image-before-processing-box .select-image-box .file-label {
   cursor: pointer;
   width: 100%;
   height: 150px;
@@ -113,6 +110,14 @@
   position: absolute;
   left: 0;
   bottom: 0;
+}
+
+.image-to-image-service .page-content .container-fluid .row .image-before-processing-box .select-image-box .drop-file-box {
+  cursor: pointer;
+  width: 100%;
+  height: 150px;
+  background-color: #EEE;
+  border: 2px dashed #000;
 }
 
 .image-to-image-service .page-content .container-fluid .row .image-before-processing-box .downloaded-image-box {

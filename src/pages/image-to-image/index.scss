@@ -82,9 +82,9 @@
                 }
                 .image-before-processing-box{
                     .select-image-box{
-                        border: 2px dashed #CCC;
-                        position: relative;
                         .file-label{
+                            border: 2px dashed #CCC;
+                            position: relative;
                             cursor: pointer;
                             width: 100%;
                             height: 150px;
@@ -100,6 +100,16 @@
                             left: 0;
                             bottom: 0;
                         }
+                        .drop-file-box{
+                            cursor: pointer;
+                            width: 100%;
+                            height: 150px;
+                            background-color: #EEE;
+                            border: 2px dashed #000;
+                        }
+                    }
+                    .uploading-box{
+                        
                     }
                     .downloaded-image-box{
                         width: 200px;

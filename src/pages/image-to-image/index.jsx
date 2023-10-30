@@ -278,6 +278,10 @@ const ImageToImage = ({
 
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
 
+    const [isDragFile, setIsDragFile] = useState(false);
+
+    const [isUplodingFile, setIsUplodingFile] = useState(false);
+
     const getAllImage2ImageCategoriesData = async () => {
         try {
             const res = await Axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`);
@@ -332,12 +336,15 @@ const ImageToImage = ({
     const handleSelectImageFile = async (file) => {
         let imageToImageData = new FormData();
         imageToImageData.append("imageFile", file);
+        setIsUplodingFile(true);
         try {
             const res = await Axios.post(`https://newapi.tavlorify.se/image-to-image/upload-image-and-processing`, imageToImageData);
             setImageLink(await res.data);
+            setIsUplodingFile(false);
         }
         catch (err) {
             setErrorMsg("Sorry, Something Went Wrong, Please Repeate This Process !!");
+            setIsUplodingFile(false);
             let errorMsgTimeout = setTimeout(() => {
                 setErrorMsg("");
                 clearTimeout(errorMsgTimeout);
@@ -977,6 +984,17 @@ const ImageToImage = ({
         }
     }
 
+    const handleDragFileOver = (e) => {
+        e.preventDefault();
+        setIsDragFile(true);
+    }
+
+    const handleDropFile = (e) => {
+        e.preventDefault();
+        setIsDragFile(false);
+        handleSelectImageFile(e.dataTransfer.files[0]);
+    }
+
     return (
         // Start Image To Image Page
         <div className="image-to-image-service">
@@ -1039,22 +1057,39 @@ const ImageToImage = ({
                                     </div>}
                                     {/* End Downloaded Image Box */}
                                     {/* Start Select Image Box */}
-                                    {!imageLink && <div className="select-image-box text-center">
-                                        <label
-                                            htmlFor="image-file"
-                                            className="file-label d-flex align-items-center justify-content-center flex-column"
+                                    {!imageLink &&
+                                        <div
+                                            className="select-image-box text-center"
+                                            onDragOver={handleDragFileOver}
+                                            onDragLeave={() => setIsDragFile(false)}
+                                            onDrop={handleDropFile}
                                         >
-                                            <h6 className="fw-bold">Upload Image</h6>
-                                            <BsCloudUpload className="upload-image-icon" />
-                                        </label>
-                                        <input
-                                            type="file"
-                                            className="image-file-input"
-                                            id="image-file"
-                                            onChange={(e) => handleSelectImageFile(e.target.files[0])}
-                                        />
-                                    </div>}
+                                            {!isDragFile && !isUplodingFile && <>
+                                                <label
+                                                    htmlFor="image-file"
+                                                    className="file-label d-flex align-items-center justify-content-center flex-column"
+                                                >
+                                                    <h6 className="fw-bold">Upload Image</h6>
+                                                    <BsCloudUpload className="upload-image-icon" />
+                                                </label>
+                                                <input
+                                                    type="file"
+                                                    className="image-file-input"
+                                                    id="image-file"
+                                                    onChange={(e) => handleSelectImageFile(e.target.files[0])}
+                                                />
+                                            </>}
+                                            {isDragFile && !isUplodingFile && <div className="drop-file-box d-flex flex-column align-items-center justify-content-center">
+                                                <h5 className="drag-msg fw-bold mb-0">Please Drop This File Here</h5>
+                                            </div>}
+                                        </div>}
                                     {/* End Select Image Box */}
+                                    {isUplodingFile && <div className="uploading-box mb-4 p-3 border border-2 border-secondary">
+                                        <div className="progress mb-3">
+                                            <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style={{ width: "100%" }}></div>
+                                        </div>
+                                        <h6 className="m-0 fw-bold">Uploading Image Now ...</h6>
+                                    </div>}
                                     <hr className="mb-2 mt-2" />
                                     {imageLink && <button className="btn btn-dark w-50 mx-auto d-block" onClick={imageToImageGenerateByAI}>Create</button>}
                                     {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block" disabled>Create</button>}
