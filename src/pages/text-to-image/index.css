@@ -30,7 +30,6 @@
 }
 
 .text-to-image-service .generated-images-list .generated-images-item .generated-image.selected-image {
-  padding: 10px;
   border: 4px solid #000;
 }
 
