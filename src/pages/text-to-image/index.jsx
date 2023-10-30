@@ -462,25 +462,6 @@ const TextToImage = ({
         }
     }
 
-    const saveNewGeneratedImageData = async (generatedImageData) => {
-        const res = await Axios.post(`${process.env.BASE_API_URL}/generated-images/save-new-generated-image-data`, {
-            service: "text-to-image",
-            textPrompt: textPrompt,
-            categoryName: generatedImageData.categoryName,
-            styleName: generatedImageData.styleName,
-            paintingType: generatedImageData.paintingType,
-            position: generatedImageData.position,
-            size: generatedImageData.size,
-            isExistWhiteBorder: generatedImageData.isExistWhiteBorder,
-            width: generatedImageData.width,
-            height: generatedImageData.height,
-            frameColor: generatedImageData.frameColor,
-            generatedImageURL: generatedImageData.generatedImageURL,
-        });
-        const result = await res.data;
-        return result;
-    }
-
     const saveNewGeneratedImageDataInLocalStorage = (generatedImageData) => {
         let tavlorifyStoreUserGeneratedImagesDataForTextToImage = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image"));
         if (tavlorifyStoreUserGeneratedImagesDataForTextToImage) {
