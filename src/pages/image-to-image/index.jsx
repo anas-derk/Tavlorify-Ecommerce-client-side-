@@ -379,7 +379,7 @@ const ImageToImage = ({
                 const tempModelName = categoryStylesTemp[0].modelName;
                 setModelName(tempModelName);
                 handleSelectGeneratedImageIdAndPaintingType(tempModelName);
-                setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")));
+                setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image")));
             })
             .catch((err) => console.log(err));
     }, []);
