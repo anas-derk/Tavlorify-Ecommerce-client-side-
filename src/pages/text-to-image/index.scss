@@ -43,6 +43,16 @@
             width: 75%;
             height: 75%;
             background-color: #CCC;
+            .close-overlay-icon{
+                position: absolute;
+                right: -15px;
+                top: -15px;
+                font-size: 30px;
+                background-color: red;
+                cursor: pointer;
+                border-radius: 50%;
+                padding: 5px;
+            }
         }
     }
     .page-content{

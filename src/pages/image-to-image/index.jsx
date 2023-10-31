@@ -45,6 +45,7 @@ import { v4 as generateUniqueID } from "uuid";
 import room1Image from "@/../../public/images/Rooms/room1.jpg";
 import room2Image from "@/../../public/images/Rooms/room2.jpg";
 import { BiError } from "react-icons/bi";
+import { GrFormClose } from "react-icons/gr";
 
 const ImageToImage = ({
     generatedImagePathInMyServerAsQuery,
@@ -281,6 +282,10 @@ const ImageToImage = ({
     const [isDragFile, setIsDragFile] = useState(false);
 
     const [isUplodingFile, setIsUplodingFile] = useState(false);
+
+    const [selectedPreviousGeneratedImageIndex, setSelectedPreviousGeneratedImageIndex] = useState(-1);
+
+    const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(false);
 
     const getAllImage2ImageCategoriesData = async () => {
         try {
@@ -558,7 +563,7 @@ const ImageToImage = ({
         }
     }
 
-    const displayPreviousGeneratedImageInsideArtPainting = async (generatedImageData) => {
+    const displayPreviousGeneratedImageInsideArtPainting = async (generatedImageData, selectedImageIndex) => {
         setIsWillTheImageBeMoved(false);
         setTheDirectionOfImageDisplacement("");
         setBackgroundPosition({ x: 50, y: 50 });
@@ -580,6 +585,7 @@ const ImageToImage = ({
         setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
         setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
         await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
+        setSelectedPreviousGeneratedImageIndex(selectedImageIndex);
     }
 
     const handleMouseDown = (e) => {
@@ -1002,6 +1008,30 @@ const ImageToImage = ({
                 <title>Tavlorify Store - Image To Image</title>
             </Head>
             <Header newTotalProductsCount={newTotalProductsCount} />
+            {/* Start Overlay */}
+            {isShowMoreGeneratedImages && <div className="overlay">
+                <div className="rest-generated-images-box d-flex flex-column align-items-center justify-content-center p-4">
+                    <GrFormClose className="close-overlay-icon" onClick={() => setIsShowMoreGeneratedImages(false)} />
+                    <h3 className="fw-bold border-bottom border-2 border-dark pb-2 mb-3">More Gererated Images</h3>
+                    <h6 className="fw-bold mb-5">Please Select Image</h6>
+                    <ul className="generated-images-list w-100 p-4">
+                        {generatedImagesData.map((generatedImageData, index) => (
+                            index > 10 && <li
+                                className={`generated-images-item m-0 ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
+                                key={generatedImageData._id}
+                                onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
+                                style={{
+                                    width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
+                                    height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`,
+                                    backgroundImage: `url(${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL})`,
+                                }}
+                                onDragStart={(e) => e.preventDefault()}
+                            ></li>
+                        ))}
+                    </ul>
+                </div>
+            </div>}
+            {/* End Overlay */}
             {/* Start Page Content */}
             <div className="page-content">
                 {/* Start Container */}
@@ -1385,23 +1415,18 @@ const ImageToImage = ({
                             {generatedImagesData ? <ul className="generated-images-list text-center p-4">
                                 {generatedImagesData.map((generatedImageData, index) => (
                                     index < 10 && <li
-                                    className="generated-images-item m-0"
-                                    key={generatedImageData._id}
-                                    onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData)}
-                                    style={{
-                                        width: `${global_data.appearedImageSizesForImageToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
-                                        height: `${global_data.appearedImageSizesForImageToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`
-                                    }}
-                                >
-                                    <img
-                                        src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
-                                        alt="Generated Image !!"
-                                        className="generated-image"
+                                        className={`generated-images-item m-0 ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
+                                        key={generatedImageData._id}
+                                        onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
+                                        style={{
+                                            width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
+                                            height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`,
+                                            backgroundImage: `url(${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL})`,
+                                        }}
                                         onDragStart={(e) => e.preventDefault()}
-                                    />
-                                </li>
+                                    ></li>
                                 ))}
-                                {generatedImagesData.length > 10 && <button className="show-more-generate-images-btn btn btn-dark">Show More</button>}
+                                {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Show More</button>}
                             </ul> : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Sorry, Can't Find Any Generated Images From You !!</p>}
                         </div>
                     </section>

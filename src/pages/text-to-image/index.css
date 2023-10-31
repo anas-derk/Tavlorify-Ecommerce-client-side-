@@ -53,6 +53,17 @@
   background-color: #CCC;
 }
 
+.text-to-image-service .overlay .rest-generated-images-box .close-overlay-icon {
+  position: absolute;
+  right: -15px;
+  top: -15px;
+  font-size: 30px;
+  background-color: red;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 5px;
+}
+
 .text-to-image-service .page-content .container-fluid .welcome-msg {
   font-family: 'Caveat', cursive;
   font-weight: bold;

@@ -42,6 +42,7 @@ import validations from "../../../public/global_functions/validations";
 import room1Image from "@/../../public/images/Rooms/room1.jpg";
 import room2Image from "@/../../public/images/Rooms/room2.jpg";
 import { BiError } from "react-icons/bi";
+import { GrFormClose } from "react-icons/gr";
 
 const TextToImage = ({
     generatedImagePathInMyServerAsQuery,
@@ -701,16 +702,17 @@ const TextToImage = ({
             </Head>
             <Header newTotalProductsCount={newTotalProductsCount} />
             {/* Start Overlay */}
-            {/* <div className="overlay">
+            {isShowMoreGeneratedImages && <div className="overlay">
                 <div className="rest-generated-images-box d-flex flex-column align-items-center justify-content-center p-4">
+                    <GrFormClose className="close-overlay-icon" onClick={() => setIsShowMoreGeneratedImages(false)} />
                     <h3 className="fw-bold border-bottom border-2 border-dark pb-2 mb-3">More Gererated Images</h3>
-                    <h6 className="fw-bold mb-5">Please Select Image Then Click Ok !!</h6>
+                    <h6 className="fw-bold mb-5">Please Select Image</h6>
                     <ul className="generated-images-list w-100 p-4">
                         {generatedImagesData.map((generatedImageData, index) => (
-                            index < 10 && <li
+                            index > 10 && <li
                                 className="generated-images-item m-0"
                                 key={generatedImageData._id}
-                                // onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData)}
+                                onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
                                 style={{
                                     width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
                                     height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`
@@ -719,14 +721,14 @@ const TextToImage = ({
                                 <img
                                     src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
                                     alt="Generated Image !!"
-                                    className="generated-image"
+                                    className={`generated-image ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
                                     onDragStart={(e) => e.preventDefault()}
                                 />
                             </li>
                         ))}
                     </ul>
                 </div>
-            </div> */}
+            </div>}
             {/* End Overlay */}
             {/* Start Page Content */}
             <div className="page-content">
@@ -1074,7 +1076,7 @@ const TextToImage = ({
                                         </li>
                                     </>
                                 ))}
-                                {generatedImagesData.length > 10 && <button className="show-more-generate-images-btn btn btn-dark">Show More</button>}
+                                {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Show More</button>}
                             </ul> : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Sorry, Can't Find Any Generated Images From You !!</p>}
                         </div>
                     </section>

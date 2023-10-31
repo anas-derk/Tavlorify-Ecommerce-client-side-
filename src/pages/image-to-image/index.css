@@ -16,6 +16,56 @@
   line-height: 1.5;
 }
 
+.image-to-image-service .generated-images-list {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 30px;
+  overflow-x: auto;
+  align-items: center;
+}
+
+.image-to-image-service .generated-images-list .generated-images-item {
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.image-to-image-service .generated-images-list .generated-images-item.selected-image {
+  border: 4px solid #000;
+}
+
+.image-to-image-service .overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 3;
+}
+
+.image-to-image-service .overlay .rest-generated-images-box {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  height: 75%;
+  background-color: #CCC;
+}
+
+.image-to-image-service .overlay .rest-generated-images-box .close-overlay-icon {
+  position: absolute;
+  right: -15px;
+  top: -15px;
+  font-size: 30px;
+  background-color: red;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 5px;
+}
+
 .image-to-image-service .page-content .container-fluid .welcome-msg {
   font-family: 'Caveat', cursive;
   font-weight: bold;
@@ -267,28 +317,6 @@
 
 .image-to-image-service .page-content .container-fluid .add-to-cart-box .add-to-cart-managment-btn {
   font-size: 13px;
-}
-
-.image-to-image-service .page-content .container-fluid .generated-images {
-  background-color: #EEE;
-  box-shadow: 1px 1px 5px #000;
-}
-
-.image-to-image-service .page-content .container-fluid .generated-images .generated-images-list {
-  display: grid;
-  grid-auto-flow: column;
-  gap: 30px;
-  overflow-x: auto;
-  align-items: center;
-}
-
-.image-to-image-service .page-content .container-fluid .generated-images .generated-images-list .generated-images-item {
-  cursor: pointer;
-}
-
-.image-to-image-service .page-content .container-fluid .generated-images .generated-images-list .generated-images-item .generated-image {
-  width: inherit;
-  height: inherit;
 }
 
 .image-to-image-service .page-content .container-fluid .not-find-generated-images-for-you-err {
