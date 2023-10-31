@@ -361,17 +361,20 @@ const ImageToImage = ({
         setImageLink("");
     }
 
-    const handleSelectCategory = (index) => {
+    const handleSelectCategory = async (index) => {
         if (!isWaitStatus) {
-            setCategorySelectedIndex(index);
-            Axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[index].name}`)
-                .then((res) => {
-                    setCategoryStyles(res.data);
-                    setStyleSelectedIndex(0);
-                    const tempModelName = res.data[0].modelName;
-                    setModelName(tempModelName);
-                })
-                .catch((err) => console.log(err));
+            try{
+                setCategorySelectedIndex(index);
+                const res = await Axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[index].name}`);
+                const result = await res.data;
+                setCategoryStyles(res.data);
+                setStyleSelectedIndex(0);
+                const tempModelName = res.data[0].modelName;
+                setModelName(tempModelName);
+            }
+            catch(err) {
+                console.log(err);
+            }
         }
     }
 
