@@ -455,6 +455,7 @@ const TextToImage = ({
                 height: naturalHeightTemp,
                 frameColor: frameColor,
                 generatedImageURL: result,
+                _id: generateUniqueID(),
             });
         }
         catch (err) {

@@ -539,6 +539,7 @@ const ImageToImage = ({
                     height: naturalHeightTemp,
                     frameColor: frameColor,
                     generatedImageURL: result,
+                    _id: generateUniqueID(),
                 });
             }
         }
