@@ -1412,7 +1412,7 @@ const ImageToImage = ({
                             <h6 className="m-0 fw-bold d-inline">Generated Images: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
                         </div>
                         <div className="col-md-10">
-                            {generatedImagesData ? <ul className="generated-images-list text-center p-4">
+                            {generatedImagesData && !isWaitStatus ? <ul className="generated-images-list text-center p-4">
                                 {generatedImagesData.map((generatedImageData, index) => (
                                     index < 10 && <li
                                         className={`generated-images-item m-0 ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
