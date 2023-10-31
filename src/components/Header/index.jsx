@@ -168,12 +168,7 @@ const Header = ({ newTotalProductsCount }) => {
                                             href={{
                                                 pathname: "/text-to-image",
                                                 query: {
-                                                    generatedImagePathInMyServerAsQuery: "assets/images/generatedImages/previewImageForPosterInTextToImage.png",
                                                     paintingTypeAsQuery: "poster",
-                                                    positionAsQuery: "vertical",
-                                                    sizeAsQuery: "50x70",
-                                                    isExistWhiteBorderAsQuery: "without-border",
-                                                    frameColorAsQuery: "none",
                                                 }
                                             }}
                                         >
@@ -187,12 +182,7 @@ const Header = ({ newTotalProductsCount }) => {
                                             href={{
                                                 pathname: "/image-to-image",
                                                 query: {
-                                                    generatedImagePathInMyServerAsQuery: "assets/images/generatedImages/previewImageForPosterInImageToImage.png",
                                                     paintingTypeAsQuery: "poster",
-                                                    positionAsQuery: "vertical",
-                                                    sizeAsQuery: "50x70",
-                                                    isExistWhiteBorderAsQuery: "without-border",
-                                                    frameColorAsQuery: "none",
                                                 }
                                             }}
                                         >
@@ -212,12 +202,7 @@ const Header = ({ newTotalProductsCount }) => {
                                             href={{
                                                 pathname: "/text-to-image",
                                                 query: {
-                                                    generatedImagePathInMyServerAsQuery: "assets/images/generatedImages/previewImageForCanvasInTextToImage.png",
                                                     paintingTypeAsQuery: "canvas",
-                                                    positionAsQuery: "vertical",
-                                                    sizeAsQuery: "30x40",
-                                                    isExistWhiteBorderAsQuery: "without-border",
-                                                    frameColorAsQuery: "none",
                                                 }
                                             }}
                                         >
@@ -231,12 +216,7 @@ const Header = ({ newTotalProductsCount }) => {
                                             href={{
                                                 pathname: "/image-to-image",
                                                 query: {
-                                                    generatedImagePathInMyServerAsQuery: "assets/images/generatedImages/previewImageForPosterInImageToImage.png",
                                                     paintingTypeAsQuery: "canvas",
-                                                    positionAsQuery: "vertical",
-                                                    sizeAsQuery: "30x40",
-                                                    isExistWhiteBorderAsQuery: "without-border",
-                                                    frameColorAsQuery: "none",
                                                 }
                                             }}
                                         >
@@ -289,13 +269,7 @@ const Header = ({ newTotalProductsCount }) => {
                                                     <Link href={{
                                                         pathname: `/${productData.service}`,
                                                         query: {
-                                                            generatedImagePathInMyServerAsQuery: productData.generatedImageURL,
-                                                            textPromptAsQuery: productData.textPrompt,
-                                                            paintingTypeAsQuery: productData.paintingType,
-                                                            positionAsQuery: productData.position,
-                                                            sizeAsQuery: productData.size,
-                                                            isExistWhiteBorderAsQuery: productData.isExistWhiteBorder,
-                                                            frameColorAsQuery: productData.frameColor,
+                                                            generatedImageId: productData._id,
                                                         }
                                                     }}>
                                                         <img

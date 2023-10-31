@@ -248,13 +248,7 @@ const Checkout = ({ orderId }) => {
                                 <Link href={{
                                     pathname: `/${productData.service}`,
                                     query: {
-                                        generatedImagePathInMyServerAsQuery: productData.generatedImageURL,
-                                        textPromptAsQuery: productData.textPrompt,
-                                        paintingTypeAsQuery: productData.paintingType,
-                                        positionAsQuery: productData.position,
-                                        sizeAsQuery: productData.size,
-                                        isExistWhiteBorderAsQuery: productData.isExistWhiteBorder,
-                                        frameColorAsQuery: productData.frameColor,
+                                        generatedImageId: productData._id,
                                     }
                                 }}>
                                     <img
