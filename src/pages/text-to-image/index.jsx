@@ -352,6 +352,7 @@ const TextToImage = ({
     }
 
     useEffect(() => {
+        
         getAllText2ImageCategoriesData()
             .then(async (categoriesData) => {
                 setCategoriesData(categoriesData);

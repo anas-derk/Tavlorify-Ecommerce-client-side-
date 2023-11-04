@@ -1083,9 +1083,9 @@ const ImageToImage = ({
             </div>}
             {/* End Overlay */}
             {/* Start Page Content */}
-            <div className="page-content">
+            <div className="page-content pb-4">
                 {/* Start Container */}
-                <div className="container-fluid pt-4 pb-4">
+                <div className="container-fluid">
                     <h1 className="text-center mb-4 welcome-msg pb-3">Welcome To You In Image To Image AI Service</h1>
                     {/* Start Grid System */}
                     <div className="row align-items-center">

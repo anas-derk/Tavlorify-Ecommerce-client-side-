@@ -142,8 +142,8 @@ const Header = ({ newTotalProductsCount }) => {
     }
     return (
         // Start Global Header
-        <header className="global-header pt-2">
-            <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <header className="global-header">
+            <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top pt-3">
                 <div className="container-fluid">
                     <Link className="navbar-brand fw-bold" href="/">Tavlorify Store</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

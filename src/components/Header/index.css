@@ -1,4 +1,5 @@
-.global-header {
+.global-header .navbar {
+  background-color: #FFF;
   border-bottom: 1px solid #CCC;
 }
 

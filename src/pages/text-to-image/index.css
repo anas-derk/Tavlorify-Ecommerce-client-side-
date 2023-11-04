@@ -65,6 +65,10 @@
   padding: 5px;
 }
 
+.text-to-image-service .page-content {
+  padding-top: 70px;
+}
+
 .text-to-image-service .page-content .container-fluid .welcome-msg {
   font-family: 'Caveat', cursive;
   font-weight: bold;

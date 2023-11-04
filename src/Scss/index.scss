@@ -13,6 +13,20 @@ a{
     text-decoration: none;
 }
 
+::-webkit-scrollbar{
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track{
+    background-color: #EEE;
+}
+
+::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    background-color: #CCC;
+}
+
 .loader {
     position: relative;
     width: 85px;
