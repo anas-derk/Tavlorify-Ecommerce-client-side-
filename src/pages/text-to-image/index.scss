@@ -71,6 +71,7 @@
                 position: relative;
                 max-width: 100%;
                 img{
+                    width: 100%;
                     max-width: 100%;
                 }
                 .art-painting{
@@ -91,11 +92,16 @@
                 .generated-image-box{
                     position: absolute;
                     z-index: -1;
-                    max-width: 100%;
+                    max-width: 97.5%;
+                    img{
+                        max-width: 89.7%;
+                    }
+                }
+                .canvas-image-box{
                     img{
                         max-width: 100%;
                     }
-                }    
+                }   
             }
             .art-painting-options{
                 height: 500px;

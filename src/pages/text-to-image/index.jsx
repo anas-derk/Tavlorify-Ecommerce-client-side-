@@ -364,6 +364,9 @@ const TextToImage = ({
                 setModelName(tempModelName);
                 handleSelectGeneratedImageIdAndPaintingType(tempModelName);
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")));
+                window.addEventListener("resize", (e) => {
+                    console.log("aa")
+                })
                 setIsLoadingPage(false);
             })
             .catch((err) => console.log(err));
@@ -689,7 +692,10 @@ const TextToImage = ({
                         />}
                     </div>
                 </>}
-                {paintingType === "canvas" && !isWaitStatus && !errorMsg && <div className="canvas-image-box">
+                {paintingType === "canvas" && !isWaitStatus && !errorMsg && <div className="canvas-image-box" style={{
+                    width: width,
+                    height: height,
+                }}>
                     <img
                         src={generatedImageURL}
                         className={
@@ -698,8 +704,6 @@ const TextToImage = ({
                             ) : ""
                         }
                         alt="canvas image"
-                        width={width}
-                        height={height}
                         onDragStart={(e) => e.preventDefault()}
                     />
                 </div>}
