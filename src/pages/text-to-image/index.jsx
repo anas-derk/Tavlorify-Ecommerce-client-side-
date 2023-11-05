@@ -52,6 +52,8 @@ const TextToImage = ({
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
+    const [windowInnerWidth, setWindowInnerWidth] = useState(149);
+
     const [textPrompt, setTextPrompt] = useState("a dog");
 
     const [generatedImageURL, setGeneratedImageURL] = useState("");
@@ -364,9 +366,10 @@ const TextToImage = ({
                 setModelName(tempModelName);
                 handleSelectGeneratedImageIdAndPaintingType(tempModelName);
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")));
-                window.addEventListener("resize", (e) => {
-                    console.log("aa")
-                })
+                setWindowInnerWidth(window.innerWidth);
+                window.addEventListener("resize", function (){
+                    setWindowInnerWidth(this.innerWidth);
+                });
                 setIsLoadingPage(false);
             })
             .catch((err) => console.log(err));
@@ -655,10 +658,10 @@ const TextToImage = ({
                         className="frame-image-box"
                         style={{
                             width: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width}px`
+                                imageSize === "minimize-image" ? `${windowInnerWidth < 490 ? global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 5 : global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width}px`
                             ) : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 10}px`,
                             maxHeight: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height}px`
+                                imageSize === "minimize-image" ? `${windowInnerWidth < 490 ? global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 5 : global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height}px`
                             ) : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 10}px`,
                         }}
                     >
