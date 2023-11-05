@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Header from "@/components/Header";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Axios from "axios";
 import global_data from "../../../public/data/global";
 import { v4 as generateUniqueID } from "uuid";
@@ -43,11 +43,14 @@ import room1Image from "@/../../public/images/Rooms/room1.jpg";
 import room2Image from "@/../../public/images/Rooms/room2.jpg";
 import { BiError } from "react-icons/bi";
 import { GrFormClose } from "react-icons/gr";
+import LoaderPage from "@/components/LoaderPage";
 
 const TextToImage = ({
     generatedImageId,
     paintingTypeAsQuery,
 }) => {
+
+    const [isLoadingPage, setIsLoadingPage] = useState(true);
 
     const [textPrompt, setTextPrompt] = useState("a dog");
 
@@ -271,10 +274,10 @@ const TextToImage = ({
             return result;
         }
         catch (err) {
-            throw Error(err.response.data);
+            throw Error(err);
         }
     }
-
+    
     const getAllText2ImageCategoryStylesData = async (categoriesData, categorySelectedIndex) => {
         try {
             const res = await Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
@@ -282,7 +285,7 @@ const TextToImage = ({
             return result;
         }
         catch (err) {
-            throw Error(err.response.data);
+            throw Error(err);
         }
     }
 
@@ -352,25 +355,24 @@ const TextToImage = ({
     }
 
     useEffect(() => {
-        
         getAllText2ImageCategoriesData()
-            .then(async (categoriesData) => {
-                setCategoriesData(categoriesData);
-                const categoryStylesTemp = await getAllText2ImageCategoryStylesData(categoriesData, 0);
-                setCategoryStyles(categoryStylesTemp);
-                const tempModelName = categoryStylesTemp[0].modelName;
-                setModelName(tempModelName);
-                handleSelectGeneratedImageIdAndPaintingType(tempModelName);
-                setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")));
-            })
-            .catch((err) => console.log(err));
+        .then(async (result) => {
+            setCategoriesData(result);
+            const categoryStylesData = await getAllText2ImageCategoryStylesData(result, 0);
+            setCategoryStyles(categoryStylesData);
+            const tempModelName = categoryStylesData[0].modelName;
+            setModelName(tempModelName);
+            handleSelectGeneratedImageIdAndPaintingType(tempModelName);
+            setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")));
+            setIsLoadingPage(false);
+        })
+        .catch((err) => console.log(err));
     }, []);
 
     const handleSelectCategory = async (categoryIndex) => {
         if (!isWaitStatus) {
             setCategorySelectedIndex(categoryIndex);
-            const res = await Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categoryIndex].name}`)
-            const result = await res.data;
+            const result = await getAllText2ImageCategoryStylesData(categoriesData, categoryIndex);
             setCategoryStyles(result);
             setStyleSelectedIndex(0);
             const tempModelName = result[0].modelName;
@@ -671,7 +673,6 @@ const TextToImage = ({
                             height: !isRoomImageMinimize ? (
                                 imageSize === "minimize-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 3}px` : `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height}px`
                             ) : `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 10}px`,
-                            zIndex: -1,
                             boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
                             backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
                         }}
@@ -739,7 +740,7 @@ const TextToImage = ({
             setProductPriceAfterDiscount(result.priceAfterDiscount);
         }
         catch (err) {
-            console.log(err);
+            throw Error(err);
         }
     }
 
@@ -749,7 +750,8 @@ const TextToImage = ({
             <Head>
                 <title>Tavlorify Store - Text To Image</title>
             </Head>
-            <Header newTotalProductsCount={newTotalProductsCount} />
+            {!isLoadingPage ? <>
+                <Header newTotalProductsCount={newTotalProductsCount} />
             {/* Start Overlay */}
             {isShowMoreGeneratedImages && <div className="overlay">
                 <div className="rest-generated-images-box d-flex flex-column align-items-center justify-content-center p-4">
@@ -1106,10 +1108,9 @@ const TextToImage = ({
                         <div className="col-md-10">
                             {generatedImagesData && !isWaitStatus ? <ul className="generated-images-list text-center p-4">
                                 {generatedImagesData.map((generatedImageData, index) => (
-                                    index < 10 && <>
+                                    index < 10 && <Fragment key={generatedImageData._id}>
                                         <li
                                             className="generated-images-item m-0"
-                                            key={generatedImageData._id}
                                             onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
                                             style={{
                                                 width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
@@ -1123,7 +1124,7 @@ const TextToImage = ({
                                                 onDragStart={(e) => e.preventDefault()}
                                             />
                                         </li>
-                                    </>
+                                    </Fragment>
                                 ))}
                                 {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Show More</button>}
                             </ul> : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Sorry, Can't Find Any Generated Images From You !!</p>}
@@ -1134,6 +1135,7 @@ const TextToImage = ({
                 {/* End Container */}
             </div>
             {/* End Page Content */}
+            </> : <LoaderPage />}
         </div>
         // End Text To Image Service Page
     );
@@ -1151,6 +1153,8 @@ export async function getServerSideProps(context) {
             },
         }
     } else if (!context.query.paintingTypeAsQuery) {
+        const categoriesInfo = await getAllText2ImageCategoriesData();
+        const categoryStylesInfo = await getAllText2ImageCategoryStylesData(categoriesInfo[0].name);
         return {
             props: {
                 paintingTypeAsQuery: "",
