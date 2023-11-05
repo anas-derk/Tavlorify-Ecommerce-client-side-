@@ -85,7 +85,6 @@
 
 .text-to-image-service .page-content .container-fluid .room-image-box img {
   max-width: 100%;
-  max-width: 100%;
 }
 
 .text-to-image-service .page-content .container-fluid .room-image-box .art-painting {
@@ -101,24 +100,20 @@
 
 .text-to-image-service .page-content .container-fluid .art-painting .frame-image-box {
   max-width: 100%;
-  max-height: 100%;
 }
 
 .text-to-image-service .page-content .container-fluid .art-painting .frame-image-box img {
   max-width: 100%;
-  max-height: 100%;
 }
 
 .text-to-image-service .page-content .container-fluid .art-painting .generated-image-box {
   position: absolute;
   z-index: -1;
   max-width: 100%;
-  max-height: 100%;
 }
 
 .text-to-image-service .page-content .container-fluid .art-painting .generated-image-box img {
   max-width: 100%;
-  max-height: 100%;
 }
 
 .text-to-image-service .page-content .container-fluid .art-painting-options {

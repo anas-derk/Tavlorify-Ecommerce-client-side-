@@ -892,6 +892,12 @@ const ImageToImage = ({
                     {
                         backgroundColor: isWaitStatus ? "#989492" : "",
                         cursor: !isWaitStatus && imageSize === "minimize-image" && !isImageInsideRoom ? "pointer" : "",
+                        width: !isRoomImageMinimize ? (
+                            imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 3}px` : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width}px`
+                        ) : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 10}px`,
+                        height: !isRoomImageMinimize ? (
+                            imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 3}px` : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height}px`
+                        ) : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 10}px`,
                     }
                 }
             >
@@ -918,18 +924,12 @@ const ImageToImage = ({
                         {!isWaitStatus && !errorMsg && generatedImageURL && frameColor !== "none" && <img
                             src={frameImages[paintingType][imageType][frameColor][dimentionsInCm]}
                             alt="Image"
-                            style={{
-                                maxWidth: "100%",
-                                maxHeight: "100%",
-                            }}
                             onDragStart={(e) => e.preventDefault()}
                         />}
                     </div>
                     <div
                         className="image-box d-flex align-items-center justify-content-center"
                         style={{
-                            position: "absolute",
-                            zIndex: "-1",
                             width: !isRoomImageMinimize ? (
                                 imageSize === "minimize-image" ? `${(global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width) / 3}px` : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width}px`
                             ) : `${(global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width) / 10}px`,
@@ -956,8 +956,6 @@ const ImageToImage = ({
                                 backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
                                 backgroundSize: "cover",
                                 cursor: isWillTheImageBeMoved ? "grap" : "",
-                                maxWidth: "100%",
-                                maxHeight: "100%",
                             }}
                         ></div>
                     </div>

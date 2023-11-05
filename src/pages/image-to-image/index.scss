@@ -72,7 +72,7 @@
                     position: relative;
                     max-width: 100%;
                     img{
-                        max-width: 100%;
+                        width: 100%;
                         max-width: 100%;
                     }
                     .art-painting{
@@ -84,7 +84,15 @@
                 }
                 .art-painting{
                     position: relative;
+                    .frame-image-box{
+                        img{
+                            max-width: 100%;
+                        }
+                    }
                     .image-box{
+                        position: absolute;
+                        z-index: -1;
+                        max-width: 100%;
                         .displacement-icons-box{
                             position: absolute;
                             left: 0;
@@ -123,6 +131,10 @@
                                     }
                                 }
                             }
+                        }
+                        .generated-image-box{
+                            max-width: 100%;
+                            background-repeat: no-repeat;
                         }
                     }
                 }

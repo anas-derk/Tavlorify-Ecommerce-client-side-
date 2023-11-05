@@ -86,7 +86,7 @@
 }
 
 .image-to-image-service .page-content .container-fluid .row .room-image-box img {
-  max-width: 100%;
+  width: 100%;
   max-width: 100%;
 }
 
@@ -99,6 +99,16 @@
 
 .image-to-image-service .page-content .container-fluid .row .art-painting {
   position: relative;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting .frame-image-box img {
+  max-width: 100%;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting .image-box {
+  position: absolute;
+  z-index: -1;
+  max-width: 100%;
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting .image-box .displacement-icons-box {
@@ -144,6 +154,11 @@
   100% {
     transform: translateX(20px);
   }
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting .image-box .generated-image-box {
+  max-width: 100%;
+  background-repeat: no-repeat;
 }
 
 .image-to-image-service .page-content .container-fluid .row .image-before-processing-box .select-image-box .file-label {
