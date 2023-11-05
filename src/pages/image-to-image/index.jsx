@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Header from "@/components/Header";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Axios from "axios";
 import global_data from "../../../public/data/global";
 /* Start Import Frame Corner Images */
@@ -46,11 +46,14 @@ import room1Image from "@/../../public/images/Rooms/room1.jpg";
 import room2Image from "@/../../public/images/Rooms/room2.jpg";
 import { BiError } from "react-icons/bi";
 import { GrFormClose } from "react-icons/gr";
+import LoaderPage from "@/components/LoaderPage";
 
 const ImageToImage = ({
     generatedImageId,
     paintingTypeAsQuery,
 }) => {
+
+    const [isLoadingPage, setIsLoadingPage] = useState(true);
 
     const [generatedImageURL, setGeneratedImageURL] = useState("");
 
@@ -380,6 +383,7 @@ const ImageToImage = ({
                 setModelName(tempModelName);
                 handleSelectGeneratedImageIdAndPaintingType(tempModelName);
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image")));
+                setIsLoadingPage(false);
             })
             .catch((err) => console.log(err));
     }, []);
@@ -574,6 +578,7 @@ const ImageToImage = ({
                 setIsWaitStatus(false);
                 setGeneratedImagePathInMyServer(result);
                 saveNewGeneratedImageDataInLocalStorage({
+                    service: "image-to-image",
                     uploadedImageURL: imageLink,
                     categoryName: categoriesData[categorySelectedIndex].name,
                     styleName: categoryStyles[styleSelectedIndex].name,
@@ -1057,415 +1062,19 @@ const ImageToImage = ({
             <Head>
                 <title>Tavlorify Store - Image To Image</title>
             </Head>
-            <Header newTotalProductsCount={newTotalProductsCount} />
-            {/* Start Overlay */}
-            {isShowMoreGeneratedImages && <div className="overlay">
-                <div className="rest-generated-images-box d-flex flex-column align-items-center justify-content-center p-4">
-                    <GrFormClose className="close-overlay-icon" onClick={() => setIsShowMoreGeneratedImages(false)} />
-                    <h3 className="fw-bold border-bottom border-2 border-dark pb-2 mb-3">More Gererated Images</h3>
-                    <h6 className="fw-bold mb-5">Please Select Image</h6>
-                    <ul className="generated-images-list w-100 p-4">
-                        {generatedImagesData.map((generatedImageData, index) => (
-                            index > 10 && <li
-                                className={`generated-images-item m-0 ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
-                                key={generatedImageData._id}
-                                onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
-                                style={{
-                                    width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
-                                    height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`,
-                                    backgroundImage: `url(${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL})`,
-                                }}
-                                onDragStart={(e) => e.preventDefault()}
-                            ></li>
-                        ))}
-                    </ul>
-                </div>
-            </div>}
-            {/* End Overlay */}
-            {/* Start Page Content */}
-            <div className="page-content pb-4">
-                {/* Start Container */}
-                <div className="container-fluid">
-                    <h1 className="text-center mb-4 welcome-msg pb-3">Welcome To You In Image To Image AI Service</h1>
-                    {/* Start Grid System */}
-                    <div className="row align-items-center">
-                        {/* Start Column */}
-                        {errorMsg && <div className="col-xl-7">
-                            <div className="error-msg-box p-4 text-center">
-                                <BiError className="error-icon mb-3" />
-                                <h5 className="error-msg fw-bold">{errorMsg}</h5>
-                            </div>
-                        </div>}
-                        {/* End Column */}
-                        {!errorMsg && <>
-                            {/* Start Column */}
-                            <div className="col-xl-2">
-                                {/* Start Art Painting Box */}
-                                {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 3}px`, "minimize-image", false)}
-                                {/* End Art Painting Box */}
-                                {getImageInsideRoomBox(1, "minimize-room-image")}
-                                {getImageInsideRoomBox(2, "minimize-room-image")}
-                            </div>
-                            {/* End Column */}
-                            {/* Start Column */}
-                            <div className="col-xl-5">
-                                {/* Start Art Painting Section */}
-                                {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height}px`, undefined, false)}
-                                {/* End Art Painting Section */}
-                                {getImageInsideRoomBox(1, undefined)}
-                                {getImageInsideRoomBox(2, undefined)}
-                            </div>
-                            {/* End Column */}
-                        </>}
-                        {/* Start Column */}
-                        <div className="col-xl-5">
-                            {!errorMsg && !isWaitStatus && <>
-                                <div className="image-before-processing-box">
-                                    {/* Start Downloaded Image Box */}
-                                    {imageLink && <div className="downloaded-image-box mx-auto">
-                                        <img
-                                            src={imageLink}
-                                            alt="downloaded image !"
-                                            className="downloaded-image"
-                                            onDragStart={(e) => e.preventDefault()}
-                                        />
-                                        <AiFillCloseCircle
-                                            className="close-icon"
-                                            onClick={removeImage}
-                                        />
-                                    </div>}
-                                    {/* End Downloaded Image Box */}
-                                    {/* Start Select Image Box */}
-                                    {!imageLink &&
-                                        <div
-                                            className="select-image-box text-center"
-                                            onDragOver={handleDragFileOver}
-                                            onDragLeave={() => setIsDragFile(false)}
-                                            onDrop={handleDropFile}
-                                        >
-                                            {!isDragFile && !isUplodingFile && <>
-                                                <label
-                                                    htmlFor="image-file"
-                                                    className="file-label d-flex align-items-center justify-content-center flex-column"
-                                                >
-                                                    <h6 className="fw-bold">Upload Image</h6>
-                                                    <BsCloudUpload className="upload-image-icon" />
-                                                </label>
-                                                <input
-                                                    type="file"
-                                                    className="image-file-input"
-                                                    id="image-file"
-                                                    onChange={(e) => handleSelectImageFile(e.target.files[0])}
-                                                />
-                                            </>}
-                                            {isDragFile && !isUplodingFile && <div className="drop-file-box d-flex flex-column align-items-center justify-content-center">
-                                                <h5 className="drag-msg fw-bold mb-0">Please Drop This File Here</h5>
-                                            </div>}
-                                        </div>}
-                                    {/* End Select Image Box */}
-                                    {isUplodingFile && <div className="uploading-box mb-4 p-3 border border-2 border-secondary">
-                                        <div className="progress mb-3">
-                                            <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style={{ width: "100%" }}></div>
-                                        </div>
-                                        <h6 className="m-0 fw-bold">Uploading Image Now ...</h6>
-                                    </div>}
-                                    <hr className="mb-2 mt-2" />
-                                    {imageLink && <button className="btn btn-dark w-50 mx-auto d-block" onClick={imageToImageGenerateByAI}>Create</button>}
-                                    {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block" disabled>Create</button>}
-                                </div>
-                            </>}
-                            {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block" disabled>Creating ...</button>}
-                            <hr className="mb-2 mt-2" />
-                            {/* Start Art Painting Options Section */}
-                            <section className="art-painting-options pe-3 mb-3">
-                                <h6 className="mb-3 fw-bold option-section-name">Please Select Category</h6>
-                                {/* Start Categories Section */}
-                                <section className="categories mb-4">
-                                    <div className="row">
-                                        {categoriesData.map((category, index) => (
-                                            <div className="col-md-3" key={category._id}>
-                                                {/* Start Category Box */}
-                                                <div
-                                                    className="category-box text-center"
-                                                    onClick={() => handleSelectCategory(index)}
-                                                >
-                                                    <img
-                                                        src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
-                                                        alt={`${category.name} Image`}
-                                                        className="category-image mb-2"
-                                                        style={index === categorySelectedIndex ? { border: "4px solid #000" } : {}}
-                                                        onDragStart={(e) => e.preventDefault()}
-                                                    />
-                                                    <h6 className="category-name text-center">{category.name}</h6>
-                                                </div>
-                                                {/* End Category Box */}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </section>
-                                {/* End Categories Section */}
-                                <hr />
-                                <h6 className="mb-3 fw-bold option-section-name">Please Select Style</h6>
-                                {/* Start Styles Section */}
-                                <section className="styles mb-3">
-                                    {/* Start Grid System */}
-                                    <div className="row">
-                                        {/* Start Column */}
-                                        {categoryStyles.map((style, index) => (
-                                            <div className="col-md-3" key={index}>
-                                                {/* Start Style Box */}
-                                                <div
-                                                    className="style-box p-2 text-center"
-                                                    onClick={() => handleSelectStyle(index)}
-                                                >
-                                                    <img
-                                                        src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
-                                                        alt={`${style.name} Image`}
-                                                        className="mb-2 style-image"
-                                                        style={index === styleSelectedIndex ? { border: "4px solid #000" } : {}}
-                                                        onDragStart={(e) => e.preventDefault()}
-                                                    />
-                                                    <p className="style-name m-0 text-center">{style.name}</p>
-                                                </div>
-                                                {/* End Style Box */}
-                                            </div>
-                                        ))}
-                                        {/* End Column */}
-                                    </div>
-                                    {/* End Grid System */}
-                                </section>
-                                {/* End Styles Section */}
-                                {/* Start Art Name And Price Section */}
-                                <section className="art-name-and-price">
-                                    {/* Start Grid System */}
-                                    <div className="row">
-                                        <div className="col-md-8">
-                                            <h5 className="art-name fw-bold">Art Name: {paintingType}</h5>
-                                        </div>
-                                        <div className="col-md-4 text-end price-box">
-                                            <h5 className="price mb-0 fw-bold">{productPriceAfterDiscount} kr</h5>
-                                            {productPriceBeforeDiscount != productPriceAfterDiscount && <h6 className="discount fw-bold">{productPriceBeforeDiscount} kr</h6>}
-                                        </div>
-                                    </div>
-                                    {/* End Grid System */}
-                                </section>
-                                {/* End Art Name And Price Section */}
-                                {/* Start Displaying Art Painting Options Section */}
-                                <section className="displaying-art-painting-options">
-                                    {/* Start Art Names List */}
-                                    <ul className="art-names-list d-flex flex-wrap mb-3">
-                                        <li
-                                            className="p-2 pe-3 ps-3"
-                                            onClick={() => handleSelectPaintingType("poster")}
-                                            style={paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
-                                        >
-                                            Poster
-                                        </li>
-                                        <li
-                                            className="p-2 pe-3 ps-3"
-                                            onClick={() => handleSelectPaintingType("canvas")}
-                                            style={paintingType === "canvas" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
-                                        >
-                                            Canvas
-                                        </li>
-                                    </ul>
-                                    {/* EndArt Names List */}
-                                    <h6 className="fw-bold option-section-name">Positions</h6>
-                                    {/* Start Positions List */}
-                                    <ul className="positions-list mb-4 text-center">
-                                        <li
-                                            className="p-3"
-                                            style={
-                                                {
-                                                    border: imageType === "vertical" ? "4px solid #000" : "",
-                                                    fontWeight: imageType === "vertical" ? "bold" : "",
-                                                    textDecoration: imageType !== "vertical" ? "line-through" : "",
-                                                }
-                                            }
-                                        >
-                                            Vertical
-                                        </li>
-                                        <li
-                                            className="p-3"
-                                            style={
-                                                {
-                                                    border: imageType === "horizontal" ? "4px solid #000" : "",
-                                                    fontWeight: imageType === "horizontal" ? "bold" : "",
-                                                    textDecoration: imageType !== "horizontal" ? "line-through" : "",
-                                                }
-                                            }
-                                        >
-                                            Horizontal
-                                        </li>
-                                        <li
-                                            className="p-3"
-                                            style={
-                                                {
-                                                    border: imageType === "square" ? "4px solid #000" : "",
-                                                    fontWeight: imageType === "square" ? "bold" : "",
-                                                    textDecoration: imageType !== "square" ? "line-through" : "",
-                                                }
-                                            }
-                                        >
-                                            Square
-                                        </li>
-                                    </ul>
-                                    {/* End Positions List */}
-                                    <h6 className="fw-bold option-section-name">Sizes</h6>
-                                    {/* Start Sizes List */}
-                                    <ul className="sizes-list mb-4 text-center">
-                                        {global_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
-                                            <li
-                                                key={index}
-                                                className="p-3"
-                                                onClick={() => handleSelectImageDimentions(dims.inCm)}
-                                                style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            >
-                                                {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0">Popular</h6>}
-                                                {dims.inCm}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    {/* End Sizes List */}
-                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">Border</h6>}
-                                    {/* Start White Border */}
-                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list mb-4 text-center">
-                                        <li
-                                            onClick={() => handleIsExistWhiteBorderWithPoster("without-border")}
-                                            style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                        >
-                                            none
-                                        </li>
-                                        <li
-                                            onClick={() => handleIsExistWhiteBorderWithPoster("with-border")}
-                                            style={isExistWhiteBorderWithPoster === "with-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                        >
-                                            With Border
-                                        </li>
-                                    </ul>}
-                                    {/* Start White Border */}
-                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold">Frames</h6>}
-                                    {/* Start Frames List */}
-                                    {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="framed-list mb-4 text-center pb-3">
-                                        <li
-                                            style={(frameColor === "none" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("poster", "none")}
-                                        >
-                                            none
-                                        </li>
-                                        <li
-                                            className="p-2"
-                                            style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("poster-with-wooden-frame", "black")}
-                                        >
-                                            <span className="frame-color d-block fw-bold mb-2">Black</span>
-                                            <img src={blackFrameCornerImage.src} alt="Black Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
-                                        </li>
-                                        <li
-                                            className="p-2"
-                                            style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("poster-with-wooden-frame", "white")}
-                                        >
-                                            <span className="frame-color d-block fw-bold mb-2">White</span>
-                                            <img src={whiteFrameCornerImage.src} alt="White Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
-                                        </li>
-                                        <li
-                                            className="p-2"
-                                            style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("poster-with-wooden-frame", "natural-wood")}
-                                        >
-                                            <span className="frame-color d-block fw-bold mb-2">Wood</span>
-                                            <img src={woodFrameCornerImage.src} alt="Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
-                                        </li>
-                                        <li
-                                            className="p-2"
-                                            style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("poster-with-wooden-frame", "dark-wood")}
-                                        >
-                                            <span className="frame-color d-block fw-bold mb-2">Dark Wood</span>
-                                            <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
-                                        </li>
-                                        <li
-                                            className="p-2"
-                                            style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("poster-with-hangers", "black")}
-                                        >
-                                            <span className="frame-color d-block fw-bold mb-2">Black With Hangers</span>
-                                            <img src={blackFrameCornerImage.src} alt="Black Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
-                                        </li>
-                                        <li
-                                            className="p-2"
-                                            style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("poster-with-hangers", "white")}
-                                        >
-                                            <span className="frame-color d-block fw-bold mb-2">White With Hangers</span>
-                                            <img src={whiteFrameCornerImage.src} alt="White Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
-                                        </li>
-                                        <li
-                                            className="p-2"
-                                            style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("poster-with-hangers", "natural-wood")}
-                                        >
-                                            <span className="frame-color d-block fw-bold mb-2">Wood With Hangers</span>
-                                            <img src={woodFrameCornerImage.src} alt="Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
-                                        </li>
-                                        <li
-                                            className="p-2"
-                                            style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                            onClick={() => handleSelectFrame("poster-with-hangers", "dark-wood")}
-                                        >
-                                            <span className="frame-color d-block fw-bold mb-2">Dark Wood With Hangers</span>
-                                            <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
-                                        </li>
-                                    </ul>}
-                                    {/* End Frames List */}
-                                </section>
-                                {/* End Displaying Art Painting Options Section */}
-                            </section>
-                            {/* End Art Painting Options Section */}
-                            {/* Start Add To Cart Managment */}
-                            {!isWaitStatus && !errorMsg && <div className="add-to-cart-box">
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <input
-                                            type="number"
-                                            placeholder="Quantity"
-                                            className={`quantity form-control border-2 ${formValidationErrors["quantity"] ? "border-danger" : "border-dark"}`}
-                                            onChange={(e) => setQuantity(e.target.value)}
-                                            defaultValue={quantity}
-                                        />
-                                        {formValidationErrors["quantity"] && <p className='error-msg text-danger'>{formValidationErrors["quantity"]}</p>}
-                                    </div>
-                                    <div className="col-md-6">
-                                        {!isWaitAddToCart && !errorInAddToCart && !isSuccessAddToCart && <button
-                                            className="btn btn-dark w-100 p-2 add-to-cart-managment-btn"
-                                            onClick={addToCart}
-                                        >
-                                            Add To Cart
-                                        </button>}
-                                        {isWaitAddToCart && <button className="btn btn-dark w-100 p-1 add-to-cart-managment-btn" disabled>Waiting ...</button>}
-                                        {isSuccessAddToCart && <button className="btn btn-success w-100 p-2 add-to-cart-managment-btn" disabled>Success Is Adding To Cart ...</button>}
-                                        {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn" disabled>{errorInAddToCart}</button>}
-                                    </div>
-                                </div>
-                            </div>}
-                            {/* End Add To Cart Managment */}
-                        </div>
-                        {/* End Column */}
-                    </div>
-                    {/* End Grid System */}
-                    <hr />
-                    {/* Start Generated Images Section */}
-                    <section className={`row align-items-center generated-images ${generatedImagesData ? "" : "p-4"}`}>
-                        <div className="col-md-2 text-center">
-                            <h6 className="m-0 fw-bold d-inline">Generated Images: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
-                        </div>
-                        <div className="col-md-10">
-                            {generatedImagesData && !isWaitStatus ? <ul className="generated-images-list text-center p-4">
-                                {generatedImagesData.map((generatedImageData, index) => (
-                                    index < 10 && <li
+            {!isLoadingPage ? <>
+                <Header newTotalProductsCount={newTotalProductsCount} />
+                {/* Start Overlay */}
+                {isShowMoreGeneratedImages && <div className="overlay">
+                    <div className="rest-generated-images-box d-flex flex-column align-items-center justify-content-center p-4">
+                        <GrFormClose className="close-overlay-icon" onClick={() => setIsShowMoreGeneratedImages(false)} />
+                        <h3 className="fw-bold border-bottom border-2 border-dark pb-2 mb-3">More Gererated Images</h3>
+                        <h6 className="fw-bold mb-5">Please Select Image</h6>
+                        <ul className="generated-images-list w-100 p-4">
+                            {generatedImagesData.map((generatedImageData, index) => (
+                                index > 10 && <Fragment key={generatedImageData._id}>
+                                    <li
                                         className={`generated-images-item m-0 ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
-                                        key={generatedImageData._id}
                                         onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
                                         style={{
                                             width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
@@ -1474,16 +1083,416 @@ const ImageToImage = ({
                                         }}
                                         onDragStart={(e) => e.preventDefault()}
                                     ></li>
-                                ))}
-                                {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Show More</button>}
-                            </ul> : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Sorry, Can't Find Any Generated Images From You !!</p>}
+                                </Fragment>
+                            ))}
+                        </ul>
+                    </div>
+                </div>}
+                {/* End Overlay */}
+                {/* Start Page Content */}
+                <div className="page-content pb-4">
+                    {/* Start Container */}
+                    <div className="container-fluid">
+                        <h1 className="text-center mb-4 welcome-msg pb-3">Welcome To You In Image To Image AI Service</h1>
+                        {/* Start Grid System */}
+                        <div className="row align-items-center">
+                            {/* Start Column */}
+                            {errorMsg && <div className="col-xl-7">
+                                <div className="error-msg-box p-4 text-center">
+                                    <BiError className="error-icon mb-3" />
+                                    <h5 className="error-msg fw-bold">{errorMsg}</h5>
+                                </div>
+                            </div>}
+                            {/* End Column */}
+                            {!errorMsg && <>
+                                {/* Start Column */}
+                                <div className="col-xl-2">
+                                    {/* Start Art Painting Box */}
+                                    {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 3}px`, "minimize-image", false)}
+                                    {/* End Art Painting Box */}
+                                    {getImageInsideRoomBox(1, "minimize-room-image")}
+                                    {getImageInsideRoomBox(2, "minimize-room-image")}
+                                </div>
+                                {/* End Column */}
+                                {/* Start Column */}
+                                <div className="col-xl-5">
+                                    {/* Start Art Painting Section */}
+                                    {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height}px`, undefined, false)}
+                                    {/* End Art Painting Section */}
+                                    {getImageInsideRoomBox(1, undefined)}
+                                    {getImageInsideRoomBox(2, undefined)}
+                                </div>
+                                {/* End Column */}
+                            </>}
+                            {/* Start Column */}
+                            <div className="col-xl-5">
+                                {!errorMsg && !isWaitStatus && <>
+                                    <div className="image-before-processing-box">
+                                        {/* Start Downloaded Image Box */}
+                                        {imageLink && <div className="downloaded-image-box mx-auto">
+                                            <img
+                                                src={imageLink}
+                                                alt="downloaded image !"
+                                                className="downloaded-image"
+                                                onDragStart={(e) => e.preventDefault()}
+                                            />
+                                            <AiFillCloseCircle
+                                                className="close-icon"
+                                                onClick={removeImage}
+                                            />
+                                        </div>}
+                                        {/* End Downloaded Image Box */}
+                                        {/* Start Select Image Box */}
+                                        {!imageLink &&
+                                            <div
+                                                className="select-image-box text-center"
+                                                onDragOver={handleDragFileOver}
+                                                onDragLeave={() => setIsDragFile(false)}
+                                                onDrop={handleDropFile}
+                                            >
+                                                {!isDragFile && !isUplodingFile && <>
+                                                    <label
+                                                        htmlFor="image-file"
+                                                        className="file-label d-flex align-items-center justify-content-center flex-column"
+                                                    >
+                                                        <h6 className="fw-bold">Upload Image</h6>
+                                                        <BsCloudUpload className="upload-image-icon" />
+                                                    </label>
+                                                    <input
+                                                        type="file"
+                                                        className="image-file-input"
+                                                        id="image-file"
+                                                        onChange={(e) => handleSelectImageFile(e.target.files[0])}
+                                                    />
+                                                </>}
+                                                {isDragFile && !isUplodingFile && <div className="drop-file-box d-flex flex-column align-items-center justify-content-center">
+                                                    <h5 className="drag-msg fw-bold mb-0">Please Drop This File Here</h5>
+                                                </div>}
+                                            </div>}
+                                        {/* End Select Image Box */}
+                                        {isUplodingFile && <div className="uploading-box mb-4 p-3 border border-2 border-secondary">
+                                            <div className="progress mb-3">
+                                                <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style={{ width: "100%" }}></div>
+                                            </div>
+                                            <h6 className="m-0 fw-bold">Uploading Image Now ...</h6>
+                                        </div>}
+                                        <hr className="mb-2 mt-2" />
+                                        {imageLink && <button className="btn btn-dark w-50 mx-auto d-block" onClick={imageToImageGenerateByAI}>Create</button>}
+                                        {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block" disabled>Create</button>}
+                                    </div>
+                                </>}
+                                {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block" disabled>Creating ...</button>}
+                                <hr className="mb-2 mt-2" />
+                                {/* Start Art Painting Options Section */}
+                                <section className="art-painting-options pe-3 mb-3">
+                                    <h6 className="mb-3 fw-bold option-section-name">Please Select Category</h6>
+                                    {/* Start Categories Section */}
+                                    <section className="categories mb-4">
+                                        <div className="row">
+                                            {categoriesData.map((category, index) => (
+                                                <div className="col-md-3" key={category._id}>
+                                                    {/* Start Category Box */}
+                                                    <div
+                                                        className="category-box text-center"
+                                                        onClick={() => handleSelectCategory(index)}
+                                                    >
+                                                        <img
+                                                            src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
+                                                            alt={`${category.name} Image`}
+                                                            className="category-image mb-2"
+                                                            style={index === categorySelectedIndex ? { border: "4px solid #000" } : {}}
+                                                            onDragStart={(e) => e.preventDefault()}
+                                                        />
+                                                        <h6 className="category-name text-center">{category.name}</h6>
+                                                    </div>
+                                                    {/* End Category Box */}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </section>
+                                    {/* End Categories Section */}
+                                    <hr />
+                                    <h6 className="mb-3 fw-bold option-section-name">Please Select Style</h6>
+                                    {/* Start Styles Section */}
+                                    <section className="styles mb-3">
+                                        {/* Start Grid System */}
+                                        <div className="row">
+                                            {/* Start Column */}
+                                            {categoryStyles.map((style, index) => (
+                                                <div className="col-md-3" key={index}>
+                                                    {/* Start Style Box */}
+                                                    <div
+                                                        className="style-box p-2 text-center"
+                                                        onClick={() => handleSelectStyle(index)}
+                                                    >
+                                                        <img
+                                                            src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
+                                                            alt={`${style.name} Image`}
+                                                            className="mb-2 style-image"
+                                                            style={index === styleSelectedIndex ? { border: "4px solid #000" } : {}}
+                                                            onDragStart={(e) => e.preventDefault()}
+                                                        />
+                                                        <p className="style-name m-0 text-center">{style.name}</p>
+                                                    </div>
+                                                    {/* End Style Box */}
+                                                </div>
+                                            ))}
+                                            {/* End Column */}
+                                        </div>
+                                        {/* End Grid System */}
+                                    </section>
+                                    {/* End Styles Section */}
+                                    {/* Start Art Name And Price Section */}
+                                    <section className="art-name-and-price">
+                                        {/* Start Grid System */}
+                                        <div className="row">
+                                            <div className="col-md-8">
+                                                <h5 className="art-name fw-bold">Art Name: {paintingType}</h5>
+                                            </div>
+                                            <div className="col-md-4 text-end price-box">
+                                                <h5 className="price mb-0 fw-bold">{productPriceAfterDiscount} kr</h5>
+                                                {productPriceBeforeDiscount != productPriceAfterDiscount && <h6 className="discount fw-bold">{productPriceBeforeDiscount} kr</h6>}
+                                            </div>
+                                        </div>
+                                        {/* End Grid System */}
+                                    </section>
+                                    {/* End Art Name And Price Section */}
+                                    {/* Start Displaying Art Painting Options Section */}
+                                    <section className="displaying-art-painting-options">
+                                        {/* Start Art Names List */}
+                                        <ul className="art-names-list d-flex flex-wrap mb-3">
+                                            <li
+                                                className="p-2 pe-3 ps-3"
+                                                onClick={() => handleSelectPaintingType("poster")}
+                                                style={paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
+                                            >
+                                                Poster
+                                            </li>
+                                            <li
+                                                className="p-2 pe-3 ps-3"
+                                                onClick={() => handleSelectPaintingType("canvas")}
+                                                style={paintingType === "canvas" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
+                                            >
+                                                Canvas
+                                            </li>
+                                        </ul>
+                                        {/* EndArt Names List */}
+                                        <h6 className="fw-bold option-section-name">Positions</h6>
+                                        {/* Start Positions List */}
+                                        <ul className="positions-list mb-4 text-center">
+                                            <li
+                                                className="p-3"
+                                                style={
+                                                    {
+                                                        border: imageType === "vertical" ? "4px solid #000" : "",
+                                                        fontWeight: imageType === "vertical" ? "bold" : "",
+                                                        textDecoration: imageType !== "vertical" ? "line-through" : "",
+                                                    }
+                                                }
+                                            >
+                                                Vertical
+                                            </li>
+                                            <li
+                                                className="p-3"
+                                                style={
+                                                    {
+                                                        border: imageType === "horizontal" ? "4px solid #000" : "",
+                                                        fontWeight: imageType === "horizontal" ? "bold" : "",
+                                                        textDecoration: imageType !== "horizontal" ? "line-through" : "",
+                                                    }
+                                                }
+                                            >
+                                                Horizontal
+                                            </li>
+                                            <li
+                                                className="p-3"
+                                                style={
+                                                    {
+                                                        border: imageType === "square" ? "4px solid #000" : "",
+                                                        fontWeight: imageType === "square" ? "bold" : "",
+                                                        textDecoration: imageType !== "square" ? "line-through" : "",
+                                                    }
+                                                }
+                                            >
+                                                Square
+                                            </li>
+                                        </ul>
+                                        {/* End Positions List */}
+                                        <h6 className="fw-bold option-section-name">Sizes</h6>
+                                        {/* Start Sizes List */}
+                                        <ul className="sizes-list mb-4 text-center">
+                                            {global_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
+                                                <li
+                                                    key={index}
+                                                    className="p-3"
+                                                    onClick={() => handleSelectImageDimentions(dims.inCm)}
+                                                    style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0">Popular</h6>}
+                                                    {dims.inCm}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        {/* End Sizes List */}
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">Border</h6>}
+                                        {/* Start White Border */}
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list mb-4 text-center">
+                                            <li
+                                                onClick={() => handleIsExistWhiteBorderWithPoster("without-border")}
+                                                style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            >
+                                                none
+                                            </li>
+                                            <li
+                                                onClick={() => handleIsExistWhiteBorderWithPoster("with-border")}
+                                                style={isExistWhiteBorderWithPoster === "with-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                            >
+                                                With Border
+                                            </li>
+                                        </ul>}
+                                        {/* Start White Border */}
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold">Frames</h6>}
+                                        {/* Start Frames List */}
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="framed-list mb-4 text-center pb-3">
+                                            <li
+                                                style={(frameColor === "none" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                onClick={() => handleSelectFrame("poster", "none")}
+                                            >
+                                                none
+                                            </li>
+                                            <li
+                                                className="p-2"
+                                                style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                onClick={() => handleSelectFrame("poster-with-wooden-frame", "black")}
+                                            >
+                                                <span className="frame-color d-block fw-bold mb-2">Black</span>
+                                                <img src={blackFrameCornerImage.src} alt="Black Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                            </li>
+                                            <li
+                                                className="p-2"
+                                                style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                onClick={() => handleSelectFrame("poster-with-wooden-frame", "white")}
+                                            >
+                                                <span className="frame-color d-block fw-bold mb-2">White</span>
+                                                <img src={whiteFrameCornerImage.src} alt="White Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                            </li>
+                                            <li
+                                                className="p-2"
+                                                style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                onClick={() => handleSelectFrame("poster-with-wooden-frame", "natural-wood")}
+                                            >
+                                                <span className="frame-color d-block fw-bold mb-2">Wood</span>
+                                                <img src={woodFrameCornerImage.src} alt="Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                            </li>
+                                            <li
+                                                className="p-2"
+                                                style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                onClick={() => handleSelectFrame("poster-with-wooden-frame", "dark-wood")}
+                                            >
+                                                <span className="frame-color d-block fw-bold mb-2">Dark Wood</span>
+                                                <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                            </li>
+                                            <li
+                                                className="p-2"
+                                                style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                onClick={() => handleSelectFrame("poster-with-hangers", "black")}
+                                            >
+                                                <span className="frame-color d-block fw-bold mb-2">Black With Hangers</span>
+                                                <img src={blackFrameCornerImage.src} alt="Black Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                            </li>
+                                            <li
+                                                className="p-2"
+                                                style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                onClick={() => handleSelectFrame("poster-with-hangers", "white")}
+                                            >
+                                                <span className="frame-color d-block fw-bold mb-2">White With Hangers</span>
+                                                <img src={whiteFrameCornerImage.src} alt="White Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                            </li>
+                                            <li
+                                                className="p-2"
+                                                style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                onClick={() => handleSelectFrame("poster-with-hangers", "natural-wood")}
+                                            >
+                                                <span className="frame-color d-block fw-bold mb-2">Wood With Hangers</span>
+                                                <img src={woodFrameCornerImage.src} alt="Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                            </li>
+                                            <li
+                                                className="p-2"
+                                                style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                onClick={() => handleSelectFrame("poster-with-hangers", "dark-wood")}
+                                            >
+                                                <span className="frame-color d-block fw-bold mb-2">Dark Wood With Hangers</span>
+                                                <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                            </li>
+                                        </ul>}
+                                        {/* End Frames List */}
+                                    </section>
+                                    {/* End Displaying Art Painting Options Section */}
+                                </section>
+                                {/* End Art Painting Options Section */}
+                                {/* Start Add To Cart Managment */}
+                                {!isWaitStatus && !errorMsg && <div className="add-to-cart-box">
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <input
+                                                type="number"
+                                                placeholder="Quantity"
+                                                className={`quantity form-control border-2 ${formValidationErrors["quantity"] ? "border-danger" : "border-dark"}`}
+                                                onChange={(e) => setQuantity(e.target.value)}
+                                                defaultValue={quantity}
+                                            />
+                                            {formValidationErrors["quantity"] && <p className='error-msg text-danger'>{formValidationErrors["quantity"]}</p>}
+                                        </div>
+                                        <div className="col-md-6">
+                                            {!isWaitAddToCart && !errorInAddToCart && !isSuccessAddToCart && <button
+                                                className="btn btn-dark w-100 p-2 add-to-cart-managment-btn"
+                                                onClick={addToCart}
+                                            >
+                                                Add To Cart
+                                            </button>}
+                                            {isWaitAddToCart && <button className="btn btn-dark w-100 p-1 add-to-cart-managment-btn" disabled>Waiting ...</button>}
+                                            {isSuccessAddToCart && <button className="btn btn-success w-100 p-2 add-to-cart-managment-btn" disabled>Success Is Adding To Cart ...</button>}
+                                            {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn" disabled>{errorInAddToCart}</button>}
+                                        </div>
+                                    </div>
+                                </div>}
+                                {/* End Add To Cart Managment */}
+                            </div>
+                            {/* End Column */}
                         </div>
-                    </section>
-                    {/* Start Generated Images Section */}
+                        {/* End Grid System */}
+                        <hr />
+                        {/* Start Generated Images Section */}
+                        <section className={`row align-items-center generated-images ${generatedImagesData ? "" : "p-4"}`}>
+                            <div className="col-md-2 text-center">
+                                <h6 className="m-0 fw-bold d-inline">Generated Images: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
+                            </div>
+                            <div className="col-md-10">
+                                {generatedImagesData && !isWaitStatus ? <ul className="generated-images-list text-center p-4">
+                                    {generatedImagesData.map((generatedImageData, index) => (
+                                        index < 10 && <Fragment key={generatedImageData._id}>
+                                            <li
+                                                className={`generated-images-item m-0 ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
+                                                onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
+                                                style={{
+                                                    width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
+                                                    height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`,
+                                                    backgroundImage: `url(${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL})`,
+                                                }}
+                                                onDragStart={(e) => e.preventDefault()}
+                                            ></li>
+                                        </Fragment>
+                                    ))}
+                                    {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Show More</button>}
+                                </ul> : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Sorry, Can't Find Any Generated Images From You !!</p>}
+                            </div>
+                        </section>
+                        {/* Start Generated Images Section */}
+                    </div>
+                    {/* End Container */}
                 </div>
-                {/* End Container */}
-            </div>
-            {/* End Page Content */}
+                {/* End Page Content */}
+            </> : <LoaderPage />}
         </div>
         // End Image To Image Page
     );
