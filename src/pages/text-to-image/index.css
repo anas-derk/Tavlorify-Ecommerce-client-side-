@@ -110,11 +110,6 @@
 .text-to-image-service .page-content .container-fluid .art-painting .generated-image-box {
   position: absolute;
   z-index: -1;
-  max-width: 97.5%;
-}
-
-.text-to-image-service .page-content .container-fluid .art-painting .generated-image-box img {
-  max-width: 89.7%;
 }
 
 .text-to-image-service .page-content .container-fluid .art-painting .canvas-image-box img {

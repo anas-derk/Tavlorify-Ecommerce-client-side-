@@ -657,7 +657,7 @@ const TextToImage = ({
                             width: !isRoomImageMinimize ? (
                                 imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width}px`
                             ) : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 10}px`,
-                            height: !isRoomImageMinimize ? (
+                            maxHeight: !isRoomImageMinimize ? (
                                 imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height}px`
                             ) : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 10}px`,
                         }}
@@ -679,6 +679,8 @@ const TextToImage = ({
                             ) : `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 10}px`,
                             boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
                             backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
+                            maxWidth: frameColor !== "none" ? "97.5%" : "",
+                            maxHeight: frameColor !== "none" ? "97.5%" : "",
                         }}
                     >
                         {!isWaitStatus && !errorMsg && generatedImageURL && <img
@@ -687,6 +689,8 @@ const TextToImage = ({
                             style={{
                                 width: width,
                                 height: height,
+                                maxWidth: (frameColor !== "none" && isExistWhiteBorderWithPoster === "with-border") ? "89.7%" : "100%",
+                                maxHeight: (frameColor !== "none" && isExistWhiteBorderWithPoster === "with-border") ? "89.7%" : "100%",
                             }}
                             onDragStart={(e) => e.preventDefault()}
                         />}
@@ -794,7 +798,7 @@ const TextToImage = ({
                         {/* Start Grid System */}
                         <div className="row align-items-center">
                             {/* Start Column */}
-                            {errorMsg && <div className="col-xl-7">
+                            {errorMsg && <div className="col-lg-7">
                                 <div className="error-msg-box p-4 text-center">
                                     <BiError className="error-icon mb-3" />
                                     <h5 className="error-msg fw-bold">{errorMsg}</h5>
@@ -803,7 +807,7 @@ const TextToImage = ({
                             {/* End Column */}
                             {!errorMsg && <>
                                 {/* Start Column */}
-                                <div className="col-xl-2">
+                                <div className="col-lg-2">
                                     {/* Start Art Painting Box */}
                                     {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image", false)}
                                     {/* End Art Painting Box */}
@@ -812,7 +816,7 @@ const TextToImage = ({
                                 </div>
                                 {/* End Column */}
                                 {/* Start Column */}
-                                <div className="col-xl-5">
+                                <div className="col-lg-5">
                                     {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined, false)}
                                     {getImageInsideRoomBox(1, undefined)}
                                     {getImageInsideRoomBox(2, undefined)}
@@ -820,7 +824,7 @@ const TextToImage = ({
                                 {/* End Column */}
                             </>}
                             {/* Start Column */}
-                            <div className="col-xl-5">
+                            <div className="col-lg-5">
                                 <section className="art-painting-options pe-3 mb-3">
                                     {/* Start Generating Image Options Section */}
                                     <section className="generating-image-options">
@@ -1158,8 +1162,6 @@ export async function getServerSideProps(context) {
             },
         }
     } else if (!context.query.paintingTypeAsQuery) {
-        const categoriesInfo = await getAllText2ImageCategoriesData();
-        const categoryStylesInfo = await getAllText2ImageCategoryStylesData(categoriesInfo[0].name);
         return {
             props: {
                 paintingTypeAsQuery: "",
