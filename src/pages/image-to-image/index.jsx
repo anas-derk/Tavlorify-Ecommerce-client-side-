@@ -393,8 +393,8 @@ const ImageToImage = ({
         imageToImageData.append("imageFile", file);
         setIsUplodingFile(true);
         try {
-            const res = await Axios.post(`https://newapi.tavlorify.se/image-to-image/upload-image-and-processing`, imageToImageData);
-            setImageLink(await res.data);
+            const res = await Axios.post(`${process.env.BASE_API_URL}/image-to-image/upload-image-and-processing`, imageToImageData);
+            setImageLink(`${process.env.BASE_API_URL}/${await res.data}`);
             setIsUplodingFile(false);
         }
         catch (err) {
