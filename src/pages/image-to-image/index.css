@@ -181,6 +181,68 @@
   background-repeat: no-repeat;
 }
 
+.image-to-image-service .page-content .container-fluid .row .art-painting .canvas-box {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting .canvas-box .displacement-icons-box {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting .canvas-box .displacement-icons-box .displacement-icon {
+  font-size: 50px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting .canvas-box .displacement-icons-box .displacement-icon.displacement-vertical {
+  animation: displacementToUpAndDown 2s ease 0s infinite both;
+}
+
+@keyframes displacementToUpAndDown {
+  0% {
+    transform: translateY(20px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(20px);
+  }
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting .canvas-box .displacement-icons-box .displacement-icon.displacement-horizontal {
+  animation: displacementToLeftAndRight 2s ease 0s infinite both;
+}
+
+@keyframes displacementToLeftAndRight {
+  0% {
+    transform: translateX(20px);
+  }
+  50% {
+    transform: translateX(-20px);
+  }
+  100% {
+    transform: translateX(20px);
+  }
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting .canvas-box .canvas-image-box {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  z-index: -1;
+  background-size: cover;
+  max-width: 100%;
+  max-height: 100%;
+}
+
 .image-to-image-service .page-content .container-fluid .row .image-before-processing-box .select-image-box .file-label {
   border: 2px dashed #CCC;
   position: relative;

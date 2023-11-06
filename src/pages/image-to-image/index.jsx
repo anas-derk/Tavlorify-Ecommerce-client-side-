@@ -989,15 +989,8 @@ const ImageToImage = ({
                     </div>
                 </>}
                 {paintingType === "canvas" && !isWaitStatus && !errorMsg && <div
-                    className={`
-                        image-box d-flex align-items-center justify-content-center
-                        ${!isImageInsideRoom ? (
-                            imageSize !== "minimize-image" ? "canvas-image" : "minimize-canvas-image"
-                        ) : ""}
-                    `}
+                    className="canvas-box"
                     style={{
-                        width: width,
-                        height: height,
                         cursor: isWillTheImageBeMoved ? "grab" : "",
                     }}
                     onDragStart={(e) => e.preventDefault()}
@@ -1009,16 +1002,34 @@ const ImageToImage = ({
                     onTouchEnd={handleTouchEnd}
                 >
                     <div
+                        className="frame-image-box mx-auto"
+                        style={{
+                            width: !isRoomImageMinimize ? (
+                                imageSize === "minimize-image" ? `${windowInnerWidth < 490 ? global_data.framesDimentions["poster"][imageType][dimentionsInCm].width / 5 : global_data.framesDimentions["poster"][imageType][dimentionsInCm].width / 3}px` : `${global_data.framesDimentions["poster"][imageType][dimentionsInCm].width}px`
+                            ) : `${global_data.framesDimentions["poster"][imageType][dimentionsInCm].width / 10}px`,
+                            maxHeight: !isRoomImageMinimize ? (
+                                imageSize === "minimize-image" ? `${windowInnerWidth < 490 ? global_data.framesDimentions["poster"][imageType][dimentionsInCm].height / 5 : global_data.framesDimentions["poster"][imageType][dimentionsInCm].height / 3}px` : `${global_data.framesDimentions["poster"][imageType][dimentionsInCm].height}px`
+                            ) : `${global_data.framesDimentions["poster"][imageType][dimentionsInCm].height / 10}px`,
+                            cursor: isWillTheImageBeMoved ? "grab" : "",
+                        }}
+                    >
+                        {!isWaitStatus && !errorMsg && generatedImageURL && <img
+                            src={frameImages["full-transparent"][imageType][dimentionsInCm]}
+                            alt="Image"
+                            onDragStart={(e) => e.preventDefault()}
+                        />}
+                    </div>
+                    <div
+                        className={`canvas-image-box ${!isImageInsideRoom ? (
+                            imageSize !== "minimize-image" ? "canvas-image" : "minimize-canvas-image"
+                        ) : ""}`}
                         style={{
                             width: width,
                             height: height,
                             backgroundImage: `url(${generatedImageURL})`,
                             backgroundRepeat: "no-repeat",
                             backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
-                            backgroundSize: "cover",
                             cursor: isWillTheImageBeMoved ? "grap" : "",
-                            maxWidth: "100%",
-                            maxHeight: "100%",
                         }}
                     ></div>
                     {isWillTheImageBeMoved && !isMouseDownActivate && imageSize !== "minimize-image" && !isImageInsideRoom && <div
@@ -1216,7 +1227,7 @@ const ImageToImage = ({
                                     <section className="categories mb-4">
                                         <div className="row">
                                             {categoriesData.map((category, index) => (
-                                                <div className="col-md-3" key={category._id}>
+                                                <div className="col-sm-3 col-4" key={category._id}>
                                                     {/* Start Category Box */}
                                                     <div
                                                         className="category-box text-center"
@@ -1245,7 +1256,7 @@ const ImageToImage = ({
                                         <div className="row">
                                             {/* Start Column */}
                                             {categoryStyles.map((style, index) => (
-                                                <div className="col-md-3" key={index}>
+                                                <div className="col-sm-3 col-4" key={index}>
                                                     {/* Start Style Box */}
                                                     <div
                                                         className="style-box p-2 text-center"
