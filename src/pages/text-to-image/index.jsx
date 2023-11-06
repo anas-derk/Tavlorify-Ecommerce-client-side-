@@ -39,7 +39,7 @@ import posterWithHangersDarkWoodFrameImageSquare from "../../../public/images/fr
 import posterWithHangersDarkWoodFrameImageVertical from "../../../public/images/frames/posterWithHangers/darkWood/V/600.png";
 /* End Import Frame With Hangers Images */
 /* Start Import Frames Without Background Never Images */
-import HorizontalframeImageWithFullTransparent from "../../../public/images/frames/withFullTransparent/H/h.png";
+import HorizontalframeImageWithFullTransparent from "../../../public/images/frames/withFullTransparent/H/H.png";
 import SquareframeImageWithFullTransparent from "../../../public/images/frames/withFullTransparent/S/S.png";
 import VerticalframeImageWithFullTransparent from "../../../public/images/frames/withFullTransparent/V/V.png";
 /* End Import Frames Without Background Never Images */
