@@ -668,7 +668,7 @@ const TextToImage = ({
     const getArtPaintingBox = (width, height, imageSize, isImageInsideRoom, isRoomImageMinimize) => {
         return (
             (imageMode == "normal-size-image" || imageSize === "minimize-image") && <div
-                className="art-painting d-flex justify-content-center align-items-center mb-4"
+                className={`art-painting d-flex justify-content-center align-items-center mb-4 ${imageSize === "minimize-image" ? "minimize-art-painting" : ""}`}
                 onClick={() => handleDisplayImageMode(imageSize)}
                 style={
                     {
@@ -880,7 +880,7 @@ const TextToImage = ({
                                         <section className="categories mb-2">
                                             <div className="row">
                                                 {categoriesData.map((category, index) => (
-                                                    <div className="col-md-3" key={category._id}>
+                                                    <div className="col-sm-3 col-4" key={category._id}>
                                                         {/* Start Category Box */}
                                                         <div
                                                             className="category-box text-center"
@@ -908,7 +908,7 @@ const TextToImage = ({
                                             <div className="row">
                                                 {/* Start Column */}
                                                 {categoryStyles.map((style, index) => (
-                                                    <div className="col-md-3" key={index}>
+                                                    <div className="col-sm-3 col-4" key={index}>
                                                         {/* Start Style Box */}
                                                         <div
                                                             className="style-box p-2 text-center"
@@ -969,135 +969,177 @@ const TextToImage = ({
                                         {/* EndArt Names List */}
                                         <h6 className="fw-bold option-section-name">Positions</h6>
                                         {/* Start Positions List */}
-                                        <ul className="positions-list mb-4 text-center">
+                                        <ul className="positions-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
                                             <li
-                                                className="p-3"
-                                                style={imageType === "vertical" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                className="col-md-4 col-6"
                                                 onClick={() => handleSelectImageType("vertical")}
                                             >
-                                                Vertical
+                                                <span
+                                                    style={imageType === "vertical" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >Vertical</span>
                                             </li>
                                             <li
-                                                className="p-3"
-                                                style={imageType === "horizontal" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                className="col-md-4 col-6"
                                                 onClick={() => handleSelectImageType("horizontal")}
                                             >
-                                                Horizontal
+                                                <span
+                                                    style={imageType === "horizontal" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >Horizontal</span>
                                             </li>
                                             <li
-                                                className="p-3"
-                                                style={imageType === "square" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                className="col-md-4 col-6"
                                                 onClick={() => handleSelectImageType("square")}
                                             >
-                                                Square
+                                                <span
+                                                    style={imageType === "square" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >Square</span>
                                             </li>
                                         </ul>
                                         {/* End Positions List */}
                                         <h6 className="fw-bold option-section-name">Sizes</h6>
                                         {/* Start Sizes List */}
-                                        <ul className="sizes-list mb-4 text-center">
+                                        <ul className="sizes-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
                                             {global_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
                                                 <li
                                                     key={index}
-                                                    className="p-3"
+                                                    className="col-md-4 col-6"
                                                     onClick={() => handleSelectImageDimentions(dims.inCm)}
-                                                    style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
-                                                    {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0">Popular</h6>}
-                                                    {dims.inCm}
+                                                    <span
+                                                        style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                    >
+                                                        {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0">Popular</h6>}
+                                                        {dims.inCm}
+                                                    </span>
                                                 </li>
                                             ))}
                                         </ul>
                                         {/* End Sizes List */}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">Border</h6>}
                                         {/* Start White Border */}
-                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list mb-4 text-center">
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
                                             <li
                                                 onClick={() => handleIsExistWhiteBorderWithPoster("without-border")}
-                                                style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                className="col-md-6 col-12"
                                             >
-                                                none
+                                                <span
+                                                    style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    none
+                                                </span>
                                             </li>
                                             <li
                                                 onClick={() => handleIsExistWhiteBorderWithPoster("with-border")}
-                                                style={isExistWhiteBorderWithPoster === "with-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                className="col-md-6 col-12"
                                             >
-                                                With Border
+                                                <span
+                                                    style={isExistWhiteBorderWithPoster === "with-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    With Border
+                                                </span>
                                             </li>
                                         </ul>}
                                         {/* Start White Border */}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">Frames</h6>}
                                         {/* Start Frames List */}
-                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="framed-list mb-4 text-center pb-3">
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="frames-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
                                             <li
-                                                style={(frameColor === "none" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster", "none")}
+                                                className="col-md-4 col-6"
                                             >
-                                                none
+                                                <span
+                                                    style={(frameColor === "none" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    none
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "black")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold mb-2">Black</span>
-                                                <img src={blackFrameCornerImage.src} alt="Black Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Black</h6>
+                                                    <img src={blackFrameCornerImage.src} alt="Black Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "white")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold mb-2">White</span>
-                                                <img src={whiteFrameCornerImage.src} alt="White Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold mb-2">White</h6>
+                                                    <img src={whiteFrameCornerImage.src} alt="White Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "natural-wood")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold mb-2">Wood</span>
-                                                <img src={woodFrameCornerImage.src} alt="Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Wood</h6>
+                                                    <img src={woodFrameCornerImage.src} alt="Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "dark-wood")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold mb-2">Dark Wood</span>
-                                                <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Dark Wood</h6>
+                                                    <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "black")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold mb-2">Black With Hangers</span>
-                                                <img src={blackFrameCornerImage.src} alt="Black Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Black With Hangers</h6>
+                                                    <img src={blackFrameCornerImage.src} alt="Black Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "white")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold mb-2">White With Hangers</span>
-                                                <img src={whiteFrameCornerImage.src} alt="White Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold mb-2">White With Hangers</h6>
+                                                    <img src={whiteFrameCornerImage.src} alt="White Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "natural-wood")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold">Wood With Hangers</span>
-                                                <img src={woodFrameCornerImage.src} alt="Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold">Wood With Hangers</h6>
+                                                    <img src={woodFrameCornerImage.src} alt="Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "dark-wood")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold mb-2">Dark Wood With Hangers</span>
-                                                <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Dark Wood With Hangers</h6>
+                                                    <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                         </ul>}
                                         {/* End Frames List */}
