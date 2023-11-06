@@ -12,6 +12,11 @@
   line-height: 1.5;
 }
 
+.text-to-image-service .generated-images {
+  background-color: #EEE;
+  box-shadow: 1px 1px 5px #000;
+}
+
 .text-to-image-service .generated-images .generated-images-list {
   display: flex;
   gap: 30px;
@@ -273,11 +278,6 @@
 
 .text-to-image-service .page-content .container-fluid .add-to-cart-box .add-to-cart-managment-btn {
   font-size: 13px;
-}
-
-.text-to-image-service .page-content .container-fluid .generated-images {
-  background-color: #EEE;
-  box-shadow: 1px 1px 5px #000;
 }
 
 .text-to-image-service .page-content .container-fluid .not-find-generated-images-for-you-err {

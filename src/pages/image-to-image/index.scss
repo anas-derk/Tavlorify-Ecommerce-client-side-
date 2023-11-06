@@ -11,20 +11,23 @@
             line-height: 1.5;
         }
     }
-    .generated-images-list{
-        display: grid;
-        grid-auto-flow: column;
-        gap: 30px;
-        overflow-x: auto;
-        align-items: center;
-        justify-content: center;
-        .generated-images-item{
-            cursor: pointer;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
-            &.selected-image{
-                border: 4px solid #000;
+    .generated-images{
+        background-color: #EEE;
+        box-shadow: 1px 1px 5px #000;
+        .generated-images-list{
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            overflow-x: auto;
+            .generated-images-item{
+                cursor: pointer;
+                .generated-image{
+                    width: inherit;
+                    height: inherit;
+                    &.selected-image{
+                        border: 4px solid #000;
+                    }
+                }
             }
         }
     }
@@ -71,6 +74,9 @@
                 .room-image-box{
                     position: relative;
                     max-width: 100%;
+                    @media (max-width: 991px) {
+                        display: none;
+                    }
                     img{
                         width: 100%;
                         max-width: 100%;
@@ -84,7 +90,13 @@
                 }
                 .art-painting{
                     position: relative;
+                    @media (max-width: 991px) {
+                        &.minimize-art-painting{
+                            display: none !important;
+                        }
+                    }
                     .frame-image-box{
+                        max-width: 100%;
                         img{
                             max-width: 100%;
                         }
@@ -92,7 +104,6 @@
                     .image-box{
                         position: absolute;
                         z-index: -1;
-                        max-width: 100%;
                         .displacement-icons-box{
                             position: absolute;
                             left: 0;
@@ -221,6 +232,25 @@
                             }
                         }
                     }
+                    .art-name-and-price{
+                        @media (max-width: 767px) {
+                            .row{
+                                > div:first-child{
+                                    order: 2;
+                                    text-align: center;
+                                }
+                                > div:last-child{
+                                    order: 1;
+                                    text-align: center !important;
+                                }
+                            }
+                        }
+                        .price-box{
+                            .discount{
+                                text-decoration: line-through;
+                            }
+                        }
+                    }
                     .displaying-art-painting-options{
                         .art-names-list{
                             border-bottom: 1px solid #CCC;
@@ -232,58 +262,40 @@
                                 }
                             }
                         }
-                        .positions-list{
-                            display: grid;
-                            grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
-                            gap: 10px;
-                            li{
+                        .art-painting-options-list{
+                            overflow-x: auto;
+                            flex-wrap: nowrap;
+                            span{
                                 cursor: pointer;
                                 border: 1px solid #CCC;
                                 font-size: 14px;
+                                display: flex;
+                                justify-content: center;
+                                align-content: center;
+                                flex-direction: column;
+                                h6{
+                                    font-size: 12px;
+                                }
+                                img{
+                                    display: block;
+                                    margin: 0 auto;
+                                    width: 40px;
+                                }
+                            }
+                        }
+                        .positions-list, .white-borders-list{
+                            span{
                                 height: 60px;
                             }
                         }
-                        .sizes-list{
-                            display: grid;
-                            grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
-                            gap: 10px;
-                            li{
-                                cursor: pointer;
-                                border: 1px solid #CCC;
-                                font-size: 14px;
-                                height: 80px;
-                                line-height: 40px;
+                        .sizes-list, .frames-list{
+                            span{
+                                height: 70px;
                             }
                         }
-                        .white-borders-list{
-                            display: grid;
-                            grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
-                            gap: 10px;
-                            li{
-                                cursor: pointer;
-                                border: 1px solid #CCC;
-                                font-size: 14px;
-                                height: 75px;
-                                line-height: 75px;
-                            }
-                        }
-                        .framed-list{
-                            display: grid;
-                            grid-auto-flow: column;
-                            gap: 15px;
-                            overflow-x: auto;
-                            li{
-                                cursor: pointer;
-                                border: 1px solid #CCC;
-                                width: 110px;
-                                height: 105px;
-                                font-size: 12px;
-                                &:first-child{
-                                    line-height: 100px;
-                                }
-                                img{
-                                    height: 40px;
-                                }
+                        .frames-list{
+                            span{
+                                height: 90px;
                             }
                         }
                     }
@@ -291,6 +303,9 @@
             }
             .add-to-cart-box{
                 .quantity{
+                    @media (max-width: 767px) {
+                        margin-bottom: 20px;
+                    }
                     font-size: 13px;
                 }
                 .add-to-cart-managment-btn{

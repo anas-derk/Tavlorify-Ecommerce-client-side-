@@ -37,6 +37,11 @@ import posterWithHangersDarkWoodFrameImageHorizontal from "../../../public/image
 import posterWithHangersDarkWoodFrameImageSquare from "../../../public/images/frames/posterWithHangers/darkWood/S/600.png";
 import posterWithHangersDarkWoodFrameImageVertical from "../../../public/images/frames/posterWithHangers/darkWood/V/600.png";
 /* End Import Frame With Hangers Images */
+/* Start Import Frames Without Background Never Images */
+import HorizontalframeImageWithFullTransparent from "../../../public/images/frames/withFullTransparent/H/H.png";
+import SquareframeImageWithFullTransparent from "../../../public/images/frames/withFullTransparent/S/S.png";
+import VerticalframeImageWithFullTransparent from "../../../public/images/frames/withFullTransparent/V/V.png";
+/* End Import Frames Without Background Never Images */
 import { BsCloudUpload } from "react-icons/bs";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { CgArrowsHAlt, CgArrowsVAlt } from "react-icons/cg";
@@ -54,6 +59,8 @@ const ImageToImage = ({
 }) => {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
+    const [windowInnerWidth, setWindowInnerWidth] = useState(149);
 
     const [generatedImageURL, setGeneratedImageURL] = useState("");
 
@@ -268,6 +275,25 @@ const ImageToImage = ({
                 },
             }
         },
+        "full-transparent": {
+            "square": {
+                "30x30": SquareframeImageWithFullTransparent.src,
+                "50x50": SquareframeImageWithFullTransparent.src,
+                "70x70": SquareframeImageWithFullTransparent.src,
+            },
+            "vertical": {
+                "21x29,7": VerticalframeImageWithFullTransparent.src,
+                "30x40": VerticalframeImageWithFullTransparent.src,
+                "50x70": VerticalframeImageWithFullTransparent.src,
+                "70x100": VerticalframeImageWithFullTransparent.src,
+            },
+            "horizontal": {
+                "29,7x21": HorizontalframeImageWithFullTransparent.src,
+                "40x30": HorizontalframeImageWithFullTransparent.src,
+                "70x50": HorizontalframeImageWithFullTransparent.src,
+                "100x70": HorizontalframeImageWithFullTransparent.src,
+            },
+        }
     }
 
     const [isMouseDownActivate, setIsMouseDownActivate] = useState(false);
@@ -383,6 +409,10 @@ const ImageToImage = ({
                 setModelName(tempModelName);
                 handleSelectGeneratedImageIdAndPaintingType(tempModelName);
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image")));
+                setWindowInnerWidth(window.innerWidth);
+                window.addEventListener("resize", function () {
+                    setWindowInnerWidth(this.innerWidth);
+                });
                 setIsLoadingPage(false);
             })
             .catch((err) => console.log(err));
@@ -886,18 +916,12 @@ const ImageToImage = ({
     const getArtPaintingBox = (width, height, imageSize, isImageInsideRoom, isRoomImageMinimize) => {
         return (
             (imageMode == "normal-size-image" || imageSize === "minimize-image") && <div
-                className="art-painting d-flex justify-content-center align-items-center mb-4"
+                className={`art-painting d-flex justify-content-center align-items-center mb-4 ${imageSize === "minimize-image" ? "minimize-art-painting" : ""}`}
                 onClick={() => handleDisplayImageMode(imageSize)}
                 style={
                     {
                         backgroundColor: isWaitStatus ? "#989492" : "",
                         cursor: !isWaitStatus && imageSize === "minimize-image" && !isImageInsideRoom ? "pointer" : "",
-                        width: !isRoomImageMinimize ? (
-                            imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 3}px` : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width}px`
-                        ) : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 10}px`,
-                        height: !isRoomImageMinimize ? (
-                            imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 3}px` : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height}px`
-                        ) : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 10}px`,
                     }
                 }
             >
@@ -913,16 +937,16 @@ const ImageToImage = ({
                         onTouchEnd={handleTouchEnd}
                         style={{
                             width: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 3}px` : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width}px`
+                                imageSize === "minimize-image" ? `${windowInnerWidth < 490 ? global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 5 : global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 3}px` : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width}px`
                             ) : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 10}px`,
-                            height: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 3}px` : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height}px`
+                            maxHeight: !isRoomImageMinimize ? (
+                                imageSize === "minimize-image" ? `${windowInnerWidth < 490 ? global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 5 : global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 3}px` : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height}px`
                             ) : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 10}px`,
                             cursor: isWillTheImageBeMoved ? "grab" : "",
                         }}
                     >
-                        {!isWaitStatus && !errorMsg && generatedImageURL && frameColor !== "none" && <img
-                            src={frameImages[paintingType][imageType][frameColor][dimentionsInCm]}
+                        {!isWaitStatus && !errorMsg && generatedImageURL && <img
+                            src={frameColor !== "none" ? frameImages[paintingType][imageType][frameColor][dimentionsInCm] : frameImages["full-transparent"][imageType][dimentionsInCm]}
                             alt="Image"
                             onDragStart={(e) => e.preventDefault()}
                         />}
@@ -938,6 +962,8 @@ const ImageToImage = ({
                             ) : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 10}px`,
                             backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
                             boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
+                            maxWidth: "97.5%",
+                            maxHeight: "97.5%",
                         }}
                     >
                         {isWillTheImageBeMoved && !isMouseDownActivate && imageSize !== "minimize-image" && !isImageInsideRoom && <div
@@ -956,6 +982,8 @@ const ImageToImage = ({
                                 backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
                                 backgroundSize: "cover",
                                 cursor: isWillTheImageBeMoved ? "grap" : "",
+                                maxWidth: isExistWhiteBorderWithPoster === "with-border" ? "89.7%" : "100%",
+                                maxHeight: isExistWhiteBorderWithPoster === "with-border" ? "89.7%" : "100%",
                             }}
                         ></div>
                     </div>
@@ -1095,7 +1123,7 @@ const ImageToImage = ({
                         {/* Start Grid System */}
                         <div className="row align-items-center">
                             {/* Start Column */}
-                            {errorMsg && <div className="col-xl-7">
+                            {errorMsg && <div className="col-lg-7">
                                 <div className="error-msg-box p-4 text-center">
                                     <BiError className="error-icon mb-3" />
                                     <h5 className="error-msg fw-bold">{errorMsg}</h5>
@@ -1104,7 +1132,7 @@ const ImageToImage = ({
                             {/* End Column */}
                             {!errorMsg && <>
                                 {/* Start Column */}
-                                <div className="col-xl-2">
+                                <div className="col-lg-2">
                                     {/* Start Art Painting Box */}
                                     {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 3}px`, "minimize-image", false)}
                                     {/* End Art Painting Box */}
@@ -1113,7 +1141,7 @@ const ImageToImage = ({
                                 </div>
                                 {/* End Column */}
                                 {/* Start Column */}
-                                <div className="col-xl-5">
+                                <div className="col-lg-5">
                                     {/* Start Art Painting Section */}
                                     {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height}px`, undefined, false)}
                                     {/* End Art Painting Section */}
@@ -1277,150 +1305,192 @@ const ImageToImage = ({
                                         {/* EndArt Names List */}
                                         <h6 className="fw-bold option-section-name">Positions</h6>
                                         {/* Start Positions List */}
-                                        <ul className="positions-list mb-4 text-center">
+                                        <ul className="positions-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
                                             <li
-                                                className="p-3"
-                                                style={
-                                                    {
-                                                        border: imageType === "vertical" ? "4px solid #000" : "",
-                                                        fontWeight: imageType === "vertical" ? "bold" : "",
-                                                        textDecoration: imageType !== "vertical" ? "line-through" : "",
-                                                    }
-                                                }
+                                                className="col-md-4 col-6"
                                             >
-                                                Vertical
+                                                <span
+                                                    style={
+                                                        {
+                                                            border: imageType === "vertical" ? "4px solid #000" : "",
+                                                            fontWeight: imageType === "vertical" ? "bold" : "",
+                                                            textDecoration: imageType !== "vertical" ? "line-through" : "",
+                                                        }
+                                                    }
+                                                >Vertical</span>
                                             </li>
                                             <li
-                                                className="p-3"
-                                                style={
-                                                    {
-                                                        border: imageType === "horizontal" ? "4px solid #000" : "",
-                                                        fontWeight: imageType === "horizontal" ? "bold" : "",
-                                                        textDecoration: imageType !== "horizontal" ? "line-through" : "",
-                                                    }
-                                                }
+                                                className="col-md-4 col-6"
                                             >
-                                                Horizontal
+                                                <span
+                                                    style={
+                                                        {
+                                                            border: imageType === "horizontal" ? "4px solid #000" : "",
+                                                            fontWeight: imageType === "horizontal" ? "bold" : "",
+                                                            textDecoration: imageType !== "horizontal" ? "line-through" : "",
+                                                        }
+                                                    }
+                                                >Horizontal</span>
                                             </li>
                                             <li
-                                                className="p-3"
-                                                style={
-                                                    {
-                                                        border: imageType === "square" ? "4px solid #000" : "",
-                                                        fontWeight: imageType === "square" ? "bold" : "",
-                                                        textDecoration: imageType !== "square" ? "line-through" : "",
-                                                    }
-                                                }
+                                                className="col-md-4 col-6"
                                             >
-                                                Square
+                                                <span
+                                                    style={
+                                                        {
+                                                            border: imageType === "square" ? "4px solid #000" : "",
+                                                            fontWeight: imageType === "square" ? "bold" : "",
+                                                            textDecoration: imageType !== "square" ? "line-through" : "",
+                                                        }
+                                                    }
+                                                >Square</span>
                                             </li>
                                         </ul>
                                         {/* End Positions List */}
                                         <h6 className="fw-bold option-section-name">Sizes</h6>
                                         {/* Start Sizes List */}
-                                        <ul className="sizes-list mb-4 text-center">
+                                        <ul className="sizes-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
                                             {global_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
                                                 <li
                                                     key={index}
-                                                    className="p-3"
+                                                    className="col-md-4 col-6"
                                                     onClick={() => handleSelectImageDimentions(dims.inCm)}
-                                                    style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
-                                                    {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0">Popular</h6>}
-                                                    {dims.inCm}
+                                                    <span
+                                                        style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                    >
+                                                        {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0">Popular</h6>}
+                                                        {dims.inCm}
+                                                    </span>
                                                 </li>
                                             ))}
                                         </ul>
                                         {/* End Sizes List */}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">Border</h6>}
                                         {/* Start White Border */}
-                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list mb-4 text-center">
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
                                             <li
                                                 onClick={() => handleIsExistWhiteBorderWithPoster("without-border")}
-                                                style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                className="col-md-6 col-12"
                                             >
-                                                none
+                                                <span
+                                                    style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    none
+                                                </span>
                                             </li>
                                             <li
                                                 onClick={() => handleIsExistWhiteBorderWithPoster("with-border")}
-                                                style={isExistWhiteBorderWithPoster === "with-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                className="col-md-6 col-12"
                                             >
-                                                With Border
+                                                <span
+                                                    style={isExistWhiteBorderWithPoster === "with-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    With Border
+                                                </span>
                                             </li>
                                         </ul>}
                                         {/* Start White Border */}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold">Frames</h6>}
                                         {/* Start Frames List */}
-                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="framed-list mb-4 text-center pb-3">
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="frames-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
                                             <li
-                                                style={(frameColor === "none" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster", "none")}
+                                                className="col-md-4 col-6"
                                             >
-                                                none
+                                                <span
+                                                    style={(frameColor === "none" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    none
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "black")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold mb-2">Black</span>
-                                                <img src={blackFrameCornerImage.src} alt="Black Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Black</h6>
+                                                    <img src={blackFrameCornerImage.src} alt="Black Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "white")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold mb-2">White</span>
-                                                <img src={whiteFrameCornerImage.src} alt="White Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold mb-2">White</h6>
+                                                    <img src={whiteFrameCornerImage.src} alt="White Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "natural-wood")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold mb-2">Wood</span>
-                                                <img src={woodFrameCornerImage.src} alt="Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Wood</h6>
+                                                    <img src={woodFrameCornerImage.src} alt="Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "dark-wood")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold mb-2">Dark Wood</span>
-                                                <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Dark Wood</h6>
+                                                    <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "black")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold mb-2">Black With Hangers</span>
-                                                <img src={blackFrameCornerImage.src} alt="Black Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Black With Hangers</h6>
+                                                    <img src={blackFrameCornerImage.src} alt="Black Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "white")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold mb-2">White With Hangers</span>
-                                                <img src={whiteFrameCornerImage.src} alt="White Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold mb-2">White With Hangers</h6>
+                                                    <img src={whiteFrameCornerImage.src} alt="White Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "natural-wood")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold mb-2">Wood With Hangers</span>
-                                                <img src={woodFrameCornerImage.src} alt="Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold">Wood With Hangers</h6>
+                                                    <img src={woodFrameCornerImage.src} alt="Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                             <li
-                                                className="p-2"
-                                                style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "dark-wood")}
+                                                className="col-md-4 col-6"
                                             >
-                                                <span className="frame-color d-block fw-bold mb-2">Dark Wood With Hangers</span>
-                                                <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                <span
+                                                    style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                >
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Dark Wood With Hangers</h6>
+                                                    <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                </span>
                                             </li>
                                         </ul>}
                                         {/* End Frames List */}

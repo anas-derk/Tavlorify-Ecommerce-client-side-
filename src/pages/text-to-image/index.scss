@@ -11,6 +11,8 @@
         }
     }
     .generated-images{
+        background-color: #EEE;
+        box-shadow: 1px 1px 5px #000;
         .generated-images-list{
             display: flex;
             gap: 30px;
@@ -245,10 +247,6 @@
                 .add-to-cart-managment-btn{
                     font-size: 13px;
                 }
-            }
-            .generated-images{
-                background-color: #EEE;
-                box-shadow: 1px 1px 5px #000;
             }
             .not-find-generated-images-for-you-err{
                 font-size: 14px;
