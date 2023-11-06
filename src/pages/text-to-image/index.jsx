@@ -1179,7 +1179,7 @@ const TextToImage = ({
                         {/* End Grid System */}
                         <hr />
                         {/* Start Generated Images Section */}
-                        <section className={`row align-items-center generated-images ${generatedImagesData ? "" : "p-4"}`}>
+                        <section className={`row align-items-center generated-images${generatedImagesData ? "" : ""}`}>
                             <div className="col-md-2 text-center">
                                 <h6 className="m-0 fw-bold d-inline">Generated Images: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
                             </div>

@@ -10,20 +10,20 @@
             line-height: 1.5;
         }
     }
-    .generated-images-list{
-        display: grid;
-        grid-auto-flow: column;
-        gap: 30px;
-        overflow-x: auto;
-        align-items: center;
-        justify-content: center;
-        .generated-images-item{
-            cursor: pointer;
-            .generated-image{
-                width: inherit;
-                height: inherit;
-                &.selected-image{
-                    border: 4px solid #000;
+    .generated-images{
+        .generated-images-list{
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            overflow-x: auto;
+            .generated-images-item{
+                cursor: pointer;
+                .generated-image{
+                    width: inherit;
+                    height: inherit;
+                    &.selected-image{
+                        border: 4px solid #000;
+                    }
                 }
             }
         }
