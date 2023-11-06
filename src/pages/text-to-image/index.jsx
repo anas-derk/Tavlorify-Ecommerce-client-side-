@@ -38,6 +38,11 @@ import posterWithHangersDarkWoodFrameImageHorizontal from "../../../public/image
 import posterWithHangersDarkWoodFrameImageSquare from "../../../public/images/frames/posterWithHangers/darkWood/S/600.png";
 import posterWithHangersDarkWoodFrameImageVertical from "../../../public/images/frames/posterWithHangers/darkWood/V/600.png";
 /* End Import Frame With Hangers Images */
+/* Start Import Frames Without Background Never Images */
+import HorizontalframeImageWithFullTransparent from "../../../public/images/frames/withFullTransparent/H/h.png";
+import SquareframeImageWithFullTransparent from "../../../public/images/frames/withFullTransparent/S/S.png";
+import VerticalframeImageWithFullTransparent from "../../../public/images/frames/withFullTransparent/V/V.png";
+/* End Import Frames Without Background Never Images */
 import validations from "../../../public/global_functions/validations";
 import room1Image from "@/../../public/images/Rooms/room1.jpg";
 import room2Image from "@/../../public/images/Rooms/room2.jpg";
@@ -257,6 +262,25 @@ const TextToImage = ({
                 },
             }
         },
+        "full-transparent": {
+            "square": {
+                "30x30": SquareframeImageWithFullTransparent.src,
+                "50x50": SquareframeImageWithFullTransparent.src,
+                "70x70": SquareframeImageWithFullTransparent.src,
+            },
+            "vertical": {
+                "21x29,7": VerticalframeImageWithFullTransparent.src,
+                "30x40": VerticalframeImageWithFullTransparent.src,
+                "50x70": VerticalframeImageWithFullTransparent.src,
+                "70x100": VerticalframeImageWithFullTransparent.src,
+            },
+            "horizontal": {
+                "29,7x21": HorizontalframeImageWithFullTransparent.src,
+                "40x30": HorizontalframeImageWithFullTransparent.src,
+                "70x50": HorizontalframeImageWithFullTransparent.src,
+                "100x70": HorizontalframeImageWithFullTransparent.src,
+            },
+        }
     }
 
     const [formValidationErrors, setFormValidationErrors] = useState({});
@@ -367,7 +391,7 @@ const TextToImage = ({
                 handleSelectGeneratedImageIdAndPaintingType(tempModelName);
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")));
                 setWindowInnerWidth(window.innerWidth);
-                window.addEventListener("resize", function (){
+                window.addEventListener("resize", function () {
                     setWindowInnerWidth(this.innerWidth);
                 });
                 setIsLoadingPage(false);
@@ -665,8 +689,8 @@ const TextToImage = ({
                             ) : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 10}px`,
                         }}
                     >
-                        {!isWaitStatus && !errorMsg && generatedImageURL && frameColor !== "none" && <img
-                            src={frameImages[paintingType][tempImageType][frameColor][tempDimentionsInCm]}
+                        {!isWaitStatus && !errorMsg && generatedImageURL && <img
+                            src={frameColor !== "none" ? frameImages[paintingType][tempImageType][frameColor][tempDimentionsInCm] : frameImages["full-transparent"][tempImageType][tempDimentionsInCm]}
                             alt="Image"
                             onDragStart={(e) => e.preventDefault()}
                         />}
@@ -682,8 +706,8 @@ const TextToImage = ({
                             ) : `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 10}px`,
                             boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
                             backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
-                            maxWidth: frameColor !== "none" ? "97.5%" : "",
-                            maxHeight: frameColor !== "none" ? "97.5%" : "",
+                            maxWidth: "97.5%",
+                            maxHeight: "97.5%",
                         }}
                     >
                         {!isWaitStatus && !errorMsg && generatedImageURL && <img
@@ -692,8 +716,8 @@ const TextToImage = ({
                             style={{
                                 width: width,
                                 height: height,
-                                maxWidth: (frameColor !== "none" && isExistWhiteBorderWithPoster === "with-border") ? "89.7%" : "100%",
-                                maxHeight: (frameColor !== "none" && isExistWhiteBorderWithPoster === "with-border") ? "89.7%" : "100%",
+                                maxWidth: isExistWhiteBorderWithPoster === "with-border" ? "89.7%" : "100%",
+                                maxHeight: isExistWhiteBorderWithPoster === "with-border" ? "89.7%" : "100%",
                             }}
                             onDragStart={(e) => e.preventDefault()}
                         />}
