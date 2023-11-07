@@ -306,6 +306,8 @@ const ImageToImage = ({
 
     const [isUplodingFile, setIsUplodingFile] = useState(false);
 
+    const [uploadingProgress, setUploadingProgress] = useState(0);
+
     const [selectedPreviousGeneratedImageIndex, setSelectedPreviousGeneratedImageIndex] = useState(-1);
 
     const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(false);
@@ -423,7 +425,11 @@ const ImageToImage = ({
         imageToImageData.append("imageFile", file);
         setIsUplodingFile(true);
         try {
-            const res = await Axios.post(`${process.env.BASE_API_URL}/image-to-image/upload-image-and-processing`, imageToImageData);
+            const res = await Axios.post(`${process.env.BASE_API_URL}/image-to-image/upload-image-and-processing`, imageToImageData, {
+                onUploadProgress: (progressEvent) => {
+                    setUploadingProgress((progressEvent.loaded / progressEvent.total) * 100) ;
+                }
+            });
             setImageLink(`${process.env.BASE_API_URL}/${await res.data}`);
             setIsUplodingFile(false);
         }
@@ -1208,8 +1214,8 @@ const ImageToImage = ({
                                             </div>}
                                         {/* End Select Image Box */}
                                         {isUplodingFile && <div className="uploading-box mb-4 p-3 border border-2 border-secondary">
-                                            <div className="progress mb-3">
-                                                <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style={{ width: "100%" }}></div>
+                                            <div className="progress mb-2" style={{ height: "30px" }}>
+                                                <div className="progress-bar" role="progressbar" style={{ width: `${uploadingProgress}%`, height: "30px" }} aria-valuenow={uploadingProgress} aria-valuemin="0" aria-valuemax="100">{ uploadingProgress } %</div>
                                             </div>
                                             <h6 className="m-0 fw-bold">Uploading Image Now ...</h6>
                                         </div>}
