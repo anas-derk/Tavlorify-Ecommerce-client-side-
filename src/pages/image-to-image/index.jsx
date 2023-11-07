@@ -427,7 +427,7 @@ const ImageToImage = ({
         try {
             const res = await Axios.post(`${process.env.BASE_API_URL}/image-to-image/upload-image-and-processing`, imageToImageData, {
                 onUploadProgress: (progressEvent) => {
-                    setUploadingProgress((progressEvent.loaded / progressEvent.total) * 100) ;
+                    setUploadingProgress(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2)) ;
                 }
             });
             setImageLink(`${process.env.BASE_API_URL}/${await res.data}`);
