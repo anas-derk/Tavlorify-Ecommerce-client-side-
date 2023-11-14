@@ -88,7 +88,9 @@
 @media (max-width: 767px) {
   .image-to-image-service .page-content .container-fluid .welcome-msg {
     font-size: 18px;
-    line-height: 1.7;
+    line-height: 1.5;
+    padding-bottom: 7px !important;
+    margin-bottom: 15px !important;
   }
 }
 
@@ -261,7 +263,7 @@
 
 @media (max-width: 767px) {
   .image-to-image-service .page-content .container-fluid .row .image-before-processing-box .select-image-box .file-label {
-    height: 100px;
+    height: 75px;
   }
 }
 
@@ -390,12 +392,16 @@
 
 @media (max-width: 767px) {
   .image-to-image-service .page-content .container-fluid .row .art-painting-options .art-name-and-price .row > div:first-child {
-    order: 2;
     text-align: center;
   }
   .image-to-image-service .page-content .container-fluid .row .art-painting-options .art-name-and-price .row > div:last-child {
-    order: 1;
     text-align: center !important;
+  }
+}
+
+@media (max-width: 767px) and (max-width: 767px) {
+  .image-to-image-service .page-content .container-fluid .row .art-painting-options .art-name-and-price .row .art-name, .image-to-image-service .page-content .container-fluid .row .art-painting-options .art-name-and-price .row .price {
+    font-size: 17px;
   }
 }
 
@@ -406,6 +412,12 @@
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-names-list {
   border-bottom: 1px solid #CCC;
   font-size: 14px;
+}
+
+@media (max-width: 767px) {
+  .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-names-list {
+    font-size: 12px;
+  }
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-names-list li {
@@ -429,6 +441,12 @@
   justify-content: center;
   align-content: center;
   flex-direction: column;
+}
+
+@media (max-width: 767px) {
+  .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span {
+    font-size: 12px;
+  }
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span h6 {

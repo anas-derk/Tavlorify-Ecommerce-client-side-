@@ -1228,12 +1228,12 @@ const ImageToImage = ({
                                 <hr className="mb-2 mt-2" />
                                 {/* Start Art Painting Options Section */}
                                 <section className="art-painting-options pe-3 mb-3">
-                                    <h6 className="mb-3 fw-bold option-section-name">Please Select Category</h6>
+                                    <h6 className="mb-2 fw-bold option-section-name">Please Select Category</h6>
                                     {/* Start Categories Section */}
-                                    <section className="categories mb-4">
+                                    <section className="categories mb-3">
                                         <div className="row">
                                             {categoriesData.map((category, index) => (
-                                                <div className="col-sm-2 col-3" key={category._id}>
+                                                <div className="col-sm-2 col-3 col-md-3" key={category._id}>
                                                     {/* Start Category Box */}
                                                     <div
                                                         className="category-box text-center"
@@ -1254,15 +1254,14 @@ const ImageToImage = ({
                                         </div>
                                     </section>
                                     {/* End Categories Section */}
-                                    <hr />
-                                    <h6 className="mb-3 fw-bold option-section-name">Please Select Style</h6>
+                                    <h6 className="mb-2 fw-bold option-section-name">Please Select Style</h6>
                                     {/* Start Styles Section */}
                                     <section className="styles mb-3">
                                         {/* Start Grid System */}
                                         <div className="row">
                                             {/* Start Column */}
                                             {categoryStyles.map((style, index) => (
-                                                <div className="col-sm-2 col-3" key={index}>
+                                                <div className="col-sm-2 col-3 col-md-3" key={index}>
                                                     {/* Start Style Box */}
                                                     <div
                                                         className="style-box p-2 text-center"
@@ -1286,13 +1285,13 @@ const ImageToImage = ({
                                     </section>
                                     {/* End Styles Section */}
                                     {/* Start Art Name And Price Section */}
-                                    <section className="art-name-and-price">
+                                    <section className="art-name-and-price mb-2">
                                         {/* Start Grid System */}
-                                        <div className="row">
-                                            <div className="col-md-8">
-                                                <h5 className="art-name fw-bold">Art Name: {paintingType}</h5>
+                                        <div className="row align-items-center">
+                                            <div className="col-8">
+                                                <h5 className="art-name mb-0 fw-bold">Art Name: {paintingType}</h5>
                                             </div>
-                                            <div className="col-md-4 text-end price-box">
+                                            <div className="col-4 text-end price-box">
                                                 <h5 className="price mb-0 fw-bold">{productPriceAfterDiscount} kr</h5>
                                                 {productPriceBeforeDiscount != productPriceAfterDiscount && <h6 className="discount fw-bold">{productPriceBeforeDiscount} kr</h6>}
                                             </div>

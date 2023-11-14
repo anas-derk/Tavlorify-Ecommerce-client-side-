@@ -71,7 +71,9 @@
                 margin: 0 auto;
                 @media (max-width: 767px) {
                     font-size: 18px;
-                    line-height: 1.7;
+                    line-height: 1.5;
+                    padding-bottom: 7px !important;
+                    margin-bottom: 15px !important;
                 }
             }
             .row{
@@ -217,7 +219,7 @@
                             height: 150px;
                             background-color: #EEE;
                             @media (max-width: 767px) {
-                                height: 100px;
+                                height: 75px;
                             }
                             h6{
                                 @media (max-width: 767px) {
@@ -322,12 +324,15 @@
                         @media (max-width: 767px) {
                             .row{
                                 > div:first-child{
-                                    order: 2;
                                     text-align: center;
                                 }
                                 > div:last-child{
-                                    order: 1;
                                     text-align: center !important;
+                                }
+                                .art-name, .price {
+                                    @media (max-width: 767px) {
+                                        font-size: 17px;
+                                    }
                                 }
                             }
                         }
@@ -341,6 +346,9 @@
                         .art-names-list{
                             border-bottom: 1px solid #CCC;
                             font-size: 14px;
+                            @media (max-width: 767px) {
+                                font-size: 12px;
+                            }
                             li{
                                 cursor: pointer;
                                 &:hover{
@@ -355,6 +363,9 @@
                                 cursor: pointer;
                                 border: 1px solid #CCC;
                                 font-size: 14px;
+                                @media (max-width: 767px) {
+                                    font-size: 12px;
+                                }
                                 display: flex;
                                 justify-content: center;
                                 align-content: center;
