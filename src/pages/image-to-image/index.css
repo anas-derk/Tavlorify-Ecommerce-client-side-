@@ -21,6 +21,12 @@
   box-shadow: 1px 1px 5px #000;
 }
 
+@media (max-width: 991px) {
+  .image-to-image-service .generated-images {
+    gap: 10px;
+  }
+}
+
 .image-to-image-service .generated-images .generated-images-list {
   display: flex;
   gap: 30px;
@@ -487,12 +493,12 @@
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list {
-  grid-template-columns: repeat(9, 50px);
+  grid-template-columns: repeat(9, 75px);
   grid-auto-flow: column;
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list span {
-  height: 80px;
+  height: 90px;
 }
 
 .image-to-image-service .page-content .container-fluid .add-to-cart-box .quantity {

@@ -14,6 +14,9 @@
     .generated-images{
         background-color: #EEE;
         box-shadow: 1px 1px 5px #000;
+        @media (max-width: 991px) {
+            gap: 10px;
+        }
         .generated-images-list{
             display: flex;
             gap: 30px;
@@ -404,10 +407,10 @@
                             grid-template-columns: repeat(2, auto);
                         }
                         .frames-list{
-                            grid-template-columns: repeat(9, 50px);
+                            grid-template-columns: repeat(9, 75px);
                             grid-auto-flow: column;
                             span{
-                                height: 80px;
+                                height: 90px;
                             }
                         }
                     }

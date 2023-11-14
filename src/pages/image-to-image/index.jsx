@@ -919,6 +919,65 @@ const ImageToImage = ({
         }
     }
 
+    const getImageBeforeProcessingBox = () => {
+        return (
+            <div className="image-before-processing-box">
+                {/* Start Downloaded Image Box */}
+                {imageLink && <div className="downloaded-image-box mx-auto">
+                    <img
+                        src={imageLink}
+                        alt="downloaded image !"
+                        className="downloaded-image"
+                        onDragStart={(e) => e.preventDefault()}
+                    />
+                    <AiFillCloseCircle
+                        className="close-icon"
+                        onClick={removeImage}
+                    />
+                </div>}
+                {/* End Downloaded Image Box */}
+                {/* Start Select Image Box */}
+                {!imageLink &&
+                    <div
+                        className="select-image-box text-center mb-3"
+                        onDragOver={handleDragFileOver}
+                        onDragLeave={() => setIsDragFile(false)}
+                        onDrop={handleDropFile}
+                    >
+                        {!isDragFile && !isUplodingFile && <>
+                            <label
+                                htmlFor="image-file"
+                                className="file-label d-flex align-items-center justify-content-center flex-column"
+                            >
+                                <h6 className="fw-bold">Upload Image</h6>
+                                <BsCloudUpload className="upload-image-icon" />
+                            </label>
+                            <input
+                                type="file"
+                                className="image-file-input"
+                                id="image-file"
+                                onChange={(e) => handleSelectImageFile(e.target.files[0])}
+                            />
+                        </>}
+                        {isDragFile && !isUplodingFile && <div className="drop-file-box d-flex flex-column align-items-center justify-content-center">
+                            <h5 className="drag-msg fw-bold mb-0">Please Drop This File Here</h5>
+                        </div>}
+                    </div>}
+                {/* End Select Image Box */}
+                {isUplodingFile && <div className="uploading-box mb-4 p-3 border border-2 border-secondary">
+                    <div className="progress mb-2" style={{ height: "30px" }}>
+                        <div className="progress-bar" role="progressbar" style={{ width: `${uploadingProgress}%`, height: "30px" }} aria-valuenow={uploadingProgress} aria-valuemin="0" aria-valuemax="100">{uploadingProgress} %</div>
+                    </div>
+                    <h6 className="m-0 fw-bold">Uploading Image Now ...</h6>
+                </div>}
+                <hr className="mb-2 mt-2" />
+                {imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" onClick={imageToImageGenerateByAI}>Create</button>}
+                {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>Create</button>}
+                <hr className="mb-2 mt-2" />
+            </div>
+        );
+    }
+
     const getArtPaintingBox = (width, height, imageSize, isImageInsideRoom, isRoomImageMinimize) => {
         return (
             (imageMode == "normal-size-image" || imageSize === "minimize-image") && <div
@@ -1148,6 +1207,9 @@ const ImageToImage = ({
                             </div>}
                             {/* End Column */}
                             {!errorMsg && <>
+                                {!isWaitStatus && windowInnerWidth < 991 && <div className="col-lg-12">
+                                    {getImageBeforeProcessingBox()}
+                                </div>}
                                 {/* Start Column */}
                                 <div className="col-lg-2">
                                     {/* Start Art Painting Box */}
@@ -1168,62 +1230,8 @@ const ImageToImage = ({
                                 {/* End Column */}
                             </>}
                             {/* Start Column */}
-                            <div className="col-xl-5">
-                                {!errorMsg && !isWaitStatus && <>
-                                    <div className="image-before-processing-box">
-                                        {/* Start Downloaded Image Box */}
-                                        {imageLink && <div className="downloaded-image-box mx-auto">
-                                            <img
-                                                src={imageLink}
-                                                alt="downloaded image !"
-                                                className="downloaded-image"
-                                                onDragStart={(e) => e.preventDefault()}
-                                            />
-                                            <AiFillCloseCircle
-                                                className="close-icon"
-                                                onClick={removeImage}
-                                            />
-                                        </div>}
-                                        {/* End Downloaded Image Box */}
-                                        {/* Start Select Image Box */}
-                                        {!imageLink &&
-                                            <div
-                                                className="select-image-box text-center mb-3"
-                                                onDragOver={handleDragFileOver}
-                                                onDragLeave={() => setIsDragFile(false)}
-                                                onDrop={handleDropFile}
-                                            >
-                                                {!isDragFile && !isUplodingFile && <>
-                                                    <label
-                                                        htmlFor="image-file"
-                                                        className="file-label d-flex align-items-center justify-content-center flex-column"
-                                                    >
-                                                        <h6 className="fw-bold">Upload Image</h6>
-                                                        <BsCloudUpload className="upload-image-icon" />
-                                                    </label>
-                                                    <input
-                                                        type="file"
-                                                        className="image-file-input"
-                                                        id="image-file"
-                                                        onChange={(e) => handleSelectImageFile(e.target.files[0])}
-                                                    />
-                                                </>}
-                                                {isDragFile && !isUplodingFile && <div className="drop-file-box d-flex flex-column align-items-center justify-content-center">
-                                                    <h5 className="drag-msg fw-bold mb-0">Please Drop This File Here</h5>
-                                                </div>}
-                                            </div>}
-                                        {/* End Select Image Box */}
-                                        {isUplodingFile && <div className="uploading-box mb-4 p-3 border border-2 border-secondary">
-                                            <div className="progress mb-2" style={{ height: "30px" }}>
-                                                <div className="progress-bar" role="progressbar" style={{ width: `${uploadingProgress}%`, height: "30px" }} aria-valuenow={uploadingProgress} aria-valuemin="0" aria-valuemax="100">{uploadingProgress} %</div>
-                                            </div>
-                                            <h6 className="m-0 fw-bold">Uploading Image Now ...</h6>
-                                        </div>}
-                                        <hr className="mb-2 mt-2" />
-                                        {imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" onClick={imageToImageGenerateByAI}>Create</button>}
-                                        {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>Create</button>}
-                                    </div>
-                                </>}
+                            <div className="col-lg-5">
+                                {!errorMsg && !isWaitStatus && windowInnerWidth > 991 && getImageBeforeProcessingBox()}
                                 {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>Creating ...</button>}
                                 <hr className="mb-2 mt-2" />
                                 {/* Start Art Painting Options Section */}
@@ -1530,10 +1538,10 @@ const ImageToImage = ({
                         <hr />
                         {/* Start Generated Images Section */}
                         <section className={`row align-items-center generated-images ${generatedImagesData ? "" : "p-4"}`}>
-                            <div className="col-md-2 text-center">
+                            <div className="col-lg-2 text-center">
                                 <h6 className="m-0 fw-bold d-inline">Generated Images: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
                             </div>
-                            <div className="col-md-10">
+                            <div className="col-lg-10">
                                 {generatedImagesData && !isWaitStatus ? <ul className="generated-images-list text-center p-4">
                                     {generatedImagesData.map((generatedImageData, index) => (
                                         index < 10 && <Fragment key={generatedImageData._id}>
