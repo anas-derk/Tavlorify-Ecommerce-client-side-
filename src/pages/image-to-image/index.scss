@@ -357,8 +357,9 @@
                             }
                         }
                         .art-painting-options-list{
-                            overflow-x: auto;
-                            flex-wrap: nowrap;
+                            display: grid;
+                            gap: 15px;
+                            overflow-y: auto;
                             span{
                                 cursor: pointer;
                                 border: 1px solid #CCC;
@@ -376,28 +377,37 @@
                                 img{
                                     display: block;
                                     margin: 0 auto;
-                                    width: 40px;
+                                    width: 30px;
                                 }
                             }
                         }
                         .positions-list{
+                            grid-template-columns: repeat(3, auto);
                             @media (max-width: 767px) {
                                 display: none;
                             }
                         }
                         .positions-list, .white-borders-list{
                             span{
-                                height: 60px;
+                                height: 55px;
                             }
                         }
-                        .sizes-list, .frames-list{
+                        .sizes-list{
                             span{
                                 height: 70px;
                             }
                         }
+                        .sizes-list{
+                            grid-template-columns: repeat(4, auto);
+                        }
+                        .white-borders-list{
+                            grid-template-columns: repeat(2, auto);
+                        }
                         .frames-list{
+                            grid-template-columns: repeat(9, 50px);
+                            grid-auto-flow: column;
                             span{
-                                height: 90px;
+                                height: 80px;
                             }
                         }
                     }

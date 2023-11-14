@@ -429,8 +429,9 @@
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list {
-  overflow-x: auto;
-  flex-wrap: nowrap;
+  display: grid;
+  gap: 15px;
+  overflow-y: auto;
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span {
@@ -456,7 +457,11 @@
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span img {
   display: block;
   margin: 0 auto;
-  width: 40px;
+  width: 30px;
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .positions-list {
+  grid-template-columns: repeat(3, auto);
 }
 
 @media (max-width: 767px) {
@@ -466,15 +471,28 @@
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .positions-list span, .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .white-borders-list span {
-  height: 60px;
+  height: 55px;
 }
 
-.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list span, .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list span {
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list span {
   height: 70px;
 }
 
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list {
+  grid-template-columns: repeat(4, auto);
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .white-borders-list {
+  grid-template-columns: repeat(2, auto);
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list {
+  grid-template-columns: repeat(9, 50px);
+  grid-auto-flow: column;
+}
+
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list span {
-  height: 90px;
+  height: 80px;
 }
 
 .image-to-image-service .page-content .container-fluid .add-to-cart-box .quantity {

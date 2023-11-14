@@ -1227,7 +1227,7 @@ const ImageToImage = ({
                                 {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>Creating ...</button>}
                                 <hr className="mb-2 mt-2" />
                                 {/* Start Art Painting Options Section */}
-                                <section className="art-painting-options pe-3 mb-3">
+                                <section className="art-painting-options pe-3 mb-4">
                                     <h6 className="mb-2 fw-bold option-section-name">Please Select Category</h6>
                                     {/* Start Categories Section */}
                                     <section className="categories mb-3">
@@ -1321,10 +1321,8 @@ const ImageToImage = ({
                                         {/* EndArt Names List */}
                                         {windowInnerWidth > 767 && <h6 className="fw-bold option-section-name">Positions</h6>}
                                         {/* Start Positions List */}
-                                        <ul className="positions-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
-                                            <li
-                                                className="col-md-4 col-6"
-                                            >
+                                        <ul className="positions-list text-center pb-3 art-painting-options-list">
+                                            <li>
                                                 <span
                                                     style={
                                                         {
@@ -1335,9 +1333,7 @@ const ImageToImage = ({
                                                     }
                                                 >Vertical</span>
                                             </li>
-                                            <li
-                                                className="col-md-4 col-6"
-                                            >
+                                            <li>
                                                 <span
                                                     style={
                                                         {
@@ -1348,9 +1344,7 @@ const ImageToImage = ({
                                                     }
                                                 >Horizontal</span>
                                             </li>
-                                            <li
-                                                className="col-md-4 col-6"
-                                            >
+                                            <li>
                                                 <span
                                                     style={
                                                         {
@@ -1365,11 +1359,10 @@ const ImageToImage = ({
                                         {/* End Positions List */}
                                         <h6 className="fw-bold option-section-name">Sizes</h6>
                                         {/* Start Sizes List */}
-                                        <ul className="sizes-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
+                                        <ul className="sizes-list text-center pb-3 art-painting-options-list">
                                             {global_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
                                                 <li
                                                     key={index}
-                                                    className="col-md-4 col-6"
                                                     onClick={() => handleSelectImageDimentions(dims.inCm)}
                                                 >
                                                     <span
@@ -1384,10 +1377,9 @@ const ImageToImage = ({
                                         {/* End Sizes List */}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">Border</h6>}
                                         {/* Start White Border */}
-                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list text-center pb-3 art-painting-options-list">
                                             <li
                                                 onClick={() => handleIsExistWhiteBorderWithPoster("without-border")}
-                                                className="col-md-6 col-12"
                                             >
                                                 <span
                                                     style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1397,7 +1389,6 @@ const ImageToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleIsExistWhiteBorderWithPoster("with-border")}
-                                                className="col-md-6 col-12"
                                             >
                                                 <span
                                                     style={isExistWhiteBorderWithPoster === "with-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1409,10 +1400,9 @@ const ImageToImage = ({
                                         {/* Start White Border */}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold">Frames</h6>}
                                         {/* Start Frames List */}
-                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="frames-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="frames-list text-center pb-3 art-painting-options-list">
                                             <li
                                                 onClick={() => handleSelectFrame("poster", "none")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "none" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1422,7 +1412,6 @@ const ImageToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "black")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1433,7 +1422,6 @@ const ImageToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "white")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1444,7 +1432,6 @@ const ImageToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "natural-wood")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1455,7 +1442,6 @@ const ImageToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "dark-wood")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1466,7 +1452,6 @@ const ImageToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "black")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1477,7 +1462,6 @@ const ImageToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "white")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1488,7 +1472,6 @@ const ImageToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "natural-wood")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1499,7 +1482,6 @@ const ImageToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "dark-wood")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1521,7 +1503,7 @@ const ImageToImage = ({
                                             <input
                                                 type="number"
                                                 placeholder="Quantity"
-                                                className={`quantity form-control border-2 ${formValidationErrors["quantity"] ? "border-danger" : "border-dark"}`}
+                                                className={`quantity form-control border-2 mb-3 ${formValidationErrors["quantity"] ? "border-danger" : "border-dark"}`}
                                                 onChange={(e) => setQuantity(e.target.value)}
                                                 defaultValue={quantity}
                                             />
