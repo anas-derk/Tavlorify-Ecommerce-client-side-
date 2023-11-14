@@ -85,6 +85,13 @@
   margin: 0 auto;
 }
 
+@media (max-width: 767px) {
+  .image-to-image-service .page-content .container-fluid .welcome-msg {
+    font-size: 18px;
+    line-height: 1.7;
+  }
+}
+
 .image-to-image-service .page-content .container-fluid .row .room-image-box {
   position: relative;
   max-width: 100%;
@@ -252,6 +259,18 @@
   background-color: #EEE;
 }
 
+@media (max-width: 767px) {
+  .image-to-image-service .page-content .container-fluid .row .image-before-processing-box .select-image-box .file-label {
+    height: 100px;
+  }
+}
+
+@media (max-width: 767px) {
+  .image-to-image-service .page-content .container-fluid .row .image-before-processing-box .select-image-box .file-label h6 {
+    font-size: 14px;
+  }
+}
+
 .image-to-image-service .page-content .container-fluid .row .image-before-processing-box .select-image-box .file-label .upload-image-icon {
   font-size: 18px;
 }
@@ -291,6 +310,13 @@
   cursor: pointer;
 }
 
+@media (max-width: 767px) {
+  .image-to-image-service .page-content .container-fluid .row .managment-create-image-btn {
+    padding: 4px;
+    font-size: 14px;
+  }
+}
+
 .image-to-image-service .page-content .container-fluid .row .art-painting-options {
   height: 400px;
   overflow-y: scroll;
@@ -302,7 +328,7 @@
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row {
   flex-wrap: nowrap;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box {
@@ -314,13 +340,26 @@
   border: 2px solid;
 }
 
+@media (max-width: 767px) {
+  .image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box .category-image {
+    width: 50px;
+    height: 50px;
+  }
+}
+
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box .category-name {
   font-size: 13px;
 }
 
+@media (max-width: 767px) {
+  .image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box .category-name {
+    font-size: 11px;
+  }
+}
+
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .styles .row {
   flex-wrap: nowrap;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .styles .style-box {
@@ -332,8 +371,21 @@
   border: 2px solid;
 }
 
+@media (max-width: 767px) {
+  .image-to-image-service .page-content .container-fluid .row .art-painting-options .styles .style-box .style-image {
+    width: 50px;
+    height: 50px;
+  }
+}
+
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .styles .style-box .style-name {
   font-size: 13px;
+}
+
+@media (max-width: 767px) {
+  .image-to-image-service .page-content .container-fluid .row .art-painting-options .styles .style-box .style-name {
+    font-size: 11px;
+  }
 }
 
 @media (max-width: 767px) {
@@ -387,6 +439,12 @@
   display: block;
   margin: 0 auto;
   width: 40px;
+}
+
+@media (max-width: 767px) {
+  .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .positions-list {
+    display: none;
+  }
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .positions-list span, .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .white-borders-list span {

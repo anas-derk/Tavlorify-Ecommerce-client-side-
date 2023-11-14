@@ -427,7 +427,7 @@ const ImageToImage = ({
         try {
             const res = await Axios.post(`${process.env.BASE_API_URL}/image-to-image/upload-image-and-processing`, imageToImageData, {
                 onUploadProgress: (progressEvent) => {
-                    setUploadingProgress(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2)) ;
+                    setUploadingProgress(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
                 }
             });
             setImageLink(`${process.env.BASE_API_URL}/${await res.data}`);
@@ -943,10 +943,10 @@ const ImageToImage = ({
                         onTouchEnd={handleTouchEnd}
                         style={{
                             width: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${windowInnerWidth < 490 ? global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 5 : global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 3}px` : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width}px`
+                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 5 : global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 3}px`) : (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 1.3 : global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width}px`)
                             ) : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 10}px`,
                             maxHeight: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${windowInnerWidth < 490 ? global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 5 : global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 3}px` : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height}px`
+                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 5 : global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 3}px`) : (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 1.3 : global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height}px`)
                             ) : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 10}px`,
                             cursor: isWillTheImageBeMoved ? "grab" : "",
                         }}
@@ -961,10 +961,10 @@ const ImageToImage = ({
                         className="image-box d-flex align-items-center justify-content-center"
                         style={{
                             width: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${(global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width) / 3}px` : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width}px`
+                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width / 5 : global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width / 3}px`) : (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width / 1.3 : global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width}px`)
                             ) : `${(global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width) / 10}px`,
                             height: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 3}px` : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height}px`
+                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 5 : global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 3}px`) : (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 1.3 : global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height}px`)
                             ) : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 10}px`,
                             backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
                             boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
@@ -1188,7 +1188,7 @@ const ImageToImage = ({
                                         {/* Start Select Image Box */}
                                         {!imageLink &&
                                             <div
-                                                className="select-image-box text-center"
+                                                className="select-image-box text-center mb-3"
                                                 onDragOver={handleDragFileOver}
                                                 onDragLeave={() => setIsDragFile(false)}
                                                 onDrop={handleDropFile}
@@ -1215,16 +1215,16 @@ const ImageToImage = ({
                                         {/* End Select Image Box */}
                                         {isUplodingFile && <div className="uploading-box mb-4 p-3 border border-2 border-secondary">
                                             <div className="progress mb-2" style={{ height: "30px" }}>
-                                                <div className="progress-bar" role="progressbar" style={{ width: `${uploadingProgress}%`, height: "30px" }} aria-valuenow={uploadingProgress} aria-valuemin="0" aria-valuemax="100">{ uploadingProgress } %</div>
+                                                <div className="progress-bar" role="progressbar" style={{ width: `${uploadingProgress}%`, height: "30px" }} aria-valuenow={uploadingProgress} aria-valuemin="0" aria-valuemax="100">{uploadingProgress} %</div>
                                             </div>
                                             <h6 className="m-0 fw-bold">Uploading Image Now ...</h6>
                                         </div>}
                                         <hr className="mb-2 mt-2" />
-                                        {imageLink && <button className="btn btn-dark w-50 mx-auto d-block" onClick={imageToImageGenerateByAI}>Create</button>}
-                                        {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block" disabled>Create</button>}
+                                        {imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" onClick={imageToImageGenerateByAI}>Create</button>}
+                                        {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>Create</button>}
                                     </div>
                                 </>}
-                                {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block" disabled>Creating ...</button>}
+                                {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>Creating ...</button>}
                                 <hr className="mb-2 mt-2" />
                                 {/* Start Art Painting Options Section */}
                                 <section className="art-painting-options pe-3 mb-3">
@@ -1233,7 +1233,7 @@ const ImageToImage = ({
                                     <section className="categories mb-4">
                                         <div className="row">
                                             {categoriesData.map((category, index) => (
-                                                <div className="col-sm-3 col-4" key={category._id}>
+                                                <div className="col-sm-2 col-3" key={category._id}>
                                                     {/* Start Category Box */}
                                                     <div
                                                         className="category-box text-center"
@@ -1262,7 +1262,7 @@ const ImageToImage = ({
                                         <div className="row">
                                             {/* Start Column */}
                                             {categoryStyles.map((style, index) => (
-                                                <div className="col-sm-3 col-4" key={index}>
+                                                <div className="col-sm-2 col-3" key={index}>
                                                     {/* Start Style Box */}
                                                     <div
                                                         className="style-box p-2 text-center"
@@ -1320,7 +1320,7 @@ const ImageToImage = ({
                                             </li>
                                         </ul>
                                         {/* EndArt Names List */}
-                                        <h6 className="fw-bold option-section-name">Positions</h6>
+                                        {windowInnerWidth > 767 && <h6 className="fw-bold option-section-name">Positions</h6>}
                                         {/* Start Positions List */}
                                         <ul className="positions-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
                                             <li
