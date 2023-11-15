@@ -52,6 +52,7 @@ import room2Image from "@/../../public/images/Rooms/room2.jpg";
 import { BiError } from "react-icons/bi";
 import { GrFormClose } from "react-icons/gr";
 import LoaderPage from "@/components/LoaderPage";
+import Carousel from 'react-bootstrap/Carousel';
 
 const ImageToImage = ({
     generatedImageId,
@@ -909,13 +910,13 @@ const ImageToImage = ({
     }
 
     const handleDisplayImageMode = (imageMode) => {
-        if (imageMode === "minimize-image") {
+        if (imageMode === "minimize-image" && windowInnerWidth > 991) {
             setImageMode("normal-size-image");
         }
-        if (imageMode === "image-inside-room1") {
+        if (imageMode === "image-inside-room1" && windowInnerWidth > 991) {
             setImageMode("image-inside-room1");
         }
-        if (imageMode === "image-inside-room2") {
+        if (imageMode === "image-inside-room2" && windowInnerWidth > 991) {
             setImageMode("image-inside-room2");
         }
     }
@@ -1136,6 +1137,32 @@ const ImageToImage = ({
         );
     }
 
+    const getGeneratedImageGallery = () => {
+        return (
+            <div className="generated-image-gallery">
+                {/* Start Carousel Component From Bootstrap */}
+                <Carousel indicators={true}>
+                    {/* Start Carousel Item */}
+                    <Carousel.Item>
+                        {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height}px`, undefined, false)}
+                    </Carousel.Item>
+                    {/* End Carousel Item */}
+                    {/* Start Carousel Item */}
+                    <Carousel.Item>
+                        {getImageInsideRoomBox(1, "minimize-room-image")}
+                    </Carousel.Item>
+                    {/* End Carousel Item */}
+                    {/* Start Carousel Item */}
+                    <Carousel.Item>
+                        {getImageInsideRoomBox(2, "minimize-room-image")}
+                    </Carousel.Item>
+                    {/* End Carousel Item */}
+                </Carousel>
+                {/* End Carousel Component From Bootstrap */}
+            </div>
+        )
+    }
+
     const getProductPrice = async (paintingType, position, dimentions) => {
         try {
             const res = await Axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
@@ -1212,21 +1239,22 @@ const ImageToImage = ({
                                     {getImageBeforeProcessingBox()}
                                 </div>}
                                 {/* Start Column */}
-                                <div className="col-lg-2">
+                                {windowInnerWidth > 991 && <div className="col-lg-2">
                                     {/* Start Art Painting Box */}
                                     {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 3}px`, "minimize-image", false)}
                                     {/* End Art Painting Box */}
                                     {getImageInsideRoomBox(1, "minimize-room-image")}
                                     {getImageInsideRoomBox(2, "minimize-room-image")}
-                                </div>
+                                </div>}
                                 {/* End Column */}
                                 {/* Start Column */}
                                 <div className="col-lg-5">
                                     {/* Start Art Painting Section */}
-                                    {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height}px`, undefined, false)}
+                                    {windowInnerWidth > 991 && getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height}px`, undefined, false)}
                                     {/* End Art Painting Section */}
                                     {getImageInsideRoomBox(1, undefined)}
                                     {getImageInsideRoomBox(2, undefined)}
+                                    {windowInnerWidth < 991 && getGeneratedImageGallery()}
                                 </div>
                                 {/* End Column */}
                             </>}

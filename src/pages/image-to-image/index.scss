@@ -85,9 +85,6 @@
                 .room-image-box{
                     position: relative;
                     max-width: 100%;
-                    @media (max-width: 991px) {
-                        display: none;
-                    }
                     img{
                         width: 100%;
                         max-width: 100%;
@@ -101,11 +98,6 @@
                 }
                 .art-painting{
                     position: relative;
-                    @media (max-width: 991px) {
-                        &.minimize-art-painting{
-                            display: none !important;
-                        }
-                    }
                     .frame-image-box{
                         max-width: 100%;
                         img{

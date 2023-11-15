@@ -107,12 +107,6 @@
   max-width: 100%;
 }
 
-@media (max-width: 991px) {
-  .image-to-image-service .page-content .container-fluid .row .room-image-box {
-    display: none;
-  }
-}
-
 .image-to-image-service .page-content .container-fluid .row .room-image-box img {
   width: 100%;
   max-width: 100%;
@@ -127,12 +121,6 @@
 
 .image-to-image-service .page-content .container-fluid .row .art-painting {
   position: relative;
-}
-
-@media (max-width: 991px) {
-  .image-to-image-service .page-content .container-fluid .row .art-painting.minimize-art-painting {
-    display: none !important;
-  }
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting .frame-image-box {
