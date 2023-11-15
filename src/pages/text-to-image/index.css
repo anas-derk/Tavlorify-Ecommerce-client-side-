@@ -1,9 +1,15 @@
+.text-to-image-service .page-content .container-fluid .art-painting .generated-image-box {
+  position: absolute;
+  z-index: -1;
+}
+
 .text-to-image-service .page-content .container-fluid .art-painting .canvas-image-box img {
   max-width: 100%;
 }
 
 .text-to-image-service .page-content .container-fluid .art-painting-options {
   height: 500px;
+  overflow-y: scroll;
 }
 
 .text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .text-prompt {

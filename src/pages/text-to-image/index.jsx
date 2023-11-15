@@ -49,6 +49,7 @@ import room2Image from "@/../../public/images/Rooms/room2.jpg";
 import { BiError } from "react-icons/bi";
 import { GrFormClose } from "react-icons/gr";
 import LoaderPage from "@/components/LoaderPage";
+import Carousel from 'react-bootstrap/Carousel';
 
 const TextToImage = ({
     generatedImageId,
@@ -654,13 +655,13 @@ const TextToImage = ({
     }
 
     const handleDisplayImageMode = (imageMode) => {
-        if (imageMode === "minimize-image") {
+        if (imageMode === "minimize-image" && windowInnerWidth > 991) {
             setImageMode("normal-size-image");
         }
-        if (imageMode === "image-inside-room1") {
+        if (imageMode === "image-inside-room1" && windowInnerWidth > 991) {
             setImageMode("image-inside-room1");
         }
-        if (imageMode === "image-inside-room2") {
+        if (imageMode === "image-inside-room2" && windowInnerWidth > 991) {
             setImageMode("image-inside-room2");
         }
     }
@@ -682,10 +683,10 @@ const TextToImage = ({
                         className="frame-image-box"
                         style={{
                             width: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${windowInnerWidth < 490 ? global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 5 : global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width}px`
+                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 5 : global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 3}px`) : (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 1.3 : global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width}px`)
                             ) : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 10}px`,
                             maxHeight: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${windowInnerWidth < 490 ? global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 5 : global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 3}px` : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height}px`
+                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 5 : global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 3}px`) : (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 1.3 : global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height}px`)
                             ) : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 10}px`,
                         }}
                     >
@@ -699,10 +700,10 @@ const TextToImage = ({
                         className="generated-image-box d-flex align-items-center justify-content-center"
                         style={{
                             width: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width) / 3}px` : `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width}px`
+                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width / 5 : global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width / 3}px`) : (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width / 1.3 : global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width}px`)
                             ) : `${(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width) / 10}px`,
                             height: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 3}px` : `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height}px`
+                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 5 : global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 3}px`) : (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 1.3 : global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height}px`)
                             ) : `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 10}px`,
                             boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
                             backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
@@ -766,6 +767,32 @@ const TextToImage = ({
                 )}
             </div>
         );
+    }
+
+    const getGeneratedImageGallery = () => {
+        return (
+            <div className="generated-image-gallery">
+                {/* Start Carousel Component From Bootstrap */}
+                <Carousel indicators={true}>
+                    {/* Start Carousel Item */}
+                    <Carousel.Item>
+                        {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined, false)}
+                    </Carousel.Item>
+                    {/* End Carousel Item */}
+                    {/* Start Carousel Item */}
+                    <Carousel.Item>
+                        {getImageInsideRoomBox(1, "minimize-room-image")}
+                    </Carousel.Item>
+                    {/* End Carousel Item */}
+                    {/* Start Carousel Item */}
+                    <Carousel.Item>
+                        {getImageInsideRoomBox(2, "minimize-room-image")}
+                    </Carousel.Item>
+                    {/* End Carousel Item */}
+                </Carousel>
+                {/* End Carousel Component From Bootstrap */}
+            </div>
+        )
     }
 
     const getProductPrice = async (paintingType, position, dimentions) => {
@@ -834,19 +861,22 @@ const TextToImage = ({
                             {/* End Column */}
                             {!errorMsg && <>
                                 {/* Start Column */}
-                                <div className="col-lg-2">
+                                {windowInnerWidth > 991 && <div className="col-lg-2">
                                     {/* Start Art Painting Box */}
                                     {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image", false)}
                                     {/* End Art Painting Box */}
                                     {getImageInsideRoomBox(1, "minimize-room-image")}
                                     {getImageInsideRoomBox(2, "minimize-room-image")}
-                                </div>
+                                </div>}
                                 {/* End Column */}
                                 {/* Start Column */}
                                 <div className="col-lg-5">
-                                    {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined, false)}
+                                    {/* Start Art Painting Section */}
+                                    {windowInnerWidth > 991 && getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined, false)}
+                                    {/* End Art Painting Section */}
                                     {getImageInsideRoomBox(1, undefined)}
                                     {getImageInsideRoomBox(2, undefined)}
+                                    {windowInnerWidth < 991 && getGeneratedImageGallery()}
                                 </div>
                                 {/* End Column */}
                             </>}
@@ -969,9 +999,8 @@ const TextToImage = ({
                                         {/* EndArt Names List */}
                                         <h6 className="fw-bold option-section-name">Positions</h6>
                                         {/* Start Positions List */}
-                                        <ul className="positions-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
+                                        <ul className="positions-list text-center pb-3 art-painting-options-list">
                                             <li
-                                                className="col-md-4 col-6"
                                                 onClick={() => handleSelectImageType("vertical")}
                                             >
                                                 <span
@@ -979,7 +1008,6 @@ const TextToImage = ({
                                                 >Vertical</span>
                                             </li>
                                             <li
-                                                className="col-md-4 col-6"
                                                 onClick={() => handleSelectImageType("horizontal")}
                                             >
                                                 <span
@@ -987,7 +1015,6 @@ const TextToImage = ({
                                                 >Horizontal</span>
                                             </li>
                                             <li
-                                                className="col-md-4 col-6"
                                                 onClick={() => handleSelectImageType("square")}
                                             >
                                                 <span
@@ -998,11 +1025,10 @@ const TextToImage = ({
                                         {/* End Positions List */}
                                         <h6 className="fw-bold option-section-name">Sizes</h6>
                                         {/* Start Sizes List */}
-                                        <ul className="sizes-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
+                                        <ul className="sizes-list text-center pb-3 art-painting-options-list">
                                             {global_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
                                                 <li
                                                     key={index}
-                                                    className="col-md-4 col-6"
                                                     onClick={() => handleSelectImageDimentions(dims.inCm)}
                                                 >
                                                     <span
@@ -1017,10 +1043,9 @@ const TextToImage = ({
                                         {/* End Sizes List */}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">Border</h6>}
                                         {/* Start White Border */}
-                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list text-center pb-3 art-painting-options-list">
                                             <li
                                                 onClick={() => handleIsExistWhiteBorderWithPoster("without-border")}
-                                                className="col-md-6 col-12"
                                             >
                                                 <span
                                                     style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1030,7 +1055,6 @@ const TextToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleIsExistWhiteBorderWithPoster("with-border")}
-                                                className="col-md-6 col-12"
                                             >
                                                 <span
                                                     style={isExistWhiteBorderWithPoster === "with-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1042,10 +1066,9 @@ const TextToImage = ({
                                         {/* Start White Border */}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">Frames</h6>}
                                         {/* Start Frames List */}
-                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="frames-list mb-4 text-center row flex-row pb-3 art-painting-options-list">
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="frames-list text-center pb-3 art-painting-options-list">
                                             <li
                                                 onClick={() => handleSelectFrame("poster", "none")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "none" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1055,7 +1078,6 @@ const TextToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "black")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1066,7 +1088,6 @@ const TextToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "white")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1077,7 +1098,6 @@ const TextToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "natural-wood")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1088,7 +1108,6 @@ const TextToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-wooden-frame", "dark-wood")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1099,7 +1118,6 @@ const TextToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "black")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1110,7 +1128,6 @@ const TextToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "white")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1121,7 +1138,6 @@ const TextToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "natural-wood")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
@@ -1132,7 +1148,6 @@ const TextToImage = ({
                                             </li>
                                             <li
                                                 onClick={() => handleSelectFrame("poster-with-hangers", "dark-wood")}
-                                                className="col-md-4 col-6"
                                             >
                                                 <span
                                                     style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
