@@ -674,6 +674,7 @@ const ImageToImage = ({
         setFrameColor(generatedImageData.frameColor);
         determine_is_will_the_image_be_moved_and_the_direction_of_displacement(generatedImageWidth, generatedImageHeight, tempPosition);
         setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
+        setImageLink(generatedImageData.uploadedImageURL);
         setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
         await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
         setSelectedPreviousGeneratedImageIndex(selectedImageIndex);
@@ -1542,7 +1543,7 @@ const ImageToImage = ({
                                 <h6 className="m-0 fw-bold d-inline">Generated Images: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
                             </div>
                             <div className="col-lg-10">
-                                {generatedImagesData && !isWaitStatus ? <ul className="generated-images-list text-center p-4">
+                                {generatedImagesData && !isWaitStatus && <ul className="generated-images-list text-center p-4">
                                     {generatedImagesData.map((generatedImageData, index) => (
                                         index < 10 && <Fragment key={generatedImageData._id}>
                                             <li
@@ -1558,7 +1559,8 @@ const ImageToImage = ({
                                         </Fragment>
                                     ))}
                                     {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Show More</button>}
-                                </ul> : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Sorry, Can't Find Any Generated Images From You !!</p>}
+                                </ul>}
+                                {generatedImagesData.length === 0 && <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Sorry, Can't Find Any Generated Images From You !!</p>}
                             </div>
                         </section>
                         {/* Start Generated Images Section */}

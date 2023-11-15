@@ -36,6 +36,8 @@
 
 .image-to-image-service .generated-images .generated-images-list .generated-images-item {
   cursor: pointer;
+  background-size: cover;
+  background-position: center;
 }
 
 .image-to-image-service .generated-images .generated-images-list .generated-images-item .generated-image {
@@ -480,12 +482,12 @@
   height: 55px;
 }
 
-.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list span {
-  height: 70px;
-}
-
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list {
   grid-template-columns: repeat(4, auto);
+}
+
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list span {
+  height: 70px;
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .white-borders-list {
@@ -493,8 +495,14 @@
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list {
-  grid-template-columns: repeat(9, 75px);
+  grid-template-columns: repeat(9, 100px);
   grid-auto-flow: column;
+}
+
+@media (max-width: 991px) {
+  .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list {
+    grid-template-columns: repeat(9, 75px);
+  }
 }
 
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list span {

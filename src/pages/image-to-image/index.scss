@@ -24,6 +24,8 @@
             overflow-x: auto;
             .generated-images-item{
                 cursor: pointer;
+                background-size: cover;
+                background-position: center;
                 .generated-image{
                     width: inherit;
                     height: inherit;
@@ -396,19 +398,20 @@
                             }
                         }
                         .sizes-list{
+                            grid-template-columns: repeat(4, auto);
                             span{
                                 height: 70px;
                             }
-                        }
-                        .sizes-list{
-                            grid-template-columns: repeat(4, auto);
                         }
                         .white-borders-list{
                             grid-template-columns: repeat(2, auto);
                         }
                         .frames-list{
-                            grid-template-columns: repeat(9, 75px);
+                            grid-template-columns: repeat(9, 100px);
                             grid-auto-flow: column;
+                            @media(max-width: 991px){
+                                grid-template-columns: repeat(9, 75px);
+                            }
                             span{
                                 height: 90px;
                             }
