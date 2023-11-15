@@ -1265,62 +1265,64 @@ const ImageToImage = ({
                                 <hr className="mb-2 mt-2" />
                                 {/* Start Art Painting Options Section */}
                                 <section className="art-painting-options pe-3 mb-4">
-                                    <h6 className="mb-2 fw-bold option-section-name">Please Select Category</h6>
-                                    {/* Start Categories Section */}
-                                    <section className="categories mb-3">
-                                        <div className="row">
-                                            {categoriesData.map((category, index) => (
-                                                <div className="col-sm-2 col-3 col-md-3" key={category._id}>
-                                                    {/* Start Category Box */}
-                                                    <div
-                                                        className="category-box text-center"
-                                                        onClick={() => handleSelectCategory(index)}
-                                                    >
-                                                        <img
-                                                            src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
-                                                            alt={`${category.name} Image`}
-                                                            className="category-image mb-2"
-                                                            style={index === categorySelectedIndex ? { border: "4px solid #000" } : {}}
-                                                            onDragStart={(e) => e.preventDefault()}
-                                                        />
-                                                        <h6 className="category-name text-center">{category.name}</h6>
+                                    <section className="generating-image-options">
+                                        <h6 className="mb-2 fw-bold option-section-name">Please Select Category</h6>
+                                        {/* Start Categories Section */}
+                                        <section className="categories mb-3">
+                                            <div className="row">
+                                                {categoriesData.map((category, index) => (
+                                                    <div className="col-sm-2 col-3 col-md-3" key={category._id}>
+                                                        {/* Start Category Box */}
+                                                        <div
+                                                            className="category-box text-center"
+                                                            onClick={() => handleSelectCategory(index)}
+                                                        >
+                                                            <img
+                                                                src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
+                                                                alt={`${category.name} Image`}
+                                                                className="category-image mb-2"
+                                                                style={index === categorySelectedIndex ? { border: "4px solid #000" } : {}}
+                                                                onDragStart={(e) => e.preventDefault()}
+                                                            />
+                                                            <h6 className="category-name text-center">{category.name}</h6>
+                                                        </div>
+                                                        {/* End Category Box */}
                                                     </div>
-                                                    {/* End Category Box */}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </section>
-                                    {/* End Categories Section */}
-                                    <h6 className="mb-2 fw-bold option-section-name">Please Select Style</h6>
-                                    {/* Start Styles Section */}
-                                    <section className="styles mb-3">
-                                        {/* Start Grid System */}
-                                        <div className="row">
-                                            {/* Start Column */}
-                                            {categoryStyles.map((style, index) => (
-                                                <div className="col-sm-2 col-3 col-md-3" key={index}>
-                                                    {/* Start Style Box */}
-                                                    <div
-                                                        className="style-box p-2 text-center"
-                                                        onClick={() => handleSelectStyle(index)}
-                                                    >
-                                                        <img
-                                                            src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
-                                                            alt={`${style.name} Image`}
-                                                            className="mb-2 style-image"
-                                                            style={index === styleSelectedIndex ? { border: "4px solid #000" } : {}}
-                                                            onDragStart={(e) => e.preventDefault()}
-                                                        />
-                                                        <p className="style-name m-0 text-center">{style.name}</p>
+                                                ))}
+                                            </div>
+                                        </section>
+                                        {/* End Categories Section */}
+                                        <h6 className="mb-2 fw-bold option-section-name">Please Select Style</h6>
+                                        {/* Start Styles Section */}
+                                        <section className="styles mb-3">
+                                            {/* Start Grid System */}
+                                            <div className="row">
+                                                {/* Start Column */}
+                                                {categoryStyles.map((style, index) => (
+                                                    <div className="col-sm-2 col-3 col-md-3" key={index}>
+                                                        {/* Start Style Box */}
+                                                        <div
+                                                            className="style-box p-2 text-center"
+                                                            onClick={() => handleSelectStyle(index)}
+                                                        >
+                                                            <img
+                                                                src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
+                                                                alt={`${style.name} Image`}
+                                                                className="mb-2 style-image"
+                                                                style={index === styleSelectedIndex ? { border: "4px solid #000" } : {}}
+                                                                onDragStart={(e) => e.preventDefault()}
+                                                            />
+                                                            <p className="style-name m-0 text-center">{style.name}</p>
+                                                        </div>
+                                                        {/* End Style Box */}
                                                     </div>
-                                                    {/* End Style Box */}
-                                                </div>
-                                            ))}
-                                            {/* End Column */}
-                                        </div>
-                                        {/* End Grid System */}
+                                                ))}
+                                                {/* End Column */}
+                                            </div>
+                                            {/* End Grid System */}
+                                        </section>
+                                        {/* End Styles Section */}
                                     </section>
-                                    {/* End Styles Section */}
                                     {/* Start Art Name And Price Section */}
                                     <section className="art-name-and-price mb-2">
                                         {/* Start Grid System */}
