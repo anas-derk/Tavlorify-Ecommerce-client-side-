@@ -4,20 +4,25 @@ import { GoSignOut } from "react-icons/go";
 import { BsCart2, BsInfoCircle } from "react-icons/bs";
 import { AiOutlineHome, AiOutlineUserAdd } from "react-icons/ai";
 import { FiLogIn } from "react-icons/fi";
-import { FaQuestion } from "react-icons/fa";
+import { FaQuestion, FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router.js";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { BsTrash } from "react-icons/bs";
+import { BsTrash, BsPaintBucket } from "react-icons/bs";
 import global_data from "../../../public/data/global";
 import { GrFormClose } from "react-icons/gr";
+import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
+import { FaLongArrowAltRight } from "react-icons/fa";
 import Axios from "axios";
+import { MdOutlineContactPhone } from "react-icons/md";
 
 const Header = ({ newTotalProductsCount }) => {
     const [userId, setUserId] = useState({});
     const [allProductsData, setAllProductsData] = useState([]);
     const [totalProductsCount, setTotalProductsCount] = useState(null);
     const [isDisplayAllProductManagmentBox, setIsDisplayAllProductManagmentBox] = useState(false);
+    const [isDisplayAllLinksBox, setIsDisplayAllLinksBox] = useState(false);
+    const [displayingTheCustomDropdownMenuNames, setDisplayingTheCustomDropdownMenuNames] = useState([]);
     const [pricesDetailsSummary, setPricesDetailsSummary] = useState({
         totalPriceBeforeDiscount: 0,
         totalDiscount: 0,
@@ -143,6 +148,7 @@ const Header = ({ newTotalProductsCount }) => {
     return (
         // Start Global Header
         <header className="global-header">
+            {/* Start Navbar Component From Bootstrap */}
             <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top pt-3">
                 <div className="container-fluid">
                     <Link className="navbar-brand fw-bold" href="/">Tavlorify Store</Link>
@@ -233,7 +239,7 @@ const Header = ({ newTotalProductsCount }) => {
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" aria-current="page" href="/contact-us">
-                                    <BsCart2 />
+                                    <MdOutlineContactPhone />
                                     <span className="ms-2">Contact Us</span>
                                 </Link>
                             </li>
@@ -373,6 +379,129 @@ const Header = ({ newTotalProductsCount }) => {
                         </ul>
                     </div>
                 </div>
+            </nav>
+            {/* Start Navbar Component From Bootstrap */}
+            <nav className="custom-navbar-for-mobiles-and-tablets-devices fixed-top p-3 d-flex justify-content-between align-items-center">
+                {!isDisplayAllLinksBox && <FaBars className="bar-icon icon" onClick={() => setIsDisplayAllLinksBox(true)} />}
+                {isDisplayAllLinksBox && <GrFormClose className="close-all-links-box icon" onClick={() => setIsDisplayAllLinksBox(false)} />}
+                <Link href="/" className="home-link">
+                    <h5 className="fw-bold web-app-name mb-0">Tavlorify Store</h5>
+                </Link>
+                <div className="cart-icon-box">
+                    {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon icon" onClick={displayAllProductManagmentBox} />}
+                    {isDisplayAllProductManagmentBox && <GrFormClose className="close-all-product-managment-box icon" onClick={closeAllProductManagmentBox} />}
+                    {!isDisplayAllProductManagmentBox && <span className="total-products-count-box fw-bold">{totalProductsCount}</span>}
+                </div>
+                {isDisplayAllLinksBox && <ul className="links-list">
+                    <li className="link-item p-3 border-bottom border-2">
+                        <Link className="link" aria-current="page" href="/">
+                            <AiOutlineHome />
+                            <span className="ms-2">Home</span>
+                        </Link>
+                    </li>
+                    <li className="link-item p-3 border-bottom border-2">
+                        <BsPaintBucket />
+                        <span className="ms-2">Poster</span>
+                        {!displayingTheCustomDropdownMenuNames.includes("poster-dropdown-menu") && <IoIosArrowRoundDown className="icon" onClick={() => setDisplayingTheCustomDropdownMenuNames([...displayingTheCustomDropdownMenuNames, "poster-dropdown-menu"])} />}
+                        {displayingTheCustomDropdownMenuNames.includes("poster-dropdown-menu") && <IoIosArrowRoundUp className="icon" onClick={() => setDisplayingTheCustomDropdownMenuNames(displayingTheCustomDropdownMenuNames.filter(name => name !== "poster-dropdown-menu"))} />}
+                        {displayingTheCustomDropdownMenuNames.includes("poster-dropdown-menu") && <ul className="dropdown-menu-for-custom-navbar mt-2">
+                            <li className="pt-2 pb-2 dropdown-menu-item-for-custom-navbar">
+                                <Link
+                                    className="link"
+                                    href={{
+                                        pathname: "/text-to-image",
+                                        query: {
+                                            paintingTypeAsQuery: "poster",
+                                        }
+                                    }}
+                                >
+                                    <FaLongArrowAltRight className="me-2" />
+                                    <span>Text To Image</span>
+                                </Link>
+                            </li>
+                            <li className="pt-2 pb-2 dropdown-menu-item-for-custom-navbar">
+                                <Link
+                                    className="link"
+                                    href={{
+                                        pathname: "/image-to-image",
+                                        query: {
+                                            paintingTypeAsQuery: "poster",
+                                        }
+                                    }}
+                                >
+                                    <FaLongArrowAltRight className="me-2" />
+                                    <span>Image To Image</span>
+                                </Link>
+                            </li>
+                        </ul>}
+                    </li>
+                    <li className="link-item p-3 border-bottom border-2">
+                        <BsPaintBucket />
+                        <span className="ms-2">Canvas</span>
+                        {!displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") && <IoIosArrowRoundDown className="icon" onClick={() => setDisplayingTheCustomDropdownMenuNames([...displayingTheCustomDropdownMenuNames, "canvas-dropdown-menu"])} />}
+                        {displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") && <IoIosArrowRoundUp className="icon" onClick={() => setDisplayingTheCustomDropdownMenuNames(displayingTheCustomDropdownMenuNames.filter(name => name !== "canvas-dropdown-menu"))} />}
+                        {displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") && <ul className="dropdown-menu-for-custom-navbar mt-2">
+                            <li className="pt-2 pb-2 dropdown-menu-item-for-custom-navbar">
+                                <Link
+                                    className="link"
+                                    href={{
+                                        pathname: "/text-to-image",
+                                        query: {
+                                            paintingTypeAsQuery: "canvas",
+                                        }
+                                    }}
+                                >
+                                    <FaLongArrowAltRight className="me-2" />
+                                    <span>Text To Image</span>
+                                </Link>
+                            </li>
+                            <li className="pt-2 pb-2 dropdown-menu-item-for-custom-navbar">
+                                <Link
+                                    className="link"
+                                    href={{
+                                        pathname: "/image-to-image",
+                                        query: {
+                                            paintingTypeAsQuery: "canvas",
+                                        }
+                                    }}
+                                >
+                                    <FaLongArrowAltRight className="me-2" />
+                                    <span>Image To Image</span>
+                                </Link>
+                            </li>
+                        </ul>}
+                    </li>
+                    <li className="link-item p-3 border-bottom border-2">
+                        <Link className="link" aria-current="page" href="/who-are-we">
+                            <AiOutlineHome />
+                            <span className="ms-2">Who Are We ?</span>
+                        </Link>
+                    </li>
+                    <li className="link-item p-3 border-bottom border-2">
+                        <Link className="link" aria-current="page" href="/contact-us">
+                            <MdOutlineContactPhone />
+                            <span className="ms-2">Contact Us</span>
+                        </Link>
+                    </li>
+                    <li className="link-item p-3 border-bottom border-2">
+                        <Link className="link" aria-current="page" href="/faq">
+                            <FaQuestion />
+                            <span className="ms-2">FAQ</span>
+                        </Link>
+                    </li>
+                    <li className="link-item p-3 border-bottom border-2">
+                        <Link className="link" aria-current="page" href="/login">
+                            <FiLogIn />
+                            <span className="ms-2">Login</span>
+                        </Link>
+                    </li>
+                    <li className="link-item p-3 border-bottom border-2">
+                        <Link className="link" aria-current="page" href="/sign-up">
+                            <AiOutlineHome />
+                            <span className="ms-2">Sign Up</span>
+                        </Link>
+                    </li>
+                </ul>}
             </nav>
         </header>
         // End Global Header

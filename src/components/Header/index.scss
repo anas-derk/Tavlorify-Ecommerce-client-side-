@@ -2,6 +2,9 @@
     .navbar{
         background-color: #FFF;
         border-bottom: 1px solid #CCC;
+        @media (max-width: 991px) {
+            display: none;
+        }
         .container-fluid{
             .navbar-brand{
                 color: #000;
@@ -85,6 +88,58 @@
                 &:hover{
                     background-color: #DDD;
                     border-radius: 4px;
+                }
+            }
+        }
+    }
+    .custom-navbar-for-mobiles-and-tablets-devices{
+        height: 70px;
+        border-bottom: 1px solid #CCC;
+        background-color: #EEE;
+        @media (min-width: 992px) {
+            display: none !important;
+        }
+        .icon{
+            cursor: pointer;
+            font-size: 20px;
+        }
+        .home-link{
+            color: #000;
+        }
+        .cart-icon-box{
+            position: relative;
+            .total-products-count-box{
+                position: absolute;
+                top: -18px;
+                left: 10px;
+                font-size: 15px;
+                background-color: #000;
+                color: #FFF;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                text-align: center;
+            }
+        }
+        .links-list{
+            position: absolute;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 70px);
+            background-color: #444;
+            .link-item{
+                color: #FFF;
+                .dropdown-menu-for-custom-navbar{
+                    .dropdown-menu-item-for-custom-navbar{
+                        text-indent: 15px;
+                    }
+                }
+                .link{
+                    &:hover{
+                        font-weight: bold;
+                        color: #FFF;
+                    }
                 }
             }
         }
