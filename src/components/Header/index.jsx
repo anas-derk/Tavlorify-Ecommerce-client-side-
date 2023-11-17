@@ -43,6 +43,198 @@ const Header = ({ newTotalProductsCount }) => {
             setTotalProductsCount(0);
         }
     }, [newTotalProductsCount]);
+    const getCartManagmentBoxInMediumScreensAndHigher = () => {
+        return (
+            <div className="cart-managment-box-in-medium-screens-and-higher cart-managment-box pb-3 ps-3 pe-3">
+                {allProductsData.length > 0 ? allProductsData.map((productData) => (
+                    <div className="row bg-white align-items-center" key={productData._id}>
+                        <div className="col-3 p-3 text-center">
+                            <Link href={{
+                                pathname: `/${productData.service}`,
+                                query: {
+                                    generatedImageId: productData._id,
+                                }
+                            }}>
+                                <img
+                                    src={`${process.env.BASE_API_URL}/${productData.generatedImageURL}`}
+                                    alt="product Image !!"
+                                    className="product-image"
+                                    width={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].width / 6}`}
+                                    height={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].height / 6}`}
+                                />
+                            </Link>
+                        </div>
+                        <div className="col-4 p-3 text-start">
+                            <h6 className="fw-bold">{productData.paintingType}</h6>
+                            <h6>Frame: {productData.frameColor}</h6>
+                            <h6>{productData.isExistWhiteBorder}</h6>
+                            <h6>{productData.size} Cm</h6>
+                            <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
+                            {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount * productData.quantity} kr</h6>}
+                        </div>
+                        <div className="col-3 text-center">
+                            <AiOutlineMinus
+                                className="quantity-control-icon me-2"
+                                onClick={() => updateProductQuantityInCart(allProductsData, "decrease-product-quantity", productData._id)}
+                            />
+                            <span className="fw-bold me-2">{productData.quantity}</span>
+                            <AiOutlinePlus
+                                className="quantity-control-icon"
+                                onClick={() => updateProductQuantityInCart(allProductsData, "increase-product-quantity", productData._id)}
+                            />
+                        </div>
+                        <div className="col-2 text-center">
+                            <BsTrash
+                                className="trash-icon"
+                                onClick={() => deleteProductFromCart(allProductsData, productData._id)}
+                            />
+                        </div>
+                    </div>
+                )) : <div className="not-found-any-products-alert-box fw-bold text-center d-flex flex-column align-items-center justify-content-center">
+                    <BsCart2 className="cart-icon mb-4" />
+                    <h4 className="fw-bold">Sorry, Your Cart Is Empty !!</h4>
+                </div>}
+                {allProductsData.length > 0 && <>
+                    <div className="row bg-white border border-2 align-items-center text-center mb-3">
+                        <div className="col-md-12 p-4 pt-3 fw-bold">
+                            <div className="row mb-3">
+                                <div className="col-md-9 text-start">Total Price Before Discount</div>
+                                <div className="col-md-3 text-end">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
+                            </div>
+                            {pricesDetailsSummary.totalDiscount > 0 && <div className="row mb-3">
+                                <div className="col-md-9 text-start">Total Discount</div>
+                                <div className="col-md-3 text-danger text-end">-{pricesDetailsSummary.totalDiscount} kr</div>
+                            </div>}
+                            <div className="row">
+                                <div className="col-md-9 text-start">Shipping</div>
+                                <div className="col-md-3 text-end">0 kr</div>
+                            </div>
+                            <hr />
+                            <div className="row">
+                                <div className="col-md-9 text-start">Total Price After Discount</div>
+                                <div className="col-md-3 text-end">{pricesDetailsSummary.totalPriceAfterDiscount} kr</div>
+                            </div>
+                        </div>
+                    </div>
+                    {!isCreatingOrder && !isExistErrorInCreatingOrder && <button
+                        className="btn btn-dark w-100 p-2 create-new-order-btn go-to-checkout-managment-btn"
+                        onClick={createNewOrder}
+                    >
+                        Go To Checkout
+                    </button>}
+                    {isCreatingOrder && <button
+                        className="btn btn-dark w-100 p-2 go-to-checkout-managment-btn"
+                        disabled
+                    >
+                        Please Waiting ..
+                    </button>}
+                    {isExistErrorInCreatingOrder && <button
+                        className="btn btn-dark w-100 p-2 go-to-checkout-managment-btn"
+                        disabled
+                    >
+                        Sorry, Something Went Wrong, Please Try Again !!
+                    </button>}
+                </>}
+            </div>
+        );
+    }
+    const getCartManagmentBoxInMobileScreens = () => {
+        return (
+            <div className="cart-managment-box-in-mobile-screens cart-managment-box pb-3 ps-2 pe-2">
+                {allProductsData.length > 0 ? <div className="products-details-and-managment p-3">
+                    {allProductsData.map((productData) => (
+                        <div className="row bg-white align-items-center pb-3 pe-3" key={productData._id}>
+                            <div className="col-12 pt-3 text-center">
+                                <Link href={{
+                                    pathname: `/${productData.service}`,
+                                    query: {
+                                        generatedImageId: productData._id,
+                                    }
+                                }}>
+                                    <img
+                                        src={`${process.env.BASE_API_URL}/${productData.generatedImageURL}`}
+                                        alt="product Image !!"
+                                        className="product-image"
+                                        width={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].width / 6}`}
+                                        height={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].height / 6}`}
+                                    />
+                                </Link>
+                            </div>
+                            <div className="col-12 p-3 text-center">
+                                <h6 className="fw-bold">{productData.paintingType}</h6>
+                                <h6>Frame: {productData.frameColor}</h6>
+                                <h6>{productData.isExistWhiteBorder}</h6>
+                                <h6>{productData.size} Cm</h6>
+                            </div>
+                            <div className="col-4">
+                                <AiOutlineMinus
+                                    className="quantity-control-icon me-2"
+                                    onClick={() => updateProductQuantityInCart(allProductsData, "decrease-product-quantity", productData._id)}
+                                />
+                                <span className="fw-bold me-2">{productData.quantity}</span>
+                                <AiOutlinePlus
+                                    className="quantity-control-icon"
+                                    onClick={() => updateProductQuantityInCart(allProductsData, "increase-product-quantity", productData._id)}
+                                />
+                            </div>
+                            <div className="col-4 text-center">
+                                <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
+                                {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount * productData.quantity} kr</h6>}
+                            </div>
+                            <div className="col-4 text-end">
+                                <BsTrash
+                                    className="trash-icon"
+                                    onClick={() => deleteProductFromCart(allProductsData, productData._id)}
+                                />
+                            </div>
+                        </div>
+                    ))}
+                </div> : <div className="not-found-any-products-alert-box fw-bold text-center d-flex flex-column align-items-center justify-content-center">
+                    <BsCart2 className="cart-icon mb-4" />
+                    <h4 className="fw-bold">Sorry, Your Cart Is Empty !!</h4>
+                </div>}
+                {allProductsData.length > 0 && <>
+                    <div className="summary-box bg-white border border-2 text-center mb-3 m-3 p-3">
+                        <div className="row mb-3 m-0">
+                            <div className="col-9 text-start fw-bold">Total Price Before Discount</div>
+                            <div className="col-3 text-end fw-bold">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
+                        </div>
+                        {pricesDetailsSummary.totalDiscount > 0 && <div className="row mb-3 m-0">
+                            <div className="col-9 text-start fw-bold">Total Discount</div>
+                            <div className="col-3 text-danger text-end fw-bold">-{pricesDetailsSummary.totalDiscount} kr</div>
+                        </div>}
+                        <div className="row m-0">
+                            <div className="col-9 text-start fw-bold">Shipping</div>
+                            <div className="col-3 text-end fw-bold">0 kr</div>
+                        </div>
+                        <hr />
+                        <div className="row m-0">
+                            <div className="col-9 text-start fw-bold">Total Price After Discount</div>
+                            <div className="col-3 text-end fw-bold">{pricesDetailsSummary.totalPriceAfterDiscount} kr</div>
+                        </div>
+                    </div>
+                    {!isCreatingOrder && !isExistErrorInCreatingOrder && <button
+                        className="btn btn-dark w-75 p-3 create-new-order-btn go-to-checkout-managment-btn d-block mx-auto"
+                        onClick={createNewOrder}
+                    >
+                        Go To Checkout
+                    </button>}
+                    {isCreatingOrder && <button
+                        className="btn btn-dark w-75 p-2 go-to-checkout-managment-btn d-block mx-auto"
+                        disabled
+                    >
+                        Please Waiting ..
+                    </button>}
+                    {isExistErrorInCreatingOrder && <button
+                        className="btn btn-dark w-75 p-2 go-to-checkout-managment-btn d-block mx-auto"
+                        disabled
+                    >
+                        Sorry, Something Went Wrong, Please Try Again !!
+                    </button>}
+                </>}
+            </div>
+        );
+    }
     const displayAllProductManagmentBox = () => {
         let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         if (allProductsData) {
@@ -268,97 +460,7 @@ const Header = ({ newTotalProductsCount }) => {
                                     {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon" onClick={displayAllProductManagmentBox} />}
                                     {isDisplayAllProductManagmentBox && <GrFormClose className="close-all-product-managment-box" onClick={closeAllProductManagmentBox} />}
                                     {!isDisplayAllProductManagmentBox && <span className="total-products-count-box fw-bold">{totalProductsCount}</span>}
-                                    {isDisplayAllProductManagmentBox && <div className="all-products-managment-box pb-3 ps-3 pe-3">
-                                        {allProductsData.length > 0 ? allProductsData.map((productData) => (
-                                            <div className="row bg-white align-items-center" key={productData._id}>
-                                                <div className="col-md-3 p-3 text-center">
-                                                    <Link href={{
-                                                        pathname: `/${productData.service}`,
-                                                        query: {
-                                                            generatedImageId: productData._id,
-                                                        }
-                                                    }}>
-                                                        <img
-                                                            src={`${process.env.BASE_API_URL}/${productData.generatedImageURL}`}
-                                                            alt="product Image !!"
-                                                            className="product-image"
-                                                            width={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].width / 6}`}
-                                                            height={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].height / 6}`}
-                                                        />
-                                                    </Link>
-                                                </div>
-                                                <div className="col-md-4 p-3 text-start">
-                                                    <h6 className="fw-bold">{productData.paintingType}</h6>
-                                                    <h6>Frame: {productData.frameColor}</h6>
-                                                    <h6>{productData.isExistWhiteBorder}</h6>
-                                                    <h6>{productData.size} Cm</h6>
-                                                    <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
-                                                    {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount * productData.quantity} kr</h6>}
-                                                </div>
-                                                <div className="col-md-3 text-center">
-                                                    <AiOutlineMinus
-                                                        className="quantity-control-icon me-2"
-                                                        onClick={() => updateProductQuantityInCart(allProductsData, "decrease-product-quantity", productData._id)}
-                                                    />
-                                                    <span className="fw-bold me-2">{productData.quantity}</span>
-                                                    <AiOutlinePlus
-                                                        className="quantity-control-icon"
-                                                        onClick={() => updateProductQuantityInCart(allProductsData, "increase-product-quantity", productData._id)}
-                                                    />
-                                                </div>
-                                                <div className="col-md-2 text-center">
-                                                    <BsTrash
-                                                        className="trash-icon"
-                                                        onClick={() => deleteProductFromCart(allProductsData, productData._id)}
-                                                    />
-                                                </div>
-                                            </div>
-                                        )) : <div className="not-found-any-products-alert-box fw-bold text-center d-flex flex-column align-items-center justify-content-center">
-                                            <BsCart2 className="cart-icon mb-4" />
-                                            <h4 className="fw-bold">Sorry, Your Cart Is Empty !!</h4>
-                                        </div>}
-                                        {allProductsData.length > 0 && <>
-                                            <div className="row bg-white border border-2 align-items-center text-center mb-3">
-                                                <div className="col-md-12 p-4 pt-3 fw-bold">
-                                                    <div className="row mb-3">
-                                                        <div className="col-md-9 text-start">Total Price Before Discount</div>
-                                                        <div className="col-md-3 text-end">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
-                                                    </div>
-                                                    {pricesDetailsSummary.totalDiscount > 0 && <div className="row mb-3">
-                                                        <div className="col-md-9 text-start">Total Discount</div>
-                                                        <div className="col-md-3 text-danger text-end">-{pricesDetailsSummary.totalDiscount} kr</div>
-                                                    </div>}
-                                                    <div className="row">
-                                                        <div className="col-md-9 text-start">Shipping</div>
-                                                        <div className="col-md-3 text-end">0 kr</div>
-                                                    </div>
-                                                    <hr />
-                                                    <div className="row">
-                                                        <div className="col-md-9 text-start">Total Price After Discount</div>
-                                                        <div className="col-md-3 text-end">{pricesDetailsSummary.totalPriceAfterDiscount} kr</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {!isCreatingOrder && !isExistErrorInCreatingOrder && <button
-                                                className="btn btn-dark w-100 p-3 create-new-order-btn go-to-checkout-managment-btn"
-                                                onClick={createNewOrder}
-                                            >
-                                                Go To Checkout
-                                            </button>}
-                                            {isCreatingOrder && <button
-                                                className="btn btn-dark w-100 p-3 go-to-checkout-managment-btn"
-                                                disabled
-                                            >
-                                                Please Waiting ..
-                                            </button>}
-                                            {isExistErrorInCreatingOrder && <button
-                                                className="btn btn-dark w-100 p-3 go-to-checkout-managment-btn"
-                                                disabled
-                                            >
-                                                Sorry, Something Went Wrong, Please Try Again !!
-                                            </button>}
-                                        </>}
-                                    </div>}
+                                    {isDisplayAllProductManagmentBox && getCartManagmentBoxInMediumScreensAndHigher()}
                                 </div>
                             </li>
                             {userId && <>
@@ -502,6 +604,7 @@ const Header = ({ newTotalProductsCount }) => {
                         </Link>
                     </li>
                 </ul>}
+                {isDisplayAllProductManagmentBox && getCartManagmentBoxInMobileScreens()}
             </nav>
         </header>
         // End Global Header

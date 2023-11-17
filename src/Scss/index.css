@@ -239,7 +239,7 @@ a {
 
 @media (max-width: 767px) {
   .welcome-msg {
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1.5;
     padding-bottom: 7px !important;
     margin-bottom: 15px !important;

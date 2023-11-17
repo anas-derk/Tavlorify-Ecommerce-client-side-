@@ -1,4 +1,38 @@
 .global-header {
+    .cart-managment-box{
+        position: absolute;
+        > .row{
+            border-bottom: 1px solid #CCC;
+        }
+        h6{
+            font-size: 15px;
+        }
+        .quantity-control-icon{
+            cursor: pointer;
+            border: 2px solid #CCC;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            line-height: 25px;
+            &:hover{
+                background-color: #EEE;
+            }
+        }
+        .trash-icon{
+            cursor: pointer;
+            font-size: 22px;
+        }
+        .not-found-any-products-alert-box{
+            background-color: #FFF;
+            height: 100%;
+            .cart-icon{
+                font-size: 100px;
+            }
+        }
+        .go-to-checkout-managment-btn{
+            font-size: 14px;
+        }
+    }
     .navbar{
         background-color: #FFF;
         border-bottom: 1px solid #CCC;
@@ -42,10 +76,9 @@
                             color: #FFF;
                             border-radius: 50%;
                         }
-                        .all-products-managment-box{
-                            position: absolute;
-                            right: 0;
+                        .cart-managment-box-in-medium-screens-and-higher{
                             top: 120%;
+                            right: 0;
                             width: 500px;
                             max-height: 500px;
                             overflow-x: hidden;
@@ -53,35 +86,7 @@
                             border-radius: 5px;
                             z-index: 1001;
                             border: 3px solid;
-                            > .row{
-                                border-bottom: 1px solid #CCC;
-                            }
                             background-color: #FFF;
-                            .quantity-control-icon{
-                                cursor: pointer;
-                                border: 2px solid #CCC;
-                                border-radius: 50%;
-                                width: 25px;
-                                height: 25px;
-                                line-height: 25px;
-                                &:hover{
-                                    background-color: #EEE;
-                                }
-                            }
-                            .trash-icon{
-                                cursor: pointer;
-                                font-size: 22px;
-                            }
-                            .not-found-any-products-alert-box{
-                                background-color: #FFF;
-                                height: 100%;
-                                .cart-icon{
-                                    font-size: 100px;
-                                }
-                            }
-                            .go-to-checkout-managment-btn{
-                                font-size: 14px;
-                            }
                         }
                     }
                 }
@@ -141,6 +146,18 @@
                         color: #FFF;
                     }
                 }
+            }
+        }
+        .cart-managment-box-in-mobile-screens{
+            top: 70px;
+            left: 0;
+            width: 100%;
+            overflow: auto;
+            height: calc(100vh - 70px);
+            background-color: #EEE;
+            .products-details-and-managment{
+                height: 350px;
+                overflow-y: auto;
             }
         }
     }

@@ -1,3 +1,46 @@
+.global-header .cart-managment-box {
+  position: absolute;
+}
+
+.global-header .cart-managment-box > .row {
+  border-bottom: 1px solid #CCC;
+}
+
+.global-header .cart-managment-box h6 {
+  font-size: 15px;
+}
+
+.global-header .cart-managment-box .quantity-control-icon {
+  cursor: pointer;
+  border: 2px solid #CCC;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+}
+
+.global-header .cart-managment-box .quantity-control-icon:hover {
+  background-color: #EEE;
+}
+
+.global-header .cart-managment-box .trash-icon {
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.global-header .cart-managment-box .not-found-any-products-alert-box {
+  background-color: #FFF;
+  height: 100%;
+}
+
+.global-header .cart-managment-box .not-found-any-products-alert-box .cart-icon {
+  font-size: 100px;
+}
+
+.global-header .cart-managment-box .go-to-checkout-managment-btn {
+  font-size: 14px;
+}
+
 .global-header .navbar {
   background-color: #FFF;
   border-bottom: 1px solid #CCC;
@@ -50,10 +93,9 @@
   border-radius: 50%;
 }
 
-.global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .all-products-managment-box {
-  position: absolute;
-  right: 0;
+.global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .cart-managment-box-in-medium-screens-and-higher {
   top: 120%;
+  right: 0;
   width: 500px;
   max-height: 500px;
   overflow-x: hidden;
@@ -62,41 +104,6 @@
   z-index: 1001;
   border: 3px solid;
   background-color: #FFF;
-}
-
-.global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .all-products-managment-box > .row {
-  border-bottom: 1px solid #CCC;
-}
-
-.global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .all-products-managment-box .quantity-control-icon {
-  cursor: pointer;
-  border: 2px solid #CCC;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  line-height: 25px;
-}
-
-.global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .all-products-managment-box .quantity-control-icon:hover {
-  background-color: #EEE;
-}
-
-.global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .all-products-managment-box .trash-icon {
-  cursor: pointer;
-  font-size: 22px;
-}
-
-.global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .all-products-managment-box .not-found-any-products-alert-box {
-  background-color: #FFF;
-  height: 100%;
-}
-
-.global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .all-products-managment-box .not-found-any-products-alert-box .cart-icon {
-  font-size: 100px;
-}
-
-.global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .all-products-managment-box .go-to-checkout-managment-btn {
-  font-size: 14px;
 }
 
 .global-header .navbar .container-fluid .nav-item:hover {
@@ -162,4 +169,18 @@
 .global-header .custom-navbar-for-mobiles-and-tablets-devices .links-list .link-item .link:hover {
   font-weight: bold;
   color: #FFF;
+}
+
+.global-header .custom-navbar-for-mobiles-and-tablets-devices .cart-managment-box-in-mobile-screens {
+  top: 70px;
+  left: 0;
+  width: 100%;
+  overflow: auto;
+  height: calc(100vh - 70px);
+  background-color: #EEE;
+}
+
+.global-header .custom-navbar-for-mobiles-and-tablets-devices .cart-managment-box-in-mobile-screens .products-details-and-managment {
+  height: 350px;
+  overflow-y: auto;
 }
