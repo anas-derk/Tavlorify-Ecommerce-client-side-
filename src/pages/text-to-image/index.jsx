@@ -771,7 +771,7 @@ const TextToImage = ({
 
     const getGeneratedImageGallery = () => {
         return (
-            <div className="generated-image-gallery">
+            <div className="generated-image-gallery mb-4 border-bottom border-3 pb-3">
                 {/* Start Carousel Component From Bootstrap */}
                 <Carousel indicators={true}>
                     {/* Start Carousel Item */}
@@ -910,7 +910,7 @@ const TextToImage = ({
                                         <section className="categories mb-2">
                                             <div className="row">
                                                 {categoriesData.map((category, index) => (
-                                                    <div className="col-sm-3 col-4" key={category._id}>
+                                                    <div className="col-sm-2 col-3 col-md-3" key={category._id}>
                                                         {/* Start Category Box */}
                                                         <div
                                                             className="category-box text-center"
@@ -938,7 +938,7 @@ const TextToImage = ({
                                             <div className="row">
                                                 {/* Start Column */}
                                                 {categoryStyles.map((style, index) => (
-                                                    <div className="col-sm-3 col-4" key={index}>
+                                                    <div className="col-sm-2 col-3 col-md-3" key={index}>
                                                         {/* Start Style Box */}
                                                         <div
                                                             className="style-box p-2 text-center"

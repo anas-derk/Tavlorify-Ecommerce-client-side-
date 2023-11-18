@@ -1139,7 +1139,7 @@ const ImageToImage = ({
 
     const getGeneratedImageGallery = () => {
         return (
-            <div className="generated-image-gallery">
+            <div className="generated-image-gallery mb-4 border-bottom border-3 pb-3">
                 {/* Start Carousel Component From Bootstrap */}
                 <Carousel indicators={true}>
                     {/* Start Carousel Item */}
@@ -1262,7 +1262,6 @@ const ImageToImage = ({
                             <div className="col-lg-5">
                                 {!errorMsg && !isWaitStatus && windowInnerWidth > 991 && getImageBeforeProcessingBox()}
                                 {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>Creating ...</button>}
-                                <hr className="mb-2 mt-2" />
                                 {/* Start Art Painting Options Section */}
                                 <section className="art-painting-options pe-3 mb-4">
                                     <section className="generating-image-options">

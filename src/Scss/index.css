@@ -529,3 +529,19 @@ a {
   top: 15%;
   z-index: 1;
 }
+
+.text-to-image-service .page-content .container-fluid .row .carousel .carousel-indicators,
+.image-to-image-service .page-content .container-fluid .row .carousel .carousel-indicators {
+  height: 10px;
+}
+
+.text-to-image-service .page-content .container-fluid .row .carousel .carousel-indicators button:not(:last-child),
+.image-to-image-service .page-content .container-fluid .row .carousel .carousel-indicators button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.text-to-image-service .page-content .container-fluid .row .carousel .carousel-control-prev, .text-to-image-service .page-content .container-fluid .row .carousel .carousel-control-next,
+.image-to-image-service .page-content .container-fluid .row .carousel .carousel-control-prev,
+.image-to-image-service .page-content .container-fluid .row .carousel .carousel-control-next {
+  display: none;
+}
