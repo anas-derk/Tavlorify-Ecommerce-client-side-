@@ -8,8 +8,10 @@ import { BsCart2 } from "react-icons/bs";
 import { v4 as generateUniqueID } from "uuid";
 import global_data from "../../../public/data/global";
 import Link from "next/link";
+import LoaderPage from "@/components/LoaderPage";
 
 const Checkout = ({ orderId }) => {
+    const [isLoadingPage, setIsLoadingPage] = useState(true);
     const [allProductsData, setAllProductsData] = useState([]);
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
     const [klarnaOrderId, setKlarnaOrderId] = useState("");
@@ -35,6 +37,7 @@ const Checkout = ({ orderId }) => {
                     .then(async (order) => {
                         const result = await orderAllProducts(orderId, order.orderNumber);
                         setKlarnaOrderId(result.order_id);
+                        setIsLoadingPage(false);
                         await updateOrder(orderId, result.order_id);
                         renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
                     });
@@ -93,7 +96,7 @@ const Checkout = ({ orderId }) => {
             return await res.data;
         }
         catch (err) {
-            return err.response.data;
+            return err;
         }
     }
     const orderAllProducts = async (orderId, orderNumber) => {
@@ -162,7 +165,7 @@ const Checkout = ({ orderId }) => {
             }
         }
         catch (err) {
-            throw Error(err);
+            console.log(err);
         }
     }
     const updateProductQuantity = (allProductsData, productId, operation) => {
@@ -237,95 +240,97 @@ const Checkout = ({ orderId }) => {
             <Head>
                 <title>Tavlorify Store - Checkout</title>
             </Head>
-            <Header newTotalProductsCount={newTotalProductsCount} />
-            <section className="page-content pb-4">
-                {/* Start Container From Bootstrap */}
-                <div className="container-fluid">
-                    <h1 className="text-center mb-4 fw-bold welcome-msg mx-auto pb-3">Hello To You In Checkout Page</h1>
-                    {allProductsData.length > 0 ? allProductsData.map((productData) => (
-                        <section className="products-details-and-managment">
-                            <div className="row w-75 mx-auto bg-white border border-2 align-items-center" key={productData._id}>
-                                <div className="col-md-2 p-3 text-center">
-                                    <Link href={{
-                                        pathname: `/${productData.service}`,
-                                        query: {
-                                            generatedImageId: productData._id,
-                                        }
-                                    }}>
-                                        <img
-                                            src={`${process.env.BASE_API_URL}/${productData.generatedImageURL}`}
-                                            alt="product Image !!"
-                                            className="product-image"
-                                            width={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].width / 4}`}
-                                            height={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].height / 4}`}
+            {!isLoadingPage ? <>
+                <Header newTotalProductsCount={newTotalProductsCount} />
+                <section className="page-content pb-4">
+                    {/* Start Container From Bootstrap */}
+                    <div className="container-fluid">
+                        <h1 className="text-center mb-4 fw-bold welcome-msg mx-auto pb-3">Hello To You In Checkout Page</h1>
+                        {allProductsData.length > 0 ? allProductsData.map((productData) => (
+                            <section className="products-details-and-managment">
+                                <div className="row w-75 mx-auto bg-white border border-2 align-items-center" key={productData._id}>
+                                    <div className="col-md-2 p-3 text-center">
+                                        <Link href={{
+                                            pathname: `/${productData.service}`,
+                                            query: {
+                                                generatedImageId: productData._id,
+                                            }
+                                        }}>
+                                            <img
+                                                src={`${process.env.BASE_API_URL}/${productData.generatedImageURL}`}
+                                                alt="product Image !!"
+                                                className="product-image"
+                                                width={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].width / 4}`}
+                                                height={`${global_data.appearedImageSizesForTextToImage[productData.paintingType][productData.isExistWhiteBorder][productData.position][productData.size].height / 4}`}
+                                            />
+                                        </Link>
+                                    </div>
+                                    <div className="col-md-4 p-3">
+                                        <h6 className="fw-bold">{productData.paintingType}</h6>
+                                        <h6>Frame: {productData.frameColor}</h6>
+                                        <h6>{productData.isExistWhiteBorder}</h6>
+                                        <h6>{productData.position}</h6>
+                                        <h6>{productData.size} Cm</h6>
+                                    </div>
+                                    <div className="col-md-3 p-3">
+                                        <span>Quantity: </span>
+                                        <AiOutlineMinus
+                                            className="quantity-control-icon me-2"
+                                            onClick={() => updateOrder(productData._id, "decrease-product-quantity", klarnaOrderId)}
                                         />
-                                    </Link>
+                                        <span className="fw-bold me-2">{productData.quantity}</span>
+                                        <AiOutlinePlus
+                                            className="quantity-control-icon"
+                                            onClick={() => updateKlarnaOrder(productData._id, "increase-product-quantity", klarnaOrderId)}
+                                        />
+                                    </div>
+                                    <div className="col-md-2 p-3 text-end">
+                                        <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
+                                        {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount * productData.quantity} kr</h6>}
+                                    </div>
+                                    <div className="col-md-1 text-center">
+                                        <BsTrash
+                                            className="trash-icon"
+                                            onClick={() => updateKlarnaOrder(productData._id, "delete-product", klarnaOrderId)}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="col-md-4 p-3">
-                                    <h6 className="fw-bold">{productData.paintingType}</h6>
-                                    <h6>Frame: {productData.frameColor}</h6>
-                                    <h6>{productData.isExistWhiteBorder}</h6>
-                                    <h6>{productData.position}</h6>
-                                    <h6>{productData.size} Cm</h6>
+                            </section>
+                        )) : <div className="not-found-any-products-alert-box fw-bold text-center d-flex flex-column align-items-center justify-content-center">
+                            <BsCart2 className="cart-icon mb-4" />
+                            <h4 className="fw-bold">Sorry, Your Cart Is Empty !!</h4>
+                        </div>}
+                        {allProductsData.length > 0 && <section className="summary">
+                            <div className="row w-75 mx-auto bg-white border border-2 align-items-center text-center">
+                                <div className="col-md-6 p-3">
+                                    <h6 className="fw-bold">Summary</h6>
                                 </div>
-                                <div className="col-md-3 p-3">
-                                    <span>Quantity: </span>
-                                    <AiOutlineMinus
-                                        className="quantity-control-icon me-2"
-                                        onClick={() => updateOrder(productData._id, "decrease-product-quantity", klarnaOrderId)}
-                                    />
-                                    <span className="fw-bold me-2">{productData.quantity}</span>
-                                    <AiOutlinePlus
-                                        className="quantity-control-icon"
-                                        onClick={() => updateKlarnaOrder(productData._id, "increase-product-quantity", klarnaOrderId)}
-                                    />
-                                </div>
-                                <div className="col-md-2 p-3 text-end">
-                                    <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
-                                    {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount * productData.quantity} kr</h6>}
-                                </div>
-                                <div className="col-md-1 text-center">
-                                    <BsTrash
-                                        className="trash-icon"
-                                        onClick={() => updateKlarnaOrder(productData._id, "delete-product", klarnaOrderId)}
-                                    />
-                                </div>
-                            </div>
-                        </section>
-                    )) : <div className="not-found-any-products-alert-box fw-bold text-center d-flex flex-column align-items-center justify-content-center">
-                        <BsCart2 className="cart-icon mb-4" />
-                        <h4 className="fw-bold">Sorry, Your Cart Is Empty !!</h4>
-                    </div>}
-                    {allProductsData.length > 0 && <section className="summary">
-                        <div className="row w-75 mx-auto bg-white border border-2 align-items-center text-center">
-                            <div className="col-md-6 p-3">
-                                <h6 className="fw-bold">Summary</h6>
-                            </div>
-                            <div className="col-md-6 p-3 fw-bold">
-                                <div className="row mb-3">
-                                    <div className="col-md-9 text-start content">Total Price Before Discount</div>
-                                    <div className="col-md-3 text-end content">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
-                                </div>
-                                {pricesDetailsSummary.totalDiscount > 0 && <div className="row mb-3">
-                                    <div className="col-md-9 text-start content">Total Discount</div>
-                                    <div className="col-md-3 text-danger text-end content">-{pricesDetailsSummary.totalDiscount} kr</div>
-                                </div>}
-                                <div className="row">
-                                    <div className="col-md-9 text-start content">Shipping</div>
-                                    <div className="col-md-3 text-end content">0 kr</div>
-                                </div>
-                                <hr />
-                                <div className="row">
-                                    <div className="col-md-9 text-start content">Total Price After Discount</div>
-                                    <div className="col-md-3 text-end content">{pricesDetailsSummary.totalPriceAfterDiscount} kr</div>
+                                <div className="col-md-6 p-3 fw-bold">
+                                    <div className="row mb-3">
+                                        <div className="col-md-9 text-start content">Total Price Before Discount</div>
+                                        <div className="col-md-3 text-end content">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
+                                    </div>
+                                    {pricesDetailsSummary.totalDiscount > 0 && <div className="row mb-3">
+                                        <div className="col-md-9 text-start content">Total Discount</div>
+                                        <div className="col-md-3 text-danger text-end content">-{pricesDetailsSummary.totalDiscount} kr</div>
+                                    </div>}
+                                    <div className="row">
+                                        <div className="col-md-9 text-start content">Shipping</div>
+                                        <div className="col-md-3 text-end content">0 kr</div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-md-9 text-start content">Total Price After Discount</div>
+                                        <div className="col-md-3 text-end content">{pricesDetailsSummary.totalPriceAfterDiscount} kr</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>}
-                </div>
-                {/* End Container From Bootstrap */}
-                {allProductsData.length > 0 && <div id="my-checkout-container" className="mx-auto mt-4"></div>}
-            </section>
+                        </section>}
+                    </div>
+                    {/* End Container From Bootstrap */}
+                    {allProductsData.length > 0 && <div id="my-checkout-container" className="mx-auto mt-4"></div>}
+                </section>
+            </> : <LoaderPage />}
         </div >
         // End Checkout Page
     );
