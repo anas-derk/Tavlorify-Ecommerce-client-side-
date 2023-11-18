@@ -545,3 +545,12 @@ a {
 .image-to-image-service .page-content .container-fluid .row .carousel .carousel-control-next {
   display: none;
 }
+
+@keyframes popup-animation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

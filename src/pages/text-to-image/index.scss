@@ -14,7 +14,6 @@
             }
             .art-painting-options{
                 height: 500px;
-                overflow-y: scroll;
                 .generating-image-options{
                     .text-prompt{
                         resize: none;
@@ -34,41 +33,6 @@
                         }
                         .generate-image-btn{
                             font-size: 14px;
-                        }
-                    }
-                    .option-section-name{
-                        font-size: 14px;
-                    }
-                    .categories{
-                        .row{
-                            flex-wrap: nowrap;
-                            overflow-x: scroll;
-                            .category-box{
-                                cursor: pointer;
-                                .category-image{
-                                    height: 60px;
-                                    border: 2px solid;
-                                }
-                                .category-name{
-                                    font-size: 13px;
-                                }
-                            }
-                        }
-                    }
-                    .styles{
-                        .row{
-                            flex-wrap: nowrap;
-                            overflow-x: scroll;
-                        }
-                        .style-box{
-                            cursor: pointer;
-                            .style-image{
-                                height: 60px;
-                                border: 2px solid;
-                            }
-                            .style-name{
-                                font-size: 13px;
-                            }
                         }
                     }
                 }
@@ -141,14 +105,5 @@
                 }
             }
         }
-    }
-}
-
-@keyframes popup-animation {
-    from{
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
     }
 }
