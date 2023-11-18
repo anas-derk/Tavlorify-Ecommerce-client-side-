@@ -666,6 +666,26 @@ const TextToImage = ({
         }
     }
 
+    const getSuitableWidthAndHeightForPainting = (dimention, imageSize, isRoomImageMinimize, windowInnerWidth) => {
+        if (!isRoomImageMinimize) {
+            if (imageSize === "minimize-image") {
+                if (windowInnerWidth < 767) {
+                    return dimention / 5;
+                } else {
+                    return dimention / 3;
+                }
+            } else {
+                if (windowInnerWidth < 767) {
+                    return dimention / 1.3;
+                } else {
+                    return dimention;
+                }
+            }
+        } else {
+            return dimention / 10;
+        }
+    }
+
     const getArtPaintingBox = (width, height, imageSize, isImageInsideRoom, isRoomImageMinimize) => {
         return (
             (imageMode == "normal-size-image" || imageSize === "minimize-image") && <div
@@ -682,12 +702,8 @@ const TextToImage = ({
                     <div
                         className="frame-image-box"
                         style={{
-                            width: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 5 : global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 3}px`) : (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 1.3 : global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width}px`)
-                            ) : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width / 10}px`,
-                            maxHeight: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 5 : global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 3}px`) : (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 1.3 : global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height}px`)
-                            ) : `${global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height / 10}px`,
+                            width: getSuitableWidthAndHeightForPainting(global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
+                            maxHeight: getSuitableWidthAndHeightForPainting(global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height, imageSize, isRoomImageMinimize, windowInnerWidth),
                         }}
                     >
                         {!isWaitStatus && !errorMsg && generatedImageURL && <img
@@ -699,12 +715,8 @@ const TextToImage = ({
                     <div
                         className="generated-image-box d-flex align-items-center justify-content-center"
                         style={{
-                            width: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width / 5 : global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width / 3}px`) : (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width / 1.3 : global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width}px`)
-                            ) : `${(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width) / 10}px`,
-                            height: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 5 : global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 3}px`) : (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 1.3 : global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height}px`)
-                            ) : `${global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height / 10}px`,
+                            width: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width, imageSize, isRoomImageMinimize),
+                            height: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height, imageSize, isRoomImageMinimize),
                             boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
                             backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
                             maxWidth: "97.5%",
@@ -758,8 +770,8 @@ const TextToImage = ({
                 {roomNumber === 1 && <img src={room1Image.src} alt="Room Image1 !!" onDragStart={(e) => e.preventDefault()} />}
                 {roomNumber === 2 && <img src={room2Image.src} alt="Room Image2 !!" onDragStart={(e) => e.preventDefault()} />}
                 {getArtPaintingBox(
-                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 10}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`,
-                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 10}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`,
+                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 8}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`,
+                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 8}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`,
                     "minimize-image",
                     true,
                     imageSize === "minimize-room-image" ? true : false,
@@ -779,14 +791,14 @@ const TextToImage = ({
                     </Carousel.Item>
                     {/* End Carousel Item */}
                     {/* Start Carousel Item */}
-                    <Carousel.Item>
+                    {/* <Carousel.Item>
                         {getImageInsideRoomBox(1, "minimize-room-image")}
-                    </Carousel.Item>
+                    </Carousel.Item> */}
                     {/* End Carousel Item */}
                     {/* Start Carousel Item */}
-                    <Carousel.Item>
+                    {/* <Carousel.Item>
                         {getImageInsideRoomBox(2, "minimize-room-image")}
-                    </Carousel.Item>
+                    </Carousel.Item> */}
                     {/* End Carousel Item */}
                 </Carousel>
                 {/* End Carousel Component From Bootstrap */}
