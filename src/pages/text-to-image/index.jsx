@@ -726,7 +726,6 @@ const TextToImage = ({
                 </>}
                 {paintingType === "canvas" && !isWaitStatus && !errorMsg && <div className="canvas-image-box" style={{
                     width: width,
-                    height: height,
                 }}>
                     <img
                         src={generatedImageURL}

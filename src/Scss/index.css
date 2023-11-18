@@ -264,6 +264,33 @@ a {
   font-size: 14px;
 }
 
+.quantity-control-icon {
+  cursor: pointer;
+  border: 2px solid #CCC;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+}
+
+.quantity-control-icon:hover {
+  background-color: #EEE;
+}
+
+.trash-icon {
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.not-found-any-products-alert-box {
+  background-color: #FFF;
+  height: 300px;
+}
+
+.not-found-any-products-alert-box .cart-icon {
+  font-size: 100px;
+}
+
 .text-to-image-service .page-content,
 .image-to-image-service .page-content {
   padding-top: 70px;
