@@ -247,9 +247,9 @@ const Checkout = ({ orderId }) => {
                     <div className="container-fluid">
                         <h1 className="text-center mb-4 fw-bold welcome-msg mx-auto pb-3">Hello To You In Checkout Page</h1>
                         {allProductsData.length > 0 ? allProductsData.map((productData) => (
-                            <section className="products-details-and-managment">
-                                <div className="row w-75 mx-auto bg-white border border-2 align-items-center" key={productData._id}>
-                                    <div className="col-md-2 p-3 text-center">
+                            <section className="products-details-and-managment bg-white border border-2 p-3">
+                                <div className="row align-items-center" key={productData._id}>
+                                    <div className="col-md-2 text-center">
                                         <Link href={{
                                             pathname: `/${productData.service}`,
                                             query: {
@@ -270,7 +270,7 @@ const Checkout = ({ orderId }) => {
                                         <h6>Frame: {productData.frameColor}</h6>
                                         <h6>{productData.isExistWhiteBorder}</h6>
                                         <h6>{productData.position}</h6>
-                                        <h6>{productData.size} Cm</h6>
+                                        <h6 className="m-0">{productData.size} Cm</h6>
                                     </div>
                                     <div className="col-md-3 p-3">
                                         <span>Quantity: </span>
@@ -284,9 +284,9 @@ const Checkout = ({ orderId }) => {
                                             onClick={() => updateKlarnaOrder(productData._id, "increase-product-quantity", klarnaOrderId)}
                                         />
                                     </div>
-                                    <div className="col-md-2 p-3 text-end">
-                                        <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
-                                        {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount * productData.quantity} kr</h6>}
+                                    <div className="col-md-2 p-3">
+                                        <h6 className="fw-bold price-after-discount text-end">{productData.priceAfterDiscount * productData.quantity} kr</h6>
+                                        {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through text-end">{productData.priceBeforeDiscount * productData.quantity} kr</h6>}
                                     </div>
                                     <div className="col-md-1 text-center">
                                         <BsTrash
@@ -300,12 +300,12 @@ const Checkout = ({ orderId }) => {
                             <BsCart2 className="cart-icon mb-4" />
                             <h4 className="fw-bold">Sorry, Your Cart Is Empty !!</h4>
                         </div>}
-                        {allProductsData.length > 0 && <section className="summary">
-                            <div className="row w-75 mx-auto bg-white border border-2 align-items-center text-center">
-                                <div className="col-md-6 p-3">
+                        {allProductsData.length > 0 && <section className="summary bg-white border border-2 p-3">
+                            <div className="row align-items-center text-center">
+                                <div className="col-md-6">
                                     <h6 className="fw-bold">Summary</h6>
                                 </div>
-                                <div className="col-md-6 p-3 fw-bold">
+                                <div className="col-md-6 fw-bold">
                                     <div className="row mb-3">
                                         <div className="col-md-9 text-start content">Total Price Before Discount</div>
                                         <div className="col-md-3 text-end content">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
@@ -328,7 +328,7 @@ const Checkout = ({ orderId }) => {
                         </section>}
                     </div>
                     {/* End Container From Bootstrap */}
-                    {allProductsData.length > 0 && <div id="my-checkout-container" className="mx-auto mt-4"></div>}
+                    {allProductsData.length > 0 && <div id="my-checkout-container" className="mt-4 pa"></div>}
                 </section>
             </> : <LoaderPage />}
         </div >

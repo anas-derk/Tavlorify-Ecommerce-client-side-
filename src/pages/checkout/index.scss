@@ -3,17 +3,44 @@
         background-color: #EEE;
         padding-top: 90px;
         .products-details-and-managment{
+            width: 75%;
+            margin: 0 auto;
             h6{
                 font-size: 14px;
+                @media (max-width: 767px) {
+                    text-align: center !important;
+                }
+            }
+            @media (max-width: 767px) {
+                text-align: center;
+            }
+            @media (max-width: 991px) {
+                width: 100%;
             }
         }
         .summary{
+            width: 75%;
+            margin: 0 auto;
             .content{
                 font-size: 14px;
+                @media (max-width: 767px) {
+                    text-align: center !important;
+                    &:not(:last-child) {
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+            @media (max-width: 991px) {
+                width: 100%;
             }
         }
         #my-checkout-container{
             width: 74%;
+            margin: 0 auto;
+            @media (max-width: 991px) {
+                width: 100%;
+                padding: 20px;
+            }
         }
     }
 }
