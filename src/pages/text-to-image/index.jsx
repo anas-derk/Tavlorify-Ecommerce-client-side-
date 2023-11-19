@@ -668,19 +668,13 @@ const TextToImage = ({
 
     const getSuitableWidthAndHeightForPainting = (dimention, imageSize, isRoomImageMinimize, windowInnerWidth) => {
         if (!isRoomImageMinimize) {
-            if (imageSize === "minimize-image") {
-                if (windowInnerWidth < 767) {
-                    return dimention / 5;
-                } else {
-                    return dimention / 3;
-                }
-            } else {
-                if (windowInnerWidth < 767) {
-                    return dimention / 1.3;
-                } else {
-                    return dimention;
-                }
-            }
+            if (imageSize === "minimize-image") {  
+                if (windowInnerWidth > 320 && windowInnerWidth < 400) return dimention / 5;
+                if (windowInnerWidth >= 400 && windowInnerWidth < 500) return dimention / 4.1;
+                if (windowInnerWidth >= 550 && windowInnerWidth < 650) return dimention / 2.7;
+                if (windowInnerWidth >= 650 && windowInnerWidth < 991) return dimention / 2.3;
+                return dimention / 3;
+            } else return windowInnerWidth < 767 ? dimention / 1.3 : dimention;
         } else {
             return dimention / 10;
         }
@@ -715,8 +709,8 @@ const TextToImage = ({
                     <div
                         className="generated-image-box d-flex align-items-center justify-content-center"
                         style={{
-                            width: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width, imageSize, isRoomImageMinimize),
-                            height: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height, imageSize, isRoomImageMinimize),
+                            width: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
+                            height: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height, imageSize, isRoomImageMinimize, windowInnerWidth),
                             boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
                             backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
                             maxWidth: "97.5%",
@@ -727,8 +721,6 @@ const TextToImage = ({
                             src={generatedImageURL}
                             alt="Generated Image !!"
                             style={{
-                                width: width,
-                                height: height,
                                 maxWidth: isExistWhiteBorderWithPoster === "with-border" ? "89.7%" : "100%",
                                 maxHeight: isExistWhiteBorderWithPoster === "with-border" ? "89.7%" : "100%",
                             }}
@@ -758,7 +750,7 @@ const TextToImage = ({
     const getImageInsideRoomBox = (roomNumber, imageSize) => {
         return (
             (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image") && !isWaitStatus && !errorMsg && generatedImageURL && <div
-                className={`room${roomNumber}-image-box room-image-box border border-2 border-dark mb-4`}
+                className={`room${roomNumber}-image-box room-image-box mb-4 d-block mx-auto`}
                 onClick={() => handleDisplayImageMode(`image-inside-room${roomNumber}`)}
                 style={
                     {

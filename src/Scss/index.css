@@ -541,6 +541,7 @@ a {
 .image-to-image-service .page-content .container-fluid .row .room-image-box {
   position: relative;
   max-width: 100%;
+  width: 600px;
 }
 
 .text-to-image-service .page-content .container-fluid .row .room-image-box img,
