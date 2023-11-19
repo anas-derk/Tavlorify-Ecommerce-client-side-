@@ -980,6 +980,27 @@ const ImageToImage = ({
         );
     }
 
+    const getSuitableWidthAndHeightForPainting = (dimention, imageSize, isRoomImageMinimize, windowInnerWidth) => {
+        if (!isRoomImageMinimize) {
+            if (imageSize === "minimize-image") {
+                if (windowInnerWidth > 320 && windowInnerWidth < 400) return dimention / 5;
+                if (windowInnerWidth >= 400 && windowInnerWidth < 650) return dimention / 4.1;
+                if (windowInnerWidth >= 550 && windowInnerWidth < 650) return dimention / 2.7;
+                if (windowInnerWidth >= 650 && windowInnerWidth < 991) return dimention / 2.3;
+                return dimention / 3;
+            } else return windowInnerWidth < 767 ? dimention / 1.3 : dimention;
+        } else {
+            if (windowInnerWidth < 991) {
+                if (windowInnerWidth > 320 && windowInnerWidth < 400) return dimention / 5;
+                if (windowInnerWidth >= 400 && windowInnerWidth < 500) return dimention / 4.1;
+                if (windowInnerWidth >= 550 && windowInnerWidth < 650) return dimention / 2.7;
+                if (windowInnerWidth >= 650 && windowInnerWidth < 991) return dimention / 2.3;
+                return dimention / 3;
+            }
+            return dimention / 10;
+        }
+    }
+
     const getArtPaintingBox = (width, height, imageSize, isImageInsideRoom, isRoomImageMinimize) => {
         return (
             (imageMode == "normal-size-image" || imageSize === "minimize-image") && <div
@@ -1003,12 +1024,8 @@ const ImageToImage = ({
                         onTouchMove={handleTouchMove}
                         onTouchEnd={handleTouchEnd}
                         style={{
-                            width: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 5 : global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 3}px`) : (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 1.3 : global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width}px`)
-                            ) : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width / 10}px`,
-                            maxHeight: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 5 : global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 3}px`) : (`${windowInnerWidth < 767 ? global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 1.3 : global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height}px`)
-                            ) : `${global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height / 10}px`,
+                            width: getSuitableWidthAndHeightForPainting(global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
+                            maxHeight: getSuitableWidthAndHeightForPainting(global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height, imageSize, isRoomImageMinimize, windowInnerWidth),
                             cursor: isWillTheImageBeMoved ? "grab" : "",
                         }}
                     >
@@ -1021,12 +1038,8 @@ const ImageToImage = ({
                     <div
                         className="image-box d-flex align-items-center justify-content-center"
                         style={{
-                            width: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width / 5 : global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width / 3}px`) : (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width / 1.3 : global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width}px`)
-                            ) : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width / 10}px`,
-                            height: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 5 : global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 3}px`) : (`${windowInnerWidth < 767 ? global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 1.3 : global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height}px`)
-                            ) : `${global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height / 10}px`,
+                            width: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
+                            height: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height, imageSize, isRoomImageMinimize, windowInnerWidth),
                             backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
                             boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
                             maxWidth: "97.5%",
@@ -1042,8 +1055,8 @@ const ImageToImage = ({
                         <div
                             className="generated-image-box"
                             style={{
-                                width: width,
-                                height: height,
+                                width: getSuitableWidthAndHeightForPainting(width, imageSize, isRoomImageMinimize, windowInnerWidth),
+                                height: getSuitableWidthAndHeightForPainting(height, imageSize, isRoomImageMinimize, windowInnerWidth),
                                 backgroundImage: `url(${generatedImageURL})`,
                                 backgroundRepeat: "no-repeat",
                                 backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
@@ -1071,12 +1084,8 @@ const ImageToImage = ({
                     <div
                         className="frame-image-box mx-auto"
                         style={{
-                            width: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${windowInnerWidth < 490 ? global_data.framesDimentions["poster"][imageType][dimentionsInCm].width / 5 : global_data.framesDimentions["poster"][imageType][dimentionsInCm].width / 3}px` : `${global_data.framesDimentions["poster"][imageType][dimentionsInCm].width}px`
-                            ) : `${global_data.framesDimentions["poster"][imageType][dimentionsInCm].width / 10}px`,
-                            maxHeight: !isRoomImageMinimize ? (
-                                imageSize === "minimize-image" ? `${windowInnerWidth < 490 ? global_data.framesDimentions["poster"][imageType][dimentionsInCm].height / 5 : global_data.framesDimentions["poster"][imageType][dimentionsInCm].height / 3}px` : `${global_data.framesDimentions["poster"][imageType][dimentionsInCm].height}px`
-                            ) : `${global_data.framesDimentions["poster"][imageType][dimentionsInCm].height / 10}px`,
+                            width: getSuitableWidthAndHeightForPainting(global_data.framesDimentions["poster"][imageType][dimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
+                            maxHeight: getSuitableWidthAndHeightForPainting(global_data.framesDimentions["poster"][imageType][dimentionsInCm].height, imageSize, isRoomImageMinimize, windowInnerWidth),
                             cursor: isWillTheImageBeMoved ? "grab" : "",
                         }}
                     >
@@ -1114,7 +1123,7 @@ const ImageToImage = ({
 
     const getImageInsideRoomBox = (roomNumber, imageSize) => {
         return (
-            (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image") && !isWaitStatus && !errorMsg && generatedImageURL && <div
+            (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image" || imageSize === "room-image-to-mobiles-and-tablets" ) && !isWaitStatus && !errorMsg && generatedImageURL && <div
                 className={`room${roomNumber}-image-box room-image-box mx-auto border border-2 border-dark mb-4`}
                 onClick={() => handleDisplayImageMode(`image-inside-room${roomNumber}`)}
                 style={
@@ -1127,8 +1136,8 @@ const ImageToImage = ({
                 {roomNumber === 1 && <img src={room1Image.src} alt="Room Image1 !!" onDragStart={(e) => e.preventDefault()} />}
                 {roomNumber === 2 && <img src={room2Image.src} alt="Room Image2 !!" onDragStart={(e) => e.preventDefault()} />}
                 {getArtPaintingBox(
-                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 10}px` : `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 3}px`,
-                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 10}px` : `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 3}px`,
+                    global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width,
+                    global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height,
                     "minimize-image",
                     true,
                     imageSize === "minimize-room-image" ? true : false,
@@ -1144,17 +1153,17 @@ const ImageToImage = ({
                 <Carousel indicators={true}>
                     {/* Start Carousel Item */}
                     <Carousel.Item>
-                        {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height}px`, undefined, false)}
+                        {getArtPaintingBox(global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width, global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height, undefined, false)}
                     </Carousel.Item>
                     {/* End Carousel Item */}
                     {/* Start Carousel Item */}
                     <Carousel.Item>
-                        {getImageInsideRoomBox(1, "minimize-room-image")}
+                        {getImageInsideRoomBox(1, "room-image-to-mobiles-and-tablets")}
                     </Carousel.Item>
                     {/* End Carousel Item */}
                     {/* Start Carousel Item */}
                     <Carousel.Item>
-                        {getImageInsideRoomBox(2, "minimize-room-image")}
+                        {getImageInsideRoomBox(2, "room-image-to-mobiles-and-tablets")}
                     </Carousel.Item>
                     {/* End Carousel Item */}
                 </Carousel>
@@ -1241,7 +1250,7 @@ const ImageToImage = ({
                                 {/* Start Column */}
                                 {windowInnerWidth > 991 && <div className="col-lg-2">
                                     {/* Start Art Painting Box */}
-                                    {getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 3}px`, "minimize-image", false)}
+                                    {getArtPaintingBox(global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width, global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height, "minimize-image", false)}
                                     {/* End Art Painting Box */}
                                     {getImageInsideRoomBox(1, "minimize-room-image")}
                                     {getImageInsideRoomBox(2, "minimize-room-image")}
@@ -1250,7 +1259,7 @@ const ImageToImage = ({
                                 {/* Start Column */}
                                 <div className="col-lg-5">
                                     {/* Start Art Painting Section */}
-                                    {windowInnerWidth > 991 && getArtPaintingBox(`${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width}px`, `${global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height}px`, undefined, false)}
+                                    {windowInnerWidth > 991 && getArtPaintingBox(global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width, global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height, undefined, false)}
                                     {/* End Art Painting Section */}
                                     {getImageInsideRoomBox(1, undefined)}
                                     {getImageInsideRoomBox(2, undefined)}
