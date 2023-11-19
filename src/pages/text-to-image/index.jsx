@@ -676,6 +676,13 @@ const TextToImage = ({
                 return dimention / 3;
             } else return windowInnerWidth < 767 ? dimention / 1.3 : dimention;
         } else {
+            if (windowInnerWidth < 991) {
+                if (windowInnerWidth > 320 && windowInnerWidth < 400) return dimention / 5;
+                if (windowInnerWidth >= 400 && windowInnerWidth < 500) return dimention / 4.1;
+                if (windowInnerWidth >= 550 && windowInnerWidth < 650) return dimention / 2.7;
+                if (windowInnerWidth >= 650 && windowInnerWidth < 991) return dimention / 2.3;
+                return dimention / 3;
+            }
             return dimention / 10;
         }
     }
