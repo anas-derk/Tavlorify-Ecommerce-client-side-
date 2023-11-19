@@ -136,7 +136,6 @@ a{
 
 .generated-images{
     background-color: #EEE;
-    box-shadow: 1px 1px 5px #000;
     @media (max-width: 991px) {
         gap: 10px;
     }
@@ -436,6 +435,28 @@ a{
                 }
             }
         }
+    }
+}
+
+.painting-details{
+    background-color: #EEE;
+    .painting-details-buttons-list{
+        .painting-details-button-item{
+            background-color: #CCC;
+            cursor: pointer;
+            border-right: 2px solid #FFF;
+            font-size: 13px;
+            &:hover, &.selected{
+                background: #000;
+                color: #FFF;
+            }
+        }
+    }
+    .content{
+        line-height: 2;
+    }
+    p{
+        font-size: 14px;
     }
 }
 

@@ -53,6 +53,9 @@ import { BiError } from "react-icons/bi";
 import { GrFormClose } from "react-icons/gr";
 import LoaderPage from "@/components/LoaderPage";
 import Carousel from 'react-bootstrap/Carousel';
+import howToUseImage1 from "../../../public/images/HowToUseExplain/Img2Img/1.jpg";
+import howToUseImage2 from "../../../public/images/HowToUseExplain/Img2Img/2.jpg";
+import howToUseImage3 from "../../../public/images/HowToUseExplain/Img2Img/3.jpg";
 
 const ImageToImage = ({
     generatedImageId,
@@ -312,6 +315,8 @@ const ImageToImage = ({
     const [selectedPreviousGeneratedImageIndex, setSelectedPreviousGeneratedImageIndex] = useState(-1);
 
     const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(false);
+
+    const [appearedPaintingDetailsList, setAppearedPaintingDetailsList] = useState(["summary"]);
 
     const getAllImage2ImageCategoriesData = async () => {
         try {
@@ -1602,6 +1607,103 @@ const ImageToImage = ({
                             </div>
                         </section>
                         {/* Start Generated Images Section */}
+                        {/* Start How To Use Service Section */}
+                        <section className="how-to-use-service pt-5 pb-5 text-center">
+                            <div className="row">
+                                <div className="col-md-4">
+                                    <div className="explain-image-box mb-4">
+                                        <img
+                                            src={howToUseImage1.src}
+                                            alt="How To Use Image To Image Page ( Image 1 )"
+                                            className="explain-image mw-100"
+                                        />
+                                    </div>
+                                    <div className="explain-box">
+                                        <h6 className="fw-bold">1. Upload</h6>
+                                        <p>Upload an Image from your camera roll</p>
+                                    </div>
+                                </div>
+                                <div className="col-md-4">
+                                    <div className="explain-image-box mb-4">
+                                        <img
+                                            src={howToUseImage2.src}
+                                            alt="How To Use Image To Image Page ( Image 2 )"
+                                            className="explain-image mw-100"
+                                        />
+                                    </div>
+                                    <div className="explain-box">
+                                        <h6 className="fw-bold">2. Create Image</h6>
+                                        <p>Choose Between Stylish Filters, Border, Text, And Size</p>
+                                    </div>
+                                </div>
+                                <div className="col-md-4">
+                                    <div className="explain-image-box mb-4">
+                                        <img
+                                            src={howToUseImage3.src}
+                                            alt="How To Use Image To Image Page ( Image 3 )"
+                                            className="explain-image mw-100"
+                                        />
+                                    </div>
+                                    <div className="explain-box">
+                                        <h6 className="fw-bold">3. Order</h6>
+                                        <p>Checkout And Pay, Receive Your Poster Within 3 - 5 Days</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        {/* End How To Use Service Section */}
+                        {/* Start Painting Details Section */}
+                        <section className="painting-details">
+                            <ul className="painting-details-buttons-list row text-center m-0">
+                                <li
+                                    className={`painting-details-button-item col-md-3 p-3 fw-bold ${appearedPaintingDetailsList.includes("summary") ? "selected" : ""}`}
+                                    onClick={() => setAppearedPaintingDetailsList(["summary"])}
+                                >
+                                    Summary
+                                </li>
+                                <li
+                                    className={`painting-details-button-item col-md-3 p-3 fw-bold ${appearedPaintingDetailsList.includes("product-information") ? "selected" : ""}`}
+                                    onClick={() => setAppearedPaintingDetailsList(["product-information"])}
+                                >
+                                    Product Information
+                                </li>
+                                <li
+                                    className={`painting-details-button-item col-md-3 p-3 fw-bold ${appearedPaintingDetailsList.includes("shipping-and-delivery") ? "selected" : ""}`}
+                                    onClick={() => setAppearedPaintingDetailsList(["shipping-and-delivery"])}
+                                >
+                                    Shipping And Delivery
+                                </li>
+                                <li
+                                    className={`painting-details-button-item col-md-3 p-3 fw-bold ${appearedPaintingDetailsList.includes("other-questions") ? "selected" : ""}`}
+                                    onClick={() => setAppearedPaintingDetailsList(["other-questions"])}
+                                >
+                                    Other Questions
+                                </li>
+                            </ul>
+                            {appearedPaintingDetailsList.includes("summary") && <div className="summary-box p-3 pb-4 pt-4">
+                                <p className="mb-4 content">Design a unique and stylish poster from your own image or photo with our designer. Upload your photo and choose filter, border, text and size – and review everything straight on the screen. Our designer has been created together with experienced photographers and photo editors from Scandinavia and your poster is printed on 200gsm matte premium paper.</p>
+                                <p className="mb-4 content">You get a unique and beautiful decoration that matches perfectly with the colours of your interior or as a gift for your friend, partner or child. Cherish a meaningful memory and give a custom poster as a wonderful gift on Valentine’s Day, Mother’s Day, Father’s Day, a Graduation, Wedding or as a Christmas gift. Delivered in 3-5 working days and always with free shipping.</p>
+                                <p className="m-0">Questions? Please e-mail us at care@wallpoet.com and we’ll get back to you as soon as possible!</p>
+                            </div>}
+                            {appearedPaintingDetailsList.includes("product-information") && <div className="product-information-box p-3 pb-4 pt-4">
+                                <p className="mb-4 content"><span className="fw-bold">Filters</span>: Our filters are created by experienced photographers and photo editors and they look great on print. Choose between classic photo art filters such as Brooklyn and Fade, to vivid color combinations such as Mocca, Palma or Air. Which filter suits your photo the best?</p>
+                                <p className="mb-4 content"><span className="fw-bold">Text</span>: The text on your poster comes with a classic and stylish font that automatically gets a color that matches with your chosen filter.</p>
+                                <p className="mb-4 content"><span className="fw-bold">Paper quality</span>: Matte 200 gsm premium paper.</p>
+                                <p className="mb-4 content"><span className="fw-bold">Frame</span>: Add a beautiful matching frame here.</p>
+                                <p className="mb-0"><span className="fw-bold">Payment</span>: Klarna.</p>
+                            </div>}
+                            {appearedPaintingDetailsList.includes("shipping-and-delivery") && <div className="shipping-and-delivery-box p-3 pb-4 pt-4">
+                                <p className="mb-4 content"><span className="fw-bold">Shipping countries</span>: We ship to Austria, Belgium, Denmark, Finland, France, Germany, Netherlands, Norway, Spain, Sweden & United States (US). We are planning to start shipping to more countries in the near future.</p>
+                                <p className="mb-4 content"><span className="fw-bold">Shipping time</span>: 3-5 working days.</p>
+                                <p className="mb-4 content"><span className="fw-bold">Shipping costs</span>: Free.</p>
+                                <p className="m-0"><span className="fw-bold">Distributor</span>: Delivered by DHL (within EU), Bring (Norway)..</p>
+                            </div>}
+                            {appearedPaintingDetailsList.includes("other-questions") && <div className="other-questions-box p-3 pb-4 pt-4">
+                                <p className="mb-4 content"><span className="fw-bold">When uploading</span>: It’s important that you upload the original image straight from the camera roll, and that the photo has good resolution, sharpness and brightness.</p>
+                                <p className="m-0">Once you have selected your image, you will be given a preliminary evaluation of how good the resolution is (1-5 stars). Once the image is uploaded to the designer, you can click on the tab with the star to see a more thorough evaluation of the quality including resolution, sharpness and brightness.</p>
+                            </div>}
+                        </section>
+                        {/* End Painting Details Section */}
                     </div>
                     {/* End Container */}
                 </div>

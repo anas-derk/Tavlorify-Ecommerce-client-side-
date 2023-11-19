@@ -166,7 +166,6 @@ a {
 
 .generated-images {
   background-color: #EEE;
-  box-shadow: 1px 1px 5px #000;
 }
 
 @media (max-width: 991px) {
@@ -572,6 +571,30 @@ a {
 .image-to-image-service .page-content .container-fluid .row .carousel .carousel-control-prev,
 .image-to-image-service .page-content .container-fluid .row .carousel .carousel-control-next {
   display: none;
+}
+
+.painting-details {
+  background-color: #EEE;
+}
+
+.painting-details .painting-details-buttons-list .painting-details-button-item {
+  background-color: #CCC;
+  cursor: pointer;
+  border-right: 2px solid #FFF;
+  font-size: 13px;
+}
+
+.painting-details .painting-details-buttons-list .painting-details-button-item:hover, .painting-details .painting-details-buttons-list .painting-details-button-item.selected {
+  background: #000;
+  color: #FFF;
+}
+
+.painting-details .content {
+  line-height: 2;
+}
+
+.painting-details p {
+  font-size: 14px;
 }
 
 @keyframes popup-animation {
