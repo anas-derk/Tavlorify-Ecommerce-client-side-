@@ -783,14 +783,14 @@ const TextToImage = ({
                     </Carousel.Item>
                     {/* End Carousel Item */}
                     {/* Start Carousel Item */}
-                    {/* <Carousel.Item>
+                    <Carousel.Item>
                         {getImageInsideRoomBox(1, "minimize-room-image")}
-                    </Carousel.Item> */}
+                    </Carousel.Item>
                     {/* End Carousel Item */}
                     {/* Start Carousel Item */}
-                    {/* <Carousel.Item>
+                    <Carousel.Item>
                         {getImageInsideRoomBox(2, "minimize-room-image")}
-                    </Carousel.Item> */}
+                    </Carousel.Item>
                     {/* End Carousel Item */}
                 </Carousel>
                 {/* End Carousel Component From Bootstrap */}
