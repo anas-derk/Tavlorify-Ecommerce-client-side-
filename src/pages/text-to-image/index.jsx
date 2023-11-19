@@ -756,7 +756,7 @@ const TextToImage = ({
 
     const getImageInsideRoomBox = (roomNumber, imageSize) => {
         return (
-            (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image") && !isWaitStatus && !errorMsg && generatedImageURL && <div
+            (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image" || imageSize === "room-image-to-mobiles-and-tablets") && !isWaitStatus && !errorMsg && generatedImageURL && <div
                 className={`room${roomNumber}-image-box room-image-box mb-4 d-block mx-auto`}
                 onClick={() => handleDisplayImageMode(`image-inside-room${roomNumber}`)}
                 style={
@@ -791,12 +791,12 @@ const TextToImage = ({
                     {/* End Carousel Item */}
                     {/* Start Carousel Item */}
                     <Carousel.Item>
-                        {getImageInsideRoomBox(1, "minimize-room-image")}
+                        {getImageInsideRoomBox(1, "room-image-to-mobiles-and-tablets")}
                     </Carousel.Item>
                     {/* End Carousel Item */}
                     {/* Start Carousel Item */}
                     <Carousel.Item>
-                        {getImageInsideRoomBox(2, "minimize-room-image")}
+                        {getImageInsideRoomBox(2, "room-image-to-mobiles-and-tablets")}
                     </Carousel.Item>
                     {/* End Carousel Item */}
                 </Carousel>
