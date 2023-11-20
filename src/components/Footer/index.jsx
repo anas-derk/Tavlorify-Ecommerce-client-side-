@@ -6,9 +6,8 @@ import { BiPhone } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { GoSignOut } from "react-icons/go";
 import { BiBrain } from "react-icons/bi"
-import { BsCart2, BsInfoCircle } from "react-icons/bs";
+import { BsInfoCircle } from "react-icons/bs";
 import { AiOutlineHome, AiOutlineUserAdd, AiOutlineContacts } from "react-icons/ai";
-import { MdProductionQuantityLimits } from "react-icons/md";
 import { FiLogIn } from "react-icons/fi";
 import { FaQuestion } from "react-icons/fa";
 
@@ -21,13 +20,13 @@ export default function Footer() {
                 {/* Start Grid System */}
                 <div className="row">
                     {/* Start Column */}
-                    <div className="col-md-3 text-center">
+                    <div className="col-md-3 text-center mb-4">
                         <AiOutlineContacts className="mb-3" style={{ fontSize: "100px" }} />
                         <h6>Tavlorify Store</h6>
                     </div>
                     {/* End Column */}
                     {/* Start Column */}
-                    <div className="col-md-3">
+                    <div className="col-md-3 mb-4">
                         <h6>User Links</h6>
                         <hr className="mt-0" />
                         {/* Start Link List */}
@@ -59,7 +58,7 @@ export default function Footer() {
                     </div>
                     {/* End Column */}
                     {/* Start Column */}
-                    <div className="col-md-3">
+                    <div className="col-md-3 mb-4">
                         <h6>Our Company Links</h6>
                         <hr className="mt-0" />
                         {/* Start Link List */}
@@ -112,7 +111,7 @@ export default function Footer() {
                                     <span>Selling Policy</span>
                                 </Link>
                             </li>
-                            <li className="link-item mb-3 col-md-12">
+                            <li className="link-item col-md-12">
                                 <Link className="link" href='/return-policy' target="_blank">
                                     <BiBrain className="me-2" />
                                     <span>Return Policy</span>
@@ -123,7 +122,7 @@ export default function Footer() {
                     </div>
                     {/* End Column */}
                     {/* Start Column */}
-                    <div className="col-md-3">
+                    <div className="col-md-3 mb-3">
                         <h6>Social Media And Contact Links</h6>
                         <hr className="mt-0" />
                         {/* Start Link List */}
