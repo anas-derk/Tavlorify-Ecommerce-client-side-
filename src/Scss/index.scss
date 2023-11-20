@@ -377,9 +377,6 @@ a{
                         }
                         .positions-list{
                             grid-template-columns: repeat(3, auto);
-                            @media (max-width: 767px) {
-                                display: none;
-                            }
                         }
                         .positions-list, .white-borders-list{
                             span{

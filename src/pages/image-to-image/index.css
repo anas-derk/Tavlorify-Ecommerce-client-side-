@@ -139,3 +139,9 @@
 .image-to-image-service .page-content .container-fluid .row .art-painting-options {
   height: 400px;
 }
+
+@media (max-width: 767px) {
+  .image-to-image-service .page-content .container-fluid .row .art-painting-options .positions-list {
+    display: none;
+  }
+}

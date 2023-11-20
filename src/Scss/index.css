@@ -490,13 +490,6 @@ a {
   grid-template-columns: repeat(3, auto);
 }
 
-@media (max-width: 767px) {
-  .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .positions-list,
-  .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .positions-list {
-    display: none;
-  }
-}
-
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .positions-list span, .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .white-borders-list span,
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .positions-list span,
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .white-borders-list span {
