@@ -56,6 +56,10 @@ import Carousel from 'react-bootstrap/Carousel';
 import howToUseImage1 from "../../../public/images/HowToUseExplain/Img2Img/1.jpg";
 import howToUseImage2 from "../../../public/images/HowToUseExplain/Img2Img/2.jpg";
 import howToUseImage3 from "../../../public/images/HowToUseExplain/Img2Img/3.jpg";
+import inspirationImage1 from "../../../public/images/Inspiration/1.jpg";
+import inspirationImage2 from "../../../public/images/Inspiration/2.jpg";
+import inspirationImage3 from "../../../public/images/Inspiration/3.jpg";
+import inspirationImage4 from "../../../public/images/Inspiration/4.jpg";
 
 const ImageToImage = ({
     generatedImageId,
@@ -1128,7 +1132,7 @@ const ImageToImage = ({
 
     const getImageInsideRoomBox = (roomNumber, imageSize) => {
         return (
-            (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image" || imageSize === "room-image-to-mobiles-and-tablets" ) && !isWaitStatus && !errorMsg && generatedImageURL && <div
+            (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image" || imageSize === "room-image-to-mobiles-and-tablets") && !isWaitStatus && !errorMsg && generatedImageURL && <div
                 className={`room${roomNumber}-image-box room-image-box mx-auto border border-2 border-dark mb-4`}
                 onClick={() => handleDisplayImageMode(`image-inside-room${roomNumber}`)}
                 style={
@@ -1704,6 +1708,28 @@ const ImageToImage = ({
                             </div>}
                         </section>
                         {/* End Painting Details Section */}
+                        {/* Start Inspiration */}
+                        <section className="inspiration p-3 text-center">
+                            <h3 className="fw-bold">Inspiration</h3>
+                            <h6 className="mb-3">EXAMPLES FROM US AND OUR CUSTOMERS</h6>
+                            {/* Start Carousel Component From Bootstrap */}
+                            <Carousel indicators={false}>
+                                {/* Start Carousel Item */}
+                                <Carousel.Item>
+                                    <Carousel.Caption>
+                                        <div className="inspiration-image-box">
+                                            <img
+                                                src={inspirationImage1.src}
+                                                alt="Inspiration Image 1"
+                                            />
+                                        </div>
+                                    </Carousel.Caption>
+                                </Carousel.Item>
+                                {/* End Carousel Item */}
+                            </Carousel>
+                            {/* End Carousel Component From Bootstrap */}
+                        </section>
+                        {/* End Inspiration */}
                     </div>
                     {/* End Container */}
                 </div>

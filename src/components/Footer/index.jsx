@@ -12,10 +12,10 @@ import { MdProductionQuantityLimits } from "react-icons/md";
 import { FiLogIn } from "react-icons/fi";
 import { FaQuestion } from "react-icons/fa";
 
-const Footer = () => {
+export default function Footer() {
     return (
         // Start Page Footer
-        <footer className="global-footer pt-4 pb-4 bg-dark text-white">
+        <footer className="global-footer pt-4 pb-4 text-white">
             {/* Start Container */}
             <div className="container-fluid">
                 {/* Start Grid System */}
@@ -156,5 +156,3 @@ const Footer = () => {
         // End Page Footer
     );
 }
-
-export default Footer;
