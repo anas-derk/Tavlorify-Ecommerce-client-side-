@@ -45,18 +45,6 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li className="link-item mb-3">
-                                <Link className="link" href='/cart' target="_blank">
-                                    <BsCart2 className="me-2" />
-                                    <span>Cart</span>
-                                </Link>
-                            </li>
-                            <li className="link-item mb-3">
-                                <Link className="link" href='/orders' target="_blank">
-                                    <MdProductionQuantityLimits className="me-2" />
-                                    <span>Orders</span>
-                                </Link>
-                            </li>
-                            <li className="link-item mb-3">
                                 <Link className="link" href='/profile' target="_blank">
                                     <CgProfile className="me-2" />
                                     <span>Profile</span>
@@ -75,47 +63,59 @@ export default function Footer() {
                         <h6>Our Company Links</h6>
                         <hr className="mt-0" />
                         {/* Start Link List */}
-                        <ul className="list-unstyled link-list">
-                            <li className="link-item mb-3">
+                        <ul className="list-unstyled link-list row">
+                            <li className="link-item mb-3 col-md-6">
                                 <Link className="link" href='/' target="_blank">
                                     <AiOutlineHome className="me-2" />
                                     <span>Home</span>
                                 </Link>
                             </li>
-                            <li className="link-item mb-3">
-                                <Link className="link" href='/products' target="_blank">
-                                    <MdProductionQuantityLimits className="me-2" />
-                                    <span>Products</span>
-                                </Link>
-                            </li>
-                            <li className="link-item mb-3">
-                                <Link className="link" href='/text-to-image' target="_blank">
-                                    <BiBrain className="me-2" />
-                                    <span>Text To Image Service</span>
-                                </Link>
-                            </li>
-                            {/* <li className="link-item mb-3">
-                                <Link className="link" href='/login' target="_blank">
-                                    <BiBrain className="me-2" />
-                                    <span>Image To Image Service</span>
-                                </Link>
-                            </li> */}
-                            <li className="link-item mb-3">
+                            <li className="link-item mb-3 col-md-6">
                                 <Link className="link" href='/who-are-we' target="_blank">
                                     <BsInfoCircle className="me-2" />
                                     <span>Who Are We ?</span>
                                 </Link>
                             </li>
-                            <li className="link-item mb-3">
+                            <li className="link-item mb-3 col-md-6">
                                 <Link className="link" href='/contact-us' target="_blank">
                                     <AiOutlineContacts className="me-2" />
                                     <span>Contact Us</span>
                                 </Link>
                             </li>
-                            <li className="link-item">
+                            <li className="link-item col-md-6">
                                 <Link className="link" href='/faq' target="_blank">
                                     <FaQuestion className="me-2" />
                                     <span>FAQ</span>
+                                </Link>
+                            </li>
+                            <li className="link-item mb-3 col-md-12">
+                                <Link className="link" href='/text-to-image' target="_blank">
+                                    <BiBrain className="me-2" />
+                                    <span>Text To Image Service</span>
+                                </Link>
+                            </li>
+                            <li className="link-item mb-3 col-md-12">
+                                <Link className="link" href='/image-to-image' target="_blank">
+                                    <BiBrain className="me-2" />
+                                    <span>Image To Image Service</span>
+                                </Link>
+                            </li>
+                            <li className="link-item mb-3 col-md-6">
+                                <Link className="link" href='/privacy-policy' target="_blank">
+                                    <BiBrain className="me-2" />
+                                    <span>Privacy Policy</span>
+                                </Link>
+                            </li>
+                            <li className="link-item mb-3 col-md-6">
+                                <Link className="link" href='/selling-policy' target="_blank">
+                                    <BiBrain className="me-2" />
+                                    <span>Selling Policy</span>
+                                </Link>
+                            </li>
+                            <li className="link-item mb-3 col-md-12">
+                                <Link className="link" href='/return-policy' target="_blank">
+                                    <BiBrain className="me-2" />
+                                    <span>Return Policy</span>
                                 </Link>
                             </li>
                         </ul>

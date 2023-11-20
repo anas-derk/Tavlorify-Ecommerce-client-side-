@@ -614,6 +614,14 @@ a {
   height: 100%;
 }
 
+.text-to-image-service .page-content,
+.image-to-image-service .page-content,
+.privacy-policy .page-content,
+.selling-policy .page-content,
+.return-policy .page-content {
+  padding-top: 80px;
+}
+
 @keyframes popup-animation {
   from {
     opacity: 0;

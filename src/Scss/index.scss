@@ -478,6 +478,16 @@ a{
     }
 }
 
+.text-to-image-service,
+.image-to-image-service,
+.privacy-policy,
+.selling-policy,
+.return-policy{
+    .page-content{
+        padding-top: 80px;
+    }
+}
+
 @keyframes popup-animation {
     from{
         opacity: 0;
