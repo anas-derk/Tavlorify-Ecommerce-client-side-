@@ -597,6 +597,10 @@ a {
   font-size: 14px;
 }
 
+.painting-details .accordion-button {
+  font-size: 14px;
+}
+
 .inspiration .carousel {
   height: 200px;
 }
