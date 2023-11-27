@@ -26,39 +26,7 @@ export default function Footer() {
                     </div>
                     {/* End Column */}
                     {/* Start Column */}
-                    <div className="col-md-3 mb-4">
-                        <h6>User Links</h6>
-                        <hr className="mt-0" />
-                        {/* Start Link List */}
-                        <ul className="list-unstyled link-list">
-                            <li className="link-item mb-3">
-                                <Link className="link" href='/login' target="_blank">
-                                    <FiLogIn className="me-2" />
-                                    <span>Login</span>
-                                </Link>
-                            </li>
-                            <li className="link-item mb-3">
-                                <Link className="link" href='/sign-up' target="_blank">
-                                    <AiOutlineUserAdd className="me-2" />
-                                    <span>Signup</span>
-                                </Link>
-                            </li>
-                            <li className="link-item mb-3">
-                                <Link className="link" href='/profile' target="_blank">
-                                    <CgProfile className="me-2" />
-                                    <span>Profile</span>
-                                </Link>
-                            </li>
-                            <li className="link-item sign-out-item">
-                                <GoSignOut className="me-2" />
-                                <span>Sign Out</span>
-                            </li>
-                        </ul>
-                        {/* End Link List */}
-                    </div>
-                    {/* End Column */}
-                    {/* Start Column */}
-                    <div className="col-md-3 mb-4">
+                    <div className="col-md-6 mb-4">
                         <h6>Our Company Links</h6>
                         <hr className="mt-0" />
                         {/* Start Link List */}

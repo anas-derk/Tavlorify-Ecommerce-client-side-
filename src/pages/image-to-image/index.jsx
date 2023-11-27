@@ -4,10 +4,14 @@ import { Fragment, useEffect, useState } from "react";
 import Axios from "axios";
 import global_data from "../../../public/data/global";
 /* Start Import Frame Corner Images */
-import blackFrameCornerImage from "../../../public/images/frames/frameCorners/black.png";
-import whiteFrameCornerImage from "../../../public/images/frames/frameCorners/white.png";
-import woodFrameCornerImage from "../../../public/images/frames/frameCorners/wood.png";
-import darkWoodFrameCornerImage from "../../../public/images/frames/frameCorners/dark-wood.png";
+import normalBlackFrameCornerImage from "../../../public/images/frames/frameCorners/normalBlack.jpg";
+import normalWhiteFrameCornerImage from "../../../public/images/frames/frameCorners/normalWhite.jpg";
+import normalWoodFrameCornerImage from "../../../public/images/frames/frameCorners/normalWood.jpg";
+import normalDarkWoodFrameCornerImage from "../../../public/images/frames/frameCorners/normalDarkWood.jpg";
+import hangerBlackFrameCornerImage from "../../../public/images/frames/frameCorners/hangerBlack.jpg";
+import hangerWhiteFrameCornerImage from "../../../public/images/frames/frameCorners/hangerWhite.jpg";
+import hangerWoodFrameCornerImage from "../../../public/images/frames/frameCorners/hangerWood.jpg";
+import hangerDarkWoodFrameCornerImage from "../../../public/images/frames/frameCorners/hangerDarkWood.jpg";
 /* End Import Frame Corner Images */
 /* Start Import Normal Frame Images */
 import normalPosterBlackFrameImageHorizontal from "../../../public/images/frames/normalPoster/black/H/600.png";
@@ -45,14 +49,13 @@ import VerticalframeImageWithFullTransparent from "../../../public/images/frames
 import { BsCloudUpload } from "react-icons/bs";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { CgArrowsHAlt, CgArrowsVAlt } from "react-icons/cg";
-import validations from "../../../public/global_functions/validations";
 import { v4 as generateUniqueID } from "uuid";
 import room1Image from "@/../../public/images/Rooms/room1.jpg";
 import room2Image from "@/../../public/images/Rooms/room2.jpg";
 import { BiError } from "react-icons/bi";
 import { GrFormClose } from "react-icons/gr";
 import LoaderPage from "@/components/LoaderPage";
-import Carousel from 'react-bootstrap/Carousel';
+import Carousel from "react-bootstrap/Carousel";
 import howToUseImage1 from "../../../public/images/HowToUseExplain/Img2Img/1.jpg";
 import howToUseImage2 from "../../../public/images/HowToUseExplain/Img2Img/2.jpg";
 import howToUseImage3 from "../../../public/images/HowToUseExplain/Img2Img/3.jpg";
@@ -123,10 +126,6 @@ export default function ImageToImage({
     const [isSuccessAddToCart, setIsSuccessAddToCart] = useState(false);
 
     const [errorInAddToCart, setErrorInAddToCart] = useState("");
-
-    const [quantity, setQuantity] = useState(1);
-
-    const [formValidationErrors, setFormValidationErrors] = useState({});
 
     const [imageMode, setImageMode] = useState("normal-size-image");
 
@@ -769,115 +768,49 @@ export default function ImageToImage({
     }
 
     const addToCart = async () => {
-        setFormValidationErrors({});
-        let errorsObject = validations.inputValuesValidation([
-            {
-                name: "quantity",
-                value: quantity,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't Be Field Is Empty !!",
-                    },
-                    minNumber: {
-                        value: 1,
-                        msg: "Sorry, Can't Be Quantity Less Than One !!",
-                    }
-                },
-            },
-        ]);
-        setFormValidationErrors(errorsObject);
-        if (Object.keys(errorsObject).length == 0) {
-            setIsWaitAddToCart(true);
-            let theRatioBetweenTheHeightAndTheWidth;
-            let newWidth;
-            let newHeight;
-            let left;
-            let top;
-            let width;
-            let height;
-            if (isWillTheImageBeMoved) {
-                switch (theDirectionOfImageDisplacement) {
-                    case "vertical": {
-                        theRatioBetweenTheHeightAndTheWidth = paintingHeight / paintingWidth;
-                        newWidth = 417;
-                        newHeight = theRatioBetweenTheHeightAndTheWidth * newWidth;
-                        left = 0;
-                        top = Math.floor((newHeight - 1.4 * newWidth) * (backgroundPosition.y / 100));
-                        width = newWidth;
-                        height = top + 585 > newHeight ? Math.floor(newHeight) - top : 585;
-                        break;
-                    }
-                    case "horizontal": {
-                        theRatioBetweenTheHeightAndTheWidth = paintingWidth / paintingHeight;
-                        newHeight = 417;
-                        newWidth = theRatioBetweenTheHeightAndTheWidth * newHeight;
-                        left = Math.floor((newWidth - 1.4 * newHeight) * (backgroundPosition.x / 100));
-                        top = 0;
-                        width = left + 585 > newWidth ? Math.floor(newWidth) - left : 585;
-                        height = newHeight;
-                        break;
-                    }
-                    default: {
-                        console.log("Error !!");
-                    }
+        setIsWaitAddToCart(true);
+        let theRatioBetweenTheHeightAndTheWidth;
+        let newWidth;
+        let newHeight;
+        let left;
+        let top;
+        let width;
+        let height;
+        if (isWillTheImageBeMoved) {
+            switch (theDirectionOfImageDisplacement) {
+                case "vertical": {
+                    theRatioBetweenTheHeightAndTheWidth = paintingHeight / paintingWidth;
+                    newWidth = 417;
+                    newHeight = theRatioBetweenTheHeightAndTheWidth * newWidth;
+                    left = 0;
+                    top = Math.floor((newHeight - 1.4 * newWidth) * (backgroundPosition.y / 100));
+                    width = newWidth;
+                    height = top + 585 > newHeight ? Math.floor(newHeight) - top : 585;
+                    break;
                 }
-                try {
-                    const res = await Axios.post(`${process.env.BASE_API_URL}/users/crop-image`, {
-                        imagePath: generatedImagePathInMyServer,
-                        left: left,
-                        top: top,
-                        width: width,
-                        height: height,
-                    });
-                    const result = await res.data;
-                    const productInfoToCart = {
-                        _id: generateUniqueID(),
-                        paintingType: paintingType,
-                        isExistWhiteBorder: isExistWhiteBorderWithPoster,
-                        frameColor: frameColor,
-                        position: imageType,
-                        size: dimentionsInCm,
-                        priceBeforeDiscount: productPriceBeforeDiscount,
-                        priceAfterDiscount: productPriceAfterDiscount,
-                        generatedImageURL: result,
-                        quantity: quantity,
-                        service: "image-to-image",
-                    }
-                    let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-                    if (allProductsData) {
-                        allProductsData.push(productInfoToCart);
-                        localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
-                        setIsWaitAddToCart(false);
-                        setIsSuccessAddToCart(true);
-                        let successAddToCartTimeout = setTimeout(() => {
-                            setIsSuccessAddToCart(false);
-                            clearTimeout(successAddToCartTimeout);
-                        }, 1500);
-                        setNewTotalProductsCount(allProductsData.length);
-                    } else {
-                        let allProductsData = [];
-                        allProductsData.push(productInfoToCart);
-                        localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
-                        setIsWaitAddToCart(false);
-                        setIsSuccessAddToCart(true);
-                        let successAddToCartTimeout = setTimeout(() => {
-                            setIsSuccessAddToCart(false);
-                            setNewTotalProductsCount(allProductsData.length);
-                            clearTimeout(successAddToCartTimeout);
-                        }, 1500);
-                    }
+                case "horizontal": {
+                    theRatioBetweenTheHeightAndTheWidth = paintingWidth / paintingHeight;
+                    newHeight = 417;
+                    newWidth = theRatioBetweenTheHeightAndTheWidth * newHeight;
+                    left = Math.floor((newWidth - 1.4 * newHeight) * (backgroundPosition.x / 100));
+                    top = 0;
+                    width = left + 585 > newWidth ? Math.floor(newWidth) - left : 585;
+                    height = newHeight;
+                    break;
                 }
-                catch (err) {
-                    console.log(err);
-                    setIsWaitAddToCart(false);
-                    setErrorInAddToCart("Sorry, Something Went Wrong !!");
-                    let errorInAddToCartTimeout = setTimeout(() => {
-                        setErrorInAddToCart("");
-                        clearTimeout(errorInAddToCartTimeout);
-                    }, 2000);
+                default: {
+                    console.log("Error !!");
                 }
             }
-            else {
+            try {
+                const res = await Axios.post(`${process.env.BASE_API_URL}/users/crop-image`, {
+                    imagePath: generatedImagePathInMyServer,
+                    left: left,
+                    top: top,
+                    width: width,
+                    height: height,
+                });
+                const result = await res.data;
                 const productInfoToCart = {
                     _id: generateUniqueID(),
                     paintingType: paintingType,
@@ -887,8 +820,7 @@ export default function ImageToImage({
                     size: dimentionsInCm,
                     priceBeforeDiscount: productPriceBeforeDiscount,
                     priceAfterDiscount: productPriceAfterDiscount,
-                    generatedImageURL: generatedImagePathInMyServer,
-                    quantity: quantity,
+                    generatedImageURL: result,
                     service: "image-to-image",
                 }
                 let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
@@ -899,9 +831,9 @@ export default function ImageToImage({
                     setIsSuccessAddToCart(true);
                     let successAddToCartTimeout = setTimeout(() => {
                         setIsSuccessAddToCart(false);
-                        setNewTotalProductsCount(allProductsData.length);
                         clearTimeout(successAddToCartTimeout);
                     }, 1500);
+                    setNewTotalProductsCount(allProductsData.length);
                 } else {
                     let allProductsData = [];
                     allProductsData.push(productInfoToCart);
@@ -914,6 +846,52 @@ export default function ImageToImage({
                         clearTimeout(successAddToCartTimeout);
                     }, 1500);
                 }
+            }
+            catch (err) {
+                console.log(err);
+                setIsWaitAddToCart(false);
+                setErrorInAddToCart("Sorry, Something Went Wrong !!");
+                let errorInAddToCartTimeout = setTimeout(() => {
+                    setErrorInAddToCart("");
+                    clearTimeout(errorInAddToCartTimeout);
+                }, 2000);
+            }
+        }
+        else {
+            const productInfoToCart = {
+                _id: generateUniqueID(),
+                paintingType: paintingType,
+                isExistWhiteBorder: isExistWhiteBorderWithPoster,
+                frameColor: frameColor,
+                position: imageType,
+                size: dimentionsInCm,
+                priceBeforeDiscount: productPriceBeforeDiscount,
+                priceAfterDiscount: productPriceAfterDiscount,
+                generatedImageURL: generatedImagePathInMyServer,
+                service: "image-to-image",
+            }
+            let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+            if (allProductsData) {
+                allProductsData.push(productInfoToCart);
+                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
+                setIsWaitAddToCart(false);
+                setIsSuccessAddToCart(true);
+                let successAddToCartTimeout = setTimeout(() => {
+                    setIsSuccessAddToCart(false);
+                    setNewTotalProductsCount(allProductsData.length);
+                    clearTimeout(successAddToCartTimeout);
+                }, 1500);
+            } else {
+                let allProductsData = [];
+                allProductsData.push(productInfoToCart);
+                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
+                setIsWaitAddToCart(false);
+                setIsSuccessAddToCart(true);
+                let successAddToCartTimeout = setTimeout(() => {
+                    setIsSuccessAddToCart(false);
+                    setNewTotalProductsCount(allProductsData.length);
+                    clearTimeout(successAddToCartTimeout);
+                }, 1500);
             }
         }
     }
@@ -1186,7 +1164,7 @@ export default function ImageToImage({
             const res = await Axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
             const result = await res.data;
             setProductPriceBeforeDiscount(result.priceBeforeDiscount);
-            setProductPriceAfterDiscount(result.priceBeforeDiscount);
+            setProductPriceAfterDiscount(result.priceAfterDiscount);
         }
         catch (err) {
             console.log(err);
@@ -1340,21 +1318,11 @@ export default function ImageToImage({
                                         </section>
                                         {/* End Styles Section */}
                                     </section>
-                                    {/* Start Art Name And Price Section */}
-                                    <section className="art-name-and-price mb-2">
-                                        {/* Start Grid System */}
-                                        <div className="row align-items-center">
-                                            <div className="col-8">
-                                                <h5 className="art-name mb-0 fw-bold">Art Name: {paintingType}</h5>
-                                            </div>
-                                            <div className="col-4 text-end price-box">
-                                                <h5 className="price mb-0 fw-bold">{productPriceAfterDiscount} kr</h5>
-                                                {productPriceBeforeDiscount != productPriceAfterDiscount && <h6 className="discount fw-bold">{productPriceBeforeDiscount} kr</h6>}
-                                            </div>
-                                        </div>
-                                        {/* End Grid System */}
+                                    {/* Start Art Name Section */}
+                                    <section className="art-name mb-2 text-center fw-bold">
+                                        Art Name: {paintingType}
                                     </section>
-                                    {/* End Art Name And Price Section */}
+                                    {/* End Art Name Section */}
                                     {/* Start Displaying Art Painting Options Section */}
                                     <section className="displaying-art-painting-options">
                                         {/* Start Art Names List */}
@@ -1473,7 +1441,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <h6 className="frame-color d-block fw-bold mb-2">Black</h6>
-                                                    <img src={blackFrameCornerImage.src} alt="Black Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                    <img src={normalBlackFrameCornerImage.src} alt="Black Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                                 </span>
                                             </li>
                                             <li
@@ -1483,7 +1451,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <h6 className="frame-color d-block fw-bold mb-2">White</h6>
-                                                    <img src={whiteFrameCornerImage.src} alt="White Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                    <img src={normalWhiteFrameCornerImage.src} alt="White Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                                 </span>
                                             </li>
                                             <li
@@ -1493,7 +1461,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <h6 className="frame-color d-block fw-bold mb-2">Wood</h6>
-                                                    <img src={woodFrameCornerImage.src} alt="Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                    <img src={normalWoodFrameCornerImage.src} alt="Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                                 </span>
                                             </li>
                                             <li
@@ -1503,7 +1471,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <h6 className="frame-color d-block fw-bold mb-2">Dark Wood</h6>
-                                                    <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                    <img src={normalDarkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                                 </span>
                                             </li>
                                             <li
@@ -1513,7 +1481,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <h6 className="frame-color d-block fw-bold mb-2">Black With Hangers</h6>
-                                                    <img src={blackFrameCornerImage.src} alt="Black Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                    <img src={hangerBlackFrameCornerImage.src} alt="Black Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                                 </span>
                                             </li>
                                             <li
@@ -1523,7 +1491,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <h6 className="frame-color d-block fw-bold mb-2">White With Hangers</h6>
-                                                    <img src={whiteFrameCornerImage.src} alt="White Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                    <img src={hangerWhiteFrameCornerImage.src} alt="White Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                                 </span>
                                             </li>
                                             <li
@@ -1533,7 +1501,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <h6 className="frame-color d-block fw-bold">Wood With Hangers</h6>
-                                                    <img src={woodFrameCornerImage.src} alt="Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                    <img src={hangerWoodFrameCornerImage.src} alt="Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                                 </span>
                                             </li>
                                             <li
@@ -1543,7 +1511,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <h6 className="frame-color d-block fw-bold mb-2">Dark Wood With Hangers</h6>
-                                                    <img src={darkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
+                                                    <img src={hangerDarkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
                                                 </span>
                                             </li>
                                         </ul>}
@@ -1554,29 +1522,18 @@ export default function ImageToImage({
                                 {/* End Art Painting Options Section */}
                                 {/* Start Add To Cart Managment */}
                                 {!isWaitStatus && !errorMsg && <div className="add-to-cart-box">
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <input
-                                                type="number"
-                                                placeholder="Quantity"
-                                                className={`quantity form-control border-2 mb-3 ${formValidationErrors["quantity"] ? "border-danger" : "border-dark"}`}
-                                                onChange={(e) => setQuantity(e.target.value)}
-                                                defaultValue={quantity}
-                                            />
-                                            {formValidationErrors["quantity"] && <p className='error-msg text-danger'>{formValidationErrors["quantity"]}</p>}
-                                        </div>
-                                        <div className="col-md-6">
-                                            {!isWaitAddToCart && !errorInAddToCart && !isSuccessAddToCart && <button
-                                                className="btn btn-dark w-100 p-2 add-to-cart-managment-btn"
-                                                onClick={addToCart}
-                                            >
-                                                Add To Cart
-                                            </button>}
-                                            {isWaitAddToCart && <button className="btn btn-dark w-100 p-1 add-to-cart-managment-btn" disabled>Waiting ...</button>}
-                                            {isSuccessAddToCart && <button className="btn btn-success w-100 p-2 add-to-cart-managment-btn" disabled>Success Is Adding To Cart ...</button>}
-                                            {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn" disabled>{errorInAddToCart}</button>}
-                                        </div>
-                                    </div>
+                                    {!isWaitAddToCart && !errorInAddToCart && !isSuccessAddToCart && <button
+                                        className="btn btn-dark w-100 p-2 add-to-cart-managment-btn"
+                                        onClick={addToCart}
+                                    >
+                                        <span className="me-2">Add To Cart |</span>
+                                        <span className="me-2">{productPriceAfterDiscount} Kr</span>
+                                        {productPriceBeforeDiscount != productPriceAfterDiscount && <span className="text-decoration-line-through me-2">{productPriceBeforeDiscount} </span>}
+                                        {productPriceBeforeDiscount != productPriceAfterDiscount && <span>kr</span>}
+                                    </button>}
+                                    {isWaitAddToCart && <button className="btn btn-dark w-100 p-1 add-to-cart-managment-btn" disabled>Waiting ...</button>}
+                                    {isSuccessAddToCart && <button className="btn btn-success w-100 p-2 add-to-cart-managment-btn" disabled>Success Is Adding To Cart ...</button>}
+                                    {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn" disabled>{errorInAddToCart}</button>}
                                 </div>}
                                 {/* End Add To Cart Managment */}
                             </div>

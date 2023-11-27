@@ -314,26 +314,10 @@ a{
                             }
                         }
                     }
-                    .art-name-and-price{
+                    .art-name{
+                        font-size: 20px;
                         @media (max-width: 767px) {
-                            .row{
-                                > div:first-child{
-                                    text-align: center;
-                                }
-                                > div:last-child{
-                                    text-align: center !important;
-                                }
-                                .art-name, .price {
-                                    @media (max-width: 767px) {
-                                        font-size: 17px;
-                                    }
-                                }
-                            }
-                        }
-                        .price-box{
-                            .discount{
-                                text-decoration: line-through;
-                            }
+                            font-size: 17px;
                         }
                     }
                     .displaying-art-painting-options{

@@ -74,14 +74,8 @@
   position: relative;
   cursor: pointer;
   width: 100%;
-  height: 150px;
+  height: 75px;
   background-color: #EEE;
-}
-
-@media (max-width: 767px) {
-  .image-to-image-service .page-content .container-fluid .row .image-before-processing-box .select-image-box .file-label {
-    height: 75px;
-  }
 }
 
 @media (max-width: 767px) {
