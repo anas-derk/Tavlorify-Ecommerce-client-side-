@@ -2,7 +2,6 @@ import Head from "next/head";
 import Script from "next/script";
 import "../Scss/index.css";
 import "../components/Header/index.css";
-import "../pages/profile/index.css";
 import "../components/Footer/index.css";
 import "../pages/index.css";
 import "../pages/text-to-image/index.css";
@@ -15,8 +14,6 @@ import "./dashboard/admin/admin-panel/products-manager/update-and-delete-product
 import "./dashboard/admin/admin-panel/products-manager/add-product/index.css";
 import "../components/ControlPanelHeader/index.css";
 import "../pages/dashboard/admin/login/index.css";
-import "../pages/login/index.css";
-import "../pages/sign-up/index.css";
 import "../pages/dashboard/admin/admin-panel/generated-images/index.css";
 import "./dashboard/admin/admin-panel/prices-manager/index.css";
 import "./checkout/index.css";

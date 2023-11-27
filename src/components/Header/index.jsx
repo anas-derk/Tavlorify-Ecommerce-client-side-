@@ -1,9 +1,6 @@
 import Link from "next/link";
-import { CgProfile } from "react-icons/cg";
-import { GoSignOut } from "react-icons/go";
 import { BsCart2, BsInfoCircle } from "react-icons/bs";
-import { AiOutlineHome, AiOutlineUserAdd } from "react-icons/ai";
-import { FiLogIn } from "react-icons/fi";
+import { AiOutlineHome } from "react-icons/ai";
 import { FaQuestion, FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router.js";
@@ -17,7 +14,6 @@ import Axios from "axios";
 import { MdOutlineContactPhone } from "react-icons/md";
 
 const Header = ({ newTotalProductsCount }) => {
-    const [userId, setUserId] = useState({});
     const [allProductsData, setAllProductsData] = useState([]);
     const [totalProductsCount, setTotalProductsCount] = useState(null);
     const [isDisplayAllProductManagmentBox, setIsDisplayAllProductManagmentBox] = useState(false);
@@ -32,8 +28,6 @@ const Header = ({ newTotalProductsCount }) => {
     const [isExistErrorInCreatingOrder, setIsExistErrorInCreatingOrder] = useState(false);
     const router = useRouter();
     useEffect(() => {
-        let userId = localStorage.getItem("tavlorify-store-user-id");
-        setUserId(userId);
         const allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         if (Array.isArray(allProductsData)) {
             setAllProductsData(allProductsData);
@@ -441,20 +435,6 @@ const Header = ({ newTotalProductsCount }) => {
                                     <span className="ms-2">FAQ</span>
                                 </Link>
                             </li>
-                            {!userId && <>
-                                <li className="nav-item">
-                                    <Link className="nav-link" aria-current="page" href="/login">
-                                        <FiLogIn />
-                                        <span className="ms-2">Log In</span>
-                                    </Link>
-                                </li>
-                                <li className="nav-item bg-dark auth-item">
-                                    <Link className="nav-link text-white" aria-current="page" href="/sign-up">
-                                        <AiOutlineUserAdd />
-                                        <span className="ms-2">Sign Up for Free</span>
-                                    </Link>
-                                </li>
-                            </>}
                             <li className="nav-item">
                                 <div className="nav-link btn show-all-products-btn">
                                     {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon" onClick={displayAllProductManagmentBox} />}
@@ -463,21 +443,6 @@ const Header = ({ newTotalProductsCount }) => {
                                     {isDisplayAllProductManagmentBox && getCartManagmentBoxInMediumScreensAndHigher()}
                                 </div>
                             </li>
-                            {userId && <>
-                                <li className="nav-item">
-                                    <Link className="nav-link" aria-current="page" href="/profile">
-                                        <CgProfile />
-                                        <span className="ms-2">My Profile</span>
-                                    </Link>
-                                </li>
-                                <li
-                                    className="nav-item bg-danger auth-item text-white sign-out-btn d-flex align-items-center p-2"
-                                    onClick={signOut}
-                                >
-                                    <GoSignOut />
-                                    <span className="ms-2">Sign Out</span>
-                                </li>
-                            </>}
                         </ul>
                     </div>
                 </div>
@@ -589,18 +554,6 @@ const Header = ({ newTotalProductsCount }) => {
                         <Link className="link" aria-current="page" href="/faq">
                             <FaQuestion />
                             <span className="ms-2">FAQ</span>
-                        </Link>
-                    </li>
-                    <li className="link-item p-3 border-bottom border-2">
-                        <Link className="link" aria-current="page" href="/login">
-                            <FiLogIn />
-                            <span className="ms-2">Login</span>
-                        </Link>
-                    </li>
-                    <li className="link-item p-3 border-bottom border-2">
-                        <Link className="link" aria-current="page" href="/sign-up">
-                            <AiOutlineHome />
-                            <span className="ms-2">Sign Up</span>
                         </Link>
                     </li>
                 </ul>}
