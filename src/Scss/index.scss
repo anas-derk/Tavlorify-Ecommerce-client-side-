@@ -383,7 +383,12 @@ a{
                                 grid-template-columns: repeat(9, 75px);
                             }
                             span{
-                                height: 90px;
+                                height: 130px;
+                                img{
+                                    border-radius: 50%;
+                                    width: 70px;
+                                    margin-bottom: 10px;
+                                }
                             }
                         }
                     }

@@ -514,7 +514,14 @@ a {
 
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list span,
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list span {
-  height: 90px;
+  height: 130px;
+}
+
+.text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list span img,
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list span img {
+  border-radius: 50%;
+  width: 70px;
+  margin-bottom: 10px;
 }
 
 .text-to-image-service .page-content .container-fluid .row .room-image-box,
