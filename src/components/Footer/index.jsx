@@ -1,14 +1,10 @@
 import Link from "next/link";
 import { TiSocialFacebook } from "react-icons/ti";
 import { AiOutlineTwitter } from "react-icons/ai";
-// import { IoLocationSharp } from "react-icons/io5";
 import { BiPhone } from "react-icons/bi";
-import { CgProfile } from "react-icons/cg";
-import { GoSignOut } from "react-icons/go";
 import { BiBrain } from "react-icons/bi"
 import { BsInfoCircle } from "react-icons/bs";
-import { AiOutlineHome, AiOutlineUserAdd, AiOutlineContacts } from "react-icons/ai";
-import { FiLogIn } from "react-icons/fi";
+import { AiOutlineHome, AiOutlineContacts } from "react-icons/ai";
 import { FaQuestion } from "react-icons/fa";
 
 export default function Footer() {
@@ -21,7 +17,7 @@ export default function Footer() {
                 <div className="row">
                     {/* Start Column */}
                     <div className="col-md-3 text-center mb-4">
-                        <AiOutlineContacts className="mb-3" style={{ fontSize: "100px" }} />
+                        <AiOutlineContacts className="mb-3 logo" />
                         <h6>Tavlorify Store</h6>
                     </div>
                     {/* End Column */}
@@ -55,13 +51,13 @@ export default function Footer() {
                                     <span>FAQ</span>
                                 </Link>
                             </li>
-                            <li className="link-item mb-3 col-md-12">
+                            <li className="link-item mb-3 col-md-6">
                                 <Link className="link" href='/text-to-image' target="_blank">
                                     <BiBrain className="me-2" />
                                     <span>Text To Image Service</span>
                                 </Link>
                             </li>
-                            <li className="link-item mb-3 col-md-12">
+                            <li className="link-item mb-3 col-md-6">
                                 <Link className="link" href='/image-to-image' target="_blank">
                                     <BiBrain className="me-2" />
                                     <span>Image To Image Service</span>
@@ -79,7 +75,7 @@ export default function Footer() {
                                     <span>Selling Policy</span>
                                 </Link>
                             </li>
-                            <li className="link-item col-md-12">
+                            <li className="link-item col-md-6">
                                 <Link className="link" href='/return-policy' target="_blank">
                                     <BiBrain className="me-2" />
                                     <span>Return Policy</span>

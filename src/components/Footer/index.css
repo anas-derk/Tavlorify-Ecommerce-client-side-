@@ -3,6 +3,6 @@
   background-color: #000;
 }
 
-.global-footer .sign-out-item {
-  cursor: pointer;
+.global-footer .logo {
+  font-size: 100px;
 }
