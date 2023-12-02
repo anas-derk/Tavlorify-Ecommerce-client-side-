@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 
-const UpdateCategoryStyleInfo = () => {
+export default function UpdateCategoryStyleInfo() {
 
     const router = useRouter();
 
@@ -283,5 +283,3 @@ const UpdateCategoryStyleInfo = () => {
         </div>
     )
 }
-
-export default UpdateCategoryStyleInfo;

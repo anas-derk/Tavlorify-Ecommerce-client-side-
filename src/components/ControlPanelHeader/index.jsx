@@ -2,7 +2,7 @@ import Link from "next/link";
 import { GoSignOut } from "react-icons/go";
 import { useRouter } from "next/router.js";
 
-const ControlPanelHeader = () => {
+export default function ControlPanelHeader(){
     const router = useRouter();
     const signOut = () => {
         localStorage.removeItem("tavlorify-store-admin-id");
@@ -150,5 +150,3 @@ const ControlPanelHeader = () => {
         </header>
     );
 }
-
-export default ControlPanelHeader;

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import Axios from "axios";
 
-const ReturnedreturnedOrderDetails = () => {
+export default function ReturnedreturnedOrderDetails() {
     const [returnedOrderDetails, setReturnedOrderDetails] = useState({});
     const [updatingOrderProductIndex, setUpdatingOrderProductIndex] = useState(-1);
     const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
@@ -192,5 +192,3 @@ const ReturnedreturnedOrderDetails = () => {
         </div>
     );
 }
-
-export default ReturnedreturnedOrderDetails;

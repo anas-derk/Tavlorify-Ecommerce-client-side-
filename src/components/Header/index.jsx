@@ -13,7 +13,7 @@ import { FaLongArrowAltRight } from "react-icons/fa";
 import Axios from "axios";
 import { MdOutlineContactPhone } from "react-icons/md";
 
-const Header = ({ newTotalProductsCount }) => {
+export default function Header({ newTotalProductsCount }){
     const [allProductsData, setAllProductsData] = useState([]);
     const [totalProductsCount, setTotalProductsCount] = useState(null);
     const [isDisplayAllProductManagmentBox, setIsDisplayAllProductManagmentBox] = useState(false);
@@ -563,5 +563,3 @@ const Header = ({ newTotalProductsCount }) => {
         // End Global Header
     );
 }
-
-export default Header;

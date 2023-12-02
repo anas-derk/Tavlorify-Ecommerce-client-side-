@@ -4,7 +4,7 @@ import Axios from "axios";
 import { useEffect, useState } from "react";
 import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 
-const GeneratedImages = ({ pageName }) => {
+export default function GeneratedImages({ pageName }) {
     const [allGeneratedImagesData, setAllGeneratedImagesData] = useState([]);
     const [selectedImageIndexForDownload, setSelectedImageIndexForDownload] = useState(-1);
     const [isDownloadUploadedImage, setIsDownloadUploadedImage] = useState(false);
@@ -270,8 +270,6 @@ const GeneratedImages = ({ pageName }) => {
         </div>
     );
 }
-
-export default GeneratedImages;
 
 export function getServerSideProps(context) {
     return {

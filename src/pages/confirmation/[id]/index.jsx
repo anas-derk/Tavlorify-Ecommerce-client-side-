@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Axios from "axios";
 
-const Confirmation = () => {
+export default function Confirmation(){
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(null);
     const router = useRouter();
     const { id } = router.query;
@@ -64,5 +64,3 @@ const Confirmation = () => {
         </div>
     );
 }
-
-export default Confirmation;

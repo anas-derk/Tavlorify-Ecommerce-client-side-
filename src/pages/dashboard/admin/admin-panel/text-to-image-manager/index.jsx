@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-const TextToImageManager = () => {
+export default function TextToImageManager() {
 
     const router = useRouter();
 
@@ -31,5 +31,3 @@ const TextToImageManager = () => {
         </div>
     );
 }
-
-export default TextToImageManager;

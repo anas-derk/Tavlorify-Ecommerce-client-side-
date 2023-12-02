@@ -5,7 +5,7 @@ import Axios from "axios";
 import validations from "../../../../../../../../public/global_functions/validations";
 import { useRouter } from "next/router";
 
-const AddNewCategory = () => {
+export default function AddNewCategory() {
 
     const [categoryName, setCategoryName] = useState("");
 
@@ -221,5 +221,3 @@ const AddNewCategory = () => {
         </div>
     );
 }
-
-export default AddNewCategory;

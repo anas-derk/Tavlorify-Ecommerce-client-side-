@@ -6,7 +6,7 @@ import Axios from "axios";
 import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 import Link from "next/link";
 
-const OrdersManager = () => {
+export default function OrdersManager() {
     const [allOrders, setAllOrders] = useState([]);
     const [isWaitStatus, setIsWaitStatus] = useState(false);
     const [updatingOrderIndex, setUpdatingOrderIndex] = useState(-1);
@@ -409,5 +409,3 @@ const OrdersManager = () => {
         </div>
     );
 }
-
-export default OrdersManager;

@@ -55,10 +55,10 @@ import { GrFormClose } from "react-icons/gr";
 import LoaderPage from "@/components/LoaderPage";
 import Carousel from 'react-bootstrap/Carousel';
 
-const TextToImage = ({
+export default function TextToImage({
     generatedImageId,
     paintingTypeAsQuery,
-}) => {
+}) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
@@ -1230,5 +1230,3 @@ export async function getServerSideProps(context) {
         }
     }
 }
-
-export default TextToImage;

@@ -6,7 +6,7 @@ import Axios from "axios";
 import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 import Link from "next/link";
 
-const ReturnedOrdersManager = () => {
+export default function ReturnedOrdersManager() {
     const [allReturnedOrders, setAllReturnedOrders] = useState([]);
     const [updatingOrderIndex, setUpdatingOrderIndex] = useState(-1);
     const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
@@ -394,5 +394,3 @@ const ReturnedOrdersManager = () => {
         </div>
     );
 }
-
-export default ReturnedOrdersManager;

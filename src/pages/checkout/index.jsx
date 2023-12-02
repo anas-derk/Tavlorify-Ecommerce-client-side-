@@ -10,7 +10,7 @@ import global_data from "../../../public/data/global";
 import Link from "next/link";
 import LoaderPage from "@/components/LoaderPage";
 
-const Checkout = ({ orderId }) => {
+export default function Checkout({ orderId }) {
     const [isLoadingPage, setIsLoadingPage] = useState(true);
     const [allProductsData, setAllProductsData] = useState([]);
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
@@ -335,8 +335,6 @@ const Checkout = ({ orderId }) => {
         // End Checkout Page
     );
 }
-
-export default Checkout;
 
 export async function getServerSideProps(context) {
     const orderId = context.query.orderId;

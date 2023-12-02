@@ -3,7 +3,7 @@ import ControlPanelHeader from "@/components/ControlPanelHeader";
 import Axios from "axios";
 import { useEffect, useState } from "react";
 
-const ProductPrices = ({ productName }) => {
+export default function ProductPrices({ productName }) {
 
     const [isUpdateProductPriceStatus, setIsUpdateProductPriceStatus] = useState(false);
 
@@ -135,8 +135,6 @@ const ProductPrices = ({ productName }) => {
         </div>
     );
 }
-
-export default ProductPrices;
 
 export function getServerSideProps(context) {
     const productName = context.query.productName;

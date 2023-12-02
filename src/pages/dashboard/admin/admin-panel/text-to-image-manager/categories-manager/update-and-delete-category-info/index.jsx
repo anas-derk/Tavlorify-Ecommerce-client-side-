@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import { useRouter } from "next/router";
 
-const UpdateAndDeleteCategoryInfo = () => {
+export default function UpdateAndDeleteCategoryInfo() {
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -152,5 +152,3 @@ const UpdateAndDeleteCategoryInfo = () => {
         // End Update And Delete Category Info
     );
 }
-
-export default UpdateAndDeleteCategoryInfo;

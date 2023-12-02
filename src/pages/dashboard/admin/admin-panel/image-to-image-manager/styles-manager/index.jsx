@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-const ImageToImageStylesManager = () => {
+export default function ImageToImageStylesManager() {
 
     const router = useRouter();
 
@@ -31,5 +31,3 @@ const ImageToImageStylesManager = () => {
         </div>
     );
 }
-
-export default ImageToImageStylesManager;

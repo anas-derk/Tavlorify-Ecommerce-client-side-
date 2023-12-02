@@ -3,7 +3,7 @@ import ControlPanelHeader from "@/components/ControlPanelHeader";
 import Link from "next/link";
 import { useEffect } from "react";
 
-const ImageToImageCategoriesManager = () => {
+export default function ImageToImageCategoriesManager() {
 
     useEffect(() => {
         const adminId = localStorage.getItem("tavlorify-store-admin-id");
@@ -28,5 +28,3 @@ const ImageToImageCategoriesManager = () => {
         </div>
     );
 }
-
-export default ImageToImageCategoriesManager;
