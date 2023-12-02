@@ -79,34 +79,32 @@ a{
 }
 
 .admin-panel,
-.products-manager,
-.categories-manager,
-.text-to-image-manager,
-.text-to-image-categories-manager,
-.text-to-image-styles-manager,
-.update-and-delete-products,
-.add-new-categoty,
-.update-and-delete-category-info,
+.text-to-image-managment,
+.text-to-image-categories-managment,
+.text-to-image-styles-managment,
 .update-category-styles-info,
-.image-to-image-manager,
-.image-to-image-categories-manager,
-.image-to-image-styles-manager,
-.add-new-sub-category,
-.add-new-sub-category-from-sub-category,
-.users-manager,
-.generated-images-data,
-.product-prices,
-.orders-manager,
+.image-to-image-managment,
+.image-to-image-categories-managment,
+.image-to-image-styles-managment,
+.product-prices-managment,
+.orders-managment,
 .order-details,
 .add-new-returned-order,
-.returned-orders-manager,
-.returned-order-details{
+.returned-orders-managment,
+.returned-order-details,
+.add-new-category,
+.update-and-delete-category-info,
+.add-new-style,
+.generated-images-managment{
     .content {
         background-color: #EEE;
         min-height: calc(100vh - 72px);
         .welcome-msg{
             border-bottom: 3px solid;
             width: fit-content;
+        }
+        .manager-link{
+            font-size: 14px;
         }
     }
 }

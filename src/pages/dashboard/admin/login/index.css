@@ -25,8 +25,16 @@
   box-shadow: 1px 1px 15px #CCC;
 }
 
+.admin-login .admin-login-form h1 {
+  font-size: 30px;
+}
+
+.admin-login .admin-login-form input {
+  font-size: 14px;
+}
+
 .admin-login .admin-login-form .login-icon {
-  font-size: 60px;
+  font-size: 50px;
   background-color: #FFF;
   color: #000;
   border-radius: 10px;
@@ -43,7 +51,7 @@
 }
 
 .admin-login .admin-login-form .password-field-box .icon-box .icon {
-  font-size: 30px;
+  font-size: 25px;
   cursor: pointer;
 }
 

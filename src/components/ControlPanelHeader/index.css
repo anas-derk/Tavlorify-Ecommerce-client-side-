@@ -2,6 +2,11 @@
   background-color: #222;
   color: #FFF;
   text-align: center;
+  font-size: 14px;
+}
+
+.control-panel-header .navbar .navbar-brand {
+  font-size: 16px;
 }
 
 .control-panel-header .navbar .navbar-brand:hover {
@@ -18,4 +23,8 @@
 
 .control-panel-header .navbar .navbar-nav .nav-item .nav-link.dropdown-toggle:hover {
   color: #0F0;
+}
+
+.control-panel-header .navbar .navbar-nav .nav-item .dropdown-menu .dropdown-item {
+  font-size: 14px;
 }

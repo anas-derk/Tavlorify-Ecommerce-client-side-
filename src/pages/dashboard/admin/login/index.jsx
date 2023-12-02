@@ -66,7 +66,7 @@ export default function AdminLogin() {
                                 placeholder="Your Admin Email"
                                 className="form-control mx-auto mb-4 p-3"
                                 required
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) => setEmail(e.target.value.trim())}
                             />
                             <div className='password-field-box'>
                                 <input

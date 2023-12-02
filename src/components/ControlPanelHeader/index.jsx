@@ -24,11 +24,11 @@ export default function ControlPanelHeader(){
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/orders-manager">All Orders</Link>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/orders-managment">All Orders</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/returned-orders-manager">Returned</Link>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/returned-orders-managment">Returned</Link>
                                     </li>
                                 </ul>
                             </li>
@@ -39,7 +39,7 @@ export default function ControlPanelHeader(){
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
                                         <Link className="dropdown-item" href={{
-                                            pathname: "/dashboard/admin/admin-panel/prices-manager",
+                                            pathname: "/dashboard/admin/admin-panel/prices-managment",
                                             query: {
                                                 productName: "poster",
                                             }
@@ -48,7 +48,7 @@ export default function ControlPanelHeader(){
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
                                         <Link className="dropdown-item" href={{
-                                            pathname: "/dashboard/admin/admin-panel/prices-manager",
+                                            pathname: "/dashboard/admin/admin-panel/prices-managment",
                                             query: {
                                                 productName: "wooden-frame",
                                             }
@@ -57,7 +57,7 @@ export default function ControlPanelHeader(){
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
                                         <Link className="dropdown-item" href={{
-                                            pathname: "/dashboard/admin/admin-panel/prices-manager",
+                                            pathname: "/dashboard/admin/admin-panel/prices-managment",
                                             query: {
                                                 productName: "hanger",
                                             }
@@ -66,7 +66,7 @@ export default function ControlPanelHeader(){
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
                                         <Link className="dropdown-item" href={{
-                                            pathname: "/dashboard/admin/admin-panel/prices-manager",
+                                            pathname: "/dashboard/admin/admin-panel/prices-managment",
                                             query: {
                                                 productName: "canvas",
                                             }
@@ -80,24 +80,24 @@ export default function ControlPanelHeader(){
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/text-to-image-manager/categories-manager/add-new-category">Add New Category</Link>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/text-to-image-managment/categories-managment/add-new-category">Add New Category</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/text-to-image-manager/categories-manager/update-and-delete-category-info">Update And Delete Category</Link>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/text-to-image-managment/categories-managment/update-and-delete-category-info">Update And Delete Category</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/text-to-image-manager/styles-manager/add-new-style">Add New Style</Link>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/text-to-image-managment/styles-managment/add-new-style">Add New Style</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/text-to-image-manager/styles-manager/update-and-delete-styles-info">Update And Delete Style</Link>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/text-to-image-managment/styles-managment/update-and-delete-styles-info">Update And Delete Style</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
                                         <Link className="dropdown-item" href={{
-                                            pathname: "/dashboard/admin/admin-panel/generated-images",
+                                            pathname: "/dashboard/admin/admin-panel/generated-images-managment",
                                             query: {
                                                 pageName: "text-to-image",
                                             }
@@ -111,24 +111,24 @@ export default function ControlPanelHeader(){
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/image-to-image-manager/categories-manager/add-new-category">Add New Category</Link>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/image-to-image-managment/categories-managment/add-new-category">Add New Category</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/image-to-image-manager/categories-manager/update-and-delete-category-info">Update And Delete Category</Link>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/image-to-image-managment/categories-managment/update-and-delete-category-info">Update And Delete Category</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/image-to-image-manager/styles-manager/add-new-style">Add New Style</Link>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/image-to-image-managment/styles-managment/add-new-style">Add New Style</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/image-to-image-manager/styles-manager/update-and-delete-styles-info">Update And Delete Style</Link>
+                                        <Link className="dropdown-item" href="/dashboard/admin/admin-panel/image-to-image-managment/styles-managment/update-and-delete-styles-info">Update And Delete Style</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
                                         <Link className="dropdown-item" href={{
-                                            pathname: "/dashboard/admin/admin-panel/generated-images",
+                                            pathname: "/dashboard/admin/admin-panel/generated-images-managment",
                                             query: {
                                                 pageName: "image-to-image",
                                             }

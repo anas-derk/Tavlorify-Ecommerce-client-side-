@@ -1,0 +1,36 @@
+.generated-images-managment .generated-images-data-box {
+  height: calc(100vh - 250px);
+  overflow: auto;
+}
+
+.generated-images-managment .generated-images-data-box .generated-images-data-tabel {
+  font-size: 15px;
+  border: 2px solid #000;
+  background-color: #FFF;
+  width: 100%;
+}
+
+.generated-images-managment .generated-images-data-box .generated-images-data-tabel th, .generated-images-managment .generated-images-data-box .generated-images-data-tabel td {
+  border: 2px solid #000;
+  padding: 10px;
+}
+
+.generated-images-managment .pagination .pagination-icon {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.generated-images-managment .pagination .pagination-icon:hover {
+  background-color: #dc3545;
+  color: #FFF;
+  font-size: 33px;
+}
+
+.generated-images-managment .pagination .pagination-button {
+  background: #DDD;
+}
+
+.generated-images-managment .pagination .pagination-button.selection {
+  background-color: #dc3545;
+  color: #FFF;
+}
