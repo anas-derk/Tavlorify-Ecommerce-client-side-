@@ -74,8 +74,8 @@ export default function ProductPrices({ productName }) {
             <div className="content text-center pt-4 pb-4">
                 <div className="container-fluid">
                     <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Prices Managment Page For { productName.toUpperCase() }</h1>
-                    {productPricesData.length > 0 && <div className="product-data-box p-3">
-                        <table className="product-data-tabel">
+                    {productPricesData.length > 0 && <div className="product-data-box p-3 data-box">
+                        <table className="product-data-tabel data-table">
                             <thead>
                                 <tr>
                                     <th>Number</th>

@@ -91,8 +91,8 @@ export default function ReturnedreturnedOrderDetails() {
             <section className="content d-flex justify-content-center align-items-center flex-column text-center">
                 <div className="container-fluid">
                     <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In Orders Details</h1>
-                    {Array.isArray(returnedOrderDetails.order_lines) && returnedOrderDetails.order_lines.length > 0 ? <div className="returned-order-details-box p-3">
-                        <table className="returned-order-data-table mb-5">
+                    {Array.isArray(returnedOrderDetails.order_lines) && returnedOrderDetails.order_lines.length > 0 ? <div className="returned-order-details-box p-3 data-box">
+                        <table className="returned-order-data-table mb-5 data-table">
                             <thead>
                                 <tr>
                                     <th>Reference / Product Id</th>
@@ -178,14 +178,14 @@ export default function ReturnedreturnedOrderDetails() {
                             </tbody>
                         </table>
                         <section className="customer-info bg-white border border-2 border-dark p-3">
-                            <h4>Customer Details</h4>
+                            <h6 className="fw-bold">Customer Details</h6>
                             <hr />
-                            <p className="email fw-bold">Email: {returnedOrderDetails.customer.email}</p>
-                            <p className="name fw-bold">Name: {returnedOrderDetails.customer.first_name}</p>
-                            <p className="family-name fw-bold">Family Name: {returnedOrderDetails.customer.last_name}</p>
-                            <p className="phone fw-bold">Phone: {returnedOrderDetails.customer.phone}</p>
+                            <p className="email fw-bold info">Email: {returnedOrderDetails.customer.email}</p>
+                            <p className="name fw-bold info">Name: {returnedOrderDetails.customer.first_name}</p>
+                            <p className="family-name fw-bold info">Family Name: {returnedOrderDetails.customer.last_name}</p>
+                            <p className="phone fw-bold info">Phone: {returnedOrderDetails.customer.phone}</p>
                         </section>
-                    </div> : <p className="alert alert-danger">Sorry, This Order Is Not Found !!</p>}
+                    </div> : <p className="alert alert-danger order-not-found-error">Sorry, This Order Is Not Found !!</p>}
                 </div>
             </section>
             {/* End Content Section */}

@@ -118,7 +118,7 @@ export default function ReturnedOrdersManager() {
                     className="next-page-icon pagination-icon me-3"
                     onClick={getNextPage}
                 />}
-                <span className="current-page-number-and-count-of-pages p-3 bg-secondary text-white me-3">The Page {currentPage} of {totalPagesCount} Pages</span>
+                <span className="current-page-number-and-count-of-pages p-2 ps-3 pe-3 bg-secondary text-white me-3">The Page {currentPage} of {totalPagesCount} Pages</span>
                 <form
                     className="navigate-to-specific-page w-25"
                     onSubmit={(e) => {
@@ -130,7 +130,7 @@ export default function ReturnedOrdersManager() {
                 >
                     <input
                         type="number"
-                        className="form-control p-2"
+                        className="form-control p-1 ps-2 page-number-input"
                         placeholder="Enter Page Number"
                         min="1"
                         max={totalPagesCount}
@@ -242,75 +242,9 @@ export default function ReturnedOrdersManager() {
             <section className="content d-flex justify-content-center align-items-center flex-column text-center pt-3 pb-3">
                 <div className="container-fluid">
                     <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In Returned Orders Managment</h1>
-                    {allReturnedOrders.length > 0 && <div className="returned-orders-managment">
-                        {/* <section className="filters mb-3 bg-white border-3 border-info p-3 text-start">
-                            <h3 className="section-name">Filters: </h3>
-                            <hr />
-                            <div className="row">
-                                <div className="col-md-3 d-flex align-items-center">
-                                    <h6 className="me-2 mb-0 fw-bold text-center">Order Number</h6>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        placeholder="Pleae Enter Order Number"
-                                        min="1"
-                                        max={allReturnedOrders.length}
-                                        onChange={(e) => filterOrders(e, "orderNumber", e.target.valueAsNumber)}
-                                    />
-                                </div>
-                                <div className="col-md-3 d-flex align-items-center">
-                                    <h6 className="me-2 mb-0 fw-bold text-center">Order Id</h6>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Pleae Enter Order Id"
-                                        onChange={(e) => filterOrders(e, "orderId", e.target.value)}
-                                    />
-                                </div>
-                                <div className="col-md-3 d-flex align-items-center">
-                                    <h6 className="me-2 mb-0 fw-bold text-center">Klarna Reference</h6>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Pleae Enter Reference"
-                                        onChange={(e) => filterOrders(e, "klarnaReference", e.target.value)}
-                                    />
-                                </div>
-                                <div className="col-md-3 d-flex align-items-center">
-                                    <h6 className="me-2 mb-0 fw-bold text-center">Status</h6>
-                                    <select
-                                        className="select-order-status form-select"
-                                        onChange={(e) => filterOrders(e, "status", e.target.value)}
-                                    >
-                                        <option value="" hidden>Pleae Enter Status</option>
-                                        <option value="all">All</option>
-                                        <option value="pending">Pending</option>
-                                        <option value="shipping">Shipping</option>
-                                        <option value="completed">Completed</option>
-                                    </select>
-                                </div>
-                                <div className="col-md-3 d-flex align-items-center mt-4">
-                                    <h6 className="me-2 mb-0 fw-bold text-center">Customer</h6>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Pleae Enter Customer Name"
-                                        onChange={(e) => filterOrders(e, "given_name", e.target.value.trim())}
-                                    />
-                                </div>
-                                <div className="col-md-3 d-flex align-items-center mt-4">
-                                    <h6 className="me-2 mb-0 fw-bold text-center">Customer</h6>
-                                    <input
-                                        type="email"
-                                        className="form-control"
-                                        placeholder="Pleae Enter Customer Email"
-                                        onChange={(e) => filterOrders(e, "email", e.target.value.trim())}
-                                    />
-                                </div>
-                            </div>
-                        </section> */}
-                        {currentSliceFromOrdersDataList.length > 0 ? <section className="returned-orders-data-box p-3">
-                            <table className="returned-orders-data-table mb-4">
+                    {allReturnedOrders.length > 0 && <div className="returned-orders-managment ">
+                        {currentSliceFromOrdersDataList.length > 0 ? <section className="returned-orders-data-box p-3 data-box">
+                            <table className="returned-orders-data-table mb-4 data-table">
                                 <thead>
                                     <tr>
                                         <th>Order Number</th>
@@ -379,7 +313,7 @@ export default function ReturnedOrdersManager() {
                                                 >
                                                     Deleting ...
                                                 </button>}
-                                                <Link href={`/dashboard/admin/admin-panel/returned-orders-manager/${order._id}`} className="btn btn-success d-block mx-auto">Show Details</Link>
+                                                <Link href={`/dashboard/admin/admin-panel/returned-orders-managment/${order._id}`} className="btn btn-success d-block mx-auto">Show Details</Link>
                                             </td>
                                         </tr>
                                     ))}

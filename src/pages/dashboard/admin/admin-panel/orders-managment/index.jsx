@@ -120,9 +120,9 @@ export default function OrdersManager() {
                     className="next-page-icon pagination-icon me-3"
                     onClick={getNextPage}
                 />}
-                <span className="current-page-number-and-count-of-pages p-3 bg-secondary text-white me-3">The Page {currentPage} of {totalPagesCount} Pages</span>
+                <span className="current-page-number-and-count-of-pages p-2 ps-3 pe-3 bg-secondary text-white me-3">The Page {currentPage} of {totalPagesCount} Pages</span>
                 <form
-                    className="navigate-to-specific-page w-25"
+                    className="navigate-to-specific-page-form w-25"
                     onSubmit={(e) => {
                         e.preventDefault();
                         const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(pageNumber, allOrders);
@@ -132,7 +132,7 @@ export default function OrdersManager() {
                 >
                     <input
                         type="number"
-                        className="form-control p-2"
+                        className="form-control p-1 ps-2 page-number-input"
                         placeholder="Enter Page Number"
                         min="1"
                         max={totalPagesCount}
@@ -254,13 +254,13 @@ export default function OrdersManager() {
             {/* Start Content Section */}
             <section className="content d-flex justify-content-center align-items-center flex-column text-center pt-3 pb-3">
                 <div className="container-fluid">
-                    <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In Orders Manager</h1>
+                    <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In Orders Managment</h1>
                     {allOrders.length > 0 && <div className="orders-managment">
                         <section className="filters mb-3 bg-white border-3 border-info p-3 text-start">
-                            <h3 className="section-name">Filters: </h3>
+                            <h5 className="section-name fw-bold text-center">Filters: </h5>
                             <hr />
                             <div className="row">
-                                <div className="col-md-3 d-flex align-items-center">
+                                <div className="col-md-4 d-flex align-items-center">
                                     <h6 className="me-2 mb-0 fw-bold text-center">Order Number</h6>
                                     <input
                                         type="number"
@@ -271,7 +271,7 @@ export default function OrdersManager() {
                                         onChange={(e) => filterOrders(e, "orderNumber", e.target.valueAsNumber)}
                                     />
                                 </div>
-                                <div className="col-md-3 d-flex align-items-center">
+                                <div className="col-md-4 d-flex align-items-center">
                                     <h6 className="me-2 mb-0 fw-bold text-center">Order Id</h6>
                                     <input
                                         type="text"
@@ -280,7 +280,7 @@ export default function OrdersManager() {
                                         onChange={(e) => filterOrders(e, "orderId", e.target.value)}
                                     />
                                 </div>
-                                <div className="col-md-3 d-flex align-items-center">
+                                <div className="col-md-4 d-flex align-items-center">
                                     <h6 className="me-2 mb-0 fw-bold text-center">Klarna Reference</h6>
                                     <input
                                         type="text"
@@ -289,7 +289,7 @@ export default function OrdersManager() {
                                         onChange={(e) => filterOrders(e, "klarnaReference", e.target.value)}
                                     />
                                 </div>
-                                <div className="col-md-3 d-flex align-items-center">
+                                <div className="col-md-4 d-flex align-items-center">
                                     <h6 className="me-2 mb-0 fw-bold text-center">Status</h6>
                                     <select
                                         className="select-order-status form-select"
@@ -302,7 +302,7 @@ export default function OrdersManager() {
                                         <option value="completed">Completed</option>
                                     </select>
                                 </div>
-                                <div className="col-md-3 d-flex align-items-center mt-4">
+                                <div className="col-md-4 d-flex align-items-center mt-4">
                                     <h6 className="me-2 mb-0 fw-bold text-center">Customer</h6>
                                     <input
                                         type="text"
@@ -311,7 +311,7 @@ export default function OrdersManager() {
                                         onChange={(e) => filterOrders(e, "given_name", e.target.value.trim())}
                                     />
                                 </div>
-                                <div className="col-md-3 d-flex align-items-center mt-4">
+                                <div className="col-md-4 d-flex align-items-center mt-4">
                                     <h6 className="me-2 mb-0 fw-bold text-center">Customer</h6>
                                     <input
                                         type="email"
@@ -322,8 +322,8 @@ export default function OrdersManager() {
                                 </div>
                             </div>
                         </section>
-                        {currentSliceFromOrdersDataList.length > 0 ? <section className="orders-data-box p-3">
-                            <table className="orders-data-table mb-4">
+                        {currentSliceFromOrdersDataList.length > 0 ? <section className="orders-data-box p-3 data-box">
+                            <table className="orders-data-table mb-4 data-table">
                                 <thead>
                                     <tr>
                                         <th>Order Number</th>
@@ -393,7 +393,7 @@ export default function OrdersManager() {
                                                 >
                                                     Deleting ...
                                                 </button>}
-                                                <Link href={`/dashboard/admin/admin-panel/orders-manager/${order._id}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>
+                                                <Link href={`/dashboard/admin/admin-panel/orders-managment/${order._id}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>
                                                 {!order.isReturned && (order.checkout_status === "AUTHORIZED" || order.checkout_status === "CAPTURED")  && <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>}
                                             </td>
                                         </tr>

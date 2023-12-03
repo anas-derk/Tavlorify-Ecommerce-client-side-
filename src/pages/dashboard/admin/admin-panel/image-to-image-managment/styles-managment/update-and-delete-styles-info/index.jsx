@@ -162,7 +162,7 @@ export default function UpdateCategoryStyleInfo() {
             <div className="content text-center pt-4 pb-4">
                 <div className="container-fluid">
                     <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Update And Delete Category Styles Info For Image To Image Page</h1>
-                    <h5 className="mb-3 text-center">Please Select The Category</h5>
+                    <h6 className="mb-3 text-center fw-bold">Please Select The Category</h6>
                     <form className="select-category-form mb-2 text-center">
                         <select className="form-control w-50 mx-auto mb-3" onChange={(e) => {
                             setCategoryIndex(parseInt(e.target.value));
@@ -175,8 +175,8 @@ export default function UpdateCategoryStyleInfo() {
                         <button type="button" className="btn btn-success" onClick={getCategoryStyles}>Get Styles Data For This Category</button>
                     </form>
                     {isWaitStatus && <span className="loader"></span>}
-                    {categoryStylesData.length > 0 && !isWaitStatus && <div className="categories-and-styles-box p-3">
-                        <table className="categories-and-styles-table mb-4">
+                    {categoryStylesData.length > 0 && !isWaitStatus && <div className="categories-and-styles-box p-3 data-box">
+                        <table className="categories-and-styles-table mb-4 data-table long-width-table">
                             <thead>
                                 <tr>
                                     <th>Old + New Style Sort</th>
@@ -206,7 +206,7 @@ export default function UpdateCategoryStyleInfo() {
                                             <input
                                                 placeholder="Enter Style Name"
                                                 defaultValue={style.name}
-                                                className="p-2"
+                                                className="p-2 form-control"
                                                 onChange={(e) => changeStyleName(styleIndex, e.target.value)}
                                             />
                                         </td>
@@ -214,7 +214,7 @@ export default function UpdateCategoryStyleInfo() {
                                             <textarea
                                                 placeholder="Enter Prompt"
                                                 defaultValue={style.prompt}
-                                                className="p-2"
+                                                className="p-3 form-control"
                                                 onChange={(e) => changeStylePrompt(styleIndex, e.target.value)}
                                             ></textarea>
                                         </td>
@@ -222,7 +222,7 @@ export default function UpdateCategoryStyleInfo() {
                                             <textarea
                                                 placeholder="Enter Negative Prompt"
                                                 defaultValue={style.negative_prompt}
-                                                className="p-2"
+                                                className="p-3 form-control"
                                                 onChange={(e) => changeStyleNegativePrompt(styleIndex, e.target.value)}
                                             ></textarea>
                                         </td>
@@ -230,7 +230,7 @@ export default function UpdateCategoryStyleInfo() {
                                             <input
                                                 placeholder="Enter Ddim Steps"
                                                 defaultValue={style.ddim_steps}
-                                                className="p-2"
+                                                className="p-2 form-control"
                                                 onChange={(e) => changeDdimSteps(styleIndex, e.target.value)}
                                             />
                                         </td>
@@ -238,7 +238,7 @@ export default function UpdateCategoryStyleInfo() {
                                             <input
                                                 placeholder="Enter Strength"
                                                 defaultValue={style.strength}
-                                                className="p-2"
+                                                className="p-2 form-control"
                                                 onChange={(e) => changeStrength(styleIndex, e.target.value)}
                                             />
                                         </td>
@@ -252,7 +252,7 @@ export default function UpdateCategoryStyleInfo() {
                                             />
                                             <input
                                                 type="file"
-                                                className="form-control mx-auto mb-3"
+                                                className="form-control mx-auto mb-3 form-control"
                                                 style={{
                                                     width: "257px"
                                                 }}

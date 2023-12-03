@@ -143,7 +143,7 @@ export default function GeneratedImagesManagment({ pageName }) {
                     className="next-page-icon pagination-icon me-3"
                     onClick={getNextPage}
                 />}
-                <span className="current-page-number-and-count-of-pages p-3 bg-secondary text-white me-3">The Page { currentPage } of { totalPagesCount } Pages</span>
+                <span className="current-page-number-and-count-of-pages p-2 ps-3 pe-3 bg-secondary text-white me-3">The Page { currentPage } of { totalPagesCount } Pages</span>
                 <form
                     className="navigate-to-specific-page w-25"
                     onSubmit={(e) => {
@@ -153,7 +153,7 @@ export default function GeneratedImagesManagment({ pageName }) {
                 >
                     <input
                         type="number"
-                        className="form-control p-2"
+                        className="form-control p-1 ps-2 page-number-input"
                         placeholder="Enter Page Number"
                         min="1"
                         max={totalPagesCount}
@@ -173,8 +173,8 @@ export default function GeneratedImagesManagment({ pageName }) {
             <div className="content text-center pt-4 pb-4">
                 <div className="container-fluid">
                     <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Generated Images Data Managment For {pageName} Page</h1>
-                    {currentSliceFromGeneratedImageDataList.length > 0 && <div className="generated-images-data-box p-3 mb-2">
-                        <table className="generated-images-data-tabel">
+                    {currentSliceFromGeneratedImageDataList.length > 0 && <div className="generated-images-data-box p-3 mb-2 data-box">
+                        <table className="generated-images-data-tabel data-table">
                             <thead>
                                 <tr>
                                     <th>Number</th>

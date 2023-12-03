@@ -106,6 +106,12 @@ a{
         .manager-link{
             font-size: 14px;
         }
+        .add-new-category-form,
+        .add-new-style-form, .select-category-form {
+            input, select, textarea, button{
+                font-size: 14px;
+            }
+        }
     }
 }
 
@@ -213,7 +219,8 @@ a{
     }
 }
 
-.not-find-generated-images-for-you-err{
+.not-find-generated-images-for-you-err,
+.order-not-found-error{
     font-size: 14px;
 }
 
@@ -472,6 +479,74 @@ a{
 .return-policy{
     .page-content{
         padding-top: 80px;
+    }
+}
+
+.pagination{
+    .current-page-number-and-count-of-pages{
+        font-size: 14px;
+    }
+    .pagination-icon{
+        font-size: 25px;
+        cursor: pointer;
+        &:hover{
+            background-color: #dc3545;
+            color: #FFF;
+            font-size: 25px;
+        }
+    }
+    .pagination-button{
+        background: #DDD;
+        font-size: 14px;
+        &.selection{
+            background-color: #dc3545;
+            color: #FFF;
+        }
+    }
+    .navigate-to-specific-page-form{
+        .page-number-input{
+            font-size: 14px;
+        }
+    }
+}
+
+.filters{
+    .row{
+        row-gap: 10px;
+        h6, input, select{
+            font-size: 14px;
+        }
+    }
+}
+
+.data-box{
+    height: calc(100vh - 250px);
+    overflow: scroll;
+    .data-table{
+        border: 2px solid #000;
+        background-color: #FFF;
+        width: 100%;
+        th, td{
+            border: 2px solid #000;
+            padding: 10px;
+            font-size: 13px;
+        }
+        input, select, textarea, button, a, h6{
+            font-size: 13px;
+        }
+        &.long-width-table{
+            width: 150%;
+            textarea{
+                height: 200px;
+                resize: none;
+            }
+        }
+    }
+}
+
+.customer-info{
+    .info{
+        font-size: 14px;
     }
 }
 

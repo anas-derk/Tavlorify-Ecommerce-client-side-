@@ -6,20 +6,10 @@ import "../components/Footer/index.css";
 import "../pages/index.css";
 import "../pages/text-to-image/index.css";
 import "../pages/image-to-image/index.css";
-import "./dashboard/admin/admin-panel/text-to-image-managment/styles-managment/update-and-delete-styles-info/index.css";
-import "./dashboard/admin/admin-panel/text-to-image-managment/categories-managment/update-and-delete-category-info/index.css";
-import "./dashboard/admin/admin-panel/image-to-image-managment/styles-managment/update-and-delete-styles-info/index.css";
-import "./dashboard/admin/admin-panel/image-to-image-managment/categories-managment/update-and-delete-category-info/index.css";
 import "../components/ControlPanelHeader/index.css";
 import "../pages/dashboard/admin/login/index.css";
-import "./dashboard/admin/admin-panel/generated-images-managment/index.css";
-import "./dashboard/admin/admin-panel/prices-managment/index.css";
 import "./checkout/index.css";
 import "./confirmation/[id]/index.css";
-import "./dashboard/admin/admin-panel/orders-managment/index.css";
-import "./dashboard/admin/admin-panel/orders-managment/[orderId]/index.css";
-import "./dashboard/admin/admin-panel/returned-orders-managment/index.css";
-import "./dashboard/admin/admin-panel/returned-orders-managment/[orderId]/index.css";
 import Footer from "@/components/Footer";
 
 export default function App({ Component, pageProps }) {

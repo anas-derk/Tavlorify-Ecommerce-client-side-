@@ -90,8 +90,8 @@ export default function OrderDetails() {
             <section className="content d-flex justify-content-center align-items-center flex-column text-center">
                 <div className="container-fluid">
                     <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In Orders Details</h1>
-                    {Array.isArray(orderDetails.order_lines) && orderDetails.order_lines.length > 0 ? <div className="order-details-box p-3">
-                        <table className="order-data-table mb-5">
+                    {Array.isArray(orderDetails.order_lines) && orderDetails.order_lines.length > 0 ? <div className="order-details-box p-3 data-box">
+                        <table className="order-data-table mb-5 data-table">
                             <thead>
                                 <tr>
                                     <th>Reference / Product Id</th>
@@ -181,33 +181,33 @@ export default function OrderDetails() {
                             <div className="row">
                                 <div className="col-md-6 bg-white border border-2 border-dark">
                                     <div className="billing-address-box text-start p-3">
-                                        <h4>Billing Address</h4>
+                                        <h6 className="fw-bold">Billing Address</h6>
                                         <hr />
-                                        <p className="city fw-bold">City: {orderDetails.billing_address.city}</p>
-                                        <p className="email fw-bold">Email: {orderDetails.billing_address.email}</p>
-                                        <p className="name fw-bold">Name: {orderDetails.billing_address.given_name}</p>
-                                        <p className="family-name fw-bold">Family Name: {orderDetails.billing_address.family_name}</p>
-                                        <p className="phone fw-bold">Phone: {orderDetails.billing_address.phone}</p>
-                                        <p className="postal-code fw-bold">Postal Code: {orderDetails.billing_address.postal_code}</p>
-                                        <p className="street-address fw-bold">Street Address: {orderDetails.billing_address.street_address}</p>
+                                        <p className="city fw-bold info">City: {orderDetails.billing_address.city}</p>
+                                        <p className="email fw-bold info">Email: {orderDetails.billing_address.email}</p>
+                                        <p className="name fw-bold info">Name: {orderDetails.billing_address.given_name}</p>
+                                        <p className="family-name fw-bold info">Family Name: {orderDetails.billing_address.family_name}</p>
+                                        <p className="phone fw-bold info">Phone: {orderDetails.billing_address.phone}</p>
+                                        <p className="postal-code fw-bold info">Postal Code: {orderDetails.billing_address.postal_code}</p>
+                                        <p className="street-address fw-bold info">Street Address: {orderDetails.billing_address.street_address}</p>
                                     </div>
                                 </div>
                                 <div className="col-md-6 bg-white border border-2 border-dark">
                                     <div className="shipping-address-box text-start p-3">
-                                        <h4>Shipping Address</h4>
+                                        <h6 className="fw-bold">Shipping Address</h6>
                                         <hr />
-                                        <p className="city fw-bold">City: {orderDetails.shipping_address.city}</p>
-                                        <p className="email fw-bold">Email: {orderDetails.shipping_address.email}</p>
-                                        <p className="name fw-bold">Name: {orderDetails.shipping_address.given_name}</p>
-                                        <p className="family-name fw-bold">Family Name: {orderDetails.shipping_address.family_name}</p>
-                                        <p className="phone fw-bold">Phone: {orderDetails.shipping_address.phone}</p>
-                                        <p className="postal-code fw-bold">Postal Code: {orderDetails.shipping_address.postal_code}</p>
-                                        <p className="street-address fw-bold">Street Address: {orderDetails.shipping_address.street_address}</p>
+                                        <p className="city fw-bold info">City: {orderDetails.shipping_address.city}</p>
+                                        <p className="email fw-bold info">Email: {orderDetails.shipping_address.email}</p>
+                                        <p className="name fw-bold info">Name: {orderDetails.shipping_address.given_name}</p>
+                                        <p className="family-name fw-bold info">Family Name: {orderDetails.shipping_address.family_name}</p>
+                                        <p className="phone fw-bold info">Phone: {orderDetails.shipping_address.phone}</p>
+                                        <p className="postal-code fw-bold info">Postal Code: {orderDetails.shipping_address.postal_code}</p>
+                                        <p className="street-address fw-bold info">Street Address: {orderDetails.shipping_address.street_address}</p>
                                     </div>
                                 </div>
                             </div>
                         </section>
-                    </div> : <p className="alert alert-danger">Sorry, This Order Is Not Found !!</p>}
+                    </div> : <p className="alert alert-danger order-not-found-error">Sorry, This Order Is Not Found !!</p>}
                 </div>
             </section>
             {/* End Content Section */}

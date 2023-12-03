@@ -173,8 +173,8 @@ export default function UpdateCategoryStyleInfo() {
                         <button className="btn btn-success" type="button" onClick={getCategoryStyles}>Get Styles Data For This Category</button>
                     </form>
                     {isWaitStatus && <span className="loader"></span>}
-                    {categoryStylesData.length > 0 && !isWaitStatus && <div className="categories-and-styles-box p-3">
-                        <table className="categories-and-styles-table mb-4">
+                    {categoryStylesData.length > 0 && !isWaitStatus && <div className="categories-and-styles-box p-3 data-box">
+                        <table className="categories-and-styles-table mb-4 data-table long-width-table">
                             <thead>
                                 <tr>
                                     <th>Old + New Style Sort</th>
@@ -203,16 +203,16 @@ export default function UpdateCategoryStyleInfo() {
                                             <input
                                                 type="text"
                                                 placeholder="Enter Style Name"
-                                                className="style-name p-2"
+                                                className="style-name p-2 form-control"
                                                 defaultValue={style.name}
                                                 onChange={(e) => changeStyleName(styleIndex, e.target.value.trim())}
                                             />
                                         </td>
                                         <td>
                                             <textarea
-                                                placeholder="Enter Negative Prompt"
+                                                placeholder="Enter Prompt"
                                                 defaultValue={style.prompt}
-                                                className="p-2"
+                                                className="p-3 form-control"
                                                 onChange={(e) => changeStylePrompt(styleIndex, e.target.value.trim())}
                                             ></textarea>
                                         </td>
@@ -220,7 +220,7 @@ export default function UpdateCategoryStyleInfo() {
                                             <textarea
                                                 placeholder="Enter Negative Prompt"
                                                 defaultValue={style.negative_prompt}
-                                                className="p-2"
+                                                className="p-3 form-control"
                                                 onChange={(e) => changeStyleNegativePrompt(styleIndex, e.target.value.trim())}
                                             ></textarea>
                                         </td>
