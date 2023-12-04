@@ -81,6 +81,12 @@ export default function Footer() {
                                     <span>Return Policy</span>
                                 </Link>
                             </li>
+                            <li className="link-item col-md-6">
+                                <Link className="link" href='/cookie-policy' target="_blank">
+                                    <BiBrain className="me-2" />
+                                    <span>Cookie Policy</span>
+                                </Link>
+                            </li>
                         </ul>
                         {/* End Link List */}
                     </div>

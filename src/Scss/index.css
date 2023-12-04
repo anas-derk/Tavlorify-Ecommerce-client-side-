@@ -832,10 +832,32 @@ a {
 
 .text-to-image-service .page-content,
 .image-to-image-service .page-content,
-.privacy-policy .page-content,
-.selling-policy .page-content,
-.return-policy .page-content {
+.policy-page .page-content {
   padding-top: 80px;
+  padding-bottom: 50px;
+}
+
+@media (max-width: 767px) {
+  .policy-page .policy-explain {
+    width: 100% !important;
+  }
+}
+
+.policy-page a {
+  text-decoration: underline;
+  color: #494949;
+}
+
+.policy-page a:hover {
+  color: gray;
+}
+
+.policy-page p {
+  line-height: 1.7;
+}
+
+.policy-page .long-heading {
+  line-height: 2;
 }
 
 .pagination .current-page-number-and-count-of-pages {
@@ -907,6 +929,14 @@ a {
 
 .customer-info .info {
   font-size: 14px;
+}
+
+.policy-list {
+  list-style: disc outside;
+}
+
+.policy-list li {
+  line-height: 1.7;
 }
 
 @keyframes popup-animation {

@@ -474,11 +474,33 @@ a{
 
 .text-to-image-service,
 .image-to-image-service,
-.privacy-policy,
-.selling-policy,
-.return-policy{
+.policy-page{
     .page-content{
-        padding-top: 80px;
+        padding: {
+            top: 80px;
+            bottom: 50px;
+        };
+    }
+}
+
+.policy-page{
+    .policy-explain{
+        @media (max-width: 767px) {
+            width: 100% !important;
+        }
+    }
+    a{
+        text-decoration: underline;
+        color: #494949;
+        &:hover{
+            color: gray;
+        }
+    }
+    p{
+        line-height: 1.7;
+    }
+    .long-heading{
+        line-height: 2;
     }
 }
 
@@ -547,6 +569,13 @@ a{
 .customer-info{
     .info{
         font-size: 14px;
+    }
+}
+
+.policy-list{
+    list-style: disc outside;
+    li{
+        line-height: 1.7;
     }
 }
 
