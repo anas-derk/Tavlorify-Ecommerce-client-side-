@@ -1621,19 +1621,19 @@ export default function ImageToImage({
                                         className={`painting-details-button-item col-md-3 p-3 fw-bold ${appearedPaintingDetailsList.includes("summary") ? "selected" : ""}`}
                                         onClick={() => setAppearedPaintingDetailsList(["summary"])}
                                     >
-                                        Summary
+                                        Hur fungerar det
                                     </li>
                                     <li
                                         className={`painting-details-button-item col-md-3 p-3 fw-bold ${appearedPaintingDetailsList.includes("product-information") ? "selected" : ""}`}
                                         onClick={() => setAppearedPaintingDetailsList(["product-information"])}
                                     >
-                                        Product Information
+                                        Produktinformation
                                     </li>
                                     <li
                                         className={`painting-details-button-item col-md-3 p-3 fw-bold ${appearedPaintingDetailsList.includes("shipping-and-delivery") ? "selected" : ""}`}
                                         onClick={() => setAppearedPaintingDetailsList(["shipping-and-delivery"])}
                                     >
-                                        Shipping And Delivery
+                                        Frakt & Leverans
                                     </li>
                                     <li
                                         className={`painting-details-button-item col-md-3 p-3 fw-bold ${appearedPaintingDetailsList.includes("other-questions") ? "selected" : ""}`}
@@ -1643,9 +1643,14 @@ export default function ImageToImage({
                                     </li>
                                 </ul>
                                 {appearedPaintingDetailsList.includes("summary") && <div className="summary-box p-3 pb-4 pt-4">
-                                    <p className="mb-4 content">Design a unique and stylish poster from your own image or photo with our designer. Upload your photo and choose filter, border, text and size – and review everything straight on the screen. Our designer has been created together with experienced photographers and photo editors from Scandinavia and your poster is printed on 200gsm matte premium paper.</p>
-                                    <p className="mb-4 content">You get a unique and beautiful decoration that matches perfectly with the colours of your interior or as a gift for your friend, partner or child. Cherish a meaningful memory and give a custom poster as a wonderful gift on Valentine’s Day, Mother’s Day, Father’s Day, a Graduation, Wedding or as a Christmas gift. Delivered in 3-5 working days and always with free shipping.</p>
-                                    <p className="m-0">Questions? Please e-mail us at care@wallpoet.com and we’ll get back to you as soon as possible!</p>
+                                    <p className="mb-4 content">"Skapa din alldeles egna unika konstverk på ett ögonblick. Hos oss är det enkelt och smidigt att förvandla dina mest betydelsefulla minnen till personliga tavlor. Bara några enkla steg skiljer dig från att ha din egen konst på väggen</p>
+                                    <ol>
+                                        <li><span className="fw-bold content">Ladda upp din bild</span>: Börja med att ladda upp den bild som betyder mest för dig. Det kan vara ett speciellt ögonblick, en minnesvärd resa, eller en nära vän eller familjemedlem. Ditt val, din historia</li>
+                                        <li><span className="fw-bold content">Anpassa din tavla</span>: Nu är det dags att sätta din personliga touch på verket. Välj bland olika alternativ såsom färgnyanser, stilar, format och storlekar. Forma din tavla precis som du vill ha den</li>
+                                        <li><span className="fw-bold content">Skapa ditt konstverk</span>: Tryck på 'skapa'-knappen, och du kommer omedelbart att få en förhandsvisning av din tavla direkt på skärmen. Det är ditt tillfälle att se hur din konst tar form, och du kan justera den tills den är precis som du önskar</li>
+                                        <li><span className="fw-bold">Beställ din tavla</span>: När du är nöjd med resultatet är det dags att göra din beställning. Vi tar hand om resten. Snabbt, enkelt och med kärlek</li>
+                                    </ol>
+                                    <p className="mb-4 content">För att göra din tavla ännu mer unik, erbjuder vi stilrena ramar och posterhängare i matchande storlekar. Skapa din personliga konst med oss och ge ditt hem eller kontor en touch av din egen personlighet. Låt dina minnen leva genom ditt konstverk – det är enkelt och inspirerande."</p>
                                 </div>}
                                 {appearedPaintingDetailsList.includes("product-information") && <div className="product-information-box p-3 pb-4 pt-4">
                                     <p className="mb-4 content"><span className="fw-bold">Filters</span>: Our filters are created by experienced photographers and photo editors and they look great on print. Choose between classic photo art filters such as Brooklyn and Fade, to vivid color combinations such as Mocca, Palma or Air. Which filter suits your photo the best?</p>
@@ -1655,10 +1660,9 @@ export default function ImageToImage({
                                     <p className="mb-0"><span className="fw-bold">Payment</span>: Klarna.</p>
                                 </div>}
                                 {appearedPaintingDetailsList.includes("shipping-and-delivery") && <div className="shipping-and-delivery-box p-3 pb-4 pt-4">
-                                    <p className="mb-4 content"><span className="fw-bold">Shipping countries</span>: We ship to Austria, Belgium, Denmark, Finland, France, Germany, Netherlands, Norway, Spain, Sweden & United States (US). We are planning to start shipping to more countries in the near future.</p>
-                                    <p className="mb-4 content"><span className="fw-bold">Shipping time</span>: 3-5 working days.</p>
-                                    <p className="mb-4 content"><span className="fw-bold">Shipping costs</span>: Free.</p>
-                                    <p className="m-0"><span className="fw-bold">Distributor</span>: Delivered by DHL (within EU), Bring (Norway)..</p>
+                                    <p className="mb-4 content"><span className="fw-bold">Leveranstid</span>: 3-5 vardagar.</p>
+                                    <p className="mb-4 content"><span className="fw-bold">Fraktkostnad</span>: Fri frakt.</p>
+                                    <p className="m-0"><span className="fw-bold">Leverantör</span>: Skickas med DHL eller Postnord till ombud.</p>
                                 </div>}
                                 {appearedPaintingDetailsList.includes("other-questions") && <div className="other-questions-box p-3 pb-4 pt-4">
                                     <p className="mb-4 content"><span className="fw-bold">When uploading</span>: It’s important that you upload the original image straight from the camera roll, and that the photo has good resolution, sharpness and brightness.</p>
@@ -1701,15 +1705,14 @@ export default function ImageToImage({
                                     <div className="accordion-item">
                                         <h2 className="accordion-header" id="headingThree">
                                             <button className="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                Shipping And Delivery
+                                                Frakt & Leverans
                                             </button>
                                         </h2>
                                         <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                             <div className="accordion-body">
-                                                <p className="mb-4 content"><span className="fw-bold">Shipping countries</span>: We ship to Austria, Belgium, Denmark, Finland, France, Germany, Netherlands, Norway, Spain, Sweden & United States (US). We are planning to start shipping to more countries in the near future.</p>
-                                                <p className="mb-4 content"><span className="fw-bold">Shipping time</span>: 3-5 working days.</p>
-                                                <p className="mb-4 content"><span className="fw-bold">Shipping costs</span>: Free.</p>
-                                                <p className="m-0"><span className="fw-bold">Distributor</span>: Delivered by DHL (within EU), Bring (Norway)..</p>
+                                                <p className="mb-4 content"><span className="fw-bold">Leveranstid</span>: 3-5 vardagar.</p>
+                                                <p className="mb-4 content"><span className="fw-bold">Fraktkostnad</span>: Fri frakt.</p>
+                                                <p className="m-0"><span className="fw-bold">Leverantör</span>: Skickas med DHL eller Postnord till ombud.</p>
                                             </div>
                                         </div>
                                     </div>

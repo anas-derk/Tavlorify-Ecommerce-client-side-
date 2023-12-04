@@ -139,3 +139,9 @@
     display: none;
   }
 }
+
+.image-to-image-service .page-content .container-fluid ol li {
+  line-height: 1.8;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
