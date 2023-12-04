@@ -843,6 +843,11 @@ a {
   }
 }
 
+.policy-page .policy-explain .policy-table th, .policy-page .policy-explain .policy-table td {
+  border: 1px solid;
+  padding: 10px;
+}
+
 .policy-page a {
   text-decoration: underline;
   color: #494949;

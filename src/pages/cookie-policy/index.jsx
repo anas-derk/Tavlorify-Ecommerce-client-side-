@@ -12,13 +12,13 @@ export default function CookiePolicy() {
     return (
         <div className="cookie-policy policy-page">
             <Head>
-                <title>Tavlorify Store - Cookie Policy</title>
+                <title>Tavlorify - Cookiepolicy</title>
             </Head>
             {!isLoadingPage ? <>
                 <Header />
                 <div className="page-content">
                     <div className="container-fluid">
-                        <h1 className="text-center mb-4 welcome-msg pb-3">Cookie Policy</h1>
+                        <h1 className="text-center mb-4 welcome-msg pb-3">Cookiepolicy</h1>
                         <div className="policy-explain w-50 mx-auto">
                             <h6 className="mb-2 fw-bold">VAD ÄR COOKIES ?</h6>
                             <p className="mb-3">En cookie är en liten textfil som sparas på din dator när du besöker en hemsida. Tavlorify använder cookies för att underlätta och förbättra användarupplevelsen för dig som besökare, samt för att mäta trafiken på vår hemsida och för att samla in information om hur vår hemsida används</p>

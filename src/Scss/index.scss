@@ -488,6 +488,12 @@ a{
         @media (max-width: 767px) {
             width: 100% !important;
         }
+        .policy-table{
+            th, td{
+                border: 1px solid;
+                padding: 10px;
+            }
+        }
     }
     a{
         text-decoration: underline;

@@ -18,31 +18,31 @@ export default function Footer() {
                     {/* Start Column */}
                     <div className="col-md-3 text-center mb-4">
                         <AiOutlineContacts className="mb-3 logo" />
-                        <h6>Tavlorify Store</h6>
+                        <h6>Tavlorify</h6>
                     </div>
                     {/* End Column */}
                     {/* Start Column */}
                     <div className="col-md-6 mb-4">
-                        <h6>Our Company Links</h6>
+                        <h6>Vårt företag länkar</h6>
                         <hr className="mt-0" />
                         {/* Start Link List */}
                         <ul className="list-unstyled link-list row">
                             <li className="link-item mb-3 col-md-6">
                                 <Link className="link" href='/' target="_blank">
                                     <AiOutlineHome className="me-2" />
-                                    <span>Home</span>
+                                    <span>Hemsida</span>
                                 </Link>
                             </li>
                             <li className="link-item mb-3 col-md-6">
                                 <Link className="link" href='/who-are-we' target="_blank">
                                     <BsInfoCircle className="me-2" />
-                                    <span>Who Are We ?</span>
+                                    <span>Vilka är vi ?</span>
                                 </Link>
                             </li>
                             <li className="link-item mb-3 col-md-6">
                                 <Link className="link" href='/contact-us' target="_blank">
                                     <AiOutlineContacts className="me-2" />
-                                    <span>Contact Us</span>
+                                    <span>Ring Oss</span>
                                 </Link>
                             </li>
                             <li className="link-item col-md-6">
@@ -54,37 +54,37 @@ export default function Footer() {
                             <li className="link-item mb-3 col-md-6">
                                 <Link className="link" href='/text-to-image' target="_blank">
                                     <BiBrain className="me-2" />
-                                    <span>Text To Image Service</span>
+                                    <span>Förvandla ord till konstverk</span>
                                 </Link>
                             </li>
                             <li className="link-item mb-3 col-md-6">
                                 <Link className="link" href='/image-to-image' target="_blank">
                                     <BiBrain className="me-2" />
-                                    <span>Image To Image Service</span>
+                                    <span>förvandla foton till konstverk</span>
                                 </Link>
                             </li>
                             <li className="link-item mb-3 col-md-6">
                                 <Link className="link" href='/privacy-policy' target="_blank">
                                     <BiBrain className="me-2" />
-                                    <span>Privacy Policy</span>
+                                    <span>Integritetspolicy</span>
                                 </Link>
                             </li>
                             <li className="link-item mb-3 col-md-6">
                                 <Link className="link" href='/selling-policy' target="_blank">
                                     <BiBrain className="me-2" />
-                                    <span>Selling Policy</span>
+                                    <span>Försäljningspolicy</span>
                                 </Link>
                             </li>
                             <li className="link-item col-md-6">
                                 <Link className="link" href='/return-policy' target="_blank">
                                     <BiBrain className="me-2" />
-                                    <span>Return Policy</span>
+                                    <span>Returpolicy</span>
                                 </Link>
                             </li>
                             <li className="link-item col-md-6">
                                 <Link className="link" href='/cookie-policy' target="_blank">
                                     <BiBrain className="me-2" />
-                                    <span>Cookie Policy</span>
+                                    <span>Cookiepolicy</span>
                                 </Link>
                             </li>
                         </ul>
@@ -93,7 +93,7 @@ export default function Footer() {
                     {/* End Column */}
                     {/* Start Column */}
                     <div className="col-md-3 mb-3">
-                        <h6>Social Media And Contact Links</h6>
+                        <h6>Sociala medier och kontaktlänkar</h6>
                         <hr className="mt-0" />
                         {/* Start Link List */}
                         <ul className="list-unstyled link-list">
