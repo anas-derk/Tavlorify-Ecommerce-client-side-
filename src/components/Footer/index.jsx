@@ -70,9 +70,9 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li className="link-item mb-3 col-md-6">
-                                <Link className="link" href='/selling-policy' target="_blank">
+                                <Link className="link" href='/terms-and-conditions-of-sale' target="_blank">
                                     <BiBrain className="me-2" />
-                                    <span>Försäljningspolicy</span>
+                                    <span>Köpvillkor</span>
                                 </Link>
                             </li>
                             <li className="link-item col-md-6">
