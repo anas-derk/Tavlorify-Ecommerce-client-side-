@@ -801,7 +801,7 @@ export default function TextToImage({
         // Start Text To Image Service Page
         <div className="text-to-image-service">
             <Head>
-                <title>Tavlorify Store - Text To Image</title>
+                <title>Tavlorify - Text To Image</title>
             </Head>
             {!isLoadingPage ? <>
                 <Header newTotalProductsCount={newTotalProductsCount} />
@@ -809,8 +809,8 @@ export default function TextToImage({
                 {isShowMoreGeneratedImages && <div className="overlay">
                     <div className="rest-generated-images-box d-flex flex-column align-items-center justify-content-center p-4">
                         <GrFormClose className="close-overlay-icon" onClick={() => setIsShowMoreGeneratedImages(false)} />
-                        <h3 className="fw-bold border-bottom border-2 border-dark pb-2 mb-3">More Gererated Images</h3>
-                        <h6 className="fw-bold mb-5">Please Select Image</h6>
+                        <h3 className="fw-bold border-bottom border-2 border-dark pb-2 mb-3">Mer genererade bilder</h3>
+                        <h6 className="fw-bold mb-5">Vänligen välj bild</h6>
                         <ul className="generated-images-list w-100 p-4">
                             {generatedImagesData.map((generatedImageData, index) => (
                                 index > 10 && <li
@@ -954,7 +954,7 @@ export default function TextToImage({
                                     {/* Start Generating Image Options Section */}
                                     {/* Start Art Name Section */}
                                     <section className="art-name mb-2 text-center fw-bold">
-                                        Art Name: {paintingType}
+                                        Konstnamn: {paintingType}
                                     </section>
                                     {/* End Art Name Section */}
                                     {/* Start Displaying Art Painting Options Section */}
@@ -1152,9 +1152,9 @@ export default function TextToImage({
                                         {productPriceBeforeDiscount != productPriceAfterDiscount && <span className="text-decoration-line-through me-2">{productPriceBeforeDiscount} </span>}
                                         {productPriceBeforeDiscount != productPriceAfterDiscount && <span>kr</span>}
                                     </button>}
-                                    {isWaitAddToCart && <button className="btn btn-dark w-100 p-1 add-to-cart-managment-btn" disabled>Waiting ...</button>}
-                                    {isSuccessAddToCart && <button className="btn btn-success w-100 p-2 add-to-cart-managment-btn" disabled>Success Is Adding To Cart ...</button>}
-                                    {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn" disabled>{errorInAddToCart}</button>}
+                                    {isWaitAddToCart && <button className="btn btn-dark w-100 p-1 add-to-cart-managment-btn mb-3" disabled>Väntar ...</button>}
+                                    {isSuccessAddToCart && <button className="btn btn-success w-100 p-2 add-to-cart-managment-btn mb-3" disabled>Lyckad tillsättning i varukorgen ...</button>}
+                                    {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn mb-3" disabled>{errorInAddToCart}</button>}
                                     <p className="m-0 fw-bold text-center">3-5 dagars leverans • Alltid fri frakt</p>
                                 </div>}
                                 {/* End Add To Cart Managment */}
@@ -1190,7 +1190,7 @@ export default function TextToImage({
                                         </Fragment>
                                     ))}
                                     {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Visa mer</button>}
-                                </ul> : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Sorry, Can't Find Any Generated Images From You !!</p>}
+                                </ul> : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Tyvärr, kan inte hitta några genererade bilder från dig !!</p>}
                             </div>
                         </section>
                         {/* Start Generated Images Section */}

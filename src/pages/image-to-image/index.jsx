@@ -935,7 +935,7 @@ export default function ImageToImage({
                                 htmlFor="image-file"
                                 className="file-label d-flex align-items-center justify-content-center flex-column"
                             >
-                                <h6 className="fw-bold">Upload Image</h6>
+                                <h6 className="fw-bold">Ladda upp bild</h6>
                                 <BsCloudUpload className="upload-image-icon" />
                             </label>
                             <input
@@ -946,7 +946,7 @@ export default function ImageToImage({
                             />
                         </>}
                         {isDragFile && !isUplodingFile && <div className="drop-file-box d-flex flex-column align-items-center justify-content-center">
-                            <h5 className="drag-msg fw-bold mb-0">Please Drop This File Here</h5>
+                            <h5 className="drag-msg fw-bold mb-0">Var god släpp filen här</h5>
                         </div>}
                     </div>}
                 {/* End Select Image Box */}
@@ -954,11 +954,11 @@ export default function ImageToImage({
                     <div className="progress mb-2" style={{ height: "30px" }}>
                         <div className="progress-bar" role="progressbar" style={{ width: `${uploadingProgress}%`, height: "30px" }} aria-valuenow={uploadingProgress} aria-valuemin="0" aria-valuemax="100">{uploadingProgress} %</div>
                     </div>
-                    <h6 className="m-0 fw-bold">Uploading Image Now ...</h6>
+                    <h6 className="m-0 fw-bold">Laddar upp bild nu ...</h6>
                 </div>}
                 <hr className="mb-2 mt-2" />
-                {imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" onClick={imageToImageGenerateByAI}>Create</button>}
-                {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>Create</button>}
+                {imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" onClick={imageToImageGenerateByAI}>skapa</button>}
+                {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>skapa</button>}
                 <hr className="mb-2 mt-2" />
             </div>
         );
@@ -1183,7 +1183,7 @@ export default function ImageToImage({
         // Start Image To Image Page
         <div className="image-to-image-service">
             <Head>
-                <title>Tavlorify Store - Image To Image</title>
+                <title>Tavlorify - Image To Image</title>
             </Head>
             {!isLoadingPage ? <>
                 <Header newTotalProductsCount={newTotalProductsCount} />
@@ -1191,8 +1191,8 @@ export default function ImageToImage({
                 {isShowMoreGeneratedImages && <div className="overlay">
                     <div className="rest-generated-images-box d-flex flex-column align-items-center justify-content-center p-4">
                         <GrFormClose className="close-overlay-icon" onClick={() => setIsShowMoreGeneratedImages(false)} />
-                        <h3 className="fw-bold border-bottom border-2 border-dark pb-2 mb-3">More Gererated Images</h3>
-                        <h6 className="fw-bold mb-5">Please Select Image</h6>
+                        <h3 className="fw-bold border-bottom border-2 border-dark pb-2 mb-3">Mer genererade bilder</h3>
+                        <h6 className="fw-bold mb-5">Vänligen välj bild</h6>
                         <ul className="generated-images-list w-100 p-4">
                             {generatedImagesData.map((generatedImageData, index) => (
                                 index > 10 && <Fragment key={generatedImageData._id}>
@@ -1216,7 +1216,7 @@ export default function ImageToImage({
                 <div className="page-content pb-4">
                     {/* Start Container */}
                     <div className="container-fluid">
-                        <h1 className="text-center mb-4 welcome-msg pb-3">Welcome To You In Image To Image AI Service</h1>
+                        <h1 className="text-center mb-4 welcome-msg pb-3">Välkommen till dig i bild-till-bild AI-tjänsten</h1>
                         {/* Start Grid System */}
                         <div className="row align-items-center">
                             {/* Start Column */}
@@ -1254,7 +1254,7 @@ export default function ImageToImage({
                             {/* Start Column */}
                             <div className="col-lg-5">
                                 {!errorMsg && !isWaitStatus && windowInnerWidth > 991 && getImageBeforeProcessingBox()}
-                                {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>Creating ...</button>}
+                                {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>skapar ...</button>}
                                 {/* Start Art Painting Options Section */}
                                 <section className="art-painting-options pe-3 mb-4">
                                     <section className="generating-image-options">
@@ -1317,7 +1317,7 @@ export default function ImageToImage({
                                     </section>
                                     {/* Start Art Name Section */}
                                     <section className="art-name mb-2 text-center fw-bold">
-                                        Art Name: {paintingType}
+                                        Konstnamn: {paintingType}
                                     </section>
                                     {/* End Art Name Section */}
                                     {/* Start Displaying Art Painting Options Section */}
@@ -1329,18 +1329,18 @@ export default function ImageToImage({
                                                 onClick={() => handleSelectPaintingType("poster")}
                                                 style={paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
                                             >
-                                                Poster
+                                                POSTERS
                                             </li>
                                             <li
                                                 className="p-2 pe-3 ps-3"
                                                 onClick={() => handleSelectPaintingType("canvas")}
                                                 style={paintingType === "canvas" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
                                             >
-                                                Canvas
+                                                CANVASTAVLOR
                                             </li>
                                         </ul>
                                         {/* EndArt Names List */}
-                                        {windowInnerWidth > 767 && <h6 className="fw-bold option-section-name">Positions</h6>}
+                                        {windowInnerWidth > 767 && <h6 className="fw-bold option-section-name">formatet</h6>}
                                         {/* Start Positions List */}
                                         <ul className="positions-list text-center pb-3 art-painting-options-list">
                                             <li>
@@ -1352,7 +1352,7 @@ export default function ImageToImage({
                                                             textDecoration: imageType !== "vertical" ? "line-through" : "",
                                                         }
                                                     }
-                                                >Vertical</span>
+                                                >Stående</span>
                                             </li>
                                             <li>
                                                 <span
@@ -1363,7 +1363,7 @@ export default function ImageToImage({
                                                             textDecoration: imageType !== "horizontal" ? "line-through" : "",
                                                         }
                                                     }
-                                                >Horizontal</span>
+                                                >Liggande</span>
                                             </li>
                                             <li>
                                                 <span
@@ -1374,11 +1374,11 @@ export default function ImageToImage({
                                                             textDecoration: imageType !== "square" ? "line-through" : "",
                                                         }
                                                     }
-                                                >Square</span>
+                                                >Kvadratisk</span>
                                             </li>
                                         </ul>
                                         {/* End Positions List */}
-                                        <h6 className="fw-bold option-section-name">Sizes</h6>
+                                        <h6 className="fw-bold option-section-name">Storlek</h6>
                                         {/* Start Sizes List */}
                                         <ul className="sizes-list text-center pb-3 art-painting-options-list">
                                             {global_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
@@ -1389,14 +1389,14 @@ export default function ImageToImage({
                                                     <span
                                                         style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                     >
-                                                        {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0">Popular</h6>}
+                                                        {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0">Populär</h6>}
                                                         {dims.inCm}
                                                     </span>
                                                 </li>
                                             ))}
                                         </ul>
                                         {/* End Sizes List */}
-                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">Border</h6>}
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">KANT</h6>}
                                         {/* Start White Border */}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list text-center pb-3 art-painting-options-list">
                                             <li
@@ -1405,7 +1405,7 @@ export default function ImageToImage({
                                                 <span
                                                     style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
-                                                    none
+                                                    INGEN KANT
                                                 </span>
                                             </li>
                                             <li
@@ -1414,12 +1414,12 @@ export default function ImageToImage({
                                                 <span
                                                     style={isExistWhiteBorderWithPoster === "with-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
-                                                    With Border
+                                                    Vit kant
                                                 </span>
                                             </li>
                                         </ul>}
                                         {/* Start White Border */}
-                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold">Frames</h6>}
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold">RAM</h6>}
                                         {/* Start Frames List */}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="frames-list text-center pb-3 art-painting-options-list">
                                             <li
@@ -1428,7 +1428,7 @@ export default function ImageToImage({
                                                 <span
                                                     style={(frameColor === "none" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
-                                                    none
+                                                    UTAN RAM
                                                 </span>
                                             </li>
                                             <li
@@ -1438,7 +1438,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalBlackFrameCornerImage.src} alt="Black Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Black</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM Svart</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1448,7 +1448,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalWhiteFrameCornerImage.src} alt="White Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">White</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM Vit</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1458,7 +1458,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalWoodFrameCornerImage.src} alt="Wood Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Wood</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM Naturlig</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1468,7 +1468,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalDarkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Dark Wood</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM MÖRK</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1478,7 +1478,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerBlackFrameCornerImage.src} alt="Black Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Black With Hangers</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">POSTERHÄNGARE SVART</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1488,7 +1488,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerWhiteFrameCornerImage.src} alt="White Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">White With Hangers</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">POSTERHÄNGARE VIT</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1498,7 +1498,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerWoodFrameCornerImage.src} alt="Wood Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold">Wood With Hangers</h6>
+                                                    <h6 className="frame-color d-block fw-bold">POSTERHÄNGARE Naturligt TRÄ</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1508,7 +1508,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerDarkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Dark Wood With Hangers</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">POSTERHÄNGARE MÖRK</h6>
                                                 </span>
                                             </li>
                                         </ul>}
@@ -1520,17 +1520,18 @@ export default function ImageToImage({
                                 {/* Start Add To Cart Managment */}
                                 {!isWaitStatus && !errorMsg && <div className="add-to-cart-box">
                                     {!isWaitAddToCart && !errorInAddToCart && !isSuccessAddToCart && <button
-                                        className="btn btn-dark w-100 p-2 add-to-cart-managment-btn"
+                                        className="btn btn-dark w-100 p-2 add-to-cart-managment-btn mb-3"
                                         onClick={addToCart}
                                     >
-                                        <span className="me-2">Add To Cart |</span>
+                                        <span className="me-2">Lägg i varukorg |</span>
                                         <span className="me-2">{productPriceAfterDiscount} Kr</span>
                                         {productPriceBeforeDiscount != productPriceAfterDiscount && <span className="text-decoration-line-through me-2">{productPriceBeforeDiscount} </span>}
                                         {productPriceBeforeDiscount != productPriceAfterDiscount && <span>kr</span>}
                                     </button>}
-                                    {isWaitAddToCart && <button className="btn btn-dark w-100 p-1 add-to-cart-managment-btn" disabled>Waiting ...</button>}
-                                    {isSuccessAddToCart && <button className="btn btn-success w-100 p-2 add-to-cart-managment-btn" disabled>Success Is Adding To Cart ...</button>}
-                                    {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn" disabled>{errorInAddToCart}</button>}
+                                    {isWaitAddToCart && <button className="btn btn-dark w-100 p-1 add-to-cart-managment-btn mb-3" disabled>Väntar ...</button>}
+                                    {isSuccessAddToCart && <button className="btn btn-success w-100 p-2 add-to-cart-managment-btn mb-3" disabled>Lyckad tillsättning i varukorgen ...</button>}
+                                    {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn mb-3" disabled>{errorInAddToCart}</button>}
+                                    <p className="m-0 fw-bold text-center">3-5 dagars leverans • Alltid fri frakt</p>
                                 </div>}
                                 {/* End Add To Cart Managment */}
                             </div>
@@ -1541,7 +1542,7 @@ export default function ImageToImage({
                         {/* Start Generated Images Section */}
                         <section className={`row align-items-center generated-images ${generatedImagesData ? "" : "p-4"}`}>
                             <div className="col-lg-2 text-center">
-                                <h6 className="m-0 fw-bold d-inline">Generated Images: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
+                                <h6 className="m-0 fw-bold d-inline">Genererade bilder: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
                             </div>
                             <div className="col-lg-10">
                                 {generatedImagesData && !isWaitStatus && <ul className="generated-images-list text-center p-4">
@@ -1559,7 +1560,7 @@ export default function ImageToImage({
                                             ></li>
                                         </Fragment>
                                     ))}
-                                    {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Show More</button>}
+                                    {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Visa mer</button>}
                                 </ul>}
                                 {generatedImagesData.length === 0 && <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Sorry, Can't Find Any Generated Images From You !!</p>}
                             </div>
