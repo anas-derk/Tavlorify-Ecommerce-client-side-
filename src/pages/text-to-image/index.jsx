@@ -606,6 +606,7 @@ export default function TextToImage({
                 priceBeforeDiscount: productPriceBeforeDiscount,
                 priceAfterDiscount: productPriceAfterDiscount,
                 generatedImageURL: generatedImagePathInMyServer,
+                quantity: 1,
                 service: "text-to-image",
             }
             let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));

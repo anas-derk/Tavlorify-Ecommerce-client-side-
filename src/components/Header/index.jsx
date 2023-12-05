@@ -60,7 +60,7 @@ export default function Header({ newTotalProductsCount }){
                         </div>
                         <div className="col-4 p-3 text-start">
                             <h6 className="fw-bold">{productData.paintingType}</h6>
-                            <h6>Frame: {productData.frameColor}</h6>
+                            <h6>RAM: {productData.frameColor}</h6>
                             <h6>{productData.isExistWhiteBorder}</h6>
                             <h6>{productData.size} Cm</h6>
                             <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
@@ -86,26 +86,26 @@ export default function Header({ newTotalProductsCount }){
                     </div>
                 )) : <div className="not-found-any-products-alert-box fw-bold text-center d-flex flex-column align-items-center justify-content-center">
                     <BsCart2 className="cart-icon mb-4" />
-                    <h4 className="fw-bold">Sorry, Your Cart Is Empty !!</h4>
+                    <h4 className="fw-bold">Förlåt, din kundvagn är tom !</h4>
                 </div>}
                 {allProductsData.length > 0 && <>
                     <div className="row bg-white border border-2 align-items-center text-center mb-3">
                         <div className="col-md-12 p-4 pt-3 fw-bold">
                             <div className="row mb-3">
-                                <div className="col-md-9 text-start">Total Price Before Discount</div>
+                                <div className="col-md-9 text-start">Totalpris innan rabatt</div>
                                 <div className="col-md-3 text-end">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
                             </div>
                             {pricesDetailsSummary.totalDiscount > 0 && <div className="row mb-3">
-                                <div className="col-md-9 text-start">Total Discount</div>
+                                <div className="col-md-9 text-start">Total rabatt</div>
                                 <div className="col-md-3 text-danger text-end">-{pricesDetailsSummary.totalDiscount} kr</div>
                             </div>}
                             <div className="row">
-                                <div className="col-md-9 text-start">Shipping</div>
+                                <div className="col-md-9 text-start">Frakt</div>
                                 <div className="col-md-3 text-end">0 kr</div>
                             </div>
                             <hr />
                             <div className="row">
-                                <div className="col-md-9 text-start">Total Price After Discount</div>
+                                <div className="col-md-9 text-start">Totalpris efter rabatt</div>
                                 <div className="col-md-3 text-end">{pricesDetailsSummary.totalPriceAfterDiscount} kr</div>
                             </div>
                         </div>
@@ -114,19 +114,19 @@ export default function Header({ newTotalProductsCount }){
                         className="btn btn-dark w-100 p-2 create-new-order-btn go-to-checkout-managment-btn"
                         onClick={createNewOrder}
                     >
-                        Go To Checkout
+                        Gå till kassan
                     </button>}
                     {isCreatingOrder && <button
                         className="btn btn-dark w-100 p-2 go-to-checkout-managment-btn"
                         disabled
                     >
-                        Please Waiting ..
+                        Var god vänta ..
                     </button>}
                     {isExistErrorInCreatingOrder && <button
                         className="btn btn-dark w-100 p-2 go-to-checkout-managment-btn"
                         disabled
                     >
-                        Sorry, Something Went Wrong, Please Try Again !!
+                        Tyvärr, något gick fel. Försök igen !
                     </button>}
                 </>}
             </div>
@@ -156,7 +156,7 @@ export default function Header({ newTotalProductsCount }){
                             </div>
                             <div className="col-12 p-3 text-center">
                                 <h6 className="fw-bold">{productData.paintingType}</h6>
-                                <h6>Frame: {productData.frameColor}</h6>
+                                <h6>RAM: {productData.frameColor}</h6>
                                 <h6>{productData.isExistWhiteBorder}</h6>
                                 <h6>{productData.size} Cm</h6>
                             </div>
@@ -185,25 +185,25 @@ export default function Header({ newTotalProductsCount }){
                     ))}
                 </div> : <div className="not-found-any-products-alert-box fw-bold text-center d-flex flex-column align-items-center justify-content-center">
                     <BsCart2 className="cart-icon mb-4" />
-                    <h4 className="fw-bold">Sorry, Your Cart Is Empty !!</h4>
+                    <h4 className="fw-bold">Förlåt, din kundvagn är tom!</h4>
                 </div>}
                 {allProductsData.length > 0 && <>
                     <div className="summary-box bg-white border border-2 text-center mb-3 m-3 p-3">
                         <div className="row mb-3 m-0">
-                            <div className="col-9 text-start fw-bold">Total Price Before Discount</div>
+                            <div className="col-9 text-start fw-bold">Totalpris innan rabatt</div>
                             <div className="col-3 text-end fw-bold">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
                         </div>
                         {pricesDetailsSummary.totalDiscount > 0 && <div className="row mb-3 m-0">
-                            <div className="col-9 text-start fw-bold">Total Discount</div>
+                            <div className="col-9 text-start fw-bold">Total rabatt</div>
                             <div className="col-3 text-danger text-end fw-bold">-{pricesDetailsSummary.totalDiscount} kr</div>
                         </div>}
                         <div className="row m-0">
-                            <div className="col-9 text-start fw-bold">Shipping</div>
+                            <div className="col-9 text-start fw-bold">Frakt</div>
                             <div className="col-3 text-end fw-bold">0 kr</div>
                         </div>
                         <hr />
                         <div className="row m-0">
-                            <div className="col-9 text-start fw-bold">Total Price After Discount</div>
+                            <div className="col-9 text-start fw-bold">Totalpris efter rabatt</div>
                             <div className="col-3 text-end fw-bold">{pricesDetailsSummary.totalPriceAfterDiscount} kr</div>
                         </div>
                     </div>
@@ -211,19 +211,19 @@ export default function Header({ newTotalProductsCount }){
                         className="btn btn-dark w-75 p-3 create-new-order-btn go-to-checkout-managment-btn d-block mx-auto"
                         onClick={createNewOrder}
                     >
-                        Go To Checkout
+                        Gå till kassan
                     </button>}
                     {isCreatingOrder && <button
                         className="btn btn-dark w-75 p-2 go-to-checkout-managment-btn d-block mx-auto"
                         disabled
                     >
-                        Please Waiting ..
+                        Var god vänta ..
                     </button>}
                     {isExistErrorInCreatingOrder && <button
                         className="btn btn-dark w-75 p-2 go-to-checkout-managment-btn d-block mx-auto"
                         disabled
                     >
-                        Sorry, Something Went Wrong, Please Try Again !!
+                        Tyvärr, något gick fel. Försök igen!
                     </button>}
                 </>}
             </div>
@@ -326,10 +326,6 @@ export default function Header({ newTotalProductsCount }){
                 clearTimeout(errorInCreatedOrderTimeout);
             }, 1500);
         }
-    }
-    const signOut = () => {
-        localStorage.removeItem("tavlorify-store-user-id");
-        router.reload();
     }
     return (
         // Start Global Header

@@ -818,6 +818,7 @@ export default function ImageToImage({
                     priceBeforeDiscount: productPriceBeforeDiscount,
                     priceAfterDiscount: productPriceAfterDiscount,
                     generatedImageURL: result,
+                    quantity: 1,
                     service: "image-to-image",
                 }
                 let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
@@ -865,6 +866,7 @@ export default function ImageToImage({
                 priceBeforeDiscount: productPriceBeforeDiscount,
                 priceAfterDiscount: productPriceAfterDiscount,
                 generatedImageURL: generatedImagePathInMyServer,
+                quantity: 1,
                 service: "image-to-image",
             }
             let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
@@ -1562,7 +1564,7 @@ export default function ImageToImage({
                                     ))}
                                     {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Visa mer</button>}
                                 </ul>}
-                                {generatedImagesData.length === 0 && <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Sorry, Can't Find Any Generated Images From You !!</p>}
+                                {generatedImagesData.length === 0 && <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Tyvärr, kan inte hitta några genererade bilder från dig !</p>}
                             </div>
                         </section>
                         {/* Start Generated Images Section */}
@@ -1578,8 +1580,8 @@ export default function ImageToImage({
                                         />
                                     </div>
                                     <div className="explain-box">
-                                        <h6 className="fw-bold">1. Upload</h6>
-                                        <p>Upload an Image from your camera roll</p>
+                                        <h6 className="fw-bold">1. Ladda upp</h6>
+                                        <p>Ladda upp en bild från din kamerarulle</p>
                                     </div>
                                 </div>
                                 <div className="col-md-4">
@@ -1591,8 +1593,8 @@ export default function ImageToImage({
                                         />
                                     </div>
                                     <div className="explain-box">
-                                        <h6 className="fw-bold">2. Create Image</h6>
-                                        <p>Choose Between Stylish Filters, Border, Text, And Size</p>
+                                        <h6 className="fw-bold">2. Skapa bild</h6>
+                                        <p>Välj mellan eleganta filter, ram, text och storlek</p>
                                     </div>
                                 </div>
                                 <div className="col-md-4">
@@ -1604,8 +1606,8 @@ export default function ImageToImage({
                                         />
                                     </div>
                                     <div className="explain-box">
-                                        <h6 className="fw-bold">3. Order</h6>
-                                        <p>Checkout And Pay, Receive Your Poster Within 3 - 5 Days</p>
+                                        <h6 className="fw-bold">3. Beställning</h6>
+                                        <p>Slutför köp och betala, få din affisch inom 3-5 dagar</p>
                                     </div>
                                 </div>
                             </div>
