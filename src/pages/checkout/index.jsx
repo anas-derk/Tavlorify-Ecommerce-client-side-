@@ -238,14 +238,14 @@ export default function Checkout({ orderId }) {
         // Start Checkout Page
         <div className="checkout">
             <Head>
-                <title>Tavlorify Store - Checkout</title>
+                <title>Tavlorify - Kassan</title>
             </Head>
             {!isLoadingPage ? <>
                 <Header newTotalProductsCount={newTotalProductsCount} />
                 <section className="page-content pb-4">
                     {/* Start Container From Bootstrap */}
                     <div className="container-fluid">
-                        <h1 className="text-center mb-4 fw-bold welcome-msg mx-auto pb-3">Hello To You In Checkout Page</h1>
+                        <h1 className="text-center mb-4 fw-bold welcome-msg mx-auto pb-3">Hej till dig på kassasidan</h1>
                         {allProductsData.length > 0 ? allProductsData.map((productData) => (
                             <section className="products-details-and-managment bg-white border border-2 p-3">
                                 <div className="row align-items-center" key={productData._id}>
@@ -267,13 +267,13 @@ export default function Checkout({ orderId }) {
                                     </div>
                                     <div className="col-md-4 p-3">
                                         <h6 className="fw-bold">{productData.paintingType}</h6>
-                                        <h6>Frame: {productData.frameColor}</h6>
+                                        <h6>RAM: {productData.frameColor}</h6>
                                         <h6>{productData.isExistWhiteBorder}</h6>
                                         <h6>{productData.position}</h6>
                                         <h6 className="m-0">{productData.size} Cm</h6>
                                     </div>
                                     <div className="col-md-3 p-3">
-                                        <span>Quantity: </span>
+                                        <span>Mängd: </span>
                                         <AiOutlineMinus
                                             className="quantity-control-icon me-2"
                                             onClick={() => updateOrder(productData._id, "decrease-product-quantity", klarnaOrderId)}
@@ -298,29 +298,29 @@ export default function Checkout({ orderId }) {
                             </section>
                         )) : <div className="not-found-any-products-alert-box fw-bold text-center d-flex flex-column align-items-center justify-content-center">
                             <BsCart2 className="cart-icon mb-4" />
-                            <h4 className="fw-bold">Sorry, Your Cart Is Empty !!</h4>
+                            <h4 className="fw-bold">Tyvärr, din varukorg är tom !</h4>
                         </div>}
                         {allProductsData.length > 0 && <section className="summary bg-white border border-2 p-3">
                             <div className="row align-items-center text-center">
                                 <div className="col-md-6">
-                                    <h6 className="fw-bold">Summary</h6>
+                                    <h6 className="fw-bold">Sammanfattning</h6>
                                 </div>
                                 <div className="col-md-6 fw-bold">
                                     <div className="row mb-3">
-                                        <div className="col-md-9 text-start content">Total Price Before Discount</div>
+                                        <div className="col-md-9 text-start content">Totalpris före rabatt</div>
                                         <div className="col-md-3 text-end content">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
                                     </div>
                                     {pricesDetailsSummary.totalDiscount > 0 && <div className="row mb-3">
-                                        <div className="col-md-9 text-start content">Total Discount</div>
+                                        <div className="col-md-9 text-start content">Total rabatt</div>
                                         <div className="col-md-3 text-danger text-end content">-{pricesDetailsSummary.totalDiscount} kr</div>
                                     </div>}
                                     <div className="row">
-                                        <div className="col-md-9 text-start content">Shipping</div>
+                                        <div className="col-md-9 text-start content">Frakt</div>
                                         <div className="col-md-3 text-end content">0 kr</div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-md-9 text-start content">Total Price After Discount</div>
+                                        <div className="col-md-9 text-start content">Totalpris efter rabatt</div>
                                         <div className="col-md-3 text-end content">{pricesDetailsSummary.totalPriceAfterDiscount} kr</div>
                                     </div>
                                 </div>

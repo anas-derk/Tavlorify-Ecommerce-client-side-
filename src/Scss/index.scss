@@ -495,7 +495,7 @@ a{
             }
         }
     }
-    a{
+    a:not(.nav-link){
         text-decoration: underline;
         color: #494949;
         &:hover{

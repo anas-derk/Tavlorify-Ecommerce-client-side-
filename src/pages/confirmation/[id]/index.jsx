@@ -52,12 +52,12 @@ export default function Confirmation(){
         // Start Confirmation Page
         <div className="confirmation">
             <Head>
-                <title>Tavlorify Store - Confirmation</title>
+                <title>Tavlorify - Bekräftelse</title>
             </Head>
             <Header newTotalProductsCount={newTotalProductsCount} />
             {/* Start Container From Bootstrap */}
             <div className="container-fluid pt-4 pb-4">
-                <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hello To You In Confirmation Page</h1>
+                <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hej till dig på bekräftelsessidan</h1>
             </div>
             {/* End Container From Bootstrap */}
             <div id="my-confirmation-container"></div>

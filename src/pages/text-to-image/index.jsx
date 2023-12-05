@@ -802,7 +802,7 @@ export default function TextToImage({
         // Start Text To Image Service Page
         <div className="text-to-image-service">
             <Head>
-                <title>Tavlorify - Text To Image</title>
+                <title>Tavlorify - Förvandla ord till konstverk</title>
             </Head>
             {!isLoadingPage ? <>
                 <Header newTotalProductsCount={newTotalProductsCount} />

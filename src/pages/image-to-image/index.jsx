@@ -1185,7 +1185,7 @@ export default function ImageToImage({
         // Start Image To Image Page
         <div className="image-to-image-service">
             <Head>
-                <title>Tavlorify - Image To Image</title>
+                <title>Tavlorify - förvandla foton till konstverk</title>
             </Head>
             {!isLoadingPage ? <>
                 <Header newTotalProductsCount={newTotalProductsCount} />
