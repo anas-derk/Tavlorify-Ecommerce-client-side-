@@ -54,6 +54,7 @@ import { BiError } from "react-icons/bi";
 import { GrFormClose } from "react-icons/gr";
 import LoaderPage from "@/components/LoaderPage";
 import Carousel from 'react-bootstrap/Carousel';
+import PaintingDetails from "@/components/PaintingDetails";
 
 export default function TextToImage({
     generatedImageId,
@@ -1165,7 +1166,7 @@ export default function TextToImage({
                         {/* End Grid System */}
                         <hr />
                         {/* Start Generated Images Section */}
-                        <section className={`row align-items-center generated-images${generatedImagesData ? "" : ""}`}>
+                        <section className="row align-items-center generated-images mb-5">
                             <div className="col-md-2 text-center">
                                 <h6 className="m-0 fw-bold d-inline">Genererade bilder: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
                             </div>
@@ -1195,6 +1196,9 @@ export default function TextToImage({
                             </div>
                         </section>
                         {/* Start Generated Images Section */}
+                        {/* Start Painting Details Section */}
+                        <PaintingDetails windowInnerWidth={windowInnerWidth} />
+                        {/* End Painting Details Section */}
                     </div>
                     {/* End Container */}
                 </div>
