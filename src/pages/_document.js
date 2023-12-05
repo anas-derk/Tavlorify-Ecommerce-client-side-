@@ -13,6 +13,8 @@ export default function Document() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200;1,300;1,400;1,500&display=swap" rel="stylesheet" />
+        <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="4defe920-6563-457d-9f97-964e82932dc3"  type="text/javascript"></script>
+        <script id="CookieDeclaration" src="https://consent.cookiebot.com/4defe920-6563-457d-9f97-964e82932dc3/cd.js" type="text/javascript" async></script>
       </Head>
       <body>
         <Main />
