@@ -45,7 +45,7 @@ export default function Footer() {
                                     <span>Ring Oss</span>
                                 </Link>
                             </li>
-                            <li className="link-item col-md-6">
+                            <li className="link-item mb-3 col-md-6">
                                 <Link className="link" href='/faq' target="_blank">
                                     <FaQuestion className="me-2" />
                                     <span>FAQ</span>
@@ -75,7 +75,7 @@ export default function Footer() {
                                     <span>Köpvillkor</span>
                                 </Link>
                             </li>
-                            <li className="link-item col-md-6">
+                            <li className="link-item mb-3 col-md-6">
                                 <Link className="link" href='/return-policy' target="_blank">
                                     <BiBrain className="me-2" />
                                     <span>Returpolicy</span>
