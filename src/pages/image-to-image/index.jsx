@@ -895,13 +895,13 @@ export default function ImageToImage({
     }
 
     const handleDisplayImageMode = (imageMode) => {
-        if (imageMode === "minimize-image" && windowInnerWidth > 991) {
+        if (imageMode === "minimize-image" && windowInnerWidth >= 991) {
             setImageMode("normal-size-image");
         }
-        if (imageMode === "image-inside-room1" && windowInnerWidth > 991) {
+        if (imageMode === "image-inside-room1" && windowInnerWidth >= 991) {
             setImageMode("image-inside-room1");
         }
-        if (imageMode === "image-inside-room2" && windowInnerWidth > 991) {
+        if (imageMode === "image-inside-room2" && windowInnerWidth >= 991) {
             setImageMode("image-inside-room2");
         }
     }
@@ -1233,7 +1233,7 @@ export default function ImageToImage({
                                     {getImageBeforeProcessingBox()}
                                 </div>}
                                 {/* Start Column */}
-                                {windowInnerWidth > 991 && <div className="col-lg-2">
+                                {windowInnerWidth >= 991 && <div className="col-lg-2">
                                     {/* Start Art Painting Box */}
                                     {getArtPaintingBox(global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width, global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height, "minimize-image", false)}
                                     {/* End Art Painting Box */}
@@ -1244,7 +1244,7 @@ export default function ImageToImage({
                                 {/* Start Column */}
                                 <div className="col-lg-5">
                                     {/* Start Art Painting Section */}
-                                    {windowInnerWidth > 991 && getArtPaintingBox(global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width, global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height, undefined, false)}
+                                    {windowInnerWidth >= 991 && getArtPaintingBox(global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width, global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height, undefined, false)}
                                     {/* End Art Painting Section */}
                                     {getImageInsideRoomBox(1, undefined)}
                                     {getImageInsideRoomBox(2, undefined)}
@@ -1254,7 +1254,7 @@ export default function ImageToImage({
                             </>}
                             {/* Start Column */}
                             <div className="col-lg-5">
-                                {!errorMsg && !isWaitStatus && windowInnerWidth > 991 && getImageBeforeProcessingBox()}
+                                {!errorMsg && !isWaitStatus && windowInnerWidth >= 991 && getImageBeforeProcessingBox()}
                                 {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>skapar ...</button>}
                                 {/* Start Art Painting Options Section */}
                                 <section className="art-painting-options pe-3 mb-4">
