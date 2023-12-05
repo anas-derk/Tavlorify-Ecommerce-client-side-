@@ -1085,8 +1085,8 @@ export default function ImageToImage({
                             imageSize !== "minimize-image" ? "canvas-image" : "minimize-canvas-image"
                         ) : ""}`}
                         style={{
-                            width: width,
-                            height: height,
+                            width: getSuitableWidthAndHeightForPainting(global_data.framesDimentions["poster"][imageType][dimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
+                            height: getSuitableWidthAndHeightForPainting(global_data.framesDimentions["poster"][imageType][dimentionsInCm].height, imageSize, isRoomImageMinimize, windowInnerWidth),
                             backgroundImage: `url(${generatedImageURL})`,
                             backgroundRepeat: "no-repeat",
                             backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
