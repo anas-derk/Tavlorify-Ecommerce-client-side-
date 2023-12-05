@@ -337,7 +337,7 @@ export default function Header({ newTotalProductsCount }){
             {/* Start Navbar Component From Bootstrap */}
             <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top pt-3">
                 <div className="container-fluid">
-                    <Link className="navbar-brand fw-bold" href="/">Tavlorify Store</Link>
+                    <Link className="navbar-brand fw-bold" href="/">Tavlorify</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -346,12 +346,12 @@ export default function Header({ newTotalProductsCount }){
                             <li className="nav-item">
                                 <Link className="nav-link" aria-current="page" href="/">
                                     <AiOutlineHome />
-                                    <span className="ms-2">Home</span>
+                                    <span className="ms-2">Hemsida</span>
                                 </Link>
                             </li>
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span>Poster</span>
+                                    <span>POSTERS</span>
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
@@ -364,7 +364,7 @@ export default function Header({ newTotalProductsCount }){
                                                 }
                                             }}
                                         >
-                                            Text To Image
+                                            Förvandla ord till konstverk
                                         </Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
@@ -378,14 +378,14 @@ export default function Header({ newTotalProductsCount }){
                                                 }
                                             }}
                                         >
-                                            Image To Image
+                                            förvandla foton till konstverk
                                         </Link>
                                     </li>
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Canvas
+                                    CANVASTAVLOR
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
@@ -398,7 +398,7 @@ export default function Header({ newTotalProductsCount }){
                                                 }
                                             }}
                                         >
-                                            Text To Image
+                                            Förvandla ord till konstverk
                                         </Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
@@ -412,7 +412,7 @@ export default function Header({ newTotalProductsCount }){
                                                 }
                                             }}
                                         >
-                                            Image To Image
+                                            förvandla foton till konstverk
                                         </Link>
                                     </li>
                                 </ul>
@@ -420,13 +420,13 @@ export default function Header({ newTotalProductsCount }){
                             <li className="nav-item">
                                 <Link className="nav-link" aria-current="page" href="/who-are-we">
                                     <BsInfoCircle />
-                                    <span className="ms-2">Who Are We ?</span>
+                                    <span className="ms-2">vilka är vi ?</span>
                                 </Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" aria-current="page" href="/contact-us">
                                     <MdOutlineContactPhone />
-                                    <span className="ms-2">Contact Us</span>
+                                    <span className="ms-2">Ring Oss</span>
                                 </Link>
                             </li>
                             <li className="nav-item">
@@ -452,7 +452,7 @@ export default function Header({ newTotalProductsCount }){
                 {!isDisplayAllLinksBox && <FaBars className="bar-icon icon" onClick={() => setIsDisplayAllLinksBox(true)} />}
                 {isDisplayAllLinksBox && <GrFormClose className="close-all-links-box icon" onClick={() => setIsDisplayAllLinksBox(false)} />}
                 <Link href="/" className="home-link">
-                    <h5 className="fw-bold web-app-name mb-0">Tavlorify Store</h5>
+                    <h5 className="fw-bold web-app-name mb-0">Tavlorify</h5>
                 </Link>
                 <div className="cart-icon-box">
                     {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon icon" onClick={displayAllProductManagmentBox} />}
@@ -463,12 +463,12 @@ export default function Header({ newTotalProductsCount }){
                     <li className="link-item p-3 border-bottom border-2">
                         <Link className="link" aria-current="page" href="/">
                             <AiOutlineHome />
-                            <span className="ms-2">Home</span>
+                            <span className="ms-2">Hemsida</span>
                         </Link>
                     </li>
                     <li className="link-item p-3 border-bottom border-2">
                         <BsPaintBucket />
-                        <span className="ms-2">Poster</span>
+                        <span className="ms-2">POSTERS</span>
                         {!displayingTheCustomDropdownMenuNames.includes("poster-dropdown-menu") && <IoIosArrowRoundDown className="icon" onClick={() => setDisplayingTheCustomDropdownMenuNames([...displayingTheCustomDropdownMenuNames, "poster-dropdown-menu"])} />}
                         {displayingTheCustomDropdownMenuNames.includes("poster-dropdown-menu") && <IoIosArrowRoundUp className="icon" onClick={() => setDisplayingTheCustomDropdownMenuNames(displayingTheCustomDropdownMenuNames.filter(name => name !== "poster-dropdown-menu"))} />}
                         {displayingTheCustomDropdownMenuNames.includes("poster-dropdown-menu") && <ul className="dropdown-menu-for-custom-navbar mt-2">
@@ -483,7 +483,7 @@ export default function Header({ newTotalProductsCount }){
                                     }}
                                 >
                                     <FaLongArrowAltRight className="me-2" />
-                                    <span>Text To Image</span>
+                                    <span>Förvandla ord till konstverk</span>
                                 </Link>
                             </li>
                             <li className="pt-2 pb-2 dropdown-menu-item-for-custom-navbar">
@@ -497,14 +497,14 @@ export default function Header({ newTotalProductsCount }){
                                     }}
                                 >
                                     <FaLongArrowAltRight className="me-2" />
-                                    <span>Image To Image</span>
+                                    <span>förvandla foton till konstverk</span>
                                 </Link>
                             </li>
                         </ul>}
                     </li>
                     <li className="link-item p-3 border-bottom border-2">
                         <BsPaintBucket />
-                        <span className="ms-2">Canvas</span>
+                        <span className="ms-2">CANVASTAVLOR</span>
                         {!displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") && <IoIosArrowRoundDown className="icon" onClick={() => setDisplayingTheCustomDropdownMenuNames([...displayingTheCustomDropdownMenuNames, "canvas-dropdown-menu"])} />}
                         {displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") && <IoIosArrowRoundUp className="icon" onClick={() => setDisplayingTheCustomDropdownMenuNames(displayingTheCustomDropdownMenuNames.filter(name => name !== "canvas-dropdown-menu"))} />}
                         {displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") && <ul className="dropdown-menu-for-custom-navbar mt-2">
@@ -519,7 +519,7 @@ export default function Header({ newTotalProductsCount }){
                                     }}
                                 >
                                     <FaLongArrowAltRight className="me-2" />
-                                    <span>Text To Image</span>
+                                    <span>Förvandla ord till konstverk</span>
                                 </Link>
                             </li>
                             <li className="pt-2 pb-2 dropdown-menu-item-for-custom-navbar">
@@ -533,7 +533,7 @@ export default function Header({ newTotalProductsCount }){
                                     }}
                                 >
                                     <FaLongArrowAltRight className="me-2" />
-                                    <span>Image To Image</span>
+                                    <span>förvandla foton till konstverk</span>
                                 </Link>
                             </li>
                         </ul>}
@@ -541,13 +541,13 @@ export default function Header({ newTotalProductsCount }){
                     <li className="link-item p-3 border-bottom border-2">
                         <Link className="link" aria-current="page" href="/who-are-we">
                             <AiOutlineHome />
-                            <span className="ms-2">Who Are We ?</span>
+                            <span className="ms-2">vilka är vi?</span>
                         </Link>
                     </li>
                     <li className="link-item p-3 border-bottom border-2">
                         <Link className="link" aria-current="page" href="/contact-us">
                             <MdOutlineContactPhone />
-                            <span className="ms-2">Contact Us</span>
+                            <span className="ms-2">Ring Oss</span>
                         </Link>
                     </li>
                     <li className="link-item p-3 border-bottom border-2">

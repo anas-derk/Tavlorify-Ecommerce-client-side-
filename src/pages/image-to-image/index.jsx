@@ -60,9 +60,6 @@ import howToUseImage1 from "../../../public/images/HowToUseExplain/Img2Img/1.jpg
 import howToUseImage2 from "../../../public/images/HowToUseExplain/Img2Img/2.jpg";
 import howToUseImage3 from "../../../public/images/HowToUseExplain/Img2Img/3.jpg";
 import inspirationImage1 from "../../../public/images/Inspiration/1.jpg";
-import inspirationImage2 from "../../../public/images/Inspiration/2.jpg";
-import inspirationImage3 from "../../../public/images/Inspiration/3.jpg";
-import inspirationImage4 from "../../../public/images/Inspiration/4.jpg";
 
 export default function ImageToImage({
     generatedImageId,
@@ -1261,7 +1258,7 @@ export default function ImageToImage({
                                 {/* Start Art Painting Options Section */}
                                 <section className="art-painting-options pe-3 mb-4">
                                     <section className="generating-image-options">
-                                        <h6 className="mb-2 fw-bold option-section-name">Please Select Category</h6>
+                                        <h6 className="mb-2 fw-bold option-section-name">Vad är på ditt foto ?</h6>
                                         {/* Start Categories Section */}
                                         <section className="categories mb-3">
                                             <div className="row">
@@ -1287,7 +1284,7 @@ export default function ImageToImage({
                                             </div>
                                         </section>
                                         {/* End Categories Section */}
-                                        <h6 className="mb-2 fw-bold option-section-name">Please Select Style</h6>
+                                        <h6 className="mb-2 fw-bold option-section-name">Välj en stil</h6>
                                         {/* Start Styles Section */}
                                         <section className="styles mb-3">
                                             {/* Start Grid System */}

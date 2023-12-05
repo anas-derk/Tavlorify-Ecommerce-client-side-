@@ -838,7 +838,7 @@ export default function TextToImage({
                 <div className="page-content">
                     {/* Start Container */}
                     <div className="container-fluid pt-2 pb-4">
-                        <h1 className="text-center mb-4 welcome-msg pb-3">Welcome To You In Text To Image AI Service</h1>
+                        <h1 className="text-center mb-4 welcome-msg pb-3 w-50">Använd Vårt designerverktyg och enkla textmeddelanden för att skapa din vackra tavla. <br /> Skriv ner dina idéer och se din vision förvandlas till ett livfullt och vackert konstverk.</h1>
                         {/* Start Grid System */}
                         <div className="row align-items-center">
                             {/* Start Column */}
@@ -875,7 +875,7 @@ export default function TextToImage({
                                 <section className="art-painting-options pe-3 mb-3">
                                     {/* Start Generating Image Options Section */}
                                     <section className="generating-image-options">
-                                        <h6 className="text-center mb-2 fw-bold option-section-name">Your Text Prompt</h6>
+                                        <h6 className="text-center mb-2 fw-bold option-section-name">Skriv ner din text</h6>
                                         <textarea
                                             type="text"
                                             placeholder="a dog riding a bicycle"
@@ -885,17 +885,17 @@ export default function TextToImage({
                                         ></textarea>
                                         <div className="row align-items-center generate-image-btn-box">
                                             <div className="col-md-7">
-                                                <h6 className="describe text-start mb-0 fw-bold">Describe what you want the AI to create</h6>
+                                                <h6 className="describe text-start mb-0 fw-bold">Beskriv vad du vill att AI ska skapa</h6>
                                             </div>
                                             <div className="col-md-5 text-end">
                                                 {!isWaitStatus && !errorMsg &&
-                                                    <button className="btn btn-dark w-100 generate-image-btn" onClick={generatedImageWithAI}>Create</button>
+                                                    <button className="btn btn-dark w-100 generate-image-btn" onClick={generatedImageWithAI}>skapa</button>
                                                 }
-                                                {isWaitStatus && <button className="btn btn-dark w-50" disabled>Creating ...</button>}
+                                                {isWaitStatus && <button className="btn btn-dark w-50" disabled>skapar ...</button>}
                                             </div>
                                         </div>
                                         <hr />
-                                        <h6 className="mb-3 fw-bold option-section-name">Please Select Category</h6>
+                                        <h6 className="mb-3 fw-bold option-section-name">Vilken kategori tillhör den ?</h6>
                                         {/* Start Categories Section */}
                                         <section className="categories mb-2">
                                             <div className="row">
@@ -921,7 +921,7 @@ export default function TextToImage({
                                             </div>
                                         </section>
                                         {/* End Categories Section */}
-                                        <h6 className="mb-2 fw-bold option-section-name">Please Select Style</h6>
+                                        <h6 className="mb-2 fw-bold option-section-name">Välj en stil</h6>
                                         {/* Start Styles Section */}
                                         <section className="styles mb-3">
                                             {/* Start Grid System */}
@@ -966,18 +966,18 @@ export default function TextToImage({
                                                 onClick={() => handleSelectPaintingType("poster")}
                                                 style={(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
                                             >
-                                                Poster
+                                                POSTERS
                                             </li>
                                             <li
                                                 className="p-2 pe-3 ps-3"
                                                 onClick={() => handleSelectPaintingType("canvas")}
                                                 style={paintingType === "canvas" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
                                             >
-                                                Canvas
+                                                CANVASTAVLOR
                                             </li>
                                         </ul>
                                         {/* EndArt Names List */}
-                                        <h6 className="fw-bold option-section-name">Positions</h6>
+                                        <h6 className="fw-bold option-section-name">formatet</h6>
                                         {/* Start Positions List */}
                                         <ul className="positions-list text-center pb-3 art-painting-options-list">
                                             <li
@@ -985,25 +985,25 @@ export default function TextToImage({
                                             >
                                                 <span
                                                     style={imageType === "vertical" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                                >Vertical</span>
+                                                >Stående</span>
                                             </li>
                                             <li
                                                 onClick={() => handleSelectImageType("horizontal")}
                                             >
                                                 <span
                                                     style={imageType === "horizontal" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                                >Horizontal</span>
+                                                >Liggande</span>
                                             </li>
                                             <li
                                                 onClick={() => handleSelectImageType("square")}
                                             >
                                                 <span
                                                     style={imageType === "square" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                                >Square</span>
+                                                >Kvadratisk</span>
                                             </li>
                                         </ul>
                                         {/* End Positions List */}
-                                        <h6 className="fw-bold option-section-name">Sizes</h6>
+                                        <h6 className="fw-bold option-section-name">Storlek</h6>
                                         {/* Start Sizes List */}
                                         <ul className="sizes-list text-center pb-3 art-painting-options-list">
                                             {global_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
@@ -1014,14 +1014,14 @@ export default function TextToImage({
                                                     <span
                                                         style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                     >
-                                                        {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0">Popular</h6>}
+                                                        {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0">populär</h6>}
                                                         {dims.inCm}
                                                     </span>
                                                 </li>
                                             ))}
                                         </ul>
                                         {/* End Sizes List */}
-                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">Border</h6>}
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">KANT</h6>}
                                         {/* Start White Border */}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list text-center pb-3 art-painting-options-list">
                                             <li
@@ -1030,7 +1030,7 @@ export default function TextToImage({
                                                 <span
                                                     style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
-                                                    none
+                                                    INGEN KANT
                                                 </span>
                                             </li>
                                             <li
@@ -1039,12 +1039,12 @@ export default function TextToImage({
                                                 <span
                                                     style={isExistWhiteBorderWithPoster === "with-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
-                                                    With Border
+                                                    Vit kant
                                                 </span>
                                             </li>
                                         </ul>}
                                         {/* Start White Border */}
-                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">Frames</h6>}
+                                        {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">RAM</h6>}
                                         {/* Start Frames List */}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="frames-list text-center pb-3 art-painting-options-list">
                                             <li
@@ -1053,7 +1053,7 @@ export default function TextToImage({
                                                 <span
                                                     style={(frameColor === "none" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
-                                                    none
+                                                    UTAN RAM
                                                 </span>
                                             </li>
                                             <li
@@ -1063,7 +1063,7 @@ export default function TextToImage({
                                                     style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalBlackFrameCornerImage.src} alt="Black Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Black</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM Svart</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1073,7 +1073,7 @@ export default function TextToImage({
                                                     style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalWhiteFrameCornerImage.src} alt="White Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">White</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM Vit</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1083,7 +1083,7 @@ export default function TextToImage({
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalWoodFrameCornerImage.src} alt="Wood Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Wood</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM Naturlig</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1093,7 +1093,7 @@ export default function TextToImage({
                                                     style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalDarkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Dark Wood</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM MÖRK</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1103,7 +1103,7 @@ export default function TextToImage({
                                                     style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerBlackFrameCornerImage.src} alt="Black Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Black With Hangers</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">POSTERHÄNGARE SVART</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1113,7 +1113,7 @@ export default function TextToImage({
                                                     style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerWhiteFrameCornerImage.src} alt="White Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">White With Hangers</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">POSTERHÄNGARE VIT</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1123,7 +1123,7 @@ export default function TextToImage({
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerWoodFrameCornerImage.src} alt="Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold">Wood With Hangers</h6>
+                                                    <h6 className="frame-color d-block fw-bold">POSTERHÄNGARE Naturligt TRÄ</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1133,7 +1133,7 @@ export default function TextToImage({
                                                     style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerDarkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Dark Wood With Hangers</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">POSTERHÄNGARE MÖRK</h6>
                                                 </span>
                                             </li>
                                         </ul>}
@@ -1144,10 +1144,10 @@ export default function TextToImage({
                                 {/* Start Add To Cart Managment */}
                                 {!isWaitStatus && !errorMsg && <div className="add-to-cart-box">
                                     {!isWaitAddToCart && !errorInAddToCart && !isSuccessAddToCart && <button
-                                        className="btn btn-dark w-100 p-2 add-to-cart-managment-btn"
+                                        className="btn btn-dark w-100 p-2 add-to-cart-managment-btn mb-3"
                                         onClick={addToCart}
                                     >
-                                        <span className="me-2">Add To Cart |</span>
+                                        <span className="me-2">Lägg i varukorg |</span>
                                         <span className="me-2">{productPriceAfterDiscount} Kr</span>
                                         {productPriceBeforeDiscount != productPriceAfterDiscount && <span className="text-decoration-line-through me-2">{productPriceBeforeDiscount} </span>}
                                         {productPriceBeforeDiscount != productPriceAfterDiscount && <span>kr</span>}
@@ -1155,6 +1155,7 @@ export default function TextToImage({
                                     {isWaitAddToCart && <button className="btn btn-dark w-100 p-1 add-to-cart-managment-btn" disabled>Waiting ...</button>}
                                     {isSuccessAddToCart && <button className="btn btn-success w-100 p-2 add-to-cart-managment-btn" disabled>Success Is Adding To Cart ...</button>}
                                     {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn" disabled>{errorInAddToCart}</button>}
+                                    <p className="m-0 fw-bold text-center">3-5 dagars leverans • Alltid fri frakt</p>
                                 </div>}
                                 {/* End Add To Cart Managment */}
                             </div>
@@ -1165,7 +1166,7 @@ export default function TextToImage({
                         {/* Start Generated Images Section */}
                         <section className={`row align-items-center generated-images${generatedImagesData ? "" : ""}`}>
                             <div className="col-md-2 text-center">
-                                <h6 className="m-0 fw-bold d-inline">Generated Images: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
+                                <h6 className="m-0 fw-bold d-inline">Genererade bilder: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
                             </div>
                             <div className="col-md-10">
                                 {generatedImagesData && !isWaitStatus ? <ul className="generated-images-list text-center p-4">
@@ -1188,7 +1189,7 @@ export default function TextToImage({
                                             </li>
                                         </Fragment>
                                     ))}
-                                    {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Show More</button>}
+                                    {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Visa mer</button>}
                                 </ul> : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Sorry, Can't Find Any Generated Images From You !!</p>}
                             </div>
                         </section>
