@@ -1563,7 +1563,7 @@ export default function ImageToImage({
                                     ))}
                                     {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Visa mer</button>}
                                 </ul>}
-                                {generatedImagesData.length === 0 && <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Tyvärr, kan inte hitta några genererade bilder från dig !</p>}
+                                {generatedImagesData && generatedImagesData.length === 0 && <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Tyvärr, kan inte hitta några genererade bilder från dig !</p>}
                             </div>
                         </section>
                         {/* Start Generated Images Section */}
