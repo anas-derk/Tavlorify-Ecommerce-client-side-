@@ -1,7 +1,7 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import { useState, useEffect } from "react";
-import Axios from "axios";
+import axios from "axios";
 import validations from "../../../../../../../../public/global_functions/validations";
 import { useRouter } from "next/router";
 
@@ -36,7 +36,7 @@ export default function AddNewCategoryStyle() {
         if (!adminId) {
             router.push("/dashboard/admin/login");
         } else {
-            Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
+            axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
                 .then((res) => {
                     let result = res.data;
                     if (typeof result === "string") {
@@ -122,7 +122,7 @@ export default function AddNewCategoryStyle() {
             formData.append("styleImgFile", styleImageFile);
             setIsAddingStatus(true);
             try {
-                const res = await Axios.post(`${process.env.BASE_API_URL}/text-to-image/styles/add-new-style`, formData);
+                const res = await axios.post(`${process.env.BASE_API_URL}/text-to-image/styles/add-new-style`, formData);
                 const result = await res.data;
                 if (result === "Adding New Category Style For Text To Image Page Process Is Succesfuly !!") {
                     setIsAddingStatus(false);

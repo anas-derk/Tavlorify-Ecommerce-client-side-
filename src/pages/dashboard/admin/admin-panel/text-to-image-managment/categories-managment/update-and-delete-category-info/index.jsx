@@ -1,7 +1,7 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import { useEffect, useState } from "react";
-import Axios from "axios";
+import axios from "axios";
 import { useRouter } from "next/router";
 
 export default function UpdateAndDeleteCategoryInfo() {
@@ -16,8 +16,6 @@ export default function UpdateAndDeleteCategoryInfo() {
 
     const [deletedCategoryIndex, setDeletedCategoryIndex] = useState(-1);
 
-    const [updatedCategoriesData, setUpdatedCategoriesData] = useState([]);
-
     const router = useRouter();
 
     useEffect(() => {
@@ -25,63 +23,54 @@ export default function UpdateAndDeleteCategoryInfo() {
         if (!adminId) {
             router.push("/dashboard/admin/login");
         } else {
-            Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
+            axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
                 .then((res) => {
                     let result = res.data;
                     if (typeof result === "string") {
                         console.log(result);
                     } else {
                         setCategoriesData(result);
-                        setUpdatedCategoriesData(result.map((category) => {
-                            return {
-                                ...category,
-                            }
-                        }));
                     }
                 })
                 .catch((err) => console.log(err));
         }
     }, []);
 
-    const changeCategorySortNumber = (categoryIndex, newValue) => {
-        let categoriesDataTemp = updatedCategoriesData;
-        categoriesDataTemp[categoryIndex].sortNumber = Number(newValue);
-        setUpdatedCategoriesData(categoriesDataTemp);
+    const changeCategoryData = (categoryIndex, fieldName, newValue) => {
+        categoriesData[categoryIndex][fieldName] = newValue;
     }
 
-    const changeCategoryName = (categoryIndex, newValue) => {
-        let categoriesDataTemp = updatedCategoriesData;
-        categoriesDataTemp[categoryIndex].name = newValue;
-        setUpdatedCategoriesData(categoriesDataTemp);
+    const updateCategoryInfo = async (categoryIndex) => {
+        try {
+            setUpdatedCategoryIndex(categoryIndex);
+            setIsUpdateStatus(true);
+            await axios.put(`${process.env.BASE_API_URL}/text-to-image/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
+                newCategorySortNumber: categoriesData[categoryIndex].sortNumber,
+                newCategoryName: categoriesData[categoryIndex].name,
+            });
+            setTimeout(() => {
+                setIsUpdateStatus(false);
+                router.reload();
+            }, 1000);
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 
-    const updateCategoryInfo = (categoryIndex) => {
-        setUpdatedCategoryIndex(categoryIndex);
-        setIsUpdateStatus(true);
-        Axios.put(`${process.env.BASE_API_URL}/text-to-image/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
-            newCategorySortNumber: updatedCategoriesData[categoryIndex].sortNumber,
-            newCategoryName: updatedCategoriesData[categoryIndex].name,
-        })
-            .then(() => {
-                setTimeout(() => {
-                    setIsUpdateStatus(false);
-                    router.reload();
-                }, 1000);
-            })
-            .catch((err) => console.log(err));
-    }
-
-    const deleteCategory = (categoryIndex) => {
-        setDeletedCategoryIndex(categoryIndex);
-        setIsDeleteStatus(true);
-        Axios.delete(`${process.env.BASE_API_URL}/text-to-image/categories/delete-category-data/${categoriesData[categoryIndex]._id}`)
-            .then((res) => {
-                setTimeout(() => {
-                    setIsDeleteStatus(false);
-                    router.reload();
-                }, 1000);
-            })
-            .catch((err) => console.log(err));
+    const deleteCategory = async (categoryIndex) => {
+        try {
+            setDeletedCategoryIndex(categoryIndex);
+            setIsDeleteStatus(true);
+            await axios.delete(`${process.env.BASE_API_URL}/text-to-image/categories/delete-category-data/${categoriesData[categoryIndex]._id}`);
+            setTimeout(() => {
+                setIsDeleteStatus(false);
+                router.reload();
+            }, 1000);
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 
     return (
@@ -114,7 +103,7 @@ export default function UpdateAndDeleteCategoryInfo() {
                                                 {index + 1}
                                             </td>
                                             <td className="select-category-sort-number-cell">
-                                                <select className="form-control" onChange={(e) => changeCategorySortNumber(index, e.target.value)}>
+                                                <select className="form-control" onChange={(e) => changeCategoryData(index, "sortNumber", e.target.value)}>
                                                     <option value="" hidden>Please Select Sort</option>
                                                     {categoriesData.map((category, index) => (
                                                         <option value={index + 1} key={index}>{index + 1}</option>
@@ -127,7 +116,7 @@ export default function UpdateAndDeleteCategoryInfo() {
                                                     className="category-name-input form-control"
                                                     placeholder="Category Name"
                                                     defaultValue={category.name}
-                                                    onChange={(e) => changeCategoryName(index, e.target.value.trim())}
+                                                    onChange={(e) => changeCategoryData(index, "name", e.target.value.trim())}
                                                 />
                                             </td>
                                             <td className="update-and-delete-cell">

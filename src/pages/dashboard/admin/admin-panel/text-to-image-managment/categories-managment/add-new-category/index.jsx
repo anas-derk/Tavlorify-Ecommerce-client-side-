@@ -1,7 +1,7 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import { useState, useEffect } from "react";
-import Axios from "axios";
+import axios from "axios";
 import validations from "../../../../../../../../public/global_functions/validations";
 import { useRouter } from "next/router";
 
@@ -124,7 +124,7 @@ export default function AddNewCategory() {
             formData.append("styleImgFile", styleImageFile);
             setIsAddingStatus(true);
             try {
-                const res = await Axios.post(`${process.env.BASE_API_URL}/text-to-image/categories/add-new-category`, formData);
+                const res = await axios.post(`${process.env.BASE_API_URL}/text-to-image/categories/add-new-category`, formData);
                 const result = await res.data;
                 if (result === "Add New Category And First Style For Text To Image Page Is Successfuly !!") {
                     setIsAddingStatus(false);

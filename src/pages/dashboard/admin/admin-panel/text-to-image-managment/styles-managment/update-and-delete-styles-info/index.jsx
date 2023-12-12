@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Axios from "axios";
+import axios from "axios";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
@@ -32,17 +32,19 @@ export default function UpdateCategoryStyleInfo() {
 
     const [files, setFiles] = useState([]);
 
-    const getAllCategoriesDataForTextToImage = () => {
-        Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`)
-            .then((res) => {
-                let result = res.data;
-                if (typeof result === "string") {
-                    console.log(result);
-                } else {
-                    setCategoriesData(result);
-                }
-            })
-            .catch((err) => console.log(err));
+    const getAllCategoriesDataForTextToImage = async () => {
+        try {
+            const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`);
+            const result = await res.data;
+            if (typeof result === "string") {
+                console.log(result);
+            } else {
+                setCategoriesData(result);
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 
     useEffect(() => {
@@ -54,34 +56,8 @@ export default function UpdateCategoryStyleInfo() {
         }
     }, []);
 
-    const changeStyleSortNumber = (styleIndex, newValue) => {
-        let categoriesDataTemp = categoryData;
-        categoryStylesData[styleIndex].sortNumber = newValue;
-        setCategoryData(categoriesDataTemp);
-    }
-
-    const changeStyleName = (styleIndex, newValue) => {
-        let categoriesDataTemp = categoryData;
-        categoryStylesData[styleIndex].name = newValue;
-        setCategoryData(categoriesDataTemp);
-    }
-
-    const changeStylePrompt = (styleIndex, newValue) => {
-        let categoriesDataTemp = categoryData;
-        categoryStylesData[styleIndex].prompt = newValue;
-        setCategoryData(categoriesDataTemp);
-    }
-
-    const changeStyleNegativePrompt = (styleIndex, newValue) => {
-        let categoriesDataTemp = categoryData;
-        categoryStylesData[styleIndex].negative_prompt = newValue;
-        setCategoryData(categoriesDataTemp);
-    }
-
-    const changeStyleModel = (styleIndex, newValue) => {
-        let categoriesDataTemp = categoryData;
-        categoryStylesData[styleIndex].modelName = newValue;
-        setCategoryData(categoriesDataTemp);
+    const changeStyleData = (styleIndex, fieldName, newValue) => {
+        categoryStylesData[styleIndex][fieldName] = newValue;
     }
 
     const changeStyleImage = (styleIndex, newValue) => {
@@ -90,15 +66,17 @@ export default function UpdateCategoryStyleInfo() {
         setFiles(styleFiles);
     }
 
-    const getCategoryStyles = () => {
-        setFiles([]);
-        setIsWaitStatus(true);
-        Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categoryIndex].name}`)
-            .then((res) => {
-                setCategoryStylesData(res.data);
-                setIsWaitStatus(false);
-            })
-            .catch((err) => console.log(err));
+    const getCategoryStyles = async () => {
+        try {
+            setFiles([]);
+            setIsWaitStatus(true);
+            const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categoryIndex].name}`);
+            setCategoryStylesData(await res.data);
+            setIsWaitStatus(false);
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 
     const updateStyleImage = async (styleIndex) => {
@@ -108,7 +86,7 @@ export default function UpdateCategoryStyleInfo() {
             try {
                 let formData = new FormData();
                 formData.append("styleImage", files[styleIndex]);
-                await Axios.put(`${process.env.BASE_API_URL}/admin/update-style-image?service=text-to-image&styleId=${categoryStylesData[styleIndex]._id}`, formData);
+                await axios.put(`${process.env.BASE_API_URL}/admin/update-style-image?service=text-to-image&styleId=${categoryStylesData[styleIndex]._id}`, formData);
                 getCategoryStyles();
                 setIsUpdateStyleImageStatus(false);
                 setUpdatedStyleImageIndex(-1);
@@ -120,35 +98,39 @@ export default function UpdateCategoryStyleInfo() {
         }
     }
 
-    const updateStyleData = (styleIndex) => {
-        setUpdatedStyleIndex(styleIndex);
-        setIsUpdateStatus(true);
-        Axios.put(`${process.env.BASE_API_URL}/text-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}?categoryName=${categoryStylesData[styleIndex].categoryName}`, {
-            newCategoryStyleSortNumber: categoryStylesData[styleIndex].sortNumber,
-            newName: categoryStylesData[styleIndex].name,
-            newPrompt: categoryStylesData[styleIndex].prompt,
-            newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
-            newModelName: categoryStylesData[styleIndex].modelName,
-        })
-            .then((res) => {
-                setUpdatedStyleIndex(-1);
-                setIsWaitStatus(false);
-                setIsUpdateStatus(false);
-                getCategoryStyles();
-            })
-            .catch((err) => console.log(err));
+    const updateStyleData = async (styleIndex) => {
+        try {
+            setUpdatedStyleIndex(styleIndex);
+            setIsUpdateStatus(true);
+            await axios.put(`${process.env.BASE_API_URL}/text-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}?categoryName=${categoryStylesData[styleIndex].categoryName}`, {
+                newCategoryStyleSortNumber: categoryStylesData[styleIndex].sortNumber,
+                newName: categoryStylesData[styleIndex].name,
+                newPrompt: categoryStylesData[styleIndex].prompt,
+                newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
+                newModelName: categoryStylesData[styleIndex].modelName,
+            });
+            setUpdatedStyleIndex(-1);
+            setIsWaitStatus(false);
+            setIsUpdateStatus(false);
+            getCategoryStyles();
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 
-    const deleteStyle = (styleIndex) => {
-        setDeletedStyleIndex(styleIndex);
-        setIsDeleteStatus(true);
-        Axios.delete(`${process.env.BASE_API_URL}/text-to-image/styles/delete-style-data/${categoryStylesData[styleIndex]._id}?categoryName=${categoryStylesData[styleIndex].categoryName}`)
-            .then(() => {
-                getCategoryStyles();
-                setDeletedStyleIndex(-1);
-                setIsDeleteStatus(false);
-            })
-            .catch((err) => console.log(err));
+    const deleteStyle = async (styleIndex) => {
+        try {
+            setDeletedStyleIndex(styleIndex);
+            setIsDeleteStatus(true);
+            await axios.delete(`${process.env.BASE_API_URL}/text-to-image/styles/delete-style-data/${categoryStylesData[styleIndex]._id}?categoryName=${categoryStylesData[styleIndex].categoryName}`);
+            getCategoryStyles();
+            setDeletedStyleIndex(-1);
+            setIsDeleteStatus(false);
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 
     return (
@@ -192,7 +174,7 @@ export default function UpdateCategoryStyleInfo() {
                                         <td className="style-sort-number">
                                             <h6 className="old-style-sort-number fw-bold">Old: {style.sortNumber}</h6>
                                             <hr />
-                                            <select className="form-control" onChange={(e) => changeStyleSortNumber(styleIndex, e.target.value)}>
+                                            <select className="form-control" onChange={(e) => changeStyleData(styleIndex, "sortNumber", e.target.value)}>
                                                 <option value="" hidden>Please Select New Sort</option>
                                                 {categoryStylesData.map((style, index) => (
                                                     <option value={index + 1} key={index}>{index + 1}</option>
@@ -205,7 +187,7 @@ export default function UpdateCategoryStyleInfo() {
                                                 placeholder="Enter Style Name"
                                                 className="style-name p-2 form-control"
                                                 defaultValue={style.name}
-                                                onChange={(e) => changeStyleName(styleIndex, e.target.value.trim())}
+                                                onChange={(e) => changeStyleData(styleIndex, "name", e.target.value.trim())}
                                             />
                                         </td>
                                         <td>
@@ -213,7 +195,7 @@ export default function UpdateCategoryStyleInfo() {
                                                 placeholder="Enter Prompt"
                                                 defaultValue={style.prompt}
                                                 className="p-3 form-control"
-                                                onChange={(e) => changeStylePrompt(styleIndex, e.target.value.trim())}
+                                                onChange={(e) => changeStyleData(styleIndex, "prompt", e.target.value.trim())}
                                             ></textarea>
                                         </td>
                                         <td>
@@ -221,13 +203,13 @@ export default function UpdateCategoryStyleInfo() {
                                                 placeholder="Enter Negative Prompt"
                                                 defaultValue={style.negative_prompt}
                                                 className="p-3 form-control"
-                                                onChange={(e) => changeStyleNegativePrompt(styleIndex, e.target.value.trim())}
+                                                onChange={(e) => changeStyleData(styleIndex, "negative_prompt", e.target.value.trim())}
                                             ></textarea>
                                         </td>
                                         <td className="model-name-cell">
                                             <h6 className="old-style-sort-number fw-bold">Old: {style.modelName}</h6>
                                             <hr />
-                                            <select className="form-control" onChange={(e) => changeStyleModel(styleIndex, e.target.value)}>
+                                            <select className="form-control" onChange={(e) => changeStyleData(styleIndex, "modelName", e.target.value)}>
                                                 <option hidden value="">Please Select New Model Name</option>
                                                 <option value="dreamshaper">Dreamshaper</option>
                                                 <option value="stable-diffusion">Stable Diffusion</option>
@@ -247,9 +229,7 @@ export default function UpdateCategoryStyleInfo() {
                                             <input
                                                 type="file"
                                                 className="form-control mx-auto mb-3"
-                                                style={{
-                                                    width: "257px"
-                                                }}
+                                                width="257"
                                                 accept=".jpg,.png"
                                                 onChange={(e) => changeStyleImage(styleIndex, e.target.files[0])}
                                             />

@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
-import Axios from "axios";
+import axios from "axios";
 import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 import Link from "next/link";
 
@@ -36,7 +36,7 @@ export default function ReturnedOrdersManager() {
     }, []);
     const getAllReturnedOrders = async () => {
         try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/returned-orders/all-orders`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/returned-orders/all-orders`);
             const result = await res.data;
             return result;
         }
@@ -191,15 +191,13 @@ export default function ReturnedOrdersManager() {
         }
     }
     const changeReturnedOrderData = (productIndex, fieldName, newValue) => {
-        let returnedOrdersDataTemp = allReturnedOrders;
-        returnedOrdersDataTemp[productIndex][fieldName] = newValue;
-        setAllReturnedOrders(returnedOrdersDataTemp);
+        allReturnedOrders[productIndex][fieldName] = newValue;
     }
     const updateReturnedOrderData = async (orderIndex) => {
         setIsUpdatingStatus(true);
         setUpdatingOrderIndex(orderIndex);
         try {
-            const res = await Axios.put(`${process.env.BASE_API_URL}/returned-orders/update-order/${allReturnedOrders[orderIndex]._id}`, {
+            const res = await axios.put(`${process.env.BASE_API_URL}/returned-orders/update-order/${allReturnedOrders[orderIndex]._id}`, {
                 order_amount: allReturnedOrders[orderIndex].order_amount,
                 status: allReturnedOrders[orderIndex].status,
             });
@@ -219,7 +217,7 @@ export default function ReturnedOrdersManager() {
         try {
             setIsDeletingStatus(true);
             setDeletingOrderIndex(orderIndex);
-            const res = await Axios.delete(`${process.env.BASE_API_URL}/returned-orders/delete-order/${currentSliceFromOrdersDataList[orderIndex]._id}`);
+            const res = await axios.delete(`${process.env.BASE_API_URL}/returned-orders/delete-order/${currentSliceFromOrdersDataList[orderIndex]._id}`);
             const result = await res.data;
             setIsDeletingStatus(false);
             setDeletingOrderIndex(-1);

@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
-import Axios from "axios";
+import axios from "axios";
 
 export default function OrderDetails() {
     const [orderDetails, setOrderDetails] = useState({});
@@ -27,11 +27,11 @@ export default function OrderDetails() {
     }, [orderId]);
     const getOrderDetails = async (orderId) => {
         try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/orders/order-details/${orderId}`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/orders/order-details/${orderId}`);
             return await res.data;
         }
         catch (err) {
-            return err.response.data;
+            return err;
         }
     }
     const changeOrderProductData = (productIndex, fieldName, newValue) => {
@@ -43,7 +43,7 @@ export default function OrderDetails() {
         setIsUpdatingStatus(true);
         setUpdatingOrderProductIndex(orderProductIndex);
         try {
-            const res = await Axios.put(`${process.env.BASE_API_URL}/orders/products/update-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`, {
+            const res = await axios.put(`${process.env.BASE_API_URL}/orders/products/update-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`, {
                 quantity: orderDetails.order_lines[orderProductIndex].quantity,
                 name: orderDetails.order_lines[orderProductIndex].name,
                 total_amount: orderDetails.order_lines[orderProductIndex].total_amount,
@@ -65,7 +65,7 @@ export default function OrderDetails() {
         setIsDeletingStatus(true);
         setDeletingOrderProductIndex(orderProductIndex);
         try {
-            const res = await Axios.delete(`${process.env.BASE_API_URL}/orders/products/delete-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`);
+            const res = await axios.delete(`${process.env.BASE_API_URL}/orders/products/delete-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`);
             const result = await res.data;
             if (result === "Deleting Product From Order Has Been Successfuly !!") {
                 setIsDeletingStatus(false);

@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
-import Axios from "axios";
+import axios from "axios";
 import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 import Link from "next/link";
 
@@ -38,7 +38,7 @@ export default function OrdersManager() {
     }, []);
     const getAllOrders = async () => {
         try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/orders/all-orders`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/orders/all-orders`);
             const result = await res.data;
             return result;
         }
@@ -194,7 +194,7 @@ export default function OrdersManager() {
     }
     const addOrderAsReturned = async (orderId) => {
         try {
-            const res = await Axios.post(`${process.env.BASE_API_URL}/returned-orders/create-new-order/${orderId}`);
+            const res = await axios.post(`${process.env.BASE_API_URL}/returned-orders/create-new-order/${orderId}`);
             const result = await res.data;
             console.log(result);
         }
@@ -203,15 +203,13 @@ export default function OrdersManager() {
         }
     }
     const changeOrderData = (productIndex, fieldName, newValue) => {
-        let ordersDataTemp = allOrders;
-        ordersDataTemp[productIndex][fieldName] = newValue;
-        setAllOrders(ordersDataTemp);
+        allOrders[productIndex][fieldName] = newValue;
     }
     const updateOrderData = async (orderIndex) => {
         setIsUpdatingStatus(true);
         setUpdatingOrderIndex(orderIndex);
         try{
-            const res = await Axios.put(`${process.env.BASE_API_URL}/orders/update-order/${allOrders[orderIndex]._id}`, {
+            const res = await axios.put(`${process.env.BASE_API_URL}/orders/update-order/${allOrders[orderIndex]._id}`, {
                 order_amount: allOrders[orderIndex].order_amount,
                 status: allOrders[orderIndex].status,
             });
@@ -231,7 +229,7 @@ export default function OrdersManager() {
         try{
             setIsDeletingStatus(true);
             setDeletingOrderIndex(orderIndex);
-            const res = await Axios.delete(`${process.env.BASE_API_URL}/orders/delete-order/${currentSliceFromOrdersDataList[orderIndex]._id}`);
+            const res = await axios.delete(`${process.env.BASE_API_URL}/orders/delete-order/${currentSliceFromOrdersDataList[orderIndex]._id}`);
             const result = await res.data;
             console.log(result);
             setIsDeletingStatus(false);
