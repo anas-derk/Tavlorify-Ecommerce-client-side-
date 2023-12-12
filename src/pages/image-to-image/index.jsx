@@ -61,6 +61,7 @@ import howToUseImage2 from "../../../public/images/HowToUseExplain/Img2Img/2.jpg
 import howToUseImage3 from "../../../public/images/HowToUseExplain/Img2Img/3.jpg";
 import inspirationImage1 from "../../../public/images/Inspiration/1.jpg";
 import PaintingDetails from "@/components/PaintingDetails";
+import Footer from "@/components/Footer";
 
 export default function ImageToImage({
     generatedImageId,
@@ -1641,6 +1642,7 @@ export default function ImageToImage({
                     {/* End Container */}
                 </div>
                 {/* End Page Content */}
+                <Footer />
             </> : <LoaderPage />}
         </div>
         // End Image To Image Page

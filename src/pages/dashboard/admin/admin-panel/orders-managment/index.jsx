@@ -7,11 +7,11 @@ import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 import Link from "next/link";
 import LoaderPage from "@/components/LoaderPage";
 
-export default function OrdersManager() {
+export default function OrdersManagment() {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [allOrders, setAllOrders] = useState([]);
+    const [allOrdersInsideThePage, setAllOrdersInsideThePage] = useState([]);
 
     const [updatingOrderIndex, setUpdatingOrderIndex] = useState(-1);
 
@@ -25,8 +25,6 @@ export default function OrdersManager() {
 
     const [totalPagesCount, setTotalPagesCount] = useState(0);
 
-    const [currentSliceFromOrdersDataList, setCurrentSliceFromOrdersDataList] = useState([]);
-
     const [pageNumber, setPageNumber] = useState(0);
 
     const router = useRouter();
@@ -38,22 +36,32 @@ export default function OrdersManager() {
         if (!adminId) {
             router.push("/dashboard/admin/login");
         } else {
-            getAllOrders()
-                .then((result) => {
-                    if (result.length > 0) {
-                        setAllOrders(result);
-                        setTotalPagesCount(Math.ceil(result.length / pageSize));
-                        const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(currentPage, result);
-                        setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+            getOrdersCount()
+                .then(async (result) => {
+                    if (result > 0) {
+                        const result1 = await getAllOrdersInsideThePage(1, 3);
+                        setAllOrdersInsideThePage(result1);
+                        setTotalPagesCount(Math.ceil(result / pageSize));
+                        setIsLoadingPage(false);
                     }
-                    setIsLoadingPage(false);
                 });
         }
     }, []);
 
-    const getAllOrders = async () => {
+    const getOrdersCount = async () => {
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/orders/all-orders`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/orders/orders-count`);
+            const result = await res.data;
+            return result;
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    const getAllOrdersInsideThePage = async (pageNumber, pageSize) => {
+        try {
+            const res = await axios.get(`${process.env.BASE_API_URL}/orders/all-orders-inside-the-page?pageNumber=${pageNumber}&pageSize=${pageSize}`);
             const result = await res.data;
             return result;
         }
@@ -71,24 +79,15 @@ export default function OrdersManager() {
         return orderedDateInDateFormat;
     }
 
-    const getCurrentSliceFromOrdersDataList = (currentPage, allOrders) => {
-        const startPageIndex = (currentPage - 1) * pageSize;
-        const endPageIndex = startPageIndex + pageSize;
-        const determinatedOrders = allOrders.slice(startPageIndex, endPageIndex);
-        return determinatedOrders;
-    }
-
-    const getPreviousPage = () => {
+    const getPreviousPage = async () => {
         const newCurrentPage = currentPage - 1;
-        const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(newCurrentPage, allOrders);
-        setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(newCurrentPage, 3));
         setCurrentPage(newCurrentPage);
     }
 
-    const getNextPage = () => {
+    const getNextPage = async () => {
         const newCurrentPage = currentPage + 1;
-        const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(newCurrentPage, allOrders);
-        setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(newCurrentPage, 3));
         setCurrentPage(newCurrentPage);
     }
 
@@ -100,9 +99,8 @@ export default function OrdersManager() {
                     <button
                         key={i}
                         className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === i ? "selection" : ""} ${i === 1 ? "ms-3" : ""}`}
-                        onClick={() => {
-                            const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(i, allOrders);
-                            setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+                        onClick={async () => {
+                            setAllOrdersInsideThePage(await getAllOrdersInsideThePage(i, 3));
                             setCurrentPage(i);
                         }}
                     >
@@ -119,9 +117,8 @@ export default function OrdersManager() {
                 <button
                     key={totalPagesCount}
                     className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === totalPagesCount ? "selection" : ""}`}
-                    onClick={() => {
-                        const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(pageNumber, allOrders);
-                        setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+                    onClick={async () => {
+                        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(pageNumber, 3));
                         setCurrentPage(pageNumber);
                     }}
                 >
@@ -143,10 +140,9 @@ export default function OrdersManager() {
                 <span className="current-page-number-and-count-of-pages p-2 ps-3 pe-3 bg-secondary text-white me-3">The Page {currentPage} of {totalPagesCount} Pages</span>
                 <form
                     className="navigate-to-specific-page-form w-25"
-                    onSubmit={(e) => {
+                    onSubmit={async (e) => {
                         e.preventDefault();
-                        const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(pageNumber, allOrders);
-                        setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+                        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(pageNumber, 3));
                         setCurrentPage(pageNumber);
                     }}
                 >
@@ -226,16 +222,16 @@ export default function OrdersManager() {
     }
 
     const changeOrderData = (productIndex, fieldName, newValue) => {
-        allOrders[productIndex][fieldName] = newValue;
+        allOrdersInsideThePage[productIndex][fieldName] = newValue;
     }
 
     const updateOrderData = async (orderIndex) => {
         setIsUpdatingStatus(true);
         setUpdatingOrderIndex(orderIndex);
         try {
-            const res = await axios.put(`${process.env.BASE_API_URL}/orders/update-order/${allOrders[orderIndex]._id}`, {
-                order_amount: allOrders[orderIndex].order_amount,
-                status: allOrders[orderIndex].status,
+            const res = await axios.put(`${process.env.BASE_API_URL}/orders/update-order/${allOrdersInsideThePage[orderIndex]._id}`, {
+                order_amount: allOrdersInsideThePage[orderIndex].order_amount,
+                status: allOrdersInsideThePage[orderIndex].status,
             });
             const result = await res.data;
             if (result === "Updating Order Details Has Been Successfuly !!") {
@@ -254,7 +250,7 @@ export default function OrdersManager() {
         try {
             setIsDeletingStatus(true);
             setDeletingOrderIndex(orderIndex);
-            const res = await axios.delete(`${process.env.BASE_API_URL}/orders/delete-order/${currentSliceFromOrdersDataList[orderIndex]._id}`);
+            const res = await axios.delete(`${process.env.BASE_API_URL}/orders/delete-order/${allOrdersInsideThePage[orderIndex]._id}`);
             const result = await res.data;
             console.log(result);
             setIsDeletingStatus(false);
@@ -266,7 +262,7 @@ export default function OrdersManager() {
             setDeletingOrderIndex(-1);
         }
     }
-    
+
     return (
         <div className="orders-managment">
             <Head>
@@ -280,7 +276,7 @@ export default function OrdersManager() {
                 <section className="content d-flex justify-content-center align-items-center flex-column text-center pt-3 pb-3">
                     <div className="container-fluid">
                         <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In Orders Managment</h1>
-                        {allOrders.length > 0 && <div className="orders-managment">
+                        {allOrdersInsideThePage.length > 0 && <div className="orders-managment">
                             <section className="filters mb-3 bg-white border-3 border-info p-3 text-start">
                                 <h5 className="section-name fw-bold text-center">Filters: </h5>
                                 <hr />
@@ -292,7 +288,7 @@ export default function OrdersManager() {
                                             className="form-control"
                                             placeholder="Pleae Enter Order Number"
                                             min="1"
-                                            max={allOrders.length}
+                                            max={allOrdersInsideThePage.length}
                                             onChange={(e) => filterOrders(e, "orderNumber", e.target.valueAsNumber)}
                                         />
                                     </div>
@@ -347,7 +343,7 @@ export default function OrdersManager() {
                                     </div>
                                 </div>
                             </section>
-                            {currentSliceFromOrdersDataList.length > 0 ? <section className="orders-data-box p-3 data-box">
+                            {allOrdersInsideThePage.length > 0 ? <section className="orders-data-box p-3 data-box">
                                 <table className="orders-data-table mb-4 data-table">
                                     <thead>
                                         <tr>
@@ -363,7 +359,7 @@ export default function OrdersManager() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {currentSliceFromOrdersDataList.map((order, orderIndex) => (
+                                        {allOrdersInsideThePage.map((order, orderIndex) => (
                                             <tr key={order._id}>
                                                 <td>{order.orderNumber}</td>
                                                 <td>{order._id}</td>

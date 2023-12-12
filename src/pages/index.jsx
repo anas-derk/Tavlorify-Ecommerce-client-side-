@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import { useEffect } from "react";
 import Carousel from 'react-bootstrap/Carousel';
 import { AiOutlineContacts } from "react-icons/ai";
+import Footer from "@/components/Footer";
 
 export default function Home() {
     useEffect(() => {
@@ -93,6 +94,7 @@ export default function Home() {
                 {/* End Custom Container */}
             </section>
             {/* End Contact Us Section */}
+            <Footer />
         </div>
     );
 }

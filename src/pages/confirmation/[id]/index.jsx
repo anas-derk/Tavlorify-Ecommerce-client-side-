@@ -3,11 +3,19 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Axios from "axios";
+import Footer from "@/components/Footer";
+import LoaderPage from "@/components/LoaderPage";
 
-export default function Confirmation(){
+export default function Confirmation() {
+
+    const [isLoadingPage, setIsLoadingPage] = useState(true);
+
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(null);
+
     const router = useRouter();
+
     const { id } = router.query;
+
     useEffect(() => {
         if (id) {
             getKlarnaOrderDetails(id)
@@ -15,11 +23,13 @@ export default function Confirmation(){
                     if (result.status === "checkout_complete") {
                         localStorage.removeItem("tavlorify-store-user-cart");
                         setNewTotalProductsCount(0);
+                        setIsLoadingPage(false);
                         renderKlarnaConfirmationHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
                     }
                 }).catch((err) => console.log(err));
         }
     }, [id]);
+
     const getKlarnaOrderDetails = async (orderId) => {
         try {
             const res = await Axios.get(`${process.env.BASE_API_URL}/orders/order-details-from-klarna/${orderId}`);
@@ -30,6 +40,7 @@ export default function Confirmation(){
             throw Error(err.response.data);
         }
     }
+
     const renderKlarnaConfirmationHtmlSnippetFromKlarnaCheckoutAPI = (htmlSnippet) => {
         try {
             let confirmationContainer  = document.getElementById("my-confirmation-container");
@@ -48,19 +59,23 @@ export default function Confirmation(){
             throw Error(err);
         }
     }
+
     return (
         // Start Confirmation Page
         <div className="confirmation">
             <Head>
                 <title>Tavlorify - Bekräftelse</title>
             </Head>
-            <Header newTotalProductsCount={newTotalProductsCount} />
+            {!isLoadingPage ? <>
+                <Header newTotalProductsCount={newTotalProductsCount} />
             {/* Start Container From Bootstrap */}
             <div className="container-fluid pt-4 pb-4">
                 <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hej till dig på bekräftelsessidan</h1>
             </div>
             {/* End Container From Bootstrap */}
             <div id="my-confirmation-container"></div>
+            <Footer />
+            </> : <LoaderPage />}
         </div>
     );
 }

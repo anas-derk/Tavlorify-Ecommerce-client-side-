@@ -9,17 +9,24 @@ import { v4 as generateUniqueID } from "uuid";
 import global_data from "../../../public/data/global";
 import Link from "next/link";
 import LoaderPage from "@/components/LoaderPage";
+import Footer from "@/components/Footer";
 
 export default function Checkout({ orderId }) {
+
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
     const [allProductsData, setAllProductsData] = useState([]);
+
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
+
     const [klarnaOrderId, setKlarnaOrderId] = useState("");
+
     const [pricesDetailsSummary, setPricesDetailsSummary] = useState({
         totalPriceBeforeDiscount: 0,
         totalDiscount: 0,
         totalPriceAfterDiscount: 0,
     });
+
     useEffect(() => {
         let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         if (Array.isArray(allProductsData)) {
@@ -44,6 +51,7 @@ export default function Checkout({ orderId }) {
             }
         }
     }, []);
+
     const calcTotalOrderPriceBeforeDiscount = (allProductsData) => {
         let tempTotalPriceBeforeDiscount = 0;
         allProductsData.forEach((product) => {
@@ -51,6 +59,7 @@ export default function Checkout({ orderId }) {
         });
         return tempTotalPriceBeforeDiscount;
     }
+
     const calcTotalOrderDiscount = (allProductsData) => {
         let tempTotalDiscount = 0;
         allProductsData.forEach((product) => {
@@ -58,18 +67,23 @@ export default function Checkout({ orderId }) {
         });
         return tempTotalDiscount;
     }
+
     const calcTotalOrderPriceAfterDiscount = (totalPriceBeforeDiscount, totalDiscount) => {
         return totalPriceBeforeDiscount - totalDiscount;
     }
+
     const calcTotalProductPriceDiscountForKlarnaCheckoutAPI = (priceBeforeDiscount, priceAfterDiscount, quantity) => {
         return (priceBeforeDiscount - priceAfterDiscount) * quantity;
     }
+
     const calcTotalProductPriceIncludedDiscountForKlarnaCheckoutAPI = (priceAfterDiscount, quantity) => {
         return priceAfterDiscount * quantity;
     }
+
     const calcTotalOrderTaxAmountForKlarnaCheckoutAPI = (totalAmount) => {
         return totalAmount - totalAmount * 10000 / (10000 + 2500);
     }
+
     const getOrderLinesForKlarnaCheckoutAPI = (allProductsData) => {
         let order_lines = [];
         allProductsData.forEach((product) => {
@@ -90,6 +104,7 @@ export default function Checkout({ orderId }) {
         });
         return order_lines;
     }
+
     const getOrderDetails = async (orderId) => {
         try {
             const res = await Axios.get(`${process.env.BASE_API_URL}/orders/order-details/${orderId}`);
@@ -99,6 +114,7 @@ export default function Checkout({ orderId }) {
             return err;
         }
     }
+
     const orderAllProducts = async (orderId, orderNumber) => {
         const tempAllProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         if (Array.isArray(tempAllProductsData)) {
@@ -150,6 +166,7 @@ export default function Checkout({ orderId }) {
             }
         }
     }
+
     const renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI = (htmlSnippet) => {
         try {
             let checkoutContainer = document.getElementById("my-checkout-container");
@@ -168,6 +185,7 @@ export default function Checkout({ orderId }) {
             console.log(err);
         }
     }
+
     const updateProductQuantity = (allProductsData, productId, operation) => {
         switch (operation) {
             case "increase-product-quantity": {
@@ -187,6 +205,7 @@ export default function Checkout({ orderId }) {
             }
         }
     }
+
     const updateKlarnaOrder = async (productId, operation, orderId) => {
         let newProductsData = [];
         if (operation === "increase-product-quantity" || operation === "decrease-product-quantity") {
@@ -219,9 +238,11 @@ export default function Checkout({ orderId }) {
             console.log(err.response.data);
         }
     }
+
     const deleteProduct = (productId) => {
         return allProductsData.filter((product) => product._id != productId);
     }
+
     const updateOrder = async (orderId, klarnaOrderId) => {
         try {
             const res = await Axios.put(`${process.env.BASE_API_URL}/orders/update-order/${orderId}`, {
@@ -234,6 +255,7 @@ export default function Checkout({ orderId }) {
             console.log(err);
         }
     }
+    
     return (
         // Start Checkout Page
         <div className="checkout">
@@ -330,6 +352,7 @@ export default function Checkout({ orderId }) {
                     {/* End Container From Bootstrap */}
                     {allProductsData.length > 0 && <div id="my-checkout-container" className="mt-4 pa"></div>}
                 </section>
+                <Footer />
             </> : <LoaderPage />}
         </div >
         // End Checkout Page

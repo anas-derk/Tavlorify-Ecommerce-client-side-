@@ -3,6 +3,7 @@ import Head from "next/head";
 import Header from "@/components/Header";
 import LoaderPage from "@/components/LoaderPage";
 import Link from "next/link";
+import Footer from "@/components/Footer";
 
 export default function CookiePolicy() {
     const [isLoadingPage, setIsLoadingPage] = useState(true);
@@ -85,6 +86,7 @@ export default function CookiePolicy() {
                         </div>
                     </div>
                 </div>
+                <Footer />
             </> : <LoaderPage />}
         </div>
     );

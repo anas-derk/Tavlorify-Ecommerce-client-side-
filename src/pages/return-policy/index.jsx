@@ -40,6 +40,7 @@ export default function ReturnPolicy() {
                         </div>
                     </div>
                 </div>
+                <Footer />
             </> : <LoaderPage />}
         </div>
     );

@@ -54,6 +54,7 @@ import { GrFormClose } from "react-icons/gr";
 import LoaderPage from "@/components/LoaderPage";
 import Carousel from 'react-bootstrap/Carousel';
 import PaintingDetails from "@/components/PaintingDetails";
+import Footer from "@/components/Footer";
 
 export default function TextToImage({
     generatedImageId,
@@ -1202,6 +1203,7 @@ export default function TextToImage({
                     {/* End Container */}
                 </div>
                 {/* End Page Content */}
+                <Footer />
             </> : <LoaderPage />}
         </div>
         // End Text To Image Service Page
