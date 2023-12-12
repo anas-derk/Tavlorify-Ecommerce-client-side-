@@ -6,18 +6,31 @@ import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 import LoaderPage from "@/components/LoaderPage";
 
 export default function GeneratedImagesManagment({ pageName }) {
+
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
     const [allGeneratedImagesData, setAllGeneratedImagesData] = useState([]);
+
     const [selectedImageIndexForDownload, setSelectedImageIndexForDownload] = useState(-1);
+
     const [isDownloadUploadedImage, setIsDownloadUploadedImage] = useState(false);
+
     const [isDownloadGeneratedImage, setIsDownloadGeneratedImage] = useState(false);
+
     const [selectedGeneratedImageDataIndexForDelete, setSelectedGeneratedImageDataIndexForDelete] = useState(-1);
+
     const [isDeleteGeneratedImageData, setIsDeleteGeneratedImageData] = useState(false);
+
     const [currentPage, setCurrentPage] = useState(1);
+
     const [totalPagesCount, setTotalPagesCount] = useState(0);
+
     const [currentSliceFromGeneratedImageDataList, setCurrentSliceFromGeneratedImageDataList] = useState([]);
+    
     const [pageNumber, setPageNumber] = useState(0);
+
     const pageSize = 3;
+
     useEffect(() => {
         setAllGeneratedImagesData([]);
         setTotalPagesCount(0);
@@ -32,6 +45,7 @@ export default function GeneratedImagesManagment({ pageName }) {
                 }
             });
     }, [pageName]);
+
     const getAllGeneratedImagesData = async () => {
         try {
             const res = await Axios.get(`${process.env.BASE_API_URL}/generated-images/specific-generated-images-data?service=${pageName}`);
@@ -231,7 +245,7 @@ export default function GeneratedImagesManagment({ pageName }) {
                                             <td>{getDateFormated(generatedImageData.imageGenerationDate)}</td>
                                             <td>
                                                 <img
-                                                    src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
+                                                    src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImagePath}`}
                                                     alt="Generated Image !!"
                                                     width="100"
                                                     height="100"
