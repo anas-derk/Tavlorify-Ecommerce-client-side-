@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Header from "@/components/Header";
 import { Fragment, useEffect, useState } from "react";
-import Axios from "axios";
+import axios from "axios";
 import global_data from "../../../public/data/global";
 /* Start Import Frame Corner Images */
 import normalBlackFrameCornerImage from "../../../public/images/frames/frameCorners/normalBlack.jpg";
@@ -319,7 +319,7 @@ export default function ImageToImage({
 
     const getAllImage2ImageCategoriesData = async () => {
         try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`);
             const result = await res.data;
             return result;
         }
@@ -330,7 +330,7 @@ export default function ImageToImage({
 
     const getAllImage2ImageCategoryStylesData = async (categoriesData, categorySelectedIndex) => {
         try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
             const result = await res.data;
             return result;
         }
@@ -430,7 +430,7 @@ export default function ImageToImage({
         imageToImageData.append("imageFile", file);
         setIsUplodingFile(true);
         try {
-            const res = await Axios.post(`${process.env.BASE_API_URL}/image-to-image/upload-image-and-processing`, imageToImageData, {
+            const res = await axios.post(`${process.env.BASE_API_URL}/image-to-image/upload-image-and-processing`, imageToImageData, {
                 onUploadProgress: (progressEvent) => {
                     setUploadingProgress(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
                 }
@@ -456,7 +456,7 @@ export default function ImageToImage({
         if (!isWaitStatus) {
             try {
                 setCategorySelectedIndex(index);
-                const res = await Axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[index].name}`);
+                const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[index].name}`);
                 const result = await res.data;
                 setCategoryStyles(res.data);
                 setStyleSelectedIndex(0);
@@ -602,7 +602,7 @@ export default function ImageToImage({
         setIsMouseDownActivate(false);
         setIsWaitStatus(true);
         try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}&service=image-to-image&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}&service=image-to-image&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`);
             const result = await res.data;
             const imageURL = `${process.env.BASE_API_URL}/${result}`;
             let image = new Image();
@@ -799,7 +799,7 @@ export default function ImageToImage({
                 }
             }
             try {
-                const res = await Axios.post(`${process.env.BASE_API_URL}/users/crop-image`, {
+                const res = await axios.post(`${process.env.BASE_API_URL}/users/crop-image`, {
                     imagePath: generatedImagePathInMyServer,
                     left: left,
                     top: top,
@@ -1159,7 +1159,7 @@ export default function ImageToImage({
 
     const getProductPrice = async (paintingType, position, dimentions) => {
         try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
             const result = await res.data;
             setProductPriceBeforeDiscount(result.priceBeforeDiscount);
             setProductPriceAfterDiscount(result.priceAfterDiscount);

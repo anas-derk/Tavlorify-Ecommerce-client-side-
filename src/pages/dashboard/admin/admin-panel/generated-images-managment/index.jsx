@@ -3,8 +3,10 @@ import ControlPanelHeader from "@/components/ControlPanelHeader";
 import Axios from "axios";
 import { useEffect, useState } from "react";
 import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
+import LoaderPage from "@/components/LoaderPage";
 
 export default function GeneratedImagesManagment({ pageName }) {
+    const [isLoadingPage, setIsLoadingPage] = useState(true);
     const [allGeneratedImagesData, setAllGeneratedImagesData] = useState([]);
     const [selectedImageIndexForDownload, setSelectedImageIndexForDownload] = useState(-1);
     const [isDownloadUploadedImage, setIsDownloadUploadedImage] = useState(false);
@@ -26,6 +28,7 @@ export default function GeneratedImagesManagment({ pageName }) {
                     setAllGeneratedImagesData(result);
                     setTotalPagesCount(Math.ceil(result.length / pageSize));
                     getCurrentSliceFromGeneratedImageDataList(currentPage, result);
+                    setIsLoadingPage(false);
                 }
             });
     }, [pageName]);
@@ -143,7 +146,7 @@ export default function GeneratedImagesManagment({ pageName }) {
                     className="next-page-icon pagination-icon me-3"
                     onClick={getNextPage}
                 />}
-                <span className="current-page-number-and-count-of-pages p-2 ps-3 pe-3 bg-secondary text-white me-3">The Page { currentPage } of { totalPagesCount } Pages</span>
+                <span className="current-page-number-and-count-of-pages p-2 ps-3 pe-3 bg-secondary text-white me-3">The Page {currentPage} of {totalPagesCount} Pages</span>
                 <form
                     className="navigate-to-specific-page w-25"
                     onSubmit={(e) => {
@@ -169,104 +172,106 @@ export default function GeneratedImagesManagment({ pageName }) {
             <Head>
                 <title>Tavlorify Store - Generated Images Data Managment</title>
             </Head>
-            <ControlPanelHeader />
-            <div className="content text-center pt-4 pb-4">
-                <div className="container-fluid">
-                    <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Generated Images Data Managment For {pageName} Page</h1>
-                    {currentSliceFromGeneratedImageDataList.length > 0 && <div className="generated-images-data-box p-3 mb-2 data-box">
-                        <table className="generated-images-data-tabel data-table">
-                            <thead>
-                                <tr>
-                                    <th>Number</th>
-                                    {pageName === "image-to-image" && <th>uploaded Image</th>}
-                                    {pageName === "text-to-image" && <th>Text Prompt</th>}
-                                    <th>Category Name</th>
-                                    <th>Style Name</th>
-                                    <th>Painting Type</th>
-                                    <th>Is Exist White Border</th>
-                                    <th>Generating Date</th>
-                                    <th>Generated Image</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {currentSliceFromGeneratedImageDataList.map((generatedImageData, index) => (
-                                    <tr key={index}>
-                                        <td className="fw-bold">{index + 1}</td>
-                                        {pageName === "image-to-image" && <td className="uploaded-image-cell">
-                                            <img
-                                                src={generatedImageData.uploadedImageURL}
-                                                alt="Generated Image !!"
-                                                width="100"
-                                                height="100"
-                                                className="d-block mx-auto mb-3"
-                                            />
-                                            {selectedImageIndexForDownload !== index && <button
-                                                className="btn btn-success"
-                                                onClick={() => downloadImage(generatedImageData.uploadedImageURL, "uploaded-image", index)}
-                                            >
-                                                Download
-                                            </button>}
-                                            {selectedImageIndexForDownload === index && isDownloadUploadedImage && <button
-                                                className="btn btn-info"
-                                                disabled
-                                            >
-                                                Download Now ...
-                                            </button>}
-                                        </td>}
-                                        {pageName === "text-to-image" && <td className="text-prompt-cell">{generatedImageData.textPrompt}</td>}
-                                        <td className="category-name-cell">{generatedImageData.categoryName}</td>
-                                        <td className="style-name-cell">{generatedImageData.styleName}</td>
-                                        <td className="painting-type-cell">
-                                            <h6>{generatedImageData.paintingType}</h6>
-                                            <hr />
-                                            <h6>{generatedImageData.position}</h6>
-                                            <hr />
-                                            <h6>{generatedImageData.size}</h6>
-                                        </td>
-                                        <td className="is-exist-white-border-cell">{generatedImageData.isExistWhiteBorder}</td>
-                                        <td>{getDateFormated(generatedImageData.imageGenerationDate)}</td>
-                                        <td>
-                                            <img
-                                                src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
-                                                alt="Generated Image !!"
-                                                width="100"
-                                                height="100"
-                                                className="d-block mx-auto mb-3"
-                                            />
-                                            {selectedImageIndexForDownload !== index && <button
-                                                className="btn btn-success d-block mx-auto mb-3"
-                                                onClick={() => downloadImage(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`, "generated-image", index)}
-                                            >
-                                                Download
-                                            </button>}
-                                            {selectedImageIndexForDownload === index && isDownloadGeneratedImage && <button
-                                                className="btn btn-info d-block mx-auto mb-3"
-                                                disabled
-                                            >
-                                                Downloading Now ...
-                                            </button>}
-                                            {selectedGeneratedImageDataIndexForDelete !== index && <button
-                                                className="btn btn-danger"
-                                                onClick={() => deleteGeneratedImageData(index)}
-                                            >
-                                                Delete
-                                            </button>}
-                                            {selectedGeneratedImageDataIndexForDelete === index && isDeleteGeneratedImageData && <button
-                                                className="btn btn-info"
-                                                disabled
-                                            >
-                                                Deleting Now ...
-                                            </button>}
-                                        </td>
+            {!isLoadingPage ? <>
+                <ControlPanelHeader />
+                <div className="content text-center pt-4 pb-4">
+                    <div className="container-fluid">
+                        <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Generated Images Data Managment For {pageName} Page</h1>
+                        {currentSliceFromGeneratedImageDataList.length > 0 && <div className="generated-images-data-box p-3 mb-2 data-box">
+                            <table className="generated-images-data-tabel data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Number</th>
+                                        {pageName === "image-to-image" && <th>uploaded Image</th>}
+                                        {pageName === "text-to-image" && <th>Text Prompt</th>}
+                                        <th>Category Name</th>
+                                        <th>Style Name</th>
+                                        <th>Painting Type</th>
+                                        <th>Is Exist White Border</th>
+                                        <th>Generating Date</th>
+                                        <th>Generated Image</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>}
-                    {allGeneratedImagesData.length == 0 && <p className="alert alert-danger">Sorry, Can't Find Any Generated Images !!</p>}
-                    {totalPagesCount > 0 && paginationBar()}
+                                </thead>
+                                <tbody>
+                                    {currentSliceFromGeneratedImageDataList.map((generatedImageData, index) => (
+                                        <tr key={index}>
+                                            <td className="fw-bold">{index + 1}</td>
+                                            {pageName === "image-to-image" && <td className="uploaded-image-cell">
+                                                <img
+                                                    src={generatedImageData.uploadedImageURL}
+                                                    alt="Generated Image !!"
+                                                    width="100"
+                                                    height="100"
+                                                    className="d-block mx-auto mb-3"
+                                                />
+                                                {selectedImageIndexForDownload !== index && <button
+                                                    className="btn btn-success"
+                                                    onClick={() => downloadImage(generatedImageData.uploadedImageURL, "uploaded-image", index)}
+                                                >
+                                                    Download
+                                                </button>}
+                                                {selectedImageIndexForDownload === index && isDownloadUploadedImage && <button
+                                                    className="btn btn-info"
+                                                    disabled
+                                                >
+                                                    Download Now ...
+                                                </button>}
+                                            </td>}
+                                            {pageName === "text-to-image" && <td className="text-prompt-cell">{generatedImageData.textPrompt}</td>}
+                                            <td className="category-name-cell">{generatedImageData.categoryName}</td>
+                                            <td className="style-name-cell">{generatedImageData.styleName}</td>
+                                            <td className="painting-type-cell">
+                                                <h6>{generatedImageData.paintingType}</h6>
+                                                <hr />
+                                                <h6>{generatedImageData.position}</h6>
+                                                <hr />
+                                                <h6>{generatedImageData.size}</h6>
+                                            </td>
+                                            <td className="is-exist-white-border-cell">{generatedImageData.isExistWhiteBorder}</td>
+                                            <td>{getDateFormated(generatedImageData.imageGenerationDate)}</td>
+                                            <td>
+                                                <img
+                                                    src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
+                                                    alt="Generated Image !!"
+                                                    width="100"
+                                                    height="100"
+                                                    className="d-block mx-auto mb-3"
+                                                />
+                                                {selectedImageIndexForDownload !== index && <button
+                                                    className="btn btn-success d-block mx-auto mb-3"
+                                                    onClick={() => downloadImage(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`, "generated-image", index)}
+                                                >
+                                                    Download
+                                                </button>}
+                                                {selectedImageIndexForDownload === index && isDownloadGeneratedImage && <button
+                                                    className="btn btn-info d-block mx-auto mb-3"
+                                                    disabled
+                                                >
+                                                    Downloading Now ...
+                                                </button>}
+                                                {selectedGeneratedImageDataIndexForDelete !== index && <button
+                                                    className="btn btn-danger"
+                                                    onClick={() => deleteGeneratedImageData(index)}
+                                                >
+                                                    Delete
+                                                </button>}
+                                                {selectedGeneratedImageDataIndexForDelete === index && isDeleteGeneratedImageData && <button
+                                                    className="btn btn-info"
+                                                    disabled
+                                                >
+                                                    Deleting Now ...
+                                                </button>}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>}
+                        {allGeneratedImagesData.length == 0 && <p className="alert alert-danger">Sorry, Can't Find Any Generated Images !!</p>}
+                        {totalPagesCount > 0 && paginationBar()}
+                    </div>
                 </div>
-            </div>
+            </> : <LoaderPage />}
         </div>
     );
 }

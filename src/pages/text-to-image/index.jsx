@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Header from "@/components/Header";
 import { Fragment, useEffect, useState } from "react";
-import Axios from "axios";
+import axios from "axios";
 import global_data from "../../../public/data/global";
 import { v4 as generateUniqueID } from "uuid";
 /* Start Import Frame Corner Images */
@@ -47,7 +47,6 @@ import HorizontalframeImageWithFullTransparent from "../../../public/images/fram
 import SquareframeImageWithFullTransparent from "../../../public/images/frames/withFullTransparent/S/S.png";
 import VerticalframeImageWithFullTransparent from "../../../public/images/frames/withFullTransparent/V/V.png";
 /* End Import Frames Without Background Never Images */
-import validations from "../../../public/global_functions/validations";
 import room1Image from "@/../../public/images/Rooms/room1.jpg";
 import room2Image from "@/../../public/images/Rooms/room2.jpg";
 import { BiError } from "react-icons/bi";
@@ -297,7 +296,7 @@ export default function TextToImage({
 
     const getAllText2ImageCategoriesData = async () => {
         try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`);
             const result = await res.data;
             return result;
         }
@@ -308,7 +307,7 @@ export default function TextToImage({
 
     const getAllText2ImageCategoryStylesData = async (categoriesData, categorySelectedIndex) => {
         try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
             const result = await res.data;
             return result;
         }
@@ -515,7 +514,7 @@ export default function TextToImage({
         e.preventDefault();
         setIsWaitStatus(true);
         try {
-            const res = await Axios.get(
+            const res = await axios.get(
                 `${process.env.BASE_API_URL}/text-to-image/generate-image?service=text-to-image&textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&position=${imageType}&dimentionsInCm=${dimentionsInCm}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
                 `);
             const result = await res.data;
@@ -789,7 +788,7 @@ export default function TextToImage({
 
     const getProductPrice = async (paintingType, position, dimentions) => {
         try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
             const result = await res.data;
             setProductPriceBeforeDiscount(result.priceBeforeDiscount);
             setProductPriceAfterDiscount(result.priceAfterDiscount);
