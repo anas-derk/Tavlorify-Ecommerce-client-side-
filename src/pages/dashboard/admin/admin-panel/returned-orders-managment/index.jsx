@@ -11,7 +11,9 @@ export default function ReturnedOrdersManager() {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [allReturnedOrders, setAllReturnedOrders] = useState([]);
+    const [allOrdersInsideThePage, setAllOrdersInsideThePage] = useState([]);
+
+    const [isFilteringOrdersStatus, setIsFilteringOrdersStatus] = useState(false);
 
     const [updatingOrderIndex, setUpdatingOrderIndex] = useState(-1);
 
@@ -31,29 +33,48 @@ export default function ReturnedOrdersManager() {
 
     const router = useRouter();
 
-    const pageSize = 3;
+    const [filters, setFilters] = useState({
+        orderNumber: -1,
+        orderId: "",
+        klarnaReference: "",
+        status: "",
+        customerName: "",
+        email: "",
+    });
+
+    const pageSize = 5;
 
     useEffect(() => {
         const adminId = localStorage.getItem("tavlorify-store-admin-id");
         if (!adminId) {
             router.push("/dashboard/admin/login");
         } else {
-            getAllReturnedOrders()
-                .then((result) => {
-                    if (result.length > 0) {
-                        setAllReturnedOrders(result);
-                        setTotalPagesCount(Math.ceil(result.length / pageSize));
-                        const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(currentPage, result);
-                        setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+            getOrdersCount()
+                .then(async (result) => {
+                    if (result > 0) {
+                        const result1 = await getAllOrdersInsideThePage(1, pageSize);
+                        setAllOrdersInsideThePage(result1);
+                        setTotalPagesCount(Math.ceil(result / pageSize));
+                        setIsLoadingPage(false);
                     }
-                    setIsLoadingPage(false);
                 });
         }
     }, []);
 
-    const getAllReturnedOrders = async () => {
+    const getOrdersCount = async (filters) => {
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/returned-orders/all-orders`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/returned-orders/orders-count?${filters ? filters : ""}`);
+            const result = await res.data;
+            return result;
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    const getAllOrdersInsideThePage = async (pageNumber, pageSize, filters) => {
+        try {
+            const res = await axios.get(`${process.env.BASE_API_URL}/returned-orders/all-orders-inside-the-page?pageNumber=${pageNumber}&pageSize=${pageSize}&${filters ? filters : ""}`);
             const result = await res.data;
             return result;
         }
@@ -71,25 +92,20 @@ export default function ReturnedOrdersManager() {
         return orderedDateInDateFormat;
     }
 
-    const getCurrentSliceFromOrdersDataList = (currentPage, allReturnedOrders) => {
-        const startPageIndex = (currentPage - 1) * pageSize;
-        const endPageIndex = startPageIndex + pageSize;
-        const determinatedOrders = allReturnedOrders.slice(startPageIndex, endPageIndex);
-        return determinatedOrders;
-    }
-
-    const getPreviousPage = () => {
+    const getPreviousPage = async () => {
+        setIsFilteringOrdersStatus(true);
         const newCurrentPage = currentPage - 1;
-        const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(newCurrentPage, allReturnedOrders);
-        setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(newCurrentPage, pageSize));
         setCurrentPage(newCurrentPage);
+        setIsFilteringOrdersStatus(false);
     }
 
-    const getNextPage = () => {
+    const getNextPage = async () => {
+        setIsFilteringOrdersStatus(true);
         const newCurrentPage = currentPage + 1;
-        const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(newCurrentPage, allReturnedOrders);
-        setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(newCurrentPage, pageSize));
         setCurrentPage(newCurrentPage);
+        setIsFilteringOrdersStatus(false);
     }
 
     const paginationBar = () => {
@@ -100,10 +116,11 @@ export default function ReturnedOrdersManager() {
                     <button
                         key={i}
                         className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === i ? "selection" : ""} ${i === 1 ? "ms-3" : ""}`}
-                        onClick={() => {
-                            const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(i, allReturnedOrders);
-                            setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+                        onClick={async () => {
+                            setIsFilteringOrdersStatus(true);
+                            setAllOrdersInsideThePage(await getAllOrdersInsideThePage(i, pageSize));
                             setCurrentPage(i);
+                            setIsFilteringOrdersStatus(false);
                         }}
                     >
                         {i}
@@ -119,10 +136,11 @@ export default function ReturnedOrdersManager() {
                 <button
                     key={totalPagesCount}
                     className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === totalPagesCount ? "selection" : ""}`}
-                    onClick={() => {
-                        const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(pageNumber, allReturnedOrders);
-                        setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+                    onClick={async () => {
+                        setIsFilteringOrdersStatus(true);
+                        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(pageNumber, pageSize));
                         setCurrentPage(pageNumber);
+                        setIsFilteringOrdersStatus(false);
                     }}
                 >
                     {totalPagesCount}
@@ -142,12 +160,13 @@ export default function ReturnedOrdersManager() {
                 />}
                 <span className="current-page-number-and-count-of-pages p-2 ps-3 pe-3 bg-secondary text-white me-3">The Page {currentPage} of {totalPagesCount} Pages</span>
                 <form
-                    className="navigate-to-specific-page w-25"
-                    onSubmit={(e) => {
+                    className="navigate-to-specific-page-form w-25"
+                    onSubmit={async (e) => {
                         e.preventDefault();
-                        const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(pageNumber, allReturnedOrders);
-                        setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
+                        setIsFilteringOrdersStatus(true);
+                        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(pageNumber, pageSize));
                         setCurrentPage(pageNumber);
+                        setIsFilteringOrdersStatus(false);
                     }}
                 >
                     <input
@@ -163,54 +182,36 @@ export default function ReturnedOrdersManager() {
         );
     }
 
-    const filterOrders = (e, filterStandard, value) => {
-        e.preventDefault();
-        if (!value || (filterStandard == "status" && value == "all")) {
-            const determinatedOrders = getCurrentSliceFromOrdersDataList(1, allReturnedOrders);
-            setCurrentSliceFromOrdersDataList(determinatedOrders);
-            setTotalPagesCount(Math.ceil(allReturnedOrders.length / pageSize));
-        } else {
-            switch (filterStandard) {
-                case "orderNumber": {
-                    setCurrentSliceFromOrdersDataList(allReturnedOrders.filter((order) => order.orderNumber == value));
-                    setTotalPagesCount(1);
-                    break;
-                }
-                case "orderId": {
-                    setCurrentSliceFromOrdersDataList(allReturnedOrders.filter((order) => order._id == value));
-                    setTotalPagesCount(1);
-                    break;
-                }
-                case "klarnaReference": {
-                    setCurrentSliceFromOrdersDataList(allReturnedOrders.filter((order) => order.klarnaReference == value));
-                    setTotalPagesCount(1);
-                    break;
-                }
-                case "given_name": {
-                    const determinatedOrders = allReturnedOrders.filter((order) => order.billing_address.given_name.toLowerCase() == value.toLowerCase());
-                    const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(1, determinatedOrders);
-                    setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
-                    setTotalPagesCount(Math.ceil(determinatedOrders.length / pageSize));
-                    break;
-                }
-                case "email": {
-                    const determinatedOrders = allReturnedOrders.filter((order) => order.billing_address.email.toLowerCase() == value.toLowerCase());
-                    const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(1, determinatedOrders);
-                    setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
-                    setTotalPagesCount(Math.ceil(determinatedOrders.length / pageSize));
-                    break;
-                }
-                case "status": {
-                    const determinatedOrders = allReturnedOrders.filter((order) => order.status == value);
-                    const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(1, determinatedOrders);
-                    setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
-                    setTotalPagesCount(Math.ceil(determinatedOrders.length / pageSize));
-                    break;
-                }
-                default: {
-                    return "Error, Wrong Filter Standard !!";
-                }
+    const getFilteringString = (filters) => {
+        let filteringString = "";
+        if (filters.orderNumber !== -1 && filters.orderNumber) filteringString += `orderNumber=${filters.orderNumber}&`;
+        if (filters.orderId) filteringString += `_id=${filters.orderId}&`;
+        if (filters.klarnaReference) filteringString += `klarnaReference=${filters.klarnaReference}&`;
+        if (filters.status) filteringString += `status=${filters.status}&`;
+        if (filters.customerName) filteringString += `customerName=${filters.customerName}&`;
+        if (filters.email) filteringString += `email=${filters.email}&`;
+        if (filteringString) filteringString = filteringString.substring(0, filteringString.length - 1);
+        return filteringString;
+    }
+
+    const filterOrders = async () => {
+        try {
+            setIsFilteringOrdersStatus(true);
+            let filteringString = getFilteringString(filters);
+            const result = await getOrdersCount(filteringString);
+            if (result > 0) {
+                const result1 = await getAllOrdersInsideThePage(1, pageSize, filteringString);
+                setAllOrdersInsideThePage(result1);
+                setTotalPagesCount(Math.ceil(result / pageSize));
+                setIsFilteringOrdersStatus(false);
+            } else {
+                setAllOrdersInsideThePage([]);
+                setTotalPagesCount(0);
+                setIsFilteringOrdersStatus(false);
             }
+        }
+        catch (err) {
+            console.log(err);
         }
     }
 
@@ -243,8 +244,7 @@ export default function ReturnedOrdersManager() {
         try {
             setIsDeletingStatus(true);
             setDeletingOrderIndex(orderIndex);
-            const res = await axios.delete(`${process.env.BASE_API_URL}/returned-orders/delete-order/${currentSliceFromOrdersDataList[orderIndex]._id}`);
-            const result = await res.data;
+            const res = await axios.delete(`${process.env.BASE_API_URL}/returned-orders/delete-order/${allOrdersInsideThePage[orderIndex]._id}`);
             setIsDeletingStatus(false);
             setDeletingOrderIndex(-1);
         }
@@ -254,7 +254,7 @@ export default function ReturnedOrdersManager() {
             setDeletingOrderIndex(-1);
         }
     }
-    
+
     return (
         <div className="returned-orders-managment">
             <Head>
@@ -268,8 +268,77 @@ export default function ReturnedOrdersManager() {
                 <section className="content d-flex justify-content-center align-items-center flex-column text-center pt-3 pb-3">
                     <div className="container-fluid">
                         <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In Returned Orders Managment</h1>
-                        {allReturnedOrders.length > 0 && <div className="returned-orders-managment ">
-                            {currentSliceFromOrdersDataList.length > 0 ? <section className="returned-orders-data-box p-3 data-box">
+                        <div className="returned-orders-managment ">
+                            <section className="filters mb-3 bg-white border-3 border-info p-3 text-start">
+                                <h5 className="section-name fw-bold text-center">Filters: </h5>
+                                <hr />
+                                <div className="row">
+                                    <div className="col-md-4 d-flex align-items-center">
+                                        <h6 className="me-2 mb-0 fw-bold text-center">Order Number</h6>
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            placeholder="Pleae Enter Order Number"
+                                            min="1"
+                                            max={allOrdersInsideThePage.length}
+                                            onChange={(e) => setFilters({ ...filters, orderNumber: e.target.valueAsNumber })}
+                                        />
+                                    </div>
+                                    <div className="col-md-4 d-flex align-items-center">
+                                        <h6 className="me-2 mb-0 fw-bold text-center">Order Id</h6>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Pleae Enter Order Id"
+                                            onChange={(e) => setFilters({ ...filters, orderId: e.target.value.trim() })}
+                                        />
+                                    </div>
+                                    <div className="col-md-4 d-flex align-items-center">
+                                        <h6 className="me-2 mb-0 fw-bold text-center">Status</h6>
+                                        <select
+                                            className="select-order-status form-select"
+                                            onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                                        >
+                                            <option value="" hidden>Pleae Enter Status</option>
+                                            <option value="">All</option>
+                                            <option value="pending">Pending</option>
+                                            <option value="shipping">Shipping</option>
+                                            <option value="completed">Completed</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-md-4 d-flex align-items-center mt-4">
+                                        <h6 className="me-2 mb-0 fw-bold text-center">Customer Name</h6>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Pleae Enter Customer Name"
+                                            onChange={(e) => setFilters({ ...filters, customerName: e.target.value.trim() })}
+                                        />
+                                    </div>
+                                    <div className="col-md-4 d-flex align-items-center mt-4">
+                                        <h6 className="me-2 mb-0 fw-bold text-center">Customer Email</h6>
+                                        <input
+                                            type="email"
+                                            className="form-control"
+                                            placeholder="Pleae Enter Customer Email"
+                                            onChange={(e) => setFilters({ ...filters, email: e.target.value.trim() })}
+                                        />
+                                    </div>
+                                    {!isFilteringOrdersStatus && <button
+                                        className="btn btn-success d-block w-25 mx-auto mt-2"
+                                        onClick={() => filterOrders()}
+                                    >
+                                        Filter
+                                    </button>}
+                                    {isFilteringOrdersStatus && <button
+                                        className="btn btn-success d-block w-25 mx-auto mt-2"
+                                        disabled
+                                    >
+                                        Filtering ...
+                                    </button>}
+                                </div>
+                            </section>
+                            {allOrdersInsideThePage.length > 0 && !isFilteringOrdersStatus && <section className="returned-orders-data-box p-3 data-box">
                                 <table className="returned-orders-data-table mb-4 data-table">
                                     <thead>
                                         <tr>
@@ -284,7 +353,7 @@ export default function ReturnedOrdersManager() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {currentSliceFromOrdersDataList.map((order, orderIndex) => (
+                                        {allOrdersInsideThePage.map((order, orderIndex) => (
                                             <tr key={order._id}>
                                                 <td>{order.orderNumber}</td>
                                                 <td>{order._id}</td>
@@ -345,9 +414,13 @@ export default function ReturnedOrdersManager() {
                                         ))}
                                     </tbody>
                                 </table>
-                            </section> : <p className="alert alert-danger">Sorry, Can't Find Any Orders !!</p>}
-                        </div>}
-                        {totalPagesCount > 0 && paginationBar()}
+                            </section>}
+                            {allOrdersInsideThePage.length === 0 && !isFilteringOrdersStatus && <p className="alert alert-danger">Sorry, Can't Find Any Orders !!</p>}
+                            {isFilteringOrdersStatus && <div className="loader-table-box d-flex flex-column align-items-center justify-content-center">
+                                <span className="loader-table-data"></span>
+                            </div>}
+                        </div>
+                        {totalPagesCount > 0 && !isFilteringOrdersStatus && paginationBar()}
                     </div>
                 </section>
                 {/* End Content Section */}

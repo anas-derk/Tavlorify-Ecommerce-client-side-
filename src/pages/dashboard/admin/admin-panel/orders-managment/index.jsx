@@ -254,8 +254,6 @@ export default function OrdersManagment() {
             setIsDeletingStatus(true);
             setDeletingOrderIndex(orderIndex);
             const res = await axios.delete(`${process.env.BASE_API_URL}/orders/delete-order/${allOrdersInsideThePage[orderIndex]._id}`);
-            const result = await res.data;
-            console.log(result);
             setIsDeletingStatus(false);
             setDeletingOrderIndex(-1);
         }
@@ -327,7 +325,7 @@ export default function OrdersManagment() {
                                         </select>
                                     </div>
                                     <div className="col-md-4 d-flex align-items-center mt-4">
-                                        <h6 className="me-2 mb-0 fw-bold text-center">Customer</h6>
+                                        <h6 className="me-2 mb-0 fw-bold text-center">Customer Name</h6>
                                         <input
                                             type="text"
                                             className="form-control"
@@ -336,7 +334,7 @@ export default function OrdersManagment() {
                                         />
                                     </div>
                                     <div className="col-md-4 d-flex align-items-center mt-4">
-                                        <h6 className="me-2 mb-0 fw-bold text-center">Customer</h6>
+                                        <h6 className="me-2 mb-0 fw-bold text-center">Customer Email</h6>
                                         <input
                                             type="email"
                                             className="form-control"
