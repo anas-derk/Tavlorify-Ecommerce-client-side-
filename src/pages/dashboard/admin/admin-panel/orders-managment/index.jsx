@@ -315,7 +315,7 @@ export default function OrdersManagment() {
                                             onChange={(e) => setFilters({ ...filters, status: e.target.value })}
                                         >
                                             <option value="" hidden>Pleae Enter Status</option>
-                                            <option value="all">All</option>
+                                            <option value="">All</option>
                                             <option value="pending">Pending</option>
                                             <option value="shipping">Shipping</option>
                                             <option value="completed">Completed</option>
