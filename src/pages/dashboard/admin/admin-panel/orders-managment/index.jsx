@@ -437,7 +437,7 @@ export default function OrdersManagment() {
                                     </tbody>
                                 </table>
                             </section>}
-                            {allOrdersInsideThePage.length === 0 && <p className="alert alert-danger">Sorry, Can't Find Any Orders !!</p>}
+                            {allOrdersInsideThePage.length === 0 && !isFilteringOrdersStatus && <p className="alert alert-danger">Sorry, Can't Find Any Orders !!</p>}
                             {isFilteringOrdersStatus && <div className="loader-table-box d-flex flex-column align-items-center justify-content-center">
                                 <span className="loader-table-data"></span>
                             </div>}
