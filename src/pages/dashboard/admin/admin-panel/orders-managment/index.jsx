@@ -13,6 +13,8 @@ export default function OrdersManagment() {
 
     const [allOrdersInsideThePage, setAllOrdersInsideThePage] = useState([]);
 
+    const [isFilteringOrdersStatus, setIsFilteringOrdersStatus] = useState(false);
+
     const [updatingOrderIndex, setUpdatingOrderIndex] = useState(-1);
 
     const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
@@ -26,6 +28,15 @@ export default function OrdersManagment() {
     const [totalPagesCount, setTotalPagesCount] = useState(0);
 
     const [pageNumber, setPageNumber] = useState(0);
+
+    const [filters, setFilters] = useState({
+        orderNumber: -1,
+        orderId: "",
+        klarnaReference: "",
+        status: "",
+        customerName: "",
+        email: "",
+    });
 
     const router = useRouter();
 
@@ -48,9 +59,9 @@ export default function OrdersManagment() {
         }
     }, []);
 
-    const getOrdersCount = async () => {
+    const getOrdersCount = async (filters) => {
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/orders/orders-count`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/orders/orders-count?${filters ? filters : ""}`);
             const result = await res.data;
             return result;
         }
@@ -59,9 +70,9 @@ export default function OrdersManagment() {
         }
     }
 
-    const getAllOrdersInsideThePage = async (pageNumber, pageSize) => {
+    const getAllOrdersInsideThePage = async (pageNumber, pageSize, filters) => {
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/orders/all-orders-inside-the-page?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/orders/all-orders-inside-the-page?pageNumber=${pageNumber}&pageSize=${pageSize}&${filters ? filters : ""}`);
             const result = await res.data;
             return result;
         }
@@ -159,54 +170,31 @@ export default function OrdersManagment() {
         );
     }
 
-    const filterOrders = (e, filterStandard, value) => {
-        e.preventDefault();
-        if (!value || (filterStandard == "status" && value == "all")) {
-            const determinatedOrders = getCurrentSliceFromOrdersDataList(1, allOrders);
-            setCurrentSliceFromOrdersDataList(determinatedOrders);
-            setTotalPagesCount(Math.ceil(allOrders.length / pageSize));
-        } else {
-            switch (filterStandard) {
-                case "orderNumber": {
-                    setCurrentSliceFromOrdersDataList(allOrders.filter((order) => order.orderNumber == value));
-                    setTotalPagesCount(1);
-                    break;
-                }
-                case "orderId": {
-                    setCurrentSliceFromOrdersDataList(allOrders.filter((order) => order._id == value));
-                    setTotalPagesCount(1);
-                    break;
-                }
-                case "klarnaReference": {
-                    setCurrentSliceFromOrdersDataList(allOrders.filter((order) => order.klarnaReference == value));
-                    setTotalPagesCount(1);
-                    break;
-                }
-                case "given_name": {
-                    const determinatedOrders = allOrders.filter((order) => order.billing_address.given_name.toLowerCase() == value.toLowerCase());
-                    const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(1, determinatedOrders);
-                    setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
-                    setTotalPagesCount(Math.ceil(determinatedOrders.length / pageSize));
-                    break;
-                }
-                case "email": {
-                    const determinatedOrders = allOrders.filter((order) => order.billing_address.email.toLowerCase() == value.toLowerCase());
-                    const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(1, determinatedOrders);
-                    setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
-                    setTotalPagesCount(Math.ceil(determinatedOrders.length / pageSize));
-                    break;
-                }
-                case "status": {
-                    const determinatedOrders = allOrders.filter((order) => order.status == value);
-                    const determinatedOrdersInCurrentPage = getCurrentSliceFromOrdersDataList(1, determinatedOrders);
-                    setCurrentSliceFromOrdersDataList(determinatedOrdersInCurrentPage);
-                    setTotalPagesCount(Math.ceil(determinatedOrders.length / pageSize));
-                    break;
-                }
-                default: {
-                    return "Error, Wrong Filter Standard !!";
-                }
+    const filterOrders = async () => {
+        try{
+            setIsFilteringOrdersStatus(true);
+            let filteringString = "";
+            if (filters.orderNumber !== -1 && filters.orderNumber) filteringString += `orderNumber=${filters.orderNumber}&`;
+            if (filters.orderId) filteringString += `_id=${filters.orderId}&`;
+            if (filters.klarnaReference) filteringString += `klarnaReference=${filters.klarnaReference}&`;
+            if (filters.status) filteringString += `status=${filters.status}&`;
+            if (filters.customerName) filteringString += `customerName=${filters.customerName}&`;
+            if (filters.email) filteringString += `email=${filters.email}&`;
+            if (filteringString) filteringString = filteringString.substring(0, filteringString.length - 1);
+            const result = await getOrdersCount(filteringString);
+            if (result > 0) {
+                const result1 = await getAllOrdersInsideThePage(1, 3, filteringString);
+                setAllOrdersInsideThePage(result1);
+                setTotalPagesCount(Math.ceil(result / pageSize));
+                setIsFilteringOrdersStatus(false);
+            } else {
+                setAllOrdersInsideThePage([]);
+                setTotalPagesCount(0);
+                setIsFilteringOrdersStatus(false);
             }
+        }
+        catch(err) {
+            console.log(err);
         }
     }
 
@@ -289,7 +277,7 @@ export default function OrdersManagment() {
                                             placeholder="Pleae Enter Order Number"
                                             min="1"
                                             max={allOrdersInsideThePage.length}
-                                            onChange={(e) => filterOrders(e, "orderNumber", e.target.valueAsNumber)}
+                                            onChange={(e) => setFilters({ ...filters, orderNumber: e.target.valueAsNumber })}
                                         />
                                     </div>
                                     <div className="col-md-4 d-flex align-items-center">
@@ -298,7 +286,7 @@ export default function OrdersManagment() {
                                             type="text"
                                             className="form-control"
                                             placeholder="Pleae Enter Order Id"
-                                            onChange={(e) => filterOrders(e, "orderId", e.target.value)}
+                                            onChange={(e) => setFilters({ ...filters, orderId: e.target.value.trim() })}
                                         />
                                     </div>
                                     <div className="col-md-4 d-flex align-items-center">
@@ -307,14 +295,14 @@ export default function OrdersManagment() {
                                             type="text"
                                             className="form-control"
                                             placeholder="Pleae Enter Reference"
-                                            onChange={(e) => filterOrders(e, "klarnaReference", e.target.value)}
+                                            onChange={(e) => setFilters({ ...filters, klarnaReference: e.target.value.trim() })}
                                         />
                                     </div>
                                     <div className="col-md-4 d-flex align-items-center">
                                         <h6 className="me-2 mb-0 fw-bold text-center">Status</h6>
                                         <select
                                             className="select-order-status form-select"
-                                            onChange={(e) => filterOrders(e, "status", e.target.value)}
+                                            onChange={(e) => setFilters({ ...filters, status: e.target.value })}
                                         >
                                             <option value="" hidden>Pleae Enter Status</option>
                                             <option value="all">All</option>
@@ -329,7 +317,7 @@ export default function OrdersManagment() {
                                             type="text"
                                             className="form-control"
                                             placeholder="Pleae Enter Customer Name"
-                                            onChange={(e) => filterOrders(e, "given_name", e.target.value.trim())}
+                                            onChange={(e) => setFilters({ ...filters, customerName: e.target.value.trim() })}
                                         />
                                     </div>
                                     <div className="col-md-4 d-flex align-items-center mt-4">
@@ -338,9 +326,21 @@ export default function OrdersManagment() {
                                             type="email"
                                             className="form-control"
                                             placeholder="Pleae Enter Customer Email"
-                                            onChange={(e) => filterOrders(e, "email", e.target.value.trim())}
+                                            onChange={(e) => setFilters({ ...filters, email: e.target.value.trim() })}
                                         />
                                     </div>
+                                    {!isFilteringOrdersStatus && <button
+                                        className="btn btn-success d-block w-25 mx-auto mt-2"
+                                        onClick={() => filterOrders()}
+                                    >
+                                        Filter
+                                    </button>}
+                                    {isFilteringOrdersStatus && <button
+                                        className="btn btn-success d-block w-25 mx-auto mt-2"
+                                        disabled
+                                    >
+                                        Filtering ...
+                                    </button>}
                                 </div>
                             </section>
                             {allOrdersInsideThePage.length > 0 ? <section className="orders-data-box p-3 data-box">
