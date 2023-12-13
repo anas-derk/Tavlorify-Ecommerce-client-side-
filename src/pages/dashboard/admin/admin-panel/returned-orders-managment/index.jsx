@@ -52,8 +52,8 @@ export default function ReturnedOrdersManager() {
                         const result1 = await getAllOrdersInsideThePage(1, pageSize);
                         setAllOrdersInsideThePage(result1);
                         setTotalPagesCount(Math.ceil(result / pageSize));
-                        setIsLoadingPage(false);
                     }
+                    setIsLoadingPage(false);
                 });
         }
     }, []);
