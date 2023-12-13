@@ -40,7 +40,7 @@ export default function OrdersManagment() {
 
     const router = useRouter();
 
-    const pageSize = 3;
+    const pageSize = 5;
 
     useEffect(() => {
         const adminId = localStorage.getItem("tavlorify-store-admin-id");
@@ -50,7 +50,7 @@ export default function OrdersManagment() {
             getOrdersCount()
                 .then(async (result) => {
                     if (result > 0) {
-                        const result1 = await getAllOrdersInsideThePage(1, 3);
+                        const result1 = await getAllOrdersInsideThePage(1, pageSize);
                         setAllOrdersInsideThePage(result1);
                         setTotalPagesCount(Math.ceil(result / pageSize));
                         setIsLoadingPage(false);
@@ -93,7 +93,7 @@ export default function OrdersManagment() {
     const getPreviousPage = async () => {
         setIsFilteringOrdersStatus(true);
         const newCurrentPage = currentPage - 1;
-        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(newCurrentPage, 3));
+        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(newCurrentPage, pageSize));
         setCurrentPage(newCurrentPage);
         setIsFilteringOrdersStatus(false);
     }
@@ -101,7 +101,7 @@ export default function OrdersManagment() {
     const getNextPage = async () => {
         setIsFilteringOrdersStatus(true);
         const newCurrentPage = currentPage + 1;
-        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(newCurrentPage, 3));
+        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(newCurrentPage, pageSize));
         setCurrentPage(newCurrentPage);
         setIsFilteringOrdersStatus(false);
     }
@@ -116,7 +116,7 @@ export default function OrdersManagment() {
                         className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === i ? "selection" : ""} ${i === 1 ? "ms-3" : ""}`}
                         onClick={async () => {
                             setIsFilteringOrdersStatus(true);
-                            setAllOrdersInsideThePage(await getAllOrdersInsideThePage(i, 3));
+                            setAllOrdersInsideThePage(await getAllOrdersInsideThePage(i, pageSize));
                             setCurrentPage(i);
                             setIsFilteringOrdersStatus(false);
                         }}
@@ -136,7 +136,7 @@ export default function OrdersManagment() {
                     className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === totalPagesCount ? "selection" : ""}`}
                     onClick={async () => {
                         setIsFilteringOrdersStatus(true);
-                        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(pageNumber, 3));
+                        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(pageNumber, pageSize));
                         setCurrentPage(pageNumber);
                         setIsFilteringOrdersStatus(false);
                     }}
@@ -162,7 +162,7 @@ export default function OrdersManagment() {
                     onSubmit={async (e) => {
                         e.preventDefault();
                         setIsFilteringOrdersStatus(true);
-                        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(pageNumber, 3));
+                        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(pageNumber, pageSize));
                         setCurrentPage(pageNumber);
                         setIsFilteringOrdersStatus(false);
                     }}
@@ -180,20 +180,25 @@ export default function OrdersManagment() {
         );
     }
 
+    const getFilteringString = (filters) => {
+        let filteringString = "";
+        if (filters.orderNumber !== -1 && filters.orderNumber) filteringString += `orderNumber=${filters.orderNumber}&`;
+        if (filters.orderId) filteringString += `_id=${filters.orderId}&`;
+        if (filters.klarnaReference) filteringString += `klarnaReference=${filters.klarnaReference}&`;
+        if (filters.status) filteringString += `status=${filters.status}&`;
+        if (filters.customerName) filteringString += `customerName=${filters.customerName}&`;
+        if (filters.email) filteringString += `email=${filters.email}&`;
+        if (filteringString) filteringString = filteringString.substring(0, filteringString.length - 1);
+        return filteringString;
+    }
+
     const filterOrders = async () => {
         try {
             setIsFilteringOrdersStatus(true);
-            let filteringString = "";
-            if (filters.orderNumber !== -1 && filters.orderNumber) filteringString += `orderNumber=${filters.orderNumber}&`;
-            if (filters.orderId) filteringString += `_id=${filters.orderId}&`;
-            if (filters.klarnaReference) filteringString += `klarnaReference=${filters.klarnaReference}&`;
-            if (filters.status) filteringString += `status=${filters.status}&`;
-            if (filters.customerName) filteringString += `customerName=${filters.customerName}&`;
-            if (filters.email) filteringString += `email=${filters.email}&`;
-            if (filteringString) filteringString = filteringString.substring(0, filteringString.length - 1);
+            let filteringString = getFilteringString(filters);
             const result = await getOrdersCount(filteringString);
             if (result > 0) {
-                const result1 = await getAllOrdersInsideThePage(1, 3, filteringString);
+                const result1 = await getAllOrdersInsideThePage(1, pageSize, filteringString);
                 setAllOrdersInsideThePage(result1);
                 setTotalPagesCount(Math.ceil(result / pageSize));
                 setIsFilteringOrdersStatus(false);
