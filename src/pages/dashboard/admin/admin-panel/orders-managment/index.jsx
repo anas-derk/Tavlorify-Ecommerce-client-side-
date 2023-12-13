@@ -91,15 +91,19 @@ export default function OrdersManagment() {
     }
 
     const getPreviousPage = async () => {
+        setIsFilteringOrdersStatus(true);
         const newCurrentPage = currentPage - 1;
         setAllOrdersInsideThePage(await getAllOrdersInsideThePage(newCurrentPage, 3));
         setCurrentPage(newCurrentPage);
+        setIsFilteringOrdersStatus(false);
     }
 
     const getNextPage = async () => {
+        setIsFilteringOrdersStatus(true);
         const newCurrentPage = currentPage + 1;
         setAllOrdersInsideThePage(await getAllOrdersInsideThePage(newCurrentPage, 3));
         setCurrentPage(newCurrentPage);
+        setIsFilteringOrdersStatus(false);
     }
 
     const paginationBar = () => {
@@ -111,8 +115,10 @@ export default function OrdersManagment() {
                         key={i}
                         className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === i ? "selection" : ""} ${i === 1 ? "ms-3" : ""}`}
                         onClick={async () => {
+                            setIsFilteringOrdersStatus(true);
                             setAllOrdersInsideThePage(await getAllOrdersInsideThePage(i, 3));
                             setCurrentPage(i);
+                            setIsFilteringOrdersStatus(false);
                         }}
                     >
                         {i}
@@ -129,8 +135,10 @@ export default function OrdersManagment() {
                     key={totalPagesCount}
                     className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === totalPagesCount ? "selection" : ""}`}
                     onClick={async () => {
+                        setIsFilteringOrdersStatus(true);
                         setAllOrdersInsideThePage(await getAllOrdersInsideThePage(pageNumber, 3));
                         setCurrentPage(pageNumber);
+                        setIsFilteringOrdersStatus(false);
                     }}
                 >
                     {totalPagesCount}
@@ -153,8 +161,10 @@ export default function OrdersManagment() {
                     className="navigate-to-specific-page-form w-25"
                     onSubmit={async (e) => {
                         e.preventDefault();
+                        setIsFilteringOrdersStatus(true);
                         setAllOrdersInsideThePage(await getAllOrdersInsideThePage(pageNumber, 3));
                         setCurrentPage(pageNumber);
+                        setIsFilteringOrdersStatus(false);
                     }}
                 >
                     <input
