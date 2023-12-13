@@ -171,7 +171,7 @@ export default function OrdersManagment() {
     }
 
     const filterOrders = async () => {
-        try{
+        try {
             setIsFilteringOrdersStatus(true);
             let filteringString = "";
             if (filters.orderNumber !== -1 && filters.orderNumber) filteringString += `orderNumber=${filters.orderNumber}&`;
@@ -193,7 +193,7 @@ export default function OrdersManagment() {
                 setIsFilteringOrdersStatus(false);
             }
         }
-        catch(err) {
+        catch (err) {
             console.log(err);
         }
     }
@@ -264,7 +264,7 @@ export default function OrdersManagment() {
                 <section className="content d-flex justify-content-center align-items-center flex-column text-center pt-3 pb-3">
                     <div className="container-fluid">
                         <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In Orders Managment</h1>
-                        {allOrdersInsideThePage.length > 0 && <div className="orders-managment">
+                        <div className="orders-managment">
                             <section className="filters mb-3 bg-white border-3 border-info p-3 text-start">
                                 <h5 className="section-name fw-bold text-center">Filters: </h5>
                                 <hr />
@@ -343,7 +343,7 @@ export default function OrdersManagment() {
                                     </button>}
                                 </div>
                             </section>
-                            {allOrdersInsideThePage.length > 0 ? <section className="orders-data-box p-3 data-box">
+                            {allOrdersInsideThePage.length > 0 && !isFilteringOrdersStatus && <section className="orders-data-box p-3 data-box">
                                 <table className="orders-data-table mb-4 data-table">
                                     <thead>
                                         <tr>
@@ -421,9 +421,13 @@ export default function OrdersManagment() {
                                         ))}
                                     </tbody>
                                 </table>
-                            </section> : <p className="alert alert-danger">Sorry, Can't Find Any Orders !!</p>}
-                        </div>}
-                        {totalPagesCount > 0 && paginationBar()}
+                            </section>}
+                            {allOrdersInsideThePage.length === 0 && <p className="alert alert-danger">Sorry, Can't Find Any Orders !!</p>}
+                            {isFilteringOrdersStatus && <div className="loader-table-box d-flex flex-column align-items-center justify-content-center">
+                                <span className="loader-table-data"></span>
+                            </div>}
+                        </div>
+                        {totalPagesCount > 0 && !isFilteringOrdersStatus && paginationBar()}
                     </div>
                 </section>
                 {/* End Content Section */}
