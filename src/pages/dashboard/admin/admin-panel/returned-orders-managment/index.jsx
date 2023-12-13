@@ -27,8 +27,6 @@ export default function ReturnedOrdersManager() {
 
     const [totalPagesCount, setTotalPagesCount] = useState(0);
 
-    const [currentSliceFromOrdersDataList, setCurrentSliceFromOrdersDataList] = useState([]);
-
     const [pageNumber, setPageNumber] = useState(0);
 
     const router = useRouter();
@@ -36,7 +34,6 @@ export default function ReturnedOrdersManager() {
     const [filters, setFilters] = useState({
         orderNumber: -1,
         orderId: "",
-        klarnaReference: "",
         status: "",
         customerName: "",
         email: "",
@@ -186,7 +183,6 @@ export default function ReturnedOrdersManager() {
         let filteringString = "";
         if (filters.orderNumber !== -1 && filters.orderNumber) filteringString += `orderNumber=${filters.orderNumber}&`;
         if (filters.orderId) filteringString += `_id=${filters.orderId}&`;
-        if (filters.klarnaReference) filteringString += `klarnaReference=${filters.klarnaReference}&`;
         if (filters.status) filteringString += `status=${filters.status}&`;
         if (filters.customerName) filteringString += `customerName=${filters.customerName}&`;
         if (filters.email) filteringString += `email=${filters.email}&`;
@@ -301,9 +297,10 @@ export default function ReturnedOrdersManager() {
                                         >
                                             <option value="" hidden>Pleae Enter Status</option>
                                             <option value="">All</option>
-                                            <option value="pending">Pending</option>
-                                            <option value="shipping">Shipping</option>
-                                            <option value="completed">Completed</option>
+                                            <option value="awaiting products">awaiting products</option>
+                                            <option value="received products">received products</option>
+                                            <option value="checking products">checking products</option>
+                                            <option value="returned products">returned products</option>
                                         </select>
                                     </div>
                                     <div className="col-md-4 d-flex align-items-center mt-4">
