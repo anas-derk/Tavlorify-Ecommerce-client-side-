@@ -381,9 +381,43 @@ export default function Header({ newTotalProductsCount }) {
                                         </li>
                                     </ul>
                                 </li>
+                                <li className="link-item dropdown">
+                                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span>CANVASTAVLOR</span>
+                                    </a>
+                                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <Link
+                                                className="dropdown-item"
+                                                href={{
+                                                    pathname: "/text-to-image",
+                                                    query: {
+                                                        paintingTypeAsQuery: "canvas",
+                                                    }
+                                                }}
+                                            >
+                                                Förvandla ord till konstverk
+                                            </Link>
+                                        </li>
+                                        <li><hr className="dropdown-divider" /></li>
+                                        <li>
+                                            <Link
+                                                className="dropdown-item"
+                                                href={{
+                                                    pathname: "/image-to-image",
+                                                    query: {
+                                                        paintingTypeAsQuery: "canvas",
+                                                    }
+                                                }}
+                                            >
+                                                förvandla foton till konstverk
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </li>
                                 <li className="link-item p-2">
                                     <Link className="link" aria-current="page" href="/who-are-we">
-                                        VILKA är vi ?
+                                        VILKA äR VI ?
                                     </Link>
                                 </li>
                                 <li className="link-item p-2">
@@ -418,7 +452,7 @@ export default function Header({ newTotalProductsCount }) {
                 {!isDisplayAllLinksBox && <FaBars className="bar-icon icon" onClick={() => setIsDisplayAllLinksBox(true)} />}
                 {isDisplayAllLinksBox && <GrFormClose className="close-all-links-box icon" onClick={() => setIsDisplayAllLinksBox(false)} />}
                 <Link href="/" className="home-link">
-                    <h5 className="fw-bold web-app-name mb-0">Tavlorify</h5>
+                    <h5 className="fw-bold web-app-name mb-0">TAVLORIFY</h5>
                 </Link>
                 <div className="cart-icon-box" onClick={handleDisplayOrHideAllProductManagmentBox}>
                     {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon icon" />}
@@ -429,7 +463,7 @@ export default function Header({ newTotalProductsCount }) {
                     <li className="link-item p-3 border-bottom border-2">
                         <Link className="link" aria-current="page" href="/">
                             <AiOutlineHome />
-                            <span className="ms-2">Hemsida</span>
+                            <span className="ms-2">HEMSIDA</span>
                         </Link>
                     </li>
                     <li className="link-item p-3 border-bottom border-2">
@@ -507,13 +541,13 @@ export default function Header({ newTotalProductsCount }) {
                     <li className="link-item p-3 border-bottom border-2">
                         <Link className="link" aria-current="page" href="/who-are-we">
                             <AiOutlineHome />
-                            <span className="ms-2">vilka är vi?</span>
+                            <span className="ms-2">VILKA äR VI?</span>
                         </Link>
                     </li>
                     <li className="link-item p-3 border-bottom border-2">
                         <Link className="link" aria-current="page" href="/contact-us">
                             <MdOutlineContactPhone />
-                            <span className="ms-2">Ring Oss</span>
+                            <span className="ms-2">RINH OSS</span>
                         </Link>
                     </li>
                     <li className="link-item p-3 border-bottom border-2">

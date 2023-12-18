@@ -34,34 +34,30 @@
   font-size: 18px;
 }
 
-.global-header .custom-navbar .container-fluid .link-list {
-  gap: 10px;
-}
-
-.global-header .custom-navbar .container-fluid .link-list .link-item, .global-header .custom-navbar .container-fluid .link-list .nav-link {
-  font-size: 14px;
+.global-header .custom-navbar .container-fluid .link-list .link-item, .global-header .custom-navbar .container-fluid .link-list .nav-link, .global-header .custom-navbar .container-fluid .link-list .dropdown-item {
+  font-size: 12px;
   color: #000;
 }
 
-.global-header .custom-navbar .container-fluid .link-list .link-item:hover, .global-header .custom-navbar .container-fluid .link-list .nav-link:hover {
+.global-header .custom-navbar .container-fluid .link-list .link-item:hover, .global-header .custom-navbar .container-fluid .link-list .nav-link:hover, .global-header .custom-navbar .container-fluid .link-list .dropdown-item:hover {
   background-color: #DDD;
   border-radius: 4px;
 }
 
-.global-header .custom-navbar .container-fluid .link-list .link-item .link, .global-header .custom-navbar .container-fluid .link-list .nav-link .link {
+.global-header .custom-navbar .container-fluid .link-list .link-item .link, .global-header .custom-navbar .container-fluid .link-list .nav-link .link, .global-header .custom-navbar .container-fluid .link-list .dropdown-item .link {
   color: #000;
-  font-size: 13px;
+  font-size: 12px;
 }
 
-.global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn {
+.global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn, .global-header .custom-navbar .container-fluid .link-list .dropdown-item .link.show-all-products-btn {
   position: relative;
 }
 
-.global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn .close-all-product-managment-box, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn .close-all-product-managment-box {
+.global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn .close-all-product-managment-box, .global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn .cart-icon, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn .close-all-product-managment-box, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn .cart-icon, .global-header .custom-navbar .container-fluid .link-list .dropdown-item .link.show-all-products-btn .close-all-product-managment-box, .global-header .custom-navbar .container-fluid .link-list .dropdown-item .link.show-all-products-btn .cart-icon {
   font-size: 20px;
 }
 
-.global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn .total-products-count-box, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn .total-products-count-box {
+.global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn .total-products-count-box, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn .total-products-count-box, .global-header .custom-navbar .container-fluid .link-list .dropdown-item .link.show-all-products-btn .total-products-count-box {
   position: absolute;
   right: 0;
   top: -10px;
@@ -72,7 +68,7 @@
   border-radius: 50%;
 }
 
-.global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn .cart-managment-box-in-medium-screens-and-higher, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn .cart-managment-box-in-medium-screens-and-higher {
+.global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn .cart-managment-box-in-medium-screens-and-higher, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn .cart-managment-box-in-medium-screens-and-higher, .global-header .custom-navbar .container-fluid .link-list .dropdown-item .link.show-all-products-btn .cart-managment-box-in-medium-screens-and-higher {
   top: 120%;
   right: 0;
   width: 500px;
