@@ -251,13 +251,17 @@ export default function ReturnedOrdersManager() {
         try {
             setIsDeletingStatus(true);
             setSelectedOrderIndex(orderIndex);
-            await axios.delete(`${process.env.BASE_API_URL}/orders/delete-order/${allOrdersInsideThePage[orderIndex]._id}`);
+            await axios.delete(`${process.env.BASE_API_URL}/returned-orders/delete-order/${allOrdersInsideThePage[orderIndex]._id}`);
             setIsDeletingStatus(false);
             setIsSuccessStatus(true);
-            let successTimeout = setTimeout(() => {
+            let successTimeout = setTimeout(async () => {
                 setIsSuccessStatus(false);
                 setSelectedOrderIndex(-1);
                 setAllOrdersInsideThePage(allOrdersInsideThePage.filter((order) => order._id !== allOrdersInsideThePage[orderIndex]._id));
+                setIsFilteringOrdersStatus(true);
+                setAllOrdersInsideThePage(await getAllOrdersInsideThePage(1, pageSize));
+                setCurrentPage(1);
+                setIsFilteringOrdersStatus(false);
                 clearTimeout(successTimeout);
             }, 3000);
         }
@@ -438,7 +442,7 @@ export default function ReturnedOrdersManager() {
                                                     >
                                                         Sorry, Error In Process
                                                     </button>}
-                                                    <Link href={`/dashboard/admin/admin-panel/returned-orders-managment/${order._id}`} className="btn btn-success d-block mx-auto">Show Details</Link>
+                                                    {!isUpdatingStatus && !isDeletingStatus && !isErrorStatus && !isSuccessStatus && <Link href={`/dashboard/admin/admin-panel/returned-orders-managment/${order._id}`} className="btn btn-success d-block mx-auto">Show Details</Link>}
                                                 </td>
                                             </tr>
                                         ))}
