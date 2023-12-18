@@ -15,13 +15,13 @@ export default function OrdersManagment() {
 
     const [isFilteringOrdersStatus, setIsFilteringOrdersStatus] = useState(false);
 
-    const [updatingOrderIndex, setUpdatingOrderIndex] = useState(-1);
-
+    const [selectedOrderIndex, setSelectedOrderIndex] = useState(-1);
+    
     const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
-
+    
     const [isDeletingStatus, setIsDeletingStatus] = useState(false);
-
-    const [deletingOrderIndex, setDeletingOrderIndex] = useState(false);
+    
+    const [isSuccessStatus, setIsSuccessStatus] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -230,7 +230,7 @@ export default function OrdersManagment() {
 
     const updateOrderData = async (orderIndex) => {
         setIsUpdatingStatus(true);
-        setUpdatingOrderIndex(orderIndex);
+        setSelectedOrderIndex(orderIndex);
         try {
             const res = await axios.put(`${process.env.BASE_API_URL}/orders/update-order/${allOrdersInsideThePage[orderIndex]._id}`, {
                 order_amount: allOrdersInsideThePage[orderIndex].order_amount,
@@ -238,14 +238,18 @@ export default function OrdersManagment() {
             });
             const result = await res.data;
             if (result === "Updating Order Details Has Been Successfuly !!") {
-                setUpdatingOrderIndex(-1);
                 setIsUpdatingStatus(false);
+                setIsSuccessStatus(true);
+                let successTimeout = setTimeout(() => {
+                    setIsSuccessStatus(false);
+                    setSelectedOrderIndex(-1);
+                    clearTimeout(successTimeout);
+                }, 3000);
             }
         }
         catch (err) {
-            console.log(err);
-            setUpdatingOrderIndex(-1);
             setIsUpdatingStatus(false);
+            setSelectedOrderIndex(-1);
         }
     }
 
@@ -403,25 +407,31 @@ export default function OrdersManagment() {
                                                 </td>
                                                 <td>{getDateFormated(order.added_date)}</td>
                                                 <td>
-                                                    {orderIndex !== updatingOrderIndex && <button
+                                                    {!isUpdatingStatus && orderIndex !== selectedOrderIndex && <button
                                                         className="btn btn-info d-block mx-auto mb-3"
                                                         onClick={() => updateOrderData(orderIndex)}
                                                     >
                                                         Update
                                                     </button>}
-                                                    {isUpdatingStatus && orderIndex === updatingOrderIndex && <button
+                                                    {isUpdatingStatus && orderIndex === selectedOrderIndex && <button
                                                         className="btn btn-info d-block mx-auto mb-3"
                                                         disabled
                                                     >
                                                         Updating ...
                                                     </button>}
-                                                    {orderIndex !== deletingOrderIndex && <button
+                                                    {isSuccessStatus && orderIndex === selectedOrderIndex && <button
+                                                        className="btn btn-success d-block mx-auto mb-3"
+                                                        disabled
+                                                    >
+                                                        Success
+                                                    </button>}
+                                                    {!isDeletingStatus && orderIndex !== selectedOrderIndex && <button
                                                         className="btn btn-danger d-block mx-auto mb-3"
                                                         onClick={() => deleteOrder(orderIndex)}
                                                     >
                                                         Delete
                                                     </button>}
-                                                    {isDeletingStatus && orderIndex === deletingOrderIndex && <button
+                                                    {isDeletingStatus && orderIndex === selectedOrderIndex && <button
                                                         className="btn btn-danger d-block mx-auto mb-3"
                                                         disabled
                                                     >
