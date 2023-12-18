@@ -270,11 +270,14 @@ export default function OrdersManagment() {
             let successTimeout = setTimeout(async () => {
                 setIsSuccessStatus(false);
                 setSelectedOrderIndex(-1);
-                setAllOrdersInsideThePage(allOrdersInsideThePage.filter((order) => order._id !== allOrdersInsideThePage[orderIndex]._id));
-                setIsFilteringOrdersStatus(true);
-                setAllOrdersInsideThePage(await getAllOrdersInsideThePage(1, pageSize));
-                setCurrentPage(1);
-                setIsFilteringOrdersStatus(false);
+                if (totalPagesCount > 1) {
+                    setIsFilteringOrdersStatus(true);
+                    setAllOrdersInsideThePage(await getAllOrdersInsideThePage(1, pageSize));
+                    setCurrentPage(1);
+                    setIsFilteringOrdersStatus(false);
+                } else {
+                    setAllOrdersInsideThePage(allOrdersInsideThePage.filter((order) => order._id !== allOrdersInsideThePage[orderIndex]._id));
+                }
                 clearTimeout(successTimeout);
             }, 3000);
         }
