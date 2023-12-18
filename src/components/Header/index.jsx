@@ -229,21 +229,24 @@ export default function Header({ newTotalProductsCount }) {
             </div>
         );
     }
-    const displayAllProductManagmentBox = () => {
-        let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-        if (allProductsData) {
-            let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(allProductsData);
-            let totalDiscount = calcTotalOrderDiscount(allProductsData);
-            let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
-            setPricesDetailsSummary({
-                ...pricesDetailsSummary,
-                totalPriceBeforeDiscount,
-                totalDiscount,
-                totalPriceAfterDiscount,
-            });
-            setAllProductsData(allProductsData);
+    const handleDisplayOrHideAllProductManagmentBox = () => {
+        if (isDisplayAllProductManagmentBox) setIsDisplayAllProductManagmentBox(false);
+        else {
+            let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+            if (allProductsData) {
+                let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(allProductsData);
+                let totalDiscount = calcTotalOrderDiscount(allProductsData);
+                let totalPriceAfterDiscount = calcTotalOrderPriceAfterDiscount(totalPriceBeforeDiscount, totalDiscount);
+                setPricesDetailsSummary({
+                    ...pricesDetailsSummary,
+                    totalPriceBeforeDiscount,
+                    totalDiscount,
+                    totalPriceAfterDiscount,
+                });
+                setAllProductsData(allProductsData);
+                setIsDisplayAllProductManagmentBox(true);
+            }
         }
-        setIsDisplayAllProductManagmentBox(true);
     }
     const closeAllProductManagmentBox = () => {
         setIsDisplayAllProductManagmentBox(false);
@@ -397,10 +400,10 @@ export default function Header({ newTotalProductsCount }) {
                         </div>
                         <div className="col-md-3">
                             <ul className="link-list d-flex align-items-center justify-content-end">
-                                <li className="link-item">
+                                <li className="link-item" onClick={handleDisplayOrHideAllProductManagmentBox}>
                                     <div className="link btn show-all-products-btn">
-                                        {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon" onClick={displayAllProductManagmentBox} />}
-                                        {isDisplayAllProductManagmentBox && <GrFormClose className="close-all-product-managment-box" onClick={closeAllProductManagmentBox} />}
+                                        {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon" />}
+                                        {isDisplayAllProductManagmentBox && <GrFormClose className="close-all-product-managment-box" />}
                                         {!isDisplayAllProductManagmentBox && <span className="total-products-count-box fw-bold">{totalProductsCount}</span>}
                                         {isDisplayAllProductManagmentBox && getCartManagmentBoxInMediumScreensAndHigher()}
                                     </div>
@@ -417,9 +420,9 @@ export default function Header({ newTotalProductsCount }) {
                 <Link href="/" className="home-link">
                     <h5 className="fw-bold web-app-name mb-0">Tavlorify</h5>
                 </Link>
-                <div className="cart-icon-box">
-                    {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon icon" onClick={displayAllProductManagmentBox} />}
-                    {isDisplayAllProductManagmentBox && <GrFormClose className="close-all-product-managment-box icon" onClick={closeAllProductManagmentBox} />}
+                <div className="cart-icon-box" onClick={handleDisplayOrHideAllProductManagmentBox}>
+                    {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon icon" />}
+                    {isDisplayAllProductManagmentBox && <GrFormClose className="close-all-product-managment-box icon" />}
                     {!isDisplayAllProductManagmentBox && <span className="total-products-count-box fw-bold">{totalProductsCount}</span>}
                 </div>
                 {isDisplayAllLinksBox && <ul className="links-list">
