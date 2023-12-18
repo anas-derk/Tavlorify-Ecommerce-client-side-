@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BsCart2, BsInfoCircle } from "react-icons/bs";
+import { BsCart2 } from "react-icons/bs";
 import { AiOutlineHome } from "react-icons/ai";
 import { FaQuestion, FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
@@ -10,10 +10,10 @@ import global_data from "../../../public/data/global";
 import { GrFormClose } from "react-icons/gr";
 import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 import { FaLongArrowAltRight } from "react-icons/fa";
-import Axios from "axios";
+import axios from "axios";
 import { MdOutlineContactPhone } from "react-icons/md";
 
-export default function Header({ newTotalProductsCount }){
+export default function Header({ newTotalProductsCount }) {
     const [allProductsData, setAllProductsData] = useState([]);
     const [totalProductsCount, setTotalProductsCount] = useState(null);
     const [isDisplayAllProductManagmentBox, setIsDisplayAllProductManagmentBox] = useState(false);
@@ -313,7 +313,7 @@ export default function Header({ newTotalProductsCount }){
     const createNewOrder = async () => {
         try {
             setIsCreatingOrder(true);
-            const res = await Axios.post(`${process.env.BASE_API_URL}/orders/create-new-order`);
+            const res = await axios.post(`${process.env.BASE_API_URL}/orders/create-new-order`);
             const result = await res.data;
             if (result.msg === "Creating New Order Has Been Successfuly !!") {
                 router.push(`/checkout?orderId=${result.orderId}`);
@@ -330,120 +330,87 @@ export default function Header({ newTotalProductsCount }){
     return (
         // Start Global Header
         <header className="global-header">
-            {/* Start Navbar Component From Bootstrap */}
-            <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top pt-3">
+            {/* Start Custom Navbar */}
+            <nav className="custom-navbar fixed-top pt-3 pb-2">
                 <div className="container-fluid">
-                    <Link className="navbar-brand fw-bold" href="/">Tavlorify</Link>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                        <ul className="navbar-nav mb-lg-0 align-items-center">
-                            <li className="nav-item">
-                                <Link className="nav-link" aria-current="page" href="/">
-                                    <AiOutlineHome />
-                                    <span className="ms-2">Hemsida</span>
-                                </Link>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span>POSTERS</span>
-                                </a>
-                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li>
-                                        <Link
-                                            className="dropdown-item"
-                                            href={{
-                                                pathname: "/text-to-image",
-                                                query: {
-                                                    paintingTypeAsQuery: "poster",
-                                                }
-                                            }}
-                                        >
-                                            Förvandla ord till konstverk
-                                        </Link>
-                                    </li>
-                                    <li><hr className="dropdown-divider" /></li>
-                                    <li>
-                                        <Link
-                                            className="dropdown-item"
-                                            href={{
-                                                pathname: "/image-to-image",
-                                                query: {
-                                                    paintingTypeAsQuery: "poster",
-                                                }
-                                            }}
-                                        >
-                                            förvandla foton till konstverk
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    CANVASTAVLOR
-                                </a>
-                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li>
-                                        <Link
-                                            className="dropdown-item"
-                                            href={{
-                                                pathname: "/text-to-image",
-                                                query: {
-                                                    paintingTypeAsQuery: "canvas",
-                                                }
-                                            }}
-                                        >
-                                            Förvandla ord till konstverk
-                                        </Link>
-                                    </li>
-                                    <li><hr className="dropdown-divider" /></li>
-                                    <li>
-                                        <Link
-                                            className="dropdown-item"
-                                            href={{
-                                                pathname: "/image-to-image",
-                                                query: {
-                                                    paintingTypeAsQuery: "canvas",
-                                                }
-                                            }}
-                                        >
-                                            förvandla foton till konstverk
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" aria-current="page" href="/who-are-we">
-                                    <BsInfoCircle />
-                                    <span className="ms-2">vilka är vi ?</span>
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" aria-current="page" href="/contact-us">
-                                    <MdOutlineContactPhone />
-                                    <span className="ms-2">Ring Oss</span>
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" aria-current="page" href="/faq">
-                                    <FaQuestion />
-                                    <span className="ms-2">FAQ</span>
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <div className="nav-link btn show-all-products-btn">
-                                    {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon" onClick={displayAllProductManagmentBox} />}
-                                    {isDisplayAllProductManagmentBox && <GrFormClose className="close-all-product-managment-box" onClick={closeAllProductManagmentBox} />}
-                                    {!isDisplayAllProductManagmentBox && <span className="total-products-count-box fw-bold">{totalProductsCount}</span>}
-                                    {isDisplayAllProductManagmentBox && getCartManagmentBoxInMediumScreensAndHigher()}
-                                </div>
-                            </li>
-                        </ul>
+                    <div className="row align-items-center">
+                        <div className="col-md-3">
+                            <Link className="brand-name fw-bold" href="/">TAVLORIFY</Link>
+                        </div>
+                        <div className="col-md-6">
+                            <ul className="link-list d-flex align-items-center justify-content-center">
+                                <li className="link-item p-2">
+                                    <Link className="link" href="/">
+                                        HEMSIDA
+                                    </Link>
+                                </li>
+                                <li className="link-item dropdown">
+                                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span>POSTERS</span>
+                                    </a>
+                                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <Link
+                                                className="dropdown-item"
+                                                href={{
+                                                    pathname: "/text-to-image",
+                                                    query: {
+                                                        paintingTypeAsQuery: "poster",
+                                                    }
+                                                }}
+                                            >
+                                                Förvandla ord till konstverk
+                                            </Link>
+                                        </li>
+                                        <li><hr className="dropdown-divider" /></li>
+                                        <li>
+                                            <Link
+                                                className="dropdown-item"
+                                                href={{
+                                                    pathname: "/image-to-image",
+                                                    query: {
+                                                        paintingTypeAsQuery: "poster",
+                                                    }
+                                                }}
+                                            >
+                                                förvandla foton till konstverk
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li className="link-item p-2">
+                                    <Link className="link" aria-current="page" href="/who-are-we">
+                                        VILKA är vi ?
+                                    </Link>
+                                </li>
+                                <li className="link-item p-2">
+                                    <Link className="link" aria-current="page" href="/contact-us">
+                                        RING OSS
+                                    </Link>
+                                </li>
+                                <li className="link-item p-2">
+                                    <Link className="link" aria-current="page" href="/faq">
+                                        FAQ
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="col-md-3">
+                            <ul className="link-list d-flex align-items-center justify-content-end">
+                                <li className="link-item">
+                                    <div className="link btn show-all-products-btn">
+                                        {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon" onClick={displayAllProductManagmentBox} />}
+                                        {isDisplayAllProductManagmentBox && <GrFormClose className="close-all-product-managment-box" onClick={closeAllProductManagmentBox} />}
+                                        {!isDisplayAllProductManagmentBox && <span className="total-products-count-box fw-bold">{totalProductsCount}</span>}
+                                        {isDisplayAllProductManagmentBox && getCartManagmentBoxInMediumScreensAndHigher()}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </nav>
-            {/* Start Navbar Component From Bootstrap */}
+            {/* End Custom Navbar */}
             <nav className="custom-navbar-for-mobiles-and-tablets-devices fixed-top p-3 d-flex justify-content-between align-items-center">
                 {!isDisplayAllLinksBox && <FaBars className="bar-icon icon" onClick={() => setIsDisplayAllLinksBox(true)} />}
                 {isDisplayAllLinksBox && <GrFormClose className="close-all-links-box icon" onClick={() => setIsDisplayAllLinksBox(false)} />}

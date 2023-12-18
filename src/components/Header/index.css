@@ -18,48 +18,50 @@
   font-size: 14px;
 }
 
-.global-header .navbar {
+.global-header .custom-navbar {
   background-color: #FFF;
   border-bottom: 1px solid #CCC;
 }
 
 @media (max-width: 991px) {
-  .global-header .navbar {
+  .global-header .custom-navbar {
     display: none;
   }
 }
 
-.global-header .navbar .container-fluid .navbar-brand {
+.global-header .custom-navbar .container-fluid .brand-name {
   color: #000;
   font-size: 18px;
 }
 
-.global-header .navbar .container-fluid .nav-item.auth-item {
+.global-header .custom-navbar .container-fluid .link-list {
+  gap: 10px;
+}
+
+.global-header .custom-navbar .container-fluid .link-list .link-item, .global-header .custom-navbar .container-fluid .link-list .nav-link {
+  font-size: 14px;
+  color: #000;
+}
+
+.global-header .custom-navbar .container-fluid .link-list .link-item:hover, .global-header .custom-navbar .container-fluid .link-list .nav-link:hover {
+  background-color: #DDD;
   border-radius: 4px;
 }
 
-.global-header .navbar .container-fluid .nav-item.sign-out-btn {
-  cursor: pointer;
-}
-
-.global-header .navbar .container-fluid .nav-item.dropdown .dropdown-menu .dropdown-item {
-  font-size: 14px;
-}
-
-.global-header .navbar .container-fluid .nav-item .nav-link {
+.global-header .custom-navbar .container-fluid .link-list .link-item .link, .global-header .custom-navbar .container-fluid .link-list .nav-link .link {
   color: #000;
   font-size: 13px;
 }
 
-.global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn {
+.global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn {
   position: relative;
 }
 
-.global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .close-all-product-managment-box {
+.global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn .close-all-product-managment-box, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn .close-all-product-managment-box {
   font-size: 20px;
 }
 
-.global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .total-products-count-box {
+.global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn .total-products-count-box, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn .total-products-count-box {
   position: absolute;
   right: 0;
   top: -10px;
@@ -70,7 +72,7 @@
   border-radius: 50%;
 }
 
-.global-header .navbar .container-fluid .nav-item .nav-link.show-all-products-btn .cart-managment-box-in-medium-screens-and-higher {
+.global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn .cart-managment-box-in-medium-screens-and-higher, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn .cart-managment-box-in-medium-screens-and-higher {
   top: 120%;
   right: 0;
   width: 500px;
@@ -81,11 +83,6 @@
   z-index: 1001;
   border: 3px solid;
   background-color: #FFF;
-}
-
-.global-header .navbar .container-fluid .nav-item:hover {
-  background-color: #DDD;
-  border-radius: 4px;
 }
 
 .global-header .custom-navbar-for-mobiles-and-tablets-devices {
