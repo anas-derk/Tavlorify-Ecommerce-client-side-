@@ -275,9 +275,7 @@ export default function OrdersManagment() {
                     setAllOrdersInsideThePage(await getAllOrdersInsideThePage(1, pageSize));
                     setCurrentPage(1);
                     setIsFilteringOrdersStatus(false);
-                } else {
-                    setAllOrdersInsideThePage(allOrdersInsideThePage.filter((order) => order._id !== allOrdersInsideThePage[orderIndex]._id));
-                }
+                } else setAllOrdersInsideThePage(allOrdersInsideThePage.filter((order) => order._id !== allOrdersInsideThePage[orderIndex]._id));
                 clearTimeout(successTimeout);
             }, 3000);
         }
