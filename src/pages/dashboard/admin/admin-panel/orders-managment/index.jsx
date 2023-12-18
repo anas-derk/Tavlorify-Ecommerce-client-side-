@@ -16,12 +16,14 @@ export default function OrdersManagment() {
     const [isFilteringOrdersStatus, setIsFilteringOrdersStatus] = useState(false);
 
     const [selectedOrderIndex, setSelectedOrderIndex] = useState(-1);
-    
+
     const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
-    
+
     const [isDeletingStatus, setIsDeletingStatus] = useState(false);
-    
+
     const [isSuccessStatus, setIsSuccessStatus] = useState(false);
+
+    const [isErrorStatus, setIsErrorStatus] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -249,22 +251,37 @@ export default function OrdersManagment() {
         }
         catch (err) {
             setIsUpdatingStatus(false);
-            setSelectedOrderIndex(-1);
+            setIsErrorStatus(true);
+            let errorTimeout = setTimeout(() => {
+                setIsErrorStatus(false);
+                setSelectedOrderIndex(-1);
+                clearTimeout(errorTimeout);
+            }, 3000);
         }
     }
 
     const deleteOrder = async (orderIndex) => {
         try {
             setIsDeletingStatus(true);
-            setDeletingOrderIndex(orderIndex);
-            const res = await axios.delete(`${process.env.BASE_API_URL}/orders/delete-order/${allOrdersInsideThePage[orderIndex]._id}`);
+            setSelectedOrderIndex(orderIndex);
+            await axios.delete(`${process.env.BASE_API_URL}/orders/delete-order/${allOrdersInsideThePage[orderIndex]._id}`);
             setIsDeletingStatus(false);
-            setDeletingOrderIndex(-1);
+            setIsSuccessStatus(true);
+            let successTimeout = setTimeout(() => {
+                setIsSuccessStatus(false);
+                setSelectedOrderIndex(-1);
+                setAllOrdersInsideThePage(allOrdersInsideThePage.filter((order) => order._id !== allOrdersInsideThePage[orderIndex]._id));
+                clearTimeout(successTimeout);
+            }, 3000);
         }
         catch (err) {
-            console.log(err);
             setIsDeletingStatus(false);
-            setDeletingOrderIndex(-1);
+            setIsErrorStatus(true);
+            let errorTimeout = setTimeout(() => {
+                setIsErrorStatus(false);
+                setSelectedOrderIndex(-1);
+                clearTimeout(errorTimeout);
+            }, 3000);
         }
     }
 
@@ -436,6 +453,12 @@ export default function OrdersManagment() {
                                                         disabled
                                                     >
                                                         Deleting ...
+                                                    </button>}
+                                                    {isErrorStatus && orderIndex === selectedOrderIndex && <button
+                                                        className="btn btn-danger d-block mx-auto mb-3"
+                                                        disabled
+                                                    >
+                                                        Sorry, Error In Process
                                                     </button>}
                                                     <Link href={`/dashboard/admin/admin-panel/orders-managment/${order._id}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>
                                                     {!order.isReturned && (order.checkout_status === "AUTHORIZED" || order.checkout_status === "CAPTURED") && <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>}
