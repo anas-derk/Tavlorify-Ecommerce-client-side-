@@ -37,30 +37,6 @@ a {
   animation: rikSpikeRoll 0.65s linear infinite alternate;
 }
 
-@keyframes rikSpikeRoll {
-  0% {
-    background-size: 10px 3px;
-  }
-  16% {
-    background-size: 10px 50px, 10px 3px, 10px 3px, 10px 3px, 10px 3px, 10px 3px;
-  }
-  33% {
-    background-size: 10px 30px, 10px 50px, 10px 3px, 10px 3px, 10px 3px, 10px 3px;
-  }
-  50% {
-    background-size: 10px 10px, 10px 30px, 10px 50px, 10px 3px, 10px 3px, 10px 3px;
-  }
-  66% {
-    background-size: 10px 3px, 10px 10px, 10px 30px, 10px 50px, 10px 3px, 10px 3px;
-  }
-  83% {
-    background-size: 10px 3px, 10px 3px,  10px 10px, 10px 30px, 10px 50px, 10px 3px;
-  }
-  100% {
-    background-size: 10px 3px, 10px 3px, 10px 3px,  10px 10px, 10px 30px, 10px 50px;
-  }
-}
-
 .prints-image {
   width: 100%;
 }
@@ -125,8 +101,7 @@ a {
 .update-and-delete-category-info .content .welcome-msg,
 .add-new-style .content .welcome-msg,
 .generated-images-managment .content .welcome-msg {
-  border-bottom: 3px solid;
-  width: fit-content;
+  font-size: 30px;
 }
 
 .admin-panel .content .manager-link,
@@ -362,12 +337,6 @@ a {
   font-size: 14px;
 }
 
-@keyframes rotate {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 .loading-box {
   background-color: #263038;
   height: 100vh;
@@ -451,10 +420,8 @@ a {
 }
 
 .welcome-msg {
-  font-family: 'Caveat', cursive;
   font-weight: bold;
-  font-size: 30px;
-  border-bottom: 3px solid #000;
+  border-bottom: 3px solid;
   width: fit-content;
   margin: 0 auto;
 }
@@ -519,6 +486,12 @@ a {
   padding-top: 70px;
 }
 
+.text-to-image-service .page-content .container-fluid .welcome-msg,
+.image-to-image-service .page-content .container-fluid .welcome-msg {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
 .text-to-image-service .page-content .container-fluid .row .art-painting,
 .image-to-image-service .page-content .container-fluid .row .art-painting {
   position: relative;
@@ -551,47 +524,35 @@ a {
   font-size: 14px;
 }
 
-.text-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row,
-.image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row {
-  flex-wrap: nowrap;
-  overflow-x: auto;
-}
-
-.text-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box,
-.image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box {
+.text-to-image-service .page-content .container-fluid .row .art-painting-options .categories .category-box,
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .category-box {
   cursor: pointer;
 }
 
-.text-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box .category-image,
-.image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box .category-image {
+.text-to-image-service .page-content .container-fluid .row .art-painting-options .categories .category-box .category-image,
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .category-box .category-image {
   height: 60px;
   border: 2px solid;
 }
 
 @media (max-width: 767px) {
-  .text-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box .category-image,
-  .image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box .category-image {
+  .text-to-image-service .page-content .container-fluid .row .art-painting-options .categories .category-box .category-image,
+  .image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .category-box .category-image {
     width: 50px;
     height: 50px;
   }
 }
 
-.text-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box .category-name,
-.image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box .category-name {
-  font-size: 13px;
+.text-to-image-service .page-content .container-fluid .row .art-painting-options .categories .category-box .category-name,
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .category-box .category-name {
+  font-size: 12px;
 }
 
 @media (max-width: 767px) {
-  .text-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box .category-name,
-  .image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .row .category-box .category-name {
+  .text-to-image-service .page-content .container-fluid .row .art-painting-options .categories .category-box .category-name,
+  .image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .category-box .category-name {
     font-size: 11px;
   }
-}
-
-.text-to-image-service .page-content .container-fluid .row .art-painting-options .styles .row,
-.image-to-image-service .page-content .container-fluid .row .art-painting-options .styles .row {
-  flex-wrap: nowrap;
-  overflow-x: auto;
 }
 
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .styles .style-box,
@@ -615,7 +576,7 @@ a {
 
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .styles .style-box .style-name,
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .styles .style-box .style-name {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 @media (max-width: 767px) {
@@ -957,6 +918,64 @@ a {
   position: relative;
   box-sizing: border-box;
   animation: rotation 2s linear infinite;
+}
+
+.slick-slider {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.slick-slider .slick-prev {
+  left: 0;
+}
+
+.slick-slider .slick-next {
+  right: 0;
+}
+
+.slick-slider .slick-prev, .slick-slider .slick-next {
+  background-color: #FFF;
+  border-radius: 50%;
+  z-index: 1;
+  width: 30px;
+  height: 30px;
+  transform: translateY(calc(-50% - 15px));
+}
+
+.slick-slider .slick-prev::before, .slick-slider .slick-next::before {
+  opacity: 1;
+  color: #000;
+  font-size: 30px;
+}
+
+@keyframes rikSpikeRoll {
+  0% {
+    background-size: 10px 3px;
+  }
+  16% {
+    background-size: 10px 50px, 10px 3px, 10px 3px, 10px 3px, 10px 3px, 10px 3px;
+  }
+  33% {
+    background-size: 10px 30px, 10px 50px, 10px 3px, 10px 3px, 10px 3px, 10px 3px;
+  }
+  50% {
+    background-size: 10px 10px, 10px 30px, 10px 50px, 10px 3px, 10px 3px, 10px 3px;
+  }
+  66% {
+    background-size: 10px 3px, 10px 10px, 10px 30px, 10px 50px, 10px 3px, 10px 3px;
+  }
+  83% {
+    background-size: 10px 3px, 10px 3px,  10px 10px, 10px 30px, 10px 50px, 10px 3px;
+  }
+  100% {
+    background-size: 10px 3px, 10px 3px, 10px 3px,  10px 10px, 10px 30px, 10px 50px;
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes rotation {

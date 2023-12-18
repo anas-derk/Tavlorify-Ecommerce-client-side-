@@ -55,6 +55,7 @@ import LoaderPage from "@/components/LoaderPage";
 import Carousel from 'react-bootstrap/Carousel';
 import PaintingDetails from "@/components/PaintingDetails";
 import Footer from "@/components/Footer";
+import Slider from "react-slick";
 
 export default function TextToImage({
     generatedImageId,
@@ -840,7 +841,7 @@ export default function TextToImage({
                 <div className="page-content">
                     {/* Start Container */}
                     <div className="container-fluid pt-2 pb-4">
-                        <h1 className="text-center mb-4 welcome-msg pb-3 w-50">Använd Vårt designerverktyg och enkla textmeddelanden för att skapa din vackra tavla. <br /> Skriv ner dina idéer och se din vision förvandlas till ett livfullt och vackert konstverk.</h1>
+                        <h1 className="text-center mb-4 welcome-msg pb-3">Använd Vårt designerverktyg och enkla textmeddelanden för att skapa din vackra tavla. <br /> Skriv ner dina idéer och se din vision förvandlas till ett livfullt och vackert konstverk.</h1>
                         {/* Start Grid System */}
                         <div className="row align-items-center">
                             {/* Start Column */}
@@ -877,79 +878,70 @@ export default function TextToImage({
                                 <section className="art-painting-options pe-3 mb-3">
                                     {/* Start Generating Image Options Section */}
                                     <section className="generating-image-options">
-                                        <h6 className="text-center mb-2 fw-bold option-section-name">Skriv ner din text</h6>
+                                        <h6 className="mb-2 fw-bold option-section-name">Skriv ner din text</h6>
                                         <textarea
                                             type="text"
                                             placeholder="a dog riding a bicycle"
                                             className="form-control mb-3 text-prompt"
-                                            onChange={(e) => setTextPrompt(e.target.value)}
+                                            onChange={(e) => setTextPrompt(e.target.value.trim())}
                                             value={textPrompt}
                                         ></textarea>
-                                        <div className="row align-items-center generate-image-btn-box">
-                                            <div className="col-md-7">
-                                                <h6 className="describe text-start mb-0 fw-bold">Beskriv vad du vill att AI ska skapa</h6>
-                                            </div>
-                                            <div className="col-md-5 text-end">
-                                                {!isWaitStatus && !errorMsg &&
-                                                    <button className="btn btn-dark w-100 generate-image-btn" onClick={generatedImageWithAI}>skapa</button>
-                                                }
-                                                {isWaitStatus && <button className="btn btn-dark w-50" disabled>skapar ...</button>}
-                                            </div>
-                                        </div>
-                                        <hr />
                                         <h6 className="mb-3 fw-bold option-section-name">Vilken kategori tillhör den ?</h6>
                                         {/* Start Categories Section */}
                                         <section className="categories mb-2">
-                                            <div className="row">
+                                            <Slider
+                                                slidesToShow={5}
+                                                slidesToScroll={1}
+                                                arrows={true}
+                                                className="mb-5"
+                                            >
+                                                {/* Start Category Box */}
                                                 {categoriesData.map((category, index) => (
-                                                    <div className="col-sm-2 col-3 col-md-3" key={category._id}>
-                                                        {/* Start Category Box */}
-                                                        <div
-                                                            className="category-box text-center"
-                                                            onClick={() => handleSelectCategory(index)}
-                                                        >
-                                                            <img
-                                                                src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
-                                                                alt={`${category.name} Image`}
-                                                                className="category-image mb-2"
-                                                                style={index === categorySelectedIndex ? { border: "4px solid #000" } : {}}
-                                                                onDragStart={(e) => e.preventDefault()}
-                                                            />
-                                                            <h6 className="category-name text-center">{category.name}</h6>
-                                                        </div>
-                                                        {/* End Category Box */}
+                                                    <div
+                                                        className="category-box p-2 text-center"
+                                                        onClick={() => handleSelectCategory(index)}
+                                                        key={index}
+                                                    >
+                                                        <img
+                                                            src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
+                                                            alt={`${category.name} Image`} className="mb-2 category-image d-block mx-auto"
+                                                            style={index === categorySelectedIndex ? { border: "4px solid #000" } : {}}
+                                                            onDragStart={(e) => e.preventDefault()}
+                                                        />
+                                                        <p className="category-name m-0 text-center">{category.name}</p>
                                                     </div>
                                                 ))}
-                                            </div>
+                                                {/* End Category Box */}
+                                            </Slider>
                                         </section>
                                         {/* End Categories Section */}
                                         <h6 className="mb-2 fw-bold option-section-name">Välj en stil</h6>
                                         {/* Start Styles Section */}
                                         <section className="styles mb-3">
-                                            {/* Start Grid System */}
-                                            <div className="row">
-                                                {/* Start Column */}
+                                            <Slider
+                                                slidesToShow={5}
+                                                slidesToScroll={1}
+                                                arrows={true}
+                                                className="mb-5"
+                                            >
+                                                {/* Start Style Box */}
                                                 {categoryStyles.map((style, index) => (
-                                                    <div className="col-sm-2 col-3 col-md-3" key={index}>
-                                                        {/* Start Style Box */}
-                                                        <div
-                                                            className="style-box p-2 text-center"
-                                                            onClick={() => handleSelectStyle(index)}
-                                                        >
-                                                            <img
-                                                                src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
-                                                                alt={`${style.name} Image`} className="mb-2 style-image"
-                                                                style={index === styleSelectedIndex ? { border: "4px solid #000" } : {}}
-                                                                onDragStart={(e) => e.preventDefault()}
-                                                            />
-                                                            <p className="style-name m-0 text-center">{style.name}</p>
-                                                        </div>
-                                                        {/* End Style Box */}
+                                                    <div
+                                                        className="style-box p-2 text-center"
+                                                        onClick={() => handleSelectStyle(index)}
+                                                        key={index}
+                                                    >
+                                                        <img
+                                                            src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
+                                                            alt={`${style.name} Image`} className="mb-2 style-image d-block mx-auto"
+                                                            style={index === styleSelectedIndex ? { border: "4px solid #000" } : {}}
+                                                            onDragStart={(e) => e.preventDefault()}
+                                                        />
+                                                        <p className="style-name m-0 text-center">{style.name}</p>
                                                     </div>
                                                 ))}
-                                                {/* End Column */}
-                                            </div>
-                                            {/* End Grid System */}
+                                                {/* End Style Box */}
+                                            </Slider>
                                         </section>
                                         {/* End Styles Section */}
                                     </section>
@@ -1005,6 +997,10 @@ export default function TextToImage({
                                             </li>
                                         </ul>
                                         {/* End Positions List */}
+                                        {!isWaitStatus && !errorMsg &&
+                                            <button className="btn btn-dark w-50 d-block mx-auto generate-image-btn mb-3" onClick={generatedImageWithAI}>skapa</button>
+                                        }
+                                        {isWaitStatus && <button className="btn btn-dark w-50 d-block mx-auto mb-3" disabled>skapar ...</button>}
                                         <h6 className="fw-bold option-section-name">Storlek</h6>
                                         {/* Start Sizes List */}
                                         <ul className="sizes-list text-center pb-3 art-painting-options-list">

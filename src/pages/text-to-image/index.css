@@ -13,7 +13,8 @@
 
 .text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .text-prompt {
   resize: none;
-  height: 70px;
+  height: 60px;
+  overflow: auto;
   font-size: 14px;
 }
 

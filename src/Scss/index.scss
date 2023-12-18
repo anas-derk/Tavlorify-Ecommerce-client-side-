@@ -42,16 +42,6 @@ a{
     animation: rikSpikeRoll 0.65s linear infinite alternate;
 }
 
-@keyframes rikSpikeRoll {
-    0% { background-size: 10px 3px;}
-    16% { background-size: 10px 50px, 10px 3px, 10px 3px, 10px 3px, 10px 3px, 10px 3px}
-    33% { background-size: 10px 30px, 10px 50px, 10px 3px, 10px 3px, 10px 3px, 10px 3px}
-    50% { background-size: 10px 10px, 10px 30px, 10px 50px, 10px 3px, 10px 3px, 10px 3px}
-    66% { background-size: 10px 3px, 10px 10px, 10px 30px, 10px 50px, 10px 3px, 10px 3px}
-    83% { background-size: 10px 3px, 10px 3px,  10px 10px, 10px 30px, 10px 50px, 10px 3px}
-    100% { background-size: 10px 3px, 10px 3px, 10px 3px,  10px 10px, 10px 30px, 10px 50px}
-}
-
 .prints-image{
     width: 100%;
 }
@@ -100,8 +90,7 @@ a{
         background-color: #EEE;
         min-height: calc(100vh - 72px);
         .welcome-msg{
-            border-bottom: 3px solid;
-            width: fit-content;
+            font-size: 30px;
         }
         .manager-link{
             font-size: 14px;
@@ -112,12 +101,6 @@ a{
                 font-size: 14px;
             }
         }
-    }
-}
-
-@keyframes rotate {
-    100% {
-        transform: rotate(360deg);
     }
 }
 
@@ -193,10 +176,8 @@ a{
 }
 
 .welcome-msg{
-    font-family: 'Caveat', cursive;
     font-weight: bold;
-    font-size: 30px;
-    border-bottom: 3px solid #000;
+    border-bottom: 3px solid;
     width: fit-content;
     margin: 0 auto;
     @media (max-width: 767px) {
@@ -254,6 +235,10 @@ a{
     .page-content{
         padding-top: 70px;
         .container-fluid{
+            .welcome-msg{
+                font-size: 15px;
+                line-height: 1.7;
+            }
             .row{
                 .art-painting{
                     position: relative;
@@ -274,33 +259,25 @@ a{
                         font-size: 14px;
                     }
                     .categories{
-                        .row{
-                            flex-wrap: nowrap;
-                            overflow-x: auto;
-                            .category-box{
-                                cursor: pointer;
-                                .category-image{
-                                    height: 60px;
-                                    border: 2px solid;
-                                    @media (max-width: 767px) {
-                                        width: 50px;
-                                        height: 50px;
-                                    }
+                        .category-box{
+                            cursor: pointer;
+                            .category-image{
+                                height: 60px;
+                                border: 2px solid;
+                                @media (max-width: 767px) {
+                                    width: 50px;
+                                    height: 50px;
                                 }
-                                .category-name{
-                                    font-size: 13px;
-                                    @media (max-width: 767px) {
-                                        font-size: 11px;
-                                    }
+                            }
+                            .category-name{
+                                font-size: 12px;
+                                @media (max-width: 767px) {
+                                    font-size: 11px;
                                 }
                             }
                         }
                     }
                     .styles{
-                        .row{
-                            flex-wrap: nowrap;
-                            overflow-x: auto;
-                        }
                         .style-box{
                             cursor: pointer;
                             .style-image{
@@ -312,7 +289,7 @@ a{
                                 }
                             }
                             .style-name{
-                                font-size: 13px;
+                                font-size: 12px;
                                 @media (max-width: 767px) {
                                     font-size: 11px;
                                 }
@@ -598,6 +575,48 @@ a{
     position: relative;
     box-sizing: border-box;
     animation: rotation 2s linear infinite;
+}
+
+.slick-slider{
+    padding: {
+        left: 30px;
+        right: 30px;
+    };
+    .slick-prev{
+        left: 0;
+    }
+    .slick-next{
+        right: 0;
+    }
+    .slick-prev, .slick-next{
+        background-color: #FFF;
+        border-radius: 50%;
+        z-index: 1;
+        width: 30px;
+        height: 30px;
+        transform: translateY(calc(-50% - 15px));
+        &::before{
+            opacity: 1;
+            color: #000;
+            font-size: 30px;
+        }
+    }
+}
+
+@keyframes rikSpikeRoll {
+    0% { background-size: 10px 3px;}
+    16% { background-size: 10px 50px, 10px 3px, 10px 3px, 10px 3px, 10px 3px, 10px 3px}
+    33% { background-size: 10px 30px, 10px 50px, 10px 3px, 10px 3px, 10px 3px, 10px 3px}
+    50% { background-size: 10px 10px, 10px 30px, 10px 50px, 10px 3px, 10px 3px, 10px 3px}
+    66% { background-size: 10px 3px, 10px 10px, 10px 30px, 10px 50px, 10px 3px, 10px 3px}
+    83% { background-size: 10px 3px, 10px 3px,  10px 10px, 10px 30px, 10px 50px, 10px 3px}
+    100% { background-size: 10px 3px, 10px 3px, 10px 3px,  10px 10px, 10px 30px, 10px 50px}
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes rotation {
