@@ -407,7 +407,7 @@ export default function OrdersManagment() {
                                                 </td>
                                                 <td>{getDateFormated(order.added_date)}</td>
                                                 <td>
-                                                    {!isUpdatingStatus && orderIndex !== selectedOrderIndex && <button
+                                                    {!isUpdatingStatus && !isDeletingStatus && orderIndex !== selectedOrderIndex && <button
                                                         className="btn btn-info d-block mx-auto mb-3"
                                                         onClick={() => updateOrderData(orderIndex)}
                                                     >
@@ -425,7 +425,7 @@ export default function OrdersManagment() {
                                                     >
                                                         Success
                                                     </button>}
-                                                    {!isDeletingStatus && orderIndex !== selectedOrderIndex && <button
+                                                    {!isUpdatingStatus && !isDeletingStatus && orderIndex !== selectedOrderIndex && <button
                                                         className="btn btn-danger d-block mx-auto mb-3"
                                                         onClick={() => deleteOrder(orderIndex)}
                                                     >
