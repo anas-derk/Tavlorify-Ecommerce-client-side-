@@ -401,6 +401,13 @@ export default function TextToImage({
                     setWindowInnerWidth(this.innerWidth);
                 });
                 setIsLoadingPage(false);
+                setTimeout(() => {
+                    window.scrollTo({
+                        behavior: "smooth",
+                        top: 80,
+                        left: 0,
+                    });
+                }, 500);
             })
             .catch((err) => console.log(err));
     }, []);
