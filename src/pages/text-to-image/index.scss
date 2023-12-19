@@ -37,25 +37,6 @@
                         }
                     }
                 }
-                .art-name-and-price{
-                    @media (max-width: 767px) {
-                        .row{
-                            > div:first-child{
-                                order: 2;
-                                text-align: center;
-                            }
-                            > div:last-child{
-                                order: 1;
-                                text-align: center !important;
-                            }
-                        }
-                    }
-                    .price-box{
-                        .discount{
-                            text-decoration: line-through;
-                        }
-                    }
-                }
                 .displaying-art-painting-options{
                     .art-names-list{
                         border-bottom: 1px solid #CCC;

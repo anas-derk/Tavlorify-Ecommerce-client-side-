@@ -37,21 +37,6 @@
   font-size: 14px;
 }
 
-@media (max-width: 767px) {
-  .text-to-image-service .page-content .container-fluid .art-painting-options .art-name-and-price .row > div:first-child {
-    order: 2;
-    text-align: center;
-  }
-  .text-to-image-service .page-content .container-fluid .art-painting-options .art-name-and-price .row > div:last-child {
-    order: 1;
-    text-align: center !important;
-  }
-}
-
-.text-to-image-service .page-content .container-fluid .art-painting-options .art-name-and-price .price-box .discount {
-  text-decoration: line-through;
-}
-
 .text-to-image-service .page-content .container-fluid .art-painting-options .displaying-art-painting-options .art-names-list {
   border-bottom: 1px solid #CCC;
   font-size: 14px;

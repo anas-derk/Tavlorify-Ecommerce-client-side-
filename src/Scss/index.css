@@ -586,18 +586,6 @@ a {
   }
 }
 
-.text-to-image-service .page-content .container-fluid .row .art-painting-options .art-name,
-.image-to-image-service .page-content .container-fluid .row .art-painting-options .art-name {
-  font-size: 20px;
-}
-
-@media (max-width: 767px) {
-  .text-to-image-service .page-content .container-fluid .row .art-painting-options .art-name,
-  .image-to-image-service .page-content .container-fluid .row .art-painting-options .art-name {
-    font-size: 17px;
-  }
-}
-
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-names-list,
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-names-list {
   border-bottom: 1px solid #CCC;

@@ -893,7 +893,7 @@ export default function TextToImage({
                                                 slidesToShow={5}
                                                 slidesToScroll={1}
                                                 arrows={true}
-                                                className="mb-5"
+                                                className="mb-2"
                                             >
                                                 {/* Start Category Box */}
                                                 {categoriesData.map((category, index) => (
@@ -922,7 +922,7 @@ export default function TextToImage({
                                                 slidesToShow={5}
                                                 slidesToScroll={1}
                                                 arrows={true}
-                                                className="mb-5"
+                                                className="mb-2"
                                             >
                                                 {/* Start Style Box */}
                                                 {categoryStyles.map((style, index) => (
@@ -946,11 +946,6 @@ export default function TextToImage({
                                         {/* End Styles Section */}
                                     </section>
                                     {/* Start Generating Image Options Section */}
-                                    {/* Start Art Name Section */}
-                                    <section className="art-name mb-2 text-center fw-bold">
-                                        Konstnamn: {paintingType}
-                                    </section>
-                                    {/* End Art Name Section */}
                                     {/* Start Displaying Art Painting Options Section */}
                                     <section className="displaying-art-painting-options">
                                         {/* Start Art Names List */}
@@ -971,7 +966,7 @@ export default function TextToImage({
                                             </li>
                                         </ul>
                                         {/* EndArt Names List */}
-                                        <h6 className="fw-bold option-section-name">formatet</h6>
+                                        <h6 className="fw-bold option-section-name text-uppercase">formatet</h6>
                                         {/* Start Positions List */}
                                         <ul className="positions-list text-center pb-3 art-painting-options-list">
                                             <li
@@ -1001,7 +996,7 @@ export default function TextToImage({
                                             <button className="btn btn-dark w-50 d-block mx-auto generate-image-btn mb-3" onClick={generatedImageWithAI}>skapa</button>
                                         }
                                         {isWaitStatus && <button className="btn btn-dark w-50 d-block mx-auto mb-3" disabled>skapar ...</button>}
-                                        <h6 className="fw-bold option-section-name">Storlek</h6>
+                                        <h6 className="fw-bold option-section-name text-uppercase">Storlek</h6>
                                         {/* Start Sizes List */}
                                         <ul className="sizes-list text-center pb-3 art-painting-options-list">
                                             {global_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
@@ -1028,7 +1023,7 @@ export default function TextToImage({
                                                 <span
                                                     style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
-                                                    INGEN KANT
+                                                    Ingent kant
                                                 </span>
                                             </li>
                                             <li
@@ -1051,7 +1046,7 @@ export default function TextToImage({
                                                 <span
                                                     style={(frameColor === "none" && paintingType === "poster") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
-                                                    UTAN RAM
+                                                    Utan ram
                                                 </span>
                                             </li>
                                             <li
@@ -1061,7 +1056,7 @@ export default function TextToImage({
                                                     style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalBlackFrameCornerImage.src} alt="Black Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM Svart</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2 text-">Traram svart</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1071,7 +1066,7 @@ export default function TextToImage({
                                                     style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalWhiteFrameCornerImage.src} alt="White Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM Vit</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Traram vit</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1081,7 +1076,7 @@ export default function TextToImage({
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalWoodFrameCornerImage.src} alt="Wood Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM Naturlig</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Traram naturlig</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1091,7 +1086,7 @@ export default function TextToImage({
                                                     style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalDarkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM MÖRK</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Traram mork</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1101,7 +1096,7 @@ export default function TextToImage({
                                                     style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerBlackFrameCornerImage.src} alt="Black Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">POSTERHÄNGARE SVART</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Posterhangare svart</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1111,7 +1106,7 @@ export default function TextToImage({
                                                     style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerWhiteFrameCornerImage.src} alt="White Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">POSTERHÄNGARE VIT</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Posterhangare vit</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1121,7 +1116,7 @@ export default function TextToImage({
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerWoodFrameCornerImage.src} alt="Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold">POSTERHÄNGARE Naturligt TRÄ</h6>
+                                                    <h6 className="frame-color d-block fw-bold">Posterhangare naturligt tra</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1131,7 +1126,7 @@ export default function TextToImage({
                                                     style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerDarkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">POSTERHÄNGARE MÖRK</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Posterhangare mork</h6>
                                                 </span>
                                             </li>
                                         </ul>}
