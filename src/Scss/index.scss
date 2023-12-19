@@ -258,6 +258,13 @@ a{
                     .option-section-name{
                         font-size: 14px;
                     }
+                    .section-name-and-control-arrows{
+                        cursor: pointer;
+                        .arrow-icon{
+                            font-size: 23px;
+                            font-weight: bold;
+                        }
+                    }
                     .categories{
                         .category-box{
                             cursor: pointer;
@@ -582,6 +589,7 @@ a{
     .slick-next{
         right: 0;
     }
+    margin-bottom: 0 !important;
     .slick-prev, .slick-next{
         background-color: #FFF;
         border-radius: 50%;

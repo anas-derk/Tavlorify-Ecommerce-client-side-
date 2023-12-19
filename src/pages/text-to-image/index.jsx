@@ -56,6 +56,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import PaintingDetails from "@/components/PaintingDetails";
 import Footer from "@/components/Footer";
 import Slider from "react-slick";
+import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 
 export default function TextToImage({
     generatedImageId,
@@ -295,6 +296,8 @@ export default function TextToImage({
     const [selectedPreviousGeneratedImageIndex, setSelectedPreviousGeneratedImageIndex] = useState(-1);
 
     const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(false);
+
+    const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("");
 
     const getAllText2ImageCategoriesData = async () => {
         try {
@@ -886,10 +889,19 @@ export default function TextToImage({
                                             onChange={(e) => setTextPrompt(e.target.value.trim())}
                                             value={textPrompt}
                                         ></textarea>
-                                        <h6 className="mb-3 fw-bold option-section-name">Vilken kategori tillhör den ?</h6>
+                                        <hr className="mb-2 mt-2" />
                                         {/* Start Categories Section */}
-                                        <section className="categories mb-2">
-                                            <Slider
+                                        <section
+                                            className="categories mb-0"
+                                            onClick={() => setAppearedArtPaintingOptionSection(value => value === "category-options" ? "" : "category-options")}
+                                        >
+                                            <div className="section-name-and-control-arrows d-flex justify-content-between align-items-center mb-0">
+                                                <h6 className="m-0 fw-bold option-section-name">Vilken kategori tillhör den ?</h6>
+                                                {appearedArtPaintingOptionSection !== "category-options" && <IoIosArrowRoundDown className="arrow-icon" />}
+                                                {appearedArtPaintingOptionSection === "category-options" && <IoIosArrowRoundUp className="arrow-icon" />}
+                                            </div>
+                                            <hr className="mb-3 mt-2" />
+                                            {appearedArtPaintingOptionSection === "category-options" && <Slider
                                                 slidesToShow={5}
                                                 slidesToScroll={1}
                                                 arrows={true}
@@ -912,13 +924,22 @@ export default function TextToImage({
                                                     </div>
                                                 ))}
                                                 {/* End Category Box */}
-                                            </Slider>
+                                            </Slider>}
                                         </section>
                                         {/* End Categories Section */}
-                                        <h6 className="mb-2 fw-bold option-section-name">Välj en stil</h6>
+                                        <hr className="mb-2 mt-1" />
                                         {/* Start Styles Section */}
-                                        <section className="styles mb-3">
-                                            <Slider
+                                        <section
+                                            className="styles mb-0"
+                                            onClick={() => setAppearedArtPaintingOptionSection(value => value === "style-options" ? "" : "style-options")}
+                                        >
+                                            <div className="section-name-and-control-arrows d-flex justify-content-between align-items-center mb-0">
+                                                <h6 className="m-0 fw-bold option-section-name">Välj en stil</h6>
+                                                {appearedArtPaintingOptionSection !== "style-options" && <IoIosArrowRoundDown className="arrow-icon" />}
+                                                {appearedArtPaintingOptionSection === "style-options" && <IoIosArrowRoundUp className="arrow-icon" />}
+                                            </div>
+                                            <hr className="mb-3 mt-2" />
+                                            {appearedArtPaintingOptionSection === "style-options" && <Slider
                                                 slidesToShow={5}
                                                 slidesToScroll={1}
                                                 arrows={true}
@@ -941,9 +962,10 @@ export default function TextToImage({
                                                     </div>
                                                 ))}
                                                 {/* End Style Box */}
-                                            </Slider>
+                                            </Slider>}
                                         </section>
                                         {/* End Styles Section */}
+                                        <hr className="mb-2 mt-1" />
                                     </section>
                                     {/* Start Generating Image Options Section */}
                                     {/* Start Displaying Art Painting Options Section */}

@@ -524,6 +524,17 @@ a {
   font-size: 14px;
 }
 
+.text-to-image-service .page-content .container-fluid .row .art-painting-options .section-name-and-control-arrows,
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .section-name-and-control-arrows {
+  cursor: pointer;
+}
+
+.text-to-image-service .page-content .container-fluid .row .art-painting-options .section-name-and-control-arrows .arrow-icon,
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .section-name-and-control-arrows .arrow-icon {
+  font-size: 23px;
+  font-weight: bold;
+}
+
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .categories .category-box,
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .categories .category-box {
   cursor: pointer;
@@ -911,6 +922,7 @@ a {
 .slick-slider {
   padding-left: 30px;
   padding-right: 30px;
+  margin-bottom: 0 !important;
 }
 
 .slick-slider .slick-prev {
