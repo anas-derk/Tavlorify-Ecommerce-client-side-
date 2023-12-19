@@ -891,11 +891,11 @@ export default function TextToImage({
                                         ></textarea>
                                         <hr className="mb-2 mt-2" />
                                         {/* Start Categories Section */}
-                                        <section
-                                            className="categories mb-0"
-                                            onClick={() => setAppearedArtPaintingOptionSection(value => value === "category-options" ? "" : "category-options")}
-                                        >
-                                            <div className="section-name-and-control-arrows d-flex justify-content-between align-items-center mb-0">
+                                        <section className="categories mb-0">
+                                            <div
+                                                className="section-name-and-control-arrows d-flex justify-content-between align-items-center mb-0"
+                                                onClick={() => setAppearedArtPaintingOptionSection(value => value === "category-options" ? "" : "category-options")}
+                                            >
                                                 <h6 className="m-0 fw-bold option-section-name">Vilken kategori tillhör den ?</h6>
                                                 {appearedArtPaintingOptionSection !== "category-options" && <IoIosArrowRoundDown className="arrow-icon" />}
                                                 {appearedArtPaintingOptionSection === "category-options" && <IoIosArrowRoundUp className="arrow-icon" />}
@@ -931,9 +931,11 @@ export default function TextToImage({
                                         {/* Start Styles Section */}
                                         <section
                                             className="styles mb-0"
-                                            onClick={() => setAppearedArtPaintingOptionSection(value => value === "style-options" ? "" : "style-options")}
                                         >
-                                            <div className="section-name-and-control-arrows d-flex justify-content-between align-items-center mb-0">
+                                            <div
+                                                className="section-name-and-control-arrows d-flex justify-content-between align-items-center mb-0"
+                                                onClick={() => setAppearedArtPaintingOptionSection(value => value === "style-options" ? "" : "style-options")}
+                                            >
                                                 <h6 className="m-0 fw-bold option-section-name">Välj en stil</h6>
                                                 {appearedArtPaintingOptionSection !== "style-options" && <IoIosArrowRoundDown className="arrow-icon" />}
                                                 {appearedArtPaintingOptionSection === "style-options" && <IoIosArrowRoundUp className="arrow-icon" />}
