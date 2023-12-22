@@ -810,6 +810,24 @@ export default function TextToImage({
         }
     }
 
+    const getAppearedSlidesCount = (windowInnerWidth, sectionName) => {
+        if (sectionName === "generated-images") {
+            if (windowInnerWidth < 322) return 1;
+            if (windowInnerWidth >= 322 && windowInnerWidth < 360) return 1;
+            if (windowInnerWidth > 360 && windowInnerWidth < 500) return 2;
+            if (windowInnerWidth >= 500 && windowInnerWidth < 630) return 3;
+            if (windowInnerWidth >= 630 && windowInnerWidth < 900) return 4;
+            if (windowInnerWidth > 900 && windowInnerWidth < 1000) return 5;
+            if (windowInnerWidth > 1000 && windowInnerWidth < 1199) return 6;
+            if (windowInnerWidth > 1199) return 7;
+        } else if (sectionName === "categories" || sectionName === "styles") {
+            if (windowInnerWidth < 322) return 1;
+            if (windowInnerWidth >= 322 && windowInnerWidth < 400) return 2;
+            if (windowInnerWidth > 400 && windowInnerWidth < 500) return 3;
+            if (windowInnerWidth > 500) return 5;
+        }
+    }
+
     return (
         // Start Text To Image Service Page
         <div className="text-to-image-service">
@@ -909,7 +927,7 @@ export default function TextToImage({
                                             </div>
                                             <hr className="mb-3 mt-2" />
                                             {appearedArtPaintingOptionSection === "category-options" && <Slider
-                                                slidesToShow={5}
+                                                slidesToShow={getAppearedSlidesCount(windowInnerWidth, "categories")}
                                                 slidesToScroll={1}
                                                 arrows={true}
                                                 className="mb-2"
@@ -949,7 +967,7 @@ export default function TextToImage({
                                             </div>
                                             <hr className="mb-3 mt-2" />
                                             {appearedArtPaintingOptionSection === "style-options" && <Slider
-                                                slidesToShow={5}
+                                                slidesToShow={getAppearedSlidesCount(windowInnerWidth, "styles")}
                                                 slidesToScroll={1}
                                                 arrows={true}
                                                 className="mb-2"
@@ -1195,7 +1213,7 @@ export default function TextToImage({
                             <div className="col-md-10">
                                 {generatedImagesData && !isWaitStatus ?
                                     <Slider
-                                        slidesToShow={7}
+                                        slidesToShow={getAppearedSlidesCount(windowInnerWidth, "generated-images")}
                                         slidesToScroll={1}
                                         arrows={true}
                                         className="mb-2"
