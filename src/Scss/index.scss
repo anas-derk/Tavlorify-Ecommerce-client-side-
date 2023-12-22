@@ -438,7 +438,12 @@ a{
         font-size: 13px;
     }
     .accordion-button{
-        font-size: 14px;
+        font-size: 13px;
+    }
+    .accordion{
+        li{
+            line-height: 2;
+        }
     }
 }
 

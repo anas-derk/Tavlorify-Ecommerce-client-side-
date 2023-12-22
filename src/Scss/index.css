@@ -775,7 +775,11 @@ a {
 }
 
 .painting-details .accordion-button {
-  font-size: 14px;
+  font-size: 13px;
+}
+
+.painting-details .accordion li {
+  line-height: 2;
 }
 
 .inspiration .carousel {
