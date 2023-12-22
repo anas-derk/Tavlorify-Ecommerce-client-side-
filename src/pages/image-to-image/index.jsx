@@ -426,6 +426,13 @@ export default function ImageToImage({
                     setWindowInnerWidth(this.innerWidth);
                 });
                 setIsLoadingPage(false);
+                setTimeout(() => {
+                    window.scrollTo({
+                        behavior: "smooth",
+                        top: 80,
+                        left: 0,
+                    });
+                }, 500);
             })
             .catch((err) => console.log(err));
     }, []);
@@ -1239,7 +1246,7 @@ export default function ImageToImage({
                     <div className="container-fluid">
                         <h1 className="text-center mb-4 welcome-msg pb-3">Välkommen till dig i bild-till-bild AI-tjänsten</h1>
                         {/* Start Grid System */}
-                        <div className="row align-items-center">
+                        <div className="row">
                             {/* Start Column */}
                             {errorMsg && <div className="col-lg-7">
                                 <div className="error-msg-box p-4 text-center">

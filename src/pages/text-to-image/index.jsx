@@ -871,7 +871,7 @@ export default function TextToImage({
                     <div className="container-fluid pt-2 pb-4">
                         <h1 className="text-center mb-4 welcome-msg pb-3">Använd Vårt designerverktyg och enkla textmeddelanden för att skapa din vackra tavla. <br /> Skriv ner dina idéer och se din vision förvandlas till ett livfullt och vackert konstverk.</h1>
                         {/* Start Grid System */}
-                        <div className="row align-items-center">
+                        <div className="row">
                             {/* Start Column */}
                             {errorMsg && <div className="col-lg-7">
                                 <div className="error-msg-box p-4 text-center">
