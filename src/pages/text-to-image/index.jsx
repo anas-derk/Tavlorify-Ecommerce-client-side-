@@ -954,9 +954,7 @@ export default function TextToImage({
                                         {/* End Categories Section */}
                                         <hr className="mb-2 mt-1" />
                                         {/* Start Styles Section */}
-                                        <section
-                                            className="styles mb-0"
-                                        >
+                                        <section className="styles mb-0">
                                             <div
                                                 className="section-name-and-control-arrows d-flex justify-content-between align-items-center mb-0"
                                                 onClick={() => setAppearedArtPaintingOptionSection(value => value === "style-options" ? "" : "style-options")}
@@ -992,7 +990,6 @@ export default function TextToImage({
                                             </Slider>}
                                         </section>
                                         {/* End Styles Section */}
-                                        <hr className="mb-2 mt-1" />
                                     </section>
                                     {/* Start Generating Image Options Section */}
                                     {/* Start Displaying Art Painting Options Section */}

@@ -62,6 +62,8 @@ import howToUseImage3 from "../../../public/images/HowToUseExplain/Img2Img/3.jpg
 import inspirationImage1 from "../../../public/images/Inspiration/1.jpg";
 import PaintingDetails from "@/components/PaintingDetails";
 import Footer from "@/components/Footer";
+import Slider from "react-slick";
+import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 
 export default function ImageToImage({
     generatedImageId,
@@ -318,6 +320,8 @@ export default function ImageToImage({
 
     const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(false);
 
+    const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("");
+
     const getAllImage2ImageCategoriesData = async () => {
         try {
             const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`);
@@ -431,12 +435,12 @@ export default function ImageToImage({
         imageToImageData.append("imageFile", file);
         setIsUplodingFile(true);
         try {
-            const res = await axios.post(`${process.env.BASE_API_URL}/image-to-image/upload-image-and-processing`, imageToImageData, {
+            const res = await axios.post(`https://newapi.tavlorify.se/image-to-image/upload-image-and-processing`, imageToImageData, {
                 onUploadProgress: (progressEvent) => {
                     setUploadingProgress(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
                 }
             });
-            setImageLink(`${process.env.BASE_API_URL}/${await res.data}`);
+            setImageLink(`https://newapi.tavlorify.se/${await res.data}`);
             setIsUplodingFile(false);
         }
         catch (err) {
@@ -603,9 +607,9 @@ export default function ImageToImage({
         setIsMouseDownActivate(false);
         setIsWaitStatus(true);
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}&service=image-to-image&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`);
+            const res = await axios.get(`https://newapi.tavlorify.se/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}&service=image-to-image&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`);
             const result = await res.data;
-            const imageURL = `${process.env.BASE_API_URL}/${result}`;
+            const imageURL = `https://newapi.tavlorify.se/${result}`;
             let image = new Image();
             image.src = imageURL;
             image.onload = async function () {
@@ -679,7 +683,7 @@ export default function ImageToImage({
         setIsExistWhiteBorderWithPoster(generatedImageData.isExistWhiteBorder);
         setFrameColor(generatedImageData.frameColor);
         determine_is_will_the_image_be_moved_and_the_direction_of_displacement(generatedImageWidth, generatedImageHeight, tempPosition);
-        setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
+        setGeneratedImageURL(`https://newapi.tavlorify.se/${generatedImageData.generatedImageURL}`);
         setImageLink(generatedImageData.uploadedImageURL);
         setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
         await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
@@ -959,9 +963,6 @@ export default function ImageToImage({
                     <h6 className="m-0 fw-bold">Laddar upp bild nu ...</h6>
                 </div>}
                 <hr className="mb-2 mt-2" />
-                {imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" onClick={imageToImageGenerateByAI}>skapa</button>}
-                {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>skapa</button>}
-                <hr className="mb-2 mt-2" />
             </div>
         );
     }
@@ -1181,6 +1182,24 @@ export default function ImageToImage({
         handleSelectImageFile(e.dataTransfer.files[0]);
     }
 
+    const getAppearedSlidesCount = (windowInnerWidth, sectionName) => {
+        if (sectionName === "generated-images") {
+            if (windowInnerWidth < 322) return 1;
+            if (windowInnerWidth >= 322 && windowInnerWidth < 360) return 1;
+            if (windowInnerWidth > 360 && windowInnerWidth < 500) return 2;
+            if (windowInnerWidth >= 500 && windowInnerWidth < 630) return 3;
+            if (windowInnerWidth >= 630 && windowInnerWidth < 900) return 4;
+            if (windowInnerWidth > 900 && windowInnerWidth < 1000) return 5;
+            if (windowInnerWidth > 1000 && windowInnerWidth < 1199) return 6;
+            if (windowInnerWidth > 1199) return 7;
+        } else if (sectionName === "categories" || sectionName === "styles") {
+            if (windowInnerWidth < 322) return 1;
+            if (windowInnerWidth >= 322 && windowInnerWidth < 400) return 2;
+            if (windowInnerWidth > 400 && windowInnerWidth < 500) return 3;
+            if (windowInnerWidth > 500) return 5;
+        }
+    }
+
     return (
         // Start Image To Image Page
         <div className="image-to-image-service">
@@ -1204,7 +1223,7 @@ export default function ImageToImage({
                                         style={{
                                             width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
                                             height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`,
-                                            backgroundImage: `url(${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL})`,
+                                            backgroundImage: `url(https://newapi.tavlorify.se/${generatedImageData.generatedImageURL})`,
                                         }}
                                         onDragStart={(e) => e.preventDefault()}
                                     ></li>
@@ -1260,68 +1279,82 @@ export default function ImageToImage({
                                 {/* Start Art Painting Options Section */}
                                 <section className="art-painting-options pe-3 mb-4">
                                     <section className="generating-image-options">
-                                        <h6 className="mb-2 fw-bold option-section-name">Vad är på ditt foto ?</h6>
                                         {/* Start Categories Section */}
-                                        <section className="categories mb-3">
-                                            <div className="row">
+                                        <section className="categories mb-0">
+                                            <div
+                                                className="section-name-and-control-arrows d-flex justify-content-between align-items-center mb-0"
+                                                onClick={() => setAppearedArtPaintingOptionSection(value => value === "category-options" ? "" : "category-options")}
+                                            >
+                                                <h6 className="m-0 fw-bold option-section-name">Vilken kategori tillhör den ?</h6>
+                                                {appearedArtPaintingOptionSection !== "category-options" && <IoIosArrowRoundDown className="arrow-icon" />}
+                                                {appearedArtPaintingOptionSection === "category-options" && <IoIosArrowRoundUp className="arrow-icon" />}
+                                            </div>
+                                            <hr className="mb-3 mt-2" />
+                                            {appearedArtPaintingOptionSection === "category-options" && <Slider
+                                                slidesToShow={getAppearedSlidesCount(windowInnerWidth, "categories")}
+                                                slidesToScroll={1}
+                                                arrows={true}
+                                                className="mb-2"
+                                            >
+                                                {/* Start Category Box */}
                                                 {categoriesData.map((category, index) => (
-                                                    <div className="col-sm-2 col-3 col-md-3" key={category._id}>
-                                                        {/* Start Category Box */}
-                                                        <div
-                                                            className="category-box text-center"
-                                                            onClick={() => handleSelectCategory(index)}
-                                                        >
-                                                            <img
-                                                                src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
-                                                                alt={`${category.name} Image`}
-                                                                className="category-image mb-2"
-                                                                style={index === categorySelectedIndex ? { border: "4px solid #000" } : {}}
-                                                                onDragStart={(e) => e.preventDefault()}
-                                                            />
-                                                            <h6 className="category-name text-center">{category.name}</h6>
-                                                        </div>
-                                                        {/* End Category Box */}
+                                                    <div
+                                                        className="category-box p-2 text-center"
+                                                        onClick={() => handleSelectCategory(index)}
+                                                        key={index}
+                                                    >
+                                                        <img
+                                                            src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
+                                                            alt={`${category.name} Image`} className="mb-2 category-image d-block mx-auto"
+                                                            style={index === categorySelectedIndex ? { border: "4px solid #000" } : {}}
+                                                            onDragStart={(e) => e.preventDefault()}
+                                                        />
+                                                        <p className="category-name m-0 text-center">{category.name}</p>
                                                     </div>
                                                 ))}
-                                            </div>
+                                                {/* End Category Box */}
+                                            </Slider>}
                                         </section>
                                         {/* End Categories Section */}
-                                        <h6 className="mb-2 fw-bold option-section-name">Välj en stil</h6>
+                                        <hr className="mb-2 mt-1" />
                                         {/* Start Styles Section */}
-                                        <section className="styles mb-3">
-                                            {/* Start Grid System */}
-                                            <div className="row">
-                                                {/* Start Column */}
+                                        <section className="styles mb-0">
+                                            <div
+                                                className="section-name-and-control-arrows d-flex justify-content-between align-items-center mb-0"
+                                                onClick={() => setAppearedArtPaintingOptionSection(value => value === "style-options" ? "" : "style-options")}
+                                            >
+                                                <h6 className="m-0 fw-bold option-section-name">Välj en stil</h6>
+                                                {appearedArtPaintingOptionSection !== "style-options" && <IoIosArrowRoundDown className="arrow-icon" />}
+                                                {appearedArtPaintingOptionSection === "style-options" && <IoIosArrowRoundUp className="arrow-icon" />}
+                                            </div>
+                                            <hr className="mb-3 mt-2" />
+                                            {appearedArtPaintingOptionSection === "style-options" && <Slider
+                                                slidesToShow={getAppearedSlidesCount(windowInnerWidth, "styles")}
+                                                slidesToScroll={1}
+                                                arrows={true}
+                                                className="mb-2"
+                                            >
+                                                {/* Start Style Box */}
                                                 {categoryStyles.map((style, index) => (
-                                                    <div className="col-sm-2 col-3 col-md-3" key={index}>
-                                                        {/* Start Style Box */}
-                                                        <div
-                                                            className="style-box p-2 text-center"
-                                                            onClick={() => handleSelectStyle(index)}
-                                                        >
-                                                            <img
-                                                                src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
-                                                                alt={`${style.name} Image`}
-                                                                className="mb-2 style-image"
-                                                                style={index === styleSelectedIndex ? { border: "4px solid #000" } : {}}
-                                                                onDragStart={(e) => e.preventDefault()}
-                                                            />
-                                                            <p className="style-name m-0 text-center">{style.name}</p>
-                                                        </div>
-                                                        {/* End Style Box */}
+                                                    <div
+                                                        className="style-box p-2 text-center"
+                                                        onClick={() => handleSelectStyle(index)}
+                                                        key={index}
+                                                    >
+                                                        <img
+                                                            src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
+                                                            alt={`${style.name} Image`} className="mb-2 style-image d-block mx-auto"
+                                                            style={index === styleSelectedIndex ? { border: "4px solid #000" } : {}}
+                                                            onDragStart={(e) => e.preventDefault()}
+                                                        />
+                                                        <p className="style-name m-0 text-center">{style.name}</p>
                                                     </div>
                                                 ))}
-                                                {/* End Column */}
-                                            </div>
-                                            {/* End Grid System */}
+                                                {/* End Style Box */}
+                                            </Slider>}
                                         </section>
                                         {/* End Styles Section */}
                                     </section>
-                                    {/* Start Art Name Section */}
-                                    <section className="art-name mb-2 text-center fw-bold">
-                                        Konstnamn: {paintingType}
-                                    </section>
-                                    {/* End Art Name Section */}
                                     {/* Start Displaying Art Painting Options Section */}
                                     <section className="displaying-art-painting-options">
                                         {/* Start Art Names List */}
@@ -1342,44 +1375,6 @@ export default function ImageToImage({
                                             </li>
                                         </ul>
                                         {/* EndArt Names List */}
-                                        {windowInnerWidth > 767 && <h6 className="fw-bold option-section-name">formatet</h6>}
-                                        {/* Start Positions List */}
-                                        <ul className="positions-list text-center pb-3 art-painting-options-list">
-                                            <li>
-                                                <span
-                                                    style={
-                                                        {
-                                                            border: imageType === "vertical" ? "4px solid #000" : "",
-                                                            fontWeight: imageType === "vertical" ? "bold" : "",
-                                                            textDecoration: imageType !== "vertical" ? "line-through" : "",
-                                                        }
-                                                    }
-                                                >Stående</span>
-                                            </li>
-                                            <li>
-                                                <span
-                                                    style={
-                                                        {
-                                                            border: imageType === "horizontal" ? "4px solid #000" : "",
-                                                            fontWeight: imageType === "horizontal" ? "bold" : "",
-                                                            textDecoration: imageType !== "horizontal" ? "line-through" : "",
-                                                        }
-                                                    }
-                                                >Liggande</span>
-                                            </li>
-                                            <li>
-                                                <span
-                                                    style={
-                                                        {
-                                                            border: imageType === "square" ? "4px solid #000" : "",
-                                                            fontWeight: imageType === "square" ? "bold" : "",
-                                                            textDecoration: imageType !== "square" ? "line-through" : "",
-                                                        }
-                                                    }
-                                                >Kvadratisk</span>
-                                            </li>
-                                        </ul>
-                                        {/* End Positions List */}
                                         <h6 className="fw-bold option-section-name">Storlek</h6>
                                         {/* Start Sizes List */}
                                         <ul className="sizes-list text-center pb-3 art-painting-options-list">
@@ -1398,6 +1393,8 @@ export default function ImageToImage({
                                             ))}
                                         </ul>
                                         {/* End Sizes List */}
+                                        {imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" onClick={imageToImageGenerateByAI}>skapa</button>}
+                                        {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>skapa</button>}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">KANT</h6>}
                                         {/* Start White Border */}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list text-center pb-3 art-painting-options-list">
@@ -1546,25 +1543,36 @@ export default function ImageToImage({
                             <div className="col-lg-2 text-center">
                                 <h6 className="m-0 fw-bold d-inline">Genererade bilder: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
                             </div>
-                            <div className="col-lg-10">
-                                {generatedImagesData && !isWaitStatus && <ul className="generated-images-list text-center p-4">
-                                    {generatedImagesData.map((generatedImageData, index) => (
-                                        index < 10 && <Fragment key={generatedImageData._id}>
-                                            <li
-                                                className={`generated-images-item m-0 ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
-                                                onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
-                                                style={{
-                                                    width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
-                                                    height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`,
-                                                    backgroundImage: `url(${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL})`,
-                                                }}
-                                                onDragStart={(e) => e.preventDefault()}
-                                            ></li>
-                                        </Fragment>
-                                    ))}
-                                    {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Visa mer</button>}
-                                </ul>}
-                                {generatedImagesData && generatedImagesData.length === 0 && <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Tyvärr, kan inte hitta några genererade bilder från dig !</p>}
+                            <div className="col-md-10">
+                                {generatedImagesData && !isWaitStatus ?
+                                    <Slider
+                                        slidesToShow={getAppearedSlidesCount(windowInnerWidth, "generated-images")}
+                                        slidesToScroll={1}
+                                        arrows={true}
+                                        className="mb-2"
+                                    >
+                                        {generatedImagesData.map((generatedImageData, index) => (
+                                            index < 10 && <Fragment key={generatedImageData._id}>
+                                                <div
+                                                    className="generated-images-item mx-auto"
+                                                    onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
+                                                    style={{
+                                                        width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
+                                                        height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={`https://newapi.tavlorify.se/${generatedImageData.generatedImageURL}`}
+                                                        alt="Generated Image !!"
+                                                        className={`generated-image ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
+                                                        onDragStart={(e) => e.preventDefault()}
+                                                    />
+                                                </div>
+                                            </Fragment>
+                                        ))}
+                                        {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Visa mer</button>}
+                                    </Slider>
+                                    : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Tyvärr, kan inte hitta några genererade bilder från dig !!</p>}
                             </div>
                         </section>
                         {/* Start Generated Images Section */}
