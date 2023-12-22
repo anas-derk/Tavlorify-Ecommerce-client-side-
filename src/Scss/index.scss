@@ -417,6 +417,8 @@ a{
 
 .painting-details{
     background-color: #EEE;
+    font-size: 13px;
+    text-align: justify;
     .painting-details-buttons-list{
         .painting-details-button-item{
             background-color: #CCC;
@@ -433,7 +435,7 @@ a{
         line-height: 2;
     }
     p{
-        font-size: 14px;
+        font-size: 13px;
     }
     .accordion-button{
         font-size: 14px;

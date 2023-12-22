@@ -750,6 +750,8 @@ a {
 
 .painting-details {
   background-color: #EEE;
+  font-size: 13px;
+  text-align: justify;
 }
 
 .painting-details .painting-details-buttons-list .painting-details-button-item {
@@ -769,7 +771,7 @@ a {
 }
 
 .painting-details p {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .painting-details .accordion-button {
