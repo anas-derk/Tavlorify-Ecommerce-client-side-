@@ -123,24 +123,24 @@ a{
 
 .generated-images{
     background-color: #EEE;
-    @media (max-width: 991px) {
-        gap: 10px;
+    .slick-slider{
+        .slick-track{
+            display: flex;
+            align-items: center;
+        }
+        .slick-prev, .slick-next{
+            transform: translateY(-50%);
+        }
     }
-    .generated-images-list{
-        display: flex;
-        gap: 30px;
-        align-items: center;
-        overflow-x: auto;
-        .generated-images-item{
-            cursor: pointer;
-            background-size: cover;
-            background-position: center;
-            .generated-image{
-                width: inherit;
-                height: inherit;
-                &.selected-image{
-                    border: 4px solid #000;
-                }
+    .generated-images-item{
+        cursor: pointer;
+        background-size: cover;
+        background-position: center;
+        .generated-image{
+            width: inherit;
+            height: inherit;
+            &.selected-image{
+                border: 4px solid #000;
             }
         }
     }

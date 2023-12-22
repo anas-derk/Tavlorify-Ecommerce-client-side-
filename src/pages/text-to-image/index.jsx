@@ -1193,28 +1193,35 @@ export default function TextToImage({
                                 <h6 className="m-0 fw-bold d-inline">Genererade bilder: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
                             </div>
                             <div className="col-md-10">
-                                {generatedImagesData && !isWaitStatus ? <ul className="generated-images-list text-center p-4">
-                                    {generatedImagesData.map((generatedImageData, index) => (
-                                        index < 10 && <Fragment key={generatedImageData._id}>
-                                            <li
-                                                className="generated-images-item m-0"
-                                                onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
-                                                style={{
-                                                    width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
-                                                    height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`
-                                                }}
-                                            >
-                                                <img
-                                                    src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
-                                                    alt="Generated Image !!"
-                                                    className={`generated-image ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
-                                                    onDragStart={(e) => e.preventDefault()}
-                                                />
-                                            </li>
-                                        </Fragment>
-                                    ))}
-                                    {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Visa mer</button>}
-                                </ul> : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Tyvärr, kan inte hitta några genererade bilder från dig !!</p>}
+                                {generatedImagesData && !isWaitStatus ?
+                                    <Slider
+                                        slidesToShow={7}
+                                        slidesToScroll={1}
+                                        arrows={true}
+                                        className="mb-2"
+                                    >
+                                        {generatedImagesData.map((generatedImageData, index) => (
+                                            index < 10 && <Fragment key={generatedImageData._id}>
+                                                <div
+                                                    className="generated-images-item mx-auto"
+                                                    onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
+                                                    style={{
+                                                        width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
+                                                        height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
+                                                        alt="Generated Image !!"
+                                                        className={`generated-image ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
+                                                        onDragStart={(e) => e.preventDefault()}
+                                                    />
+                                                </div>
+                                            </Fragment>
+                                        ))}
+                                        {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Visa mer</button>}
+                                    </Slider>
+                                    : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Tyvärr, kan inte hitta några genererade bilder från dig !!</p>}
                             </div>
                         </section>
                         {/* Start Generated Images Section */}

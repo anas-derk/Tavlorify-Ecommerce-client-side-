@@ -360,31 +360,27 @@ a {
   background-color: #EEE;
 }
 
-@media (max-width: 991px) {
-  .generated-images {
-    gap: 10px;
-  }
-}
-
-.generated-images .generated-images-list {
+.generated-images .slick-slider .slick-track {
   display: flex;
-  gap: 30px;
   align-items: center;
-  overflow-x: auto;
 }
 
-.generated-images .generated-images-list .generated-images-item {
+.generated-images .slick-slider .slick-prev, .generated-images .slick-slider .slick-next {
+  transform: translateY(-50%);
+}
+
+.generated-images .generated-images-item {
   cursor: pointer;
   background-size: cover;
   background-position: center;
 }
 
-.generated-images .generated-images-list .generated-images-item .generated-image {
+.generated-images .generated-images-item .generated-image {
   width: inherit;
   height: inherit;
 }
 
-.generated-images .generated-images-list .generated-images-item .generated-image.selected-image {
+.generated-images .generated-images-item .generated-image.selected-image {
   border: 4px solid #000;
 }
 
