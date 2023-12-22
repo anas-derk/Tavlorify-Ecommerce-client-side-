@@ -123,6 +123,10 @@ a{
 
 .generated-images{
     background-color: #EEE;
+    @media (max-width: 767px) {
+        padding: 10px;
+        gap: 10px;
+    }
     .slick-slider{
         .slick-track{
             display: flex;

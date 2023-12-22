@@ -360,6 +360,13 @@ a {
   background-color: #EEE;
 }
 
+@media (max-width: 767px) {
+  .generated-images {
+    padding: 10px;
+    gap: 10px;
+  }
+}
+
 .generated-images .slick-slider .slick-track {
   display: flex;
   align-items: center;
