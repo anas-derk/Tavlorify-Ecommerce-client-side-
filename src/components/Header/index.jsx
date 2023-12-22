@@ -248,9 +248,6 @@ export default function Header({ newTotalProductsCount }) {
             }
         }
     }
-    const closeAllProductManagmentBox = () => {
-        setIsDisplayAllProductManagmentBox(false);
-    }
     const calcTotalOrderPriceBeforeDiscount = (allProductsData) => {
         let tempTotalPriceBeforeDiscount = 0;
         allProductsData.forEach((product) => {

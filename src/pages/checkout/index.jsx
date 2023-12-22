@@ -161,7 +161,7 @@ export default function Checkout({ orderId }) {
                     return result;
                 }
                 catch (err) {
-                    console.log(err.response.data);
+                    console.log(err);
                 }
             }
         }
@@ -218,6 +218,7 @@ export default function Checkout({ orderId }) {
             order_tax_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(newProductsData), calcTotalOrderDiscount(newProductsData)) * 100 * 0.20,
             order_lines: getOrderLinesForKlarnaCheckoutAPI(newProductsData),
         }
+        console.log(orderDetails);
         try {
             const res = await Axios.put(`${process.env.BASE_API_URL}/orders/update-klarna-order/${orderId}`, orderDetails);
             const result = await res.data;
@@ -235,7 +236,7 @@ export default function Checkout({ orderId }) {
             renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
         }
         catch (err) {
-            console.log(err.response.data);
+            console.log(err);
         }
     }
 
@@ -298,7 +299,7 @@ export default function Checkout({ orderId }) {
                                         <span>Mängd: </span>
                                         <AiOutlineMinus
                                             className="quantity-control-icon me-2"
-                                            onClick={() => updateOrder(productData._id, "decrease-product-quantity", klarnaOrderId)}
+                                            onClick={() => updateKlarnaOrder(productData._id, "decrease-product-quantity", klarnaOrderId)}
                                         />
                                         <span className="fw-bold me-2">{productData.quantity}</span>
                                         <AiOutlinePlus
