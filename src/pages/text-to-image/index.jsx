@@ -295,7 +295,7 @@ export default function TextToImage({
 
     const [selectedPreviousGeneratedImageIndex, setSelectedPreviousGeneratedImageIndex] = useState(-1);
 
-    const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(false);
+    const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(true);
 
     const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("");
 
