@@ -1275,7 +1275,6 @@ export default function ImageToImage({
                             {/* Start Column */}
                             <div className="col-lg-5">
                                 {!errorMsg && !isWaitStatus && windowInnerWidth >= 991 && getImageBeforeProcessingBox()}
-                                {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>skapar ...</button>}
                                 {/* Start Art Painting Options Section */}
                                 <section className="art-painting-options pe-3 mb-4">
                                     <section className="generating-image-options">
@@ -1395,6 +1394,7 @@ export default function ImageToImage({
                                         {/* End Sizes List */}
                                         {imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" onClick={imageToImageGenerateByAI}>skapa</button>}
                                         {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>skapa</button>}
+                                        {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>skapar ...</button>}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">KANT</h6>}
                                         {/* Start White Border */}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list text-center pb-3 art-painting-options-list">
