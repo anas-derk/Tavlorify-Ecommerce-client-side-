@@ -121,14 +121,6 @@
                         font-size: 14px;
                     }
                 }
-                .art-painting-options{
-                    height: 400px;
-                    .positions-list{
-                        @media (max-width: 767px) {
-                            display: none;
-                        }
-                    }
-                }
             }
             ol{
                 li{

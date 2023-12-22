@@ -7,10 +7,6 @@
   max-width: 100%;
 }
 
-.text-to-image-service .page-content .container-fluid .art-painting-options {
-  height: 500px;
-}
-
 .text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .text-prompt {
   resize: none;
   height: 60px;

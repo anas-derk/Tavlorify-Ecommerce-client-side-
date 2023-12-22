@@ -255,8 +255,11 @@ a{
                 line-height: 1.7;
             }
             .row{
+                .minimize-images{
+                    position: sticky;
+                    top: 90px;
+                }
                 .art-painting{
-                    position: relative;
                     .frame-image-box{
                         max-width: 100%;
                         img{
@@ -269,7 +272,6 @@ a{
                     }
                 }
                 .art-painting-options{
-                    overflow-y: scroll;
                     .option-section-name{
                         font-size: 14px;
                     }

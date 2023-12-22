@@ -1004,6 +1004,8 @@ export default function ImageToImage({
                     {
                         backgroundColor: isWaitStatus ? "#989492" : "",
                         cursor: !isWaitStatus && imageSize === "minimize-image" && !isImageInsideRoom ? "pointer" : "",
+                        position: !imageSize ? "sticky" : "",
+                        top: !imageSize ? "90px" : "",
                     }
                 }
             >
@@ -1261,11 +1263,13 @@ export default function ImageToImage({
                                 </div>}
                                 {/* Start Column */}
                                 {windowInnerWidth >= 991 && <div className="col-lg-2">
-                                    {/* Start Art Painting Box */}
-                                    {getArtPaintingBox(global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width, global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height, "minimize-image", false)}
-                                    {/* End Art Painting Box */}
-                                    {getImageInsideRoomBox(1, "minimize-room-image")}
-                                    {getImageInsideRoomBox(2, "minimize-room-image")}
+                                    <div className="minimize-images">
+                                        {/* Start Art Painting Box */}
+                                        {getArtPaintingBox(global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width, global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height, "minimize-image", false)}
+                                        {/* End Art Painting Box */}
+                                        {getImageInsideRoomBox(1, "minimize-room-image")}
+                                        {getImageInsideRoomBox(2, "minimize-room-image")}
+                                    </div>
                                 </div>}
                                 {/* End Column */}
                                 {/* Start Column */}

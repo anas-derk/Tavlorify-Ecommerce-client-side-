@@ -689,6 +689,8 @@ export default function TextToImage({
                     {
                         backgroundColor: isWaitStatus ? "#989492" : "",
                         cursor: !isWaitStatus && imageSize === "minimize-image" && !isImageInsideRoom ? "pointer" : "",
+                        position: !imageSize ? "sticky" : "",
+                        top: !imageSize ? "90px" : "",
                     }
                 }
             >
@@ -883,11 +885,13 @@ export default function TextToImage({
                             {!errorMsg && <>
                                 {/* Start Column */}
                                 {windowInnerWidth >= 991 && <div className="col-lg-2">
-                                    {/* Start Art Painting Box */}
-                                    {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image", false)}
-                                    {/* End Art Painting Box */}
-                                    {getImageInsideRoomBox(1, "minimize-room-image")}
-                                    {getImageInsideRoomBox(2, "minimize-room-image")}
+                                    <div className="minimize-images">
+                                        {/* Start Art Painting Box */}
+                                        {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image", false)}
+                                        {/* End Art Painting Box */}
+                                        {getImageInsideRoomBox(1, "minimize-room-image")}
+                                        {getImageInsideRoomBox(2, "minimize-room-image")}
+                                    </div>
                                 </div>}
                                 {/* End Column */}
                                 {/* Start Column */}

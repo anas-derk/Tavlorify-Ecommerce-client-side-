@@ -506,9 +506,10 @@ a {
   line-height: 1.7;
 }
 
-.text-to-image-service .page-content .container-fluid .row .art-painting,
-.image-to-image-service .page-content .container-fluid .row .art-painting {
-  position: relative;
+.text-to-image-service .page-content .container-fluid .row .minimize-images,
+.image-to-image-service .page-content .container-fluid .row .minimize-images {
+  position: sticky;
+  top: 90px;
 }
 
 .text-to-image-service .page-content .container-fluid .row .art-painting .frame-image-box,
@@ -526,11 +527,6 @@ a {
 .image-to-image-service .page-content .container-fluid .row .art-painting .image-box {
   position: absolute;
   z-index: -1;
-}
-
-.text-to-image-service .page-content .container-fluid .row .art-painting-options,
-.image-to-image-service .page-content .container-fluid .row .art-painting-options {
-  overflow-y: scroll;
 }
 
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .option-section-name,
