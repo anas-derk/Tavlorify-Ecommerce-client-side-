@@ -1554,20 +1554,15 @@ export default function ImageToImage({
                                         {generatedImagesData.map((generatedImageData, index) => (
                                             index < 10 && <Fragment key={generatedImageData._id}>
                                                 <div
-                                                    className="generated-images-item mx-auto"
+                                                    className={`generated-images-item mx-auto generated-image ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
                                                     onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
                                                     style={{
                                                         width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
-                                                        height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`
+                                                        height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`,
+                                                        backgroundImage: `url(https://newapi.tavlorify.se/${generatedImageData.generatedImageURL})`
                                                     }}
-                                                >
-                                                    <img
-                                                        src={`https://newapi.tavlorify.se/${generatedImageData.generatedImageURL}`}
-                                                        alt="Generated Image !!"
-                                                        className={`generated-image ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
-                                                        onDragStart={(e) => e.preventDefault()}
-                                                    />
-                                                </div>
+                                                    onDragStart={(e) => e.preventDefault()}
+                                                ></div>
                                             </Fragment>
                                         ))}
                                         {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Visa mer</button>}
