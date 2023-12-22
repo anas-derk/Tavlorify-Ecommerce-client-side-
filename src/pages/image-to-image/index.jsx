@@ -1392,7 +1392,7 @@ export default function ImageToImage({
                                             ))}
                                         </ul>
                                         {/* End Sizes List */}
-                                        {imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" onClick={imageToImageGenerateByAI}>skapa</button>}
+                                        {imageLink && !isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" onClick={imageToImageGenerateByAI}>skapa</button>}
                                         {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>skapa</button>}
                                         {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>skapar ...</button>}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">KANT</h6>}
