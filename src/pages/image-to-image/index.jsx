@@ -1385,7 +1385,7 @@ export default function ImageToImage({
                                             </li>
                                         </ul>
                                         {/* EndArt Names List */}
-                                        <h6 className="fw-bold option-section-name">Storlek</h6>
+                                        <h6 className="fw-bold option-section-name">STORLEK</h6>
                                         {/* Start Sizes List */}
                                         <ul className="sizes-list text-center pb-3 art-painting-options-list">
                                             {global_data.gelatoDimetions[paintingType][imageType].map((dims, index) => (
