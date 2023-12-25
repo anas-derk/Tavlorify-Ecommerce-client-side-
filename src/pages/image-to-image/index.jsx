@@ -64,6 +64,7 @@ import PaintingDetails from "@/components/PaintingDetails";
 import Footer from "@/components/Footer";
 import Slider from "react-slick";
 import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
+import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 
 export default function ImageToImage({
     generatedImageId,
@@ -71,6 +72,8 @@ export default function ImageToImage({
 }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
+    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
     const [windowInnerWidth, setWindowInnerWidth] = useState(149);
 
@@ -434,7 +437,10 @@ export default function ImageToImage({
                     });
                 }, 500);
             })
-            .catch((err) => console.log(err));
+            .catch(() => {
+                setIsLoadingPage(false);
+                setIsErrorMsgOnLoadingThePage(true);
+            });
     }, []);
 
     const handleSelectImageFile = async (file) => {
@@ -1215,7 +1221,7 @@ export default function ImageToImage({
             <Head>
                 <title>Tavlorify - förvandla foton till konstverk</title>
             </Head>
-            {!isLoadingPage ? <>
+            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 <Header newTotalProductsCount={newTotalProductsCount} />
                 {/* Start Overlay */}
                 {isShowMoreGeneratedImages && <div className="overlay">
@@ -1657,7 +1663,9 @@ export default function ImageToImage({
                 </div>
                 {/* End Page Content */}
                 <Footer />
-            </> : <LoaderPage />}
+            </>}
+            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
+            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
         </div>
         // End Image To Image Page
     );

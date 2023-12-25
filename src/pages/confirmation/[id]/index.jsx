@@ -5,10 +5,13 @@ import { useRouter } from "next/router";
 import Axios from "axios";
 import Footer from "@/components/Footer";
 import LoaderPage from "@/components/LoaderPage";
+import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 
 export default function Confirmation() {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
+    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(null);
 
@@ -26,7 +29,10 @@ export default function Confirmation() {
                         setIsLoadingPage(false);
                         renderKlarnaConfirmationHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
                     }
-                }).catch((err) => console.log(err));
+                }).catch(() => {
+                    setIsLoadingPage(false);
+                    setIsErrorMsgOnLoadingThePage(true);
+                });
         }
     }, [id]);
 
@@ -43,9 +49,9 @@ export default function Confirmation() {
 
     const renderKlarnaConfirmationHtmlSnippetFromKlarnaCheckoutAPI = (htmlSnippet) => {
         try {
-            let confirmationContainer  = document.getElementById("my-confirmation-container");
-            confirmationContainer .innerHTML = htmlSnippet;
-            let scriptsTags = confirmationContainer .getElementsByTagName("script");
+            let confirmationContainer = document.getElementById("my-confirmation-container");
+            confirmationContainer.innerHTML = htmlSnippet;
+            let scriptsTags = confirmationContainer.getElementsByTagName("script");
             for (let i = 0; i < scriptsTags.length; i++) {
                 let parentNode = scriptsTags[i].parentNode;
                 let newScriptTag = document.createElement("script");
@@ -66,16 +72,18 @@ export default function Confirmation() {
             <Head>
                 <title>Tavlorify - Bekräftelse</title>
             </Head>
-            {!isLoadingPage ? <>
+            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 <Header newTotalProductsCount={newTotalProductsCount} />
-            {/* Start Container From Bootstrap */}
-            <div className="container-fluid pt-4 pb-4">
-                <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hej till dig på bekräftelsessidan</h1>
-            </div>
-            {/* End Container From Bootstrap */}
-            <div id="my-confirmation-container"></div>
-            <Footer />
-            </> : <LoaderPage />}
+                {/* Start Container From Bootstrap */}
+                <div className="container-fluid pt-4 pb-4">
+                    <h1 className="text-center mb-5 fw-bold welcome-msg mx-auto pb-3">Hej till dig på bekräftelsessidan</h1>
+                </div>
+                {/* End Container From Bootstrap */}
+                <div id="my-confirmation-container"></div>
+                <Footer />
+            </>}
+            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
+            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
         </div>
     );
 }

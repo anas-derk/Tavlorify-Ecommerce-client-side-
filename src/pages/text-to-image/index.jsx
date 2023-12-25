@@ -57,6 +57,7 @@ import PaintingDetails from "@/components/PaintingDetails";
 import Footer from "@/components/Footer";
 import Slider from "react-slick";
 import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
+import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 
 export default function TextToImage({
     generatedImageId,
@@ -64,6 +65,8 @@ export default function TextToImage({
 }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
+    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
     const [windowInnerWidth, setWindowInnerWidth] = useState(149);
 
@@ -409,7 +412,10 @@ export default function TextToImage({
                     });
                 }, 500);
             })
-            .catch((err) => console.log(err));
+            .catch(() => {
+                setIsLoadingPage(false);
+                setIsErrorMsgOnLoadingThePage(true);
+            });
     }, []);
 
     const handleSelectCategory = async (categoryIndex) => {
@@ -836,7 +842,7 @@ export default function TextToImage({
             <Head>
                 <title>Tavlorify - Förvandla ord till konstverk</title>
             </Head>
-            {!isLoadingPage ? <>
+            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 <Header newTotalProductsCount={newTotalProductsCount} />
                 {/* Start Overlay */}
                 {isShowMoreGeneratedImages && <div className="overlay">
@@ -1252,7 +1258,9 @@ export default function TextToImage({
                 </div>
                 {/* End Page Content */}
                 <Footer />
-            </> : <LoaderPage />}
+            </>}
+            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
+            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
         </div>
         // End Text To Image Service Page
     );

@@ -37,6 +37,19 @@ a {
   animation: rikSpikeRoll 0.65s linear infinite alternate;
 }
 
+.loading-box, .error-msg-on-loading-the-page {
+  background-color: #263038;
+  height: 100vh;
+}
+
+.error-msg-on-loading-the-page .error-icon {
+  font-size: 120px;
+}
+
+.error-msg-on-loading-the-page .error-msg-on-loading-box {
+  font-size: 30px;
+}
+
 .prints-image {
   width: 100%;
 }
@@ -335,11 +348,6 @@ a {
 .generated-images-managment .content .select-category-form textarea,
 .generated-images-managment .content .select-category-form button {
   font-size: 14px;
-}
-
-.loading-box {
-  background-color: #263038;
-  height: 100vh;
 }
 
 .error-msg-box {

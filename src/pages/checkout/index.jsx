@@ -10,10 +10,13 @@ import global_data from "../../../public/data/global";
 import Link from "next/link";
 import LoaderPage from "@/components/LoaderPage";
 import Footer from "@/components/Footer";
+import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 
 export default function Checkout({ orderId }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
+    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
     const [allProductsData, setAllProductsData] = useState([]);
 
@@ -47,6 +50,9 @@ export default function Checkout({ orderId }) {
                         setIsLoadingPage(false);
                         await updateOrder(orderId, result.order_id);
                         renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
+                    }).catch(() => {
+                        setIsLoadingPage(false);
+                        setIsErrorMsgOnLoadingThePage(true);
                     });
             }
         }
@@ -256,14 +262,14 @@ export default function Checkout({ orderId }) {
             console.log(err);
         }
     }
-    
+
     return (
         // Start Checkout Page
         <div className="checkout">
             <Head>
                 <title>Tavlorify - Kassan</title>
             </Head>
-            {!isLoadingPage ? <>
+            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 <Header newTotalProductsCount={newTotalProductsCount} />
                 <section className="page-content pb-4">
                     {/* Start Container From Bootstrap */}
@@ -354,7 +360,9 @@ export default function Checkout({ orderId }) {
                     {allProductsData.length > 0 && <div id="my-checkout-container" className="mt-4 pa"></div>}
                 </section>
                 <Footer />
-            </> : <LoaderPage />}
+            </>}
+            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
+            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
         </div >
         // End Checkout Page
     );
