@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import Axios from "axios";
+import axios from "axios";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
 import { BsCart2 } from "react-icons/bs";
@@ -113,11 +113,11 @@ export default function Checkout({ orderId }) {
 
     const getOrderDetails = async (orderId) => {
         try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/orders/order-details/${orderId}`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/orders/order-details/${orderId}`);
             return await res.data;
         }
         catch (err) {
-            return err;
+            throw Error(err);
         }
     }
 
@@ -162,12 +162,12 @@ export default function Checkout({ orderId }) {
                     ]
                 }
                 try {
-                    const res = await Axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-klarna`, orderDetails);
+                    const res = await axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-klarna`, orderDetails);
                     const result = await res.data;
                     return result;
                 }
                 catch (err) {
-                    console.log(err);
+                    throw Error(err);
                 }
             }
         }
@@ -188,7 +188,7 @@ export default function Checkout({ orderId }) {
             }
         }
         catch (err) {
-            console.log(err);
+            throw Error(err);
         }
     }
 
@@ -207,7 +207,7 @@ export default function Checkout({ orderId }) {
                 return allProductsData;
             }
             default: {
-                console.log("Error, Wrong Operation !!");
+                throw Error("Error, Wrong Operation !!");
             }
         }
     }
@@ -224,9 +224,8 @@ export default function Checkout({ orderId }) {
             order_tax_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(newProductsData), calcTotalOrderDiscount(newProductsData)) * 100 * 0.20,
             order_lines: getOrderLinesForKlarnaCheckoutAPI(newProductsData),
         }
-        console.log(orderDetails);
         try {
-            const res = await Axios.put(`${process.env.BASE_API_URL}/orders/update-klarna-order/${orderId}`, orderDetails);
+            const res = await axios.put(`${process.env.BASE_API_URL}/orders/update-klarna-order/${orderId}`, orderDetails);
             const result = await res.data;
             localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(newProductsData));
             setAllProductsData(newProductsData);
@@ -242,7 +241,7 @@ export default function Checkout({ orderId }) {
             renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
         }
         catch (err) {
-            console.log(err);
+            throw Error(err);
         }
     }
 
@@ -252,14 +251,12 @@ export default function Checkout({ orderId }) {
 
     const updateOrder = async (orderId, klarnaOrderId) => {
         try {
-            const res = await Axios.put(`${process.env.BASE_API_URL}/orders/update-order/${orderId}`, {
+            await axios.put(`${process.env.BASE_API_URL}/orders/update-order/${orderId}`, {
                 klarnaOrderId: klarnaOrderId,
             });
-            const result = await res.data;
-            console.log(result);
         }
         catch (err) {
-            console.log(err);
+            throw Error(err);
         }
     }
 

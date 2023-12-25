@@ -302,93 +302,6 @@ export default function TextToImage({
 
     const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("");
 
-    const getAllText2ImageCategoriesData = async () => {
-        try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`);
-            const result = await res.data;
-            return result;
-        }
-        catch (err) {
-            throw Error(err);
-        }
-    }
-
-    const getAllText2ImageCategoryStylesData = async (categoriesData, categorySelectedIndex) => {
-        try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
-            const result = await res.data;
-            return result;
-        }
-        catch (err) {
-            throw Error(err);
-        }
-    }
-
-    const handleSelectProduct = async (productData) => {
-        setPaintingType(productData.paintingType);
-        setImageType(productData.position);
-        setDimentionsInCm(productData.size);
-        const dimsIndex = global_data.modelsDimentions[productData.modelName][productData.position].findIndex((el) => el.inCm == productData.size);
-        setDimentions({
-            width: global_data.modelsDimentions[productData.modelName][productData.position][dimsIndex].inPixel.width,
-            height: global_data.modelsDimentions[productData.modelName][productData.position][dimsIndex].inPixel.height,
-        });
-        setIsExistWhiteBorderWithPoster(productData.isExistWhiteBorder);
-        setFrameColor(productData.frameColor);
-        setGeneratedImagePathInMyServer(productData.generatedImageURL);
-        setTempImageType(productData.position);
-        setTempDimentionsInCm(productData.size);
-        setGeneratedImageURL(`${process.env.BASE_API_URL}/${productData.generatedImageURL}`);
-        await getProductPrice(productData.paintingType, productData.position, productData.size);
-    }
-
-    const handleSelectGeneratedImageIdAndPaintingType = (modelName) => {
-        if (generatedImageId) {
-            let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-            if (Array.isArray(allProductsData)) {
-                if (allProductsData.length > 0) {
-                    const productData = allProductsData.find((productData) => productData._id === generatedImageId && productData.service === "text-to-image");
-                    if (productData) {
-                        handleSelectProduct({
-                            modelName: modelName,
-                            ...productData,
-                        });
-                    } else {
-                        handleSelectProduct({
-                            modelName: modelName,
-                            paintingType: "poster",
-                            position: "vertical",
-                            size: "50x70",
-                            isExistWhiteBorder: "without-border",
-                            frameColor: "none",
-                            generatedImageURL: "assets/images/generatedImages/previewImageForPosterInTextToImage.png",
-                        });
-                    }
-                }
-            } else {
-                handleSelectProduct({
-                    modelName: modelName,
-                    paintingType: paintingTypeAsQuery,
-                    position: "vertical",
-                    size: "50x70",
-                    isExistWhiteBorder: "without-border",
-                    frameColor: "none",
-                    generatedImageURL: paintingTypeAsQuery === "poster" ? "assets/images/generatedImages/previewImageForPosterInTextToImage.png" : "assets/images/generatedImages/previewImageForCanvasInTextToImage.png",
-                });
-            }
-        } else {
-            handleSelectProduct({
-                modelName: modelName,
-                paintingType: paintingTypeAsQuery,
-                position: "vertical",
-                size: "50x70",
-                isExistWhiteBorder: "without-border",
-                frameColor: "none",
-                generatedImageURL: paintingTypeAsQuery === "poster" ? "assets/images/generatedImages/previewImageForPosterInTextToImage.png" : "assets/images/generatedImages/previewImageForCanvasInTextToImage.png",
-            });
-        }
-    }
-
     useEffect(() => {
         getAllText2ImageCategoriesData()
             .then(async (categoriesData) => {
@@ -418,19 +331,121 @@ export default function TextToImage({
             });
     }, []);
 
-    const handleSelectCategory = async (categoryIndex) => {
-        if (!isWaitStatus) {
-            setCategorySelectedIndex(categoryIndex);
-            const result = await getAllText2ImageCategoryStylesData(categoriesData, categoryIndex);
-            setCategoryStyles(result);
-            setStyleSelectedIndex(0);
-            const tempModelName = result[0].modelName;
-            setModelName(tempModelName);
-            const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
+    const getAllText2ImageCategoriesData = async () => {
+        try {
+            const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`);
+            const result = await res.data;
+            return result;
+        }
+        catch (err) {
+            throw Error(err);
+        }
+    }
+
+    const getAllText2ImageCategoryStylesData = async (categoriesData, categorySelectedIndex) => {
+        try {
+            const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
+            const result = await res.data;
+            return result;
+        }
+        catch (err) {
+            throw Error(err);
+        }
+    }
+
+    const handleSelectProduct = async (productData) => {
+        try {
+            setPaintingType(productData.paintingType);
+            setImageType(productData.position);
+            setDimentionsInCm(productData.size);
+            const dimsIndex = global_data.modelsDimentions[productData.modelName][productData.position].findIndex((el) => el.inCm == productData.size);
             setDimentions({
-                width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
-                height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+                width: global_data.modelsDimentions[productData.modelName][productData.position][dimsIndex].inPixel.width,
+                height: global_data.modelsDimentions[productData.modelName][productData.position][dimsIndex].inPixel.height,
             });
+            setIsExistWhiteBorderWithPoster(productData.isExistWhiteBorder);
+            setFrameColor(productData.frameColor);
+            setGeneratedImagePathInMyServer(productData.generatedImageURL);
+            setTempImageType(productData.position);
+            setTempDimentionsInCm(productData.size);
+            setGeneratedImageURL(`${process.env.BASE_API_URL}/${productData.generatedImageURL}`);
+            await getProductPrice(productData.paintingType, productData.position, productData.size);
+        }
+        catch (err) {
+            throw Error(err);
+        }
+    }
+
+    const handleSelectGeneratedImageIdAndPaintingType = async (modelName) => {
+        try {
+            if (generatedImageId) {
+                let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+                if (Array.isArray(allProductsData)) {
+                    if (allProductsData.length > 0) {
+                        const productData = allProductsData.find((productData) => productData._id === generatedImageId && productData.service === "text-to-image");
+                        if (productData) {
+                            await handleSelectProduct({
+                                modelName: modelName,
+                                ...productData,
+                            });
+                        } else {
+                            await handleSelectProduct({
+                                modelName: modelName,
+                                paintingType: "poster",
+                                position: "vertical",
+                                size: "50x70",
+                                isExistWhiteBorder: "without-border",
+                                frameColor: "none",
+                                generatedImageURL: "assets/images/generatedImages/previewImageForPosterInTextToImage.png",
+                            });
+                        }
+                    }
+                } else {
+                    await handleSelectProduct({
+                        modelName: modelName,
+                        paintingType: paintingTypeAsQuery,
+                        position: "vertical",
+                        size: "50x70",
+                        isExistWhiteBorder: "without-border",
+                        frameColor: "none",
+                        generatedImageURL: paintingTypeAsQuery === "poster" ? "assets/images/generatedImages/previewImageForPosterInTextToImage.png" : "assets/images/generatedImages/previewImageForCanvasInTextToImage.png",
+                    });
+                }
+            } else {
+                await handleSelectProduct({
+                    modelName: modelName,
+                    paintingType: paintingTypeAsQuery,
+                    position: "vertical",
+                    size: "50x70",
+                    isExistWhiteBorder: "without-border",
+                    frameColor: "none",
+                    generatedImageURL: paintingTypeAsQuery === "poster" ? "assets/images/generatedImages/previewImageForPosterInTextToImage.png" : "assets/images/generatedImages/previewImageForCanvasInTextToImage.png",
+                });
+            }
+        }
+        catch (err) {
+            throw Error(err);
+        }
+    }
+
+    const handleSelectCategory = async (categoryIndex) => {
+        try {
+            if (!isWaitStatus) {
+                setCategorySelectedIndex(categoryIndex);
+                const result = await getAllText2ImageCategoryStylesData(categoriesData, categoryIndex);
+                setCategoryStyles(result);
+                setStyleSelectedIndex(0);
+                const tempModelName = result[0].modelName;
+                setModelName(tempModelName);
+                const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
+                setDimentions({
+                    width: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.width,
+                    height: global_data.modelsDimentions[tempModelName][imageType][dimsIndex].inPixel.height,
+                });
+            }
+        }
+        catch (err) {
+            throw Error(err);
         }
     }
 
@@ -448,69 +463,84 @@ export default function TextToImage({
     }
 
     const handleSelectPaintingType = async (paintingType) => {
-        if (!isWaitStatus) {
-            if (paintingType === "canvas") {
-                setIsExistWhiteBorderWithPoster("without-border");
-                setFrameColor("none");
-            };
-            setPaintingType(paintingType);
-            await getProductPrice(paintingType, imageType, dimentionsInCm);
+        try {
+            if (!isWaitStatus) {
+                if (paintingType === "canvas") {
+                    setIsExistWhiteBorderWithPoster("without-border");
+                    setFrameColor("none");
+                };
+                setPaintingType(paintingType);
+                await getProductPrice(paintingType, imageType, dimentionsInCm);
+            }
+        }
+        catch (err) {
+            throw Error(err);
         }
     }
 
     const handleSelectImageType = async (imgType) => {
-        if (!isWaitStatus) {
-            setImageType(imgType);
-            switch (imgType) {
-                case "horizontal": {
-                    const tempDimentionsInCm = "70x50";
-                    setDimentionsInCm(tempDimentionsInCm);
-                    const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == tempDimentionsInCm);
-                    setDimentions({
-                        width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                        height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
-                    });
-                    await getProductPrice(paintingType, imgType, tempDimentionsInCm);
-                    break;
-                }
-                case "vertical": {
-                    const tempDimentionsInCm = "50x70";
-                    setDimentionsInCm(tempDimentionsInCm);
-                    const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == tempDimentionsInCm);
-                    setDimentions({
-                        width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                        height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
-                    });
-                    await getProductPrice(paintingType, imgType, tempDimentionsInCm);
-                    break;
-                }
-                case "square": {
-                    const tempDimentionsInCm = "30x30";
-                    setDimentionsInCm(tempDimentionsInCm);
-                    const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == tempDimentionsInCm);
-                    setDimentions({
-                        width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
-                        height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
-                    });
-                    await getProductPrice(paintingType, imgType, tempDimentionsInCm);
-                    break;
-                }
-                default: {
-                    console.log("error in select image position");
+        try {
+            if (!isWaitStatus) {
+                setImageType(imgType);
+                switch (imgType) {
+                    case "horizontal": {
+                        const tempDimentionsInCm = "70x50";
+                        setDimentionsInCm(tempDimentionsInCm);
+                        const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == tempDimentionsInCm);
+                        setDimentions({
+                            width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                            height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                        });
+                        await getProductPrice(paintingType, imgType, tempDimentionsInCm);
+                        break;
+                    }
+                    case "vertical": {
+                        const tempDimentionsInCm = "50x70";
+                        setDimentionsInCm(tempDimentionsInCm);
+                        const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == tempDimentionsInCm);
+                        setDimentions({
+                            width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                            height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                        });
+                        await getProductPrice(paintingType, imgType, tempDimentionsInCm);
+                        break;
+                    }
+                    case "square": {
+                        const tempDimentionsInCm = "30x30";
+                        setDimentionsInCm(tempDimentionsInCm);
+                        const dimsIndex = global_data.modelsDimentions[modelName][imgType].findIndex((el) => el.inCm == tempDimentionsInCm);
+                        setDimentions({
+                            width: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.width,
+                            height: global_data.modelsDimentions[modelName][imgType][dimsIndex].inPixel.height,
+                        });
+                        await getProductPrice(paintingType, imgType, tempDimentionsInCm);
+                        break;
+                    }
+                    default: {
+                        console.log("error in select image position");
+                    }
                 }
             }
+        }
+        catch (err) {
+            throw Error(err);
         }
     }
 
     const handleSelectImageDimentions = async (inCm) => {
-        if (!isWaitStatus) {
-            const dimsIndex = global_data.modelsDimentions[modelName][imageType].findIndex((el) => el.inCm == inCm);
-            setDimentionsInCm(inCm);
-            setDimentions({
-                width: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.width,
-                height: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.height,
-            });
-            await getProductPrice(paintingType, imageType, inCm);
+        try {
+            if (!isWaitStatus) {
+                const dimsIndex = global_data.modelsDimentions[modelName][imageType].findIndex((el) => el.inCm == inCm);
+                setDimentionsInCm(inCm);
+                setDimentions({
+                    width: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.width,
+                    height: global_data.modelsDimentions[modelName][imageType][dimsIndex].inPixel.height,
+                });
+                await getProductPrice(paintingType, imageType, inCm);
+            }
+        }
+        catch (err) {
+            throw Error(err);
         }
     }
 
@@ -521,17 +551,22 @@ export default function TextToImage({
     }
 
     const handleSelectFrame = async (paintingType, frameColor) => {
-        if (!isWaitStatus) {
-            setPaintingType(paintingType);
-            setFrameColor(frameColor);
-            await getProductPrice(paintingType, imageType, dimentionsInCm);
+        try {
+            if (!isWaitStatus) {
+                setPaintingType(paintingType);
+                setFrameColor(frameColor);
+                await getProductPrice(paintingType, imageType, dimentionsInCm);
+            }
+        }
+        catch (err) {
+            throw Error(err);
         }
     }
 
     const generatedImageWithAI = async (e) => {
-        e.preventDefault();
-        setIsWaitStatus(true);
         try {
+            e.preventDefault();
+            setIsWaitStatus(true);
             const res = await axios.get(
                 `${process.env.BASE_API_URL}/text-to-image/generate-image?service=text-to-image&textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&position=${imageType}&dimentionsInCm=${dimentionsInCm}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
                 `);
@@ -583,28 +618,33 @@ export default function TextToImage({
     }
 
     const displayPreviousGeneratedImageInsideArtPainting = async (generatedImageData, selectedImageIndex) => {
-        setTextPrompt(generatedImageData.textPrompt);
-        const tempPaintingType = generatedImageData.paintingType;
-        setPaintingType(tempPaintingType);
-        const tempPosition = generatedImageData.position;
-        setImageType(tempPosition);
-        const tempImageSize = generatedImageData.size;
-        setDimentionsInCm(tempImageSize);
-        setTempImageType(generatedImageData.position);
-        setTempDimentionsInCm(tempImageSize);
-        setDimentions({
-            width: generatedImageData.width,
-            height: generatedImageData.height,
-        });
-        setIsExistWhiteBorderWithPoster(generatedImageData.isExistWhiteBorder);
-        setFrameColor(generatedImageData.frameColor);
-        setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
-        setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
-        await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
-        setSelectedPreviousGeneratedImageIndex(selectedImageIndex);
+        try {
+            setTextPrompt(generatedImageData.textPrompt);
+            const tempPaintingType = generatedImageData.paintingType;
+            setPaintingType(tempPaintingType);
+            const tempPosition = generatedImageData.position;
+            setImageType(tempPosition);
+            const tempImageSize = generatedImageData.size;
+            setDimentionsInCm(tempImageSize);
+            setTempImageType(generatedImageData.position);
+            setTempDimentionsInCm(tempImageSize);
+            setDimentions({
+                width: generatedImageData.width,
+                height: generatedImageData.height,
+            });
+            setIsExistWhiteBorderWithPoster(generatedImageData.isExistWhiteBorder);
+            setFrameColor(generatedImageData.frameColor);
+            setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
+            setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
+            await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
+            setSelectedPreviousGeneratedImageIndex(selectedImageIndex);
+        }
+        catch (err) {
+            throw Error(err);
+        }
     }
 
-    const addToCart = async () => {
+    const addToCart = () => {
         setIsWaitAddToCart(true);
         if (tempImageType !== imageType) {
             setIsWaitAddToCart(false);

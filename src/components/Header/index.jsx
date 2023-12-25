@@ -280,7 +280,7 @@ export default function Header({ newTotalProductsCount }) {
                 break;
             }
             default: {
-                console.log("Error, Wrong Operation !!");
+                return "Error, Wrong Operation !!";
             }
         }
         let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(allProductsData);

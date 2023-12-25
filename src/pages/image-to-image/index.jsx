@@ -325,95 +325,6 @@ export default function ImageToImage({
 
     const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("");
 
-    const getAllImage2ImageCategoriesData = async () => {
-        try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`);
-            const result = await res.data;
-            return result;
-        }
-        catch (err) {
-            throw Error(err.response.data);
-        }
-    }
-
-    const getAllImage2ImageCategoryStylesData = async (categoriesData, categorySelectedIndex) => {
-        try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
-            const result = await res.data;
-            return result;
-        }
-        catch (err) {
-            throw Error(err.response.data);
-        }
-    }
-
-    const handleSelectProduct = async (productData) => {
-        setPaintingType(productData.paintingType);
-        setImageType(productData.position);
-        setDimentionsInCm(productData.size);
-        setIsExistWhiteBorderWithPoster(productData.isExistWhiteBorder);
-        setFrameColor(productData.frameColor);
-        let image = new Image();
-        image.src = `${process.env.BASE_API_URL}/${productData.generatedImageURL}`;
-        image.onload = function () {
-            const tempPaintingWidth = this.naturalWidth,
-                tempPaintingHeight = this.naturalHeight;
-            setPaintingWidth(tempPaintingWidth);
-            setPaintingHeight(tempPaintingHeight);
-            determine_is_will_the_image_be_moved_and_the_direction_of_displacement(tempPaintingWidth, tempPaintingHeight, productData.position);
-        }
-        setGeneratedImagePathInMyServer(productData.generatedImageURL);
-        setGeneratedImageURL(`${process.env.BASE_API_URL}/${productData.generatedImageURL}`);
-        await getProductPrice(productData.paintingType, productData.position, productData.size);
-    }
-
-    const handleSelectGeneratedImageIdAndPaintingType = (modelName) => {
-        if (generatedImageId) {
-            let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-            if (Array.isArray(allProductsData)) {
-                if (allProductsData.length > 0) {
-                    const productData = allProductsData.find((productData) => productData._id === generatedImageId && productData.service === "image-to-image");
-                    if (productData) {
-                        handleSelectProduct({
-                            modelName: modelName,
-                            ...productData,
-                        });
-                    } else {
-                        handleSelectProduct({
-                            modelName: modelName,
-                            paintingType: "poster",
-                            position: "vertical",
-                            size: "50x70",
-                            isExistWhiteBorder: "without-border",
-                            frameColor: "none",
-                            generatedImageURL: "assets/images/generatedImages/previewImageForPosterInImageToImage.png",
-                        });
-                    }
-                }
-            } else {
-                handleSelectProduct({
-                    modelName: modelName,
-                    paintingType: paintingTypeAsQuery,
-                    position: "vertical",
-                    size: "50x70",
-                    isExistWhiteBorder: "without-border",
-                    frameColor: "none",
-                    generatedImageURL: paintingTypeAsQuery === "poster" ? "assets/images/generatedImages/previewImageForPosterInImageToImage.png" : "assets/images/generatedImages/previewImageForPosterInImageToImage.png",
-                });
-            }
-        } else {
-            handleSelectProduct({
-                modelName: modelName,
-                paintingType: paintingTypeAsQuery,
-                position: "vertical",
-                size: "50x70",
-                isExistWhiteBorder: "without-border",
-                frameColor: "none",
-                generatedImageURL: paintingTypeAsQuery === "poster" ? "assets/images/generatedImages/previewImageForPosterInImageToImage.png" : "assets/images/generatedImages/previewImageForPosterInImageToImage.png",
-            });
-        }
-    }
-
     useEffect(() => {
         getAllImage2ImageCategoriesData()
             .then(async (categoriesData) => {
@@ -443,11 +354,110 @@ export default function ImageToImage({
             });
     }, []);
 
-    const handleSelectImageFile = async (file) => {
-        let imageToImageData = new FormData();
-        imageToImageData.append("imageFile", file);
-        setIsUplodingFile(true);
+    const getAllImage2ImageCategoriesData = async () => {
         try {
+            const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`);
+            const result = await res.data;
+            return result;
+        }
+        catch (err) {
+            throw Error(err.response.data);
+        }
+    }
+
+    const getAllImage2ImageCategoryStylesData = async (categoriesData, categorySelectedIndex) => {
+        try {
+            const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
+            const result = await res.data;
+            return result;
+        }
+        catch (err) {
+            throw Error(err.response.data);
+        }
+    }
+
+    const handleSelectProduct = async (productData) => {
+        try {
+            setPaintingType(productData.paintingType);
+            setImageType(productData.position);
+            setDimentionsInCm(productData.size);
+            setIsExistWhiteBorderWithPoster(productData.isExistWhiteBorder);
+            setFrameColor(productData.frameColor);
+            let image = new Image();
+            image.src = `${process.env.BASE_API_URL}/${productData.generatedImageURL}`;
+            image.onload = function () {
+                const tempPaintingWidth = this.naturalWidth,
+                    tempPaintingHeight = this.naturalHeight;
+                setPaintingWidth(tempPaintingWidth);
+                setPaintingHeight(tempPaintingHeight);
+                determine_is_will_the_image_be_moved_and_the_direction_of_displacement(tempPaintingWidth, tempPaintingHeight, productData.position);
+            }
+            setGeneratedImagePathInMyServer(productData.generatedImageURL);
+            setGeneratedImageURL(`${process.env.BASE_API_URL}/${productData.generatedImageURL}`);
+            await getProductPrice(productData.paintingType, productData.position, productData.size);
+        }
+        catch (err) {
+            throw Error(err);
+        }
+    }
+
+    const handleSelectGeneratedImageIdAndPaintingType = async (modelName) => {
+        try {
+            if (generatedImageId) {
+                let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+                if (Array.isArray(allProductsData)) {
+                    if (allProductsData.length > 0) {
+                        const productData = allProductsData.find((productData) => productData._id === generatedImageId && productData.service === "image-to-image");
+                        if (productData) {
+                            await handleSelectProduct({
+                                modelName: modelName,
+                                ...productData,
+                            });
+                        } else {
+                            await handleSelectProduct({
+                                modelName: modelName,
+                                paintingType: "poster",
+                                position: "vertical",
+                                size: "50x70",
+                                isExistWhiteBorder: "without-border",
+                                frameColor: "none",
+                                generatedImageURL: "assets/images/generatedImages/previewImageForPosterInImageToImage.png",
+                            });
+                        }
+                    }
+                } else {
+                    await handleSelectProduct({
+                        modelName: modelName,
+                        paintingType: paintingTypeAsQuery,
+                        position: "vertical",
+                        size: "50x70",
+                        isExistWhiteBorder: "without-border",
+                        frameColor: "none",
+                        generatedImageURL: paintingTypeAsQuery === "poster" ? "assets/images/generatedImages/previewImageForPosterInImageToImage.png" : "assets/images/generatedImages/previewImageForPosterInImageToImage.png",
+                    });
+                }
+            } else {
+                await handleSelectProduct({
+                    modelName: modelName,
+                    paintingType: paintingTypeAsQuery,
+                    position: "vertical",
+                    size: "50x70",
+                    isExistWhiteBorder: "without-border",
+                    frameColor: "none",
+                    generatedImageURL: paintingTypeAsQuery === "poster" ? "assets/images/generatedImages/previewImageForPosterInImageToImage.png" : "assets/images/generatedImages/previewImageForPosterInImageToImage.png",
+                });
+            }
+        }
+        catch (err) {
+            throw Error(err);
+        }
+    }
+
+    const handleSelectImageFile = async (file) => {
+        try {
+            let imageToImageData = new FormData();
+            imageToImageData.append("imageFile", file);
+            setIsUplodingFile(true);
             const res = await axios.post(`https://newapi.tavlorify.se/image-to-image/upload-image-and-processing`, imageToImageData, {
                 onUploadProgress: (progressEvent) => {
                     setUploadingProgress(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
@@ -476,13 +486,13 @@ export default function ImageToImage({
                 setCategorySelectedIndex(index);
                 const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[index].name}`);
                 const result = await res.data;
-                setCategoryStyles(res.data);
+                setCategoryStyles(result);
                 setStyleSelectedIndex(0);
-                const tempModelName = res.data[0].modelName;
+                const tempModelName = result[0].modelName;
                 setModelName(tempModelName);
             }
             catch (err) {
-                console.log(err);
+                throw Error(err);
             }
         }
     }
@@ -518,53 +528,62 @@ export default function ImageToImage({
                     return tempDimentionsInCm;
                 }
                 default: {
-                    console.log("Error In Select Painting Type !!");
+                    throw Error("Error In Select Painting Type !!");
                 }
             }
         }
     }
 
     const handleSelectPaintingType = async (paintingType) => {
-        if (!isWaitStatus) {
-            if (paintingType === "canvas") {
-                setIsExistWhiteBorderWithPoster("without-border");
-                setFrameColor("none");
-                switch (imageType) {
-                    case "vertical": {
-                        const tempDimentionsInCm = "50x70";
-                        setDimentionsInCm(tempDimentionsInCm);
-                        await getProductPrice(paintingType, imageType, tempDimentionsInCm);
-                        break;
-                    }
-                    case "horizontal": {
-                        const tempDimentionsInCm = "70x50";
-                        setDimentionsInCm(tempDimentionsInCm);
-                        await getProductPrice(paintingType, imageType, tempDimentionsInCm);
-                        break;
-                    }
-                    case "square": {
-                        const tempDimentionsInCm = "30x30";
-                        setDimentionsInCm(tempDimentionsInCm);
-                        await getProductPrice(paintingType, imageType, tempDimentionsInCm);
-                        break;
-                    }
-                    default: {
-                        console.log("Error In Select Painting Type !!");
+        try {
+            if (!isWaitStatus) {
+                if (paintingType === "canvas") {
+                    setIsExistWhiteBorderWithPoster("without-border");
+                    setFrameColor("none");
+                    switch (imageType) {
+                        case "vertical": {
+                            const tempDimentionsInCm = "50x70";
+                            setDimentionsInCm(tempDimentionsInCm);
+                            await getProductPrice(paintingType, imageType, tempDimentionsInCm);
+                            break;
+                        }
+                        case "horizontal": {
+                            const tempDimentionsInCm = "70x50";
+                            setDimentionsInCm(tempDimentionsInCm);
+                            await getProductPrice(paintingType, imageType, tempDimentionsInCm);
+                            break;
+                        }
+                        case "square": {
+                            const tempDimentionsInCm = "30x30";
+                            setDimentionsInCm(tempDimentionsInCm);
+                            await getProductPrice(paintingType, imageType, tempDimentionsInCm);
+                            break;
+                        }
+                        default: {
+                            console.log("Error In Select Painting Type !!");
+                        }
                     }
                 }
+                else if (paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") {
+                    await getProductPrice(paintingType, imageType, dimentionsInCm);
+                }
+                setPaintingType(paintingType);
             }
-            else if (paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") {
-                await getProductPrice(paintingType, imageType, dimentionsInCm);
-            }
-            setPaintingType(paintingType);
-
+        }
+        catch (err) {
+            throw Error(err);
         }
     }
 
     const handleSelectImageDimentions = async (inCm) => {
-        if (!isWaitStatus) {
-            setDimentionsInCm(inCm);
-            await getProductPrice(paintingType, imageType, inCm);
+        try {
+            if (!isWaitStatus) {
+                setDimentionsInCm(inCm);
+                await getProductPrice(paintingType, imageType, inCm);
+            }
+        }
+        catch (err) {
+            throw Error(err);
         }
     }
 
@@ -575,10 +594,15 @@ export default function ImageToImage({
     }
 
     const handleSelectFrame = async (paintingType, frameColor) => {
-        if (!isWaitStatus) {
-            setPaintingType(paintingType);
-            setFrameColor(frameColor);
-            await getProductPrice(paintingType, imageType, dimentionsInCm);
+        try {
+            if (!isWaitStatus) {
+                setPaintingType(paintingType);
+                setFrameColor(frameColor);
+                await getProductPrice(paintingType, imageType, dimentionsInCm);
+            }
+        }
+        catch (err) {
+            throw Error(err);
         }
     }
 
@@ -599,7 +623,7 @@ export default function ImageToImage({
                 break;
             }
             default: {
-                console.log("Error !!!");
+                throw Error("Error In Image Type !!");
             }
         }
     }
@@ -611,15 +635,15 @@ export default function ImageToImage({
     }
 
     const imageToImageGenerateByAI = async () => {
-        setPaintingWidth(null);
-        setPaintingHeight(null);
-        setIsWillTheImageBeMoved(false);
-        setTheDirectionOfImageDisplacement("");
-        setBackgroundPosition({ x: 50, y: 50 });
-        setInitialOffsetValue({ x: 0, y: 0 });
-        setIsMouseDownActivate(false);
-        setIsWaitStatus(true);
         try {
+            setPaintingWidth(null);
+            setPaintingHeight(null);
+            setIsWillTheImageBeMoved(false);
+            setTheDirectionOfImageDisplacement("");
+            setBackgroundPosition({ x: 50, y: 50 });
+            setInitialOffsetValue({ x: 0, y: 0 });
+            setIsMouseDownActivate(false);
+            setIsWaitStatus(true);
             const res = await axios.get(`https://newapi.tavlorify.se/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}&service=image-to-image&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`);
             const result = await res.data;
             const imageURL = `https://newapi.tavlorify.se/${result}`;
@@ -678,29 +702,34 @@ export default function ImageToImage({
     }
 
     const displayPreviousGeneratedImageInsideArtPainting = async (generatedImageData, selectedImageIndex) => {
-        setIsWillTheImageBeMoved(false);
-        setTheDirectionOfImageDisplacement("");
-        setBackgroundPosition({ x: 50, y: 50 });
-        setInitialOffsetValue({ x: 0, y: 0 });
-        setIsMouseDownActivate(false);
-        const tempPaintingType = generatedImageData.paintingType;
-        setPaintingType(tempPaintingType);
-        const tempPosition = generatedImageData.position;
-        setImageType(tempPosition);
-        const tempImageSize = generatedImageData.size;
-        setDimentionsInCm(tempImageSize);
-        const generatedImageWidth = generatedImageData.width,
-            generatedImageHeight = generatedImageData.height;
-        setPaintingWidth(generatedImageData.width);
-        setPaintingHeight(generatedImageData.height);
-        setIsExistWhiteBorderWithPoster(generatedImageData.isExistWhiteBorder);
-        setFrameColor(generatedImageData.frameColor);
-        determine_is_will_the_image_be_moved_and_the_direction_of_displacement(generatedImageWidth, generatedImageHeight, tempPosition);
-        setGeneratedImageURL(`https://newapi.tavlorify.se/${generatedImageData.generatedImageURL}`);
-        setImageLink(generatedImageData.uploadedImageURL);
-        setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
-        await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
-        setSelectedPreviousGeneratedImageIndex(selectedImageIndex);
+        try {
+            setIsWillTheImageBeMoved(false);
+            setTheDirectionOfImageDisplacement("");
+            setBackgroundPosition({ x: 50, y: 50 });
+            setInitialOffsetValue({ x: 0, y: 0 });
+            setIsMouseDownActivate(false);
+            const tempPaintingType = generatedImageData.paintingType;
+            setPaintingType(tempPaintingType);
+            const tempPosition = generatedImageData.position;
+            setImageType(tempPosition);
+            const tempImageSize = generatedImageData.size;
+            setDimentionsInCm(tempImageSize);
+            const generatedImageWidth = generatedImageData.width,
+                generatedImageHeight = generatedImageData.height;
+            setPaintingWidth(generatedImageData.width);
+            setPaintingHeight(generatedImageData.height);
+            setIsExistWhiteBorderWithPoster(generatedImageData.isExistWhiteBorder);
+            setFrameColor(generatedImageData.frameColor);
+            determine_is_will_the_image_be_moved_and_the_direction_of_displacement(generatedImageWidth, generatedImageHeight, tempPosition);
+            setGeneratedImageURL(`https://newapi.tavlorify.se/${generatedImageData.generatedImageURL}`);
+            setImageLink(generatedImageData.uploadedImageURL);
+            setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
+            await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
+            setSelectedPreviousGeneratedImageIndex(selectedImageIndex);
+        }
+        catch (err) {
+            throw Error(err);
+        }
     }
 
     const handleMouseDown = (e) => {
@@ -813,7 +842,7 @@ export default function ImageToImage({
                     break;
                 }
                 default: {
-                    console.log("Error !!");
+                    return "Error In Image Type !!";
                 }
             }
             try {
@@ -863,7 +892,6 @@ export default function ImageToImage({
                 }
             }
             catch (err) {
-                console.log(err);
                 setIsWaitAddToCart(false);
                 setErrorInAddToCart("Sorry, Something Went Wrong !!");
                 let errorInAddToCartTimeout = setTimeout(() => {
@@ -1182,7 +1210,7 @@ export default function ImageToImage({
             setProductPriceAfterDiscount(result.priceAfterDiscount);
         }
         catch (err) {
-            console.log(err);
+            throw Error(err);
         }
     }
 

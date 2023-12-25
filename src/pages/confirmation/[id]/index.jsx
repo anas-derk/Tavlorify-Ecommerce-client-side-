@@ -43,7 +43,7 @@ export default function Confirmation() {
             return result;
         }
         catch (err) {
-            throw Error(err.response.data);
+            throw Error(err);
         }
     }
 
