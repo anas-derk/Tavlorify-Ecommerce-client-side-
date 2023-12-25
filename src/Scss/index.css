@@ -37,9 +37,17 @@ a {
   animation: rikSpikeRoll 0.65s linear infinite alternate;
 }
 
+.loading-box {
+  height: 100vh;
+}
+
+.error-msg-on-loading-the-page {
+  min-height: calc(100vh - 59px);
+  margin-top: 59px;
+}
+
 .loading-box, .error-msg-on-loading-the-page {
   background-color: #263038;
-  height: 100vh;
 }
 
 .error-msg-on-loading-the-page .error-icon {
