@@ -846,7 +846,7 @@ export default function ImageToImage({
                 }
             }
             try {
-                const res = await axios.post(`${process.env.BASE_API_URL}/users/crop-image`, {
+                const res = await axios.post(`${process.env.BASE_API_URL}/generated-images/crop-image`, {
                     imagePath: generatedImagePathInMyServer,
                     left: left,
                     top: top,
@@ -1572,7 +1572,7 @@ export default function ImageToImage({
                                         {productPriceBeforeDiscount != productPriceAfterDiscount && <span className="text-decoration-line-through me-2">{productPriceBeforeDiscount} </span>}
                                         {productPriceBeforeDiscount != productPriceAfterDiscount && <span>kr</span>}
                                     </button>}
-                                    {isWaitAddToCart && <button className="btn btn-dark w-100 p-1 add-to-cart-managment-btn mb-3" disabled>Väntar ...</button>}
+                                    {isWaitAddToCart && <button className="btn btn-dark w-100 p-2 add-to-cart-managment-btn mb-3" disabled>Väntar ...</button>}
                                     {isSuccessAddToCart && <button className="btn btn-success w-100 p-2 add-to-cart-managment-btn mb-3" disabled>Lyckad tillsättning i varukorgen ...</button>}
                                     {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn mb-3" disabled>{errorInAddToCart}</button>}
                                     <p className="m-0 fw-bold text-center">3-5 dagars leverans • Alltid fri frakt</p>
