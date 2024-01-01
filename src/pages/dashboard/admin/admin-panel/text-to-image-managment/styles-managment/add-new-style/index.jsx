@@ -134,7 +134,6 @@ export default function AddNewCategoryStyle() {
                 }
             }
             catch (err) {
-                console.log(err);
                 setIsErrorStatus(true);
                 let errorTimeout = setTimeout(() => {
                     setIsErrorStatus(false);
