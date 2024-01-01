@@ -260,12 +260,10 @@ export default function ReturnedOrdersManager() {
             let successTimeout = setTimeout(async () => {
                 setIsSuccessStatus(false);
                 setSelectedOrderIndex(-1);
-                if (totalPagesCount > 1) {
-                    setIsFilteringOrdersStatus(true);
-                    setAllOrdersInsideThePage(await getAllOrdersInsideThePage(1, pageSize));
-                    setCurrentPage(1);
-                    setIsFilteringOrdersStatus(false);
-                } else setAllOrdersInsideThePage(allOrdersInsideThePage.filter((order) => order._id !== allOrdersInsideThePage[orderIndex]._id));
+                setIsFilteringOrdersStatus(true);
+                setAllOrdersInsideThePage(await getAllOrdersInsideThePage(1, pageSize));
+                setCurrentPage(1);
+                setIsFilteringOrdersStatus(false);
                 setIsFilteringOrdersStatus(false);
                 clearTimeout(successTimeout);
             }, 3000);
@@ -411,7 +409,7 @@ export default function ReturnedOrdersManager() {
                                                 </td>
                                                 <td>{getDateFormated(order.added_date)}</td>
                                                 <td>
-                                                    {!isUpdatingStatus && !isDeletingStatus && orderIndex !== selectedOrderIndex && <button
+                                                    {!isUpdatingStatus && !isDeletingStatus && !order.isDeleted && orderIndex !== selectedOrderIndex && <button
                                                         className="btn btn-info d-block mx-auto mb-3"
                                                         onClick={() => updateReturnedOrderData(orderIndex)}
                                                     >
@@ -429,17 +427,23 @@ export default function ReturnedOrdersManager() {
                                                     >
                                                         Success
                                                     </button>}
-                                                    {!isUpdatingStatus && !isDeletingStatus && orderIndex !== selectedOrderIndex && <button
+                                                    {!isUpdatingStatus && !isDeletingStatus && !order.isDeleted && orderIndex !== selectedOrderIndex && <button
                                                         className="btn btn-danger d-block mx-auto mb-3"
                                                         onClick={() => deleteReturnedOrder(orderIndex)}
                                                     >
                                                         Delete
                                                     </button>}
-                                                    {isDeletingStatus && orderIndex === selectedOrderIndex && <button
+                                                    {isDeletingStatus && !order.isDeleted && orderIndex === selectedOrderIndex && <button
                                                         className="btn btn-danger d-block mx-auto mb-3"
                                                         disabled
                                                     >
                                                         Deleting ...
+                                                    </button>}
+                                                    {order.isDeleted && <button
+                                                        className="btn btn-danger d-block mx-auto mb-3"
+                                                        disabled
+                                                    >
+                                                        Deleted Successful
                                                     </button>}
                                                     {isErrorStatus && orderIndex === selectedOrderIndex && <button
                                                         className="btn btn-danger d-block mx-auto mb-3"
