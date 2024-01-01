@@ -6,10 +6,13 @@ import axios from "axios";
 import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 import Link from "next/link";
 import LoaderPage from "@/components/LoaderPage";
+import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 
 export default function OrdersManagment() {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
+    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
     const [allOrdersInsideThePage, setAllOrdersInsideThePage] = useState([]);
 
@@ -57,6 +60,9 @@ export default function OrdersManagment() {
                         setTotalPagesCount(Math.ceil(result / pageSize));
                     }
                     setIsLoadingPage(false);
+                }).catch(() => {
+                    setIsLoadingPage(false);
+                    setIsErrorMsgOnLoadingThePage(true);
                 });
         }
     }, []);
@@ -293,7 +299,7 @@ export default function OrdersManagment() {
             <Head>
                 <title>Tavlorify Store - Orders Managment</title>
             </Head>
-            {!isLoadingPage ? <>
+            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 {/* Start Control Panel Header */}
                 <ControlPanelHeader />
                 {/* End Control Panel Header */}
@@ -480,7 +486,9 @@ export default function OrdersManagment() {
                     </div>
                 </section>
                 {/* End Content Section */}
-            </> : <LoaderPage />}
+            </>}
+            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
+            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
         </div>
     );
 }

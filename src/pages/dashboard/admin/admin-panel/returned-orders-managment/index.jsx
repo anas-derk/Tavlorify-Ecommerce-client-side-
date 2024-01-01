@@ -56,6 +56,9 @@ export default function ReturnedOrdersManager() {
                         setTotalPagesCount(Math.ceil(result / pageSize));
                     }
                     setIsLoadingPage(false);
+                }).catch(() => {
+                    setIsLoadingPage(false);
+                    setIsErrorMsgOnLoadingThePage(true);
                 });
         }
     }, []);
