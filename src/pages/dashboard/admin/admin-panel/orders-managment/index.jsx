@@ -433,7 +433,7 @@ export default function OrdersManagment() {
                                                 </td>
                                                 <td>{getDateFormated(order.added_date)}</td>
                                                 <td>
-                                                    {!isUpdatingStatus && !isDeletingStatus && orderIndex !== selectedOrderIndex && <button
+                                                    {!isUpdatingStatus && !isDeletingStatus && !order.isDeleted && orderIndex !== selectedOrderIndex && <button
                                                         className="btn btn-info d-block mx-auto mb-3"
                                                         onClick={() => updateOrderData(orderIndex)}
                                                     >
@@ -451,17 +451,23 @@ export default function OrdersManagment() {
                                                     >
                                                         Success
                                                     </button>}
-                                                    {!isUpdatingStatus && !isDeletingStatus && orderIndex !== selectedOrderIndex && <button
+                                                    {!isUpdatingStatus && !isDeletingStatus && !order.isDeleted && orderIndex !== selectedOrderIndex && <button
                                                         className="btn btn-danger d-block mx-auto mb-3"
                                                         onClick={() => deleteOrder(orderIndex)}
                                                     >
                                                         Delete
                                                     </button>}
-                                                    {isDeletingStatus && orderIndex === selectedOrderIndex && <button
+                                                    {isDeletingStatus && !order.isDeleted && orderIndex === selectedOrderIndex && <button
                                                         className="btn btn-danger d-block mx-auto mb-3"
                                                         disabled
                                                     >
                                                         Deleting ...
+                                                    </button>}
+                                                    {order.isDeleted && <button
+                                                        className="btn btn-danger d-block mx-auto mb-3"
+                                                        disabled
+                                                    >
+                                                        Deleted Successful
                                                     </button>}
                                                     {isErrorStatus && orderIndex === selectedOrderIndex && <button
                                                         className="btn btn-danger d-block mx-auto mb-3"
