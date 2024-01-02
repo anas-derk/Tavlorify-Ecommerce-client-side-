@@ -1,15 +1,20 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
-import Axios from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 import LoaderPage from "@/components/LoaderPage";
+import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 
 export default function GeneratedImagesManagment({ pageName }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [allGeneratedImagesData, setAllGeneratedImagesData] = useState([]);
+    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
+
+    const [allGeneratedImagesDataInsideThePage, setAllGeneratedImagesDataInsideThePage] = useState([]);
+
+    const [isFilteringOrdersStatus, setIsFilteringOrdersStatus] = useState(false);
 
     const [selectedImageIndexForDownload, setSelectedImageIndexForDownload] = useState(-1);
 
@@ -25,37 +30,48 @@ export default function GeneratedImagesManagment({ pageName }) {
 
     const [totalPagesCount, setTotalPagesCount] = useState(0);
 
-    const [currentSliceFromGeneratedImageDataList, setCurrentSliceFromGeneratedImageDataList] = useState([]);
-    
     const [pageNumber, setPageNumber] = useState(0);
 
-    const pageSize = 3;
+    const pageSize = 5;
 
     useEffect(() => {
-        setAllGeneratedImagesData([]);
+        setAllGeneratedImagesDataInsideThePage([]);
         setTotalPagesCount(0);
-        setCurrentSliceFromGeneratedImageDataList([]);
-        getAllGeneratedImagesData()
-            .then((result) => {
-                if (result.length > 0) {
-                    setAllGeneratedImagesData(result);
-                    setTotalPagesCount(Math.ceil(result.length / pageSize));
-                    getCurrentSliceFromGeneratedImageDataList(currentPage, result);
-                    setIsLoadingPage(false);
+        getGeneratedImagesDataCount(pageName)
+            .then(async (result) => {
+                if (result > 0) {
+                    const result1 = await getAllGeneratedImagesDataInsideThePage(1, pageSize);
+                    setAllGeneratedImagesDataInsideThePage(result1);
+                    setTotalPagesCount(Math.ceil(result / pageSize));
                 }
+                setIsLoadingPage(false);
+            }).catch((err) => {
+                setIsLoadingPage(false);
+                setIsErrorMsgOnLoadingThePage(true);
             });
     }, [pageName]);
 
-    const getAllGeneratedImagesData = async () => {
+    const getGeneratedImagesDataCount = async (service) => {
         try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/generated-images/specific-generated-images-data?service=${pageName}`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/generated-images/generated-images-count?service=${service}`);
+            return await res.data;
+        }
+        catch (err) {
+            throw Error(err);
+        }
+    }
+
+    const getAllGeneratedImagesDataInsideThePage = async (pageNumber, pageSize) => {
+        try {
+            const res = await axios.get(`${process.env.BASE_API_URL}/generated-images/all-generated-images-inside-the-page?service=${pageName}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
             const result = await res.data;
             return result;
         }
         catch (err) {
-            console.log(err);
+            throw Error(err);
         }
     }
+
     const getDateFormated = (generateDate) => {
         let generateDateInDateFormat = new Date(generateDate);
         const year = generateDateInDateFormat.getFullYear();
@@ -64,12 +80,13 @@ export default function GeneratedImagesManagment({ pageName }) {
         generateDateInDateFormat = `${year} / ${month} / ${day}`;
         return generateDateInDateFormat;
     }
+
     const downloadImage = async (URL, imageType, selectedImageIndexForDownload) => {
         try {
             setSelectedImageIndexForDownload(selectedImageIndexForDownload);
             if (imageType === "uploaded-image") setIsDownloadUploadedImage(true);
             else setIsDownloadGeneratedImage(true);
-            const res = await Axios.get(URL, { responseType: "blob" });
+            const res = await axios.get(URL, { responseType: "blob" });
             const imageAsBlob = await res.data;
             const localURL = window.URL.createObjectURL(imageAsBlob);
             const tempAnchorLink = document.createElement("a");
@@ -82,14 +99,14 @@ export default function GeneratedImagesManagment({ pageName }) {
             if (imageType === "uploaded-image") setIsDownloadUploadedImage(false);
             else setIsDownloadGeneratedImage(false);
             setSelectedImageIndexForDownload(-1);
-            console.log(err);
         }
     }
+
     const deleteGeneratedImageData = async (index) => {
         try {
             setIsDeleteGeneratedImageData(true);
             setSelectedGeneratedImageDataIndexForDelete(index);
-            const res = await Axios.delete(`${process.env.BASE_API_URL}/generated-images/generated-image-data/${generatedImagesData[index]._id}`);
+            const res = await axios.delete(`${process.env.BASE_API_URL}/generated-images/generated-image-data/${generatedImagesData[index]._id}`);
             const result = await res.data;
             console.log(result);
             setIsDeleteGeneratedImageData(false);
@@ -101,25 +118,25 @@ export default function GeneratedImagesManagment({ pageName }) {
         }
         catch (err) {
             setSelectedGeneratedImageDataIndexForDelete(-1);
-            console.log(err);
         }
     }
-    const getCurrentSliceFromGeneratedImageDataList = (currentPage, allGeneratedImagesData) => {
-        setCurrentPage(currentPage);
-        const startPageIndex = (currentPage - 1) * pageSize;
-        const endPageIndex = startPageIndex + pageSize;
-        setCurrentSliceFromGeneratedImageDataList(allGeneratedImagesData.slice(startPageIndex, endPageIndex));
-    }
-    const getPreviousPage = () => {
+
+    const getPreviousPage = async () => {
+        setIsFilteringOrdersStatus(true);
         const newCurrentPage = currentPage - 1;
+        setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(newCurrentPage, pageSize));
         setCurrentPage(newCurrentPage);
-        getCurrentSliceFromGeneratedImageDataList(newCurrentPage, allGeneratedImagesData);
+        setIsFilteringOrdersStatus(false);
     }
-    const getNextPage = () => {
+
+    const getNextPage = async () => {
+        setIsFilteringOrdersStatus(true);
         const newCurrentPage = currentPage + 1;
+        setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(newCurrentPage, pageSize));
         setCurrentPage(newCurrentPage);
-        getCurrentSliceFromGeneratedImageDataList(newCurrentPage, allGeneratedImagesData);
+        setIsFilteringOrdersStatus(false);
     }
+
     const paginationBar = () => {
         const paginationButtons = [];
         for (let i = 1; i <= totalPagesCount; i++) {
@@ -128,7 +145,12 @@ export default function GeneratedImagesManagment({ pageName }) {
                     <button
                         key={i}
                         className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === i ? "selection" : ""} ${i === 1 ? "ms-3" : ""}`}
-                        onClick={() => getCurrentSliceFromGeneratedImageDataList(i, allGeneratedImagesData)}
+                        onClick={async () => {
+                            setIsFilteringOrdersStatus(true);
+                            setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(i, pageSize));
+                            setCurrentPage(i);
+                            setIsFilteringOrdersStatus(false);
+                        }}
                     >
                         {i}
                     </button>
@@ -143,7 +165,12 @@ export default function GeneratedImagesManagment({ pageName }) {
                 <button
                     key={totalPagesCount}
                     className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === totalPagesCount ? "selection" : ""}`}
-                    onClick={() => getCurrentSliceFromGeneratedImageDataList(totalPagesCount, allGeneratedImagesData)}
+                    onClick={async () => {
+                        setIsFilteringOrdersStatus(true);
+                        setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(pageNumber, pageSize));
+                        setCurrentPage(pageNumber);
+                        setIsFilteringOrdersStatus(false);
+                    }}
                 >
                     {totalPagesCount}
                 </button>
@@ -162,10 +189,13 @@ export default function GeneratedImagesManagment({ pageName }) {
                 />}
                 <span className="current-page-number-and-count-of-pages p-2 ps-3 pe-3 bg-secondary text-white me-3">The Page {currentPage} of {totalPagesCount} Pages</span>
                 <form
-                    className="navigate-to-specific-page w-25"
-                    onSubmit={(e) => {
+                    className="navigate-to-specific-page-form w-25"
+                    onSubmit={async (e) => {
                         e.preventDefault();
-                        getCurrentSliceFromGeneratedImageDataList(pageNumber, allGeneratedImagesData);
+                        setIsFilteringOrdersStatus(true);
+                        setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(pageNumber, pageSize));
+                        setCurrentPage(pageNumber);
+                        setIsFilteringOrdersStatus(false);
                     }}
                 >
                     <input
@@ -184,14 +214,14 @@ export default function GeneratedImagesManagment({ pageName }) {
     return (
         <div className="generated-images-managment">
             <Head>
-                <title>Tavlorify Store - Generated Images Data Managment</title>
+                <title>Tavlorify Store - {pageName} Generated Images Data Managment</title>
             </Head>
-            {!isLoadingPage ? <>
+            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 <ControlPanelHeader />
                 <div className="content text-center pt-4 pb-4">
                     <div className="container-fluid">
                         <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Generated Images Data Managment For {pageName} Page</h1>
-                        {currentSliceFromGeneratedImageDataList.length > 0 && <div className="generated-images-data-box p-3 mb-2 data-box">
+                        {allGeneratedImagesDataInsideThePage.length && !isFilteringOrdersStatus > 0 && <div className="generated-images-data-box p-3 mb-2 data-box">
                             <table className="generated-images-data-tabel data-table">
                                 <thead>
                                     <tr>
@@ -207,7 +237,7 @@ export default function GeneratedImagesManagment({ pageName }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {currentSliceFromGeneratedImageDataList.map((generatedImageData, index) => (
+                                    {allGeneratedImagesDataInsideThePage.map((generatedImageData, index) => (
                                         <tr key={index}>
                                             <td className="fw-bold">{index + 1}</td>
                                             {pageName === "image-to-image" && <td className="uploaded-image-cell">
@@ -281,11 +311,16 @@ export default function GeneratedImagesManagment({ pageName }) {
                                 </tbody>
                             </table>
                         </div>}
-                        {allGeneratedImagesData.length == 0 && <p className="alert alert-danger">Sorry, Can't Find Any Generated Images !!</p>}
-                        {totalPagesCount > 0 && paginationBar()}
+                        {allGeneratedImagesDataInsideThePage.length == 0 && <p className="alert alert-danger">Sorry, Can't Find Any Generated Images !!</p>}
+                        {isFilteringOrdersStatus && <div className="loader-table-box d-flex flex-column align-items-center justify-content-center">
+                            <span className="loader-table-data"></span>
+                        </div>}
+                        {totalPagesCount > 0 && !isFilteringOrdersStatus && paginationBar()}
                     </div>
                 </div>
-            </> : <LoaderPage />}
+            </>}
+            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
+            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
         </div>
     );
 }
