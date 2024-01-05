@@ -7,9 +7,11 @@ import Footer from "@/components/Footer";
 
 export default function TermsAndConditionsOfSale() {
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
     useEffect(() => {
         setIsLoadingPage(false);
     }, []);
+    
     return (
         <div className="terms-and-conditions-of-sale policy-page">
             <Head>

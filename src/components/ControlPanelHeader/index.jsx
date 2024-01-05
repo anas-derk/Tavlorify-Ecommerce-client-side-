@@ -3,11 +3,14 @@ import { GoSignOut } from "react-icons/go";
 import { useRouter } from "next/router.js";
 
 export default function ControlPanelHeader(){
+
     const router = useRouter();
+
     const signOut = () => {
         localStorage.removeItem("tavlorify-store-admin-id");
         router.push("/dashboard/admin/login");
     }
+    
     return (
         <header className="control-panel-header">
             <nav className="navbar navbar-expand-lg bg-body-tertiary">

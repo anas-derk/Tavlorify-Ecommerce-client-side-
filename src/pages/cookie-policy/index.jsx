@@ -6,10 +6,13 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 
 export default function CookiePolicy() {
+
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
     useEffect(() => {
         setIsLoadingPage(false);
     }, []);
+    
     return (
         <div className="cookie-policy policy-page">
             <Head>

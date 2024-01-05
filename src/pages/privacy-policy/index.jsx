@@ -4,10 +4,13 @@ import Header from "@/components/Header";
 import LoaderPage from "@/components/LoaderPage";
 
 export default function PrivacyPolicy() {
+
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
     useEffect(() => {
         setIsLoadingPage(false);
     }, []);
+    
     return (
         <div className="privacy-policy policy-page">
             <Head>

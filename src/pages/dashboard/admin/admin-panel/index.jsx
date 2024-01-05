@@ -6,8 +6,11 @@ import ControlPanelHeader from "@/components/ControlPanelHeader";
 import LoaderPage from "@/components/LoaderPage";
 
 export default function AdminPanel() {
+
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
     const router = useRouter();
+
     useEffect(() => {
         const adminId = localStorage.getItem("tavlorify-store-admin-id");
         if (!adminId) {
@@ -16,6 +19,7 @@ export default function AdminPanel() {
             setIsLoadingPage(false);
         }
     }, []);
+    
     return (
         <div className="admin-panel">
             <Head>

@@ -14,19 +14,29 @@ import axios from "axios";
 import { MdOutlineContactPhone } from "react-icons/md";
 
 export default function Header({ newTotalProductsCount }) {
+
     const [allProductsData, setAllProductsData] = useState([]);
+
     const [totalProductsCount, setTotalProductsCount] = useState(null);
+
     const [isDisplayAllProductManagmentBox, setIsDisplayAllProductManagmentBox] = useState(false);
+
     const [isDisplayAllLinksBox, setIsDisplayAllLinksBox] = useState(false);
+
     const [displayingTheCustomDropdownMenuNames, setDisplayingTheCustomDropdownMenuNames] = useState([]);
+
     const [pricesDetailsSummary, setPricesDetailsSummary] = useState({
         totalPriceBeforeDiscount: 0,
         totalDiscount: 0,
         totalPriceAfterDiscount: 0,
     });
+
     const [isCreatingOrder, setIsCreatingOrder] = useState(false);
+
     const [isExistErrorInCreatingOrder, setIsExistErrorInCreatingOrder] = useState(false);
+
     const router = useRouter();
+
     useEffect(() => {
         const allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
         if (Array.isArray(allProductsData)) {
@@ -37,6 +47,7 @@ export default function Header({ newTotalProductsCount }) {
             setTotalProductsCount(0);
         }
     }, [newTotalProductsCount]);
+
     const getCartManagmentBoxInMediumScreensAndHigher = () => {
         return (
             <div className="cart-managment-box-in-medium-screens-and-higher cart-managment-box pb-3 ps-3 pe-3">
@@ -132,6 +143,7 @@ export default function Header({ newTotalProductsCount }) {
             </div>
         );
     }
+
     const getCartManagmentBoxInMobileScreens = () => {
         return (
             <div className="cart-managment-box-in-mobile-screens cart-managment-box pb-3 ps-2 pe-2">
@@ -229,6 +241,7 @@ export default function Header({ newTotalProductsCount }) {
             </div>
         );
     }
+
     const handleDisplayOrHideAllProductManagmentBox = () => {
         if (isDisplayAllProductManagmentBox) setIsDisplayAllProductManagmentBox(false);
         else {
@@ -248,6 +261,7 @@ export default function Header({ newTotalProductsCount }) {
             }
         }
     }
+
     const calcTotalOrderPriceBeforeDiscount = (allProductsData) => {
         let tempTotalPriceBeforeDiscount = 0;
         allProductsData.forEach((product) => {
@@ -255,6 +269,7 @@ export default function Header({ newTotalProductsCount }) {
         });
         return tempTotalPriceBeforeDiscount;
     }
+
     const calcTotalOrderDiscount = (allProductsData) => {
         let tempTotalDiscount = 0;
         allProductsData.forEach((product) => {
@@ -262,9 +277,11 @@ export default function Header({ newTotalProductsCount }) {
         });
         return tempTotalDiscount;
     }
+
     const calcTotalOrderPriceAfterDiscount = (totalPriceBeforeDiscount, totalDiscount) => {
         return totalPriceBeforeDiscount - totalDiscount;
     }
+
     const updateProductQuantityInCart = (allProductsData, operation, productId) => {
         switch (operation) {
             case "increase-product-quantity": {
@@ -295,6 +312,7 @@ export default function Header({ newTotalProductsCount }) {
         });
         setAllProductsData(allProductsData);
     }
+
     const deleteProductFromCart = (allProductsData, productId) => {
         let newAllProductData = allProductsData.filter((product) => product._id != productId);
         let totalPriceBeforeDiscount = calcTotalOrderPriceBeforeDiscount(newAllProductData);
@@ -310,6 +328,7 @@ export default function Header({ newTotalProductsCount }) {
         setAllProductsData(newAllProductData);
         setTotalProductsCount(newAllProductData.length);
     }
+
     const createNewOrder = async () => {
         try {
             setIsCreatingOrder(true);
@@ -327,6 +346,7 @@ export default function Header({ newTotalProductsCount }) {
             }, 1500);
         }
     }
+    
     return (
         // Start Global Header
         <header className="global-header">
