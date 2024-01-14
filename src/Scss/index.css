@@ -711,7 +711,7 @@ a {
 
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list,
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list {
-  grid-template-columns: repeat(9, 100px);
+  grid-template-columns: repeat(9, 110px);
   grid-auto-flow: column;
 }
 
@@ -732,6 +732,16 @@ a {
   border-radius: 50%;
   width: 70px;
   margin-bottom: 10px;
+}
+
+.text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list span h6,
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list span h6 {
+  text-transform: lowercase;
+}
+
+.text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list span h6::first-letter,
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list span h6::first-letter {
+  text-transform: uppercase;
 }
 
 .text-to-image-service .page-content .container-fluid .row .room-image-box,

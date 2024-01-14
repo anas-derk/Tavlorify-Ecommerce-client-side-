@@ -1482,7 +1482,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalBlackFrameCornerImage.src} alt="Black Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM Svart</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM SVART</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1492,7 +1492,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalWhiteFrameCornerImage.src} alt="White Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM Vit</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM VIT</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1502,7 +1502,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalWoodFrameCornerImage.src} alt="Wood Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM Naturlig</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM NATURLIG</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1542,7 +1542,7 @@ export default function ImageToImage({
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerWoodFrameCornerImage.src} alt="Wood Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold">POSTERHÄNGARE Naturligt TRÄ</h6>
+                                                    <h6 className="frame-color d-block fw-bold">POSTERHÄNGARE NATURLIGT TRÄ</h6>
                                                 </span>
                                             </li>
                                             <li

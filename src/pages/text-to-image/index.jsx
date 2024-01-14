@@ -300,7 +300,7 @@ export default function TextToImage({
 
     const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(false);
 
-    const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("");
+    const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("style-options");
 
     useEffect(() => {
         getAllText2ImageCategoriesData()
@@ -1044,24 +1044,6 @@ export default function TextToImage({
                                     {/* Start Generating Image Options Section */}
                                     {/* Start Displaying Art Painting Options Section */}
                                     <section className="displaying-art-painting-options">
-                                        {/* Start Art Names List */}
-                                        <ul className="art-names-list d-flex flex-wrap mb-3">
-                                            <li
-                                                className="p-2 pe-3 ps-3"
-                                                onClick={() => handleSelectPaintingType("poster")}
-                                                style={(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
-                                            >
-                                                POSTERS
-                                            </li>
-                                            <li
-                                                className="p-2 pe-3 ps-3"
-                                                onClick={() => handleSelectPaintingType("canvas")}
-                                                style={paintingType === "canvas" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
-                                            >
-                                                CANVASTAVLOR
-                                            </li>
-                                        </ul>
-                                        {/* EndArt Names List */}
                                         <h6 className="fw-bold option-section-name text-uppercase">formatet</h6>
                                         {/* Start Positions List */}
                                         <ul className="positions-list text-center pb-3 art-painting-options-list">
@@ -1092,6 +1074,24 @@ export default function TextToImage({
                                             <button className="btn btn-dark w-50 d-block mx-auto generate-image-btn mb-3" onClick={generatedImageWithAI}>skapa</button>
                                         }
                                         {isWaitStatus && <button className="btn btn-dark w-50 d-block mx-auto mb-3" disabled>skapar ...</button>}
+                                        {/* Start Art Names List */}
+                                        <ul className="art-names-list d-flex flex-wrap mb-3">
+                                            <li
+                                                className="p-2 pe-3 ps-3"
+                                                onClick={() => handleSelectPaintingType("poster")}
+                                                style={(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
+                                            >
+                                                POSTERS
+                                            </li>
+                                            <li
+                                                className="p-2 pe-3 ps-3"
+                                                onClick={() => handleSelectPaintingType("canvas")}
+                                                style={paintingType === "canvas" ? { fontWeight: "bold", borderBottom: "3px solid #000", backgroundColor: "#EEE" } : {}}
+                                            >
+                                                CANVASTAVLOR
+                                            </li>
+                                        </ul>
+                                        {/* EndArt Names List */}
                                         <h6 className="fw-bold option-section-name text-uppercase">Storlek</h6>
                                         {/* Start Sizes List */}
                                         <ul className="sizes-list text-center pb-3 art-painting-options-list">
@@ -1152,7 +1152,7 @@ export default function TextToImage({
                                                     style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalBlackFrameCornerImage.src} alt="Black Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2 text-">Traram svart</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2 text-">TRÄRAM SVART</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1162,7 +1162,7 @@ export default function TextToImage({
                                                     style={(frameColor === "white" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalWhiteFrameCornerImage.src} alt="White Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Traram vit</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM VIT</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1172,7 +1172,7 @@ export default function TextToImage({
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalWoodFrameCornerImage.src} alt="Wood Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Traram naturlig</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM NATURLIG</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1182,7 +1182,7 @@ export default function TextToImage({
                                                     style={(frameColor === "dark-wood" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalDarkWoodFrameCornerImage.src} alt="Dark Wood Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Traram mork</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM MÖRK</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1192,7 +1192,7 @@ export default function TextToImage({
                                                     style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerBlackFrameCornerImage.src} alt="Black Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Posterhangare svart</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">POSTERHANGÄRE SVART</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1202,7 +1202,7 @@ export default function TextToImage({
                                                     style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerWhiteFrameCornerImage.src} alt="White Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Posterhangare vit</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">Posterhangare VIT</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1212,7 +1212,7 @@ export default function TextToImage({
                                                     style={(frameColor === "natural-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerWoodFrameCornerImage.src} alt="Wood Frame With Hangers Image" width="50" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold">Posterhangare naturligt tra</h6>
+                                                    <h6 className="frame-color d-block fw-bold">POSTERHÄNGARE NATURLIGT TRÄ</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1222,7 +1222,7 @@ export default function TextToImage({
                                                     style={(frameColor === "dark-wood" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerDarkWoodFrameCornerImage.src} alt="Dark Wood Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Posterhangare mork</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">POSTERHÄNGARE MÖRK</h6>
                                                 </span>
                                             </li>
                                         </ul>}

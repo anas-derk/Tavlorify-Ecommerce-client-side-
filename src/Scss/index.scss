@@ -394,7 +394,7 @@ a{
                             grid-template-columns: repeat(2, auto);
                         }
                         .frames-list{
-                            grid-template-columns: repeat(9, 100px);
+                            grid-template-columns: repeat(9, 110px);
                             grid-auto-flow: column;
                             @media(max-width: 991px){
                                 grid-template-columns: repeat(9, 75px);
@@ -405,6 +405,12 @@ a{
                                     border-radius: 50%;
                                     width: 70px;
                                     margin-bottom: 10px;
+                                }
+                                h6{
+                                    text-transform: lowercase;
+                                    &::first-letter{
+                                        text-transform: uppercase;
+                                    }
                                 }
                             }
                         }
