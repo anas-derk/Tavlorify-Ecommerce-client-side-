@@ -7,6 +7,10 @@
   max-width: 100%;
 }
 
+.text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .text-prompt-caption {
+  line-height: 1.7;
+}
+
 .text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .text-prompt {
   resize: none;
   height: 60px;

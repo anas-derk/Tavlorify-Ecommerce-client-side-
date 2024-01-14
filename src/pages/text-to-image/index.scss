@@ -14,6 +14,9 @@
             }
             .art-painting-options{
                 .generating-image-options{
+                    .text-prompt-caption{
+                        line-height: 1.7;
+                    }
                     .text-prompt{
                         resize: none;
                         height: 60px;

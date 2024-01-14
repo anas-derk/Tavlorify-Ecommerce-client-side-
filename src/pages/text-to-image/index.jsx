@@ -70,7 +70,7 @@ export default function TextToImage({
 
     const [windowInnerWidth, setWindowInnerWidth] = useState(149);
 
-    const [textPrompt, setTextPrompt] = useState("a dog");
+    const [textPrompt, setTextPrompt] = useState("En flicka flyger med ett färgglatt paraply i himlen");
 
     const [generatedImageURL, setGeneratedImageURL] = useState("");
 
@@ -317,13 +317,6 @@ export default function TextToImage({
                     setWindowInnerWidth(this.innerWidth);
                 });
                 setIsLoadingPage(false);
-                setTimeout(() => {
-                    window.scrollTo({
-                        behavior: "smooth",
-                        top: 80,
-                        left: 0,
-                    });
-                }, 500);
             })
             .catch(() => {
                 setIsLoadingPage(false);
@@ -917,7 +910,7 @@ export default function TextToImage({
                 <div className="page-content">
                     {/* Start Container */}
                     <div className="container-fluid pt-2 pb-4">
-                        <h1 className="text-center mb-4 welcome-msg pb-3">Använd Vårt designerverktyg och enkla textmeddelanden för att skapa din vackra tavla. <br /> Skriv ner dina idéer och se din vision förvandlas till ett livfullt och vackert konstverk.</h1>
+                        <h1 className="text-center mb-4 welcome-msg pb-3">Använd vårt AI-verktyg med enkla textmeddelanden för att skapa din vackra tavla.</h1>
                         {/* Start Grid System */}
                         <div className="row">
                             {/* Start Column */}
@@ -956,10 +949,10 @@ export default function TextToImage({
                                 <section className="art-painting-options pe-3 mb-3">
                                     {/* Start Generating Image Options Section */}
                                     <section className="generating-image-options">
-                                        <h6 className="mb-2 fw-bold option-section-name">Skriv ner din text</h6>
+                                        <h6 className="mb-2 fw-bold option-section-name text-prompt-caption">Skriv ner dina idéer och se din vision omvandlas till ett livfullt och vackert konstverk .</h6>
                                         <textarea
                                             type="text"
-                                            placeholder="a dog riding a bicycle"
+                                            placeholder="Var god skriv bildtexten"
                                             className="form-control mb-3 text-prompt"
                                             onChange={(e) => setTextPrompt(e.target.value.trim())}
                                             value={textPrompt}
