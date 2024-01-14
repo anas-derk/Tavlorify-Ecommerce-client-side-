@@ -701,7 +701,16 @@ a {
 
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list span,
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list span {
+  position: relative;
   height: 70px;
+}
+
+.text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list .popular-box,
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list .popular-box {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .white-borders-list,

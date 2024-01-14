@@ -387,7 +387,14 @@ a{
                         .sizes-list{
                             grid-template-columns: repeat(4, auto);
                             span{
+                                position: relative;
                                 height: 70px;
+                            }
+                            .popular-box{
+                                position: absolute;
+                                top: 5px;
+                                left: 50%;
+                                transform: translateX(-50%);
                             }
                         }
                         .white-borders-list{

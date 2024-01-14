@@ -910,7 +910,11 @@ export default function TextToImage({
                 <div className="page-content">
                     {/* Start Container */}
                     <div className="container-fluid pt-2 pb-4">
-                        <h1 className="text-center mb-4 welcome-msg pb-3">Använd vårt AI-verktyg med enkla textmeddelanden för att skapa din vackra tavla.</h1>
+                        <h1 className="text-center mb-4 welcome-msg pb-3">
+                            <span>Använd vårt AI-verktyg med enkla textmeddelanden för att skapa din vackra tavla.</span>
+                            <br />
+                            <span>Skriv ner dina idéer och se din vision omvandlas till ett livfullt och vackert konstverk.</span>
+                        </h1>
                         {/* Start Grid System */}
                         <div className="row">
                             {/* Start Column */}
@@ -949,7 +953,7 @@ export default function TextToImage({
                                 <section className="art-painting-options pe-3 mb-3">
                                     {/* Start Generating Image Options Section */}
                                     <section className="generating-image-options">
-                                        <h6 className="mb-2 fw-bold option-section-name text-prompt-caption">Skriv ner dina idéer och se din vision omvandlas till ett livfullt och vackert konstverk .</h6>
+                                        <h6 className="mb-2 fw-bold option-section-name text-prompt-caption">beskriv vad du vill se i ditt konstverk</h6>
                                         <textarea
                                             type="text"
                                             placeholder="Var god skriv bildtexten"
@@ -1002,7 +1006,7 @@ export default function TextToImage({
                                                 className="section-name-and-control-arrows d-flex justify-content-between align-items-center mb-0"
                                                 onClick={() => setAppearedArtPaintingOptionSection(value => value === "style-options" ? "" : "style-options")}
                                             >
-                                                <h6 className="m-0 fw-bold option-section-name">Välj en stil</h6>
+                                                <h6 className="m-0 fw-bold option-section-name">Vilken stil vill du använda?</h6>
                                                 {appearedArtPaintingOptionSection !== "style-options" && <IoIosArrowRoundDown className="arrow-icon" />}
                                                 {appearedArtPaintingOptionSection === "style-options" && <IoIosArrowRoundUp className="arrow-icon" />}
                                             </div>
@@ -1064,7 +1068,7 @@ export default function TextToImage({
                                         </ul>
                                         {/* End Positions List */}
                                         {!isWaitStatus && !errorMsg &&
-                                            <button className="btn btn-dark w-50 d-block mx-auto generate-image-btn mb-3" onClick={generatedImageWithAI}>skapa</button>
+                                            <button className="btn btn-dark w-50 d-block mx-auto generate-image-btn mb-3" onClick={generatedImageWithAI}>SKAPA DIN KONST</button>
                                         }
                                         {isWaitStatus && <button className="btn btn-dark w-50 d-block mx-auto mb-3" disabled>skapar ...</button>}
                                         {/* Start Art Names List */}
@@ -1096,7 +1100,7 @@ export default function TextToImage({
                                                     <span
                                                         style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                     >
-                                                        {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0">populär</h6>}
+                                                        {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0 popular-box">populär</h6>}
                                                         {dims.inCm}
                                                     </span>
                                                 </li>
