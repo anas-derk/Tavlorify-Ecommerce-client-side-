@@ -1116,7 +1116,7 @@ export default function TextToImage({
                                                 <span
                                                     style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
-                                                    Ingent kant
+                                                    Ingen kant
                                                 </span>
                                             </li>
                                             <li
@@ -1233,7 +1233,7 @@ export default function TextToImage({
                                         className="btn btn-dark w-100 p-2 add-to-cart-managment-btn mb-3"
                                         onClick={addToCart}
                                     >
-                                        <span className="me-2">Lägg i varukorg |</span>
+                                        <span className="me-2">Lägg i varukorgen |</span>
                                         <span className="me-2">{productPriceAfterDiscount} Kr</span>
                                         {productPriceBeforeDiscount != productPriceAfterDiscount && <span className="text-decoration-line-through me-2">{productPriceBeforeDiscount} </span>}
                                         {productPriceBeforeDiscount != productPriceAfterDiscount && <span>kr</span>}
@@ -1252,7 +1252,7 @@ export default function TextToImage({
                         {/* Start Generated Images Section */}
                         <section className="row align-items-center generated-images mb-5">
                             <div className="col-md-2 text-center">
-                                <h6 className="m-0 fw-bold d-inline">Genererade bilder: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
+                                <h6 className="m-0 fw-bold d-inline">MIN KONST</h6>
                             </div>
                             <div className="col-md-10">
                                 {generatedImagesData && !isWaitStatus ?
@@ -1288,7 +1288,7 @@ export default function TextToImage({
                         </section>
                         {/* Start Generated Images Section */}
                         {/* Start Painting Details Section */}
-                        <PaintingDetails windowInnerWidth={windowInnerWidth} />
+                        <PaintingDetails windowInnerWidth={windowInnerWidth} serviceName="text-to-image" />
                         {/* End Painting Details Section */}
                     </div>
                     {/* End Container */}

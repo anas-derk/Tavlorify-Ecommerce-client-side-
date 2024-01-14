@@ -790,6 +790,13 @@ a {
   display: none;
 }
 
+.text-to-image-service .page-content .container-fluid ol li,
+.image-to-image-service .page-content .container-fluid ol li {
+  line-height: 2;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
 .painting-details {
   background-color: #EEE;
   font-size: 13px;
@@ -822,6 +829,11 @@ a {
 
 .painting-details .accordion li {
   line-height: 2;
+}
+
+.painting-details .product-information-box ul {
+  list-style-type: square;
+  list-style-position: inside;
 }
 
 .inspiration .carousel {

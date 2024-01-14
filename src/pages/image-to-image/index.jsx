@@ -1586,7 +1586,7 @@ export default function ImageToImage({
                         {/* Start Generated Images Section */}
                         <section className={`row align-items-center generated-images ${generatedImagesData ? "" : "p-4"}`}>
                             <div className="col-lg-2 text-center">
-                                <h6 className="m-0 fw-bold d-inline">Genererade bilder: ({generatedImagesData ? generatedImagesData.length : 0})</h6>
+                                <h6 className="m-0 fw-bold d-inline">Genererade bilder</h6>
                             </div>
                             <div className="col-md-10">
                                 {generatedImagesData && !isWaitStatus ?
@@ -1662,7 +1662,7 @@ export default function ImageToImage({
                         </section>
                         {/* End How To Use Service Section */}
                         {/* Start Painting Details Section */}
-                        <PaintingDetails windowInnerWidth={windowInnerWidth} />
+                        <PaintingDetails windowInnerWidth={windowInnerWidth} serviceName="image-to-image" />
                         {/* End Painting Details Section */}
                         {/* Start Inspiration */}
                         <section className="inspiration p-3 text-center">

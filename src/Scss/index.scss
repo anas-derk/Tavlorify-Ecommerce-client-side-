@@ -450,6 +450,13 @@ a{
                     }
                 }
             }
+            ol{
+                li{
+                    line-height: 2;
+                    margin-bottom: 5px;
+                    font-size: 14px;
+                }
+            }
         }
     }
 }
@@ -482,6 +489,12 @@ a{
     .accordion{
         li{
             line-height: 2;
+        }
+    }
+    .product-information-box{
+        ul{
+            list-style-type: square;
+            list-style-position: inside;
         }
     }
 }
@@ -668,6 +681,7 @@ a{
         }
     }
 }
+
 
 @keyframes rikSpikeRoll {
     0% { background-size: 10px 3px;}
