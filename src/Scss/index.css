@@ -836,21 +836,8 @@ a {
   list-style-position: inside;
 }
 
-.inspiration .carousel {
-  height: 200px;
-}
-
-.inspiration .carousel .carousel-inner {
-  height: 100%;
-}
-
-.inspiration .carousel .carousel-inner .carousel-item {
-  height: 100%;
-}
-
-.inspiration .carousel .carousel-inner .carousel-item .inspiration-image-box img {
-  width: 100%;
-  height: 100%;
+.inspiration .row {
+  row-gap: 30px;
 }
 
 .text-to-image-service .page-content,

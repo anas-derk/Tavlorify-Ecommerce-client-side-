@@ -58,6 +58,7 @@ import Footer from "@/components/Footer";
 import Slider from "react-slick";
 import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
+import Inspiration from "@/components/Inspiration";
 
 export default function TextToImage({
     generatedImageId,
@@ -1290,6 +1291,9 @@ export default function TextToImage({
                         {/* Start Painting Details Section */}
                         <PaintingDetails windowInnerWidth={windowInnerWidth} serviceName="text-to-image" />
                         {/* End Painting Details Section */}
+                        {/* Start Inspiration Section */}
+                        <Inspiration />
+                        {/* End Inspiration Section */}
                     </div>
                     {/* End Container */}
                 </div>

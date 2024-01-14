@@ -500,20 +500,8 @@ a{
 }
 
 .inspiration{
-    .carousel {
-        height: 200px;
-        .carousel-inner{
-            height: 100%;
-            .carousel-item{
-                height: 100%;
-                .inspiration-image-box{
-                    img{
-                        width: 100%;
-                        height: 100%;
-                    }
-                }
-            }
-        }
+    .row{
+        row-gap: 30px;
     }
 }
 

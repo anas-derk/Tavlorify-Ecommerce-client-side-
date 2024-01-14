@@ -65,6 +65,7 @@ import Footer from "@/components/Footer";
 import Slider from "react-slick";
 import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
+import Inspiration from "@/components/Inspiration";
 
 export default function ImageToImage({
     generatedImageId,
@@ -1665,26 +1666,7 @@ export default function ImageToImage({
                         <PaintingDetails windowInnerWidth={windowInnerWidth} serviceName="image-to-image" />
                         {/* End Painting Details Section */}
                         {/* Start Inspiration */}
-                        <section className="inspiration p-3 text-center">
-                            <h3 className="fw-bold">Inspiration</h3>
-                            <h6 className="mb-3">EXAMPLES FROM US AND OUR CUSTOMERS</h6>
-                            {/* Start Carousel Component From Bootstrap */}
-                            <Carousel indicators={false}>
-                                {/* Start Carousel Item */}
-                                <Carousel.Item>
-                                    <Carousel.Caption>
-                                        <div className="inspiration-image-box">
-                                            <img
-                                                src={inspirationImage1.src}
-                                                alt="Inspiration Image 1"
-                                            />
-                                        </div>
-                                    </Carousel.Caption>
-                                </Carousel.Item>
-                                {/* End Carousel Item */}
-                            </Carousel>
-                            {/* End Carousel Component From Bootstrap */}
-                        </section>
+                        <Inspiration />
                         {/* End Inspiration */}
                     </div>
                     {/* End Container */}
