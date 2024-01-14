@@ -990,6 +990,12 @@ a {
   font-size: 30px;
 }
 
+.accordion .accordion-item .accordion-button:focus {
+  border: 2px solid #000;
+  outline: none;
+  box-shadow: none;
+}
+
 @keyframes rikSpikeRoll {
   0% {
     background-size: 10px 3px;
