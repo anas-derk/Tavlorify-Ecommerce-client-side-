@@ -322,7 +322,7 @@ export default function TextToImage({
                 setIsLoadingPage(false);
                 setIsErrorMsgOnLoadingThePage(true);
             });
-    }, []);
+    }, [generatedImageId, paintingTypeAsQuery]);
 
     const getAllText2ImageCategoriesData = async () => {
         try {
