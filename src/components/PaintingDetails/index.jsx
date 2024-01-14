@@ -132,7 +132,7 @@ export default function PaintingDetails({ windowInnerWidth }) {
                 <div className="accordion" id="accordionExample">
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="headingOne">
-                            <button className="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <button className="accordion-button fw-bold text-dark bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                 Hur fungerar det
                             </button>
                         </h2>
@@ -151,7 +151,7 @@ export default function PaintingDetails({ windowInnerWidth }) {
                     </div>
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="headingTwo">
-                            <button className="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <button className="accordion-button collapsed fw-bold text-dark bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                 Produktinformation
                             </button>
                         </h2>
@@ -161,7 +161,7 @@ export default function PaintingDetails({ windowInnerWidth }) {
                                 <div className="accordion" id="accordionExample1">
                                     <div className="accordion-item">
                                         <h2 className="accordion-header" id="headingOne">
-                                            <button className="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneInsideCollapseTwo" aria-expanded="true" aria-controls="collapseOneInsideCollapseTwo">
+                                            <button className="accordion-button fw-bold text-dark bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneInsideCollapseTwo" aria-expanded="true" aria-controls="collapseOneInsideCollapseTwo">
                                                 Premium matt papper / Affisch
                                             </button>
                                         </h2>
@@ -180,7 +180,7 @@ export default function PaintingDetails({ windowInnerWidth }) {
                                     </div>
                                     <div className="accordion-item">
                                         <h2 className="accordion-header" id="headingOne">
-                                            <button className="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoInsideCollapseTwo" aria-expanded="true" aria-controls="collapseTwoInsideCollapseTwo">
+                                            <button className="accordion-button fw-bold text-dark bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoInsideCollapseTwo" aria-expanded="true" aria-controls="collapseTwoInsideCollapseTwo">
                                                 Hängare
                                             </button>
                                         </h2>
@@ -199,7 +199,7 @@ export default function PaintingDetails({ windowInnerWidth }) {
                                     </div>
                                     <div className="accordion-item">
                                         <h2 className="accordion-header" id="headingOne">
-                                            <button className="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThreeInsideCollapseTwo" aria-expanded="true" aria-controls="collapseThreeInsideCollapseTwo">
+                                            <button className="accordion-button fw-bold text-dark bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThreeInsideCollapseTwo" aria-expanded="true" aria-controls="collapseThreeInsideCollapseTwo">
                                                 Träinramad Affisch.
                                             </button>
                                         </h2>
@@ -220,14 +220,14 @@ export default function PaintingDetails({ windowInnerWidth }) {
                                     </div>
                                     <div className="accordion-item">
                                         <h2 className="accordion-header" id="headingOne">
-                                            <button className="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourInsideCollapseTwo" aria-expanded="true" aria-controls="collapseFourInsideCollapseTwo">
+                                            <button className="accordion-button fw-bold text-dark bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourInsideCollapseTwo" aria-expanded="true" aria-controls="collapseFourInsideCollapseTwo">
                                                 Canvas
                                             </button>
                                         </h2>
                                         <div id="collapseFourInsideCollapseTwo" className="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample1">
                                             <div className="accordion-body">
                                                 <p className="mb-2 content">Förstärkt textur och tidlös skönhet med våra canvas-tryck. Canvasens textur förhöjer bildens naturliga utseende och känsla, vilket skapar en verkligt fördjupande konstupplevelse.</p>
-                                                <p className="mb-2 content fw-bold">Funktioner:</p>
+                                                <p className="mb-2 content fw-bold text-dark bg-transparent">Funktioner:</p>
                                                 <ol>
                                                     <li className="mb-2">Vi använder trä till sträckramarna som är ansvarsfullt källat, främst trä med FSC-certifiering, för att skapa våra canvas-tryck och säkerställa en långvarig och högkvalitativ produkt.</li>
                                                     <li className="mb-2">Vårt canvas-tryck finns i 2 cm tjocklek.</li>
@@ -246,7 +246,7 @@ export default function PaintingDetails({ windowInnerWidth }) {
                     </div>
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="headingThree">
-                            <button className="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <button className="accordion-button collapsed fw-bold text-dark bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                 Frakt & Leverans
                             </button>
                         </h2>
