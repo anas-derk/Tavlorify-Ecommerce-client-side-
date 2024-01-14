@@ -412,7 +412,7 @@ export default function TextToImage({
                     size: "50x70",
                     isExistWhiteBorder: "without-border",
                     frameColor: "none",
-                    generatedImageURL: paintingTypeAsQuery === "poster" ? "assets/images/generatedImages/previewImageForPosterInTextToImage.png" : "assets/images/generatedImages/previewImageForCanvasInTextToImage.png",
+                    generatedImageURL: "assets/images/generatedImages/previewImageForTextToImage.png",
                 });
             }
         }
