@@ -85,11 +85,7 @@ export default function FaceSwap({
 
     const [errorMsg, setErrorMsg] = useState("");
 
-    const [categorySelectedIndex, setCategorySelectedIndex] = useState(0);
-
     const [styleSelectedIndex, setStyleSelectedIndex] = useState(0);
-
-    const [modelName, setModelName] = useState("");
 
     const [productPriceBeforeDiscount, setProductPriceBeforeDiscount] = useState(0);
 
@@ -99,31 +95,15 @@ export default function FaceSwap({
 
     const [paintingType, setPaintingType] = useState("poster");
 
-    const [paintingWidth, setPaintingWidth] = useState(null);
-
-    const [paintingHeight, setPaintingHeight] = useState(null);
-
     const [isExistWhiteBorderWithPoster, setIsExistWhiteBorderWithPoster] = useState("without-border");
 
     const [frameColor, setFrameColor] = useState("none");
 
     const [dimentionsInCm, setDimentionsInCm] = useState("50x70");
 
-    const [categoriesData, setCategoriesData] = useState([]);
-
-    const [categoryStyles, setCategoryStyles] = useState([]);
+    const [styles, setStyles] = useState([]);
 
     const [imageLink, setImageLink] = useState("");
-
-    const [isWillTheImageBeMoved, setIsWillTheImageBeMoved] = useState(false);
-
-    const [theDirectionOfImageDisplacement, setTheDirectionOfImageDisplacement] = useState("");
-
-    const [backgroundPosition, setBackgroundPosition] = useState({ x: 50, y: 50 });
-
-    const [isDraggable, setIsDraggable] = useState(false);
-
-    const [initialOffsetValue, setInitialOffsetValue] = useState({ x: 0, y: 0 });
 
     const [isWaitAddToCart, setIsWaitAddToCart] = useState(false);
 
@@ -326,15 +306,11 @@ export default function FaceSwap({
     const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("style-options");
 
     useEffect(() => {
-        getAllImage2ImageCategoriesData()
-            .then(async (categoriesData) => {
-                setCategoriesData(categoriesData);
-                const categoryStylesTemp = await getAllImage2ImageCategoryStylesData(categoriesData, 0);
-                setCategoryStyles(categoryStylesTemp);
-                const tempModelName = categoryStylesTemp[0].modelName;
-                setModelName(tempModelName);
-                handleSelectGeneratedImageIdAndPaintingType(tempModelName);
-                setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image")));
+        getAllFaceSwapStylesData()
+            .then(async (stylesData) => {
+                setStyles(stylesData);
+                handleSelectGeneratedImageIdAndPaintingType();
+                setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-face-swap")));
                 setWindowInnerWidth(window.innerWidth);
                 window.addEventListener("resize", function () {
                     setWindowInnerWidth(this.innerWidth);
@@ -347,25 +323,14 @@ export default function FaceSwap({
             });
     }, []);
 
-    const getAllImage2ImageCategoriesData = async () => {
+    const getAllFaceSwapStylesData = async () => {
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/face-swap/styles/styles-data`);
             const result = await res.data;
             return result;
         }
         catch (err) {
-            throw Error(err.response.data);
-        }
-    }
-
-    const getAllImage2ImageCategoryStylesData = async (categoriesData, categorySelectedIndex) => {
-        try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
-            const result = await res.data;
-            return result;
-        }
-        catch (err) {
-            throw Error(err.response.data);
+            throw Error(err);
         }
     }
 
@@ -376,15 +341,6 @@ export default function FaceSwap({
             setDimentionsInCm(productData.size);
             setIsExistWhiteBorderWithPoster(productData.isExistWhiteBorder);
             setFrameColor(productData.frameColor);
-            let image = new Image();
-            image.src = `${process.env.BASE_API_URL}/${productData.generatedImageURL}`;
-            image.onload = function () {
-                const tempPaintingWidth = this.naturalWidth,
-                    tempPaintingHeight = this.naturalHeight;
-                setPaintingWidth(tempPaintingWidth);
-                setPaintingHeight(tempPaintingHeight);
-                determine_is_will_the_image_be_moved_and_the_direction_of_displacement(tempPaintingWidth, tempPaintingHeight, productData.position);
-            }
             setGeneratedImagePathInMyServer(productData.generatedImageURL);
             setGeneratedImageURL(`${process.env.BASE_API_URL}/${productData.generatedImageURL}`);
             await getProductPrice(productData.paintingType, productData.position, productData.size);
@@ -394,21 +350,19 @@ export default function FaceSwap({
         }
     }
 
-    const handleSelectGeneratedImageIdAndPaintingType = async (modelName) => {
+    const handleSelectGeneratedImageIdAndPaintingType = async () => {
         try {
             if (generatedImageId) {
                 let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
                 if (Array.isArray(allProductsData)) {
                     if (allProductsData.length > 0) {
-                        const productData = allProductsData.find((productData) => productData._id === generatedImageId && productData.service === "image-to-image");
+                        const productData = allProductsData.find((productData) => productData._id === generatedImageId && productData.service === "face-swap");
                         if (productData) {
                             await handleSelectProduct({
-                                modelName: modelName,
                                 ...productData,
                             });
                         } else {
                             await handleSelectProduct({
-                                modelName: modelName,
                                 paintingType: "poster",
                                 position: "vertical",
                                 size: "50x70",
@@ -420,7 +374,6 @@ export default function FaceSwap({
                     }
                 } else {
                     await handleSelectProduct({
-                        modelName: modelName,
                         paintingType: paintingTypeAsQuery,
                         position: "vertical",
                         size: "50x70",
@@ -431,7 +384,6 @@ export default function FaceSwap({
                 }
             } else {
                 await handleSelectProduct({
-                    modelName: modelName,
                     paintingType: paintingTypeAsQuery,
                     position: "vertical",
                     size: "50x70",
@@ -471,23 +423,6 @@ export default function FaceSwap({
 
     const removeImage = () => {
         setImageLink("");
-    }
-
-    const handleSelectCategory = async (index) => {
-        if (!isWaitStatus) {
-            try {
-                setCategorySelectedIndex(index);
-                const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[index].name}`);
-                const result = await res.data;
-                setCategoryStyles(result);
-                setStyleSelectedIndex(0);
-                const tempModelName = result[0].modelName;
-                setModelName(tempModelName);
-            }
-            catch (err) {
-                throw Error(err);
-            }
-        }
     }
 
     const handleSelectStyle = (index) => {
@@ -599,32 +534,6 @@ export default function FaceSwap({
         }
     }
 
-    const determine_is_will_the_image_be_moved_and_the_direction_of_displacement = (generatedImageWidth, generatedImageHeight, imageType) => {
-        switch (imageType) {
-            case "vertical": {
-                if ((generatedImageHeight / generatedImageWidth).toFixed(2) != 1.4) {
-                    setIsWillTheImageBeMoved(true);
-                    setTheDirectionOfImageDisplacement("vertical");
-                }
-                break;
-            }
-            case "horizontal": {
-                if ((generatedImageWidth / generatedImageHeight).toFixed(2) != 1.4) {
-                    setIsWillTheImageBeMoved(true);
-                    setTheDirectionOfImageDisplacement("horizontal");
-                }
-                break;
-            }
-            case "square": {
-                setTheDirectionOfImageDisplacement("square");
-                break;
-            }
-            default: {
-                throw Error("Error In Image Type !!");
-            }
-        }
-    }
-
     const determine_image_orientation = (width, height) => {
         if (width < height) return "vertical";
         else if (width > height) return "horizontal";
@@ -688,16 +597,16 @@ export default function FaceSwap({
     }
 
     const saveNewGeneratedImageDataInLocalStorage = (generatedImageData) => {
-        let tavlorifyStoreUserGeneratedImagesDataForTextToImage = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image"));
-        if (tavlorifyStoreUserGeneratedImagesDataForTextToImage) {
-            tavlorifyStoreUserGeneratedImagesDataForTextToImage.unshift(generatedImageData);
-            localStorage.setItem("tavlorify-store-user-generated-images-data-image-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForTextToImage));
-            setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForTextToImage);
+        let tavlorifyStoreUserGeneratedImagesDataForFaceSwap = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-face-swap"));
+        if (tavlorifyStoreUserGeneratedImagesDataForFaceSwap) {
+            tavlorifyStoreUserGeneratedImagesDataForFaceSwap.unshift(generatedImageData);
+            localStorage.setItem("tavlorify-store-user-generated-images-data-face-swap", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForFaceSwap));
+            setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForFaceSwap);
         } else {
-            let tavlorifyStoreUserGeneratedImagesDataForTextToImage = [];
-            tavlorifyStoreUserGeneratedImagesDataForTextToImage.unshift(generatedImageData);
-            localStorage.setItem("tavlorify-store-user-generated-images-data-image-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForTextToImage));
-            setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForTextToImage);
+            let tavlorifyStoreUserGeneratedImagesDataForFaceSwap = [];
+            tavlorifyStoreUserGeneratedImagesDataForFaceSwap.unshift(generatedImageData);
+            localStorage.setItem("tavlorify-store-user-generated-images-data-face-swap", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForFaceSwap));
+            setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForFaceSwap);
         }
     }
 
@@ -730,84 +639,6 @@ export default function FaceSwap({
         catch (err) {
             throw Error(err);
         }
-    }
-
-    const handleMouseDown = (e) => {
-        if (theDirectionOfImageDisplacement === "vertical") {
-            setInitialOffsetValue({ ...initialOffsetValue, y: e.nativeEvent.offsetY });
-        } else if (theDirectionOfImageDisplacement === "horizontal") {
-            setInitialOffsetValue({ ...initialOffsetValue, x: e.nativeEvent.offsetX });
-        }
-        setIsDraggable(true);
-        setIsMouseDownActivate(true);
-    }
-
-    const handleMouseUp = (e) => {
-        if (theDirectionOfImageDisplacement === "vertical") {
-            setInitialOffsetValue({ ...initialOffsetValue, y: e.nativeEvent.offsetY });
-        } else if (theDirectionOfImageDisplacement === "horizontal") {
-            setInitialOffsetValue({ ...initialOffsetValue, x: e.nativeEvent.offsetX });
-        }
-        setIsDraggable(false);
-    }
-
-    const handleMouseMove = (e) => {
-        if (!isDraggable) return;
-        if (theDirectionOfImageDisplacement === "vertical") {
-            const newOffestY = e.nativeEvent.offsetY;
-            const amountOfDisplacement = ((newOffestY - initialOffsetValue.y) / initialOffsetValue.y) * 100;
-            if (amountOfDisplacement < 0) {
-                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y - amountOfDisplacement > 100 ? 100 : backgroundPosition.y - amountOfDisplacement });
-            }
-            if (amountOfDisplacement > 0) {
-                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y - amountOfDisplacement < 0 ? 0 : backgroundPosition.y - amountOfDisplacement });
-            }
-        } else if (theDirectionOfImageDisplacement === "horizontal") {
-            const newOffestX = e.nativeEvent.offsetX;
-            const amountOfDisplacement = ((newOffestX - initialOffsetValue.x) / initialOffsetValue.x) * 100;
-            if (amountOfDisplacement < 0) {
-                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x - amountOfDisplacement > 100 ? 100 : backgroundPosition.x - amountOfDisplacement });
-            }
-            if (amountOfDisplacement > 0) {
-                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x - amountOfDisplacement < 0 ? 0 : backgroundPosition.x - amountOfDisplacement });
-            }
-        }
-    }
-
-    const handleTouchStart = (e) => {
-        document.body.style.overflow = "hidden";
-        if (theDirectionOfImageDisplacement === "vertical") {
-            setInitialOffsetValue({ ...initialOffsetValue, y: e.touches[0].clientY });
-        } else if (theDirectionOfImageDisplacement === "horizontal") {
-            setInitialOffsetValue({ ...initialOffsetValue, x: e.touches[0].clientX });
-        }
-        setIsDraggable(true);
-    }
-
-    const handleTouchMove = (e) => {
-        if (theDirectionOfImageDisplacement === "vertical") {
-            const newPointPositionY = e.targetTouches[0].clientY;
-            const amountOfDisplacement = ((newPointPositionY - initialOffsetValue.y) / initialOffsetValue.y) * 100;
-            if (amountOfDisplacement < 0) {
-                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y - amountOfDisplacement > 100 ? 100 : backgroundPosition.y - amountOfDisplacement });
-            }
-            if (amountOfDisplacement > 0) {
-                setBackgroundPosition({ ...initialOffsetValue, y: backgroundPosition.y - amountOfDisplacement < 0 ? 0 : backgroundPosition.y - amountOfDisplacement });
-            }
-        } else if (theDirectionOfImageDisplacement === "horizontal") {
-            const newPointPositionX = e.targetTouches[0].clientX;
-            const amountOfDisplacement = ((newPointPositionX - initialOffsetValue.x) / initialOffsetValue.x) * 100;
-            if (amountOfDisplacement < 0) {
-                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x - amountOfDisplacement > 100 ? 100 : backgroundPosition.x - amountOfDisplacement });
-            }
-            if (amountOfDisplacement > 0) {
-                setBackgroundPosition({ ...initialOffsetValue, x: backgroundPosition.x - amountOfDisplacement < 0 ? 0 : backgroundPosition.x - amountOfDisplacement });
-            }
-        }
-    }
-
-    const handleTouchEnd = () => {
-        document.body.style.overflow = "auto";
     }
 
     const addToCart = async () => {
@@ -1046,17 +877,9 @@ export default function FaceSwap({
                 {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <>
                     <div
                         className="frame-image-box"
-                        onDragStart={(e) => e.preventDefault()}
-                        onMouseDown={handleMouseDown}
-                        onMouseUp={handleMouseUp}
-                        onMouseMove={handleMouseMove}
-                        onTouchStart={handleTouchStart}
-                        onTouchMove={handleTouchMove}
-                        onTouchEnd={handleTouchEnd}
                         style={{
                             width: getSuitableWidthAndHeightForPainting(global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
                             maxHeight: getSuitableWidthAndHeightForPainting(global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height, imageSize, isRoomImageMinimize, windowInnerWidth),
-                            cursor: isWillTheImageBeMoved ? "grab" : "",
                         }}
                     >
                         {!isWaitStatus && !errorMsg && generatedImageURL && <img
@@ -1066,87 +889,42 @@ export default function FaceSwap({
                         />}
                     </div>
                     <div
-                        className="image-box d-flex align-items-center justify-content-center"
+                        className="generated-image-box d-flex align-items-center justify-content-center"
                         style={{
-                            width: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
-                            height: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].height, imageSize, isRoomImageMinimize, windowInnerWidth),
-                            backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
+                            width: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][imageType][dimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
+                            height: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][imageType][dimentionsInCm].height, imageSize, isRoomImageMinimize, windowInnerWidth),
                             boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
+                            backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
                             maxWidth: "97.5%",
                             maxHeight: "97.5%",
                         }}
                     >
-                        {isWillTheImageBeMoved && !isMouseDownActivate && imageSize !== "minimize-image" && !isImageInsideRoom && <div
-                            className="displacement-icons-box d-flex align-items-center justify-content-center"
-                        >
-                            {theDirectionOfImageDisplacement === "horizontal" && <CgArrowsHAlt className="displacement-icon displacement-horizontal" />}
-                            {theDirectionOfImageDisplacement === "vertical" && <CgArrowsVAlt className="displacement-icon displacement-vertical" />}
-                        </div>}
-                        <div
-                            className="generated-image-box"
+                        {!isWaitStatus && !errorMsg && generatedImageURL && <img
+                            src={generatedImageURL}
+                            alt="Generated Image !!"
                             style={{
-                                width: getSuitableWidthAndHeightForPainting(width, imageSize, isRoomImageMinimize, windowInnerWidth),
-                                height: getSuitableWidthAndHeightForPainting(height, imageSize, isRoomImageMinimize, windowInnerWidth),
-                                backgroundImage: `url(${generatedImageURL})`,
-                                backgroundRepeat: "no-repeat",
-                                backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
-                                backgroundSize: "cover",
-                                cursor: isWillTheImageBeMoved ? "grap" : "",
                                 maxWidth: isExistWhiteBorderWithPoster === "with-border" ? "89.7%" : "100%",
                                 maxHeight: isExistWhiteBorderWithPoster === "with-border" ? "89.7%" : "100%",
                             }}
-                        ></div>
-                    </div>
-                </>}
-                {paintingType === "canvas" && !isWaitStatus && !errorMsg && <div
-                    className="canvas-box"
-                    style={{
-                        cursor: isWillTheImageBeMoved ? "grab" : "",
-                    }}
-                    onDragStart={(e) => e.preventDefault()}
-                    onMouseDown={handleMouseDown}
-                    onMouseUp={handleMouseUp}
-                    onMouseMove={handleMouseMove}
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={handleTouchEnd}
-                >
-                    <div
-                        className="frame-image-box mx-auto"
-                        style={{
-                            width: getSuitableWidthAndHeightForPainting(global_data.framesDimentions["poster"][imageType][dimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
-                            maxHeight: getSuitableWidthAndHeightForPainting(global_data.framesDimentions["poster"][imageType][dimentionsInCm].height, imageSize, isRoomImageMinimize, windowInnerWidth),
-                            cursor: isWillTheImageBeMoved ? "grab" : "",
-                        }}
-                    >
-                        {!isWaitStatus && !errorMsg && generatedImageURL && <img
-                            src={frameImages["full-transparent"][imageType][dimentionsInCm]}
-                            alt="Image"
                             onDragStart={(e) => e.preventDefault()}
                         />}
                     </div>
-                    <div
-                        className={`canvas-image-box ${!isImageInsideRoom ? (
-                            imageSize !== "minimize-image" ? "canvas-image" : "minimize-canvas-image"
-                        ) : ""}`}
-                        style={{
-                            width: getSuitableWidthAndHeightForPainting(global_data.framesDimentions["poster"][imageType][dimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
-                            height: getSuitableWidthAndHeightForPainting(global_data.framesDimentions["poster"][imageType][dimentionsInCm].height, imageSize, isRoomImageMinimize, windowInnerWidth),
-                            backgroundImage: `url(${generatedImageURL})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
-                            cursor: isWillTheImageBeMoved ? "grap" : "",
-                        }}
-                    ></div>
-                    {isWillTheImageBeMoved && !isMouseDownActivate && imageSize !== "minimize-image" && !isImageInsideRoom && <div
-                        className="displacement-icons-box d-flex align-items-center justify-content-center"
-                    >
-                        {theDirectionOfImageDisplacement === "horizontal" && <CgArrowsHAlt className="displacement-icon displacement-horizontal" />}
-                        {theDirectionOfImageDisplacement === "vertical" && <CgArrowsVAlt className="displacement-icon displacement-vertical" />}
-                    </div>}
+                </>}
+                {paintingType === "canvas" && !isWaitStatus && !errorMsg && <div className="canvas-image-box" style={{
+                    width: width,
+                }}>
+                    <img
+                        src={generatedImageURL}
+                        className={
+                            !isImageInsideRoom ? (
+                                imageSize !== "minimize-image" ? "canvas-image" : "minimize-canvas-image"
+                            ) : ""
+                        }
+                        alt="canvas image"
+                        onDragStart={(e) => e.preventDefault()}
+                    />
                 </div>}
                 {isWaitStatus && !errorMsg && <span className="loader"></span>}
-                {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
             </div>
         );
     }
@@ -1154,7 +932,7 @@ export default function FaceSwap({
     const getImageInsideRoomBox = (roomNumber, imageSize) => {
         return (
             (imageMode === `image-inside-room${roomNumber}` || imageSize === "minimize-room-image" || imageSize === "room-image-to-mobiles-and-tablets") && !isWaitStatus && !errorMsg && generatedImageURL && <div
-                className={`room${roomNumber}-image-box room-image-box mx-auto border border-2 border-dark mb-4`}
+                className={`room${roomNumber}-image-box room-image-box mb-4 d-block mx-auto`}
                 onClick={() => handleDisplayImageMode(`image-inside-room${roomNumber}`)}
                 style={
                     {
@@ -1166,8 +944,8 @@ export default function FaceSwap({
                 {roomNumber === 1 && <img src={room1Image.src} alt="Room Image1 !!" onDragStart={(e) => e.preventDefault()} />}
                 {roomNumber === 2 && <img src={room2Image.src} alt="Room Image2 !!" onDragStart={(e) => e.preventDefault()} />}
                 {getArtPaintingBox(
-                    global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width,
-                    global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height,
+                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 8}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 3}px`,
+                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 8}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 3}px`,
                     "minimize-image",
                     true,
                     imageSize === "minimize-room-image" ? true : false,
@@ -1202,6 +980,17 @@ export default function FaceSwap({
         )
     }
 
+    const handleDragFileOver = (e) => {
+        e.preventDefault();
+        setIsDragFile(true);
+    }
+
+    const handleDropFile = (e) => {
+        e.preventDefault();
+        setIsDragFile(false);
+        handleSelectImageFile(e.dataTransfer.files[0]);
+    }
+
     const getProductPrice = async (paintingType, position, dimentions) => {
         try {
             const res = await axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
@@ -1212,17 +1001,6 @@ export default function FaceSwap({
         catch (err) {
             throw Error(err);
         }
-    }
-
-    const handleDragFileOver = (e) => {
-        e.preventDefault();
-        setIsDragFile(true);
-    }
-
-    const handleDropFile = (e) => {
-        e.preventDefault();
-        setIsDragFile(false);
-        handleSelectImageFile(e.dataTransfer.files[0]);
     }
 
     const getAppearedSlidesCount = (windowInnerWidth, sectionName) => {
@@ -1341,19 +1119,18 @@ export default function FaceSwap({
                                                 className="mb-2"
                                             >
                                                 {/* Start Style Box */}
-                                                {categoryStyles.map((style, index) => (
+                                                {styles.map((style, index) => (
                                                     <div
                                                         className="style-box p-2 text-center"
                                                         onClick={() => handleSelectStyle(index)}
                                                         key={index}
                                                     >
                                                         <img
-                                                            src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
-                                                            alt={`${style.name} Image`} className="mb-2 style-image d-block mx-auto"
+                                                            src={`${process.env.BASE_API_URL}/${style.imgSrcList[2]}`}
+                                                            alt={`Style Image`} className="mb-2 style-image d-block mx-auto"
                                                             style={index === styleSelectedIndex ? { border: "4px solid #000" } : {}}
                                                             onDragStart={(e) => e.preventDefault()}
                                                         />
-                                                        <p className="style-name m-0 text-center">{style.name}</p>
                                                     </div>
                                                 ))}
                                                 {/* End Style Box */}
