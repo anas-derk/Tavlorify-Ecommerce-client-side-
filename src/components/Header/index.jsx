@@ -399,6 +399,20 @@ export default function Header({ newTotalProductsCount }) {
                                                 förvandla foton till konstverk
                                             </Link>
                                         </li>
+                                        <li><hr className="dropdown-divider" /></li>
+                                        <li>
+                                            <Link
+                                                className="dropdown-item"
+                                                href={{
+                                                    pathname: "/face-swap",
+                                                    query: {
+                                                        paintingTypeAsQuery: "poster",
+                                                    }
+                                                }}
+                                            >
+                                                ansiktsbyte
+                                            </Link>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li className="link-item dropdown">
@@ -431,6 +445,20 @@ export default function Header({ newTotalProductsCount }) {
                                                 }}
                                             >
                                                 förvandla foton till konstverk
+                                            </Link>
+                                        </li>
+                                        <li><hr className="dropdown-divider" /></li>
+                                        <li>
+                                            <Link
+                                                className="dropdown-item"
+                                                href={{
+                                                    pathname: "/face-swap",
+                                                    query: {
+                                                        paintingTypeAsQuery: "canvas",
+                                                    }
+                                                }}
+                                            >
+                                                ansiktsbyte
                                             </Link>
                                         </li>
                                     </ul>

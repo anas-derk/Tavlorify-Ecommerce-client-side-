@@ -263,7 +263,8 @@ a{
 }
 
 .text-to-image-service,
-.image-to-image-service {
+.image-to-image-service,
+.face-swap-service {
     .page-content{
         padding-top: 90px;
         .container-fluid{
@@ -457,6 +458,60 @@ a{
                     font-size: 14px;
                 }
             }
+        }
+    }
+}
+
+.image-to-image-service,
+.face-swap-service{
+    .image-before-processing-box{
+        .select-image-box{
+            .file-label{
+                border: 2px dashed #CCC;
+                position: relative;
+                cursor: pointer;
+                width: 100%;
+                height: 75px;
+                background-color: #EEE;
+                h6{
+                    @media (max-width: 767px) {
+                        font-size: 14px;
+                    }
+                }
+                .upload-image-icon{
+                    font-size: 18px;
+                }
+            }
+            input[type = "file"] {
+                visibility: hidden;
+                height: 0;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+            }
+            .drop-file-box{
+                cursor: pointer;
+                width: 100%;
+                height: 150px;
+                background-color: #EEE;
+                border: 2px dashed #000;
+            }
+        }
+        .downloaded-image-box{
+            width: 200px;
+            position: relative;
+            .downloaded-image{
+                max-width: 100%;
+                max-height: 100%;
+            }
+        }
+        .close-icon{
+            position: absolute;
+            right: -15px;
+            font-size: 28px;
+            top: -15px;
+            z-index: 2;
+            cursor: pointer;
         }
     }
 }
