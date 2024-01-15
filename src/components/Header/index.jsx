@@ -12,6 +12,7 @@ import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import axios from "axios";
 import { MdOutlineContactPhone } from "react-icons/md";
+import LogoImage from "@/../public/images/Logo/logo1.jpg";
 
 export default function Header({ newTotalProductsCount }) {
 
@@ -351,11 +352,13 @@ export default function Header({ newTotalProductsCount }) {
         // Start Global Header
         <header className="global-header">
             {/* Start Custom Navbar */}
-            <nav className="custom-navbar fixed-top pt-3 pb-2">
+            <nav className="custom-navbar fixed-top pt-3 pb-3">
                 <div className="container-fluid">
                     <div className="row align-items-center">
                         <div className="col-md-3">
-                            <Link className="brand-name fw-bold" href="/">TAVLORIFY</Link>
+                            <Link className="brand-name fw-bold" href="/">
+                                <img src={LogoImage.src} alt="Logo Image" width={150} />
+                            </Link>
                         </div>
                         <div className="col-md-6">
                             <ul className="link-list d-flex align-items-center justify-content-center">
@@ -434,7 +437,7 @@ export default function Header({ newTotalProductsCount }) {
                                 </li>
                                 <li className="link-item p-2">
                                     <Link className="link" aria-current="page" href="/who-are-we">
-                                        VILKA äR VI ?
+                                        OM OSS
                                     </Link>
                                 </li>
                                 <li className="link-item p-2">

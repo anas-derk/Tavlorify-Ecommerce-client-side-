@@ -911,7 +911,7 @@ export default function TextToImage({
                 <div className="page-content">
                     {/* Start Container */}
                     <div className="container-fluid pt-2 pb-4">
-                        <h1 className="text-center mb-4 welcome-msg pb-3">
+                        <h1 className="text-center mb-5 welcome-msg pb-2">
                             <span>Använd vårt AI-verktyg med enkla textmeddelanden för att skapa din vackra tavla.</span>
                             <br />
                             <span>Skriv ner dina idéer och se din vision omvandlas till ett livfullt och vackert konstverk.</span>
@@ -1007,7 +1007,7 @@ export default function TextToImage({
                                                 className="section-name-and-control-arrows d-flex justify-content-between align-items-center mb-0"
                                                 onClick={() => setAppearedArtPaintingOptionSection(value => value === "style-options" ? "" : "style-options")}
                                             >
-                                                <h6 className="m-0 fw-bold option-section-name">Vilken stil vill du använda?</h6>
+                                                <h6 className="m-0 fw-bold option-section-name">Vilken stil vill du använda ?</h6>
                                                 {appearedArtPaintingOptionSection !== "style-options" && <IoIosArrowRoundDown className="arrow-icon" />}
                                                 {appearedArtPaintingOptionSection === "style-options" && <IoIosArrowRoundUp className="arrow-icon" />}
                                             </div>

@@ -59,7 +59,6 @@ import Carousel from "react-bootstrap/Carousel";
 import howToUseImage1 from "../../../public/images/HowToUseExplain/Img2Img/1.jpg";
 import howToUseImage2 from "../../../public/images/HowToUseExplain/Img2Img/2.jpg";
 import howToUseImage3 from "../../../public/images/HowToUseExplain/Img2Img/3.jpg";
-import inspirationImage1 from "../../../public/images/Inspiration/1.jpg";
 import PaintingDetails from "@/components/PaintingDetails";
 import Footer from "@/components/Footer";
 import Slider from "react-slick";
@@ -324,7 +323,7 @@ export default function ImageToImage({
 
     const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(false);
 
-    const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("");
+    const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("style-options");
 
     useEffect(() => {
         getAllImage2ImageCategoriesData()
@@ -341,13 +340,6 @@ export default function ImageToImage({
                     setWindowInnerWidth(this.innerWidth);
                 });
                 setIsLoadingPage(false);
-                setTimeout(() => {
-                    window.scrollTo({
-                        behavior: "smooth",
-                        top: 80,
-                        left: 0,
-                    });
-                }, 500);
             })
             .catch(() => {
                 setIsLoadingPage(false);
@@ -1281,7 +1273,7 @@ export default function ImageToImage({
                 <div className="page-content pb-4">
                     {/* Start Container */}
                     <div className="container-fluid">
-                        <h1 className="text-center mb-4 welcome-msg pb-3">Välkommen till dig i bild-till-bild AI-tjänsten</h1>
+                        <h1 className="text-center mb-5 welcome-msg pb-2">Välkommen till dig i bild-till-bild AI-tjänsten</h1>
                         {/* Start Grid System */}
                         <div className="row">
                             {/* Start Column */}
@@ -1363,12 +1355,12 @@ export default function ImageToImage({
                                         {/* End Categories Section */}
                                         <hr className="mb-2 mt-1" />
                                         {/* Start Styles Section */}
-                                        <section className="styles mb-0">
+                                        <section className="styles mb-3">
                                             <div
                                                 className="section-name-and-control-arrows d-flex justify-content-between align-items-center mb-0"
                                                 onClick={() => setAppearedArtPaintingOptionSection(value => value === "style-options" ? "" : "style-options")}
                                             >
-                                                <h6 className="m-0 fw-bold option-section-name">Välj en stil</h6>
+                                                <h6 className="m-0 fw-bold option-section-name">Vilken stil vill du använda ?</h6>
                                                 {appearedArtPaintingOptionSection !== "style-options" && <IoIosArrowRoundDown className="arrow-icon" />}
                                                 {appearedArtPaintingOptionSection === "style-options" && <IoIosArrowRoundUp className="arrow-icon" />}
                                             </div>
@@ -1402,6 +1394,9 @@ export default function ImageToImage({
                                     </section>
                                     {/* Start Displaying Art Painting Options Section */}
                                     <section className="displaying-art-painting-options">
+                                        {imageLink && !isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn mb-3" onClick={imageToImageGenerateByAI}>SKAPA DIN KONST</button>}
+                                        {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn mb-3" disabled>SKAPA DIN KONST</button>}
+                                        {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn mb-3" disabled>skapar ...</button>}
                                         {/* Start Art Names List */}
                                         <ul className="art-names-list d-flex flex-wrap mb-3">
                                             <li
@@ -1419,7 +1414,7 @@ export default function ImageToImage({
                                                 CANVASTAVLOR
                                             </li>
                                         </ul>
-                                        {/* EndArt Names List */}
+                                        {/* End Art Names List */}
                                         <h6 className="fw-bold option-section-name">STORLEK</h6>
                                         {/* Start Sizes List */}
                                         <ul className="sizes-list text-center pb-3 art-painting-options-list">
@@ -1431,16 +1426,13 @@ export default function ImageToImage({
                                                     <span
                                                         style={dims.inCm === dimentionsInCm ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                     >
-                                                        {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0">Populär</h6>}
+                                                        {(dims.inCm === "50x70" || dims.inCm === "70x50" || dims.inCm === "30x30") && <h6 className="fw-bold mb-0 popular-box">Populär</h6>}
                                                         {dims.inCm}
                                                     </span>
                                                 </li>
                                             ))}
                                         </ul>
                                         {/* End Sizes List */}
-                                        {imageLink && !isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" onClick={imageToImageGenerateByAI}>skapa</button>}
-                                        {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>skapa</button>}
-                                        {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn" disabled>skapar ...</button>}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <h6 className="fw-bold option-section-name">KANT</h6>}
                                         {/* Start White Border */}
                                         {(paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") && <ul className="white-borders-list text-center pb-3 art-painting-options-list">
@@ -1450,7 +1442,7 @@ export default function ImageToImage({
                                                 <span
                                                     style={isExistWhiteBorderWithPoster === "without-border" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
-                                                    INGEN KANT
+                                                    Ingen kant
                                                 </span>
                                             </li>
                                             <li
@@ -1568,7 +1560,7 @@ export default function ImageToImage({
                                         className="btn btn-dark w-100 p-2 add-to-cart-managment-btn mb-3"
                                         onClick={addToCart}
                                     >
-                                        <span className="me-2">Lägg i varukorg |</span>
+                                        <span className="me-2">Lägg i varukorgen |</span>
                                         <span className="me-2">{productPriceAfterDiscount} Kr</span>
                                         {productPriceBeforeDiscount != productPriceAfterDiscount && <span className="text-decoration-line-through me-2">{productPriceBeforeDiscount} </span>}
                                         {productPriceBeforeDiscount != productPriceAfterDiscount && <span>kr</span>}
@@ -1587,7 +1579,7 @@ export default function ImageToImage({
                         {/* Start Generated Images Section */}
                         <section className={`row align-items-center generated-images ${generatedImagesData ? "" : "p-4"}`}>
                             <div className="col-lg-2 text-center">
-                                <h6 className="m-0 fw-bold d-inline">Genererade bilder</h6>
+                                <h6 className="m-0 fw-bold d-inline">MIN KONST</h6>
                             </div>
                             <div className="col-md-10">
                                 {generatedImagesData && !isWaitStatus ?

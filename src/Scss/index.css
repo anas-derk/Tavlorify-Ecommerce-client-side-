@@ -513,7 +513,7 @@ a {
 
 .text-to-image-service .page-content,
 .image-to-image-service .page-content {
-  padding-top: 70px;
+  padding-top: 90px;
 }
 
 .text-to-image-service .page-content .container-fluid .welcome-msg,
@@ -840,8 +840,6 @@ a {
   row-gap: 30px;
 }
 
-.text-to-image-service .page-content,
-.image-to-image-service .page-content,
 .policy-page .page-content {
   padding-top: 80px;
   padding-bottom: 50px;
