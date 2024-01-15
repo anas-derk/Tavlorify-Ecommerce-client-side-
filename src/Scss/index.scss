@@ -377,7 +377,7 @@ a{
                             }
                         }
                         .positions-list{
-                            grid-template-columns: repeat(3, auto);
+                            grid-template-columns: repeat(3, calc(100% / 3 - 10px));
                         }
                         .positions-list, .white-borders-list{
                             span{
@@ -385,7 +385,7 @@ a{
                             }
                         }
                         .sizes-list{
-                            grid-template-columns: repeat(4, auto);
+                            grid-template-columns: repeat(4, calc(100% / 4 - 12px));
                             span{
                                 position: relative;
                                 height: 70px;
@@ -398,7 +398,7 @@ a{
                             }
                         }
                         .white-borders-list{
-                            grid-template-columns: repeat(2, auto);
+                            grid-template-columns: repeat(2, calc(100% / 2 - 8px));
                         }
                         .frames-list{
                             grid-template-columns: repeat(9, 110px);

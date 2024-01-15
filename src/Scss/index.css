@@ -685,7 +685,7 @@ a {
 
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .positions-list,
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .positions-list {
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: repeat(3, calc(100% / 3 - 10px));
 }
 
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .positions-list span, .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .white-borders-list span,
@@ -696,7 +696,7 @@ a {
 
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list,
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list {
-  grid-template-columns: repeat(4, auto);
+  grid-template-columns: repeat(4, calc(100% / 4 - 12px));
 }
 
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .sizes-list span,
@@ -715,7 +715,7 @@ a {
 
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .white-borders-list,
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .white-borders-list {
-  grid-template-columns: repeat(2, auto);
+  grid-template-columns: repeat(2, calc(100% / 2 - 8px));
 }
 
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .frames-list,
