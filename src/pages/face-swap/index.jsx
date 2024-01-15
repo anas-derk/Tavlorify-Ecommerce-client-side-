@@ -1280,7 +1280,7 @@ export default function FaceSwap({
                 <div className="page-content pb-4">
                     {/* Start Container */}
                     <div className="container-fluid">
-                        <h1 className="text-center mb-5 welcome-msg pb-2">Välkommen till dig i bild-till-bild AI-tjänsten</h1>
+                        <h1 className="text-center mb-5 welcome-msg pb-2">Välkommen till ansiktsbyte-sidan med användning av artificiell intelligens</h1>
                         {/* Start Grid System */}
                         <div className="row">
                             {/* Start Column */}
