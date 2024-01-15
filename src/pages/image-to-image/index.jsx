@@ -505,19 +505,19 @@ export default function ImageToImage({
                 case "vertical": {
                     const tempDimentionsInCm = "50x70";
                     setDimentionsInCm(tempDimentionsInCm);
-                    await getProductPrice(paintingType, imageType, tempDimentionsInCm);
+                    await getProductPrice(paintingType, imgType, tempDimentionsInCm);
                     return tempDimentionsInCm;
                 }
                 case "horizontal": {
                     const tempDimentionsInCm = "70x50";
                     setDimentionsInCm(tempDimentionsInCm);
-                    await getProductPrice(paintingType, imageType, tempDimentionsInCm);
+                    await getProductPrice(paintingType, imgType, tempDimentionsInCm);
                     return tempDimentionsInCm;
                 }
                 case "square": {
                     const tempDimentionsInCm = "30x30";
                     setDimentionsInCm(tempDimentionsInCm);
-                    await getProductPrice(paintingType, imageType, tempDimentionsInCm);
+                    await getProductPrice(paintingType, imgType, tempDimentionsInCm);
                     return tempDimentionsInCm;
                 }
                 default: {
