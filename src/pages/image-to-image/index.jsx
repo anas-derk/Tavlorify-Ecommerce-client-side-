@@ -643,6 +643,7 @@ export default function ImageToImage({
             setIsWaitStatus(true);
             const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}&service=image-to-image&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`);
             const result = await res.data;
+            console.log(result);
             const imageURL = `${process.env.BASE_API_URL}/${result}`;
             let image = new Image();
             image.src = imageURL;
@@ -652,6 +653,7 @@ export default function ImageToImage({
                 setPaintingWidth(naturalWidthTemp);
                 setPaintingHeight(naturalHeightTemp);
                 const imageOrientation = determine_image_orientation(naturalWidthTemp, naturalHeightTemp);
+                console.log(imageOrientation);
                 determine_is_will_the_image_be_moved_and_the_direction_of_displacement(naturalWidthTemp, naturalHeightTemp, imageOrientation);
                 const tempDimentionsInCm = await handleSelectImageType(imageOrientation);
                 setGeneratedImageURL(imageURL);
