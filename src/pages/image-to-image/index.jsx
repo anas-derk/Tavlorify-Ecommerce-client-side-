@@ -451,12 +451,12 @@ export default function ImageToImage({
             let imageToImageData = new FormData();
             imageToImageData.append("imageFile", file);
             setIsUplodingFile(true);
-            const res = await axios.post(`https://newapi.tavlorify.se/image-to-image/upload-image-and-processing`, imageToImageData, {
+            const res = await axios.post(`${process.env.BASE_API_URL}/image-to-image/upload-image-and-processing`, imageToImageData, {
                 onUploadProgress: (progressEvent) => {
                     setUploadingProgress(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
                 }
             });
-            setImageLink(`https://newapi.tavlorify.se/${await res.data}`);
+            setImageLink(`${process.env.BASE_API_URL}/${await res.data}`);
             setIsUplodingFile(false);
         }
         catch (err) {
@@ -637,9 +637,9 @@ export default function ImageToImage({
             setInitialOffsetValue({ x: 0, y: 0 });
             setIsMouseDownActivate(false);
             setIsWaitStatus(true);
-            const res = await axios.get(`https://newapi.tavlorify.se/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}&service=image-to-image&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}&service=image-to-image&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`);
             const result = await res.data;
-            const imageURL = `https://newapi.tavlorify.se/${result}`;
+            const imageURL = `${process.env.BASE_API_URL}/${result}`;
             let image = new Image();
             image.src = imageURL;
             image.onload = async function () {
@@ -671,6 +671,7 @@ export default function ImageToImage({
             }
         }
         catch (err) {
+            console.log(err);
             setIsWaitStatus(false);
             setErrorMsg("Sorry, Something Went Wrong, Please Repeate This Process !!");
             let errorMsgTimeout = setTimeout(() => {
@@ -714,7 +715,7 @@ export default function ImageToImage({
             setIsExistWhiteBorderWithPoster(generatedImageData.isExistWhiteBorder);
             setFrameColor(generatedImageData.frameColor);
             determine_is_will_the_image_be_moved_and_the_direction_of_displacement(generatedImageWidth, generatedImageHeight, tempPosition);
-            setGeneratedImageURL(`https://newapi.tavlorify.se/${generatedImageData.generatedImageURL}`);
+            setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
             setImageLink(generatedImageData.uploadedImageURL);
             setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
             await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
