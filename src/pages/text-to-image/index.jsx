@@ -319,7 +319,8 @@ export default function TextToImage({
                 });
                 setIsLoadingPage(false);
             })
-            .catch(() => {
+            .catch((err) => {
+                console.log(err);
                 setIsLoadingPage(false);
                 setIsErrorMsgOnLoadingThePage(true);
             });
