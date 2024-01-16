@@ -286,9 +286,6 @@ export default function FaceSwap({
             },
         }
     }
-
-    const [isMouseDownActivate, setIsMouseDownActivate] = useState(false);
-
     const [generatedImagesData, setGeneratedImagesData] = useState([]);
 
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
@@ -350,7 +347,7 @@ export default function FaceSwap({
         }
     }
 
-    const handleSelectGeneratedImageIdAndPaintingType = async () => {
+    const handleSelectGeneratedImageIdAndPaintingType = async (modelName) => {
         try {
             if (generatedImageId) {
                 let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
@@ -368,7 +365,7 @@ export default function FaceSwap({
                                 size: "50x70",
                                 isExistWhiteBorder: "without-border",
                                 frameColor: "none",
-                                generatedImageURL: "assets/images/generatedImages/previewImageForPosterInImageToImage.png",
+                                generatedImageURL: "assets/images/generatedImages/previewImageForTextToImage.png",
                             });
                         }
                     }
@@ -379,7 +376,7 @@ export default function FaceSwap({
                         size: "50x70",
                         isExistWhiteBorder: "without-border",
                         frameColor: "none",
-                        generatedImageURL: paintingTypeAsQuery === "poster" ? "assets/images/generatedImages/previewImageForPosterInImageToImage.png" : "assets/images/generatedImages/previewImageForPosterInImageToImage.png",
+                        generatedImageURL: "assets/images/generatedImages/previewImageForTextToImage.png",
                     });
                 }
             } else {
@@ -389,7 +386,7 @@ export default function FaceSwap({
                     size: "50x70",
                     isExistWhiteBorder: "without-border",
                     frameColor: "none",
-                    generatedImageURL: paintingTypeAsQuery === "poster" ? "assets/images/generatedImages/previewImageForPosterInImageToImage.png" : "assets/images/generatedImages/previewImageForPosterInImageToImage.png",
+                    generatedImageURL: "assets/images/generatedImages/previewImageForTextToImage.png",
                 });
             }
         }
