@@ -429,11 +429,7 @@ export default function FaceSwap({
     }
 
     const handleSelectStyle = (index) => {
-        if (!isWaitStatus) {
-            setStyleSelectedIndex(index);
-            let tempModelName = categoryStyles[index].modelName;
-            setModelName(tempModelName);
-        }
+        if (!isWaitStatus) setStyleSelectedIndex(index);
     }
 
     const handleSelectImageType = async (imgType) => {
@@ -512,12 +508,21 @@ export default function FaceSwap({
         }
     }
 
+    const getSuitableStyleImageLink = (imageType) => {
+        switch(imageType) {
+            case "vertical": return `${process.env.BASE_API_URL}/${styles[styleSelectedIndex].imgSrcList[0]}`;
+            case "horizontal": return `${process.env.BASE_API_URL}/${styles[styleSelectedIndex].imgSrcList[1]}`;
+            case "square": return `${process.env.BASE_API_URL}/${styles[styleSelectedIndex].imgSrcList[2]}`;
+            default: return "Error In Image Type !!";
+        }
+    }
+
     const faceSwapWithAI = async (e) => {
         try {
             e.preventDefault();
             setIsWaitStatus(true);
             const res = await axios.get(
-                `${process.env.BASE_API_URL}/face-swap/generate-image?service=face-swap&imageLink=${imageLink}&styleImageLink=${process.env.BASE_API_URL}/${styles[styleSelectedIndex].imgSrcList[0]}`);
+                `${process.env.BASE_API_URL}/face-swap/generate-image?service=face-swap&imageLink=${imageLink}&styleImageLink=${getSuitableStyleImageLink(tempImageType)}`);
             const result = await res.data;
             const imageURL = `${process.env.BASE_API_URL}/${result}`;
             setTempImageType(imageType);
