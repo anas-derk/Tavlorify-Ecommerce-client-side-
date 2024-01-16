@@ -512,53 +512,32 @@ export default function FaceSwap({
         }
     }
 
-    const imageToImageGenerateByAI = async () => {
+    const faceSwapWithAI = async (e) => {
         try {
-            setPaintingWidth(null);
-            setPaintingHeight(null);
-            setIsWillTheImageBeMoved(false);
-            setTheDirectionOfImageDisplacement("");
-            setBackgroundPosition({ x: 50, y: 50 });
-            setInitialOffsetValue({ x: 0, y: 0 });
-            setIsMouseDownActivate(false);
+            e.preventDefault();
             setIsWaitStatus(true);
-            const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}&service=image-to-image&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`);
+            const res = await axios.get(
+                `${process.env.BASE_API_URL}/face-swap/generate-image?service=face-swap&imageLink=${imageLink}&styleImageLink=${process.env.BASE_API_URL}/${styles[styleSelectedIndex].imgSrcList[0]}`);
             const result = await res.data;
-            console.log(result);
             const imageURL = `${process.env.BASE_API_URL}/${result}`;
-            let image = new Image();
-            image.src = imageURL;
-            image.onload = async function () {
-                const naturalWidthTemp = this.naturalWidth;
-                const naturalHeightTemp = this.naturalHeight;
-                setPaintingWidth(naturalWidthTemp);
-                setPaintingHeight(naturalHeightTemp);
-                const imageOrientation = determine_image_orientation(naturalWidthTemp, naturalHeightTemp);
-                console.log(imageOrientation);
-                determine_is_will_the_image_be_moved_and_the_direction_of_displacement(naturalWidthTemp, naturalHeightTemp, imageOrientation);
-                const tempDimentionsInCm = await handleSelectImageType(imageOrientation);
-                setGeneratedImageURL(imageURL);
-                setIsWaitStatus(false);
-                setGeneratedImagePathInMyServer(result);
-                saveNewGeneratedImageDataInLocalStorage({
-                    service: "image-to-image",
-                    uploadedImageURL: imageLink,
-                    categoryName: categoriesData[categorySelectedIndex].name,
-                    styleName: categoryStyles[styleSelectedIndex].name,
-                    paintingType: paintingType,
-                    position: imageOrientation,
-                    size: tempDimentionsInCm,
-                    isExistWhiteBorder: isExistWhiteBorderWithPoster,
-                    width: naturalWidthTemp,
-                    height: naturalHeightTemp,
-                    frameColor: frameColor,
-                    generatedImageURL: result,
-                    _id: generateUniqueID(),
-                });
-            }
+            setTempImageType(imageType);
+            setTempDimentionsInCm(dimentionsInCm);
+            setIsWaitStatus(false);
+            setGeneratedImageURL(imageURL);
+            setGeneratedImagePathInMyServer(result);
+            saveNewGeneratedImageDataInLocalStorage({
+                service: "face-swap",
+                uploadedImageURL: "",
+                paintingType: paintingType,
+                position: imageType,
+                size: dimentionsInCm,
+                isExistWhiteBorder: isExistWhiteBorderWithPoster,
+                frameColor: frameColor,
+                generatedImageURL: result,
+                _id: generateUniqueID(),
+            });
         }
         catch (err) {
-            console.log(err);
             setIsWaitStatus(false);
             setErrorMsg("Sorry, Something Went Wrong, Please Repeate This Process !!");
             let errorMsgTimeout = setTimeout(() => {
@@ -605,109 +584,28 @@ export default function FaceSwap({
         }
     }
 
-    const addToCart = async () => {
+    const addToCart = () => {
         setIsWaitAddToCart(true);
-        let theRatioBetweenTheHeightAndTheWidth;
-        let newWidth;
-        let newHeight;
-        let left;
-        let top;
-        let width;
-        let height;
-        if (isWillTheImageBeMoved) {
-            switch (theDirectionOfImageDisplacement) {
-                case "vertical": {
-                    theRatioBetweenTheHeightAndTheWidth = paintingHeight / paintingWidth;
-                    newWidth = 417;
-                    newHeight = theRatioBetweenTheHeightAndTheWidth * newWidth;
-                    left = 0;
-                    top = Math.floor((newHeight - 1.4 * newWidth) * (backgroundPosition.y / 100));
-                    width = newWidth;
-                    height = top + 585 > newHeight ? Math.floor(newHeight) - top : 585;
-                    break;
-                }
-                case "horizontal": {
-                    theRatioBetweenTheHeightAndTheWidth = paintingWidth / paintingHeight;
-                    newHeight = 417;
-                    newWidth = theRatioBetweenTheHeightAndTheWidth * newHeight;
-                    left = Math.floor((newWidth - 1.4 * newHeight) * (backgroundPosition.x / 100));
-                    top = 0;
-                    width = left + 585 > newWidth ? Math.floor(newWidth) - left : 585;
-                    height = newHeight;
-                    break;
-                }
-                default: {
-                    return "Error In Image Type !!";
-                }
-            }
-            try {
-                const res = await axios.post(`${process.env.BASE_API_URL}/generated-images/crop-image`, {
-                    imagePath: generatedImagePathInMyServer,
-                    left: left,
-                    top: top,
-                    width: width,
-                    height: height,
-                });
-                const result = await res.data;
-                const productInfoToCart = {
-                    _id: generateUniqueID(),
-                    paintingType: paintingType,
-                    isExistWhiteBorder: isExistWhiteBorderWithPoster,
-                    frameColor: frameColor,
-                    position: imageType,
-                    size: dimentionsInCm,
-                    priceBeforeDiscount: productPriceBeforeDiscount,
-                    priceAfterDiscount: productPriceAfterDiscount,
-                    generatedImageURL: result,
-                    quantity: 1,
-                    service: "image-to-image",
-                }
-                let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-                if (allProductsData) {
-                    allProductsData.push(productInfoToCart);
-                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
-                    setIsWaitAddToCart(false);
-                    setIsSuccessAddToCart(true);
-                    let successAddToCartTimeout = setTimeout(() => {
-                        setIsSuccessAddToCart(false);
-                        clearTimeout(successAddToCartTimeout);
-                    }, 1500);
-                    setNewTotalProductsCount(allProductsData.length);
-                } else {
-                    let allProductsData = [];
-                    allProductsData.push(productInfoToCart);
-                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
-                    setIsWaitAddToCart(false);
-                    setIsSuccessAddToCart(true);
-                    let successAddToCartTimeout = setTimeout(() => {
-                        setIsSuccessAddToCart(false);
-                        setNewTotalProductsCount(allProductsData.length);
-                        clearTimeout(successAddToCartTimeout);
-                    }, 1500);
-                }
-            }
-            catch (err) {
-                setIsWaitAddToCart(false);
-                setErrorInAddToCart("Sorry, Something Went Wrong !!");
-                let errorInAddToCartTimeout = setTimeout(() => {
-                    setErrorInAddToCart("");
-                    clearTimeout(errorInAddToCartTimeout);
-                }, 2000);
-            }
-        }
-        else {
+        if (tempImageType !== imageType) {
+            setIsWaitAddToCart(false);
+            setErrorInAddToCart(`Please Select ${tempImageType} Position`);
+            let errorTimeoutInAddToCart = setTimeout(() => {
+                setErrorInAddToCart("");
+                clearTimeout(errorTimeoutInAddToCart);
+            }, 1500);
+        } else {
             const productInfoToCart = {
                 _id: generateUniqueID(),
-                paintingType: paintingType,
+                paintingType,
                 isExistWhiteBorder: isExistWhiteBorderWithPoster,
-                frameColor: frameColor,
-                position: imageType,
+                frameColor,
+                position: tempImageType,
                 size: dimentionsInCm,
                 priceBeforeDiscount: productPriceBeforeDiscount,
                 priceAfterDiscount: productPriceAfterDiscount,
                 generatedImageURL: generatedImagePathInMyServer,
                 quantity: 1,
-                service: "image-to-image",
+                service: "face-swap",
             }
             let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
             if (allProductsData) {
@@ -717,9 +615,9 @@ export default function FaceSwap({
                 setIsSuccessAddToCart(true);
                 let successAddToCartTimeout = setTimeout(() => {
                     setIsSuccessAddToCart(false);
-                    setNewTotalProductsCount(allProductsData.length);
                     clearTimeout(successAddToCartTimeout);
                 }, 1500);
+                setNewTotalProductsCount(allProductsData.length);
             } else {
                 let allProductsData = [];
                 allProductsData.push(productInfoToCart);
@@ -728,9 +626,9 @@ export default function FaceSwap({
                 setIsSuccessAddToCart(true);
                 let successAddToCartTimeout = setTimeout(() => {
                     setIsSuccessAddToCart(false);
-                    setNewTotalProductsCount(allProductsData.length);
                     clearTimeout(successAddToCartTimeout);
                 }, 1500);
+                setNewTotalProductsCount(allProductsData.length);
             }
         }
     }
@@ -1130,7 +1028,7 @@ export default function FaceSwap({
                                             </li>
                                         </ul>
                                         {/* End Positions List */}
-                                        {imageLink && !isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn mb-3" onClick={imageToImageGenerateByAI}>SKAPA DIN KONST</button>}
+                                        {imageLink && !isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn mb-3" onClick={faceSwapWithAI}>SKAPA DIN KONST</button>}
                                         {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn mb-3" disabled>SKAPA DIN KONST</button>}
                                         {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn mb-3" disabled>skapar ...</button>}
                                         {/* Start Art Names List */}
