@@ -3,10 +3,6 @@
   z-index: -1;
 }
 
-.text-to-image-service .page-content .container-fluid .art-painting .canvas-image-box img {
-  max-width: 100%;
-}
-
 .text-to-image-service .page-content .container-fluid .art-painting-options .generating-image-options .text-prompt {
   resize: none;
   height: 60px;

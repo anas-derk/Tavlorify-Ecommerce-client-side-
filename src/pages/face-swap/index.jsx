@@ -111,6 +111,10 @@ export default function FaceSwap({
 
     const [errorInAddToCart, setErrorInAddToCart] = useState("");
 
+    const [tempImageType, setTempImageType] = useState("vertical");
+
+    const [tempDimentionsInCm, setTempDimentionsInCm] = useState("50x70");
+
     const [imageMode, setImageMode] = useState("normal-size-image");
 
     const frameImages = {
@@ -339,6 +343,8 @@ export default function FaceSwap({
             setIsExistWhiteBorderWithPoster(productData.isExistWhiteBorder);
             setFrameColor(productData.frameColor);
             setGeneratedImagePathInMyServer(productData.generatedImageURL);
+            setTempImageType(productData.position);
+            setTempDimentionsInCm(productData.size);
             setGeneratedImageURL(`${process.env.BASE_API_URL}/${productData.generatedImageURL}`);
             await getProductPrice(productData.paintingType, productData.position, productData.size);
         }
@@ -347,7 +353,7 @@ export default function FaceSwap({
         }
     }
 
-    const handleSelectGeneratedImageIdAndPaintingType = async (modelName) => {
+    const handleSelectGeneratedImageIdAndPaintingType = async () => {
         try {
             if (generatedImageId) {
                 let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
@@ -465,34 +471,9 @@ export default function FaceSwap({
                 if (paintingType === "canvas") {
                     setIsExistWhiteBorderWithPoster("without-border");
                     setFrameColor("none");
-                    switch (imageType) {
-                        case "vertical": {
-                            const tempDimentionsInCm = "50x70";
-                            setDimentionsInCm(tempDimentionsInCm);
-                            await getProductPrice(paintingType, imageType, tempDimentionsInCm);
-                            break;
-                        }
-                        case "horizontal": {
-                            const tempDimentionsInCm = "70x50";
-                            setDimentionsInCm(tempDimentionsInCm);
-                            await getProductPrice(paintingType, imageType, tempDimentionsInCm);
-                            break;
-                        }
-                        case "square": {
-                            const tempDimentionsInCm = "30x30";
-                            setDimentionsInCm(tempDimentionsInCm);
-                            await getProductPrice(paintingType, imageType, tempDimentionsInCm);
-                            break;
-                        }
-                        default: {
-                            console.log("Error In Select Painting Type !!");
-                        }
-                    }
-                }
-                else if (paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") {
-                    await getProductPrice(paintingType, imageType, dimentionsInCm);
-                }
+                };
                 setPaintingType(paintingType);
+                await getProductPrice(paintingType, imageType, dimentionsInCm);
             }
         }
         catch (err) {
@@ -529,12 +510,6 @@ export default function FaceSwap({
         catch (err) {
             throw Error(err);
         }
-    }
-
-    const determine_image_orientation = (width, height) => {
-        if (width < height) return "vertical";
-        else if (width > height) return "horizontal";
-        return "square";
     }
 
     const imageToImageGenerateByAI = async () => {
@@ -609,26 +584,18 @@ export default function FaceSwap({
 
     const displayPreviousGeneratedImageInsideArtPainting = async (generatedImageData, selectedImageIndex) => {
         try {
-            setIsWillTheImageBeMoved(false);
-            setTheDirectionOfImageDisplacement("");
-            setBackgroundPosition({ x: 50, y: 50 });
-            setInitialOffsetValue({ x: 0, y: 0 });
-            setIsMouseDownActivate(false);
+            setTextPrompt(generatedImageData.textPrompt);
             const tempPaintingType = generatedImageData.paintingType;
             setPaintingType(tempPaintingType);
             const tempPosition = generatedImageData.position;
             setImageType(tempPosition);
             const tempImageSize = generatedImageData.size;
             setDimentionsInCm(tempImageSize);
-            const generatedImageWidth = generatedImageData.width,
-                generatedImageHeight = generatedImageData.height;
-            setPaintingWidth(generatedImageData.width);
-            setPaintingHeight(generatedImageData.height);
+            setTempImageType(generatedImageData.position);
+            setTempDimentionsInCm(tempImageSize);
             setIsExistWhiteBorderWithPoster(generatedImageData.isExistWhiteBorder);
             setFrameColor(generatedImageData.frameColor);
-            determine_is_will_the_image_be_moved_and_the_direction_of_displacement(generatedImageWidth, generatedImageHeight, tempPosition);
             setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
-            setImageLink(generatedImageData.uploadedImageURL);
             setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
             await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
             setSelectedPreviousGeneratedImageIndex(selectedImageIndex);
@@ -875,12 +842,12 @@ export default function FaceSwap({
                     <div
                         className="frame-image-box"
                         style={{
-                            width: getSuitableWidthAndHeightForPainting(global_data.framesDimentions[paintingType][imageType][dimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
-                            maxHeight: getSuitableWidthAndHeightForPainting(global_data.framesDimentions[paintingType][imageType][dimentionsInCm].height, imageSize, isRoomImageMinimize, windowInnerWidth),
+                            width: getSuitableWidthAndHeightForPainting(global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
+                            maxHeight: getSuitableWidthAndHeightForPainting(global_data.framesDimentions[paintingType][tempImageType][tempDimentionsInCm].height, imageSize, isRoomImageMinimize, windowInnerWidth),
                         }}
                     >
                         {!isWaitStatus && !errorMsg && generatedImageURL && <img
-                            src={frameColor !== "none" ? frameImages[paintingType][imageType][frameColor][dimentionsInCm] : frameImages["full-transparent"][imageType][dimentionsInCm]}
+                            src={frameColor !== "none" ? frameImages[paintingType][tempImageType][frameColor][tempDimentionsInCm] : frameImages["full-transparent"][tempImageType][tempDimentionsInCm]}
                             alt="Image"
                             onDragStart={(e) => e.preventDefault()}
                         />}
@@ -888,8 +855,8 @@ export default function FaceSwap({
                     <div
                         className="generated-image-box d-flex align-items-center justify-content-center"
                         style={{
-                            width: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][imageType][dimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
-                            height: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][imageType][dimentionsInCm].height, imageSize, isRoomImageMinimize, windowInnerWidth),
+                            width: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
+                            height: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].height, imageSize, isRoomImageMinimize, windowInnerWidth),
                             boxShadow: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "1px 1px 2px #000, -1px -1px 2px #000" : "",
                             backgroundColor: isExistWhiteBorderWithPoster === "with-border" && generatedImageURL ? "#FFF" : "",
                             maxWidth: "97.5%",
@@ -941,8 +908,8 @@ export default function FaceSwap({
                 {roomNumber === 1 && <img src={room1Image.src} alt="Room Image1 !!" onDragStart={(e) => e.preventDefault()} />}
                 {roomNumber === 2 && <img src={room2Image.src} alt="Room Image2 !!" onDragStart={(e) => e.preventDefault()} />}
                 {getArtPaintingBox(
-                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 8}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width / 3}px`,
-                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 8}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height / 3}px`,
+                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 8}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`,
+                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 8}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`,
                     "minimize-image",
                     true,
                     imageSize === "minimize-room-image" ? true : false,
@@ -1022,7 +989,7 @@ export default function FaceSwap({
         // Start Face Swap Page
         <div className="face-swap-service">
             <Head>
-                <title>Tavlorify - förvandla foton till konstverk</title>
+                <title>Tavlorify - Ansiktsbyte</title>
             </Head>
             {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 <Header newTotalProductsCount={newTotalProductsCount} />
@@ -1041,7 +1008,7 @@ export default function FaceSwap({
                                         style={{
                                             width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
                                             height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`,
-                                            backgroundImage: `url(https://newapi.tavlorify.se/${generatedImageData.generatedImageURL})`,
+                                            backgroundImage: `url(${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL})`,
                                         }}
                                         onDragStart={(e) => e.preventDefault()}
                                     ></li>
@@ -1074,7 +1041,7 @@ export default function FaceSwap({
                                 {windowInnerWidth >= 991 && <div className="col-lg-2">
                                     <div className="minimize-images">
                                         {/* Start Art Painting Box */}
-                                        {getArtPaintingBox(global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width, global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height, "minimize-image", false)}
+                                        {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image", false)}
                                         {/* End Art Painting Box */}
                                         {getImageInsideRoomBox(1, "minimize-room-image")}
                                         {getImageInsideRoomBox(2, "minimize-room-image")}
@@ -1084,7 +1051,7 @@ export default function FaceSwap({
                                 {/* Start Column */}
                                 <div className="col-lg-5">
                                     {/* Start Art Painting Section */}
-                                    {windowInnerWidth >= 991 && getArtPaintingBox(global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width, global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height, undefined, false)}
+                                    {windowInnerWidth >= 991 && getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined, false)}
                                     {/* End Art Painting Section */}
                                     {getImageInsideRoomBox(1, undefined)}
                                     {getImageInsideRoomBox(2, undefined)}
@@ -1137,7 +1104,7 @@ export default function FaceSwap({
                                     </section>
                                     {/* Start Displaying Art Painting Options Section */}
                                     <section className="displaying-art-painting-options">
-                                    <h6 className="fw-bold option-section-name text-uppercase">formatet</h6>
+                                        <h6 className="fw-bold option-section-name text-uppercase">formatet</h6>
                                         {/* Start Positions List */}
                                         <ul className="positions-list text-center pb-3 art-painting-options-list">
                                             <li

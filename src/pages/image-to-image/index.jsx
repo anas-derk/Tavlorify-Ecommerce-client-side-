@@ -1266,7 +1266,7 @@ export default function ImageToImage({
                                         style={{
                                             width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
                                             height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`,
-                                            backgroundImage: `url(https://newapi.tavlorify.se/${generatedImageData.generatedImageURL})`,
+                                            backgroundImage: `url(${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL})`,
                                         }}
                                         onDragStart={(e) => e.preventDefault()}
                                     ></li>

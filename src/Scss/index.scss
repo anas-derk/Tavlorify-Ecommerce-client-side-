@@ -516,6 +516,17 @@ a{
     }
 }
 
+.text-to-image-service,
+.face-swap-service{
+    .page-content{
+        .canvas-image-box{
+            img{
+                max-width: 100%;
+            }
+        }
+    }
+}
+
 .painting-details{
     background-color: #EEE;
     font-size: 13px;
