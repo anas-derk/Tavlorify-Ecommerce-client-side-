@@ -568,7 +568,6 @@ export default function FaceSwap({
 
     const displayPreviousGeneratedImageInsideArtPainting = async (generatedImageData, selectedImageIndex) => {
         try {
-            setTextPrompt(generatedImageData.textPrompt);
             const tempPaintingType = generatedImageData.paintingType;
             setPaintingType(tempPaintingType);
             const tempPosition = generatedImageData.position;
