@@ -320,7 +320,6 @@ export default function TextToImage({
                 setIsLoadingPage(false);
             })
             .catch((err) => {
-                console.log(err);
                 setIsLoadingPage(false);
                 setIsErrorMsgOnLoadingThePage(true);
             });
