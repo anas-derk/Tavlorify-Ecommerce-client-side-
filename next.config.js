@@ -2,12 +2,12 @@
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    BASE_API_URL: process.env.NODE_ENV === "development" ? "http://localhost:5300" : "https://newapi.tavlorify.se",
+    BASE_API_URL: process.env.NODE_ENV === "development" ? "http://localhost:5300" : "https://api.tavlorify.se",
   },
   async headers() {
     return [
       {
-        source: process.env.NODE_ENV === "development" ? "//localhost:5300/(.*)" : "//newapi.tavlorify.se/(.*)",
+        source: process.env.NODE_ENV === "development" ? "//localhost:5300/(.*)" : "//api.tavlorify.se/(.*)",
         headers: [
           { key: "Access-Control-Allow-Credentials", value: "true" },
           {
