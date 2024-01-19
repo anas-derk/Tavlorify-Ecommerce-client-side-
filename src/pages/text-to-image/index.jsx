@@ -959,7 +959,7 @@ export default function TextToImage({
                                             type="text"
                                             placeholder="Var god skriv bildtexten"
                                             className="form-control mb-3 text-prompt"
-                                            onChange={(e) => setTextPrompt(e.target.value.trim())}
+                                            onChange={(e) => setTextPrompt(e.target.value)}
                                             value={textPrompt}
                                         ></textarea>
                                         <hr className="mb-2 mt-2" />
