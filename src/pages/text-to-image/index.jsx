@@ -857,7 +857,8 @@ export default function TextToImage({
         }
     }
 
-    const getAppearedSlidesCount = (windowInnerWidth, sectionName) => {
+    const getAppearedSlidesCount = (windowInnerWidth, sectionName, count) => {
+        console.log(count)
         if (sectionName === "generated-images") {
             if (windowInnerWidth < 322) return 1;
             if (windowInnerWidth >= 322 && windowInnerWidth < 360) return 1;
@@ -869,9 +870,10 @@ export default function TextToImage({
             if (windowInnerWidth > 1199) return 7;
         } else if (sectionName === "categories" || sectionName === "styles") {
             if (windowInnerWidth < 322) return 1;
-            if (windowInnerWidth >= 322 && windowInnerWidth < 400) return 2;
-            if (windowInnerWidth > 400 && windowInnerWidth < 500) return 3;
-            if (windowInnerWidth > 500) return 5;
+            if (windowInnerWidth >= 322 && windowInnerWidth < 400 && count >= 2) return 2;
+            if (windowInnerWidth > 400 && windowInnerWidth < 500 && count >= 3) return 3;
+            if (windowInnerWidth > 500 && count >= 5) return 5;
+            return count;
         }
     }
 
@@ -979,9 +981,10 @@ export default function TextToImage({
                                             </div>
                                             <hr className="mb-3 mt-2" />
                                             {appearedArtPaintingOptionSection === "category-options" && <Slider
-                                                slidesToShow={getAppearedSlidesCount(windowInnerWidth, "categories")}
-                                                slidesToScroll={1}
+                                                infinite={false}
                                                 arrows={true}
+                                                slidesToShow={getAppearedSlidesCount(windowInnerWidth, "categories", categoriesData.length)}
+                                                slidesToScroll={getAppearedSlidesCount(windowInnerWidth, "categories", categoriesData.length)}
                                                 className="mb-2"
                                             >
                                                 {/* Start Category Box */}
@@ -1017,15 +1020,16 @@ export default function TextToImage({
                                             </div>
                                             <hr className="mb-3 mt-2" />
                                             {appearedArtPaintingOptionSection === "style-options" && <Slider
-                                                slidesToShow={getAppearedSlidesCount(windowInnerWidth, "styles")}
-                                                slidesToScroll={1}
+                                                infinite={false}
                                                 arrows={true}
+                                                slidesToShow={getAppearedSlidesCount(windowInnerWidth, "styles", categoryStyles.length)}
+                                                slidesToScroll={getAppearedSlidesCount(windowInnerWidth, "styles", categoryStyles.length)}
                                                 className="mb-2"
                                             >
                                                 {/* Start Style Box */}
                                                 {categoryStyles.map((style, index) => (
                                                     <div
-                                                        className="style-box p-2 text-center"
+                                                        className="style-box p-2"
                                                         onClick={() => handleSelectStyle(index)}
                                                         key={index}
                                                     >
@@ -1263,7 +1267,7 @@ export default function TextToImage({
                                 {generatedImagesData && !isWaitStatus ?
                                     <Slider
                                         slidesToShow={getAppearedSlidesCount(windowInnerWidth, "generated-images")}
-                                        slidesToScroll={1}
+                                        slidesToScroll={getAppearedSlidesCount(windowInnerWidth, "generated-images")}
                                         arrows={true}
                                         className="mb-2"
                                     >
