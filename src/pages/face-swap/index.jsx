@@ -322,7 +322,7 @@ export default function FaceSwap({
                 setIsLoadingPage(false);
                 setIsErrorMsgOnLoadingThePage(true);
             });
-    }, []);
+    }, [generatedImageId, paintingTypeAsQuery]);
 
     const getAllFaceSwapStylesData = async () => {
         try {
@@ -804,6 +804,8 @@ export default function FaceSwap({
                     {
                         backgroundColor: isWaitStatus ? "#989492" : "",
                         cursor: !isWaitStatus && imageSize === "minimize-room-image" ? "pointer" : "",
+                        position: !imageSize ? "sticky" : "",
+                        top: !imageSize ? "90px" : "",
                     }
                 }
             >

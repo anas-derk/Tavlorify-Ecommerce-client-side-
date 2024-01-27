@@ -798,6 +798,8 @@ export default function TextToImage({
                     {
                         backgroundColor: isWaitStatus ? "#989492" : "",
                         cursor: !isWaitStatus && imageSize === "minimize-room-image" ? "pointer" : "",
+                        position: !imageSize ? "sticky" : "",
+                        top: !imageSize ? "90px" : "",
                     }
                 }
             >
@@ -954,13 +956,12 @@ export default function TextToImage({
                                 <section className="art-painting-options pe-3 mb-3">
                                     {/* Start Generating Image Options Section */}
                                     <section className="generating-image-options">
-                                        <h6 className="mb-2 fw-bold option-section-name text-prompt-caption">beskriv vad du vill se i ditt konstverk</h6>
+                                        <h6 className="mb-2 fw-bold option-section-name text-prompt-caption">Beskriv vad du vill se i ditt konstverk</h6>
                                         <textarea
                                             type="text"
-                                            placeholder="Var god skriv bildtexten"
+                                            placeholder="En flicka flyger med ett färgglatt paraply i himlen"
                                             className="form-control mb-3 text-prompt"
                                             onChange={(e) => setTextPrompt(e.target.value)}
-                                            value={textPrompt}
                                         ></textarea>
                                         <hr className="mb-2 mt-2" />
                                         {/* Start Categories Section */}
@@ -1190,7 +1191,7 @@ export default function TextToImage({
                                                     style={(frameColor === "black" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerBlackFrameCornerImage.src} alt="Black Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">POSTERHANGÄRE SVART</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">POSTERHÄNGARE SVART</h6>
                                                 </span>
                                             </li>
                                             <li
@@ -1200,7 +1201,7 @@ export default function TextToImage({
                                                     style={(frameColor === "white" && paintingType === "poster-with-hangers") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={hangerWhiteFrameCornerImage.src} alt="White Frame With Hangers Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2">Posterhangare VIT</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">POSTERHÄNGARE VIT</h6>
                                                 </span>
                                             </li>
                                             <li

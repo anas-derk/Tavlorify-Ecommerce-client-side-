@@ -345,7 +345,7 @@ export default function ImageToImage({
                 setIsLoadingPage(false);
                 setIsErrorMsgOnLoadingThePage(true);
             });
-    }, []);
+    }, [generatedImageId, paintingTypeAsQuery]);
 
     const getAllImage2ImageCategoriesData = async () => {
         try {
@@ -1158,6 +1158,8 @@ export default function ImageToImage({
                     {
                         backgroundColor: isWaitStatus ? "#989492" : "",
                         cursor: !isWaitStatus && imageSize === "minimize-room-image" ? "pointer" : "",
+                        position: !imageSize ? "sticky" : "",
+                        top: !imageSize ? "90px" : "",
                     }
                 }
             >
