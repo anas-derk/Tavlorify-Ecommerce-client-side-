@@ -601,6 +601,9 @@ export default function TextToImage({
         let tavlorifyStoreUserGeneratedImagesDataForTextToImage = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image"));
         if (tavlorifyStoreUserGeneratedImagesDataForTextToImage) {
             tavlorifyStoreUserGeneratedImagesDataForTextToImage.unshift(generatedImageData);
+            if (tavlorifyStoreUserGeneratedImagesDataForTextToImage.length > 30) {
+                tavlorifyStoreUserGeneratedImagesDataForTextToImage = tavlorifyStoreUserGeneratedImagesDataForTextToImage.slice(0, 30);
+            }
             localStorage.setItem("tavlorify-store-user-generated-images-data-text-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForTextToImage));
             setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForTextToImage);
         } else {
