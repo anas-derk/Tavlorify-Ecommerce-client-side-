@@ -556,6 +556,9 @@ export default function FaceSwap({
         let tavlorifyStoreUserGeneratedImagesDataForFaceSwap = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-face-swap"));
         if (tavlorifyStoreUserGeneratedImagesDataForFaceSwap) {
             tavlorifyStoreUserGeneratedImagesDataForFaceSwap.unshift(generatedImageData);
+            if (tavlorifyStoreUserGeneratedImagesDataForFaceSwap.length > 30) {
+                tavlorifyStoreUserGeneratedImagesDataForFaceSwap = tavlorifyStoreUserGeneratedImagesDataForFaceSwap.slice(0, 30);
+            }
             localStorage.setItem("tavlorify-store-user-generated-images-data-face-swap", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForFaceSwap));
             setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForFaceSwap);
         } else {

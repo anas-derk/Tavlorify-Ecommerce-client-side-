@@ -686,16 +686,19 @@ export default function ImageToImage({
     }
 
     const saveNewGeneratedImageDataInLocalStorage = (generatedImageData) => {
-        let tavlorifyStoreUserGeneratedImagesDataForTextToImage = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image"));
-        if (tavlorifyStoreUserGeneratedImagesDataForTextToImage) {
-            tavlorifyStoreUserGeneratedImagesDataForTextToImage.unshift(generatedImageData);
-            localStorage.setItem("tavlorify-store-user-generated-images-data-image-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForTextToImage));
-            setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForTextToImage);
+        let tavlorifyStoreUserGeneratedImagesDataForImageToImage = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image"));
+        if (tavlorifyStoreUserGeneratedImagesDataForImageToImage) {
+            tavlorifyStoreUserGeneratedImagesDataForImageToImage.unshift(generatedImageData);
+            if (tavlorifyStoreUserGeneratedImagesDataForImageToImage.length > 30) {
+                tavlorifyStoreUserGeneratedImagesDataForImageToImage = tavlorifyStoreUserGeneratedImagesDataForImageToImage.slice(0, 30);
+            }
+            localStorage.setItem("tavlorify-store-user-generated-images-data-image-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForImageToImage));
+            setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForImageToImage);
         } else {
-            let tavlorifyStoreUserGeneratedImagesDataForTextToImage = [];
-            tavlorifyStoreUserGeneratedImagesDataForTextToImage.unshift(generatedImageData);
-            localStorage.setItem("tavlorify-store-user-generated-images-data-image-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForTextToImage));
-            setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForTextToImage);
+            let tavlorifyStoreUserGeneratedImagesDataForImageToImage = [];
+            tavlorifyStoreUserGeneratedImagesDataForImageToImage.unshift(generatedImageData);
+            localStorage.setItem("tavlorify-store-user-generated-images-data-image-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForImageToImage));
+            setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForImageToImage);
         }
     }
 
