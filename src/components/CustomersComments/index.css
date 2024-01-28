@@ -1,0 +1,7 @@
+.customers-comments {
+  background-color: #EEE;
+}
+
+.customers-comments .comments-box .comment-box {
+  border-radius: 10px;
+}

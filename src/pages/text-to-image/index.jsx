@@ -68,6 +68,7 @@ import InspirationImage5ForTextToImage from "@/../public/images/Inspiration/Text
 import InspirationImage6ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/6.webp";
 import InspirationImage7ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/7.webp";
 import InspirationImage8ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/8.webp";
+import CustomersComments from "@/components/CustomersComments";
 
 export default function TextToImage({
     generatedImageId,
@@ -1330,6 +1331,9 @@ export default function TextToImage({
                         {/* Start Inspiration Section */}
                         <Inspiration imagesSrc={imagesSrc} />
                         {/* End Inspiration Section */}
+                        {/* Start Customer Comments Section */}
+                        <CustomersComments />
+                        {/* End Customer Comments Section */}
                     </div>
                     {/* End Container */}
                 </div>

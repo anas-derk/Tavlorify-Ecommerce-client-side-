@@ -9,6 +9,7 @@ import "../pages/image-to-image/index.css";
 import "../components/ControlPanelHeader/index.css";
 import "../pages/dashboard/admin/login/index.css";
 import "./checkout/index.css";
+import "../components/CustomersComments/index.css";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
