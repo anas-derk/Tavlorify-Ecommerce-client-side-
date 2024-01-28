@@ -448,6 +448,12 @@ export default function FaceSwap({
         setImageLink("");
     }
 
+    const handleSelectCategory = (index) => {
+        if (!isWaitStatus) {
+            
+        }
+    }
+
     const handleSelectStyle = (index) => {
         if (!isWaitStatus) setStyleSelectedIndex(index);
     }
@@ -1000,6 +1006,42 @@ export default function FaceSwap({
                                 {/* Start Art Painting Options Section */}
                                 <section className="art-painting-options pe-3 mb-4">
                                     <section className="generating-image-options">
+                                        {/* Start Categories Section */}
+                                        <section className="categories mb-3">
+                                            {/* Start Categories List */}
+                                            <ul className="categories-list text-center pb-3 art-painting-options-list">
+                                                <li
+                                                    onClick={() => handleSelectCategory("vertical")}
+                                                >
+                                                    <span
+                                                        style={imageType === "vertical" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                    >Man</span>
+                                                </li>
+                                                <li
+                                                    onClick={() => handleSelectCategory("horizontal")}
+                                                >
+                                                    <span
+                                                        style={imageType === "horizontal" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                    >Pojke</span>
+                                                </li>
+                                                <li
+                                                    onClick={() => handleSelectCategory("square")}
+                                                >
+                                                    <span
+                                                        style={imageType === "square" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                    >Kvinna</span>
+                                                </li>
+                                                <li
+                                                    onClick={() => handleSelectCategory("square")}
+                                                >
+                                                    <span
+                                                        style={imageType === "square" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                    >Flicka</span>
+                                                </li>
+                                            </ul>
+                                            {/* End Categories List */}
+                                        </section>
+                                        {/* End Styles Section */}
                                         {/* Start Styles Section */}
                                         <section className="styles mb-3">
                                             <div

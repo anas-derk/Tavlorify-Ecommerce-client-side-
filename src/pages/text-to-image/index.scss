@@ -31,54 +31,6 @@
                         }
                     }
                 }
-                .displaying-art-painting-options{
-                    .art-names-list{
-                        border-bottom: 1px solid #CCC;
-                        font-size: 14px;
-                        li{
-                            cursor: pointer;
-                            &:hover{
-                                border-bottom: 3px solid #CCC;
-                            }
-                        }
-                    }
-                    .art-painting-options-list{
-                        overflow-x: auto;
-                        flex-wrap: nowrap;
-                        span{
-                            cursor: pointer;
-                            border: 1px solid #CCC;
-                            font-size: 14px;
-                            display: flex;
-                            justify-content: center;
-                            align-content: center;
-                            flex-direction: column;
-                            h6{
-                                font-size: 12px;
-                            }
-                            img{
-                                display: block;
-                                margin: 0 auto;
-                                width: 40px;
-                            }
-                        }
-                    }
-                    .positions-list, .white-borders-list{
-                        span{
-                            height: 60px;
-                        }
-                    }
-                    .sizes-list, .frames-list{
-                        span{
-                            height: 70px;
-                        }
-                    }
-                    .frames-list{
-                        span{
-                            height: 90px;
-                        }
-                    }
-                }
             }
         }
     }
