@@ -48,7 +48,6 @@ import VerticalframeImageWithFullTransparent from "../../../public/images/frames
 /* End Import Frames Without Background Never Images */
 import { BsCloudUpload } from "react-icons/bs";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { CgArrowsHAlt, CgArrowsVAlt } from "react-icons/cg";
 import { v4 as generateUniqueID } from "uuid";
 import room1Image from "@/../../public/images/Rooms/room1.jpg";
 import room2Image from "@/../../public/images/Rooms/room2.jpg";
@@ -65,6 +64,7 @@ import Slider from "react-slick";
 import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import Inspiration from "@/components/Inspiration";
+import { MdDeleteForever } from "react-icons/md";
 
 export default function FaceSwap({
     generatedImageId,

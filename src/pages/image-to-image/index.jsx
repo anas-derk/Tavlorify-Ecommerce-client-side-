@@ -65,6 +65,7 @@ import Slider from "react-slick";
 import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import Inspiration from "@/components/Inspiration";
+import { MdDeleteForever } from "react-icons/md";
 
 export default function ImageToImage({
     generatedImageId,
