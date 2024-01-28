@@ -333,6 +333,38 @@ a{
                             }
                         }
                     }
+                    .art-painting-options-list{
+                        display: grid;
+                        gap: 15px;
+                        overflow-y: auto;
+                        span{
+                            cursor: pointer;
+                            border: 1px solid #CCC;
+                            font-size: 14px;
+                            @media (max-width: 767px) {
+                                font-size: 12px;
+                            }
+                            display: flex;
+                            justify-content: center;
+                            align-content: center;
+                            flex-direction: column;
+                            h6{
+                                font-size: 12px;
+                            }
+                            img{
+                                display: block;
+                                margin: 0 auto;
+                                width: 30px;
+                            }
+                        }
+                    }
+                    .categories-list{
+                        grid-template-columns: repeat(4, calc(100% / 4 - 12px));
+                        span{
+                            position: relative;
+                            height: 60px;
+                        }
+                    }
                     .displaying-art-painting-options{
                         .art-names-list{
                             border-bottom: 1px solid #CCC;
@@ -344,31 +376,6 @@ a{
                                 cursor: pointer;
                                 &:hover{
                                     border-bottom: 3px solid #CCC;
-                                }
-                            }
-                        }
-                        .art-painting-options-list{
-                            display: grid;
-                            gap: 15px;
-                            overflow-y: auto;
-                            span{
-                                cursor: pointer;
-                                border: 1px solid #CCC;
-                                font-size: 14px;
-                                @media (max-width: 767px) {
-                                    font-size: 12px;
-                                }
-                                display: flex;
-                                justify-content: center;
-                                align-content: center;
-                                flex-direction: column;
-                                h6{
-                                    font-size: 12px;
-                                }
-                                img{
-                                    display: block;
-                                    margin: 0 auto;
-                                    width: 30px;
                                 }
                             }
                         }

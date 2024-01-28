@@ -729,7 +729,7 @@ export default function FaceSwap({
                     </div>
                     <h6 className="m-0 fw-bold">Laddar upp bild nu ...</h6>
                 </div>}
-                <hr className="mb-2 mt-2" />
+                <hr className="mb-4 mt-2" />
             </div>
         );
     }
@@ -1007,7 +1007,7 @@ export default function FaceSwap({
                                 <section className="art-painting-options pe-3 mb-4">
                                     <section className="generating-image-options">
                                         {/* Start Categories Section */}
-                                        <section className="categories mb-3">
+                                        <section className="categories mb-2">
                                             {/* Start Categories List */}
                                             <ul className="categories-list text-center pb-3 art-painting-options-list">
                                                 <li

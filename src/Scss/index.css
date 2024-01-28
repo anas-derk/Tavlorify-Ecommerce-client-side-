@@ -639,6 +639,61 @@ a {
   }
 }
 
+.text-to-image-service .page-content .container-fluid .row .art-painting-options .art-painting-options-list,
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .art-painting-options-list,
+.face-swap-service .page-content .container-fluid .row .art-painting-options .art-painting-options-list {
+  display: grid;
+  gap: 15px;
+  overflow-y: auto;
+}
+
+.text-to-image-service .page-content .container-fluid .row .art-painting-options .art-painting-options-list span,
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .art-painting-options-list span,
+.face-swap-service .page-content .container-fluid .row .art-painting-options .art-painting-options-list span {
+  cursor: pointer;
+  border: 1px solid #CCC;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+}
+
+@media (max-width: 767px) {
+  .text-to-image-service .page-content .container-fluid .row .art-painting-options .art-painting-options-list span,
+  .image-to-image-service .page-content .container-fluid .row .art-painting-options .art-painting-options-list span,
+  .face-swap-service .page-content .container-fluid .row .art-painting-options .art-painting-options-list span {
+    font-size: 12px;
+  }
+}
+
+.text-to-image-service .page-content .container-fluid .row .art-painting-options .art-painting-options-list span h6,
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .art-painting-options-list span h6,
+.face-swap-service .page-content .container-fluid .row .art-painting-options .art-painting-options-list span h6 {
+  font-size: 12px;
+}
+
+.text-to-image-service .page-content .container-fluid .row .art-painting-options .art-painting-options-list span img,
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .art-painting-options-list span img,
+.face-swap-service .page-content .container-fluid .row .art-painting-options .art-painting-options-list span img {
+  display: block;
+  margin: 0 auto;
+  width: 30px;
+}
+
+.text-to-image-service .page-content .container-fluid .row .art-painting-options .categories-list,
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .categories-list,
+.face-swap-service .page-content .container-fluid .row .art-painting-options .categories-list {
+  grid-template-columns: repeat(4, calc(100% / 4 - 12px));
+}
+
+.text-to-image-service .page-content .container-fluid .row .art-painting-options .categories-list span,
+.image-to-image-service .page-content .container-fluid .row .art-painting-options .categories-list span,
+.face-swap-service .page-content .container-fluid .row .art-painting-options .categories-list span {
+  position: relative;
+  height: 60px;
+}
+
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-names-list,
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-names-list,
 .face-swap-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-names-list {
@@ -664,48 +719,6 @@ a {
 .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-names-list li:hover,
 .face-swap-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-names-list li:hover {
   border-bottom: 3px solid #CCC;
-}
-
-.text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list,
-.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list,
-.face-swap-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list {
-  display: grid;
-  gap: 15px;
-  overflow-y: auto;
-}
-
-.text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span,
-.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span,
-.face-swap-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span {
-  cursor: pointer;
-  border: 1px solid #CCC;
-  font-size: 14px;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  flex-direction: column;
-}
-
-@media (max-width: 767px) {
-  .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span,
-  .image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span,
-  .face-swap-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span {
-    font-size: 12px;
-  }
-}
-
-.text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span h6,
-.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span h6,
-.face-swap-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span h6 {
-  font-size: 12px;
-}
-
-.text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span img,
-.image-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span img,
-.face-swap-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .art-painting-options-list span img {
-  display: block;
-  margin: 0 auto;
-  width: 30px;
 }
 
 .text-to-image-service .page-content .container-fluid .row .art-painting-options .displaying-art-painting-options .positions-list,
