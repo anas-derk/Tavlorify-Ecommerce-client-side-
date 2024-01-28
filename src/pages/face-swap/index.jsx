@@ -1225,7 +1225,7 @@ export default function FaceSwap({
                         {/* Start Generated Images Section */}
                         <section className={`row align-items-center generated-images ${generatedImagesData ? "" : "p-4"}`}>
                             <div className="col-lg-2 text-center">
-                                <h6 className="m-0 fw-bold d-inline">MIN KONST</h6>
+                                <h6 className="m-0 fw-bold d-inline">MIN KONST ({generatedImagesData ? generatedImagesData.length : 0})</h6>
                             </div>
                             <div className="col-md-10">
                                 {generatedImagesData && !isWaitStatus ?
