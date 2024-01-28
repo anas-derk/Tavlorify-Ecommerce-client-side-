@@ -93,6 +93,8 @@ export default function FaceSwap({
 
     const [errorMsg, setErrorMsg] = useState("");
 
+    const [categorySelectedIndex, setCategorySelectedIndex] = useState(0);
+
     const [styleSelectedIndex, setStyleSelectedIndex] = useState(0);
 
     const [productPriceBeforeDiscount, setProductPriceBeforeDiscount] = useState(0);
@@ -109,7 +111,9 @@ export default function FaceSwap({
 
     const [dimentionsInCm, setDimentionsInCm] = useState("50x70");
 
-    const [styles, setStyles] = useState([]);
+    const categoriesData = ["Man", "Pojke", "Kvinna", "Flicka"];
+
+    const [categoryStyles, setCategoryStyles] = useState([]);
 
     const [imageLink, setImageLink] = useState("");
 
@@ -329,7 +333,7 @@ export default function FaceSwap({
     useEffect(() => {
         getAllFaceSwapStylesData()
             .then(async (stylesData) => {
-                setStyles(stylesData);
+                setCategoryStyles(stylesData);
                 handleSelectGeneratedImageIdAndPaintingType();
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-face-swap")));
                 setWindowInnerWidth(window.innerWidth);
@@ -450,7 +454,7 @@ export default function FaceSwap({
 
     const handleSelectCategory = (index) => {
         if (!isWaitStatus) {
-            
+            setCategorySelectedIndex(index);
         }
     }
 
@@ -536,9 +540,9 @@ export default function FaceSwap({
 
     const getSuitableStyleImageLink = (imageType) => {
         switch (imageType) {
-            case "vertical": return `${process.env.BASE_API_URL}/${styles[styleSelectedIndex].imgSrcList[0]}`;
-            case "horizontal": return `${process.env.BASE_API_URL}/${styles[styleSelectedIndex].imgSrcList[1]}`;
-            case "square": return `${process.env.BASE_API_URL}/${styles[styleSelectedIndex].imgSrcList[2]}`;
+            case "vertical": return `${process.env.BASE_API_URL}/${categoryStyles[styleSelectedIndex].imgSrcList[0]}`;
+            case "horizontal": return `${process.env.BASE_API_URL}/${categoryStyles[styleSelectedIndex].imgSrcList[1]}`;
+            case "square": return `${process.env.BASE_API_URL}/${categoryStyles[styleSelectedIndex].imgSrcList[2]}`;
             default: return "Error In Image Type !!";
         }
     }
@@ -1010,34 +1014,16 @@ export default function FaceSwap({
                                         <section className="categories mb-2">
                                             {/* Start Categories List */}
                                             <ul className="categories-list text-center pb-3 art-painting-options-list">
-                                                <li
-                                                    onClick={() => handleSelectCategory("vertical")}
-                                                >
-                                                    <span
-                                                        style={imageType === "vertical" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                                    >Man</span>
-                                                </li>
-                                                <li
-                                                    onClick={() => handleSelectCategory("horizontal")}
-                                                >
-                                                    <span
-                                                        style={imageType === "horizontal" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                                    >Pojke</span>
-                                                </li>
-                                                <li
-                                                    onClick={() => handleSelectCategory("square")}
-                                                >
-                                                    <span
-                                                        style={imageType === "square" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                                    >Kvinna</span>
-                                                </li>
-                                                <li
-                                                    onClick={() => handleSelectCategory("square")}
-                                                >
-                                                    <span
-                                                        style={imageType === "square" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
-                                                    >Flicka</span>
-                                                </li>
+                                                {categoriesData.map((category, categoryIndex) => (
+                                                    <li
+                                                        key={categoryIndex}
+                                                        onClick={() => handleSelectCategory(categoryIndex)}
+                                                    >
+                                                        <span
+                                                            style={categorySelectedIndex === categoryIndex ? { border: "4px solid #000", fontWeight: "bold" } : {}}
+                                                        >{category}</span>
+                                                    </li>
+                                                ))}
                                             </ul>
                                             {/* End Categories List */}
                                         </section>
@@ -1054,14 +1040,14 @@ export default function FaceSwap({
                                             </div>
                                             <hr className="mb-3 mt-2" />
                                             {appearedArtPaintingOptionSection === "style-options" && <Slider
-                                                slidesToShow={getAppearedSlidesCount(windowInnerWidth, "styles", styles.length)}
-                                                slidesToScroll={getAppearedSlidesCount(windowInnerWidth, "styles", styles.length)}
+                                                slidesToShow={getAppearedSlidesCount(windowInnerWidth, "styles", categoryStyles.length)}
+                                                slidesToScroll={getAppearedSlidesCount(windowInnerWidth, "styles", categoryStyles.length)}
                                                 infinite={false}
                                                 arrows={true}
                                                 className="mb-2"
                                             >
                                                 {/* Start Style Box */}
-                                                {styles.map((style, index) => (
+                                                {categoryStyles.map((style, index) => (
                                                     <div
                                                         className="style-box p-2 text-center"
                                                         onClick={() => handleSelectStyle(index)}
