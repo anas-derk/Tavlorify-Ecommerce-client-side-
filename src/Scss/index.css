@@ -389,6 +389,16 @@ a {
   cursor: pointer;
   background-size: cover;
   background-position: center;
+  position: relative;
+}
+
+.generated-images-item .delete-icon {
+  position: absolute;
+  right: 50%;
+  top: 110%;
+  transform: translateX(50%);
+  font-size: 30px;
+  color: #F00;
 }
 
 .generated-images-item .generated-image {

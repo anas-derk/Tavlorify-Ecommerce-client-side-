@@ -59,6 +59,7 @@ import Slider from "react-slick";
 import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import Inspiration from "@/components/Inspiration";
+import { MdDeleteForever } from "react-icons/md";
 
 export default function TextToImage({
     generatedImageId,
@@ -877,6 +878,12 @@ export default function TextToImage({
         }
     }
 
+    const deleteGeneratedImageData = (generatedImageDataIndex) => {
+        let newTavlorifyStoreUserGeneratedImagesDataForTextToImage = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")).filter((generatedImageData, index) => index !== generatedImageDataIndex);
+        localStorage.setItem("tavlorify-store-user-generated-images-data-text-to-image", JSON.stringify(newTavlorifyStoreUserGeneratedImagesDataForTextToImage));
+        setGeneratedImagesData(newTavlorifyStoreUserGeneratedImagesDataForTextToImage);
+    }
+
     return (
         // Start Text To Image Service Page
         <div className="text-to-image-service">
@@ -1275,18 +1282,19 @@ export default function TextToImage({
                                         {generatedImagesData.map((generatedImageData, index) => (
                                             index < 10 && <Fragment key={generatedImageData._id}>
                                                 <div
-                                                    className="generated-images-item mx-auto"
-                                                    onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
+                                                    className="generated-images-item mx-auto mb-5 mt-3"
                                                     style={{
                                                         width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
                                                         height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`
                                                     }}
                                                 >
+                                                    <MdDeleteForever className="delete-icon" onClick={() => deleteGeneratedImageData(index)} />
                                                     <img
                                                         src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
                                                         alt="Generated Image !!"
                                                         className={`generated-image ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
                                                         onDragStart={(e) => e.preventDefault()}
+                                                        onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
                                                     />
                                                 </div>
                                             </Fragment>

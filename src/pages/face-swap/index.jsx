@@ -894,6 +894,12 @@ export default function FaceSwap({
         }
     }
 
+    const deleteGeneratedImageData = (generatedImageDataIndex) => {
+        let tavlorifyStoreUserGeneratedImagesDataForFaceSwap = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-face-swap")).filter((generatedImageData, index) => index !== generatedImageDataIndex);
+        localStorage.setItem("tavlorify-store-user-generated-images-data-face-swap", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForFaceSwap));
+        setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForFaceSwap);
+    }
+
     return (
         // Start Face Swap Page
         <div className="face-swap-service">
@@ -1239,15 +1245,21 @@ export default function FaceSwap({
                                         {generatedImagesData.map((generatedImageData, index) => (
                                             index < 10 && <Fragment key={generatedImageData._id}>
                                                 <div
-                                                    className={`generated-images-item mx-auto generated-image ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
-                                                    onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
+                                                    className="generated-images-item mx-auto mb-5 mt-3"
                                                     style={{
                                                         width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
-                                                        height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`,
-                                                        backgroundImage: `url(${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL})`
+                                                        height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`
                                                     }}
-                                                    onDragStart={(e) => e.preventDefault()}
-                                                ></div>
+                                                >
+                                                    <MdDeleteForever className="delete-icon" onClick={() => deleteGeneratedImageData(index)} />
+                                                    <img
+                                                        src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
+                                                        alt="Generated Image !!"
+                                                        className={`generated-image ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
+                                                        onDragStart={(e) => e.preventDefault()}
+                                                        onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
+                                                    />
+                                                </div>
                                             </Fragment>
                                         ))}
                                         {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Visa mer</button>}

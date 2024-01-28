@@ -1248,6 +1248,12 @@ export default function ImageToImage({
         }
     }
 
+    const deleteGeneratedImageData = (generatedImageDataIndex) => {
+        let tavlorifyStoreUserGeneratedImagesDataForImageToImage = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image")).filter((generatedImageData, index) => index !== generatedImageDataIndex);
+        localStorage.setItem("tavlorify-store-user-generated-images-data-image-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForImageToImage));
+        setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForImageToImage);
+    }
+
     return (
         // Start Image To Image Page
         <div className="image-to-image-service">
@@ -1607,7 +1613,7 @@ export default function ImageToImage({
                                         {generatedImagesData.map((generatedImageData, index) => (
                                             index < 10 && <Fragment key={generatedImageData._id}>
                                                 <div
-                                                    className={`generated-images-item mx-auto generated-image ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
+                                                    className={`generated-images-item mx-auto mb-5 mt-3 generated-image ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
                                                     onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
                                                     style={{
                                                         width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
@@ -1615,7 +1621,9 @@ export default function ImageToImage({
                                                         backgroundImage: `url(${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL})`
                                                     }}
                                                     onDragStart={(e) => e.preventDefault()}
-                                                ></div>
+                                                >
+                                                    <MdDeleteForever className="delete-icon" onClick={() => deleteGeneratedImageData(index)} />
+                                                </div>
                                             </Fragment>
                                         ))}
                                         {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Visa mer</button>}
