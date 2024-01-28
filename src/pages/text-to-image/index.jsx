@@ -60,6 +60,14 @@ import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import Inspiration from "@/components/Inspiration";
 import { MdDeleteForever } from "react-icons/md";
+import InspirationImage1ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/1.webp";
+import InspirationImage2ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/2.webp";
+import InspirationImage3ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/3.webp";
+import InspirationImage4ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/4.webp";
+import InspirationImage5ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/5.webp";
+import InspirationImage6ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/6.webp";
+import InspirationImage7ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/7.webp";
+import InspirationImage8ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/8.webp";
 
 export default function TextToImage({
     generatedImageId,
@@ -119,6 +127,16 @@ export default function TextToImage({
     const [tempDimentionsInCm, setTempDimentionsInCm] = useState("50x70");
 
     const [imageMode, setImageMode] = useState("normal-size-image");
+
+    const [generatedImagesData, setGeneratedImagesData] = useState([]);
+
+    const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
+
+    const [selectedPreviousGeneratedImageIndex, setSelectedPreviousGeneratedImageIndex] = useState(-1);
+
+    const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(false);
+
+    const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("style-options");
 
     const frameImages = {
         "poster-with-wooden-frame": {
@@ -293,16 +311,17 @@ export default function TextToImage({
             },
         }
     }
-
-    const [generatedImagesData, setGeneratedImagesData] = useState([]);
-
-    const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
-
-    const [selectedPreviousGeneratedImageIndex, setSelectedPreviousGeneratedImageIndex] = useState(-1);
-
-    const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(false);
-
-    const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("style-options");
+    
+    const imagesSrc = [
+        InspirationImage1ForTextToImage.src,
+        InspirationImage2ForTextToImage.src,
+        InspirationImage3ForTextToImage.src,
+        InspirationImage4ForTextToImage.src,
+        InspirationImage5ForTextToImage.src,
+        InspirationImage6ForTextToImage.src,
+        InspirationImage7ForTextToImage.src,
+        InspirationImage8ForTextToImage.src,
+    ];
 
     useEffect(() => {
         getAllText2ImageCategoriesData()
@@ -1309,7 +1328,7 @@ export default function TextToImage({
                         <PaintingDetails windowInnerWidth={windowInnerWidth} serviceName="text-to-image" />
                         {/* End Painting Details Section */}
                         {/* Start Inspiration Section */}
-                        <Inspiration />
+                        <Inspiration imagesSrc={imagesSrc} />
                         {/* End Inspiration Section */}
                     </div>
                     {/* End Container */}

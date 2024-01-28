@@ -1,24 +1,6 @@
-import InspirationImage1 from "@/../public/images/Inspiration/1.webp";
-import InspirationImage2 from "@/../public/images/Inspiration/2.webp";
-import InspirationImage3 from "@/../public/images/Inspiration/3.webp";
-import InspirationImage4 from "@/../public/images/Inspiration/4.webp";
-import InspirationImage5 from "@/../public/images/Inspiration/5.webp";
-import InspirationImage6 from "@/../public/images/Inspiration/6.webp";
-import InspirationImage7 from "@/../public/images/Inspiration/7.webp";
-import InspirationImage8 from "@/../public/images/Inspiration/8.webp";
 import Image from "next/image";
 
-export default function Inspiration() {
-    const imagesSrc = [
-        InspirationImage1.src,
-        InspirationImage2.src,
-        InspirationImage3.src,
-        InspirationImage4.src,
-        InspirationImage5.src,
-        InspirationImage6.src,
-        InspirationImage7.src,
-        InspirationImage8.src,
-    ];
+export default function Inspiration({ imagesSrc }) {
     return (
         <section className="inspiration p-3 text-center">
             <h3 className="fw-bold">Inspiration</h3>

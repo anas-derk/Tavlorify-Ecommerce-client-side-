@@ -66,6 +66,14 @@ import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import Inspiration from "@/components/Inspiration";
 import { MdDeleteForever } from "react-icons/md";
+import InspirationImage1ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/1.webp";
+import InspirationImage2ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/2.webp";
+import InspirationImage3ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/3.webp";
+import InspirationImage4ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/4.webp";
+import InspirationImage5ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/5.webp";
+import InspirationImage6ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/6.webp";
+import InspirationImage7ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/7.webp";
+import InspirationImage8ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/8.webp";
 
 export default function ImageToImage({
     generatedImageId,
@@ -133,6 +141,24 @@ export default function ImageToImage({
     const [errorInAddToCart, setErrorInAddToCart] = useState("");
 
     const [imageMode, setImageMode] = useState("normal-size-image");
+
+    const [isMouseDownActivate, setIsMouseDownActivate] = useState(false);
+
+    const [generatedImagesData, setGeneratedImagesData] = useState([]);
+
+    const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
+
+    const [isDragFile, setIsDragFile] = useState(false);
+
+    const [isUplodingFile, setIsUplodingFile] = useState(false);
+
+    const [uploadingProgress, setUploadingProgress] = useState(0);
+
+    const [selectedPreviousGeneratedImageIndex, setSelectedPreviousGeneratedImageIndex] = useState(-1);
+
+    const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(false);
+
+    const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("style-options");
 
     const frameImages = {
         "poster-with-wooden-frame": {
@@ -308,23 +334,16 @@ export default function ImageToImage({
         }
     }
 
-    const [isMouseDownActivate, setIsMouseDownActivate] = useState(false);
-
-    const [generatedImagesData, setGeneratedImagesData] = useState([]);
-
-    const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
-
-    const [isDragFile, setIsDragFile] = useState(false);
-
-    const [isUplodingFile, setIsUplodingFile] = useState(false);
-
-    const [uploadingProgress, setUploadingProgress] = useState(0);
-
-    const [selectedPreviousGeneratedImageIndex, setSelectedPreviousGeneratedImageIndex] = useState(-1);
-
-    const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(false);
-
-    const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("style-options");
+    const imagesSrc = [
+        InspirationImage1ForImageToImage.src,
+        InspirationImage2ForImageToImage.src,
+        InspirationImage3ForImageToImage.src,
+        InspirationImage4ForImageToImage.src,
+        InspirationImage5ForImageToImage.src,
+        InspirationImage6ForImageToImage.src,
+        InspirationImage7ForImageToImage.src,
+        InspirationImage8ForImageToImage.src,
+    ];
 
     useEffect(() => {
         getAllImage2ImageCategoriesData()
@@ -1682,7 +1701,7 @@ export default function ImageToImage({
                         <PaintingDetails windowInnerWidth={windowInnerWidth} serviceName="image-to-image" />
                         {/* End Painting Details Section */}
                         {/* Start Inspiration */}
-                        <Inspiration />
+                        <Inspiration imagesSrc={imagesSrc} />
                         {/* End Inspiration */}
                     </div>
                     {/* End Container */}

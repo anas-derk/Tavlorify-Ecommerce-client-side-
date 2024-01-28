@@ -65,6 +65,14 @@ import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import Inspiration from "@/components/Inspiration";
 import { MdDeleteForever } from "react-icons/md";
+import InspirationImage1ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/1.webp";
+import InspirationImage2ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/2.webp";
+import InspirationImage3ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/3.webp";
+import InspirationImage4ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/4.webp";
+import InspirationImage5ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/5.webp";
+import InspirationImage6ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/6.webp";
+import InspirationImage7ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/7.webp";
+import InspirationImage8ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/8.webp";
 
 export default function FaceSwap({
     generatedImageId,
@@ -116,6 +124,22 @@ export default function FaceSwap({
     const [tempDimentionsInCm, setTempDimentionsInCm] = useState("50x70");
 
     const [imageMode, setImageMode] = useState("normal-size-image");
+
+    const [generatedImagesData, setGeneratedImagesData] = useState([]);
+
+    const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
+
+    const [isDragFile, setIsDragFile] = useState(false);
+
+    const [isUplodingFile, setIsUplodingFile] = useState(false);
+
+    const [uploadingProgress, setUploadingProgress] = useState(0);
+
+    const [selectedPreviousGeneratedImageIndex, setSelectedPreviousGeneratedImageIndex] = useState(-1);
+
+    const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(false);
+
+    const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("style-options");
 
     const frameImages = {
         "poster-with-wooden-frame": {
@@ -290,21 +314,17 @@ export default function FaceSwap({
             },
         }
     }
-    const [generatedImagesData, setGeneratedImagesData] = useState([]);
 
-    const [newTotalProductsCount, setNewTotalProductsCount] = useState(0);
-
-    const [isDragFile, setIsDragFile] = useState(false);
-
-    const [isUplodingFile, setIsUplodingFile] = useState(false);
-
-    const [uploadingProgress, setUploadingProgress] = useState(0);
-
-    const [selectedPreviousGeneratedImageIndex, setSelectedPreviousGeneratedImageIndex] = useState(-1);
-
-    const [isShowMoreGeneratedImages, setIsShowMoreGeneratedImages] = useState(false);
-
-    const [appearedArtPaintingOptionSection, setAppearedArtPaintingOptionSection] = useState("style-options");
+    const imagesSrc = [
+        InspirationImage1ForFaceSwap.src,
+        InspirationImage2ForFaceSwap.src,
+        InspirationImage3ForFaceSwap.src,
+        InspirationImage4ForFaceSwap.src,
+        InspirationImage5ForFaceSwap.src,
+        InspirationImage6ForFaceSwap.src,
+        InspirationImage7ForFaceSwap.src,
+        InspirationImage8ForFaceSwap.src,
+    ];
 
     useEffect(() => {
         getAllFaceSwapStylesData()
@@ -1317,7 +1337,7 @@ export default function FaceSwap({
                         <PaintingDetails windowInnerWidth={windowInnerWidth} serviceName="image-to-image" />
                         {/* End Painting Details Section */}
                         {/* Start Inspiration */}
-                        <Inspiration />
+                        <Inspiration imagesSrc={imagesSrc} />
                         {/* End Inspiration */}
                     </div>
                     {/* End Container */}
