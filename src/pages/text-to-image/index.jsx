@@ -981,10 +981,10 @@ export default function TextToImage({
                                             </div>
                                             <hr className="mb-3 mt-2" />
                                             {appearedArtPaintingOptionSection === "category-options" && <Slider
-                                                infinite={false}
-                                                arrows={true}
                                                 slidesToShow={getAppearedSlidesCount(windowInnerWidth, "categories", categoriesData.length)}
                                                 slidesToScroll={getAppearedSlidesCount(windowInnerWidth, "categories", categoriesData.length)}
+                                                infinite={false}
+                                                arrows={true}
                                                 className="mb-2"
                                             >
                                                 {/* Start Category Box */}
@@ -1020,10 +1020,10 @@ export default function TextToImage({
                                             </div>
                                             <hr className="mb-3 mt-2" />
                                             {appearedArtPaintingOptionSection === "style-options" && <Slider
-                                                infinite={false}
-                                                arrows={true}
                                                 slidesToShow={getAppearedSlidesCount(windowInnerWidth, "styles", categoryStyles.length)}
                                                 slidesToScroll={getAppearedSlidesCount(windowInnerWidth, "styles", categoryStyles.length)}
+                                                infinite={false}
+                                                arrows={true}
                                                 className="mb-2"
                                             >
                                                 {/* Start Style Box */}
@@ -1268,6 +1268,7 @@ export default function TextToImage({
                                     <Slider
                                         slidesToShow={getAppearedSlidesCount(windowInnerWidth, "generated-images", generatedImagesData.length)}
                                         slidesToScroll={getAppearedSlidesCount(windowInnerWidth, "generated-images", generatedImagesData.length)}
+                                        infinite={false}
                                         arrows={true}
                                         className="mb-2"
                                     >
