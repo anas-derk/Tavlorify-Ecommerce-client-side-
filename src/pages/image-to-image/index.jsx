@@ -1066,7 +1066,7 @@ export default function ImageToImage({
                             onDragStart={(e) => e.preventDefault()}
                         />}
                     </div>
-                    <div
+                    {!isWaitStatus && !errorMsg && generatedImageURL && <div
                         className="image-box d-flex align-items-center justify-content-center"
                         style={{
                             width: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForImageToImage[paintingType]["without-border"][imageType][dimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
@@ -1097,7 +1097,7 @@ export default function ImageToImage({
                                 maxHeight: isExistWhiteBorderWithPoster === "with-border" ? "89.7%" : "100%",
                             }}
                         ></div>
-                    </div>
+                    </div>}
                 </>}
                 {paintingType === "canvas" && !isWaitStatus && !errorMsg && <div
                     className="canvas-box"
