@@ -1371,6 +1371,9 @@ export default function FaceSwap({
                         {/* Start Inspiration */}
                         <Inspiration imagesSrc={imagesSrc} />
                         {/* End Inspiration */}
+                        {/* Start Customer Comments Section */}
+                        <CustomersComments />
+                        {/* End Customer Comments Section */}
                     </div>
                     {/* End Container */}
                 </div>

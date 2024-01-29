@@ -1703,6 +1703,9 @@ export default function ImageToImage({
                         {/* Start Inspiration */}
                         <Inspiration imagesSrc={imagesSrc} />
                         {/* End Inspiration */}
+                        {/* Start Customer Comments Section */}
+                        <CustomersComments />
+                        {/* End Customer Comments Section */}
                     </div>
                     {/* End Container */}
                 </div>
