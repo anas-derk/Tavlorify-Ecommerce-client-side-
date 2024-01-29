@@ -111,7 +111,7 @@ export default function FaceSwap({
 
     const [dimentionsInCm, setDimentionsInCm] = useState("50x70");
 
-    const categoriesData = ["Man", "Pojke", "Kvinna", "Flicka"];
+    const categoryNames = ["Man", "Pojke", "Kvinna", "Flicka"];
 
     const [categoryStyles, setCategoryStyles] = useState([]);
 
@@ -331,7 +331,7 @@ export default function FaceSwap({
     ];
 
     useEffect(() => {
-        getAllFaceSwapStylesData()
+        getAllFaceSwapCategoryStylesData(0)
             .then(async (stylesData) => {
                 setCategoryStyles(stylesData);
                 handleSelectGeneratedImageIdAndPaintingType();
@@ -348,10 +348,12 @@ export default function FaceSwap({
             });
     }, [generatedImageId, paintingTypeAsQuery]);
 
-    const getAllFaceSwapStylesData = async () => {
+    const getAllFaceSwapCategoryStylesData = async (categorySelectedIndex) => {
+        console.log(categoryNames[categorySelectedIndex])
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/face-swap/styles/styles-data`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/face-swap/styles/category-styles-data?categoryName=${categoryNames[categorySelectedIndex]}`);
             const result = await res.data;
+            console.log(result)
             return result;
         }
         catch (err) {
@@ -452,9 +454,11 @@ export default function FaceSwap({
         setImageLink("");
     }
 
-    const handleSelectCategory = (index) => {
+    const handleSelectCategory = async (index) => {
         if (!isWaitStatus) {
             setCategorySelectedIndex(index);
+            setCategoryStyles(await getAllFaceSwapCategoryStylesData(index));
+            setStyleSelectedIndex(0);
         }
     }
 
@@ -1014,7 +1018,7 @@ export default function FaceSwap({
                                         <section className="categories mb-2">
                                             {/* Start Categories List */}
                                             <ul className="categories-list text-center pb-3 art-painting-options-list">
-                                                {categoriesData.map((category, categoryIndex) => (
+                                                {categoryNames.map((category, categoryIndex) => (
                                                     <li
                                                         key={categoryIndex}
                                                         onClick={() => handleSelectCategory(categoryIndex)}
