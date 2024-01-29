@@ -73,6 +73,7 @@ import InspirationImage5ForFaceSwap from "@/../public/images/Inspiration/FaceSwa
 import InspirationImage6ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/6.webp";
 import InspirationImage7ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/7.webp";
 import InspirationImage8ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/8.webp";
+import CustomersComments from "@/components/CustomersComments";
 
 export default function FaceSwap({
     generatedImageId,

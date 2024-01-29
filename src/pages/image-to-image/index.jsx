@@ -74,6 +74,7 @@ import InspirationImage5ForImageToImage from "@/../public/images/Inspiration/Ima
 import InspirationImage6ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/6.webp";
 import InspirationImage7ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/7.webp";
 import InspirationImage8ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/8.webp";
+import CustomersComments from "@/components/CustomersComments";
 
 export default function ImageToImage({
     generatedImageId,
