@@ -488,15 +488,15 @@ export default function TextToImage({
                 ) {
                     switch (imageType) {
                         case "vertical": {
-                            await handleSelectImageType(imageType);
+                            await handleSelectImageType(imageType, paintingType);
                             break;
                         }
                         case "horizontal": {
-                            await handleSelectImageType(imageType);
+                            await handleSelectImageType(imageType, paintingType);
                             break;
                         }
                         case "square": {
-                            await handleSelectImageType(imageType);
+                            await handleSelectImageType(imageType, paintingType);
                             break;
                         }
                         default: {
@@ -516,7 +516,7 @@ export default function TextToImage({
         }
     }
 
-    const handleSelectImageType = async (imgType) => {
+    const handleSelectImageType = async (imgType, paintingType) => {
         try {
             if (!isWaitStatus) {
                 setImageType(imgType);
@@ -1104,21 +1104,21 @@ export default function TextToImage({
                                         {/* Start Positions List */}
                                         <ul className="positions-list text-center pb-3 art-painting-options-list">
                                             <li
-                                                onClick={() => handleSelectImageType("vertical")}
+                                                onClick={() => handleSelectImageType("vertical", paintingType)}
                                             >
                                                 <span
                                                     style={imageType === "vertical" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >Stående</span>
                                             </li>
                                             <li
-                                                onClick={() => handleSelectImageType("horizontal")}
+                                                onClick={() => handleSelectImageType("horizontal", paintingType)}
                                             >
                                                 <span
                                                     style={imageType === "horizontal" ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >Liggande</span>
                                             </li>
                                             <li
-                                                onClick={() => handleSelectImageType("square")}
+                                                onClick={() => handleSelectImageType("square", paintingType)}
                                             >
                                                 <span
                                                     style={imageType === "square" ? { border: "4px solid #000", fontWeight: "bold" } : {}}

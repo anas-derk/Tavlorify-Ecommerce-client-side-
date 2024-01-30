@@ -519,7 +519,7 @@ export default function ImageToImage({
         }
     }
 
-    const handleSelectImageType = async (imgType) => {
+    const handleSelectImageType = async (imgType, paintingType) => {
         try {
             if (!isWaitStatus) {
                 setImageType(imgType);
@@ -564,19 +564,19 @@ export default function ImageToImage({
                 ) {
                     switch (imageType) {
                         case "vertical": {
-                            await handleSelectImageType(imageType);
+                            await handleSelectImageType(imageType, paintingType);
                             break;
                         }
                         case "horizontal": {
-                            await handleSelectImageType(imageType);
+                            await handleSelectImageType(imageType, paintingType);
                             break;
                         }
                         case "square": {
-                            await handleSelectImageType(imageType);
+                            await handleSelectImageType(imageType, paintingType);
                             break;
                         }
                         default: {
-                            throw Error("Sorry, Error In Image Orientation !!");
+                            throw Error("Sorry, Invalid Image Orientation !!");
                         }
                     }
                     if (paintingType === "canvas") {
@@ -677,7 +677,7 @@ export default function ImageToImage({
                 setPaintingHeight(naturalHeightTemp);
                 const imageOrientation = determine_image_orientation(naturalWidthTemp, naturalHeightTemp);
                 determine_is_will_the_image_be_moved_and_the_direction_of_displacement(naturalWidthTemp, naturalHeightTemp, imageOrientation);
-                const tempDimentionsInCm = await handleSelectImageType(imageOrientation);
+                const tempDimentionsInCm = await handleSelectImageType(imageOrientation, paintingType);
                 setGeneratedImageURL(imageURL);
                 setIsWaitStatus(false);
                 setGeneratedImagePathInMyServer(result);
