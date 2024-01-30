@@ -495,8 +495,8 @@ export default function ImageToImage({
     }
 
     const handleSelectCategory = async (index) => {
-        if (!isWaitStatus) {
-            try {
+        try {
+            if (!isWaitStatus) {
                 setCategorySelectedIndex(index);
                 const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[index].name}`);
                 const result = await res.data;
@@ -505,9 +505,9 @@ export default function ImageToImage({
                 const tempModelName = result[0].modelName;
                 setModelName(tempModelName);
             }
-            catch (err) {
-                throw Error(err);
-            }
+        }
+        catch (err) {
+            throw Error(err);
         }
     }
 
@@ -520,68 +520,71 @@ export default function ImageToImage({
     }
 
     const handleSelectImageType = async (imgType) => {
-        if (!isWaitStatus) {
-            setImageType(imgType);
-            switch (imgType) {
-                case "vertical": {
-                    const tempDimentionsInCm = "50x70";
-                    setDimentionsInCm(tempDimentionsInCm);
-                    await getProductPrice(paintingType, imgType, tempDimentionsInCm);
-                    return tempDimentionsInCm;
-                }
-                case "horizontal": {
-                    const tempDimentionsInCm = "70x50";
-                    setDimentionsInCm(tempDimentionsInCm);
-                    await getProductPrice(paintingType, imgType, tempDimentionsInCm);
-                    return tempDimentionsInCm;
-                }
-                case "square": {
-                    const tempDimentionsInCm = "30x30";
-                    setDimentionsInCm(tempDimentionsInCm);
-                    await getProductPrice(paintingType, imgType, tempDimentionsInCm);
-                    return tempDimentionsInCm;
-                }
-                default: {
-                    throw Error("Error In Select Painting Type !!");
+        try {
+            if (!isWaitStatus) {
+                setImageType(imgType);
+                switch (imgType) {
+                    case "vertical": {
+                        const tempDimentionsInCm = "50x70";
+                        setDimentionsInCm(tempDimentionsInCm);
+                        await getProductPrice(paintingType, imgType, tempDimentionsInCm);
+                        return tempDimentionsInCm;
+                    }
+                    case "horizontal": {
+                        const tempDimentionsInCm = "70x50";
+                        setDimentionsInCm(tempDimentionsInCm);
+                        await getProductPrice(paintingType, imgType, tempDimentionsInCm);
+                        return tempDimentionsInCm;
+                    }
+                    case "square": {
+                        const tempDimentionsInCm = "30x30";
+                        setDimentionsInCm(tempDimentionsInCm);
+                        await getProductPrice(paintingType, imgType, tempDimentionsInCm);
+                        return tempDimentionsInCm;
+                    }
+                    default: {
+                        throw Error("Error In Select Painting Type !!");
+                    }
                 }
             }
+        }
+        catch (err) {
+            throw Error(err);
         }
     }
 
     const handleSelectPaintingType = async (paintingType) => {
         try {
             if (!isWaitStatus) {
-                if (paintingType === "canvas") {
-                    setIsExistWhiteBorderWithPoster("without-border");
-                    setFrameColor("none");
+                if (
+                    paintingType === "canvas" ||
+                    paintingType === "poster" ||
+                    paintingType === "poster-with-wooden-frame" ||
+                    paintingType === "poster-with-hangers"
+                ) {
                     switch (imageType) {
                         case "vertical": {
-                            const tempDimentionsInCm = "50x70";
-                            setDimentionsInCm(tempDimentionsInCm);
-                            await getProductPrice(paintingType, imageType, tempDimentionsInCm);
+                            await handleSelectImageType(imageType);
                             break;
                         }
                         case "horizontal": {
-                            const tempDimentionsInCm = "70x50";
-                            setDimentionsInCm(tempDimentionsInCm);
-                            await getProductPrice(paintingType, imageType, tempDimentionsInCm);
+                            await handleSelectImageType(imageType);
                             break;
                         }
                         case "square": {
-                            const tempDimentionsInCm = "30x30";
-                            setDimentionsInCm(tempDimentionsInCm);
-                            await getProductPrice(paintingType, imageType, tempDimentionsInCm);
+                            await handleSelectImageType(imageType);
                             break;
                         }
                         default: {
-                            console.log("Error In Select Painting Type !!");
+                            throw Error("Sorry, Error In Image Orientation !!");
                         }
                     }
+                    if (paintingType === "canvas") {
+                        setIsExistWhiteBorderWithPoster("without-border");
+                        setFrameColor("none");
+                    }
+                    setPaintingType(paintingType);
                 }
-                else if (paintingType === "poster" || paintingType === "poster-with-wooden-frame" || paintingType === "poster-with-hangers") {
-                    await getProductPrice(paintingType, imageType, dimentionsInCm);
-                }
-                setPaintingType(paintingType);
             }
         }
         catch (err) {
@@ -1243,10 +1246,15 @@ export default function ImageToImage({
         setIsDragFile(true);
     }
 
-    const handleDropFile = (e) => {
-        e.preventDefault();
-        setIsDragFile(false);
-        handleSelectImageFile(e.dataTransfer.files[0]);
+    const handleDropFile = async (e) => {
+        try {
+            e.preventDefault();
+            setIsDragFile(false);
+            await handleSelectImageFile(e.dataTransfer.files[0]);
+        }
+        catch (err) {
+            throw Error(err);
+        }
     }
 
     const getAppearedSlidesCount = (windowInnerWidth, sectionName, count) => {

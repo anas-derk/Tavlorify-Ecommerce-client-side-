@@ -456,10 +456,15 @@ export default function FaceSwap({
     }
 
     const handleSelectCategory = async (index) => {
-        if (!isWaitStatus) {
-            setCategorySelectedIndex(index);
-            setCategoryStyles(await getAllFaceSwapCategoryStylesData(index));
-            setStyleSelectedIndex(0);
+        try{
+            if (!isWaitStatus) {
+                setCategorySelectedIndex(index);
+                setCategoryStyles(await getAllFaceSwapCategoryStylesData(index));
+                setStyleSelectedIndex(0);
+            }
+        }
+        catch(err) {
+            throw Error(err);
         }
     }
 
@@ -499,12 +504,35 @@ export default function FaceSwap({
     const handleSelectPaintingType = async (paintingType) => {
         try {
             if (!isWaitStatus) {
-                if (paintingType === "canvas") {
-                    setIsExistWhiteBorderWithPoster("without-border");
-                    setFrameColor("none");
-                };
-                setPaintingType(paintingType);
-                await getProductPrice(paintingType, imageType, dimentionsInCm);
+                if (
+                    paintingType === "canvas" ||
+                    paintingType === "poster" ||
+                    paintingType === "poster-with-wooden-frame" ||
+                    paintingType === "poster-with-hangers"
+                ) {
+                    switch (imageType) {
+                        case "vertical": {
+                            await handleSelectImageType(imageType);
+                            break;
+                        }
+                        case "horizontal": {
+                            await handleSelectImageType(imageType);
+                            break;
+                        }
+                        case "square": {
+                            await handleSelectImageType(imageType);
+                            break;
+                        }
+                        default: {
+                            throw Error("Sorry, Error In Image Orientation !!");
+                        }
+                    }
+                    if (paintingType === "canvas") {
+                        setIsExistWhiteBorderWithPoster("without-border");
+                        setFrameColor("none");
+                    }
+                    setPaintingType(paintingType);
+                }
             }
         }
         catch (err) {

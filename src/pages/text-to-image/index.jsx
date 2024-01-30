@@ -312,7 +312,7 @@ export default function TextToImage({
             },
         }
     }
-    
+
     const imagesSrc = [
         InspirationImage1ForTextToImage.src,
         InspirationImage2ForTextToImage.src,
@@ -480,12 +480,35 @@ export default function TextToImage({
     const handleSelectPaintingType = async (paintingType) => {
         try {
             if (!isWaitStatus) {
-                if (paintingType === "canvas") {
-                    setIsExistWhiteBorderWithPoster("without-border");
-                    setFrameColor("none");
-                };
-                setPaintingType(paintingType);
-                await getProductPrice(paintingType, imageType, dimentionsInCm);
+                if (
+                    paintingType === "canvas" ||
+                    paintingType === "poster" ||
+                    paintingType === "poster-with-wooden-frame" ||
+                    paintingType === "poster-with-hangers"
+                ) {
+                    switch (imageType) {
+                        case "vertical": {
+                            await handleSelectImageType(imageType);
+                            break;
+                        }
+                        case "horizontal": {
+                            await handleSelectImageType(imageType);
+                            break;
+                        }
+                        case "square": {
+                            await handleSelectImageType(imageType);
+                            break;
+                        }
+                        default: {
+                            throw Error("Sorry, Invalid Image Orientation !!");
+                        }
+                    }
+                    if (paintingType === "canvas") {
+                        setIsExistWhiteBorderWithPoster("without-border");
+                        setFrameColor("none");
+                    }
+                    setPaintingType(paintingType);
+                }
             }
         }
         catch (err) {
@@ -532,7 +555,7 @@ export default function TextToImage({
                         break;
                     }
                     default: {
-                        console.log("error in select image position");
+                        throw Error("Sorry, Invalid Image Orientation !!");
                     }
                 }
             }
