@@ -123,6 +123,8 @@ export default function TextToImage({
 
     const [errorInAddToCart, setErrorInAddToCart] = useState("");
 
+    const [isWaitGetProductPrice, setIsWaitGetProductPrice] = useState(false);
+
     const [tempImageType, setTempImageType] = useState("vertical");
 
     const [tempDimentionsInCm, setTempDimentionsInCm] = useState("50x70");
@@ -332,7 +334,7 @@ export default function TextToImage({
                 setCategoryStyles(categoryStylesData);
                 const tempModelName = categoryStylesData[0].modelName;
                 setModelName(tempModelName);
-                handleSelectGeneratedImageIdAndPaintingType(tempModelName);
+                await handleSelectGeneratedImageIdAndPaintingType(tempModelName);
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")));
                 setWindowInnerWidth(window.innerWidth);
                 window.addEventListener("resize", function () {
@@ -891,10 +893,12 @@ export default function TextToImage({
 
     const getProductPrice = async (paintingType, position, dimentions) => {
         try {
+            setIsWaitGetProductPrice(true);
             const res = await axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
             const result = await res.data;
             setProductPriceBeforeDiscount(result.priceBeforeDiscount);
             setProductPriceAfterDiscount(result.priceAfterDiscount);
+            setIsWaitGetProductPrice(false);
         }
         catch (err) {
             throw Error(err);
@@ -1287,10 +1291,19 @@ export default function TextToImage({
                                     {/* End Displaying Art Painting Options Section */}
                                 </section>
                                 {/* Start Add To Cart Managment */}
-                                {!isWaitStatus && !errorMsg && <div className="add-to-cart-box">
-                                    {!isWaitAddToCart && !errorInAddToCart && !isSuccessAddToCart && <button
+                                {<div className="add-to-cart-box">
+                                    {!isWaitStatus && !errorMsg && !isWaitAddToCart && !errorInAddToCart && !isSuccessAddToCart && !isWaitGetProductPrice && <button
                                         className="btn btn-dark w-100 p-2 add-to-cart-managment-btn mb-3"
                                         onClick={addToCart}
+                                    >
+                                        <span className="me-2">Lägg i varukorgen |</span>
+                                        <span className="me-2">{productPriceAfterDiscount} Kr</span>
+                                        {productPriceBeforeDiscount != productPriceAfterDiscount && <span className="text-decoration-line-through me-2">{productPriceBeforeDiscount} </span>}
+                                        {productPriceBeforeDiscount != productPriceAfterDiscount && <span>kr</span>}
+                                    </button>}
+                                    {(isWaitStatus || errorMsg || isWaitGetProductPrice)  && <button
+                                        className="btn btn-dark w-100 p-2 add-to-cart-managment-btn mb-3"
+                                        disabled
                                     >
                                         <span className="me-2">Lägg i varukorgen |</span>
                                         <span className="me-2">{productPriceAfterDiscount} Kr</span>
