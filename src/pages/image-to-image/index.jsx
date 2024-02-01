@@ -928,30 +928,48 @@ export default function ImageToImage({
             }
         }
         else {
-            const productInfoToCart = {
-                _id: generateUniqueID(),
-                paintingType: paintingType,
-                isExistWhiteBorder: isExistWhiteBorderWithPoster,
-                frameColor: frameColor,
-                position: imageType,
-                size: dimentionsInCm,
-                priceBeforeDiscount: productPriceBeforeDiscount,
-                priceAfterDiscount: productPriceAfterDiscount,
-                generatedImageURL: generatedImagePathInMyServer,
-                quantity: 1,
-                service: "image-to-image",
-            }
             let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
             if (allProductsData) {
-                allProductsData.push(productInfoToCart);
-                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
-                setIsWaitAddToCart(false);
-                setIsSuccessAddToCart(true);
-                let successAddToCartTimeout = setTimeout(() => {
-                    setIsSuccessAddToCart(false);
-                    setNewTotalProductsCount(allProductsData.length);
-                    clearTimeout(successAddToCartTimeout);
-                }, 1500);
+                let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+                const productIndex = allProductsData.findIndex((productData) => productData.paintingType === paintingType &&
+                    productData.position === imageType &&
+                    productData.size === dimentionsInCm &&
+                    productData.isExistWhiteBorder === isExistWhiteBorderWithPoster &&
+                    productData.frameColor === frameColor &&
+                    productData.generatedImageURL === generatedImagePathInMyServer &&
+                    productData.service === "image-to-image",
+                );
+                if (productIndex < 0) {
+                    const productInfoToCart = {
+                        _id: generateUniqueID(),
+                        paintingType: paintingType,
+                        isExistWhiteBorder: isExistWhiteBorderWithPoster,
+                        frameColor: frameColor,
+                        position: imageType,
+                        size: dimentionsInCm,
+                        priceBeforeDiscount: productPriceBeforeDiscount,
+                        priceAfterDiscount: productPriceAfterDiscount,
+                        generatedImageURL: generatedImagePathInMyServer,
+                        quantity: 1,
+                        service: "image-to-image",
+                    }
+                    allProductsData.push(productInfoToCart);
+                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
+                    setIsWaitAddToCart(false);
+                    setIsSuccessAddToCart(true);
+                    let successAddToCartTimeout = setTimeout(() => {
+                        setIsSuccessAddToCart(false);
+                        setNewTotalProductsCount(allProductsData.length);
+                        clearTimeout(successAddToCartTimeout);
+                    }, 1500);
+                } else {
+                    setIsWaitAddToCart(false);
+                    setErrorInAddToCart(`Sorry, This Product Is Already Exist !!`);
+                    let errorTimeoutInAddToCart = setTimeout(() => {
+                        setErrorInAddToCart("");
+                        clearTimeout(errorTimeoutInAddToCart);
+                    }, 1500);
+                }
             } else {
                 let allProductsData = [];
                 allProductsData.push(productInfoToCart);

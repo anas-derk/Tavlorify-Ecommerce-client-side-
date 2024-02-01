@@ -697,31 +697,61 @@ export default function TextToImage({
                 clearTimeout(errorTimeoutInAddToCart);
             }, 1500);
         } else {
-            const productInfoToCart = {
-                _id: generateUniqueID(),
-                paintingType,
-                isExistWhiteBorder: isExistWhiteBorderWithPoster,
-                frameColor,
-                position: tempImageType,
-                size: dimentionsInCm,
-                priceBeforeDiscount: productPriceBeforeDiscount,
-                priceAfterDiscount: productPriceAfterDiscount,
-                generatedImageURL: generatedImagePathInMyServer,
-                quantity: 1,
-                service: "text-to-image",
-            }
             let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
             if (allProductsData) {
-                allProductsData.push(productInfoToCart);
-                localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
-                setIsWaitAddToCart(false);
-                setIsSuccessAddToCart(true);
-                let successAddToCartTimeout = setTimeout(() => {
-                    setIsSuccessAddToCart(false);
-                    clearTimeout(successAddToCartTimeout);
-                }, 1500);
-                setNewTotalProductsCount(allProductsData.length);
+                const productIndex = allProductsData.findIndex((productData) => productData.paintingType === paintingType &&
+                    productData.position === tempImageType &&
+                    productData.size === dimentionsInCm &&
+                    productData.isExistWhiteBorder === isExistWhiteBorderWithPoster &&
+                    productData.frameColor === frameColor &&
+                    productData.generatedImageURL === generatedImagePathInMyServer &&
+                    productData.service === "text-to-image",
+                );
+                if (productIndex < 0) {
+                    const productInfoToCart = {
+                        _id: generateUniqueID(),
+                        paintingType,
+                        isExistWhiteBorder: isExistWhiteBorderWithPoster,
+                        frameColor,
+                        position: tempImageType,
+                        size: dimentionsInCm,
+                        priceBeforeDiscount: productPriceBeforeDiscount,
+                        priceAfterDiscount: productPriceAfterDiscount,
+                        generatedImageURL: generatedImagePathInMyServer,
+                        quantity: 1,
+                        service: "text-to-image",
+                    }
+                    allProductsData.push(productInfoToCart);
+                    localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
+                    setIsWaitAddToCart(false);
+                    setIsSuccessAddToCart(true);
+                    let successAddToCartTimeout = setTimeout(() => {
+                        setIsSuccessAddToCart(false);
+                        clearTimeout(successAddToCartTimeout);
+                    }, 1500);
+                    setNewTotalProductsCount(allProductsData.length);
+                } else {
+                    setIsWaitAddToCart(false);
+                    setErrorInAddToCart(`Sorry, This Product Is Already Exist !!`);
+                    let errorTimeoutInAddToCart = setTimeout(() => {
+                        setErrorInAddToCart("");
+                        clearTimeout(errorTimeoutInAddToCart);
+                    }, 1500);
+                }
             } else {
+                const productInfoToCart = {
+                    _id: generateUniqueID(),
+                    paintingType,
+                    isExistWhiteBorder: isExistWhiteBorderWithPoster,
+                    frameColor,
+                    position: tempImageType,
+                    size: dimentionsInCm,
+                    priceBeforeDiscount: productPriceBeforeDiscount,
+                    priceAfterDiscount: productPriceAfterDiscount,
+                    generatedImageURL: generatedImagePathInMyServer,
+                    quantity: 1,
+                    service: "text-to-image",
+                }
                 let allProductsData = [];
                 allProductsData.push(productInfoToCart);
                 localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(allProductsData));
@@ -1301,7 +1331,7 @@ export default function TextToImage({
                                         {productPriceBeforeDiscount != productPriceAfterDiscount && <span className="text-decoration-line-through me-2">{productPriceBeforeDiscount} </span>}
                                         {productPriceBeforeDiscount != productPriceAfterDiscount && <span>kr</span>}
                                     </button>}
-                                    {(isWaitStatus || errorMsg || isWaitGetProductPrice)  && <button
+                                    {(isWaitStatus || errorMsg || isWaitGetProductPrice) && <button
                                         className="btn btn-dark w-100 p-2 add-to-cart-managment-btn mb-3"
                                         disabled
                                     >
