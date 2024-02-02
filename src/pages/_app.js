@@ -7,7 +7,7 @@ import "../pages/index.css";
 import "../pages/text-to-image/index.css";
 import "../pages/image-to-image/index.css";
 import "../components/ControlPanelHeader/index.css";
-import "../pages/dashboard/admin/login/index.css";
+import "../pages/admin-dashboard/login/index.css";
 import "./checkout/index.css";
 import "../components/CustomersComments/index.css";
 import "slick-carousel/slick/slick.css"; 
