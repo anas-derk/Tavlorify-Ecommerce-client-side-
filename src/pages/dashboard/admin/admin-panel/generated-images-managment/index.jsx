@@ -239,7 +239,7 @@ export default function GeneratedImagesManagment({ pageName }) {
                                 <tbody>
                                     {allGeneratedImagesDataInsideThePage.map((generatedImageData, index) => (
                                         <tr key={index}>
-                                            <td className="fw-bold">{index + 1}</td>
+                                            <td className="fw-bold">{pageSize * (currentPage - 1) + index + 1}</td>
                                             {pageName === "image-to-image" && <td className="uploaded-image-cell">
                                                 <img
                                                     src={generatedImageData.uploadedImageURL}
