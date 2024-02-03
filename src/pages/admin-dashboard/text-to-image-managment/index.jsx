@@ -24,8 +24,8 @@ export default function TextToImageManager() {
             {/* Start Content Section */}
             <section className="content d-flex justify-content-center align-items-center flex-column text-center">
                 <h1 className="welcome-msg mb-5 fw-bold pb-3">Hello To You In Text To Image Manager Page</h1>
-                <Link href="/dashboard/admin/admin-panel/text-to-image-managment/categories-managment" className="btn btn-success mb-3 d-block mx-auto w-25 manager-link">Categories Manager</Link>
-                <Link href="/dashboard/admin/admin-panel/text-to-image-managment/styles-managment" className="btn btn-success mb-3 d-block mx-auto w-25 manager-link">Styles Manager</Link>
+                <Link href="/admin-dashboard/text-to-image-managment/categories-managment" className="btn btn-success mb-3 d-block mx-auto w-25 manager-link">Categories Manager</Link>
+                <Link href="/admin-dashboard/text-to-image-managment/styles-managment" className="btn btn-success mb-3 d-block mx-auto w-25 manager-link">Styles Manager</Link>
             </section>
             {/* End Content Section */}
         </div>
