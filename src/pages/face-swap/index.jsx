@@ -74,6 +74,7 @@ import InspirationImage6ForFaceSwap from "@/../public/images/Inspiration/FaceSwa
 import InspirationImage7ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/7.webp";
 import InspirationImage8ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/8.webp";
 import CustomersComments from "@/components/CustomersComments";
+import WaitGeneratingImage from "@/components/WaitGeneratingImage";
 
 export default function FaceSwap({
     generatedImageId,
@@ -1072,9 +1073,7 @@ export default function FaceSwap({
                                 {/* End Column */}
                             </>}
                             {isWaitStatus && <div className="col-md-7 text-center">
-                                <div className="wait-generating-image">
-                                    Generating ...
-                                </div>
+                                <WaitGeneratingImage />
                             </div>}
                             {/* Start Column */}
                             <div className="col-lg-5">

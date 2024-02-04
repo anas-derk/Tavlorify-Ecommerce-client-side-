@@ -69,6 +69,7 @@ import InspirationImage6ForTextToImage from "@/../public/images/Inspiration/Text
 import InspirationImage7ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/7.webp";
 import InspirationImage8ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/8.webp";
 import CustomersComments from "@/components/CustomersComments";
+import WaitGeneratingImage from "@/components/WaitGeneratingImage";
 
 export default function TextToImage({
     generatedImageId,
@@ -1043,9 +1044,7 @@ export default function TextToImage({
                                 {/* End Column */}
                             </>}
                             {isWaitStatus && <div className="col-md-7 text-center">
-                                <div className="wait-generating-image">
-                                    Generating ...
-                                </div>
+                                <WaitGeneratingImage />
                             </div>}
                             {/* Start Column */}
                             <div className="col-lg-5">
