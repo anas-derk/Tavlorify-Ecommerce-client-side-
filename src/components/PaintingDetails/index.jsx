@@ -1,7 +1,9 @@
 import { useState } from "react";
 
 export default function PaintingDetails({ windowInnerWidth, serviceName }) {
+    
     const [appearedPaintingDetailsList, setAppearedPaintingDetailsList] = useState(["summary"]);
+    
     return (
         <section className="painting-details">
             {windowInnerWidth >= 767 && <>
@@ -281,19 +283,6 @@ export default function PaintingDetails({ windowInnerWidth, serviceName }) {
                                 <p className="mb-4 content"><span className="fw-bold">Leveranstid</span>: 3-5 vardagar.</p>
                                 <p className="mb-4 content"><span className="fw-bold">Fraktkostnad</span>: Fri frakt.</p>
                                 <p className="m-0"><span className="fw-bold">Leverantör</span>: Skickas med DHL eller Postnord till ombud.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="accordion-item">
-                        <h2 className="accordion-header" id="headingThree">
-                            <button className="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                Andra frågor
-                            </button>
-                        </h2>
-                        <div id="collapseFour" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                            <div className="accordion-body">
-                                <p className="mb-4 content"><span className="fw-bold">When uploading</span>: It’s important that you upload the original image straight from the camera roll, and that the photo has good resolution, sharpness and brightness.</p>
-                                <p className="m-0">Once you have selected your image, you will be given a preliminary evaluation of how good the resolution is (1-5 stars). Once the image is uploaded to the designer, you can click on the tab with the star to see a more thorough evaluation of the quality including resolution, sharpness and brightness.</p>
                             </div>
                         </div>
                     </div>

@@ -10,9 +10,9 @@ export default function AddNewCategoryStyle() {
     const categoriesData = ["Man", "Pojke", "Kvinna", "Flicka"];
 
     const styleImagesData = [
-        { formValidationKey: "verticalStyleImage", orientation: "Vertical"},
-        { formValidationKey: "horizontalStyleImage", orientation: "Horizontal" },
-        { formValidationKey: "squareStyleImage", orientation: "Square" },
+        { formValidationKey: "verticalStyleImage", orientation: "vertical"},
+        { formValidationKey: "horizontalStyleImage", orientation: "horizontal" },
+        { formValidationKey: "squareStyleImage", orientation: "square" },
     ];
 
     const [categoryName, setCategoryName] = useState("");
@@ -102,14 +102,13 @@ export default function AddNewCategoryStyle() {
             setFormValidationErrors(errorsObject);
             if (Object.keys(errorsObject).length == 0) {
                 let formData = new FormData();
-                formData.append("categoryName", categoryName);
                 for(let styleImageData of styleImagesData) {
                     formData.append(styleImageData.formValidationKey, styleImageFiles[styleImageData.orientation]);
                 }
                 setIsAddingStatus(true);
-                const res = await axios.post(`${process.env.BASE_API_URL}/image-to-image/styles/add-new-style`, formData);
+                const res = await axios.post(`${process.env.BASE_API_URL}/face-swap/styles/add-new-style?categoryName=${categoryName}`, formData);
                 const result = await res.data;
-                if (result === "Adding New Category Style For Image To Image Page Process Is Succesfuly !!") {
+                if (result === "Adding New Category Style For Face Swap Page Process Is Succesfuly !!") {
                     setIsAddingStatus(false);
                     setIsSuccessStatus(true);
                     let successTimeout = setTimeout(() => {
@@ -120,6 +119,7 @@ export default function AddNewCategoryStyle() {
             }
         }
         catch (err) {
+            setIsAddingStatus(false);
             setIsErrorStatus(true);
             let errorTimeout = setTimeout(() => {
                 setIsErrorStatus(false);
@@ -144,7 +144,7 @@ export default function AddNewCategoryStyle() {
                         >
                             <option defaultValue="" hidden>Select The Category</option>
                             {categoriesData.map((category, index) => (
-                                <option value={index} key={index}>{category}</option>
+                                <option value={category} key={index}>{category}</option>
                             ))}
                         </select>
                         {formValidationErrors["categoryName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryName"]}</p>}
@@ -158,9 +158,9 @@ export default function AddNewCategoryStyle() {
                                     onChange={(e) => setStyleImageFiles(
                                         {
                                             ...styleImageFiles,
-                                            vertical: styleImageData.orientation === "Vertical" ? e.target.files[0] : "",
-                                            horizontal: styleImageData.orientation === "Horizontal" ? e.target.files[0] : "",
-                                            square: styleImageData.orientation === "Square" ? e.target.files[0] : "",
+                                            vertical: styleImageData.orientation === "vertical" ? e.target.files[0] : styleImageFiles.vertical,
+                                            horizontal: styleImageData.orientation === "horizontal" ? e.target.files[0] : styleImageFiles.horizontal,
+                                            square: styleImageData.orientation === "square" ? e.target.files[0] : styleImageFiles.square,
                                         }
                                     )}
                                 />

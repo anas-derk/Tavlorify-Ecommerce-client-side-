@@ -340,6 +340,7 @@ export default function Header({ newTotalProductsCount }) {
             }
         }
         catch (err) {
+            setIsCreatingOrder(false);
             setIsExistErrorInCreatingOrder(true);
             let errorInCreatedOrderTimeout = setTimeout(() => {
                 setIsExistErrorInCreatingOrder(false);
