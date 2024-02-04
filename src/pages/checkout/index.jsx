@@ -122,54 +122,54 @@ export default function Checkout({ orderId }) {
     }
 
     const orderAllProducts = async (orderId, orderNumber) => {
-        const tempAllProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
-        if (Array.isArray(tempAllProductsData)) {
-            if (tempAllProductsData.length > 0) {
-                const orderDetails = {
-                    purchase_country: "SE",
-                    purchase_currency: "SEK",
-                    locale: "sv-SE",
-                    order_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(tempAllProductsData), calcTotalOrderDiscount(tempAllProductsData)) * 100,
-                    order_tax_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(tempAllProductsData), calcTotalOrderDiscount(tempAllProductsData)) * 100 * 0.20,
-                    order_lines: getOrderLinesForKlarnaCheckoutAPI(tempAllProductsData),
-                    merchant_urls: {
-                        terms: `https://tavlorify.se/terms`,
-                        checkout: `https://tavlorify.se/checkout/{checkout.order.id}`,
-                        confirmation: `https://tavlorify.se/confirmation/{checkout.order.id}`,
-                        push: `${process.env.BASE_API_URL}/orders/handle-klarna-checkout-complete/{checkout.order.id}`,
-                    },
-                    merchant_reference1: orderNumber,
-                    merchant_reference2: orderId,
-                    customer: {
-                        type: "person",
-                    },
-                    options: {
-                        allow_separate_shipping_address: true,
-                        allowed_customer_types: ["person", "organization"],
-                    },
-                    shipping_options: [
-                        {
-                            id: "4db52f01-67e4-4d70-af73-1913792f0bfe",
-                            name: "Tavlorify",
-                            description: "EXPRESS 1-2 Days",
-                            preselected: true,
-                            shipping_method: "Own",
-                            price: 0,
-                            tax_amount: 0,
-                            tax_rate: 0,
-                            tms_reference: generateUniqueID(),
-                        }
-                    ]
-                }
-                try {
+        try {
+            const tempAllProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
+            if (Array.isArray(tempAllProductsData)) {
+                if (tempAllProductsData.length > 0) {
+                    const orderDetails = {
+                        purchase_country: "SE",
+                        purchase_currency: "SEK",
+                        locale: "sv-SE",
+                        order_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(tempAllProductsData), calcTotalOrderDiscount(tempAllProductsData)) * 100,
+                        order_tax_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(tempAllProductsData), calcTotalOrderDiscount(tempAllProductsData)) * 100 * 0.20,
+                        order_lines: getOrderLinesForKlarnaCheckoutAPI(tempAllProductsData),
+                        merchant_urls: {
+                            terms: `https://tavlorify.se/terms`,
+                            checkout: `https://tavlorify.se/checkout/{checkout.order.id}`,
+                            confirmation: `https://tavlorify.se/confirmation/{checkout.order.id}`,
+                            push: `${process.env.BASE_API_URL}/orders/handle-klarna-checkout-complete/{checkout.order.id}`,
+                        },
+                        merchant_reference1: orderNumber,
+                        merchant_reference2: orderId,
+                        customer: {
+                            type: "person",
+                        },
+                        options: {
+                            allow_separate_shipping_address: true,
+                            allowed_customer_types: ["person", "organization"],
+                        },
+                        shipping_options: [
+                            {
+                                id: "4db52f01-67e4-4d70-af73-1913792f0bfe",
+                                name: "Tavlorify",
+                                description: "EXPRESS 1-2 Days",
+                                preselected: true,
+                                shipping_method: "Own",
+                                price: 0,
+                                tax_amount: 0,
+                                tax_rate: 0,
+                                tms_reference: generateUniqueID(),
+                            }
+                        ]
+                    }
                     const res = await axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-klarna`, orderDetails);
                     const result = await res.data;
                     return result;
                 }
-                catch (err) {
-                    throw Error(err);
-                }
             }
+        }
+        catch (err) {
+            throw Error(err);
         }
     }
 
@@ -213,18 +213,18 @@ export default function Checkout({ orderId }) {
     }
 
     const updateKlarnaOrder = async (productId, operation, orderId) => {
-        let newProductsData = [];
-        if (operation === "increase-product-quantity" || operation === "decrease-product-quantity") {
-            newProductsData = updateProductQuantity(allProductsData, productId, operation);
-        } else if (operation === "delete-product") {
-            newProductsData = deleteProduct(productId);
-        }
-        const orderDetails = {
-            order_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(newProductsData), calcTotalOrderDiscount(newProductsData)) * 100,
-            order_tax_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(newProductsData), calcTotalOrderDiscount(newProductsData)) * 100 * 0.20,
-            order_lines: getOrderLinesForKlarnaCheckoutAPI(newProductsData),
-        }
         try {
+            let newProductsData = [];
+            if (operation === "increase-product-quantity" || operation === "decrease-product-quantity") {
+                newProductsData = updateProductQuantity(allProductsData, productId, operation);
+            } else if (operation === "delete-product") {
+                newProductsData = deleteProduct(productId);
+            }
+            const orderDetails = {
+                order_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(newProductsData), calcTotalOrderDiscount(newProductsData)) * 100,
+                order_tax_amount: calcTotalOrderPriceAfterDiscount(calcTotalOrderPriceBeforeDiscount(newProductsData), calcTotalOrderDiscount(newProductsData)) * 100 * 0.20,
+                order_lines: getOrderLinesForKlarnaCheckoutAPI(newProductsData),
+            }
             const res = await axios.put(`${process.env.BASE_API_URL}/orders/update-klarna-order/${orderId}`, orderDetails);
             const result = await res.data;
             localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(newProductsData));
