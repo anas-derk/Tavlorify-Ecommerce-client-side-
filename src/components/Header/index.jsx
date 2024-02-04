@@ -515,11 +515,14 @@ export default function Header({ newTotalProductsCount }) {
                             <span className="ms-2">HEMSIDA</span>
                         </Link>
                     </li>
-                    <li className="link-item p-3 border-bottom border-2">
+                    <li
+                        className="link-item p-3 border-bottom border-2"
+                        onClick={() => setDisplayingTheCustomDropdownMenuNames(displayingTheCustomDropdownMenuNames.includes("poster-dropdown-menu") ? displayingTheCustomDropdownMenuNames.filter(name => name !== "poster-dropdown-menu") :  [...displayingTheCustomDropdownMenuNames, "poster-dropdown-menu"])}
+                    >
                         <BsPaintBucket />
                         <span className="ms-2">POSTERS</span>
-                        {!displayingTheCustomDropdownMenuNames.includes("poster-dropdown-menu") && <IoIosArrowRoundDown className="icon" onClick={() => setDisplayingTheCustomDropdownMenuNames([...displayingTheCustomDropdownMenuNames, "poster-dropdown-menu"])} />}
-                        {displayingTheCustomDropdownMenuNames.includes("poster-dropdown-menu") && <IoIosArrowRoundUp className="icon" onClick={() => setDisplayingTheCustomDropdownMenuNames(displayingTheCustomDropdownMenuNames.filter(name => name !== "poster-dropdown-menu"))} />}
+                        {!displayingTheCustomDropdownMenuNames.includes("poster-dropdown-menu") && <IoIosArrowRoundDown className="icon" />}
+                        {displayingTheCustomDropdownMenuNames.includes("poster-dropdown-menu") && <IoIosArrowRoundUp className="icon" />}
                         {displayingTheCustomDropdownMenuNames.includes("poster-dropdown-menu") && <ul className="dropdown-menu-for-custom-navbar mt-2">
                             <li className="pt-2 pb-2 dropdown-menu-item-for-custom-navbar">
                                 <Link
@@ -549,13 +552,30 @@ export default function Header({ newTotalProductsCount }) {
                                     <span>förvandla foton till konstverk</span>
                                 </Link>
                             </li>
+                            <li className="pt-2 pb-2 dropdown-menu-item-for-custom-navbar">
+                                <Link
+                                    className="link"
+                                    href={{
+                                        pathname: "/face-swap",
+                                        query: {
+                                            paintingTypeAsQuery: "poster",
+                                        }
+                                    }}
+                                >
+                                    <FaLongArrowAltRight className="me-2" />
+                                    <span>ansiktsbyte</span>
+                                </Link>
+                            </li>
                         </ul>}
                     </li>
-                    <li className="link-item p-3 border-bottom border-2">
+                    <li
+                        className="link-item p-3 border-bottom border-2"
+                        onClick={() => setDisplayingTheCustomDropdownMenuNames(displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") ? displayingTheCustomDropdownMenuNames.filter(name => name !== "canvas-dropdown-menu") :  [...displayingTheCustomDropdownMenuNames, "canvas-dropdown-menu"])}
+                    >
                         <BsPaintBucket />
                         <span className="ms-2">CANVASTAVLOR</span>
-                        {!displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") && <IoIosArrowRoundDown className="icon" onClick={() => setDisplayingTheCustomDropdownMenuNames([...displayingTheCustomDropdownMenuNames, "canvas-dropdown-menu"])} />}
-                        {displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") && <IoIosArrowRoundUp className="icon" onClick={() => setDisplayingTheCustomDropdownMenuNames(displayingTheCustomDropdownMenuNames.filter(name => name !== "canvas-dropdown-menu"))} />}
+                        {!displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") && <IoIosArrowRoundDown className="icon"  />}
+                        {displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") && <IoIosArrowRoundUp className="icon" />}
                         {displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") && <ul className="dropdown-menu-for-custom-navbar mt-2">
                             <li className="pt-2 pb-2 dropdown-menu-item-for-custom-navbar">
                                 <Link
@@ -583,6 +603,20 @@ export default function Header({ newTotalProductsCount }) {
                                 >
                                     <FaLongArrowAltRight className="me-2" />
                                     <span>förvandla foton till konstverk</span>
+                                </Link>
+                            </li>
+                            <li className="pt-2 pb-2 dropdown-menu-item-for-custom-navbar">
+                                <Link
+                                    className="link"
+                                    href={{
+                                        pathname: "/face-swap",
+                                        query: {
+                                            paintingTypeAsQuery: "canvas",
+                                        }
+                                    }}
+                                >
+                                    <FaLongArrowAltRight className="me-2" />
+                                    <span>ansiktsbyte</span>
                                 </Link>
                             </li>
                         </ul>}

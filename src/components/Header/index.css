@@ -93,11 +93,6 @@
   }
 }
 
-.global-header .custom-navbar-for-mobiles-and-tablets-devices .icon {
-  cursor: pointer;
-  font-size: 20px;
-}
-
 .global-header .custom-navbar-for-mobiles-and-tablets-devices .home-link {
   color: #000;
 }
@@ -130,6 +125,11 @@
 
 .global-header .custom-navbar-for-mobiles-and-tablets-devices .links-list .link-item {
   color: #FFF;
+  cursor: pointer;
+}
+
+.global-header .custom-navbar-for-mobiles-and-tablets-devices .links-list .link-item .icon {
+  font-size: 20px;
 }
 
 .global-header .custom-navbar-for-mobiles-and-tablets-devices .links-list .link-item .dropdown-menu-for-custom-navbar .dropdown-menu-item-for-custom-navbar {

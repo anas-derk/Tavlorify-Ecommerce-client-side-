@@ -76,9 +76,8 @@
         @media (min-width: 992px) {
             display: none !important;
         }
-        .icon{
-            cursor: pointer;
-            font-size: 20px;
+        .link-item{
+            
         }
         .home-link{
             color: #000;
@@ -107,6 +106,10 @@
             background-color: #444;
             .link-item{
                 color: #FFF;
+                cursor: pointer;
+                .icon{
+                    font-size: 20px;
+                }
                 .dropdown-menu-for-custom-navbar{
                     .dropdown-menu-item-for-custom-navbar{
                         text-indent: 15px;
