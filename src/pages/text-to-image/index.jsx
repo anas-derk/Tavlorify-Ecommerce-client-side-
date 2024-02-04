@@ -606,6 +606,11 @@ export default function TextToImage({
     const generatedImageWithAI = async (e) => {
         try {
             e.preventDefault();
+            window.scrollTo({
+                behavior: "smooth",
+                top: 60,
+                left: 0,
+            });
             setIsWaitStatus(true);
             const res = await axios.get(
                 `${process.env.BASE_API_URL}/text-to-image/generate-image?service=text-to-image&textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&position=${imageType}&dimentionsInCm=${dimentionsInCm}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
@@ -806,7 +811,6 @@ export default function TextToImage({
                 onClick={() => handleDisplayImageMode(imageSize)}
                 style={
                     {
-                        backgroundColor: isWaitStatus ? "#989492" : "",
                         cursor: !isWaitStatus && imageSize === "minimize-image" && !isImageInsideRoom ? "pointer" : "",
                         position: !imageSize ? "sticky" : "",
                         top: !imageSize ? "90px" : "",
@@ -863,7 +867,6 @@ export default function TextToImage({
                         onDragStart={(e) => e.preventDefault()}
                     />
                 </div>}
-                {isWaitStatus && !errorMsg && <span className="loader"></span>}
             </div>
         );
     }
@@ -875,7 +878,6 @@ export default function TextToImage({
                 onClick={() => handleDisplayImageMode(`image-inside-room${roomNumber}`)}
                 style={
                     {
-                        backgroundColor: isWaitStatus ? "#989492" : "",
                         cursor: !isWaitStatus && imageSize === "minimize-room-image" ? "pointer" : "",
                         position: !imageSize ? "sticky" : "",
                         top: !imageSize ? "90px" : "",
@@ -1017,7 +1019,7 @@ export default function TextToImage({
                                 </div>
                             </div>}
                             {/* End Column */}
-                            {!errorMsg && <>
+                            {!errorMsg && !isWaitStatus && <>
                                 {/* Start Column */}
                                 {windowInnerWidth >= 991 && <div className="col-lg-2">
                                     <div className="minimize-images">
@@ -1040,6 +1042,11 @@ export default function TextToImage({
                                 </div>
                                 {/* End Column */}
                             </>}
+                            {isWaitStatus && <div className="col-md-7 text-center">
+                                <div className="wait-generating-image">
+                                    Generating ...
+                                </div>
+                            </div>}
                             {/* Start Column */}
                             <div className="col-lg-5">
                                 <section className="art-painting-options pe-3 mb-3">

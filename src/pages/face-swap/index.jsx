@@ -583,6 +583,11 @@ export default function FaceSwap({
     const faceSwapWithAI = async (e) => {
         try {
             e.preventDefault();
+            window.scrollTo({
+                behavior: "smooth",
+                top: 60,
+                left: 0,
+            });
             setIsWaitStatus(true);
             const res = await axios.get(
                 `${process.env.BASE_API_URL}/face-swap/generate-image?service=face-swap&imageLink=${imageLink}&styleImageLink=${getSuitableStyleImageLink(imageType)}`);
@@ -829,7 +834,6 @@ export default function FaceSwap({
                 onClick={() => handleDisplayImageMode(imageSize)}
                 style={
                     {
-                        backgroundColor: isWaitStatus ? "#989492" : "",
                         cursor: !isWaitStatus && imageSize === "minimize-image" && !isImageInsideRoom ? "pointer" : "",
                         position: !imageSize ? "sticky" : "",
                         top: !imageSize ? "90px" : "",
@@ -886,7 +890,6 @@ export default function FaceSwap({
                         onDragStart={(e) => e.preventDefault()}
                     />
                 </div>}
-                {isWaitStatus && !errorMsg && <span className="loader"></span>}
             </div>
         );
     }
@@ -898,7 +901,6 @@ export default function FaceSwap({
                 onClick={() => handleDisplayImageMode(`image-inside-room${roomNumber}`)}
                 style={
                     {
-                        backgroundColor: isWaitStatus ? "#989492" : "",
                         cursor: !isWaitStatus && imageSize === "minimize-room-image" ? "pointer" : "",
                         position: !imageSize ? "sticky" : "",
                         top: !imageSize ? "90px" : "",
@@ -1043,8 +1045,8 @@ export default function FaceSwap({
                                 </div>
                             </div>}
                             {/* End Column */}
-                            {!errorMsg && <>
-                                {!isWaitStatus && windowInnerWidth < 991 && <div className="col-lg-12">
+                            {!errorMsg && !isWaitStatus && <>
+                                {windowInnerWidth < 991 && <div className="col-lg-12">
                                     {getImageBeforeProcessingBox()}
                                 </div>}
                                 {/* Start Column */}
@@ -1069,6 +1071,11 @@ export default function FaceSwap({
                                 </div>
                                 {/* End Column */}
                             </>}
+                            {isWaitStatus && <div className="col-md-7 text-center">
+                                <div className="wait-generating-image">
+                                    Generating ...
+                                </div>
+                            </div>}
                             {/* Start Column */}
                             <div className="col-lg-5">
                                 {!errorMsg && !isWaitStatus && windowInnerWidth >= 991 && getImageBeforeProcessingBox()}

@@ -268,6 +268,9 @@ a{
                 line-height: 1.7;
             }
             .row{
+                @media (max-width: 991px) {
+                    gap: 30px;
+                }
                 .minimize-images{
                     position: sticky;
                     top: 90px;
@@ -406,9 +409,6 @@ a{
                         .frames-list{
                             grid-template-columns: repeat(9, 110px);
                             grid-auto-flow: column;
-                            @media(max-width: 991px){
-                                grid-template-columns: repeat(9, 75px);
-                            }
                             span{
                                 height: 130px;
                                 img{
@@ -733,6 +733,28 @@ a{
     }
 }
 
+.wait-generating-image{
+    font-size: 48px;
+    color: #000;
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    position: relative;
+    &::after{
+        content: '';
+        height: 4px;
+        width:0%;
+        display: block;
+        background: #000;
+        animation: 5s lineGrow linear infinite;
+    }
+}
+
+@keyframes lineGrow {
+    to{
+        width: 100%;
+    }
+}
 
 @keyframes rikSpikeRoll {
     0% { background-size: 10px 3px;}

@@ -666,6 +666,11 @@ export default function ImageToImage({
             setBackgroundPosition({ x: 50, y: 50 });
             setInitialOffsetValue({ x: 0, y: 0 });
             setIsMouseDownActivate(false);
+            window.scrollTo({
+                behavior: "smooth",
+                top: 60,
+                left: 0,
+            });
             setIsWaitStatus(true);
             const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}&service=image-to-image&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`);
             const result = await res.data;
@@ -1081,7 +1086,6 @@ export default function ImageToImage({
                 onClick={() => handleDisplayImageMode(imageSize)}
                 style={
                     {
-                        backgroundColor: isWaitStatus ? "#989492" : "",
                         cursor: !isWaitStatus && imageSize === "minimize-image" && !isImageInsideRoom ? "pointer" : "",
                         position: !imageSize ? "sticky" : "",
                         top: !imageSize ? "90px" : "",
@@ -1190,7 +1194,6 @@ export default function ImageToImage({
                         {theDirectionOfImageDisplacement === "vertical" && <CgArrowsVAlt className="displacement-icon displacement-vertical" />}
                     </div>}
                 </div>}
-                {isWaitStatus && !errorMsg && <span className="loader"></span>}
                 {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
             </div>
         );
@@ -1353,8 +1356,8 @@ export default function ImageToImage({
                                 </div>
                             </div>}
                             {/* End Column */}
-                            {!errorMsg && <>
-                                {!isWaitStatus && windowInnerWidth < 991 && <div className="col-lg-12">
+                            {!errorMsg && !isWaitStatus && <>
+                                {windowInnerWidth < 991 && <div className="col-lg-12">
                                     {getImageBeforeProcessingBox()}
                                 </div>}
                                 {/* Start Column */}
@@ -1379,6 +1382,11 @@ export default function ImageToImage({
                                 </div>
                                 {/* End Column */}
                             </>}
+                            {isWaitStatus && <div className="col-md-7 text-center">
+                                <div className="wait-generating-image">
+                                    Generating ...
+                                </div>
+                            </div>}
                             {/* Start Column */}
                             <div className="col-lg-5">
                                 {!errorMsg && !isWaitStatus && windowInnerWidth >= 991 && getImageBeforeProcessingBox()}
