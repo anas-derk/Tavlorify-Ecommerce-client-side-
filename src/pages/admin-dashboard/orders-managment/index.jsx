@@ -349,7 +349,7 @@ export default function OrdersManagment() {
                                             <option value="">All</option>
                                             <option value="pending">Pending</option>
                                             <option value="shipping">Shipping</option>
-                                            <option value="completed">Completed</option>
+                                            <option value="completing">Completing</option>
                                         </select>
                                     </div>
                                     <div className="col-md-4 d-flex align-items-center mt-4">

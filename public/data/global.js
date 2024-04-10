@@ -1099,16 +1099,10 @@ const framesDimentions = {
     },
 };
 
-const countries = [
-    "sweden",
-    "syria",
-];
-
 export default {
     modelsDimentions,
     gelatoDimetions,
     appearedImageSizesForTextToImage,
     appearedImageSizesForImageToImage,
     framesDimentions,
-    countries,
 };
