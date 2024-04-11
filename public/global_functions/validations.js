@@ -1,3 +1,5 @@
+import axios from "axios";
+
 // تعريف دالة للتحقق من الإيميل هل صالح أم لا
 function isEmail (email) {
     return email.match(/[^\s@]+@[^\s@]+\.[^\s@]+/);
@@ -138,5 +140,19 @@ function inputValuesValidation(inputs) {
     return errorsObject;
 }
 
+async function getAdminInfo(adminToken) {
+    try{
+        const res = await axios.get(`${process.env.BASE_API_URL}/admins/user-info`, {
+            headers: {
+                "Authorization": adminToken,
+            },
+        });
+        return await res.data;
+    }
+    catch(err) {
+        throw err;
+    }
+}
+
 // تصدير الدوال المطلوبة
-export default { isEmail, inputValuesValidation };
+export default { isEmail, inputValuesValidation, getAdminInfo };

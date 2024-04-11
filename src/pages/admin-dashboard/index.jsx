@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import LoaderPage from "@/components/LoaderPage";
+import validations from "../../../public/global_functions/validations";
 
 export default function AdminDashboard() {
 
@@ -12,12 +13,28 @@ export default function AdminDashboard() {
     const router = useRouter();
 
     useEffect(() => {
-        const adminId = localStorage.getItem("tavlorify-store-admin-id");
-        if (!adminId) {
-            router.push("/admin-dashboard/login");
-        } else {
-            setIsLoadingPage(false);
-        }
+        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        if (adminToken) {
+            validations.getAdminInfo(adminToken)
+                .then(async (result) => {
+                    if (result.error) {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
+                    } else {
+                        setIsLoadingPage(false);
+                    }
+                })
+                .catch(async (err) => {
+                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
+                    }
+                    else {
+                        setIsLoadingPage(false);
+                        setIsErrorMsgOnLoadingThePage(true);
+                    }
+                });
+        } else router.push("/admin-dashboard/login");
     }, []);
     
     return (

@@ -6,6 +6,7 @@ import { FiLogIn } from "react-icons/fi";
 import dashboardLoginImage from "../../../../public/images/backgrounds/dashboardLogin.jpg";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import LoaderPage from "@/components/LoaderPage";
+import validations from "../../../../public/global_functions/validations";
 
 export default function AdminLogin() {
 
@@ -15,38 +16,93 @@ export default function AdminLogin() {
 
     const [password, setPassword] = useState("");
 
+    const [isLoginingStatus, setIsLoginingStatus] = useState(false);
+
     const [errMsg, setErrorMsg] = useState("");
+
+    const [formValidationErrors, setFormValidationErrors] = useState({});
 
     const [isVisiblePassword, setIsVisiblePassword] = useState(false);
 
     const router = useRouter();
 
     useEffect(() => {
-        const adminId = localStorage.getItem("tavlorify-store-admin-id");
-        if (adminId) {
-            router.push("/admin-dashboard");
-        } else {
-            setIsLoadingPage(false);
-        }
+        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        if (adminToken) {
+            validations.getAdminInfo(adminToken)
+                .then(async (result) => {
+                    if (result.error) {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        setIsLoadingPage(false);
+                    } else await router.push("/admin-dashboard");
+                })
+                .catch(async (err) => {
+                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        setIsLoadingPage(false);
+                    }
+                    else {
+                        setIsLoadingPage(false);
+                        setIsErrorMsgOnLoadingThePage(true);
+                    }
+                });
+        } else setIsLoadingPage(false);
     }, []);
+
+    const validateFormFields = (validateDetailsList) => {
+        return validations.inputValuesValidation(validateDetailsList);
+    }
 
     const adminLogin = async (e) => {
         try {
             e.preventDefault();
-            const res = await axios.get(`${process.env.BASE_API_URL}/admin/login?email=${email}&password=${password}`);
-            const result = await res.data;
-            if (typeof result === "string") {
-                setErrorMsg(result);
-                setTimeout(() => {
-                    setErrorMsg("");
-                }, 2000);
-            } else {
-                localStorage.setItem("tavlorify-store-admin-id", result._id);
-                router.push("/admin-dashboard/login");
+            setFormValidationErrors({});
+            let errorsObject = validateFormFields([
+                {
+                    name: "email",
+                    value: email,
+                    rules: {
+                        isRequired: {
+                            msg: "Sorry, This Field Can't Be Empty !!",
+                        },
+                        isEmail: {
+                            msg: "Sorry, This Email Is Not Valid !!",
+                        }
+                    },
+                },
+                {
+                    name: "password",
+                    value: password,
+                    rules: {
+                        isRequired: {
+                            msg: "Sorry, This Field Can't Be Empty !!",
+                        },
+                    },
+                },
+            ]);
+            setFormValidationErrors(errorsObject);
+            if (Object.keys(errorsObject).length == 0) {
+                setIsLoginingStatus(true);
+                const res = await axios.get(`${process.env.BASE_API_URL}/admins/login?email=${email}&password=${password}`);
+                const result = res.data;
+                if (result.error) {
+                    setIsLoginingStatus(false);
+                    setErrorMsg(result.msg);
+                    setTimeout(() => {
+                        setErrorMsg("");
+                    }, 4000);
+                } else {
+                    localStorage.setItem("tavlorify-store-admin-user-token", result.data.token);
+                    await router.push("/admin-dashboard");
+                }
             }
         }
         catch (err) {
-            throw Error(err);
+            setIsLoginingStatus(false);
+            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again The Process !!");
+            setTimeout(() => {
+                setErrorMsg("");
+            }, 3000);
         }
     }
 
@@ -64,24 +120,27 @@ export default function AdminLogin() {
                             <input
                                 type="email"
                                 placeholder="Your Admin Email"
-                                className="form-control mx-auto mb-4 p-3"
-                                required
+                                className={`form-control p-3 border-2 ${formValidationErrors["email"] ? "border-danger mb-2" : "mb-4"}`}
                                 onChange={(e) => setEmail(e.target.value.trim())}
                             />
-                            <div className='password-field-box'>
+                            {formValidationErrors["email"] && <p className="error-msg text-danger">{formValidationErrors["email"]}</p>}
+                            <div className="password-field-box">
                                 <input
                                     type={isVisiblePassword ? "text" : "password"}
                                     placeholder="Your Admin password"
-                                    className="form-control mx-auto mb-4 p-3"
-                                    required
+                                    className={`form-control p-3 border-2 ${formValidationErrors["password"] ? "border-danger mb-2" : "mb-4"}`}
                                     onChange={(e) => setPassword(e.target.value.trim())}
                                 />
-                                <div className='icon-box'>
+                                <div className="icon-box">
                                     {!isVisiblePassword && <AiOutlineEye className="eye-icon icon" onClick={() => setIsVisiblePassword(value => value = !value)} />}
                                     {isVisiblePassword && <AiOutlineEyeInvisible className="invisible-eye-icon icon" onClick={() => setIsVisiblePassword(value => value = !value)} />}
                                 </div>
                             </div>
-                            <button type="submit" className="btn w-100 login-btn p-3">Login</button>
+                            {formValidationErrors["password"] && <p className='error-msg text-danger'>{formValidationErrors["password"]}</p>}
+                            {!isLoginingStatus && !errMsg && <button type="submit" className="btn w-100 login-btn p-3">Login</button>}
+                            {isLoginingStatus && <button disabled className="btn btn-primary mx-auto d-block mb-4">
+                                <span className="me-2">Wait Logining ...</span>
+                            </button>}
                             {errMsg && <p className="alert alert-danger mt-3 mb-0">{errMsg}</p>}
                         </form>
                     </div>
