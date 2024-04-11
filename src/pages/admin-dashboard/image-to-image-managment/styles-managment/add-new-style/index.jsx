@@ -143,7 +143,7 @@ export default function AddNewCategoryStyle() {
                         msg: "Sorry, Can't Be Field Is Empty !!",
                     },
                     isImage: {
-                        msg: "عذراً ، يجب أن يكون الملف أو الملفات صور من امتداد png أو jpg !!"
+                        msg: "Sorry, Invalid Image Type, Please Upload JPG Or PNG Or Webp Image File !!"
                     },
                 },
             },
@@ -181,6 +181,7 @@ export default function AddNewCategoryStyle() {
                     await router.push("/admin-dashboard/login");
                     return;
                 }
+                setIsAddingStatus(false);
                 setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
                 let errorTimeout = setTimeout(() => {
                     setErrorMsg("");
