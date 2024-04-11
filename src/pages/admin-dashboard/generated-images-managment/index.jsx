@@ -2,9 +2,11 @@ import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
+import { getDateFormated } from "../../../../public/global_functions/popular";
+import validations from "../../../../public/global_functions/validations";
+import PaginationBar from "@/components/PaginationBar";
 
 export default function GeneratedImagesManagment({ pageName }) {
 
@@ -30,31 +32,44 @@ export default function GeneratedImagesManagment({ pageName }) {
 
     const [totalPagesCount, setTotalPagesCount] = useState(0);
 
-    const [pageNumber, setPageNumber] = useState(0);
-
     const pageSize = 5;
 
     useEffect(() => {
-        setAllGeneratedImagesDataInsideThePage([]);
-        setTotalPagesCount(0);
-        getGeneratedImagesDataCount(pageName)
-            .then(async (result) => {
-                if (result > 0) {
-                    const result1 = await getAllGeneratedImagesDataInsideThePage(1, pageSize);
-                    setAllGeneratedImagesDataInsideThePage(result1);
-                    setTotalPagesCount(Math.ceil(result / pageSize));
-                }
-                setIsLoadingPage(false);
-            }).catch((err) => {
-                setIsLoadingPage(false);
-                setIsErrorMsgOnLoadingThePage(true);
-            });
+        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        if (adminToken) {
+            validations.getAdminInfo(adminToken)
+                .then(async (result) => {
+                    if (result.error) {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
+                    } else {
+                        setAllGeneratedImagesDataInsideThePage([]);
+                        setTotalPagesCount(0);
+                        result = await getGeneratedImagesDataCount(pageName);
+                        if (result.data > 0) {
+                            setAllGeneratedImagesDataInsideThePage((await getAllGeneratedImagesDataInsideThePage(1, pageSize)).data);
+                            setTotalPagesCount(Math.ceil(result.data / pageSize));
+                        }
+                        setIsLoadingPage(false);
+                    }
+                })
+                .catch(async (err) => {
+                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
+                    }
+                    else {
+                        setIsLoadingPage(false);
+                        setIsErrorMsgOnLoadingThePage(true);
+                    }
+                });
+        } else router.push("/admin-dashboard/login");
     }, [pageName]);
 
     const getGeneratedImagesDataCount = async (service) => {
         try {
             const res = await axios.get(`${process.env.BASE_API_URL}/generated-images/generated-images-count?service=${service}`);
-            return await res.data;
+            return res.data;
         }
         catch (err) {
             throw Error(err);
@@ -64,21 +79,11 @@ export default function GeneratedImagesManagment({ pageName }) {
     const getAllGeneratedImagesDataInsideThePage = async (pageNumber, pageSize) => {
         try {
             const res = await axios.get(`${process.env.BASE_API_URL}/generated-images/all-generated-images-inside-the-page?service=${pageName}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
-            const result = await res.data;
-            return result;
+            return res.data;
         }
         catch (err) {
             throw Error(err);
         }
-    }
-
-    const getDateFormated = (generateDate) => {
-        let generateDateInDateFormat = new Date(generateDate);
-        const year = generateDateInDateFormat.getFullYear();
-        const month = generateDateInDateFormat.getMonth() + 1;
-        const day = generateDateInDateFormat.getDate();
-        generateDateInDateFormat = `${year} / ${month} / ${day}`;
-        return generateDateInDateFormat;
     }
 
     const downloadImage = async (URL, imageType, selectedImageIndexForDownload) => {
@@ -87,7 +92,7 @@ export default function GeneratedImagesManagment({ pageName }) {
             if (imageType === "uploaded-image") setIsDownloadUploadedImage(true);
             else setIsDownloadGeneratedImage(true);
             const res = await axios.get(URL, { responseType: "blob" });
-            const imageAsBlob = await res.data;
+            const imageAsBlob = res.data;
             const localURL = window.URL.createObjectURL(imageAsBlob);
             const tempAnchorLink = document.createElement("a");
             tempAnchorLink.href = localURL;
@@ -107,17 +112,28 @@ export default function GeneratedImagesManagment({ pageName }) {
             setIsDeleteGeneratedImageData(true);
             setSelectedGeneratedImageDataIndexForDelete(index);
             const res = await axios.delete(`${process.env.BASE_API_URL}/generated-images/generated-image-data/${generatedImagesData[index]._id}`);
-            const result = await res.data;
-            console.log(result);
+            let result = res.data;
             setIsDeleteGeneratedImageData(false);
             setSelectedGeneratedImageDataIndexForDelete(-1);
-            const allGeneratedImagesData = await getAllGeneratedImagesData();
-            setAllGeneratedImagesData(allGeneratedImagesData);
-            setTotalPagesCount(Math.ceil(allGeneratedImagesData.length / pageSize));
-            getCurrentSliceFromGeneratedImageDataList(currentPage, allGeneratedImagesData);
+            result = await getGeneratedImagesDataCount(pageName);
+            if (result.data > 0) {
+                setAllGeneratedImagesDataInsideThePage((await getAllGeneratedImagesDataInsideThePage(1, pageSize)).data);
+                setTotalPagesCount(Math.ceil(result.data / pageSize));
+            }
         }
         catch (err) {
+            if (err?.response?.data?.msg === "Unauthorized Error") {
+                localStorage.removeItem("tavlorify-store-admin-user-token");
+                await router.push("/admin-dashboard/login");
+                return;
+            }
+            setIsDeleteGeneratedImageData(false);
             setSelectedGeneratedImageDataIndexForDelete(-1);
+            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
+            let errorTimeout = setTimeout(() => {
+                setErrorMsg("");
+                clearTimeout(errorTimeout);
+            }, 2000);
         }
     }
 
@@ -137,78 +153,11 @@ export default function GeneratedImagesManagment({ pageName }) {
         setIsFilteringOrdersStatus(false);
     }
 
-    const paginationBar = () => {
-        const paginationButtons = [];
-        for (let i = 1; i <= totalPagesCount; i++) {
-            if (i < 11) {
-                paginationButtons.push(
-                    <button
-                        key={i}
-                        className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === i ? "selection" : ""} ${i === 1 ? "ms-3" : ""}`}
-                        onClick={async () => {
-                            setIsFilteringOrdersStatus(true);
-                            setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(i, pageSize));
-                            setCurrentPage(i);
-                            setIsFilteringOrdersStatus(false);
-                        }}
-                    >
-                        {i}
-                    </button>
-                );
-            }
-        }
-        if (totalPagesCount > 10) {
-            paginationButtons.push(
-                <span className="me-3 fw-bold" key={`${Math.random()}-${Date.now()}`}>...</span>
-            );
-            paginationButtons.push(
-                <button
-                    key={totalPagesCount}
-                    className={`pagination-button me-3 p-2 ps-3 pe-3 ${currentPage === totalPagesCount ? "selection" : ""}`}
-                    onClick={async () => {
-                        setIsFilteringOrdersStatus(true);
-                        setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(pageNumber, pageSize));
-                        setCurrentPage(pageNumber);
-                        setIsFilteringOrdersStatus(false);
-                    }}
-                >
-                    {totalPagesCount}
-                </button>
-            );
-        }
-        return (
-            <section className="pagination d-flex justify-content-center align-items-center">
-                {currentPage !== 1 && <BsArrowLeftSquare
-                    className="previous-page-icon pagination-icon"
-                    onClick={getPreviousPage}
-                />}
-                {paginationButtons}
-                {currentPage !== totalPagesCount && <BsArrowRightSquare
-                    className="next-page-icon pagination-icon me-3"
-                    onClick={getNextPage}
-                />}
-                <span className="current-page-number-and-count-of-pages p-2 ps-3 pe-3 bg-secondary text-white me-3">The Page {currentPage} of {totalPagesCount} Pages</span>
-                <form
-                    className="navigate-to-specific-page-form w-25"
-                    onSubmit={async (e) => {
-                        e.preventDefault();
-                        setIsFilteringOrdersStatus(true);
-                        setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(pageNumber, pageSize));
-                        setCurrentPage(pageNumber);
-                        setIsFilteringOrdersStatus(false);
-                    }}
-                >
-                    <input
-                        type="number"
-                        className="form-control p-1 ps-2 page-number-input"
-                        placeholder="Enter Page Number"
-                        min="1"
-                        max={totalPagesCount}
-                        onChange={(e) => setPageNumber(e.target.valueAsNumber)}
-                    />
-                </form>
-            </section>
-        );
+    const getSpecificPage = async (pageNumber) => {
+        setIsFilteringOrdersStatus(true);
+        setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(pageNumber, pageSize));
+        setCurrentPage(pageNumber);
+        setIsFilteringOrdersStatus(false);
     }
 
     return (
@@ -315,7 +264,15 @@ export default function GeneratedImagesManagment({ pageName }) {
                         {isFilteringOrdersStatus && <div className="loader-table-box d-flex flex-column align-items-center justify-content-center">
                             <span className="loader-table-data"></span>
                         </div>}
-                        {totalPagesCount > 0 && !isFilteringOrdersStatus && paginationBar()}
+                        {totalPagesCount > 1 && !isFilteringOrdersStatus &&
+                            <PaginationBar
+                                totalPagesCount={totalPagesCount}
+                                currentPage={currentPage}
+                                getPreviousPage={getPreviousPage}
+                                getNextPage={getNextPage}
+                                getSpecificPage={getSpecificPage}
+                            />
+                        }
                     </div>
                 </div>
             </>}
