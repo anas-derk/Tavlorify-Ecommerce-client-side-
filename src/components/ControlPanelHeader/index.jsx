@@ -2,7 +2,7 @@ import Link from "next/link";
 import { GoSignOut } from "react-icons/go";
 import { useRouter } from "next/router.js";
 
-export default function ControlPanelHeader(){
+export default function ControlPanelHeader() {
 
     const router = useRouter();
 
@@ -10,7 +10,7 @@ export default function ControlPanelHeader(){
         localStorage.removeItem("tavlorify-store-admin-user-token");
         router.push("/admin-dashboard/login");
     }
-    
+
     return (
         <header className="control-panel-header">
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -87,7 +87,12 @@ export default function ControlPanelHeader(){
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/admin-dashboard/text-to-image-managment/categories-managment/update-and-delete-category-info">Update And Delete Category</Link>
+                                        <Link className="dropdown-item" href={{
+                                            pathname: "/admin-dashboard/categories-managment/update-and-delete-category-info",
+                                            query: {
+                                                pageName: "text-to-image",
+                                            }
+                                        }}>Update And Delete Category</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
@@ -118,7 +123,12 @@ export default function ControlPanelHeader(){
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/admin-dashboard/image-to-image-managment/categories-managment/update-and-delete-category-info">Update And Delete Category</Link>
+                                        <Link className="dropdown-item" href={{
+                                            pathname: "/admin-dashboard/categories-managment/update-and-delete-category-info",
+                                            query: {
+                                                pageName: "image-to-image",
+                                            }
+                                        }}>Update And Delete Category</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>

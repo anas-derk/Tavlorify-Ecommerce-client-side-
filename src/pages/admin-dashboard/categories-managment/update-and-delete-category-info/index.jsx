@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import LoaderPage from "@/components/LoaderPage";
-import { getAllImageToImageCategories } from "../../../../../../public/global_functions/popular";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
-import validations from "../../../../../../public/global_functions/validations";
+import validations from "../../../../../public/global_functions/validations";
+import { getAllTextToImageCategories, getAllImageToImageCategories } from "../../../../../public/global_functions/popular";
 
-export default function UpdateAndDeleteCategoryInfo() {
+export default function UpdateAndDeleteCategoryInfo({ pageName }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
@@ -35,7 +35,13 @@ export default function UpdateAndDeleteCategoryInfo() {
                         localStorage.removeItem("tavlorify-store-admin-user-token");
                         await router.push("/admin-dashboard/login");
                     } else {
-                        result = await getAllImageToImageCategories();
+                        setCategoriesData([]);
+                        if (pageName === "text-to-image") {
+                            result = await getAllTextToImageCategories();
+                        }
+                        if (pageName === "image-to-image") {
+                            result = await getAllImageToImageCategories();
+                        }
                         setCategoriesData(result.data);
                         setIsLoadingPage(false);
                     }
@@ -51,7 +57,7 @@ export default function UpdateAndDeleteCategoryInfo() {
                     }
                 });
         } else router.push("/admin-dashboard/login");
-    }, []);
+    }, [pageName]);
 
     const changeCategoryData = (categoryIndex, fieldName, newValue) => {
         categoriesData[categoryIndex][fieldName] = newValue;
@@ -61,14 +67,26 @@ export default function UpdateAndDeleteCategoryInfo() {
         try {
             setUpdatedCategoryIndex(categoryIndex);
             setIsUpdateStatus(true);
-            await axios.put(`${process.env.BASE_API_URL}/image-to-image/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
-                newCategorySortNumber: categoriesData[categoryIndex].sortNumber,
-                newCategoryName: categoriesData[categoryIndex].name,
-            }, {
-                headers: {
-                    Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
-                }
-            });
+            if (pageName === "text-to-image") {
+                await axios.put(`${process.env.BASE_API_URL}/text-to-image/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
+                    newCategorySortNumber: categoriesData[categoryIndex].sortNumber,
+                    newCategoryName: categoriesData[categoryIndex].name,
+                }, {
+                    headers: {
+                        Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                    }
+                });
+            }
+            else {
+                await axios.put(`${process.env.BASE_API_URL}/image-to-image/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
+                    newCategorySortNumber: categoriesData[categoryIndex].sortNumber,
+                    newCategoryName: categoriesData[categoryIndex].name,
+                }, {
+                    headers: {
+                        Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                    }
+                });
+            }
             setTimeout(() => {
                 setIsUpdateStatus(false);
                 router.reload();
@@ -83,11 +101,20 @@ export default function UpdateAndDeleteCategoryInfo() {
         try {
             setDeletedCategoryIndex(categoryIndex);
             setIsDeleteStatus(true);
-            await axios.delete(`${process.env.BASE_API_URL}/image-to-image/categories/delete-category-data/${categoriesData[categoryIndex]._id}`, {
-                headers: {
-                    Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
-                }
-            });
+            if (pageName === "text-to-image") {
+                await axios.delete(`${process.env.BASE_API_URL}/text-to-image/categories/delete-category-data/${categoriesData[categoryIndex]._id}`, {
+                    headers: {
+                        Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                    }
+                });
+            }
+            if (pageName === "image-to-image") {
+                await axios.delete(`${process.env.BASE_API_URL}/image-to-image/categories/delete-category-data/${categoriesData[categoryIndex]._id}`, {
+                    headers: {
+                        Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                    }
+                });
+            }
             setTimeout(() => {
                 setIsDeleteStatus(false);
                 router.reload();
@@ -102,14 +129,14 @@ export default function UpdateAndDeleteCategoryInfo() {
         // Start Update And Delete Category Info
         <div className="update-and-delete-category-info">
             <Head>
-                <title>Tavlorify Store - Categories Managagment For Image To Image</title>
+                <title>Tavlorify Store - Categories Managagment For { pageName }</title>
             </Head>
             {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 <ControlPanelHeader />
                 <div className="content text-center pt-4 pb-4">
                     {/* Start Container */}
                     <div className="container-fluid">
-                        <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Update And Delete Image To Image Categories Page</h1>
+                        <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Update And Delete { pageName } Categories Page</h1>
                         {categoriesData.length > 0 ?
                             <div className="categories-data-box p-3 data-box">
                                 {/* Start Categories Table */}
@@ -162,7 +189,7 @@ export default function UpdateAndDeleteCategoryInfo() {
                                     </tbody>
                                 </table>
                             </div>
-                            : <p className="alert alert-danger">Sorry, Can't Find Any Text To Image Category !!</p>}
+                            : <p className="alert alert-danger">Sorry, Can't Find Any Category For { pageName } !!</p>}
                         {/* End Categories Table */}
                     </div>
                     {/* End Container */}
@@ -173,4 +200,22 @@ export default function UpdateAndDeleteCategoryInfo() {
         </div>
         // End Update And Delete Category Info
     );
+}
+
+export function getServerSideProps(context) {
+    const pageName = context.query.pageName;
+    console.log(pageName)
+    if (pageName !== "text-to-image" && pageName !== "image-to-image") {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/admin-dashboard",
+            },
+        }
+    }
+    return {
+        props: {
+            pageName,
+        }
+    }
 }
