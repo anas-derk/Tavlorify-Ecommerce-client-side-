@@ -4,10 +4,15 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import LoaderPage from "@/components/LoaderPage";
+import { getAllImageToImageCategories } from "../../../../../../public/global_functions/popular";
+import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
+import validations from "../../../../../../public/global_functions/validations";
 
 export default function UpdateAndDeleteCategoryInfo() {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
+    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -22,22 +27,30 @@ export default function UpdateAndDeleteCategoryInfo() {
     const router = useRouter();
 
     useEffect(() => {
-        const adminId = localStorage.getItem("tavlorify-store-admin-id");
-        if (!adminId) {
-            router.push("/admin-dashboard/login");
-        } else {
-            axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`)
-                .then((res) => {
-                    let result = res.data;
-                    if (typeof result === "string") {
-                        console.log(result);
+        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        if (adminToken) {
+            validations.getAdminInfo(adminToken)
+                .then(async (result) => {
+                    if (result.error) {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
                     } else {
-                        setCategoriesData(result);
+                        result = await getAllImageToImageCategories();
+                        setCategoriesData(result.data);
+                        setIsLoadingPage(false);
                     }
-                    setIsLoadingPage(false);
                 })
-                .catch((err) => console.log(err));
-        }
+                .catch(async (err) => {
+                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
+                    }
+                    else {
+                        setIsLoadingPage(false);
+                        setIsErrorMsgOnLoadingThePage(true);
+                    }
+                });
+        } else router.push("/admin-dashboard/login");
     }, []);
 
     const changeCategoryData = (categoryIndex, fieldName, newValue) => {
@@ -83,7 +96,7 @@ export default function UpdateAndDeleteCategoryInfo() {
             <Head>
                 <title>Tavlorify Store - Categories Managagment For Image To Image</title>
             </Head>
-            {!isLoadingPage ? <>
+            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 <ControlPanelHeader />
                 <div className="content text-center pt-4 pb-4">
                     {/* Start Container */}
@@ -146,7 +159,9 @@ export default function UpdateAndDeleteCategoryInfo() {
                     </div>
                     {/* End Container */}
                 </div>
-            </> : <LoaderPage />}
+            </>}
+            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
+            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
         </div>
         // End Update And Delete Category Info
     );

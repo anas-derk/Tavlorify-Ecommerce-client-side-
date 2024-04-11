@@ -6,6 +6,7 @@ import validations from "../../../../../../public/global_functions/validations";
 import { useRouter } from "next/router";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
+import { getAllImageToImageCategories } from "../../../../../../public/global_functions/popular";
 
 export default function AddNewCategoryStyle() {
 
@@ -54,7 +55,6 @@ export default function AddNewCategoryStyle() {
                     }
                 })
                 .catch(async (err) => {
-                    console.log(err)
                     if (err?.response?.data?.msg === "Unauthorized Error") {
                         localStorage.removeItem("tavlorify-store-admin-user-token");
                         await router.push("/admin-dashboard/login");
@@ -66,16 +66,6 @@ export default function AddNewCategoryStyle() {
                 });
         } else router.push("/admin-dashboard/login");
     }, []);
-
-    const getAllImageToImageCategories = async () => {
-        try{
-            const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`);
-            return res.data;
-        }
-        catch(err) {
-            throw Error(err);
-        }
-    }
 
     const addNewCategoryStyle = async (e) => {
         e.preventDefault();
