@@ -64,6 +64,10 @@ export default function UpdateAndDeleteCategoryInfo() {
             await axios.put(`${process.env.BASE_API_URL}/text-to-image/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
                 newCategorySortNumber: categoriesData[categoryIndex].sortNumber,
                 newCategoryName: categoriesData[categoryIndex].name,
+            }, {
+                headers: {
+                    Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                }
             });
             setTimeout(() => {
                 setIsUpdateStatus(false);
@@ -79,7 +83,11 @@ export default function UpdateAndDeleteCategoryInfo() {
         try {
             setDeletedCategoryIndex(categoryIndex);
             setIsDeleteStatus(true);
-            await axios.delete(`${process.env.BASE_API_URL}/text-to-image/categories/delete-category-data/${categoriesData[categoryIndex]._id}`);
+            await axios.delete(`${process.env.BASE_API_URL}/text-to-image/categories/delete-category-data/${categoriesData[categoryIndex]._id}`, {
+                headers: {
+                    Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                }
+            });
             setTimeout(() => {
                 setIsDeleteStatus(false);
                 router.reload();
