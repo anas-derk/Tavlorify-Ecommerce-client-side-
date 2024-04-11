@@ -1,12 +1,16 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
-import Axios from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import LoaderPage from "@/components/LoaderPage";
+import validations from "../../../../public/global_functions/validations";
+import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 
 export default function ProductPrices({ productName }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
+    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
     const [isUpdateProductPriceStatus, setIsUpdateProductPriceStatus] = useState(false);
 
@@ -17,21 +21,40 @@ export default function ProductPrices({ productName }) {
     const [updatedProductPrices, setUpdatedProductPrices] = useState([]);
 
     useEffect(() => {
-        setProductPricesData([]);
-        setIsUpdateProductPriceStatus([]);
-        getProductPricesData()
-            .then((result) => {
-                setProductPricesData(result);
-                setUpdatedProductPrices(result);
-                setIsLoadingPage(false);
-            });
+        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        if (adminToken) {
+            validations.getAdminInfo(adminToken)
+                .then(async (result) => {
+                    if (result.error) {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
+                    } else {
+                        setProductPricesData([]);
+                        setIsUpdateProductPriceStatus([]);
+                        result = await getProductPricesData();
+                        setProductPricesData(result.data);
+                        setUpdatedProductPrices(result.data);
+                        setIsLoadingPage(false);
+                    }
+                })
+                .catch(async (err) => {
+                    console.log(err)
+                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
+                    }
+                    else {
+                        setIsLoadingPage(false);
+                        setIsErrorMsgOnLoadingThePage(true);
+                    }
+                });
+        } else router.push("/admin-dashboard/login");
     }, [productName]);
 
     const getProductPricesData = async () => {
         try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-name?productName=${productName}`);
-            const productsData = await res.data;
-            return productsData;
+            const res = await axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-name?productName=${productName}`);
+            return res.data;
         }
         catch (err) {
             throw Error(err);
@@ -50,21 +73,32 @@ export default function ProductPrices({ productName }) {
         setUpdatedProductPrices(updatedProductPricesTemp);
     }
 
-    const updatePriceNow = async (productIndex) => {
-        setUpdatedProductPriceIndex(productIndex);
-        setIsUpdateProductPriceStatus(true);
+    const updateProductPrice = async (productIndex) => {
         try {
-            await Axios.put(`${process.env.BASE_API_URL}/prices/update-product-price/${productPricesData[productIndex]._id}`, {
+            setUpdatedProductPriceIndex(productIndex);
+            setIsUpdateProductPriceStatus(true);
+            const result = await axios.put(`${process.env.BASE_API_URL}/prices/update-product-price/${productPricesData[productIndex]._id}`, {
                 newProductPriceBeforeDiscount: updatedProductPrices[productIndex].priceBeforeDiscount,
                 newProductPriceAfterDiscount: updatedProductPrices[productIndex].priceAfterDiscount,
+            }, {
+                headers: {
+                    Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                }
             });
+            if (!result.error) {
+
+            }
             setUpdatedProductPriceIndex(-1);
             setIsUpdateProductPriceStatus(false);
         }
         catch (err) {
+            if (err?.response?.data?.msg === "Unauthorized Error") {
+                localStorage.removeItem("tavlorify-store-admin-user-token");
+                await router.push("/admin-dashboard/login");
+                return;
+            }
             setUpdatedProductPriceIndex(-1);
             setIsUpdateProductPriceStatus(false);
-            console.log(err);
         }
     }
 
@@ -73,7 +107,7 @@ export default function ProductPrices({ productName }) {
             <Head>
                 <title>Tavlorify Store - Product Prices Managment</title>
             </Head>
-            {!isLoadingPage ? <>
+            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 <ControlPanelHeader />
                 <div className="content text-center pt-4 pb-4">
                     <div className="container-fluid">
@@ -117,7 +151,7 @@ export default function ProductPrices({ productName }) {
                                             <td>
                                                 {updatedProductPriceIndex !== index && <button
                                                     className="btn btn-danger d-block mx-auto mb-3"
-                                                    onClick={() => updatePriceNow(index)}
+                                                    onClick={() => updateProductPrice(index)}
                                                 >
                                                     Update
                                                 </button>}
@@ -136,7 +170,9 @@ export default function ProductPrices({ productName }) {
                         {productPricesData.length === 0 && <p className="alert alert-danger">Sorry, Can't Find Any Product Prices !!</p>}
                     </div>
                 </div>
-            </> : <LoaderPage />}
+            </>}
+            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
+            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
         </div>
     );
 }
