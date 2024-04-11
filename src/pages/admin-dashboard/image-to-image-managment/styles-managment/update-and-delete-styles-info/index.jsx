@@ -4,10 +4,15 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import LoaderPage from "@/components/LoaderPage";
+import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
+import validations from "../../../../../../public/global_functions/validations";
+import { getAllImageToImageCategories } from "../../../../../../public/global_functions/popular";
 
 export default function UpdateCategoryStyleInfo() {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
+    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
     const [categoryIndex, setCategoryIndex] = useState(-1);
 
@@ -34,22 +39,30 @@ export default function UpdateCategoryStyleInfo() {
     const router = useRouter();
 
     useEffect(() => {
-        const adminId = localStorage.getItem("tavlorify-store-admin-id");
-        if (!adminId) {
-            router.push("/admin-dashboard/login");
-        } else {
-            axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`)
-                .then((res) => {
-                    let result = res.data;
-                    if (typeof result === "string") {
-                        console.log(result);
+        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        if (adminToken) {
+            validations.getAdminInfo(adminToken)
+                .then(async (result) => {
+                    if (result.error) {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
                     } else {
-                        setCategoriesData(result);
+                        result = await getAllImageToImageCategories();
+                        setCategoriesData(result.data);
+                        setIsLoadingPage(false);
                     }
-                    setIsLoadingPage(false);
                 })
-                .catch((err) => console.log(err));
-        }
+                .catch(async (err) => {
+                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
+                    }
+                    else {
+                        setIsLoadingPage(false);
+                        setIsErrorMsgOnLoadingThePage(true);
+                    }
+                });
+        } else router.push("/admin-dashboard/login");
     }, []);
 
     const changeStyleData = (styleIndex, fieldName, newValue) => {
@@ -66,7 +79,7 @@ export default function UpdateCategoryStyleInfo() {
         try {
             setIsWaitStatus(true);
             const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[categoryIndex].name}`);
-            setCategoryStylesData(await res.data);
+            setCategoryStylesData(res.data.data);
             setIsWaitStatus(false);
         }
         catch (err) {
@@ -134,7 +147,7 @@ export default function UpdateCategoryStyleInfo() {
             <Head>
                 <title>Tavlorify Store - Update And Delete Category Styles Info For Image To Image</title>
             </Head>
-            {!isLoadingPage ? <>
+            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 <ControlPanelHeader />
                 <div className="content text-center pt-4 pb-4">
                     <div className="container-fluid">
@@ -261,7 +274,9 @@ export default function UpdateCategoryStyleInfo() {
                         </div>}
                     </div>
                 </div>
-            </> : <LoaderPage />}
+            </>}
+            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
+            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
         </div>
     )
 }

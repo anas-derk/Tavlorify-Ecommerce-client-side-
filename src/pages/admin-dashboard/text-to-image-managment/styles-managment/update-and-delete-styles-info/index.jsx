@@ -4,10 +4,15 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import LoaderPage from "@/components/LoaderPage";
+import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
+import validations from "../../../../../../public/global_functions/validations";
+import { getAllTextToImageCategories } from "../../../../../../public/global_functions/popular";
 
 export default function UpdateCategoryStyleInfo() {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
+    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
     const [categoryIndex, setCategoryIndex] = useState(-1);
 
@@ -33,29 +38,31 @@ export default function UpdateCategoryStyleInfo() {
 
     const router = useRouter();
 
-    const getAllCategoriesDataForTextToImage = async () => {
-        try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`);
-            const result = await res.data;
-            if (typeof result === "string") {
-                console.log(result);
-            } else {
-                setCategoriesData(result);
-            }
-        }
-        catch (err) {
-            console.log(err);
-        }
-    }
-
     useEffect(() => {
-        const adminId = localStorage.getItem("tavlorify-store-admin-id");
-        if (!adminId) {
-            router.push("/admin-dashboard/login");
-        } else {
-            getAllCategoriesDataForTextToImage();
-            setIsLoadingPage(false);
-        }
+        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        if (adminToken) {
+            validations.getAdminInfo(adminToken)
+                .then(async (result) => {
+                    if (result.error) {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
+                    } else {
+                        result = await getAllTextToImageCategories();
+                        setCategoriesData(result.data);
+                        setIsLoadingPage(false);
+                    }
+                })
+                .catch(async (err) => {
+                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
+                    }
+                    else {
+                        setIsLoadingPage(false);
+                        setIsErrorMsgOnLoadingThePage(true);
+                    }
+                });
+        } else router.push("/admin-dashboard/login");
     }, []);
 
     const changeStyleData = (styleIndex, fieldName, newValue) => {
@@ -73,7 +80,7 @@ export default function UpdateCategoryStyleInfo() {
             setFiles([]);
             setIsWaitStatus(true);
             const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categoryIndex].name}`);
-            setCategoryStylesData(await res.data);
+            setCategoryStylesData(res.data.data);
             setIsWaitStatus(false);
         }
         catch (err) {
@@ -140,7 +147,7 @@ export default function UpdateCategoryStyleInfo() {
             <Head>
                 <title>Tavlorify Store - Update And Delete Category Styles Info For Text To Image</title>
             </Head>
-            {!isLoadingPage ? <>
+            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 <ControlPanelHeader />
                 <div className="content text-center pt-4 pb-4">
                     <div className="container-fluid">
@@ -158,7 +165,7 @@ export default function UpdateCategoryStyleInfo() {
                             <button className="btn btn-success" type="button" onClick={getCategoryStyles}>Get Styles Data For This Category</button>
                         </form>
                         {isWaitStatus && <span className="loader"></span>}
-                        {categoryStylesData.length > 0 && !isWaitStatus && <div className="categories-and-styles-box p-3 data-box">
+                        {categoryStylesData.length > 0 && !isWaitStatus ? <div className="categories-and-styles-box p-3 data-box">
                             <table className="categories-and-styles-table mb-4 data-table long-width-table">
                                 <thead>
                                     <tr>
@@ -260,10 +267,12 @@ export default function UpdateCategoryStyleInfo() {
                                     ))}
                                 </tbody>
                             </table>
-                        </div>}
+                        </div> : <p className="alert alert-danger mt-5 w-75 mx-auto">Sorry, Can't Find Any Styles For This Category !!</p>}
                     </div>
                 </div>
-            </> : <LoaderPage />}
+            </>}
+            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
+            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
         </div>
     )
 }

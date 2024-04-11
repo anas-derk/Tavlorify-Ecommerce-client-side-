@@ -19,7 +19,18 @@ async function getAllImageToImageCategories() {
     }
 }
 
+async function getAllTextToImageCategories() {
+    try{
+        const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`);
+        return res.data;
+    }
+    catch(err) {
+        throw Error(err);
+    }
+}
+
 export {
     getDateFormated,
     getAllImageToImageCategories,
+    getAllTextToImageCategories,
 }
