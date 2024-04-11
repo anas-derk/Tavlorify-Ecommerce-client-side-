@@ -143,6 +143,12 @@ export default function AddNewCategoryStyle() {
                         setSuccessMsg(false);
                         clearTimeout(successTimeout);
                     }, 2000);
+                } else {
+                    setErrorMsg(result.msg);
+                    let errorTimeout = setTimeout(() => {
+                        setErrorMsg("");
+                        clearTimeout(errorTimeout);
+                    }, 2000);
                 }
             }
         }
