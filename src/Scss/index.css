@@ -87,6 +87,7 @@ a {
 .add-new-style .content,
 .generated-images-managment .content {
   background-color: #EEE;
+  min-height: calc(100vh - 72px);
 }
 
 .admin-panel .content .welcome-msg,
@@ -1033,6 +1034,11 @@ a {
 
 .filters .row h6, .filters .row input, .filters .row select {
   font-size: 14px;
+}
+
+.data-box {
+  height: calc(100vh - 250px);
+  overflow: scroll;
 }
 
 .data-box .data-table {

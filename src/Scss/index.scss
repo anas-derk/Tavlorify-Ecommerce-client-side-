@@ -96,6 +96,7 @@ a{
 .generated-images-managment{
     .content {
         background-color: #EEE;
+        min-height: calc(100vh - 72px);
         .welcome-msg{
             font-size: 30px;
         }
@@ -643,6 +644,8 @@ a{
 }
 
 .data-box{
+    height: calc(100vh - 250px);
+    overflow: scroll;
     .data-table{
         border: 2px solid #000;
         background-color: #FFF;

@@ -52,9 +52,9 @@ export default function AdminDashboard() {
                 {/* Start Content Section */}
                 <section className="content d-flex justify-content-center align-items-center flex-column text-center">
                     <h1 className="welcome-msg mb-5 fw-bold pb-3">Hello To You In Admin Panel</h1>
-                    <Link className="btn btn-success manager-link w-25 mx-auto mb-4 p-2" href="/admin-dashboard/orders-managment">Orders Manager</Link>
-                    <Link className="btn btn-success manager-link w-25 mx-auto mb-4 p-2" href="/admin-dashboard/text-to-image-managment">Text To Image Page Manager</Link>
-                    <Link className="btn btn-success manager-link w-25 mx-auto mb-4 p-2" href="/admin-dashboard/image-to-image-managment">Image To Image Page Manager</Link>
+                    <Link className="btn btn-success manager-link w-25 mx-auto mb-4 p-2" href="/admin-dashboard/orders-managment">Orders Managment</Link>
+                    <Link className="btn btn-success manager-link w-25 mx-auto mb-4 p-2" href="/admin-dashboard/text-to-image-managment">Text To Image Page Managment</Link>
+                    <Link className="btn btn-success manager-link w-25 mx-auto mb-4 p-2" href="/admin-dashboard/image-to-image-managment">Image To Image Page Managment</Link>
                 </section>
                 {/* End Content Section */}
             </>}
