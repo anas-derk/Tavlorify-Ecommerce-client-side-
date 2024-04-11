@@ -5,10 +5,13 @@ import Link from "next/link";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import LoaderPage from "@/components/LoaderPage";
 import validations from "../../../public/global_functions/validations";
+import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 
 export default function AdminDashboard() {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
+    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
     const router = useRouter();
 
@@ -42,7 +45,7 @@ export default function AdminDashboard() {
             <Head>
                 <title>Tavlorify Store - Admin Panel</title>
             </Head>
-            {!isLoadingPage ? <>
+            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 {/* Start Control Panel Header */}
                 <ControlPanelHeader />
                 {/* End Control Panel Header */}
@@ -54,7 +57,9 @@ export default function AdminDashboard() {
                     <Link className="btn btn-success manager-link w-25 mx-auto mb-4 p-2" href="/admin-dashboard/image-to-image-managment">Image To Image Page Manager</Link>
                 </section>
                 {/* End Content Section */}
-            </> : <LoaderPage />}
+            </>}
+            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
+            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
         </div>
     );
 }

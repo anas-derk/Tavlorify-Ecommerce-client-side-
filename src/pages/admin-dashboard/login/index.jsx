@@ -7,10 +7,13 @@ import dashboardLoginImage from "../../../../public/images/backgrounds/dashboard
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import LoaderPage from "@/components/LoaderPage";
 import validations from "../../../../public/global_functions/validations";
+import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 
 export default function AdminLogin() {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
+    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
     const [email, setEmail] = useState("");
 
@@ -111,7 +114,7 @@ export default function AdminLogin() {
             <Head>
                 <title>Tavlorify Store - Admin Login</title>
             </Head>
-            {!isLoadingPage ? <>
+            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 <div className="overlay d-flex align-items-center">
                     <div className="container-fluid">
                         <form className="admin-login-form mb-3 p-5 mx-auto" onSubmit={adminLogin}>
@@ -145,7 +148,9 @@ export default function AdminLogin() {
                         </form>
                     </div>
                 </div>
-            </> : <LoaderPage />}
+            </>}
+            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
+            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
         </div>
     );
 }
