@@ -1,14 +1,14 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 
-export default function ImageToImageManager() {
+export default function ImageToImageManagment() {
 
-    const [isLoadingPage, setIsLoadingPage] = useState(true);
+    const [isLoadingPage, setIsLoadingPage] = useState(tue);
 
     const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
