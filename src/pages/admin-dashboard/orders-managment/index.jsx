@@ -60,6 +60,8 @@ export default function OrdersManagment({ ordersType }) {
                         localStorage.removeItem("tavlorify-store-admin-user-token");
                         await router.push("/admin-dashboard/login");
                     } else {
+                        setAllOrdersInsideThePage([]);
+                        setTotalPagesCount(0);
                         result = await getOrdersCount();
                         if (result.data > 0) {
                             setAllOrdersInsideThePage((await getAllOrdersInsideThePage(1, pageSize)).data);
