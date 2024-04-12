@@ -7,7 +7,7 @@ import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import validations from "../../../../../public/global_functions/validations";
 
-export default function OrderDetails({ orderId }) {
+export default function OrderDetails({ orderId, ordersType }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
@@ -53,11 +53,11 @@ export default function OrderDetails({ orderId }) {
                     }
                 });
         } else router.push("/admin-dashboard/login");
-    }, []);
+    }, [ordersType]);
 
     const getOrderDetails = async (orderId) => {
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/orders/order-details/${orderId}`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/${ordersType}/order-details/${orderId}`);
             return res.data;
         }
         catch (err) {
@@ -75,7 +75,7 @@ export default function OrderDetails({ orderId }) {
         try {
             setIsUpdatingStatus(true);
             setUpdatingOrderProductIndex(orderProductIndex);
-            const res = await axios.put(`${process.env.BASE_API_URL}/orders/products/update-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`, {
+            const res = await axios.put(`${process.env.BASE_API_URL}/${ordersType}/products/update-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`, {
                 quantity: orderDetails.order_lines[orderProductIndex].quantity,
                 name: orderDetails.order_lines[orderProductIndex].name,
                 total_amount: orderDetails.order_lines[orderProductIndex].total_amount,
@@ -117,7 +117,7 @@ export default function OrderDetails({ orderId }) {
         try {
             setIsDeletingStatus(true);
             setDeletingOrderProductIndex(orderProductIndex);
-            const res = await axios.delete(`${process.env.BASE_API_URL}/orders/products/delete-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`, {
+            const res = await axios.delete(`${process.env.BASE_API_URL}/${ordersType}/products/delete-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`, {
                 headers: {
                     Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
                 }
@@ -162,7 +162,7 @@ export default function OrderDetails({ orderId }) {
                 {/* Start Content Section */}
                 <section className="content d-flex justify-content-center align-items-center flex-column text-center">
                     <div className="container-fluid">
-                        <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In Orders Details</h1>
+                        <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In {ordersType} Details</h1>
                         {Array.isArray(orderDetails.order_lines) && orderDetails.order_lines.length > 0 ? <div className="order-details-box p-3 data-box">
                             <table className="order-data-table mb-5 data-table">
                                 <thead>
@@ -250,7 +250,7 @@ export default function OrderDetails({ orderId }) {
                                     ))}
                                 </tbody>
                             </table>
-                            <section className="customer-info">
+                            {ordersType === "orders" && <section className="customer-info">
                                 <div className="row">
                                     <div className="col-md-6 bg-white border border-2 border-dark">
                                         <div className="billing-address-box text-start p-3">
@@ -279,7 +279,15 @@ export default function OrderDetails({ orderId }) {
                                         </div>
                                     </div>
                                 </div>
-                            </section>
+                            </section>}
+                            {ordersType === "returned-orders" && <section className="customer-info bg-white border border-2 border-dark p-3">
+                                <h6 className="fw-bold">Customer Details</h6>
+                                <hr />
+                                <p className="email fw-bold info">Email: {orderDetails.customer.email}</p>
+                                <p className="name fw-bold info">Name: {orderDetails.customer.first_name}</p>
+                                <p className="family-name fw-bold info">Family Name: {orderDetails.customer.last_name}</p>
+                                <p className="phone fw-bold info">Phone: {orderDetails.customer.phone}</p>
+                            </section>}
                         </div> : <p className="alert alert-danger order-not-found-error">Sorry, This Order Is Not Completed !!</p>}
                     </div>
                 </section>
@@ -291,8 +299,9 @@ export default function OrderDetails({ orderId }) {
     );
 }
 
-export async function getServerSideProps({ params }) {
-    if (!params.orderId) {
+export async function getServerSideProps({ params, query }) {
+    const orderId = params.orderId;
+    if (!orderId) {
         return {
             redirect: {
                 permanent: false,
@@ -300,9 +309,19 @@ export async function getServerSideProps({ params }) {
             },
         }
     }
+    const ordersType = query.ordersType;
+    if (ordersType !== "orders" && ordersType !== "returned-orders") {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/admin-dashboard",
+            },
+        }
+    }
     return {
         props: {
-            orderId: params.orderId
+            orderId,
+            ordersType
         },
     }
 }

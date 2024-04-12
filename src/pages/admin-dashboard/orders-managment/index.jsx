@@ -252,7 +252,7 @@ export default function OrdersManagment({ ordersType }) {
                 }
             });
             setIsDeletingStatus(false);
-            setSuccessMsg(res.result.msg);
+            setSuccessMsg(res.data.msg);
             let successTimeout = setTimeout(async () => {
                 setSuccessMsg("");
                 setSelectedOrderIndex(-1);
@@ -486,7 +486,7 @@ export default function OrdersManagment({ ordersType }) {
                                                     >
                                                         {errorMsg}
                                                     </button>}
-                                                    {!isUpdatingStatus && !isDeletingStatus && !errorMsg && !successMsg && <Link href={`/admin-dashboard/orders-managment/${order._id}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>}
+                                                    {!isUpdatingStatus && !isDeletingStatus && !errorMsg && !successMsg && <Link href={`/admin-dashboard/orders-managment/${order._id}?ordersType=${ordersType}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>}
                                                     {ordersType === "orders" && !order.isReturned && (order.checkout_status === "AUTHORIZED" || order.checkout_status === "CAPTURED" || order.checkout_status === "EXPIRED") && <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>}
                                                 </td>
                                             </tr>
@@ -518,8 +518,8 @@ export default function OrdersManagment({ ordersType }) {
     );
 }
 
-export function getServerSideProps(context) {
-    const ordersType = context.query.ordersType;
+export function getServerSideProps({ query }) {
+    const ordersType = query.ordersType;
     if (ordersType !== "orders" && ordersType !== "returned-orders") {
         return {
             redirect: {
