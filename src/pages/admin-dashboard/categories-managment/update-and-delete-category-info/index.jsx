@@ -205,7 +205,6 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
 
 export function getServerSideProps(context) {
     const pageName = context.query.pageName;
-    console.log(pageName)
     if (pageName !== "text-to-image" && pageName !== "image-to-image") {
         return {
             redirect: {

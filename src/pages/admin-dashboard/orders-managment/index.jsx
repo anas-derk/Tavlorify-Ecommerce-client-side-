@@ -9,7 +9,7 @@ import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import validations from "../../../../public/global_functions/validations";
 import PaginationBar from "@/components/PaginationBar";
 
-export default function OrdersManagment() {
+export default function OrdersManagment({ ordersType }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
@@ -46,7 +46,12 @@ export default function OrdersManagment() {
 
     const pageSize = 5;
 
+    const orderStatus = ["pending", "shipping", "completing"];
+
+    const returnedOrderStatus = ["awaiting products", "received products", "checking products", "returned products"];
+
     useEffect(() => {
+        setIsLoadingPage(true);
         const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
         if (adminToken) {
             validations.getAdminInfo(adminToken)
@@ -74,11 +79,11 @@ export default function OrdersManagment() {
                     }
                 });
         } else router.push("/admin-dashboard/login");
-    }, []);
+    }, [ordersType]);
 
     const getOrdersCount = async (filters) => {
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/orders/orders-count?${filters ? filters : ""}`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/${ordersType}/orders-count?${filters ? filters : ""}`);
             return res.data;
         }
         catch (err) {
@@ -88,7 +93,7 @@ export default function OrdersManagment() {
 
     const getAllOrdersInsideThePage = async (pageNumber, pageSize, filters) => {
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/orders/all-orders-inside-the-page?pageNumber=${pageNumber}&pageSize=${pageSize}&${filters ? filters : ""}`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/${ordersType}/all-orders-inside-the-page?pageNumber=${pageNumber}&pageSize=${pageSize}&${filters ? filters : ""}`);
             return res.data;
         }
         catch (err) {
@@ -201,7 +206,7 @@ export default function OrdersManagment() {
         try {
             setIsUpdatingStatus(true);
             setSelectedOrderIndex(orderIndex);
-            const res = await axios.put(`${process.env.BASE_API_URL}/orders/update-order/${allOrdersInsideThePage[orderIndex]._id}`, {
+            const res = await axios.put(`${process.env.BASE_API_URL}/${ordersType}/update-order/${allOrdersInsideThePage[orderIndex]._id}`, {
                 order_amount: allOrdersInsideThePage[orderIndex].order_amount,
                 status: allOrdersInsideThePage[orderIndex].status,
             }, {
@@ -239,7 +244,7 @@ export default function OrdersManagment() {
         try {
             setIsDeletingStatus(true);
             setSelectedOrderIndex(orderIndex);
-            const res = await axios.delete(`${process.env.BASE_API_URL}/orders/delete-order/${allOrdersInsideThePage[orderIndex]._id}`, {
+            const res = await axios.delete(`${process.env.BASE_API_URL}/${ordersType}/delete-order/${allOrdersInsideThePage[orderIndex]._id}`, {
                 headers: {
                     Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
                 }
@@ -283,7 +288,7 @@ export default function OrdersManagment() {
                 {/* Start Content Section */}
                 <section className="content d-flex justify-content-center align-items-center flex-column text-center pt-3 pb-3">
                     <div className="container-fluid">
-                        <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In Orders Managment</h1>
+                        <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In {ordersType} Managment</h1>
                         <div className="orders-managment">
                             <section className="filters mb-3 bg-white border-3 border-info p-3 text-start">
                                 <h5 className="section-name fw-bold text-center">Filters: </h5>
@@ -309,7 +314,7 @@ export default function OrdersManagment() {
                                             onChange={(e) => setFilters({ ...filters, orderId: e.target.value.trim() })}
                                         />
                                     </div>
-                                    <div className="col-md-4 d-flex align-items-center">
+                                    {ordersType === "orders" && <div className="col-md-4 d-flex align-items-center">
                                         <h6 className="me-2 mb-0 fw-bold text-center">Klarna Reference</h6>
                                         <input
                                             type="text"
@@ -317,7 +322,7 @@ export default function OrdersManagment() {
                                             placeholder="Pleae Enter Reference"
                                             onChange={(e) => setFilters({ ...filters, klarnaReference: e.target.value.trim() })}
                                         />
-                                    </div>
+                                    </div>}
                                     <div className="col-md-4 d-flex align-items-center">
                                         <h6 className="me-2 mb-0 fw-bold text-center">Status</h6>
                                         <select
@@ -326,9 +331,16 @@ export default function OrdersManagment() {
                                         >
                                             <option value="" hidden>Pleae Enter Status</option>
                                             <option value="">All</option>
-                                            <option value="pending">Pending</option>
-                                            <option value="shipping">Shipping</option>
-                                            <option value="completing">Completing</option>
+                                            {ordersType === "orders" &&
+                                                orderStatus.map((status, index) => (
+                                                    <option value={status} key={index}>{status}</option>
+                                                ))
+                                            }
+                                            {ordersType === "returned-orders" &&
+                                                returnedOrderStatus.map((status, index) => (
+                                                    <option value={status} key={index}>{status}</option>
+                                                ))
+                                            }
                                         </select>
                                     </div>
                                     <div className="col-md-4 d-flex align-items-center mt-4">
@@ -369,9 +381,15 @@ export default function OrdersManagment() {
                                         <tr>
                                             <th>Order Number</th>
                                             <th>Order Id</th>
-                                            <th>Klarna Order Id</th>
-                                            <th>Klarna Reference</th>
-                                            <th>Checkout Status</th>
+                                            {ordersType === "returned-orders" && <>
+                                                <th>Returned Order Number</th>
+                                                <th>Returned Order Id</th>
+                                            </>}
+                                            {ordersType === "orders" && <>
+                                                <th>Klarna Order Id</th>
+                                                <th>Klarna Reference</th>
+                                                <th>Checkout Status</th>
+                                            </>}
                                             <th width="200">Status</th>
                                             <th>Order Total Amount</th>
                                             <th>Added Date</th>
@@ -382,10 +400,17 @@ export default function OrdersManagment() {
                                         {allOrdersInsideThePage.map((order, orderIndex) => (
                                             <tr key={order._id}>
                                                 <td>{order.orderNumber}</td>
-                                                <td>{order._id}</td>
-                                                <td>{order.klarnaOrderId}</td>
-                                                <td>{order.klarnaReference}</td>
-                                                <td>{order.checkout_status}</td>
+                                                {ordersType === "orders" && <td>{order._id}</td>}
+                                                {ordersType === "returned-orders" && <td>{order.orderId}</td>}
+                                                {ordersType === "returned-orders" && <>
+                                                    <td>{order.returnedOrderNumber}</td>
+                                                    <td>{order._id}</td>
+                                                </>}
+                                                {ordersType === "orders" && <>
+                                                    <td>{order.klarnaOrderId}</td>
+                                                    <td>{order.klarnaReference}</td>
+                                                    <td>{order.checkout_status}</td>
+                                                </>}
                                                 <td>
                                                     <h6 className="fw-bold">{order.status}</h6>
                                                     <hr />
@@ -394,9 +419,16 @@ export default function OrdersManagment() {
                                                         onChange={(e) => changeOrderData(orderIndex, "status", e.target.value)}
                                                     >
                                                         <option value="" hidden>Pleae Enter Status</option>
-                                                        <option value="pending">Pending</option>
-                                                        <option value="shipping">Shipping</option>
-                                                        <option value="completing">Completing</option>
+                                                        {ordersType === "orders" &&
+                                                            orderStatus.map((status, index) => (
+                                                                <option value={status} key={index}>{status}</option>
+                                                            ))
+                                                        }
+                                                        {ordersType === "returned-orders" &&
+                                                            returnedOrderStatus.map((status, index) => (
+                                                                <option value={status} key={index}>{status}</option>
+                                                            ))
+                                                        }
                                                     </select>
                                                 </td>
                                                 <td>
@@ -453,7 +485,7 @@ export default function OrdersManagment() {
                                                         {errorMsg}
                                                     </button>}
                                                     {!isUpdatingStatus && !isDeletingStatus && !errorMsg && !successMsg && <Link href={`/admin-dashboard/orders-managment/${order._id}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>}
-                                                    {!order.isReturned && (order.checkout_status === "AUTHORIZED" || order.checkout_status === "CAPTURED" || order.checkout_status === "EXPIRED") && <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>}
+                                                    {ordersType === "orders" && !order.isReturned && (order.checkout_status === "AUTHORIZED" || order.checkout_status === "CAPTURED" || order.checkout_status === "EXPIRED") && <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>}
                                                 </td>
                                             </tr>
                                         ))}
@@ -482,4 +514,21 @@ export default function OrdersManagment() {
             {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
         </div>
     );
+}
+
+export function getServerSideProps(context) {
+    const ordersType = context.query.ordersType;
+    if (ordersType !== "orders" && ordersType !== "returned-orders") {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/admin-dashboard",
+            },
+        }
+    }
+    return {
+        props: {
+            ordersType,
+        }
+    }
 }

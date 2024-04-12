@@ -182,7 +182,7 @@ export function getServerSideProps(context) {
     const productName = context.query.productName;
     return {
         props: {
-            productName: productName,
+            productName,
         }
     }
 }

@@ -27,11 +27,21 @@ export default function ControlPanelHeader() {
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
-                                        <Link className="dropdown-item" href="/admin-dashboard/orders-managment">All Orders</Link>
+                                        <Link className="dropdown-item" href={{
+                                            pathname: "/admin-dashboard/orders-managment",
+                                            query: {
+                                                ordersType: "orders",
+                                            }
+                                        }}>Orders</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/admin-dashboard/returned-orders-managment">Returned</Link>
+                                        <Link className="dropdown-item" href={{
+                                            pathname: "/admin-dashboard/orders-managment",
+                                            query: {
+                                                ordersType: "returned-orders",
+                                            }
+                                        }}>Returned Orders</Link>
                                     </li>
                                 </ul>
                             </li>
