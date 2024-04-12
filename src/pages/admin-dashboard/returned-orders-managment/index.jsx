@@ -21,9 +21,9 @@ export default function ReturnedOrdersManager() {
 
     const [isDeletingStatus, setIsDeletingStatus] = useState(false);
 
-    const [isSuccessStatus, setIsSuccessStatus] = useState(false);
+    const [successMsg, setSuccessMsg] = useState("");
 
-    const [isErrorStatus, setIsErrorStatus] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -44,44 +44,52 @@ export default function ReturnedOrdersManager() {
     const pageSize = 5;
 
     useEffect(() => {
-        const adminId = localStorage.getItem("tavlorify-store-admin-id");
-        if (!adminId) {
-            router.push("/admin-dashboard/login");
-        } else {
-            getOrdersCount()
+        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        if (adminToken) {
+            validations.getAdminInfo(adminToken)
                 .then(async (result) => {
-                    if (result > 0) {
-                        const result1 = await getAllOrdersInsideThePage(1, pageSize);
-                        setAllOrdersInsideThePage(result1);
-                        setTotalPagesCount(Math.ceil(result / pageSize));
+                    if (result.error) {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
+                    } else {
+                        result = await getOrdersCount();
+                        if (result.data > 0) {
+                            setAllOrdersInsideThePage((await getAllOrdersInsideThePage(1, pageSize)).data);
+                            setTotalPagesCount(Math.ceil(result.data / pageSize));
+                        }
+                        setIsLoadingPage(false);
                     }
-                    setIsLoadingPage(false);
-                }).catch(() => {
-                    setIsLoadingPage(false);
-                    setIsErrorMsgOnLoadingThePage(true);
+                })
+                .catch(async (err) => {
+                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
+                    }
+                    else {
+                        setIsLoadingPage(false);
+                        setIsErrorMsgOnLoadingThePage(true);
+                    }
                 });
-        }
+        } else router.push("/admin-dashboard/login");
     }, []);
 
     const getOrdersCount = async (filters) => {
         try {
             const res = await axios.get(`${process.env.BASE_API_URL}/returned-orders/orders-count?${filters ? filters : ""}`);
-            const result = await res.data;
-            return result;
+            return res.data;
         }
         catch (err) {
-            console.log(err);
+            throw Error(err);
         }
     }
 
     const getAllOrdersInsideThePage = async (pageNumber, pageSize, filters) => {
         try {
             const res = await axios.get(`${process.env.BASE_API_URL}/returned-orders/all-orders-inside-the-page?pageNumber=${pageNumber}&pageSize=${pageSize}&${filters ? filters : ""}`);
-            const result = await res.data;
-            return result;
+            return res.data;
         }
         catch (err) {
-            console.log(err);
+            throw Error(err);
         }
     }
 
@@ -97,7 +105,7 @@ export default function ReturnedOrdersManager() {
     const getPreviousPage = async () => {
         setIsFilteringOrdersStatus(true);
         const newCurrentPage = currentPage - 1;
-        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(newCurrentPage, pageSize));
+        setAllOrdersInsideThePage((await getAllOrdersInsideThePage(newCurrentPage, pageSize)).data);
         setCurrentPage(newCurrentPage);
         setIsFilteringOrdersStatus(false);
     }
@@ -105,7 +113,7 @@ export default function ReturnedOrdersManager() {
     const getNextPage = async () => {
         setIsFilteringOrdersStatus(true);
         const newCurrentPage = currentPage + 1;
-        setAllOrdersInsideThePage(await getAllOrdersInsideThePage(newCurrentPage, pageSize));
+        setAllOrdersInsideThePage((await getAllOrdersInsideThePage(newCurrentPage, pageSize)).data);
         setCurrentPage(newCurrentPage);
         setIsFilteringOrdersStatus(false);
     }
@@ -200,10 +208,9 @@ export default function ReturnedOrdersManager() {
             setIsFilteringOrdersStatus(true);
             let filteringString = getFilteringString(filters);
             const result = await getOrdersCount(filteringString);
-            if (result > 0) {
-                const result1 = await getAllOrdersInsideThePage(1, pageSize, filteringString);
-                setAllOrdersInsideThePage(result1);
-                setTotalPagesCount(Math.ceil(result / pageSize));
+            if (result.data > 0) {
+                setAllOrdersInsideThePage((await getAllOrdersInsideThePage(1, pageSize, filteringString)).data);
+                setTotalPagesCount(Math.ceil(result.data / pageSize));
                 setIsFilteringOrdersStatus(false);
             } else {
                 setAllOrdersInsideThePage([]);
@@ -212,7 +219,17 @@ export default function ReturnedOrdersManager() {
             }
         }
         catch (err) {
-            console.log(err);
+            if (err?.response?.data?.msg === "Unauthorized Error") {
+                localStorage.removeItem("tavlorify-store-admin-user-token");
+                await router.push("/admin-dashboard/login");
+                return;
+            }
+            setIsFilteringOrdersStatus(false);
+            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
+            let errorTimeout = setTimeout(() => {
+                setErrorMsg("");
+                clearTimeout(errorTimeout);
+            }, 2000);
         }
     }
 
@@ -221,32 +238,40 @@ export default function ReturnedOrdersManager() {
     }
 
     const updateReturnedOrderData = async (orderIndex) => {
-        setIsUpdatingStatus(true);
-        setSelectedOrderIndex(orderIndex);
         try {
+            setIsUpdatingStatus(true);
+            setSelectedOrderIndex(orderIndex);
             const res = await axios.put(`${process.env.BASE_API_URL}/returned-orders/update-order/${allOrdersInsideThePage[orderIndex]._id}`, {
                 order_amount: allOrdersInsideThePage[orderIndex].order_amount,
                 status: allOrdersInsideThePage[orderIndex].status,
+            }, {
+                headers: {
+                    Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                }
             });
             const result = await res.data;
-            if (result === "Updating Returned Order Details Has Been Successfuly !!") {
+            if (!result.error) {
                 setIsUpdatingStatus(false);
-                setIsSuccessStatus(true);
+                setSuccessMsg(result.msg);
                 let successTimeout = setTimeout(() => {
-                    setIsSuccessStatus(false);
+                    setSuccessMsg("");
                     setSelectedOrderIndex(-1);
                     clearTimeout(successTimeout);
                 }, 3000);
             }
         }
         catch (err) {
+            if (err?.response?.data?.msg === "Unauthorized Error") {
+                localStorage.removeItem("tavlorify-store-admin-user-token");
+                await router.push("/admin-dashboard/login");
+                return;
+            }
             setIsUpdatingStatus(false);
-            setIsErrorStatus(true);
+            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
             let errorTimeout = setTimeout(() => {
-                setIsErrorStatus(false);
-                setSelectedOrderIndex(-1);
+                setErrorMsg("");
                 clearTimeout(errorTimeout);
-            }, 3000);
+            }, 2000);
         }
     }
 
@@ -254,28 +279,35 @@ export default function ReturnedOrdersManager() {
         try {
             setIsDeletingStatus(true);
             setSelectedOrderIndex(orderIndex);
-            await axios.delete(`${process.env.BASE_API_URL}/returned-orders/delete-order/${allOrdersInsideThePage[orderIndex]._id}`);
+            await axios.delete(`${process.env.BASE_API_URL}/returned-orders/delete-order/${allOrdersInsideThePage[orderIndex]._id}`, {
+                headers: {
+                    Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                }
+            });
             setIsDeletingStatus(false);
-            setIsSuccessStatus(true);
+            setSuccessMsg(res.result.msg);
             let successTimeout = setTimeout(async () => {
-                setIsSuccessStatus(false);
+                setSuccessMsg("");
                 setSelectedOrderIndex(-1);
                 setIsFilteringOrdersStatus(true);
-                setAllOrdersInsideThePage(await getAllOrdersInsideThePage(1, pageSize));
+                setAllOrdersInsideThePage((await getAllOrdersInsideThePage(1, pageSize)).data);
                 setCurrentPage(1);
-                setIsFilteringOrdersStatus(false);
                 setIsFilteringOrdersStatus(false);
                 clearTimeout(successTimeout);
             }, 3000);
         }
         catch (err) {
+            if (err?.response?.data?.msg === "Unauthorized Error") {
+                localStorage.removeItem("tavlorify-store-admin-user-token");
+                await router.push("/admin-dashboard/login");
+                return;
+            }
             setIsDeletingStatus(false);
-            setIsErrorStatus(true);
+            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
             let errorTimeout = setTimeout(() => {
-                setIsErrorStatus(false);
-                setSelectedOrderIndex(-1);
+                setErrorMsg("");
                 clearTimeout(errorTimeout);
-            }, 3000);
+            }, 2000);
         }
     }
 
@@ -421,7 +453,7 @@ export default function ReturnedOrdersManager() {
                                                     >
                                                         Updating ...
                                                     </button>}
-                                                    {isSuccessStatus && orderIndex === selectedOrderIndex && <button
+                                                    {successMsg && orderIndex === selectedOrderIndex && <button
                                                         className="btn btn-success d-block mx-auto mb-3"
                                                         disabled
                                                     >
@@ -445,13 +477,13 @@ export default function ReturnedOrdersManager() {
                                                     >
                                                         Deleted Successful
                                                     </button>}
-                                                    {isErrorStatus && orderIndex === selectedOrderIndex && <button
+                                                    {errorMsg && orderIndex === selectedOrderIndex && <button
                                                         className="btn btn-danger d-block mx-auto mb-3"
                                                         disabled
                                                     >
-                                                        Sorry, Error In Process
+                                                        {errorMsg}
                                                     </button>}
-                                                    {!isUpdatingStatus && !isDeletingStatus && !isErrorStatus && !isSuccessStatus && <Link href={`/dashboard/admin/admin-panel/returned-orders-managment/${order._id}`} className="btn btn-success d-block mx-auto">Show Details</Link>}
+                                                    {!isUpdatingStatus && !isDeletingStatus && !errorMsg && !successMsg && <Link href={`/dashboard/admin/admin-panel/returned-orders-managment/${order._id}`} className="btn btn-success d-block mx-auto">Show Details</Link>}
                                                 </td>
                                             </tr>
                                         ))}
