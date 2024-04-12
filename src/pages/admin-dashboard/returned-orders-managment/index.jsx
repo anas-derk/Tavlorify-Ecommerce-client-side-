@@ -6,6 +6,7 @@ import axios from "axios";
 import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 import Link from "next/link";
 import LoaderPage from "@/components/LoaderPage";
+import validations from "../../../../public/global_functions/validations";
 
 export default function ReturnedOrdersManager() {
 
