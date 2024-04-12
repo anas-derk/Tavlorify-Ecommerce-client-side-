@@ -1,14 +1,14 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import LoaderPage from "@/components/LoaderPage";
 
 export default function TextToImageManagment() {
 
-    const [isLoadingPage, setIsLoadingPage] = useState(tue);
+    const [isLoadingPage, setIsLoadingPage] = useState(true);
 
     const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 

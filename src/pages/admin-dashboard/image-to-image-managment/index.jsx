@@ -8,7 +8,7 @@ import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 
 export default function ImageToImageManagment() {
 
-    const [isLoadingPage, setIsLoadingPage] = useState(tue);
+    const [isLoadingPage, setIsLoadingPage] = useState(true);
 
     const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
