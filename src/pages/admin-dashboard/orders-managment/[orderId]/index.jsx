@@ -276,7 +276,7 @@ export default function OrderDetails({ orderId }) {
                                     </div>
                                 </div>
                             </section>
-                        </div> : <p className="alert alert-danger order-not-found-error">Sorry, This Order Is Not Found !!</p>}
+                        </div> : <p className="alert alert-danger order-not-found-error">Sorry, This Order Is Not Completed !!</p>}
                     </div>
                 </section>
                 {/* End Content Section */}
