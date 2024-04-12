@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import axios from "axios";
-import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 import Link from "next/link";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
@@ -33,8 +32,6 @@ export default function OrdersManagment() {
     const [currentPage, setCurrentPage] = useState(1);
 
     const [totalPagesCount, setTotalPagesCount] = useState(0);
-
-    const [pageNumber, setPageNumber] = useState(0);
 
     const [filters, setFilters] = useState({
         orderNumber: -1,
@@ -451,7 +448,7 @@ export default function OrdersManagment() {
                                                     >
                                                         {errorMsg}
                                                     </button>}
-                                                    {!isUpdatingStatus && !isDeletingStatus && !errorMsg && !successMsg && <Link href={`/dashboard/admin/admin-panel/orders-managment/${order._id}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>}
+                                                    {!isUpdatingStatus && !isDeletingStatus && !errorMsg && !successMsg && <Link href={`/admin-dashboard/orders-managment/${order._id}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>}
                                                     {!order.isReturned && (order.checkout_status === "AUTHORIZED" || order.checkout_status === "CAPTURED") && <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>}
                                                 </td>
                                             </tr>

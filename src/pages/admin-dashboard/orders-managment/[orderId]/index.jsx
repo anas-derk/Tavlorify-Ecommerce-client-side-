@@ -4,10 +4,14 @@ import { useRouter } from "next/router";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import axios from "axios";
 import LoaderPage from "@/components/LoaderPage";
+import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
+import validations from "../../../../../public/global_functions/validations";
 
-export default function OrderDetails() {
+export default function OrderDetails({ orderId }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
+    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
     const [orderDetails, setOrderDetails] = useState({});
 
@@ -17,31 +21,44 @@ export default function OrderDetails() {
 
     const [isDeletingStatus, setIsDeletingStatus] = useState(false);
 
+    const [successMsg, setSuccessMsg] = useState("");
+
+    const [errorMsg, setErrorMsg] = useState("");
+
     const [deletingOrderProductIndex, setDeletingOrderProductIndex] = useState(false);
 
     const router = useRouter();
 
-    const { orderId } = router.query;
-
     useEffect(() => {
-        const adminId = localStorage.getItem("tavlorify-store-admin-id");
-        if (!adminId) {
-            router.push("/admin-dashboard/login");
-        } else {
-            if (orderId) {
-                getOrderDetails(orderId)
-                    .then((result) => {
-                        setOrderDetails(result);
+        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        if (adminToken) {
+            validations.getAdminInfo(adminToken)
+                .then(async (result) => {
+                    if (result.error) {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
+                    } else {
+                        setOrderDetails((await getOrderDetails(orderId)).data);
                         setIsLoadingPage(false);
-                    });
-            }
-        }
-    }, [orderId]);
+                    }
+                })
+                .catch(async (err) => {
+                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        await router.push("/admin-dashboard/login");
+                    }
+                    else {
+                        setIsLoadingPage(false);
+                        setIsErrorMsgOnLoadingThePage(true);
+                    }
+                });
+        } else router.push("/admin-dashboard/login");
+    }, []);
 
     const getOrderDetails = async (orderId) => {
         try {
             const res = await axios.get(`${process.env.BASE_API_URL}/orders/order-details/${orderId}`);
-            return await res.data;
+            return res.data;
         }
         catch (err) {
             return err;
@@ -55,43 +72,77 @@ export default function OrderDetails() {
     }
 
     const updateOrderProductData = async (orderProductIndex) => {
-        setIsUpdatingStatus(true);
-        setUpdatingOrderProductIndex(orderProductIndex);
         try {
+            setIsUpdatingStatus(true);
+            setUpdatingOrderProductIndex(orderProductIndex);
             const res = await axios.put(`${process.env.BASE_API_URL}/orders/products/update-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`, {
                 quantity: orderDetails.order_lines[orderProductIndex].quantity,
                 name: orderDetails.order_lines[orderProductIndex].name,
                 total_amount: orderDetails.order_lines[orderProductIndex].total_amount,
                 unit_price: orderDetails.order_lines[orderProductIndex].unit_price,
+            }, {
+                headers: {
+                    Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                }
             });
             const result = await res.data;
-            if (result === "Updating Order Details Has Been Successfuly !!") {
-                setUpdatingOrderProductIndex(-1);
-                setIsUpdatingStatus(false);
+            setIsUpdatingStatus(false);
+            setUpdatingOrderProductIndex(-1);
+            if (!result.error) {
+                setSuccessMsg(result.msg);
+                let successTimeout = setTimeout(() => {
+                    setSuccessMsg("");
+                    setSelectedOrderIndex(-1);
+                    clearTimeout(successTimeout);
+                }, 3000);
             }
         }
         catch (err) {
-            console.log(err);
-            setDeletingOrderProductIndex(-1);
+            if (err?.response?.data?.msg === "Unauthorized Error") {
+                localStorage.removeItem("tavlorify-store-admin-user-token");
+                await router.push("/admin-dashboard/login");
+                return;
+            }
             setIsUpdatingStatus(false);
+            setUpdatingOrderProductIndex(-1);
+            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
+            let errorTimeout = setTimeout(() => {
+                setErrorMsg("");
+                clearTimeout(errorTimeout);
+            }, 2000);
         }
     }
 
     const deleteProductFromOrder = async (orderProductIndex) => {
-        setIsDeletingStatus(true);
-        setDeletingOrderProductIndex(orderProductIndex);
         try {
+            setIsDeletingStatus(true);
+            setDeletingOrderProductIndex(orderProductIndex);
             const res = await axios.delete(`${process.env.BASE_API_URL}/orders/products/delete-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`);
             const result = await res.data;
-            if (result === "Deleting Product From Order Has Been Successfuly !!") {
-                setIsDeletingStatus(false);
-                setDeletingOrderProductIndex(-1);
+            setIsDeletingStatus(false);
+            setDeletingOrderProductIndex(-1);
+            if (!result.error) {
+                setSuccessMsg(result.msg);
+                let successTimeout = setTimeout(() => {
+                    setSuccessMsg("");
+                    setSelectedOrderIndex(-1);
+                    clearTimeout(successTimeout);
+                }, 3000);
             }
         }
         catch (err) {
-            console.log(err);
+            if (err?.response?.data?.msg === "Unauthorized Error") {
+                localStorage.removeItem("tavlorify-store-admin-user-token");
+                await router.push("/admin-dashboard/login");
+                return;
+            }
             setIsDeletingStatus(false);
             setDeletingOrderProductIndex(-1);
+            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
+            let errorTimeout = setTimeout(() => {
+                setErrorMsg("");
+                clearTimeout(errorTimeout);
+            }, 2000);
         }
     }
 
@@ -100,7 +151,7 @@ export default function OrderDetails() {
             <Head>
                 <title>Tavlorify Store - Order Details</title>
             </Head>
-            {!isLoadingPage ? <>
+            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 {/* Start Control Panel Header */}
                 <ControlPanelHeader />
                 {/* End Control Panel Header */}
@@ -229,7 +280,25 @@ export default function OrderDetails() {
                     </div>
                 </section>
                 {/* End Content Section */}
-            </> : <LoaderPage />}
+            </>}
+            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
+            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
         </div>
     );
+}
+
+export async function getServerSideProps({ params }) {
+    if (!params.orderId) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/admin-dashboard/orders-managment",
+            },
+        }
+    }
+    return {
+        props: {
+            orderId: params.orderId
+        },
+    }
 }
