@@ -172,7 +172,11 @@ export default function OrdersManagment() {
 
     const addOrderAsReturned = async (orderId) => {
         try {
-            const res = await axios.post(`${process.env.BASE_API_URL}/returned-orders/create-new-order/${orderId}`);
+            const res = await axios.post(`${process.env.BASE_API_URL}/returned-orders/create-new-order/${orderId}`, undefined, {
+                headers: {
+                    Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                }
+            });
             const result = res.data;
         }
         catch (err) {
@@ -368,7 +372,7 @@ export default function OrdersManagment() {
                                             <th>Klarna Order Id</th>
                                             <th>Klarna Reference</th>
                                             <th>Checkout Status</th>
-                                            <th>Status</th>
+                                            <th width="200">Status</th>
                                             <th>Order Total Amount</th>
                                             <th>Added Date</th>
                                             <th>Action</th>
@@ -392,7 +396,7 @@ export default function OrdersManagment() {
                                                         <option value="" hidden>Pleae Enter Status</option>
                                                         <option value="pending">Pending</option>
                                                         <option value="shipping">Shipping</option>
-                                                        <option value="completed">Completed</option>
+                                                        <option value="completing">Completing</option>
                                                     </select>
                                                 </td>
                                                 <td>
@@ -449,7 +453,7 @@ export default function OrdersManagment() {
                                                         {errorMsg}
                                                     </button>}
                                                     {!isUpdatingStatus && !isDeletingStatus && !errorMsg && !successMsg && <Link href={`/admin-dashboard/orders-managment/${order._id}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>}
-                                                    {!order.isReturned && (order.checkout_status === "AUTHORIZED" || order.checkout_status === "CAPTURED") && <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>}
+                                                    {!order.isReturned && (order.checkout_status === "AUTHORIZED" || order.checkout_status === "CAPTURED" || order.checkout_status === "EXPIRED") && <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>}
                                                 </td>
                                             </tr>
                                         ))}
