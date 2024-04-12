@@ -1,15 +1,16 @@
 import Head from "next/head";
 import Script from "next/script";
 import "../Scss/index.css";
-import "../components/Header/index.css";
-import "../components/Footer/index.css";
+import "../components/Header/header.css";
+import "../components/Footer/footer.css";
 import "../pages/index.css";
-import "../pages/text-to-image/index.css";
-import "../pages/image-to-image/index.css";
-import "../components/ControlPanelHeader/index.css";
+import "../pages/text-to-image/text_to_image.css";
+import "../pages/image-to-image/image_to_image.css";
+import "../components/ControlPanelHeader/control_panel_header.css";
 import "../pages/admin-dashboard/login/index.css";
 import "./checkout/index.css";
-import "../components/CustomersComments/index.css";
+import "../components/CustomersComments/customers_comments.css";
+import "../components/PaginationBar/pagination_bar.css";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
