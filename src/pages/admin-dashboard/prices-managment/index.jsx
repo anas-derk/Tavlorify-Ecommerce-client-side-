@@ -21,6 +21,7 @@ export default function ProductPrices({ productName }) {
     const [updatedProductPrices, setUpdatedProductPrices] = useState([]);
 
     useEffect(() => {
+        setIsLoadingPage(true);
         const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
         if (adminToken) {
             validations.getAdminInfo(adminToken)

@@ -35,6 +35,7 @@ export default function GeneratedImagesManagment({ pageName }) {
     const pageSize = 5;
 
     useEffect(() => {
+        setIsLoadingPage(true);
         const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
         if (adminToken) {
             validations.getAdminInfo(adminToken)

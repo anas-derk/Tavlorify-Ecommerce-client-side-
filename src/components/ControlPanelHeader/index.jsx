@@ -100,7 +100,12 @@ export default function ControlPanelHeader() {
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/admin-dashboard/text-to-image-managment/styles-managment/update-and-delete-styles-info">Update And Delete Style</Link>
+                                        <Link className="dropdown-item" href={{
+                                            pathname: "/admin-dashboard/styles-managment/update-and-delete-style-info",
+                                            query: {
+                                                pageName: "text-to-image",
+                                            }
+                                        }}>Update And Delete Style</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
@@ -136,7 +141,12 @@ export default function ControlPanelHeader() {
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
-                                        <Link className="dropdown-item" href="/admin-dashboard/image-to-image-managment/styles-managment/update-and-delete-styles-info">Update And Delete Style</Link>
+                                        <Link className="dropdown-item" href={{
+                                            pathname: "/admin-dashboard/styles-managment/update-and-delete-style-info",
+                                            query: {
+                                                pageName: "image-to-image",
+                                            }
+                                        }}>Update And Delete Style</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>

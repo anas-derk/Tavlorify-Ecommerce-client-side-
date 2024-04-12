@@ -27,6 +27,7 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
     const router = useRouter();
 
     useEffect(() => {
+        setIsLoadingPage(true);
         const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
         if (adminToken) {
             validations.getAdminInfo(adminToken)
