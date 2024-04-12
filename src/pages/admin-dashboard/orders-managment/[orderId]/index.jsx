@@ -92,7 +92,6 @@ export default function OrderDetails({ orderId, ordersType }) {
                 setSuccessMsg(result.msg);
                 let successTimeout = setTimeout(() => {
                     setSuccessMsg("");
-                    setSelectedOrderIndex(-1);
                     clearTimeout(successTimeout);
                 }, 3000);
             }
