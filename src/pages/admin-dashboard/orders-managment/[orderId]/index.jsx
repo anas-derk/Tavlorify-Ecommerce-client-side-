@@ -117,8 +117,12 @@ export default function OrderDetails({ orderId }) {
         try {
             setIsDeletingStatus(true);
             setDeletingOrderProductIndex(orderProductIndex);
-            const res = await axios.delete(`${process.env.BASE_API_URL}/orders/products/delete-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`);
-            const result = await res.data;
+            const res = await axios.delete(`${process.env.BASE_API_URL}/orders/products/delete-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`, {
+                headers: {
+                    Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                }
+            });
+            const result = res.data;
             setIsDeletingStatus(false);
             setDeletingOrderProductIndex(-1);
             if (!result.error) {
@@ -229,7 +233,7 @@ export default function OrderDetails({ orderId }) {
                                                 >
                                                     Updating ...
                                                 </button>}
-                                                {orderProductIndex !== deletingOrderProductIndex && <button
+                                                {orderProductIndex !== deletingOrderProductIndex && orderDetails.order_lines.length > 2 && <button
                                                     className="btn btn-danger d-block mx-auto mb-3"
                                                     onClick={() => deleteProductFromOrder(orderProductIndex)}
                                                 >
