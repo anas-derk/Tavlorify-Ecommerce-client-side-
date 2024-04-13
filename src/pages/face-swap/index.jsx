@@ -606,7 +606,7 @@ export default function FaceSwap({
                 size: dimentionsInCm,
                 isExistWhiteBorder: isExistWhiteBorderWithPoster,
                 frameColor: frameColor,
-                generatedImageURL: result,
+                generatedImageURL: result.data,
                 _id: generateUniqueID(),
             });
         }

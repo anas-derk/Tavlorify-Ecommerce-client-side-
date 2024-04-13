@@ -634,7 +634,7 @@ export default function TextToImage({
                 width: dimentions.width,
                 height: dimentions.height,
                 frameColor: frameColor,
-                generatedImageURL: result,
+                generatedImageURL: result.data,
                 _id: generateUniqueID(),
             });
         }

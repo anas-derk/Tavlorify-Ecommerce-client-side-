@@ -698,7 +698,7 @@ export default function ImageToImage({
                     width: naturalWidthTemp,
                     height: naturalHeightTemp,
                     frameColor: frameColor,
-                    generatedImageURL: result,
+                    generatedImageURL: result.data,
                     _id: generateUniqueID(),
                 });
             }
