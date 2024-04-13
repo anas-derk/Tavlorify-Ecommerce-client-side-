@@ -24,8 +24,12 @@ import minimizeImage6 from "../../public/images/MainPage/ImageToImage/3.webp";
 import minimizeImage7 from "../../public/images/MainPage/FaceSwap/1.webp";
 import minimizeImage8 from "../../public/images/MainPage/FaceSwap/2.webp";
 import minimizeImage9 from "../../public/images/MainPage/FaceSwap/3.webp";
-
 /* End Import Minimize Images */
+/* Start Import Services Section Images */
+import textToImageServiceExplainImage from "../../public/images/MainPage/Services/textToImage.webp";
+import imageToImageServiceExplainImage from "../../public/images/MainPage/Services/imageToImage.webp";
+import faceSwapServiceExplainImage from "../../public/images/MainPage/Services/faceSwap.webp";
+/* End Import Services Section Images */
 
 export default function Home() {
 
@@ -51,6 +55,24 @@ export default function Home() {
             minimizeImagesSrc: [minimizeImage7.src, minimizeImage8.src, minimizeImage9.src],
             minimizeImagesDescription: "SKAPA DIN EGEN PERSONLIGA POSTER",
         }
+    ];
+
+    const servicesSectionImagesList = [
+        {
+            serviceName: "Text To Image",
+            serviceExplainImage: textToImageServiceExplainImage.src,
+            serviceExplain: "Välkommen till en värld där din kreativitet möter artificiell intelligens för att skapa unik konst. Här på Tavlorify kan du enkelt omvandla dina idéer till vackra konstverk med hjälp av AI. Processen är enkel och tillgänglig för alla, oavsett konstnärlig erfarenhet."
+        },
+        {
+            serviceName: "Image To Image",
+            serviceExplainImage: imageToImageServiceExplainImage.src,
+            serviceExplain: "Förvandla dina minnen till mästerverk: Upptäck hur vår AI-teknologi andas liv i dina bilder, skapar personliga konstverk och förvandlar varje ögonblick till evigt konstnärligt arv. Gör ditt hem till en galleri med unika berättelser."
+        },
+        {
+            serviceName: "Face Swap",
+            serviceExplainImage: faceSwapServiceExplainImage.src,
+            serviceExplain: "Byt ansikte på sekunder med hjälp av AI: Ladda upp din selfie, Välj bland stilfulla förinställningar – kändisar, anime, konst, tecknat, och mer. Skapa och se magin!"
+        },
     ]
 
     return (
@@ -66,21 +88,42 @@ export default function Home() {
                     <section className="introduction mb-5">
                         <div className="row">
                             {introductionSectionImagesList.map((images, index) => (
-                                <div className="col-md-4" key={index}>
-                                    <img src={images.roomImageSrc} alt="Room Image 1" className="mw-100 mb-4" />
+                                <div className="col-lg-4" key={index}>
+                                    <img src={images.roomImageSrc} alt="Room Image 1" className="mw-100 mb-4" onDragStart={(e) => e.preventDefault()} />
                                     <div className="explain-box mb-5">
                                         <h6 className="fw-bold">{images.roomImageHeading}</h6>
                                         <h6>{images.roomImageDescription}</h6>
                                     </div>
                                     <div className="row mb-5">
                                         {images.minimizeImagesSrc.map((minimizeImageSrc, minimizeImageIndex) => (
-                                            <div className="col-md-4" key={minimizeImageIndex}>
-                                                <img src={minimizeImageSrc} alt="Minimize Image 1 For Text To Image" className="mw-100" />
+                                            <div className="col-4" key={minimizeImageIndex}>
+                                                <img src={minimizeImageSrc} alt="Minimize Image 1 For Text To Image" className="mw-100" onDragStart={(e) => e.preventDefault()} />
                                             </div>
                                         ))}
                                     </div>
                                     <h6 className="fw-bold">{images.minimizeImagesDescription}</h6>
                                 </div>
+                            ))}
+                        </div>
+                    </section>
+                    <section className="services mb-5">
+                        <div className="row">
+                            {servicesSectionImagesList.map((service, index) => (
+                                index % 2 !== 0 ? <>
+                                    <div className="col-lg-6" key={index}>
+                                        <p className="service-explain mb-4">{service.serviceExplain}</p>
+                                    </div>
+                                    <div className="col-lg-6" key={index}>
+                                        <img src={service.serviceExplainImage} alt={`${service.serviceName} Service Image`} className="mw-100" onDragStart={(e) => e.preventDefault()} />
+                                    </div>
+                                </> : <>
+                                    <div className="col-lg-6" key={index}>
+                                        <img src={service.serviceExplainImage} alt={`${service.serviceName} Service Image`} className="mw-100" onDragStart={(e) => e.preventDefault()} />
+                                    </div>
+                                    <div className="col-lg-6" key={index}>
+                                        <p className="service-explain mb-4">{service.serviceExplain}</p>
+                                    </div>
+                                </>
                             ))}
                         </div>
                     </section>
