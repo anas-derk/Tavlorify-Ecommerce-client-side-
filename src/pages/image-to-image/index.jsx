@@ -351,11 +351,11 @@ export default function ImageToImage({
 
     useEffect(() => {
         getAllImage2ImageCategoriesData()
-            .then(async (categoriesData) => {
-                setCategoriesData(categoriesData);
-                const categoryStylesTemp = await getAllImage2ImageCategoryStylesData(categoriesData, 0);
-                setCategoryStyles(categoryStylesTemp);
-                const tempModelName = categoryStylesTemp[0].modelName;
+            .then(async (result) => {
+                setCategoriesData(result.data);
+                result = await getAllImage2ImageCategoryStylesData(result.data, 0);
+                setCategoryStyles(result.data);
+                const tempModelName = result.data[0].modelName;
                 setModelName(tempModelName);
                 await handleSelectGeneratedImageIdAndPaintingType(tempModelName);
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image")));
@@ -365,7 +365,7 @@ export default function ImageToImage({
                 });
                 setIsLoadingPage(false);
             })
-            .catch(() => {
+            .catch((err) => {
                 setIsLoadingPage(false);
                 setIsErrorMsgOnLoadingThePage(true);
             });
@@ -374,8 +374,7 @@ export default function ImageToImage({
     const getAllImage2ImageCategoriesData = async () => {
         try {
             const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`);
-            const result = await res.data;
-            return result;
+            return res.data;
         }
         catch (err) {
             throw Error(err.response.data);
@@ -385,8 +384,7 @@ export default function ImageToImage({
     const getAllImage2ImageCategoryStylesData = async (categoriesData, categorySelectedIndex) => {
         try {
             const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
-            const result = await res.data;
-            return result;
+            return res.data;
         }
         catch (err) {
             throw Error(err.response.data);
@@ -480,7 +478,7 @@ export default function ImageToImage({
                     setUploadingProgress(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
                 }
             });
-            setImageLink(`${process.env.BASE_API_URL}/${await res.data}`);
+            setImageLink(`${process.env.BASE_API_URL}/${res.data.data}`);
             setIsUplodingFile(false);
         }
         catch (err) {
@@ -502,11 +500,10 @@ export default function ImageToImage({
             if (!isWaitStatus) {
                 setCategorySelectedIndex(index);
                 const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[index].name}`);
-                const result = await res.data;
-                setCategoryStyles(result);
+                const result = res.data;
+                setCategoryStyles(result.data);
                 setStyleSelectedIndex(0);
-                const tempModelName = result[0].modelName;
-                setModelName(tempModelName);
+                setModelName(result.data[0].modelName);
             }
         }
         catch (err) {
@@ -674,8 +671,8 @@ export default function ImageToImage({
             });
             setIsWaitStatus(true);
             const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/generate-image?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}&service=image-to-image&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`);
-            const result = await res.data;
-            const imageURL = `${process.env.BASE_API_URL}/${result}`;
+            const result = res.data;
+            const imageURL = `${process.env.BASE_API_URL}/${result.data.data}`;
             let image = new Image();
             image.src = imageURL;
             image.onload = async function () {
@@ -707,7 +704,6 @@ export default function ImageToImage({
             }
         }
         catch (err) {
-            console.log(err);
             setIsWaitStatus(false);
             setErrorMsg("Sorry, Something Went Wrong, Please Repeate This Process !!");
             let errorMsgTimeout = setTimeout(() => {
@@ -1257,9 +1253,9 @@ export default function ImageToImage({
         try {
             setIsWaitGetProductPrice(true);
             const res = await axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
-            const result = await res.data;
-            setProductPriceBeforeDiscount(result.priceBeforeDiscount);
-            setProductPriceAfterDiscount(result.priceAfterDiscount);
+            const result = res.data;
+            setProductPriceBeforeDiscount(result.data.priceBeforeDiscount);
+            setProductPriceAfterDiscount(result.data.priceAfterDiscount);
             setIsWaitGetProductPrice(false);
         }
         catch (err) {

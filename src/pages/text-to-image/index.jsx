@@ -329,11 +329,11 @@ export default function TextToImage({
 
     useEffect(() => {
         getAllText2ImageCategoriesData()
-            .then(async (categoriesData) => {
-                setCategoriesData(categoriesData);
-                const categoryStylesData = await getAllText2ImageCategoryStylesData(categoriesData, 0);
-                setCategoryStyles(categoryStylesData);
-                const tempModelName = categoryStylesData[0].modelName;
+            .then(async (result) => {
+                setCategoriesData(result.data);
+                result = await getAllText2ImageCategoryStylesData(result.data, 0);
+                setCategoryStyles(result.data);
+                const tempModelName = result.data[0].modelName;
                 setModelName(tempModelName);
                 await handleSelectGeneratedImageIdAndPaintingType(tempModelName);
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")));
@@ -344,6 +344,7 @@ export default function TextToImage({
                 setIsLoadingPage(false);
             })
             .catch((err) => {
+                console.log(err)
                 setIsLoadingPage(false);
                 setIsErrorMsgOnLoadingThePage(true);
             });
@@ -352,8 +353,7 @@ export default function TextToImage({
     const getAllText2ImageCategoriesData = async () => {
         try {
             const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`);
-            const result = await res.data;
-            return result;
+            return res.data;
         }
         catch (err) {
             throw Error(err);
@@ -363,8 +363,7 @@ export default function TextToImage({
     const getAllText2ImageCategoryStylesData = async (categoriesData, categorySelectedIndex) => {
         try {
             const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
-            const result = await res.data;
-            return result;
+            return res.data;
         }
         catch (err) {
             throw Error(err);
@@ -451,9 +450,9 @@ export default function TextToImage({
             if (!isWaitStatus) {
                 setCategorySelectedIndex(categoryIndex);
                 const result = await getAllText2ImageCategoryStylesData(categoriesData, categoryIndex);
-                setCategoryStyles(result);
+                setCategoryStyles(result.data);
                 setStyleSelectedIndex(0);
-                const tempModelName = result[0].modelName;
+                const tempModelName = result.data[0].modelName;
                 setModelName(tempModelName);
                 const dimsIndex = global_data.modelsDimentions[tempModelName][imageType].findIndex((el) => el.inCm == dimentionsInCm);
                 setDimentions({
@@ -616,8 +615,8 @@ export default function TextToImage({
             const res = await axios.get(
                 `${process.env.BASE_API_URL}/text-to-image/generate-image?service=text-to-image&textPrompt=${textPrompt}&prompt=${categoryStyles[styleSelectedIndex].prompt}&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&position=${imageType}&dimentionsInCm=${dimentionsInCm}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}&model_name=${modelName}&negative_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&width=${dimentions.width}&height=${dimentions.height}
                 `);
-            const result = await res.data;
-            const imageURL = `${process.env.BASE_API_URL}/${result}`;
+            const result = res.data;
+            const imageURL = `${process.env.BASE_API_URL}/${result.data}`;
             setTempImageType(imageType);
             setTempDimentionsInCm(dimentionsInCm);
             setIsWaitStatus(false);
@@ -928,9 +927,9 @@ export default function TextToImage({
         try {
             setIsWaitGetProductPrice(true);
             const res = await axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
-            const result = await res.data;
-            setProductPriceBeforeDiscount(result.priceBeforeDiscount);
-            setProductPriceAfterDiscount(result.priceAfterDiscount);
+            const result = res.data;
+            setProductPriceBeforeDiscount(result.data.priceBeforeDiscount);
+            setProductPriceAfterDiscount(result.data.priceAfterDiscount);
             setIsWaitGetProductPrice(false);
         }
         catch (err) {
