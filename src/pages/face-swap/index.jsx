@@ -597,7 +597,7 @@ export default function FaceSwap({
             setTempDimentionsInCm(dimentionsInCm);
             setIsWaitStatus(false);
             setGeneratedImageURL(imageURL);
-            setGeneratedImagePathInMyServer(result);
+            setGeneratedImagePathInMyServer(result.data);
             saveNewGeneratedImageDataInLocalStorage({
                 service: "face-swap",
                 uploadedImageURL: "",

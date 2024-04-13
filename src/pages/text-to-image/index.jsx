@@ -621,7 +621,7 @@ export default function TextToImage({
             setTempDimentionsInCm(dimentionsInCm);
             setIsWaitStatus(false);
             setGeneratedImageURL(imageURL);
-            setGeneratedImagePathInMyServer(result);
+            setGeneratedImagePathInMyServer(result.data);
             saveNewGeneratedImageDataInLocalStorage({
                 service: "text-to-image",
                 uploadedImageURL: "",
