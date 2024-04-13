@@ -336,8 +336,8 @@ export default function FaceSwap({
 
     useEffect(() => {
         getAllFaceSwapCategoryStylesData(0)
-            .then(async (stylesData) => {
-                setCategoryStyles(stylesData);
+            .then(async (result) => {
+                setCategoryStyles(result.data);
                 await handleSelectGeneratedImageIdAndPaintingType();
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-face-swap")));
                 setWindowInnerWidth(window.innerWidth);
@@ -355,8 +355,7 @@ export default function FaceSwap({
     const getAllFaceSwapCategoryStylesData = async (categorySelectedIndex) => {
         try {
             const res = await axios.get(`${process.env.BASE_API_URL}/face-swap/styles/category-styles-data?categoryName=${categoryNames[categorySelectedIndex]}`);
-            const result = await res.data;
-            return result;
+            return res.data;
         }
         catch (err) {
             throw Error(err);
@@ -439,7 +438,7 @@ export default function FaceSwap({
                     setUploadingProgress(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
                 }
             });
-            setImageLink(`${process.env.BASE_API_URL}/${await res.data}`);
+            setImageLink(`${process.env.BASE_API_URL}/${res.data.data}`);
             setIsUplodingFile(false);
         }
         catch (err) {
@@ -460,7 +459,7 @@ export default function FaceSwap({
         try {
             if (!isWaitStatus) {
                 setCategorySelectedIndex(index);
-                setCategoryStyles(await getAllFaceSwapCategoryStylesData(index));
+                setCategoryStyles((await getAllFaceSwapCategoryStylesData(index)).data);
                 setStyleSelectedIndex(0);
             }
         }
@@ -593,7 +592,7 @@ export default function FaceSwap({
             const res = await axios.get(
                 `${process.env.BASE_API_URL}/face-swap/generate-image?service=face-swap&imageLink=${imageLink}&styleImageLink=${getSuitableStyleImageLink(imageType)}`);
             const result = await res.data;
-            const imageURL = `${process.env.BASE_API_URL}/${result}`;
+            const imageURL = `${process.env.BASE_API_URL}/${result.data}`;
             setTempImageType(imageType);
             setTempDimentionsInCm(dimentionsInCm);
             setIsWaitStatus(false);
@@ -962,9 +961,9 @@ export default function FaceSwap({
         try {
             setIsWaitGetProductPrice(true);
             const res = await axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
-            const result = await res.data;
-            setProductPriceBeforeDiscount(result.priceBeforeDiscount);
-            setProductPriceAfterDiscount(result.priceAfterDiscount);
+            const result = res.data;
+            setProductPriceBeforeDiscount(result.data.priceBeforeDiscount);
+            setProductPriceAfterDiscount(result.data.priceAfterDiscount);
             setIsWaitGetProductPrice(false);
         }
         catch (err) {
