@@ -44,12 +44,12 @@ export default function Checkout({ orderId }) {
                 });
                 setAllProductsData(allProductsData);
                 getOrderDetails(orderId)
-                    .then(async (order) => {
-                        const result = await orderAllProducts(orderId, order.orderNumber);
-                        setKlarnaOrderId(result.order_id);
+                    .then(async (result) => {
+                        result = await orderAllProducts(orderId, result.data.orderNumber);
+                        setKlarnaOrderId(result.data.order_id);
                         setIsLoadingPage(false);
-                        await updateOrder(orderId, result.order_id);
-                        renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
+                        await updateOrder(orderId, result.data.order_id);
+                        renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.data.html_snippet);
                     }).catch(() => {
                         setIsLoadingPage(false);
                         setIsErrorMsgOnLoadingThePage(true);
@@ -114,7 +114,7 @@ export default function Checkout({ orderId }) {
     const getOrderDetails = async (orderId) => {
         try {
             const res = await axios.get(`${process.env.BASE_API_URL}/orders/order-details/${orderId}`);
-            return await res.data;
+            return res.data;
         }
         catch (err) {
             throw Error(err);
@@ -163,8 +163,7 @@ export default function Checkout({ orderId }) {
                         ]
                     }
                     const res = await axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-klarna`, orderDetails);
-                    const result = await res.data;
-                    return result;
+                    return res.data;
                 }
             }
         }
@@ -226,7 +225,7 @@ export default function Checkout({ orderId }) {
                 order_lines: getOrderLinesForKlarnaCheckoutAPI(newProductsData),
             }
             const res = await axios.put(`${process.env.BASE_API_URL}/orders/update-klarna-order/${orderId}`, orderDetails);
-            const result = await res.data;
+            const result = res.data;
             localStorage.setItem("tavlorify-store-user-cart", JSON.stringify(newProductsData));
             setAllProductsData(newProductsData);
             setNewTotalProductsCount(newProductsData.length);
@@ -238,7 +237,7 @@ export default function Checkout({ orderId }) {
                 totalDiscount,
                 totalPriceAfterDiscount,
             });
-            renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
+            renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.data.html_snippet);
         }
         catch (err) {
             throw Error(err);

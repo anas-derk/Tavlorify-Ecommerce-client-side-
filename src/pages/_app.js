@@ -8,7 +8,7 @@ import "../pages/text-to-image/text_to_image.css";
 import "../pages/image-to-image/image_to_image.css";
 import "../components/ControlPanelHeader/control_panel_header.css";
 import "../pages/admin-dashboard/login/index.css";
-import "./checkout/index.css";
+import "./checkout/checkout.css";
 import "../components/CustomersComments/customers_comments.css";
 import "../components/PaginationBar/pagination_bar.css";
 import "slick-carousel/slick/slick.css"; 
