@@ -336,7 +336,7 @@ export default function Header({ newTotalProductsCount }) {
             const res = await axios.post(`${process.env.BASE_API_URL}/orders/create-new-order`);
             const result = res.data;
             if (!result.error) {
-                await router.push(`/checkout?orderId=${result.orderId}`);
+                await router.push(`/checkout?orderId=${result.data.orderId}`);
             }
         }
         catch (err) {
