@@ -6,13 +6,18 @@
             font-size: 15px;
             margin: auto;
         }
-        .services{
+        .services-explain{
             .row{
                 row-gap: 30px;
                 align-items: center;
             }
             .service-explain{
                 line-height: 2;
+            }
+        }
+        .room-images{
+            .row{
+                row-gap: 20px;
             }
         }
     }

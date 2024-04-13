@@ -40,6 +40,7 @@ export default function Home() {
             roomImageDescription: "Omvandla dina idéer till vackra konstverk med hjälp av AI.",
             minimizeImagesSrc: [minimizeImage1.src, minimizeImage2.src, minimizeImage3.src],
             minimizeImagesDescription: "SKAPA DIN EGEN AI-POSTER",
+            serviceName: "Text To Image",
         },
         {
             roomImageSrc: roomImage2.src,
@@ -47,6 +48,7 @@ export default function Home() {
             roomImageDescription: "Låt AI väcka dina bilder till liv med en unik konstnärlig touch - Upptäck magin idag!",
             minimizeImagesSrc: [minimizeImage4.src, minimizeImage5.src, minimizeImage6.src],
             minimizeImagesDescription: "SKAPA DIN EGEN FOTOPOSTER",
+            serviceName: "Image To Image",
         },
         {
             roomImageSrc: roomImage3.src,
@@ -54,6 +56,7 @@ export default function Home() {
             roomImageDescription: "Sätt ditt ansikte i varje tavla med vår unika ansiktsersättningsteknik!",
             minimizeImagesSrc: [minimizeImage7.src, minimizeImage8.src, minimizeImage9.src],
             minimizeImagesDescription: "SKAPA DIN EGEN PERSONLIGA POSTER",
+            serviceName: "Face Swap",
         }
     ];
 
@@ -73,7 +76,18 @@ export default function Home() {
             serviceExplainImage: faceSwapServiceExplainImage.src,
             serviceExplain: "Byt ansikte på sekunder med hjälp av AI: Ladda upp din selfie, Välj bland stilfulla förinställningar – kändisar, anime, konst, tecknat, och mer. Skapa och se magin!"
         },
-    ]
+    ];
+
+    const roomImagesSrc = [
+        roomImage4.src,
+        roomImage5.src,
+        roomImage6.src,
+        roomImage7.src,
+        roomImage8.src,
+        roomImage9.src,
+        roomImage10.src,
+        roomImage11.src,
+    ];
 
     return (
         <div className="home">
@@ -85,11 +99,12 @@ export default function Home() {
                 <div className="container">
                     <h1 className="h4 mb-5 fw-bold">SKAPA DINA PERSONLIGA POSTERS</h1>
                     <p className="caption-message mb-5 fw-bold">Välkommen till en korsning av fantasi och teknologi, där dina idéer blir levande. På 'Kreativitetens Horisonter' erbjuder vi ett spektrum av AI-drivna verktyg designade för att förvandla dina ord till visuella mästerverk, omvandla dina ögonblicksbilder till konst och ge ditt ansikte nya uttryck. Upptäck en värld där konst och innovation möts.</p>
+                    {/* Start Introduction Section */}
                     <section className="introduction mb-5">
                         <div className="row">
                             {introductionSectionImagesList.map((images, index) => (
                                 <div className="col-lg-4" key={index}>
-                                    <img src={images.roomImageSrc} alt="Room Image 1" className="mw-100 mb-4" onDragStart={(e) => e.preventDefault()} />
+                                    <img src={images.roomImageSrc} alt={`Room Image ${index + 1}`} className="mw-100 mb-4" onDragStart={(e) => e.preventDefault()} />
                                     <div className="explain-box mb-5">
                                         <h6 className="fw-bold">{images.roomImageHeading}</h6>
                                         <h6>{images.roomImageDescription}</h6>
@@ -97,7 +112,7 @@ export default function Home() {
                                     <div className="row mb-5">
                                         {images.minimizeImagesSrc.map((minimizeImageSrc, minimizeImageIndex) => (
                                             <div className="col-4" key={minimizeImageIndex}>
-                                                <img src={minimizeImageSrc} alt="Minimize Image 1 For Text To Image" className="mw-100" onDragStart={(e) => e.preventDefault()} />
+                                                <img src={minimizeImageSrc} alt={`Minimize Image ${minimizeImageIndex + 1} For `} className="mw-100" onDragStart={(e) => e.preventDefault()} />
                                             </div>
                                         ))}
                                     </div>
@@ -106,7 +121,9 @@ export default function Home() {
                             ))}
                         </div>
                     </section>
-                    <section className="services mb-5">
+                    {/* End Introduction Section */}
+                    {/* Start Services Explain Section */}
+                    <section className="services-explain mb-5">
                         <div className="row">
                             {servicesSectionImagesList.map((service, index) => (
                                 index % 2 !== 0 ? <>
@@ -127,6 +144,18 @@ export default function Home() {
                             ))}
                         </div>
                     </section>
+                    {/* End Services Explain Section */}
+                    {/* Start Room Images Section */}
+                    <section className="room-images">
+                        <div className="row">
+                            {roomImagesSrc.map((roomImageSrc, index) => (
+                                <div className="col-md-4" key={index}>
+                                    <img src={roomImageSrc} alt={`Room Image ${index + 1}`} className="mw-100 mb-4" onDragStart={(e) => e.preventDefault()} />
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                    {/* End Room Images Section */}
                 </div>
             </div>
             <Footer />
