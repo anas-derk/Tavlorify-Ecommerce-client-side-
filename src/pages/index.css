@@ -20,3 +20,11 @@
 .home .page-content .room-images .row {
   row-gap: 20px;
 }
+
+.home .page-content .more-details {
+  background-color: #EEE;
+}
+
+.home .page-content .more-details .icon {
+  font-size: 50px;
+}

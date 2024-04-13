@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "../../../public/images/Logo/logo1.jpg";
 import { TiSocialFacebook } from "react-icons/ti";
 import { AiOutlineTwitter } from "react-icons/ai";
 import { BiPhone } from "react-icons/bi";
@@ -10,15 +11,14 @@ import { FaQuestion } from "react-icons/fa";
 export default function Footer() {
     return (
         // Start Page Footer
-        <footer className="global-footer pt-4 pb-4 text-white">
+        <footer className="global-footer pt-4 pb-4 text-dark">
             {/* Start Container */}
             <div className="container-fluid">
                 {/* Start Grid System */}
-                <div className="row">
+                <div className="row align-items-center">
                     {/* Start Column */}
                     <div className="col-md-3 text-center mb-4">
-                        <AiOutlineContacts className="mb-3 logo" />
-                        <h6>Tavlorify</h6>
+                        <img src={Logo.src} alt="Logo Image !!" />
                     </div>
                     {/* End Column */}
                     {/* Start Column */}

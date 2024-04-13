@@ -30,6 +30,9 @@ import textToImageServiceExplainImage from "../../public/images/MainPage/Service
 import imageToImageServiceExplainImage from "../../public/images/MainPage/Services/imageToImage.webp";
 import faceSwapServiceExplainImage from "../../public/images/MainPage/Services/faceSwap.webp";
 /* End Import Services Section Images */
+import { MdOutlineLocalShipping } from "react-icons/md";
+import { CiDeliveryTruck } from "react-icons/ci";
+import { RiSecurePaymentLine } from "react-icons/ri";
 
 export default function Home() {
 
@@ -157,6 +160,28 @@ export default function Home() {
                     </section>
                     {/* End Room Images Section */}
                 </div>
+                {/* Start More Details */}
+                <section className="more-details pt-4 pb-4 text-center mb-5">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-4">
+                                <MdOutlineLocalShipping className="icon shipping-icon mb-4 d-block mx-auto" />
+                                <h6>SNABBA LEVERANSER</h6>
+                                <span>3-5 arbetsdagar</span>
+                            </div>
+                            <div className="col-md-4">
+                                <CiDeliveryTruck className="icon delivery-icon mb-4 d-block mx-auto" />
+                                <h6>FRI FRAKT</h6>
+                            </div>
+                            <div className="col-md-4">
+                                <RiSecurePaymentLine className="icon secure-payment-icon mb-4 d-block mx-auto" />
+                                <h6>SÄKRA BETALNINGAR</h6>
+                                <span>Snabbt och säkert med kort eller faktura</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                {/* End More Details */}
             </div>
             <Footer />
         </div>
