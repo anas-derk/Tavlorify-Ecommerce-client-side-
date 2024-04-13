@@ -335,6 +335,7 @@ export default function FaceSwap({
     ];
 
     useEffect(() => {
+        setIsLoadingPage(true);
         getAllFaceSwapCategoryStylesData(0)
             .then(async (result) => {
                 setCategoryStyles(result.data);

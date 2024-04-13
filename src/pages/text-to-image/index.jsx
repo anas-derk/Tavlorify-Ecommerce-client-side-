@@ -328,6 +328,7 @@ export default function TextToImage({
     ];
 
     useEffect(() => {
+        setIsLoadingPage(true);
         getAllText2ImageCategoriesData()
             .then(async (result) => {
                 setCategoriesData(result.data);

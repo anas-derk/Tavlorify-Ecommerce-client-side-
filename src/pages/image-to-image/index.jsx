@@ -350,6 +350,7 @@ export default function ImageToImage({
     ];
 
     useEffect(() => {
+        setIsLoadingPage(true);
         getAllImage2ImageCategoriesData()
             .then(async (result) => {
                 setCategoriesData(result.data);
