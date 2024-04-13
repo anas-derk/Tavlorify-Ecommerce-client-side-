@@ -1343,7 +1343,11 @@ export default function ImageToImage({
                 <div className="page-content pb-4">
                     {/* Start Container */}
                     <div className="container-fluid">
-                        <h1 className="text-center mb-5 welcome-msg pb-2">Välkommen till dig i bild-till-bild AI-tjänsten</h1>
+                        <h1 className="text-center mb-5 welcome-msg pb-2">
+                            <span>Konstens Alkemi: Skapa Mästerverk från Dina Minnen.</span>
+                            <br />
+                            <span>Stig in i en värld där dina bilder omvandlas till levande konstverk.</span>
+                        </h1>
                         {/* Start Grid System */}
                         <div className="row">
                             {/* Start Column */}

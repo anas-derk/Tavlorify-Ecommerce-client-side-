@@ -1035,7 +1035,11 @@ export default function FaceSwap({
                 <div className="page-content pb-4">
                     {/* Start Container */}
                     <div className="container-fluid">
-                        <h1 className="text-center mb-5 welcome-msg pb-2">Välkommen till ansiktsbyte-sidan med användning av artificiell intelligens</h1>
+                        <h1 className="text-center mb-5 welcome-msg pb-2">
+                            <span>Välkommen till en värld där din selfie blir till mästerverk.</span>
+                            <br />
+                            <span>Upptäck dig själv på nytt genom linserna av legendariska konstverk, tecknade figurer.</span>
+                        </h1>
                         {/* Start Grid System */}
                         <div className="row">
                             {/* Start Column */}
