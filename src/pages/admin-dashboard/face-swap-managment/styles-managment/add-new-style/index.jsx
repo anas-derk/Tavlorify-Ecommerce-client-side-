@@ -1,6 +1,6 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import validations from "../../../../../../public/global_functions/validations";
 import { useRouter } from "next/router";
@@ -17,13 +17,19 @@ export default function AddNewCategoryStyle() {
 
     const [styleImageFiles, setStyleImageFiles] = useState({ vertical: "", horizontal: "", square: "" });
 
-    const [isAddingStatus, setIsAddingStatus] = useState(false);
+    const [waitMsg, setWaitMsg] = useState(false);
 
     const [successMsg, setSuccessMsg] = useState(false);
 
     const [errorMsg, setErrorMsg] = useState(false);
 
     const [formValidationErrors, setFormValidationErrors] = useState({});
+
+    const verticalStyleImageFileRef = useRef();
+
+    const horizontalStyleImageFileRef = useRef();
+
+    const squareStyleImageFileRef = useRef();
 
     const router = useRouter();
 
@@ -36,35 +42,43 @@ export default function AddNewCategoryStyle() {
     ];
 
     useEffect(() => {
-        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
             validations.getAdminInfo(adminToken)
                 .then(async (result) => {
                     if (result.error) {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
-                        await router.push("/admin-dashboard/login");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
                     } else {
                         setIsLoadingPage(false);
                     }
                 })
                 .catch(async (err) => {
                     if (err?.response?.data?.msg === "Unauthorized Error") {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
-                        await router.push("/admin-dashboard/login");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
                         setIsErrorMsgOnLoadingThePage(true);
                     }
                 });
-        } else router.push("/admin-dashboard/login");
+        } else router.replace("/admin-dashboard/login");
     }, []);
+
+    const getSuitableRefForStyleImage = (orientation) => {
+        switch(orientation) {
+            case "vertical": return verticalStyleImageFileRef;
+            case "horizontal": return horizontalStyleImageFileRef;
+            default: return squareStyleImageFileRef;
+        }
+    }
 
     const addNewCategoryStyle = async (e) => {
         try {
             e.preventDefault();
             setFormValidationErrors({});
-            let errorsObject = validations.inputValuesValidation([
+            const errorsObject = validations.inputValuesValidation([
                 {
                     name: "categoryName",
                     value: categoryName,
@@ -129,18 +143,23 @@ export default function AddNewCategoryStyle() {
                 for (let styleImageData of styleImagesData) {
                     formData.append(styleImageData.formValidationKey, styleImageFiles[styleImageData.orientation]);
                 }
-                setIsAddingStatus(true);
+                setWaitMsg("Adding Now ...");
                 const res = await axios.post(`${process.env.BASE_API_URL}/face-swap/styles/add-new-style?categoryName=${categoryName}`, formData, {
                     headers: {
-                        Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                        Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                     }
                 });
                 const result = res.data;
-                setIsAddingStatus(false);
+                setWaitMsg("");
                 if (!result.error) {
                     setSuccessMsg(result.msg);
                     let successTimeout = setTimeout(() => {
-                        setSuccessMsg(false);
+                        setSuccessMsg("");
+                        setCategoryName("");
+                        setStyleImageFiles({ vertical: "", horizontal: "", square: "" });
+                        verticalStyleImageFileRef.current.value = "";
+                        horizontalStyleImageFileRef.current.value = "";
+                        squareStyleImageFileRef.current.value = "";
                         clearTimeout(successTimeout);
                     }, 2000);
                 } else {
@@ -154,11 +173,11 @@ export default function AddNewCategoryStyle() {
         }
         catch (err) {
             if (err?.response?.data?.msg === "Unauthorized Error") {
-                localStorage.removeItem("tavlorify-store-admin-user-token");
-                await router.push("/admin-dashboard/login");
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                await router.replace("/admin-dashboard/login");
                 return;
             }
-            setIsAddingStatus(false);
+            setWaitMsg("");
             setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
             let errorTimeout = setTimeout(() => {
                 setErrorMsg("");
@@ -180,9 +199,10 @@ export default function AddNewCategoryStyle() {
                         <form className="add-new-style-form w-50 mx-auto mb-4" onSubmit={addNewCategoryStyle}>
                             <select
                                 className={`form-control p-2 ${formValidationErrors["categoryName"] ? "border border-danger mb-2" : "mb-4"}`}
-                                onChange={(e) => { setCategoryName(e.target.value.trim()); }}
+                                onChange={(e) => setCategoryName(e.target.value)}
+                                value={categoryName}
                             >
-                                <option defaultValue="" hidden>Select The Category</option>
+                                <option value="" hidden>Select The Category</option>
                                 {categoriesData.map((category, index) => (
                                     <option value={category} key={index}>{category}</option>
                                 ))}
@@ -203,12 +223,13 @@ export default function AddNewCategoryStyle() {
                                                 square: styleImageData.orientation === "square" ? e.target.files[0] : styleImageFiles.square,
                                             }
                                         )}
+                                        ref={getSuitableRefForStyleImage(styleImageData.orientation)}
                                     />
                                     {formValidationErrors[styleImageData.formValidationKey] && <p className='error-msg text-danger mb-2'>{formValidationErrors[styleImageData.formValidationKey]}</p>}
                                 </div>
                             ))}
-                            {!isAddingStatus && !errorMsg && !successMsg && <button type="submit" className="btn btn-success w-100 d-block mx-auto">Add Now</button>}
-                            {isAddingStatus && <button type="submit" className="btn btn-warning w-100 d-block mx-auto" disabled>Adding Now ...</button>}
+                            {!waitMsg && !errorMsg && !successMsg && <button type="submit" className="btn btn-success w-100 d-block mx-auto">Add Now</button>}
+                            {waitMsg && <button type="submit" className="btn btn-warning w-100 d-block mx-auto" disabled>{waitMsg}</button>}
                             {errorMsg && <button type="submit" className="btn btn-danger w-100 d-block mx-auto" disabled>{errorMsg}</button>}
                             {successMsg && <button type="submit" className="btn btn-success w-100 d-block mx-auto" disabled>{successMsg}</button>}
                         </form>
