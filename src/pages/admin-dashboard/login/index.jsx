@@ -19,9 +19,9 @@ export default function AdminLogin() {
 
     const [password, setPassword] = useState("");
 
-    const [isLoginingStatus, setIsLoginingStatus] = useState(false);
+    const [waitMsg, setWaitMsg] = useState("");
 
-    const [errMsg, setErrorMsg] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
 
     const [formValidationErrors, setFormValidationErrors] = useState({});
 
@@ -30,18 +30,18 @@ export default function AdminLogin() {
     const router = useRouter();
 
     useEffect(() => {
-        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
             validations.getAdminInfo(adminToken)
                 .then(async (result) => {
                     if (result.error) {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         setIsLoadingPage(false);
                     } else await router.push("/admin-dashboard");
                 })
                 .catch(async (err) => {
                     if (err?.response?.data?.msg === "Unauthorized Error") {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         setIsLoadingPage(false);
                     }
                     else {
@@ -52,15 +52,11 @@ export default function AdminLogin() {
         } else setIsLoadingPage(false);
     }, []);
 
-    const validateFormFields = (validateDetailsList) => {
-        return validations.inputValuesValidation(validateDetailsList);
-    }
-
     const adminLogin = async (e) => {
         try {
             e.preventDefault();
             setFormValidationErrors({});
-            let errorsObject = validateFormFields([
+            let errorsObject = validations.inputValuesValidation([
                 {
                     name: "email",
                     value: email,
@@ -80,28 +76,31 @@ export default function AdminLogin() {
                         isRequired: {
                             msg: "Sorry, This Field Can't Be Empty !!",
                         },
+                        isValidPassword: {
+                            msg: "Sorry, The Password Must Be At Least 8 Characters Long, With At Least One Number, At Least One Lowercase Letter, And At Least One Uppercase Letter."
+                        },
                     },
                 },
             ]);
             setFormValidationErrors(errorsObject);
             if (Object.keys(errorsObject).length == 0) {
-                setIsLoginingStatus(true);
+                setWaitMsg("Wait Logining ...");
                 const res = await axios.get(`${process.env.BASE_API_URL}/admins/login?email=${email}&password=${password}`);
                 const result = res.data;
                 if (result.error) {
-                    setIsLoginingStatus(false);
+                    setWaitMsg("");
                     setErrorMsg(result.msg);
                     setTimeout(() => {
                         setErrorMsg("");
                     }, 4000);
                 } else {
-                    localStorage.setItem("tavlorify-store-admin-user-token", result.data.token);
+                    localStorage.setItem(process.env.adminTokenNameInLocalStorage, result.data.token);
                     await router.push("/admin-dashboard");
                 }
             }
         }
         catch (err) {
-            setIsLoginingStatus(false);
+            setWaitMsg("");
             setErrorMsg("Sorry, Someting Went Wrong, Please Try Again The Process !!");
             setTimeout(() => {
                 setErrorMsg("");
@@ -124,7 +123,7 @@ export default function AdminLogin() {
                                 type="email"
                                 placeholder="Your Admin Email"
                                 className={`form-control p-3 border-2 ${formValidationErrors["email"] ? "border-danger mb-2" : "mb-4"}`}
-                                onChange={(e) => setEmail(e.target.value.trim())}
+                                onChange={(e) => setEmail(e.target.value.trim().toUpperCase())}
                             />
                             {formValidationErrors["email"] && <p className="error-msg text-danger">{formValidationErrors["email"]}</p>}
                             <div className="password-field-box">
@@ -140,11 +139,11 @@ export default function AdminLogin() {
                                 </div>
                             </div>
                             {formValidationErrors["password"] && <p className='error-msg text-danger'>{formValidationErrors["password"]}</p>}
-                            {!isLoginingStatus && !errMsg && <button type="submit" className="btn w-100 login-btn p-3">Login</button>}
-                            {isLoginingStatus && <button disabled className="btn btn-primary mx-auto d-block mb-4">
-                                <span className="me-2">Wait Logining ...</span>
+                            {!waitMsg && !errorMsg && <button type="submit" className="btn w-100 login-btn p-3">Login</button>}
+                            {waitMsg && <button disabled className="btn btn-primary mx-auto d-block mb-4">
+                                <span className="me-2">{waitMsg}</span>
                             </button>}
-                            {errMsg && <p className="alert alert-danger mt-3 mb-0">{errMsg}</p>}
+                            {errorMsg && <p className="alert alert-danger mt-3 mb-0">{errorMsg}</p>}
                         </form>
                     </div>
                 </div>

@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: false,
   env: {
     BASE_API_URL: process.env.NODE_ENV === "development" ? "http://localhost:5300" : "https://api.tavlorify.se",
+    adminTokenNameInLocalStorage: "t-s-a-u-t"
   },
   async headers() {
     return [
