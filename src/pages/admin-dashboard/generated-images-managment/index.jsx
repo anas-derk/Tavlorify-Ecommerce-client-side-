@@ -7,6 +7,7 @@ import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import { getDateFormated } from "../../../../public/global_functions/popular";
 import validations from "../../../../public/global_functions/validations";
 import PaginationBar from "@/components/PaginationBar";
+import { useRouter } from "next/router";
 
 export default function GeneratedImagesManagment({ pageName }) {
 
@@ -32,20 +33,22 @@ export default function GeneratedImagesManagment({ pageName }) {
 
     const [totalPagesCount, setTotalPagesCount] = useState(0);
 
-    const pageSize = 5;
+    const pageSize = 10;
+
+    const router = useRouter();
 
     useEffect(() => {
         setIsLoadingPage(true);
-        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        setAllGeneratedImagesDataInsideThePage([]);
+        setTotalPagesCount(0);
+        const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
             validations.getAdminInfo(adminToken)
                 .then(async (result) => {
                     if (result.error) {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
-                        await router.push("/admin-dashboard/login");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
                     } else {
-                        setAllGeneratedImagesDataInsideThePage([]);
-                        setTotalPagesCount(0);
                         result = await getGeneratedImagesDataCount(pageName);
                         if (result.data > 0) {
                             setAllGeneratedImagesDataInsideThePage((await getAllGeneratedImagesDataInsideThePage(1, pageSize)).data);
@@ -56,21 +59,20 @@ export default function GeneratedImagesManagment({ pageName }) {
                 })
                 .catch(async (err) => {
                     if (err?.response?.data?.msg === "Unauthorized Error") {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
-                        await router.push("/admin-dashboard/login");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
                         setIsErrorMsgOnLoadingThePage(true);
                     }
                 });
-        } else router.push("/admin-dashboard/login");
+        } else router.replace("/admin-dashboard/login");
     }, [pageName]);
 
     const getGeneratedImagesDataCount = async (service) => {
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/generated-images/generated-images-count?service=${service}`);
-            return res.data;
+            return (await axios.get(`${process.env.BASE_API_URL}/generated-images/generated-images-count?service=${service}`)).data;
         }
         catch (err) {
             throw Error(err);
@@ -79,8 +81,7 @@ export default function GeneratedImagesManagment({ pageName }) {
 
     const getAllGeneratedImagesDataInsideThePage = async (pageNumber, pageSize) => {
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/generated-images/all-generated-images-inside-the-page?service=${pageName}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
-            return res.data;
+            return (await axios.get(`${process.env.BASE_API_URL}/generated-images/all-generated-images-inside-the-page?service=${pageName}&pageNumber=${pageNumber}&pageSize=${pageSize}`)).data;
         }
         catch (err) {
             throw Error(err);
@@ -124,7 +125,7 @@ export default function GeneratedImagesManagment({ pageName }) {
         }
         catch (err) {
             if (err?.response?.data?.msg === "Unauthorized Error") {
-                localStorage.removeItem("tavlorify-store-admin-user-token");
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                 await router.push("/admin-dashboard/login");
                 return;
             }
@@ -171,7 +172,7 @@ export default function GeneratedImagesManagment({ pageName }) {
                 <div className="content text-center pt-4 pb-4">
                     <div className="container-fluid">
                         <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Generated Images Data Managment For {pageName} Page</h1>
-                        {allGeneratedImagesDataInsideThePage.length && !isFilteringOrdersStatus > 0 && <div className="generated-images-data-box p-3 mb-2 data-box">
+                        {allGeneratedImagesDataInsideThePage.length && !isFilteringOrdersStatus && <div className="generated-images-data-box p-3 mb-2 data-box">
                             <table className="generated-images-data-tabel data-table">
                                 <thead>
                                     <tr>

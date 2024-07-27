@@ -16,27 +16,27 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
 
     const [categoriesData, setCategoriesData] = useState([]);
 
-    const [isUpdateStatus, setIsUpdateStatus] = useState(false);
+    const [waitMsg, setWaitMsg] = useState("");
 
-    const [isDeleteStatus, setIsDeleteStatus] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
 
-    const [updatedCategoryIndex, setUpdatedCategoryIndex] = useState(-1);
+    const [successMsg, setSuccessMsg] = useState("");
 
-    const [deletedCategoryIndex, setDeletedCategoryIndex] = useState(-1);
+    const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(-1);
 
     const router = useRouter();
 
     useEffect(() => {
         setIsLoadingPage(true);
-        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        setCategoriesData([]);
+        const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
             validations.getAdminInfo(adminToken)
                 .then(async (result) => {
                     if (result.error) {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
-                        await router.push("/admin-dashboard/login");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
                     } else {
-                        setCategoriesData([]);
                         if (pageName === "text-to-image") {
                             result = await getAllTextToImageCategories();
                         }
@@ -49,15 +49,15 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
                 })
                 .catch(async (err) => {
                     if (err?.response?.data?.msg === "Unauthorized Error") {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
-                        await router.push("/admin-dashboard/login");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
                         setIsErrorMsgOnLoadingThePage(true);
                     }
                 });
-        } else router.push("/admin-dashboard/login");
+        } else router.replace("/admin-dashboard/login");
     }, [pageName]);
 
     const changeCategoryData = (categoryIndex, fieldName, newValue) => {
@@ -66,63 +66,79 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
 
     const updateCategoryInfo = async (categoryIndex) => {
         try {
-            setUpdatedCategoryIndex(categoryIndex);
-            setIsUpdateStatus(true);
-            if (pageName === "text-to-image") {
-                await axios.put(`${process.env.BASE_API_URL}/text-to-image/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
-                    newCategorySortNumber: categoriesData[categoryIndex].sortNumber,
-                    newCategoryName: categoriesData[categoryIndex].name,
-                }, {
-                    headers: {
-                        Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
-                    }
-                });
+            setSelectedCategoryIndex(categoryIndex);
+            setWaitMsg("Please Wait Updating ...");
+            const result = await axios.put(`${process.env.BASE_API_URL}/${pageName}/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
+                newCategorySortNumber: categoriesData[categoryIndex].sortNumber,
+                newCategoryName: categoriesData[categoryIndex].name,
+            }, {
+                headers: {
+                    Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
+                }
+            });
+            setWaitMsg("");
+            if (!result.error) {
+                setSuccessMsg("Updating Successfull !!");
+                let successTimeout = setTimeout(() => {
+                    setSuccessMsg("");
+                    setSelectedCategoryIndex(-1);
+                    clearTimeout(successTimeout);
+                }, 1500);
+            } else {
+                setSelectedCategoryIndex(-1);
             }
-            else {
-                await axios.put(`${process.env.BASE_API_URL}/image-to-image/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
-                    newCategorySortNumber: categoriesData[categoryIndex].sortNumber,
-                    newCategoryName: categoriesData[categoryIndex].name,
-                }, {
-                    headers: {
-                        Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
-                    }
-                });
-            }
-            setTimeout(() => {
-                setIsUpdateStatus(false);
-                router.reload();
-            }, 1000);
         }
         catch (err) {
-            console.log(err);
+            console.log(err)
+            if (err?.response?.data?.msg === "Unauthorized Error") {
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                await router.replace("/admin-dashboard/login");
+                return;
+            }
+            setWaitMsg("");
+            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
+            let errorTimeout = setTimeout(() => {
+                setErrorMsg("");
+                setSelectedCategoryIndex(-1);
+                clearTimeout(errorTimeout);
+            }, 2000);
         }
     }
 
     const deleteCategory = async (categoryIndex) => {
         try {
-            setDeletedCategoryIndex(categoryIndex);
-            setIsDeleteStatus(true);
-            if (pageName === "text-to-image") {
-                await axios.delete(`${process.env.BASE_API_URL}/text-to-image/categories/delete-category-data/${categoriesData[categoryIndex]._id}`, {
-                    headers: {
-                        Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
-                    }
-                });
+            setSelectedCategoryIndex(categoryIndex);
+            setWaitMsg("Please Wait Deleting ...");
+            const result = await axios.delete(`${process.env.BASE_API_URL}/${pageName}/categories/delete-category-data/${categoriesData[categoryIndex]._id}`, {
+                headers: {
+                    Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
+                }
+            });
+            setWaitMsg("");
+            if (!result.error) {
+                setSuccessMsg("Deleting Successfull !!");
+                let successTimeout = setTimeout(() => {
+                    setSuccessMsg("");
+                    setSelectedCategoryIndex(-1);
+                    clearTimeout(successTimeout);
+                }, 1500);
+            } else {
+                setSelectedCategoryIndex(-1);
             }
-            if (pageName === "image-to-image") {
-                await axios.delete(`${process.env.BASE_API_URL}/image-to-image/categories/delete-category-data/${categoriesData[categoryIndex]._id}`, {
-                    headers: {
-                        Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
-                    }
-                });
-            }
-            setTimeout(() => {
-                setIsDeleteStatus(false);
-                router.reload();
-            }, 1000);
         }
         catch (err) {
-            console.log(err);
+            if (err?.response?.data?.msg === "Unauthorized Error") {
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                await router.replace("/admin-dashboard/login");
+                return;
+            }
+            setWaitMsg("");
+            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
+            let errorTimeout = setTimeout(() => {
+                setErrorMsg("");
+                setSelectedCategoryIndex(-1);
+                clearTimeout(errorTimeout);
+            }, 2000);
         }
     }
 
@@ -130,14 +146,14 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
         // Start Update And Delete Category Info
         <div className="update-and-delete-category-info">
             <Head>
-                <title>Tavlorify Store - Categories Managagment For { pageName }</title>
+                <title>Tavlorify Store - Categories Managagment For {pageName}</title>
             </Head>
             {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
                 <ControlPanelHeader />
                 <div className="content text-center pt-4 pb-4">
                     {/* Start Container */}
                     <div className="container-fluid">
-                        <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Update And Delete { pageName } Categories Page</h1>
+                        <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Update And Delete {pageName} Categories Page</h1>
                         {categoriesData.length > 0 ?
                             <div className="categories-data-box p-3 data-box">
                                 {/* Start Categories Table */}
@@ -151,16 +167,16 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {categoriesData.map((category, index) => (
-                                            <tr key={index}>
+                                        {categoriesData.map((category, categoryIndex) => (
+                                            <tr key={categoryIndex}>
                                                 <td className="category-sort-number-cell">
-                                                    {index + 1}
+                                                    {categoryIndex + 1}
                                                 </td>
                                                 <td className="select-category-sort-number-cell">
-                                                    <select className="form-control" onChange={(e) => changeCategoryData(index, "sortNumber", e.target.value)}>
+                                                    <select className="form-control" onChange={(e) => changeCategoryData(categoryIndex, "sortNumber", e.target.value)}>
                                                         <option value="" hidden>Please Select Sort</option>
-                                                        {categoriesData.map((category, index) => (
-                                                            <option value={index + 1} key={index}>{index + 1}</option>
+                                                        {categoriesData.map((category, categoryIndex) => (
+                                                            <option value={categoryIndex + 1} key={categoryIndex}>{categoryIndex + 1}</option>
                                                         ))}
                                                     </select>
                                                 </td>
@@ -170,27 +186,37 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
                                                         className="category-name-input form-control"
                                                         placeholder="Category Name"
                                                         defaultValue={category.name}
-                                                        onChange={(e) => changeCategoryData(index, "name", e.target.value.trim())}
+                                                        onChange={(e) => changeCategoryData(categoryIndex, "name", e.target.value.trim())}
                                                     />
                                                 </td>
                                                 <td className="update-and-delete-cell">
-                                                    {index !== updatedCategoryIndex && <button
-                                                        className="btn btn-danger mb-3 d-block w-100"
-                                                        onClick={() => updateCategoryInfo(index)}
+                                                    {categoryIndex !== selectedCategoryIndex && <button
+                                                        className="btn btn-success mb-3 d-block w-100"
+                                                        onClick={() => updateCategoryInfo(categoryIndex)}
                                                     >Update</button>}
-                                                    {isUpdateStatus && index === updatedCategoryIndex && <p className="alert alert-primary mb-3 d-block">Update ...</p>}
-                                                    {categoriesData.length > 1 && index !== deletedCategoryIndex && <button
+                                                    {categoriesData.length > 1 && categoryIndex !== selectedCategoryIndex && <button
                                                         className="btn btn-danger d-block w-100"
-                                                        onClick={() => deleteCategory(index)}
+                                                        onClick={() => deleteCategory(categoryIndex)}
                                                     >Delete</button>}
-                                                    {isDeleteStatus && index === deletedCategoryIndex && <p className="alert alert-primary">Delete ...</p>}
+                                                    {waitMsg && selectedCategoryIndex === categoryIndex && <button
+                                                        className="btn btn-danger d-block mx-auto global-button"
+                                                        disabled
+                                                    >{waitMsg}</button>}
+                                                    {errorMsg && selectedCategoryIndex === categoryIndex && <button
+                                                        className="btn btn-danger d-block mx-auto global-button"
+                                                        disabled
+                                                    >{errorMsg}</button>}
+                                                    {successMsg && selectedCategoryIndex === categoryIndex && <button
+                                                        className="btn btn-success d-block mx-auto global-button"
+                                                        disabled
+                                                    >{successMsg}</button>}
                                                 </td>
                                             </tr>
                                         ))}
                                     </tbody>
                                 </table>
                             </div>
-                            : <p className="alert alert-danger">Sorry, Can't Find Any Category For { pageName } !!</p>}
+                            : <p className="alert alert-danger">Sorry, Can't Find Any Category For {pageName} !!</p>}
                         {/* End Categories Table */}
                     </div>
                     {/* End Container */}

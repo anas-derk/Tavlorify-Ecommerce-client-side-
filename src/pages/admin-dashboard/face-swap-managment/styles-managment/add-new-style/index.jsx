@@ -17,11 +17,11 @@ export default function AddNewCategoryStyle() {
 
     const [styleImageFiles, setStyleImageFiles] = useState({ vertical: "", horizontal: "", square: "" });
 
-    const [waitMsg, setWaitMsg] = useState(false);
+    const [waitMsg, setWaitMsg] = useState("");
 
-    const [successMsg, setSuccessMsg] = useState(false);
+    const [successMsg, setSuccessMsg] = useState("");
 
-    const [errorMsg, setErrorMsg] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
 
     const [formValidationErrors, setFormValidationErrors] = useState({});
 

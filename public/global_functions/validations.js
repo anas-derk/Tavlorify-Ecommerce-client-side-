@@ -140,11 +140,11 @@ function inputValuesValidation(inputs) {
     return errorsObject;
 }
 
-async function getAdminInfo(adminToken) {
+async function getAdminInfo() {
     try{
         const res = await axios.get(`${process.env.BASE_API_URL}/admins/user-info`, {
             headers: {
-                "Authorization": adminToken,
+                "Authorization": localStorage.getItem(process.env.adminTokenNameInLocalStorage),
             },
         });
         return await res.data;
