@@ -2,10 +2,11 @@ import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import validations from "../../../../../../public/global_functions/validations";
+import { inputValuesValidation } from "../../../../../../public/global_functions/validations";
 import { useRouter } from "next/router";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import LoaderPage from "@/components/LoaderPage";
+import { getAdminInfo } from "../../../../../../public/global_functions/popular";
 
 export default function AddNewCategoryStyle() {
 
@@ -44,7 +45,7 @@ export default function AddNewCategoryStyle() {
     useEffect(() => {
         const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
-            validations.getAdminInfo(adminToken)
+            getAdminInfo()
                 .then(async (result) => {
                     if (result.error) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
@@ -78,7 +79,7 @@ export default function AddNewCategoryStyle() {
         try {
             e.preventDefault();
             setFormValidationErrors({});
-            const errorsObject = validations.inputValuesValidation([
+            const errorsObject = inputValuesValidation([
                 {
                     name: "categoryName",
                     value: categoryName,

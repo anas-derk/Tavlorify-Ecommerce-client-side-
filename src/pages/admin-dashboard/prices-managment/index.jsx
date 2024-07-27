@@ -3,8 +3,9 @@ import ControlPanelHeader from "@/components/ControlPanelHeader";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import LoaderPage from "@/components/LoaderPage";
-import validations from "../../../../public/global_functions/validations";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
+import { getAdminInfo } from "../../../../public/global_functions/popular";
+import { useRouter } from "next/router";
 
 export default function ProductPrices({ productName }) {
 
@@ -20,15 +21,17 @@ export default function ProductPrices({ productName }) {
 
     const [updatedProductPrices, setUpdatedProductPrices] = useState([]);
 
+    const router = useRouter();
+
     useEffect(() => {
         setIsLoadingPage(true);
-        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
-            validations.getAdminInfo(adminToken)
+            getAdminInfo()
                 .then(async (result) => {
                     if (result.error) {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
-                        await router.push("/admin-dashboard/login");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
                     } else {
                         setProductPricesData([]);
                         setIsUpdateProductPriceStatus([]);
@@ -41,15 +44,15 @@ export default function ProductPrices({ productName }) {
                 .catch(async (err) => {
                     console.log(err)
                     if (err?.response?.data?.msg === "Unauthorized Error") {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
-                        await router.push("/admin-dashboard/login");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
                         setIsErrorMsgOnLoadingThePage(true);
                     }
                 });
-        } else router.push("/admin-dashboard/login");
+        } else router.replace("/admin-dashboard/login");
     }, [productName]);
 
     const getProductPricesData = async () => {
@@ -83,18 +86,18 @@ export default function ProductPrices({ productName }) {
                 newProductPriceAfterDiscount: updatedProductPrices[productIndex].priceAfterDiscount,
             }, {
                 headers: {
-                    Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                    Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             });
             if (!result.error) {
-
+                
             }
             setUpdatedProductPriceIndex(-1);
             setIsUpdateProductPriceStatus(false);
         }
         catch (err) {
             if (err?.response?.data?.msg === "Unauthorized Error") {
-                localStorage.removeItem("tavlorify-store-admin-user-token");
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                 await router.push("/admin-dashboard/login");
                 return;
             }

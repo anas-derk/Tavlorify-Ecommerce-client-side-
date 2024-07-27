@@ -6,7 +6,7 @@ import { FiLogIn } from "react-icons/fi";
 import dashboardLoginImage from "../../../../public/images/backgrounds/dashboardLogin.jpg";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import LoaderPage from "@/components/LoaderPage";
-import validations from "../../../../public/global_functions/validations";
+import { inputValuesValidation } from "../../../../public/global_functions/validations";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 
 export default function AdminLogin() {
@@ -56,7 +56,7 @@ export default function AdminLogin() {
         try {
             e.preventDefault();
             setFormValidationErrors({});
-            let errorsObject = validations.inputValuesValidation([
+            const errorsObject = inputValuesValidation([
                 {
                     name: "email",
                     value: email,
@@ -95,7 +95,7 @@ export default function AdminLogin() {
                     }, 4000);
                 } else {
                     localStorage.setItem(process.env.adminTokenNameInLocalStorage, result.data.token);
-                    await router.push("/admin-dashboard");
+                    await router.replace("/admin-dashboard");
                 }
             }
         }

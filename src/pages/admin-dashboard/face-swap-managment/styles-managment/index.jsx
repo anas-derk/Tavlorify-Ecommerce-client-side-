@@ -3,16 +3,35 @@ import ControlPanelHeader from "@/components/ControlPanelHeader";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { getAdminInfo } from "../../../../../public/global_functions/popular";
 
 export default function FaceSwapStylesManager() {
 
     const router = useRouter();
 
     useEffect(() => {
-        const adminId = localStorage.getItem("tavlorify-store-admin-id");
-        if (!adminId) {
-            router.push("/admin-dashboard/login");
-        }
+        const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
+        if (adminToken) {
+            getAdminInfo()
+                .then(async (result) => {
+                    if (result.error) {
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
+                    } else {
+                        setIsLoadingPage(false);
+                    }
+                })
+                .catch(async (err) => {
+                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
+                    }
+                    else {
+                        setIsLoadingPage(false);
+                        setIsErrorMsgOnLoadingThePage(true);
+                    }
+                });
+        } else router.replace("/admin-dashboard/login");
     }, []);
 
     return (

@@ -5,8 +5,7 @@ import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
-import validations from "../../../../../public/global_functions/validations";
-import { getAllTextToImageCategories, getAllImageToImageCategories } from "../../../../../public/global_functions/popular";
+import { getAllCategoriesForService, getAdminInfo } from "../../../../../public/global_functions/popular";
 
 export default function UpdateCategoryStyleInfo({ pageName }) {
 
@@ -40,19 +39,19 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
 
     useEffect(() => {
         setIsLoadingPage(true);
-        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
-            validations.getAdminInfo(adminToken)
+            getAdminInfo()
                 .then(async (result) => {
                     if (result.error) {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
-                        await router.push("/admin-dashboard/login");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
                     } else {
                         if (pageName === "text-to-image") {
-                            result = await getAllTextToImageCategories();
+                            result = await getAllCategoriesForService(pageName);
                         }
                         if (pageName === "image-to-image") {
-                            result = await getAllImageToImageCategories();
+                            result = await getAllCategoriesForService(pageName);
                         }
                         setCategoriesData(result.data);
                         setIsLoadingPage(false);
@@ -60,15 +59,15 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                 })
                 .catch(async (err) => {
                     if (err?.response?.data?.msg === "Unauthorized Error") {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
-                        await router.push("/admin-dashboard/login");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
                         setIsErrorMsgOnLoadingThePage(true);
                     }
                 });
-        } else router.push("/admin-dashboard/login");
+        } else router.replace("/admin-dashboard/login");
     }, [pageName]);
 
     const changeStyleData = (styleIndex, fieldName, newValue) => {
@@ -102,7 +101,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                 formData.append("styleImage", files[styleIndex]);
                 await axios.put(`${process.env.BASE_API_URL}/admins/update-style-image?service=${pageName}&styleId=${categoryStylesData[styleIndex]._id}`, formData, {
                     headers: {
-                        Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                        Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                     }
                 });
                 await getCategoryStyles();
@@ -110,7 +109,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                 setUpdatedStyleImageIndex(-1);
             } catch (err) {
                 if (err?.response?.data?.msg === "Unauthorized Error") {
-                    localStorage.removeItem("tavlorify-store-admin-user-token");
+                    localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                     await router.push("/admin-dashboard/login");
                     return;
                 }
@@ -143,7 +142,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                     newStrength: categoryStylesData[styleIndex].strength,
                 }, {
                     headers: {
-                        Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                        Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                     }
                 });
             }
@@ -154,7 +153,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
         }
         catch (err) {
             if (err?.response?.data?.msg === "Unauthorized Error") {
-                localStorage.removeItem("tavlorify-store-admin-user-token");
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                 await router.push("/admin-dashboard/login");
                 return;
             }
@@ -170,7 +169,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
             setIsDeleteStatus(true);
             await axios.delete(`${process.env.BASE_API_URL}/${pageName}/styles/delete-style-data/${categoryStylesData[styleIndex]._id}?categoryName=${categoryStylesData[styleIndex].categoryName}`, {
                 headers: {
-                    Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                    Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             });
             await getCategoryStyles();
@@ -179,7 +178,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
         }
         catch (err) {
             if (err?.response?.data?.msg === "Unauthorized Error") {
-                localStorage.removeItem("tavlorify-store-admin-user-token");
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                 await router.push("/admin-dashboard/login");
                 return;
             }
@@ -345,9 +344,8 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
     )
 }
 
-export function getServerSideProps(context) {
-    const pageName = context.query.pageName;
-    console.log(pageName)
+export function getServerSideProps({ query }) {
+    const { pageName } = query;
     if (pageName !== "text-to-image" && pageName !== "image-to-image") {
         return {
             redirect: {

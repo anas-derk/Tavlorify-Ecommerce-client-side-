@@ -4,8 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
-import { getDateFormated } from "../../../../public/global_functions/popular";
-import validations from "../../../../public/global_functions/validations";
+import { getAdminInfo, getDateFormated } from "../../../../public/global_functions/popular";
 import PaginationBar from "@/components/PaginationBar";
 import { useRouter } from "next/router";
 
@@ -43,7 +42,7 @@ export default function GeneratedImagesManagment({ pageName }) {
         setTotalPagesCount(0);
         const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
-            validations.getAdminInfo(adminToken)
+            getAdminInfo()
                 .then(async (result) => {
                     if (result.error) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);

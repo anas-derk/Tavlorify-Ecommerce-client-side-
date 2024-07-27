@@ -61,7 +61,7 @@ export default function OrderDetails({ orderId, ordersType }) {
             return res.data;
         }
         catch (err) {
-            return err;
+            throw err;
         }
     }
 

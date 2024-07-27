@@ -21,30 +21,44 @@ export default function ReturnedreturnedOrderDetails() {
 
     const router = useRouter();
 
-    const { orderId } = router.query;
-
     useEffect(() => {
-        const adminId = localStorage.getItem("tavlorify-store-admin-id");
-        if (!adminId) {
-            router.push("/admin-dashboard/login");
-        } else {
-            if (orderId) {
-                getReturnedOrderDetails(orderId)
-                    .then((result) => {
-                        setReturnedOrderDetails(result);
+        const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
+        if (adminToken) {
+            getAdminInfo()
+                .then(async (result) => {
+                    if (result.error) {
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
+                    } else {
+                        if (orderIdAsProperty) {
+                            result = await getReturnedOrderDetails(orderIdAsProperty)
+                                .then((result) => {
+                                    setReturnedOrderDetails(result);
+                                    setIsLoadingPage(false);
+                                });
+                        }
                         setIsLoadingPage(false);
-                    });
-            }
-        }
-    }, [orderId]);
+                    }
+                })
+                .catch(async (err) => {
+                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
+                    }
+                    else {
+                        setIsLoadingPage(false);
+                        setIsErrorMsgOnLoadingThePage(true);
+                    }
+                });
+        } else router.replace("/admin-dashboard/login");
+    }, [orderIdAsProperty]);
 
     const getReturnedOrderDetails = async (orderId) => {
         try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/returned-orders/order-details/${orderId}`);
-            return await res.data;
+            return (await Axios.get(`${process.env.BASE_API_URL}/returned-orders/order-details/${orderId}`)).data;
         }
         catch (err) {
-            return err.response.data;
+            throw Error(err);
         }
     }
 
@@ -90,7 +104,6 @@ export default function ReturnedreturnedOrderDetails() {
             }
         }
         catch (err) {
-            console.log(err);
             setIsDeletingStatus(false);
             setDeletingOrderProductIndex(-1);
         }
@@ -210,4 +223,21 @@ export default function ReturnedreturnedOrderDetails() {
             </> : <LoaderPage />}
         </div>
     );
+}
+
+export async function getServerSideProps({ query }) {
+    const { orderId } = query;
+    if (!orderId) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/admin-dashboard/orders-managment",
+            },
+        }
+    }
+    return {
+        props: {
+            orderIdAsProperty: orderId,
+        },
+    }
 }

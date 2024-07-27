@@ -2,10 +2,11 @@ import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import validations from "../../../../../../public/global_functions/validations";
+import { inputValuesValidation } from "../../../../../../public/global_functions/validations";
 import { useRouter } from "next/router";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
+import { getAdminInfo, getAllCategoriesForService } from "../../../../../../public/global_functions/popular";
 
 export default function AddNewCategoryStyle() {
 
@@ -38,15 +39,15 @@ export default function AddNewCategoryStyle() {
     const router = useRouter();
 
     useEffect(() => {
-        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
-            validations.getAdminInfo(adminToken)
+            getAdminInfo()
                 .then(async (result) => {
                     if (result.error) {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
-                        await router.push("/admin-dashboard/login");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
                     } else {
-                        result = await getAllTextToImageCategories();
+                        result = await getAllCategoriesForService("text-to-image");
                         setCategoriesData(result.data);
                         setIsLoadingPage(false);
                     }
@@ -54,31 +55,21 @@ export default function AddNewCategoryStyle() {
                 .catch(async (err) => {
                     console.log(err)
                     if (err?.response?.data?.msg === "Unauthorized Error") {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
-                        await router.push("/admin-dashboard/login");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
                         setIsErrorMsgOnLoadingThePage(true);
                     }
                 });
-        } else router.push("/admin-dashboard/login");
+        } else router.replace("/admin-dashboard/login");
     }, []);
-
-    const getAllTextToImageCategories = async () => {
-        try{
-            const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`);
-            return res.data;
-        }
-        catch(err) {
-            throw Error(err);
-        }
-    }
 
     const addNewCategoryStyle = async (e) => {
         e.preventDefault();
         setFormValidationErrors({});
-        let errorsObject = validations.inputValuesValidation([
+        const errorsObject = inputValuesValidation([
             {
                 name: "categoryName",
                 value: categoryName,
@@ -150,10 +141,10 @@ export default function AddNewCategoryStyle() {
             try {
                 const res = await axios.post(`${process.env.BASE_API_URL}/text-to-image/styles/add-new-style`, formData, {
                     headers: {
-                        Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                        Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                     }
                 });
-                const result = await res.data;
+                const result = res.data;
                 if (!result.error) {
                     setIsAddingStatus(false);
                     setSuccessMsg(result.msg);
@@ -165,7 +156,7 @@ export default function AddNewCategoryStyle() {
             }
             catch (err) {
                 if (err?.response?.data?.msg === "Unauthorized Error") {
-                    localStorage.removeItem("tavlorify-store-admin-user-token");
+                    localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                     await router.push("/admin-dashboard/login");
                     return;
                 }

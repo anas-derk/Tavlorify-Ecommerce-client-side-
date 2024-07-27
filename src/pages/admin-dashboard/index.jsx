@@ -1,11 +1,10 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import LoaderPage from "@/components/LoaderPage";
-import validations from "../../../public/global_functions/validations";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
+import { getAdminInfo } from "../../../public/global_functions/popular";
 
 export default function AdminDashboard() {
 
@@ -18,7 +17,7 @@ export default function AdminDashboard() {
     useEffect(() => {
         const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
-            validations.getAdminInfo(adminToken)
+            getAdminInfo()
                 .then(async (result) => {
                     if (result.error) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);

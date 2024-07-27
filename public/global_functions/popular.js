@@ -5,24 +5,25 @@ function getDateFormated(date) {
     const year = generateDateInDateFormat.getFullYear();
     const month = generateDateInDateFormat.getMonth() + 1;
     const day = generateDateInDateFormat.getDate();
-    generateDateInDateFormat = `${year} / ${month} / ${day}`;
     return `${year} / ${month} / ${day}`;
 }
 
-async function getAllImageToImageCategories() {
+async function getAllCategoriesForService(serviceName) {
     try{
-        const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`);
-        return res.data;
+        return (await axios.get(`${process.env.BASE_API_URL}/${serviceName}/categories/all-categories-data`)).data;
     }
     catch(err) {
         throw Error(err);
     }
 }
 
-async function getAllTextToImageCategories() {
+async function getAdminInfo() {
     try{
-        const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`);
-        return res.data;
+        return (await axios.get(`${process.env.BASE_API_URL}/admins/user-info`, {
+            headers: {
+                "Authorization": localStorage.getItem(process.env.adminTokenNameInLocalStorage),
+            },
+        })).data;
     }
     catch(err) {
         throw Error(err);
@@ -31,6 +32,6 @@ async function getAllTextToImageCategories() {
 
 export {
     getDateFormated,
-    getAllImageToImageCategories,
-    getAllTextToImageCategories,
+    getAllCategoriesForService,
+    getAdminInfo
 }

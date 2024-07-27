@@ -5,8 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
-import validations from "../../../../../public/global_functions/validations";
-import { getAllTextToImageCategories, getAllImageToImageCategories } from "../../../../../public/global_functions/popular";
+import { getAllTextToImageCategories, getAllImageToImageCategories, getAdminInfo } from "../../../../../public/global_functions/popular";
 
 export default function UpdateAndDeleteCategoryInfo({ pageName }) {
 
@@ -31,7 +30,7 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
         setCategoriesData([]);
         const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
-            validations.getAdminInfo(adminToken)
+            getAdminInfo()
                 .then(async (result) => {
                     if (result.error) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
@@ -68,7 +67,7 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
         try {
             setSelectedCategoryIndex(categoryIndex);
             setWaitMsg("Please Wait Updating ...");
-            const result = await axios.put(`${process.env.BASE_API_URL}/${pageName}/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
+            const res = await axios.put(`${process.env.BASE_API_URL}/${pageName}/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
                 newCategorySortNumber: categoriesData[categoryIndex].sortNumber,
                 newCategoryName: categoriesData[categoryIndex].name,
             }, {
@@ -77,6 +76,7 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
                 }
             });
             setWaitMsg("");
+            const result = res.data;
             if (!result.error) {
                 setSuccessMsg("Updating Successfull !!");
                 let successTimeout = setTimeout(() => {
@@ -109,12 +109,13 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
         try {
             setSelectedCategoryIndex(categoryIndex);
             setWaitMsg("Please Wait Deleting ...");
-            const result = await axios.delete(`${process.env.BASE_API_URL}/${pageName}/categories/delete-category-data/${categoriesData[categoryIndex]._id}`, {
+            const res = await axios.delete(`${process.env.BASE_API_URL}/${pageName}/categories/delete-category-data/${categoriesData[categoryIndex]._id}`, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             });
             setWaitMsg("");
+            const result = res.data;
             if (!result.error) {
                 setSuccessMsg("Deleting Successfull !!");
                 let successTimeout = setTimeout(() => {
