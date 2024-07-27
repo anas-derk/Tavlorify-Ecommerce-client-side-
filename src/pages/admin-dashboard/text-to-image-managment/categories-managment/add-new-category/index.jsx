@@ -2,7 +2,7 @@ import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import validations from "../../../../../../public/global_functions/validations";
+import { inputValuesValidation } from "../../../../../../public/global_functions/validations";
 import { useRouter } from "next/router";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
@@ -66,7 +66,7 @@ export default function AddNewCategory() {
     const addNewCategory = async (e) => {
         e.preventDefault();
         setFormValidationErrors({});
-        let errorsObject = validations.inputValuesValidation([
+        let errorsObject = inputValuesValidation([
             {
                 name: "categoryName",
                 value: categoryName,

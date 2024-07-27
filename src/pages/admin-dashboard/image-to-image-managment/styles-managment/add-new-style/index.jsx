@@ -6,7 +6,7 @@ import validations from "../../../../../../public/global_functions/validations";
 import { useRouter } from "next/router";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
-import { getAdminInfo, getAllImageToImageCategories } from "../../../../../../public/global_functions/popular";
+import { getAdminInfo, getAllCategoriesForService } from "../../../../../../public/global_functions/popular";
 
 export default function AddNewCategoryStyle() {
 
@@ -49,8 +49,7 @@ export default function AddNewCategoryStyle() {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         await router.replace("/admin-dashboard/login");
                     } else {
-                        result = await getAllImageToImageCategories();
-                        setCategoriesData(result.data);
+                        setCategoriesData((await getAllCategoriesForService("image-to-image")).data);
                         setIsLoadingPage(false);
                     }
                 })

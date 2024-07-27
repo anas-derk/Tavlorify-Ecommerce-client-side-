@@ -5,7 +5,7 @@ import ControlPanelHeader from "@/components/ControlPanelHeader";
 import axios from "axios";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
-import validations from "../../../../../public/global_functions/validations";
+import { getAdminInfo } from "../../../../../public/global_functions/popular";
 
 export default function OrderDetails({ orderId, ordersType }) {
 
@@ -30,13 +30,13 @@ export default function OrderDetails({ orderId, ordersType }) {
     const router = useRouter();
 
     useEffect(() => {
-        const adminToken = localStorage.getItem("tavlorify-store-admin-user-token");
+        const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
-            validations.getAdminInfo(adminToken)
+            getAdminInfo()
                 .then(async (result) => {
                     if (result.error) {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
-                        await router.push("/admin-dashboard/login");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
                     } else {
                         setOrderDetails((await getOrderDetails(orderId)).data);
                         setIsLoadingPage(false);
@@ -44,15 +44,15 @@ export default function OrderDetails({ orderId, ordersType }) {
                 })
                 .catch(async (err) => {
                     if (err?.response?.data?.msg === "Unauthorized Error") {
-                        localStorage.removeItem("tavlorify-store-admin-user-token");
-                        await router.push("/admin-dashboard/login");
+                        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                        await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
                         setIsErrorMsgOnLoadingThePage(true);
                     }
                 });
-        } else router.push("/admin-dashboard/login");
+        } else router.replace("/admin-dashboard/login");
     }, [ordersType]);
 
     const getOrderDetails = async (orderId) => {
@@ -82,7 +82,7 @@ export default function OrderDetails({ orderId, ordersType }) {
                 unit_price: orderDetails.order_lines[orderProductIndex].unit_price,
             }, {
                 headers: {
-                    Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                    Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             });
             const result = await res.data;
@@ -98,7 +98,7 @@ export default function OrderDetails({ orderId, ordersType }) {
         }
         catch (err) {
             if (err?.response?.data?.msg === "Unauthorized Error") {
-                localStorage.removeItem("tavlorify-store-admin-user-token");
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                 await router.push("/admin-dashboard/login");
                 return;
             }
@@ -118,7 +118,7 @@ export default function OrderDetails({ orderId, ordersType }) {
             setDeletingOrderProductIndex(orderProductIndex);
             const res = await axios.delete(`${process.env.BASE_API_URL}/${ordersType}/products/delete-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`, {
                 headers: {
-                    Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                    Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             });
             const result = res.data;
@@ -135,7 +135,7 @@ export default function OrderDetails({ orderId, ordersType }) {
         }
         catch (err) {
             if (err?.response?.data?.msg === "Unauthorized Error") {
-                localStorage.removeItem("tavlorify-store-admin-user-token");
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                 await router.push("/admin-dashboard/login");
                 return;
             }
@@ -299,7 +299,7 @@ export default function OrderDetails({ orderId, ordersType }) {
 }
 
 export async function getServerSideProps({ params, query }) {
-    const orderId = params.orderId;
+    const { orderId } = params;
     if (!orderId) {
         return {
             redirect: {
@@ -308,7 +308,7 @@ export async function getServerSideProps({ params, query }) {
             },
         }
     }
-    const ordersType = query.ordersType;
+    const { ordersType } = query;
     if (ordersType !== "orders" && ordersType !== "returned-orders") {
         return {
             redirect: {
