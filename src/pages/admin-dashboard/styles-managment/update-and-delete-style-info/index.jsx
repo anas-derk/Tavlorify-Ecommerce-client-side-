@@ -47,13 +47,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         await router.replace("/admin-dashboard/login");
                     } else {
-                        if (pageName === "text-to-image") {
-                            result = await getAllCategoriesForService(pageName);
-                        }
-                        if (pageName === "image-to-image") {
-                            result = await getAllCategoriesForService(pageName);
-                        }
-                        setCategoriesData(result.data);
+                        setCategoriesData((await getAllCategoriesForService(pageName)).data);
                         setIsLoadingPage(false);
                     }
                 })

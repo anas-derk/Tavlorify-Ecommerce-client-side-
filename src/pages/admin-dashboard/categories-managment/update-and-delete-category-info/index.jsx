@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
-import { getAllTextToImageCategories, getAllImageToImageCategories, getAdminInfo } from "../../../../../public/global_functions/popular";
+import { getAllCategoriesForService, getAdminInfo } from "../../../../../public/global_functions/popular";
 
 export default function UpdateAndDeleteCategoryInfo({ pageName }) {
 
@@ -36,13 +36,7 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         await router.replace("/admin-dashboard/login");
                     } else {
-                        if (pageName === "text-to-image") {
-                            result = await getAllTextToImageCategories();
-                        }
-                        if (pageName === "image-to-image") {
-                            result = await getAllImageToImageCategories();
-                        }
-                        setCategoriesData(result.data);
+                        setCategoriesData((await getAllCategoriesForService(pageName)).data);
                         setIsLoadingPage(false);
                     }
                 })
