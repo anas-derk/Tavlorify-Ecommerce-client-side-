@@ -15,23 +15,27 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
 
     const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(-1);
 
-    const [isWaitStatus, setIsWaitStatus] = useState(false);
+    const [isGetCategoryStyles, setisGetCategoryStyles] = useState(false);
 
-    const [isUpdateStatus, setIsUpdateStatus] = useState(false);
+    const [waitChangeStyleImageMsg, setWaitChangeStyleImageMsg] = useState("");
 
-    const [isUpdateStyleImageStatus, setIsUpdateStyleImageStatus] = useState(false);
+    const [errorChangeStyleImageMsg, setErrorChangeStyleImageMsg] = useState("");
 
-    const [isDeleteStatus, setIsDeleteStatus] = useState(false);
+    const [successChangeStyleImageMsg, setSuccessChangeStyleImageMsg] = useState("");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
     const [categoryStylesData, setCategoryStylesData] = useState([]);
 
-    const [updatedStyleImageIndex, setUpdatedStyleImageIndex] = useState(-1);
+    const [waitMsg, setWaitMsg] = useState("");
 
-    const [updatedStyleIndex, setUpdatedStyleIndex] = useState(-1);
+    const [successMsg, setSuccessMsg] = useState("");
 
-    const [deletedStyleIndex, setDeletedStyleIndex] = useState(-1);
+    const [errorMsg, setErrorMsg] = useState("");
+
+    const [selectedStyleImageIndex, setSelectedStyleImageIndex] = useState(-1);
+
+    const [selectedStyleIndex, setSelectedStyleIndex] = useState(-1);
 
     const [files, setFiles] = useState([]);
 
@@ -76,58 +80,75 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
 
     const getCategoryStyles = async (categoryName) => {
         try {
-            setIsWaitStatus(true);
+            setisGetCategoryStyles(true);
             const res = await axios.get(`${process.env.BASE_API_URL}/${pageName}/styles/category-styles-data?categoryName=${categoryName}`);
             setCategoryStylesData(res.data.data);
-            setIsWaitStatus(false);
+            setisGetCategoryStyles(false);
         }
         catch (err) {
-            console.log(err);
+            throw err;
         }
     }
 
     const updateStyleImage = async (styleIndex) => {
         if (typeof files[styleIndex] === "object") {
-            setUpdatedStyleImageIndex(styleIndex);
-            setIsUpdateStyleImageStatus(true);
+            setSelectedStyleImageIndex(styleIndex);
+            setWaitChangeStyleImageMsg(true);
             try {
                 let formData = new FormData();
                 formData.append("styleImage", files[styleIndex]);
-                await axios.put(`${process.env.BASE_API_URL}/admins/update-style-image?service=${pageName}&styleId=${categoryStylesData[styleIndex]._id}`, formData, {
+                const result = await axios.put(`${process.env.BASE_API_URL}/admins/update-style-image?service=${pageName}&styleId=${categoryStylesData[styleIndex]._id}`, formData, {
                     headers: {
                         Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                     }
                 });
-                await getCategoryStyles();
-                setIsUpdateStyleImageStatus(false);
-                setUpdatedStyleImageIndex(-1);
+                if (!result.error) {
+                    setWaitChangeStyleImageMsg("");
+                    setSuccessChangeStyleImageMsg("Change Image Successfull !!");
+                    let successTimeout = setTimeout(async () => {
+                        setSuccessChangeStyleImageMsg("");
+                        setSelectedStyleImageIndex(-1);
+                        await getCategoryStyles();
+                        clearTimeout(successTimeout);
+                    }, 1500);
+                }
             } catch (err) {
                 if (err?.response?.data?.msg === "Unauthorized Error") {
                     localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                     await router.push("/admin-dashboard/login");
                     return;
                 }
-                setIsUpdateStyleImageStatus(false);
-                setUpdatedStyleImageIndex(-1);
+                setWaitChangeStyleImageMsg(false);
+                setErrorChangeStyleImageMsg("Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorChangeStyleImageMsg("");
+                    setSelectedStyleImageIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
             }
         }
     }
 
     const updateStyleData = async (styleIndex) => {
         try {
-            setUpdatedStyleIndex(styleIndex);
-            setIsUpdateStatus(true);
+            setWaitMsg("Please Wait Updating ...");
+            setSelectedStyleIndex(styleIndex);
+            let result;
             if (pageName === "text-to-image") {
-                await axios.put(`${process.env.BASE_API_URL}/text-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}?categoryName=${categoryStylesData[styleIndex].categoryName}`, {
+                result = await axios.put(`${process.env.BASE_API_URL}/text-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}?categoryName=${categoryStylesData[styleIndex].categoryName}`, {
                     newCategoryStyleSortNumber: categoryStylesData[styleIndex].sortNumber,
                     newName: categoryStylesData[styleIndex].name,
                     newPrompt: categoryStylesData[styleIndex].prompt,
                     newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
                     newModelName: categoryStylesData[styleIndex].modelName,
+                }, {
+                    headers: {
+                        Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
+                    }
                 });
             }
             if (pageName === "image-to-image") {
-                await axios.put(`${process.env.BASE_API_URL}/image-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}?categoryName=${categoryStylesData[styleIndex].categoryName}`, {
+                result = await axios.put(`${process.env.BASE_API_URL}/image-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}?categoryName=${categoryStylesData[styleIndex].categoryName}`, {
                     newCategoryStyleSortNumber: categoryStylesData[styleIndex].sortNumber,
                     newName: categoryStylesData[styleIndex].name,
                     newPrompt: categoryStylesData[styleIndex].prompt,
@@ -140,10 +161,17 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                     }
                 });
             }
-            setUpdatedStyleIndex(-1);
-            setIsWaitStatus(false);
-            setIsUpdateStatus(false);
-            await getCategoryStyles();
+            if (!result.error) {
+                setWaitMsg("");
+                setSuccessMsg("Updating Successfull !!");
+                let successTimeout = setTimeout(async () => {
+                    setSuccessMsg("");
+                    setSelectedStyleIndex(-1);
+                    clearTimeout(successTimeout);
+                }, 1500);
+            } else {
+                setSelectedStyleIndex(-1);
+            }
         }
         catch (err) {
             if (err?.response?.data?.msg === "Unauthorized Error") {
@@ -151,24 +179,36 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                 await router.push("/admin-dashboard/login");
                 return;
             }
-            setUpdatedStyleIndex(-1);
-            setIsWaitStatus(false);
-            setIsUpdateStatus(false);
+            setWaitMsg("");
+            setErrorMsg("Sorry, Someting Went Wrong, Please Repeate The Process !!");
+            let errorTimeout = setTimeout(() => {
+                setErrorMsg("");
+                setSelectedStyleIndex(-1);
+                clearTimeout(errorTimeout);
+            }, 1500);
         }
     }
 
     const deleteStyle = async (styleIndex) => {
         try {
-            setDeletedStyleIndex(styleIndex);
-            setIsDeleteStatus(true);
-            await axios.delete(`${process.env.BASE_API_URL}/${pageName}/styles/delete-style-data/${categoryStylesData[styleIndex]._id}?categoryName=${categoryStylesData[styleIndex].categoryName}`, {
+            setWaitMsg("Please Wait Deleting ...");
+            setSelectedStyleIndex(styleIndex);
+            const result = await axios.delete(`${process.env.BASE_API_URL}/${pageName}/styles/delete-style-data/${categoryStylesData[styleIndex]._id}?categoryName=${categoryStylesData[styleIndex].categoryName}`, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             });
-            await getCategoryStyles();
-            setDeletedStyleIndex(-1);
-            setIsDeleteStatus(false);
+            if (!result.error) {
+                setWaitMsg("");
+                setSuccessMsg("Updating Successfull !!");
+                let successTimeout = setTimeout(async () => {
+                    setSuccessMsg("");
+                    setSelectedStyleIndex(-1);
+                    clearTimeout(successTimeout);
+                }, 1500);
+            } else {
+                setSelectedStyleIndex(-1);
+            }
         }
         catch (err) {
             if (err?.response?.data?.msg === "Unauthorized Error") {
@@ -176,9 +216,13 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                 await router.push("/admin-dashboard/login");
                 return;
             }
-            setUpdatedStyleIndex(-1);
-            setIsWaitStatus(false);
-            setIsUpdateStatus(false);
+            setWaitMsg("");
+            setErrorMsg("Sorry, Someting Went Wrong, Please Repeate The Process !!");
+            let errorTimeout = setTimeout(() => {
+                setErrorMsg("");
+                setSelectedStyleIndex(-1);
+                clearTimeout(errorTimeout);
+            }, 1500);
         }
     }
 
@@ -204,8 +248,8 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                             </select>
                             <button type="button" className="btn btn-success" onClick={() => getCategoryStyles(categoriesData[selectedCategoryIndex].name)}>Get Styles Data For This Category</button>
                         </form>
-                        {isWaitStatus && <span className="loader"></span>}
-                        {categoryStylesData.length > 0 && !isWaitStatus ? <div className="categories-and-styles-box p-3 data-box">
+                        {isGetCategoryStyles && <span className="loader"></span>}
+                        {categoryStylesData.length > 0 && !isGetCategoryStyles ? <div className="categories-and-styles-box p-3 data-box">
                             <table className="categories-and-styles-table mb-4 data-table long-width-table">
                                 <thead>
                                     <tr>
@@ -304,25 +348,48 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                     accept=".jpg,.png,.webp"
                                                     onChange={(e) => changeStyleImage(styleIndex, e.target.files[0])}
                                                 />
-                                                {styleIndex !== updatedStyleImageIndex && <button
+                                                {styleIndex !== selectedStyleImageIndex && <button
                                                     className="btn btn-danger"
                                                     onClick={() => updateStyleImage(styleIndex)}
                                                 >
                                                     Change Image
                                                 </button>}
-                                                {isUpdateStyleImageStatus && styleIndex === updatedStyleImageIndex && <p className="alert alert-primary mb-3 d-block">Update ...</p>}
+                                                {waitChangeStyleImageMsg && selectedStyleImageIndex === styleIndex && <button
+                                                    className="btn btn-info d-block mb-3 mx-auto"
+                                                    disabled
+                                                >{waitChangeStyleImageMsg}</button>}
+                                                {successChangeStyleImageMsg && selectedStyleImageIndex === styleIndex && <button
+                                                    className="btn btn-success d-block mb-3 mx-auto"
+                                                    disabled
+                                                >{successChangeStyleImageMsg}</button>}
+                                                {errorChangeStyleImageMsg && selectedStyleImageIndex === styleIndex && <button
+                                                    className="btn btn-danger d-block mb-3 mx-auto"
+                                                    disabled
+                                                >{errorChangeStyleImageMsg}</button>}
                                             </td>
                                             <td className="update-and-delete-cell">
-                                                {styleIndex !== updatedStyleIndex && <button
-                                                    className="btn btn-danger mb-3 d-block w-100"
-                                                    onClick={() => updateStyleData(styleIndex)}
-                                                >Update</button>}
-                                                {isUpdateStatus && styleIndex === updatedStyleIndex && <p className="alert alert-primary mb-3 d-block">Update ...</p>}
-                                                {categoryStylesData.length > 1 && styleIndex !== deletedStyleIndex && <button
-                                                    className="btn btn-danger d-block w-100"
-                                                    onClick={() => deleteStyle(styleIndex)}
-                                                >Delete</button>}
-                                                {isDeleteStatus && styleIndex === deletedStyleIndex && <p className="alert alert-primary">Delete ...</p>}
+                                                {styleIndex !== selectedStyleIndex && <>
+                                                    <button
+                                                        className="btn btn-success mb-3 d-block w-100"
+                                                        onClick={() => updateStyleData(styleIndex)}
+                                                    >Update</button>
+                                                    {categoryStylesData.length > 1 && <button
+                                                        className="btn btn-danger mb-3 d-block w-100"
+                                                        onClick={() => deleteStyle(styleIndex)}
+                                                    >Delete</button>}
+                                                </>}
+                                                {waitMsg && selectedStyleIndex === styleIndex && <button
+                                                    className="btn btn-info d-block mb-3 mx-auto global-button"
+                                                    disabled
+                                                >{waitMsg}</button>}
+                                                {successMsg && selectedStyleIndex === styleIndex && <button
+                                                    className="btn btn-success d-block mx-auto global-button"
+                                                    disabled
+                                                >{successMsg}</button>}
+                                                {errorMsg && selectedStyleIndex === styleIndex && <button
+                                                    className="btn btn-danger d-block mx-auto global-button"
+                                                    disabled
+                                                >{errorMsg}</button>}
                                             </td>
                                         </tr>
                                     ))}
