@@ -15,21 +15,18 @@ export default function OrderDetails({ orderId, ordersType }) {
 
     const [orderDetails, setOrderDetails] = useState({});
 
-    const [updatingOrderProductIndex, setUpdatingOrderProductIndex] = useState(-1);
-
-    const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
-
-    const [isDeletingStatus, setIsDeletingStatus] = useState(false);
+    const [waitMsg, setWaitMsg] = useState("");
 
     const [successMsg, setSuccessMsg] = useState("");
 
     const [errorMsg, setErrorMsg] = useState("");
 
-    const [deletingOrderProductIndex, setDeletingOrderProductIndex] = useState(false);
+    const [selectedOrderProductIndex, setSelectedOrderProductIndex] = useState(-1);
 
     const router = useRouter();
 
     useEffect(() => {
+        setIsLoadingPage(true);
         const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
             getAdminInfo()
@@ -57,8 +54,7 @@ export default function OrderDetails({ orderId, ordersType }) {
 
     const getOrderDetails = async (orderId) => {
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/${ordersType}/order-details/${orderId}`);
-            return res.data;
+            return (await axios.get(`${process.env.BASE_API_URL}/${ordersType}/order-details/${orderId}`)).data;
         }
         catch (err) {
             throw err;
@@ -73,8 +69,8 @@ export default function OrderDetails({ orderId, ordersType }) {
 
     const updateOrderProductData = async (orderProductIndex) => {
         try {
-            setIsUpdatingStatus(true);
-            setUpdatingOrderProductIndex(orderProductIndex);
+            setWaitMsg("Please Wait Updating ...");
+            setSelectedOrderProductIndex(orderProductIndex);
             const res = await axios.put(`${process.env.BASE_API_URL}/${ordersType}/products/update-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`, {
                 quantity: orderDetails.order_lines[orderProductIndex].quantity,
                 name: orderDetails.order_lines[orderProductIndex].name,
@@ -85,15 +81,17 @@ export default function OrderDetails({ orderId, ordersType }) {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             });
-            const result = await res.data;
-            setIsUpdatingStatus(false);
-            setUpdatingOrderProductIndex(-1);
+            const result = res.data;
+            setWaitMsg("");
             if (!result.error) {
-                setSuccessMsg(result.msg);
+                setSuccessMsg("Updating Successfull !!");
                 let successTimeout = setTimeout(() => {
                     setSuccessMsg("");
+                    setSelectedOrderProductIndex(-1);
                     clearTimeout(successTimeout);
                 }, 3000);
+            } else {
+                setSelectedOrderProductIndex(-1);
             }
         }
         catch (err) {
@@ -102,11 +100,11 @@ export default function OrderDetails({ orderId, ordersType }) {
                 await router.push("/admin-dashboard/login");
                 return;
             }
-            setIsUpdatingStatus(false);
-            setUpdatingOrderProductIndex(-1);
+            setWaitMsg("");
             setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
             let errorTimeout = setTimeout(() => {
                 setErrorMsg("");
+                setSelectedOrderProductIndex(-1);
                 clearTimeout(errorTimeout);
             }, 2000);
         }
@@ -114,16 +112,16 @@ export default function OrderDetails({ orderId, ordersType }) {
 
     const deleteProductFromOrder = async (orderProductIndex) => {
         try {
-            setIsDeletingStatus(true);
-            setDeletingOrderProductIndex(orderProductIndex);
+            setWaitMsg("Please Wait Deleting ...");
+            setSelectedOrderProductIndex(orderProductIndex);
             const res = await axios.delete(`${process.env.BASE_API_URL}/${ordersType}/products/delete-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             });
             const result = res.data;
-            setIsDeletingStatus(false);
-            setDeletingOrderProductIndex(-1);
+            setWaitMsg("Deleting Successfull !!");
+            setSelectedOrderProductIndex(-1);
             if (!result.error) {
                 setSuccessMsg(result.msg);
                 let successTimeout = setTimeout(() => {
@@ -139,8 +137,8 @@ export default function OrderDetails({ orderId, ordersType }) {
                 await router.push("/admin-dashboard/login");
                 return;
             }
-            setIsDeletingStatus(false);
-            setDeletingOrderProductIndex(-1);
+            setWaitMsg(false);
+            setSelectedOrderProductIndex(-1);
             setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
             let errorTimeout = setTimeout(() => {
                 setErrorMsg("");
@@ -220,29 +218,35 @@ export default function OrderDetails({ orderId, ordersType }) {
                                                 />
                                             </td>
                                             <td>
-                                                {orderProductIndex !== updatingOrderProductIndex && <button
+                                                {orderProductIndex !== selectedOrderProductIndex && <button
                                                     className="btn btn-info d-block mx-auto mb-3"
                                                     onClick={() => updateOrderProductData(orderProductIndex)}
                                                 >
                                                     Update
                                                 </button>}
-                                                {isUpdatingStatus && orderProductIndex === updatingOrderProductIndex && <button
-                                                    className="btn btn-info d-block mx-auto mb-3"
-                                                    disabled
-                                                >
-                                                    Updating ...
-                                                </button>}
-                                                {orderProductIndex !== deletingOrderProductIndex && orderDetails.order_lines.length > 2 && <button
+                                                {orderProductIndex !== selectedOrderProductIndex && orderDetails.order_lines.length > 2 && <button
                                                     className="btn btn-danger d-block mx-auto mb-3"
                                                     onClick={() => deleteProductFromOrder(orderProductIndex)}
                                                 >
                                                     Delete
                                                 </button>}
-                                                {isDeletingStatus && orderProductIndex === deletingOrderProductIndex && <button
+                                                {waitMsg && orderProductIndex === selectedOrderProductIndex && <button
+                                                    className="btn btn-info d-block mx-auto mb-3"
+                                                    disabled
+                                                >
+                                                    {waitMsg}
+                                                </button>}
+                                                {successMsg && orderProductIndex === selectedOrderProductIndex && <button
+                                                    className="btn btn-success d-block mx-auto mb-3"
+                                                    disabled
+                                                >
+                                                    {successMsg}
+                                                </button>}
+                                                {errorMsg && orderProductIndex === selectedOrderProductIndex && <button
                                                     className="btn btn-danger d-block mx-auto mb-3"
                                                     disabled
                                                 >
-                                                    Deleting ...
+                                                    {errorMsg}
                                                 </button>}
                                             </td>
                                         </tr>
