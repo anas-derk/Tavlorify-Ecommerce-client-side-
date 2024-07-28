@@ -43,6 +43,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
 
     useEffect(() => {
         setIsLoadingPage(true);
+        setCategoryStylesData([]);
         const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
             getAdminInfo()
