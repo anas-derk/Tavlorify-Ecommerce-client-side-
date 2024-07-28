@@ -16,17 +16,11 @@ export default function GeneratedImagesManagment({ pageName }) {
 
     const [allGeneratedImagesDataInsideThePage, setAllGeneratedImagesDataInsideThePage] = useState([]);
 
-    const [isFilteringOrdersStatus, setIsFilteringOrdersStatus] = useState(false);
+    const [isGetGeneratedImages, setIsGetGeneratedImages] = useState(false);
 
-    const [selectedImageIndexForDownload, setSelectedImageIndexForDownload] = useState(-1);
+    const [selectedGeneratedImageIndex, setSelectedGeneratedImageIndex] = useState(-1);
 
-    const [isDownloadUploadedImage, setIsDownloadUploadedImage] = useState(false);
-
-    const [isDownloadGeneratedImage, setIsDownloadGeneratedImage] = useState(false);
-
-    const [selectedGeneratedImageDataIndexForDelete, setSelectedGeneratedImageDataIndexForDelete] = useState(-1);
-
-    const [isDeleteGeneratedImageData, setIsDeleteGeneratedImageData] = useState(false);
+    const [waitMsg, setWaitMsg] = useState("");
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -49,8 +43,9 @@ export default function GeneratedImagesManagment({ pageName }) {
                         await router.replace("/admin-dashboard/login");
                     } else {
                         result = await getGeneratedImagesDataCount(pageName);
+                        console.log((await getAllGeneratedImagesDataInsideThePage(pageName, 1, pageSize)).data)
                         if (result.data > 0) {
-                            setAllGeneratedImagesDataInsideThePage((await getAllGeneratedImagesDataInsideThePage(1, pageSize)).data);
+                            setAllGeneratedImagesDataInsideThePage((await getAllGeneratedImagesDataInsideThePage(pageName, 1, pageSize)).data);
                             setTotalPagesCount(Math.ceil(result.data / pageSize));
                         }
                         setIsLoadingPage(false);
@@ -78,7 +73,7 @@ export default function GeneratedImagesManagment({ pageName }) {
         }
     }
 
-    const getAllGeneratedImagesDataInsideThePage = async (pageNumber, pageSize) => {
+    const getAllGeneratedImagesDataInsideThePage = async (pageName, pageNumber, pageSize) => {
         try {
             return (await axios.get(`${process.env.BASE_API_URL}/generated-images/all-generated-images-inside-the-page?service=${pageName}&pageNumber=${pageNumber}&pageSize=${pageSize}`)).data;
         }
@@ -87,11 +82,11 @@ export default function GeneratedImagesManagment({ pageName }) {
         }
     }
 
-    const downloadImage = async (URL, imageType, selectedImageIndexForDownload) => {
+    const downloadImage = async (URL, imageType, selectedGeneratedImageIndex) => {
         try {
-            setSelectedImageIndexForDownload(selectedImageIndexForDownload);
-            if (imageType === "uploaded-image") setIsDownloadUploadedImage(true);
-            else setIsDownloadGeneratedImage(true);
+            setSelectedGeneratedImageIndex(selectedGeneratedImageIndex);
+            if (imageType === "uploaded-image") setWaitMsg("Downloading Uploaded Image ...");
+            else setWaitMsg("Downloading Generated Image Now ...");
             const res = await axios.get(URL, { responseType: "blob" });
             const imageAsBlob = res.data;
             const localURL = window.URL.createObjectURL(imageAsBlob);
@@ -99,26 +94,26 @@ export default function GeneratedImagesManagment({ pageName }) {
             tempAnchorLink.href = localURL;
             tempAnchorLink.download = "generated-image.png";
             tempAnchorLink.click();
-            setIsDownloadUploadedImage(false);
-            setSelectedImageIndexForDownload(-1);
+            setWaitMsg("");
+            setSelectedGeneratedImageIndex(-1);
         } catch (err) {
-            if (imageType === "uploaded-image") setIsDownloadUploadedImage(false);
-            else setIsDownloadGeneratedImage(false);
-            setSelectedImageIndexForDownload(-1);
+            if (imageType === "uploaded-image") setWaitMsg("");
+            else setWaitMsg("");
+            setSelectedGeneratedImageIndex(-1);
         }
     }
 
-    const deleteGeneratedImageData = async (index) => {
+    const deleteGeneratedImageData = async (selectedGeneratedImageIndex) => {
         try {
-            setIsDeleteGeneratedImageData(true);
-            setSelectedGeneratedImageDataIndexForDelete(index);
-            const res = await axios.delete(`${process.env.BASE_API_URL}/generated-images/generated-image-data/${generatedImagesData[index]._id}`);
+            setWaitMsg("Please Wait Deleting ...");
+            setSelectedGeneratedImageIndex(selectedGeneratedImageIndex);
+            const res = await axios.delete(`${process.env.BASE_API_URL}/generated-images/generated-image-data/${generatedImagesData[selectedGeneratedImageIndex]._id}`);
             let result = res.data;
-            setIsDeleteGeneratedImageData(false);
-            setSelectedGeneratedImageDataIndexForDelete(-1);
+            setWaitMsg("");
+            setSelectedGeneratedImageIndex(-1);
             result = await getGeneratedImagesDataCount(pageName);
             if (result.data > 0) {
-                setAllGeneratedImagesDataInsideThePage((await getAllGeneratedImagesDataInsideThePage(1, pageSize)).data);
+                setAllGeneratedImagesDataInsideThePage((await getAllGeneratedImagesDataInsideThePage(pageName, 1, pageSize)).data);
                 setTotalPagesCount(Math.ceil(result.data / pageSize));
             }
         }
@@ -128,37 +123,37 @@ export default function GeneratedImagesManagment({ pageName }) {
                 await router.push("/admin-dashboard/login");
                 return;
             }
-            setIsDeleteGeneratedImageData(false);
-            setSelectedGeneratedImageDataIndexForDelete(-1);
+            setWaitMsg("");
             setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
             let errorTimeout = setTimeout(() => {
                 setErrorMsg("");
+                setSelectedGeneratedImageIndex(-1);
                 clearTimeout(errorTimeout);
             }, 2000);
         }
     }
 
     const getPreviousPage = async () => {
-        setIsFilteringOrdersStatus(true);
+        setIsGetGeneratedImages(true);
         const newCurrentPage = currentPage - 1;
         setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(newCurrentPage, pageSize));
         setCurrentPage(newCurrentPage);
-        setIsFilteringOrdersStatus(false);
+        setIsGetGeneratedImages(false);
     }
 
     const getNextPage = async () => {
-        setIsFilteringOrdersStatus(true);
+        setIsGetGeneratedImages(true);
         const newCurrentPage = currentPage + 1;
         setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(newCurrentPage, pageSize));
         setCurrentPage(newCurrentPage);
-        setIsFilteringOrdersStatus(false);
+        setIsGetGeneratedImages(false);
     }
 
     const getSpecificPage = async (pageNumber) => {
-        setIsFilteringOrdersStatus(true);
+        setIsGetGeneratedImages(true);
         setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(pageNumber, pageSize));
         setCurrentPage(pageNumber);
-        setIsFilteringOrdersStatus(false);
+        setIsGetGeneratedImages(false);
     }
 
     return (
@@ -171,7 +166,7 @@ export default function GeneratedImagesManagment({ pageName }) {
                 <div className="content text-center pt-4 pb-4">
                     <div className="container-fluid">
                         <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Generated Images Data Managment For {pageName} Page</h1>
-                        {allGeneratedImagesDataInsideThePage.length && !isFilteringOrdersStatus && <div className="generated-images-data-box p-3 mb-2 data-box">
+                        {allGeneratedImagesDataInsideThePage.length && !isGetGeneratedImages && <div className="generated-images-data-box p-3 mb-2 data-box">
                             <table className="generated-images-data-tabel data-table">
                                 <thead>
                                     <tr>
@@ -187,9 +182,9 @@ export default function GeneratedImagesManagment({ pageName }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {allGeneratedImagesDataInsideThePage.map((generatedImageData, index) => (
-                                        <tr key={index}>
-                                            <td className="fw-bold">{pageSize * (currentPage - 1) + index + 1}</td>
+                                    {allGeneratedImagesDataInsideThePage.map((generatedImageData, generatedImageIndex) => (
+                                        <tr key={generatedImageIndex}>
+                                            <td className="fw-bold">{pageSize * (currentPage - 1) + generatedImageIndex + 1}</td>
                                             {pageName === "image-to-image" && <td className="uploaded-image-cell">
                                                 <img
                                                     src={generatedImageData.uploadedImageURL}
@@ -198,17 +193,17 @@ export default function GeneratedImagesManagment({ pageName }) {
                                                     height="100"
                                                     className="d-block mx-auto mb-3"
                                                 />
-                                                {selectedImageIndexForDownload !== index && <button
+                                                {selectedGeneratedImageIndex !== generatedImageIndex && <button
                                                     className="btn btn-success"
-                                                    onClick={() => downloadImage(generatedImageData.uploadedImageURL, "uploaded-image", index)}
+                                                    onClick={() => downloadImage(generatedImageData.uploadedImageURL, "uploaded-image", generatedImageIndex)}
                                                 >
                                                     Download
                                                 </button>}
-                                                {selectedImageIndexForDownload === index && isDownloadUploadedImage && <button
+                                                {selectedGeneratedImageIndex === generatedImageIndex && waitMsg === "Downloading Uploaded Image ..." && <button
                                                     className="btn btn-info"
                                                     disabled
                                                 >
-                                                    Download Now ...
+                                                    {waitMsg}
                                                 </button>}
                                             </td>}
                                             {pageName === "text-to-image" && <td className="text-prompt-cell">{generatedImageData.textPrompt}</td>}
@@ -231,29 +226,29 @@ export default function GeneratedImagesManagment({ pageName }) {
                                                     height="100"
                                                     className="d-block mx-auto mb-3"
                                                 />
-                                                {selectedImageIndexForDownload !== index && <button
+                                                {selectedGeneratedImageIndex !== generatedImageIndex && <button
                                                     className="btn btn-success d-block mx-auto mb-3"
-                                                    onClick={() => downloadImage(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`, "generated-image", index)}
+                                                    onClick={() => downloadImage(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`, "generated-image", generatedImageIndex)}
                                                 >
                                                     Download
                                                 </button>}
-                                                {selectedImageIndexForDownload === index && isDownloadGeneratedImage && <button
+                                                {selectedGeneratedImageIndex === generatedImageIndex && waitMsg === "Downloading Generated Image Now ..." && <button
                                                     className="btn btn-info d-block mx-auto mb-3"
                                                     disabled
                                                 >
-                                                    Downloading Now ...
+                                                    {waitMsg}
                                                 </button>}
-                                                {selectedGeneratedImageDataIndexForDelete !== index && <button
+                                                {selectedGeneratedImageIndex !== generatedImageIndex && <button
                                                     className="btn btn-danger"
-                                                    onClick={() => deleteGeneratedImageData(index)}
+                                                    onClick={() => deleteGeneratedImageData(generatedImageIndex)}
                                                 >
                                                     Delete
                                                 </button>}
-                                                {selectedGeneratedImageDataIndexForDelete === index && isDeleteGeneratedImageData && <button
+                                                {selectedGeneratedImageIndex === generatedImageIndex && waitMsg && <button
                                                     className="btn btn-info"
                                                     disabled
                                                 >
-                                                    Deleting Now ...
+                                                    {waitMsg}
                                                 </button>}
                                             </td>
                                         </tr>
@@ -262,10 +257,10 @@ export default function GeneratedImagesManagment({ pageName }) {
                             </table>
                         </div>}
                         {allGeneratedImagesDataInsideThePage.length == 0 && <p className="alert alert-danger">Sorry, Can't Find Any Generated Images !!</p>}
-                        {isFilteringOrdersStatus && <div className="loader-table-box d-flex flex-column align-items-center justify-content-center">
+                        {isGetGeneratedImages && <div className="loader-table-box d-flex flex-column align-items-center justify-content-center">
                             <span className="loader-table-data"></span>
                         </div>}
-                        {totalPagesCount > 1 && !isFilteringOrdersStatus &&
+                        {totalPagesCount > 1 && !isGetGeneratedImages &&
                             <PaginationBar
                                 totalPagesCount={totalPagesCount}
                                 currentPage={currentPage}
