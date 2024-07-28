@@ -171,6 +171,7 @@ export default function OrderDetails({ orderId, ordersType }) {
                                         <th>Unit Price</th>
                                         <th>Total</th>
                                         <th>Image</th>
+                                        {ordersType === "returned-orders" && <th>Return Reason</th>}
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -209,6 +210,13 @@ export default function OrderDetails({ orderId, ordersType }) {
                                                     defaultValue={orderProduct.total_amount}
                                                     onChange={(e) => changeOrderProductData(orderProductIndex, "total_amount", e.target.valueAsNumber)}
                                                 />
+                                            </td>
+                                            <td>
+                                                <textarea
+                                                    type="text"
+                                                    className="form-control return-reason"
+                                                    onChange={(e) => changeOrderProductData(orderProductIndex, "return_reason", e.target.value)}
+                                                >{orderProduct.return_reason}</textarea>
                                             </td>
                                             <td>
                                                 <img
