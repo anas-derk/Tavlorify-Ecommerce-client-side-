@@ -59,8 +59,8 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
 
     const updateCategoryInfo = async (categoryIndex) => {
         try {
-            setSelectedCategoryIndex(categoryIndex);
             setWaitMsg("Please Wait Updating ...");
+            setSelectedCategoryIndex(categoryIndex);
             const res = await axios.put(`${process.env.BASE_API_URL}/${pageName}/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
                 newCategorySortNumber: categoriesData[categoryIndex].sortNumber,
                 newCategoryName: categoriesData[categoryIndex].name,
@@ -69,8 +69,8 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             });
-            setWaitMsg("");
             const result = res.data;
+            setWaitMsg("");
             if (!result.error) {
                 setSuccessMsg("Updating Successfull !!");
                 let successTimeout = setTimeout(() => {
@@ -79,11 +79,15 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
                     clearTimeout(successTimeout);
                 }, 1500);
             } else {
-                setSelectedCategoryIndex(-1);
+                setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedCategoryIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 2000);
             }
         }
         catch (err) {
-            console.log(err)
             if (err?.response?.data?.msg === "Unauthorized Error") {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                 await router.replace("/admin-dashboard/login");
@@ -101,15 +105,15 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
 
     const deleteCategory = async (categoryIndex) => {
         try {
-            setSelectedCategoryIndex(categoryIndex);
             setWaitMsg("Please Wait Deleting ...");
+            setSelectedCategoryIndex(categoryIndex);
             const res = await axios.delete(`${process.env.BASE_API_URL}/${pageName}/categories/delete-category-data/${categoriesData[categoryIndex]._id}`, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             });
-            setWaitMsg("");
             const result = res.data;
+            setWaitMsg("");
             if (!result.error) {
                 setSuccessMsg("Deleting Successfull !!");
                 let successTimeout = setTimeout(() => {
@@ -118,7 +122,12 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
                     clearTimeout(successTimeout);
                 }, 1500);
             } else {
-                setSelectedCategoryIndex(-1);
+                setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedCategoryIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 2000);
             }
         }
         catch (err) {
@@ -194,7 +203,7 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
                                                         onClick={() => deleteCategory(categoryIndex)}
                                                     >Delete</button>}
                                                     {waitMsg && selectedCategoryIndex === categoryIndex && <button
-                                                        className="btn btn-danger d-block mx-auto global-button"
+                                                        className="btn btn-info d-block mx-auto global-button"
                                                         disabled
                                                     >{waitMsg}</button>}
                                                     {errorMsg && selectedCategoryIndex === categoryIndex && <button
