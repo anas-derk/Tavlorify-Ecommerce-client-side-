@@ -228,7 +228,7 @@ export default function GeneratedImagesManagment({ pageName }) {
                                                 />
                                                 {selectedGeneratedImageIndex !== generatedImageIndex && <button
                                                     className="btn btn-success d-block mx-auto mb-3"
-                                                    onClick={() => downloadImage(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`, "generated-image", generatedImageIndex)}
+                                                    onClick={() => downloadImage(`${process.env.BASE_API_URL}/${generatedImageData.generatedImagePath}`, "generated-image", generatedImageIndex)}
                                                 >
                                                     Download
                                                 </button>}
@@ -243,12 +243,6 @@ export default function GeneratedImagesManagment({ pageName }) {
                                                     onClick={() => deleteGeneratedImageData(generatedImageIndex)}
                                                 >
                                                     Delete
-                                                </button>}
-                                                {selectedGeneratedImageIndex === generatedImageIndex && waitMsg && <button
-                                                    className="btn btn-info"
-                                                    disabled
-                                                >
-                                                    {waitMsg}
                                                 </button>}
                                             </td>
                                         </tr>
