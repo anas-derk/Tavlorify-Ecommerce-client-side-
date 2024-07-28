@@ -8,6 +8,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import LoaderPage from "@/components/LoaderPage";
 import { inputValuesValidation } from "../../../../public/global_functions/validations";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
+import { getAdminInfo } from "../../../../public/global_functions/popular";
 
 export default function AdminLogin() {
 
@@ -32,7 +33,7 @@ export default function AdminLogin() {
     useEffect(() => {
         const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
-            validations.getAdminInfo(adminToken)
+            getAdminInfo()
                 .then(async (result) => {
                     if (result.error) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);

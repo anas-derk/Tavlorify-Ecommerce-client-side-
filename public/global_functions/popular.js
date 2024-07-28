@@ -26,7 +26,7 @@ async function getAdminInfo() {
         })).data;
     }
     catch(err) {
-        throw Error(err);
+        throw err;
     }
 }
 
