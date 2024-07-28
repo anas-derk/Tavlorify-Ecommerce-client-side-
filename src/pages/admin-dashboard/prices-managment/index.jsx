@@ -13,9 +13,13 @@ export default function ProductPrices({ productName }) {
 
     const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
-    const [isUpdateProductPriceStatus, setIsUpdateProductPriceStatus] = useState(false);
+    const [waitMsg, setWaitMsg] = useState("");
 
-    const [updatedProductPriceIndex, setUpdatedProductPriceIndex] = useState(-1);
+    const [successMsg, setSuccessMsg] = useState("");
+
+    const [errorMsg, setErrorMsg] = useState("");
+
+    const [selectedProductPriceIndex, setSelectedProductPriceIndex] = useState(-1);
 
     const [productPricesData, setProductPricesData] = useState([]);
 
@@ -25,6 +29,8 @@ export default function ProductPrices({ productName }) {
 
     useEffect(() => {
         setIsLoadingPage(true);
+        setProductPricesData([]);
+        setWaitMsg([]);
         const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
             getAdminInfo()
@@ -33,8 +39,6 @@ export default function ProductPrices({ productName }) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         await router.replace("/admin-dashboard/login");
                     } else {
-                        setProductPricesData([]);
-                        setIsUpdateProductPriceStatus([]);
                         result = await getProductPricesData();
                         setProductPricesData(result.data);
                         setUpdatedProductPrices(result.data);
@@ -57,30 +61,23 @@ export default function ProductPrices({ productName }) {
 
     const getProductPricesData = async () => {
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-name?productName=${productName}`);
-            return res.data;
+            return (await axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-name?productName=${productName}`)).data;
         }
         catch (err) {
             throw Error(err);
         }
     }
 
-    const changeProductPriceBeforeDiscount = (productIndex, newValue) => {
+    const changeProductPrice = (productIndex, name, newValue) => {
         let updatedProductPricesTemp = updatedProductPrices;
-        updatedProductPricesTemp[productIndex].priceBeforeDiscount = Number(newValue);
-        setUpdatedProductPrices(updatedProductPricesTemp);
-    }
-
-    const changeProductPriceAfterDiscount = (productIndex, newValue) => {
-        let updatedProductPricesTemp = updatedProductPrices;
-        updatedProductPricesTemp[productIndex].priceAfterDiscount = Number(newValue);
+        updatedProductPricesTemp[productIndex][name] = Number(newValue);
         setUpdatedProductPrices(updatedProductPricesTemp);
     }
 
     const updateProductPrice = async (productIndex) => {
         try {
-            setUpdatedProductPriceIndex(productIndex);
-            setIsUpdateProductPriceStatus(true);
+            setWaitMsg("Please Wait Updating ...");
+            setSelectedProductPriceIndex(productIndex);
             const result = await axios.put(`${process.env.BASE_API_URL}/prices/update-product-price/${productPricesData[productIndex]._id}`, {
                 newProductPriceBeforeDiscount: updatedProductPrices[productIndex].priceBeforeDiscount,
                 newProductPriceAfterDiscount: updatedProductPrices[productIndex].priceAfterDiscount,
@@ -89,11 +86,17 @@ export default function ProductPrices({ productName }) {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             });
+            setWaitMsg("");
             if (!result.error) {
-                
+                setSuccessMsg("Updating Successfull !!");
+                let successTimeout = setTimeout(() => {
+                    setSuccessMsg("");
+                    setSelectedProductPriceIndex(-1);
+                    clearTimeout(successTimeout);
+                }, 3000);
+            } else {
+                setSelectedProductPriceIndex(-1);
             }
-            setUpdatedProductPriceIndex(-1);
-            setIsUpdateProductPriceStatus(false);
         }
         catch (err) {
             if (err?.response?.data?.msg === "Unauthorized Error") {
@@ -101,8 +104,13 @@ export default function ProductPrices({ productName }) {
                 await router.push("/admin-dashboard/login");
                 return;
             }
-            setUpdatedProductPriceIndex(-1);
-            setIsUpdateProductPriceStatus(false);
+            setWaitMsg("");
+            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
+            let errorTimeout = setTimeout(() => {
+                setErrorMsg("");
+                setSelectedProductPriceIndex(-1);
+                clearTimeout(errorTimeout);
+            }, 2000);
         }
     }
 
@@ -129,9 +137,9 @@ export default function ProductPrices({ productName }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {productPricesData.map((productData, index) => (
-                                        <tr key={index}>
-                                            <td className="fw-bold">{index + 1}</td>
+                                    {productPricesData.map((productData, productIndex) => (
+                                        <tr key={productIndex}>
+                                            <td className="fw-bold">{productIndex + 1}</td>
                                             <td className="product-dimentions-cell">
                                                 {productData.dimentions}
                                             </td>
@@ -141,7 +149,7 @@ export default function ProductPrices({ productName }) {
                                                     type="text"
                                                     className="form-control w-100 p-2 product-price-before-discount"
                                                     defaultValue={productData.priceBeforeDiscount}
-                                                    onChange={(e) => changeProductPriceBeforeDiscount(index, e.target.value)}
+                                                    onChange={(e) => changeProductPrice(productIndex, "priceBeforeDiscount", e.target.value)}
                                                 />
                                             </td>
                                             <td>
@@ -149,21 +157,33 @@ export default function ProductPrices({ productName }) {
                                                     type="text"
                                                     className="form-control w-100 p-2 product-price-after-discount"
                                                     defaultValue={productData.priceAfterDiscount}
-                                                    onChange={(e) => changeProductPriceAfterDiscount(index, e.target.value)}
+                                                    onChange={(e) => changeProductPrice(productIndex, "priceAfterDiscount", e.target.value)}
                                                 />
                                             </td>
                                             <td>
-                                                {updatedProductPriceIndex !== index && <button
+                                                {selectedProductPriceIndex !== productIndex && <button
                                                     className="btn btn-danger d-block mx-auto mb-3"
-                                                    onClick={() => updateProductPrice(index)}
+                                                    onClick={() => updateProductPrice(productPriceIndex)}
                                                 >
                                                     Update
                                                 </button>}
-                                                {updatedProductPriceIndex === index && isUpdateProductPriceStatus && <button
+                                                {selectedProductPriceIndex === productIndex && waitMsg && <button
                                                     className="btn btn-danger d-block mx-auto mb-3"
                                                     disabled
                                                 >
-                                                    Update Price Now ...
+                                                    {waitMsg}
+                                                </button>}
+                                                {successMsg && productIndex === selectedProductPriceIndex && <button
+                                                    className="btn btn-success d-block mx-auto mb-3"
+                                                    disabled
+                                                >
+                                                    {successMsg}
+                                                </button>}
+                                                {errorMsg && productIndex === selectedProductPriceIndex && <button
+                                                    className="btn btn-danger d-block mx-auto mb-3"
+                                                    disabled
+                                                >
+                                                    {errorMsg}
                                                 </button>}
                                             </td>
                                         </tr>

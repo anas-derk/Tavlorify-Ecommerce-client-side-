@@ -120,15 +120,16 @@ export default function OrderDetails({ orderId, ordersType }) {
                 }
             });
             const result = res.data;
-            setWaitMsg("Deleting Successfull !!");
-            setSelectedOrderProductIndex(-1);
+            setWaitMsg("");
             if (!result.error) {
-                setSuccessMsg(result.msg);
+                setSuccessMsg("Deleting Successfull !!");
                 let successTimeout = setTimeout(() => {
                     setSuccessMsg("");
-                    setSelectedOrderIndex(-1);
+                    setSelectedOrderProductIndex(-1);
                     clearTimeout(successTimeout);
                 }, 3000);
+            } else {
+
             }
         }
         catch (err) {
@@ -137,11 +138,11 @@ export default function OrderDetails({ orderId, ordersType }) {
                 await router.push("/admin-dashboard/login");
                 return;
             }
-            setWaitMsg(false);
-            setSelectedOrderProductIndex(-1);
+            setWaitMsg("");
             setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
             let errorTimeout = setTimeout(() => {
                 setErrorMsg("");
+                setSelectedOrderProductIndex(-1);
                 clearTimeout(errorTimeout);
             }, 2000);
         }
