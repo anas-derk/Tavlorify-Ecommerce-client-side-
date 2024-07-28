@@ -21,9 +21,7 @@ export default function OrdersManagment({ ordersType }) {
 
     const [selectedOrderIndex, setSelectedOrderIndex] = useState(-1);
 
-    const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
-
-    const [isDeletingStatus, setIsDeletingStatus] = useState(false);
+    const [waitMsg, setWaitMsg] = useState("");
 
     const [successMsg, setSuccessMsg] = useState("");
 
@@ -44,7 +42,7 @@ export default function OrdersManagment({ ordersType }) {
 
     const router = useRouter();
 
-    const pageSize = 5;
+    const pageSize = 10;
 
     const orderStatus = ["pending", "shipping", "completing"];
 
@@ -52,6 +50,8 @@ export default function OrdersManagment({ ordersType }) {
 
     useEffect(() => {
         setIsLoadingPage(true);
+        setAllOrdersInsideThePage([]);
+        setTotalPagesCount(0);
         const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
             getAdminInfo()
@@ -85,8 +85,7 @@ export default function OrdersManagment({ ordersType }) {
 
     const getOrdersCount = async (filters) => {
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/${ordersType}/orders-count?${filters ? filters : ""}`);
-            return res.data;
+            return (await axios.get(`${process.env.BASE_API_URL}/${ordersType}/orders-count?${filters ? filters : ""}`)).data;
         }
         catch (err) {
             throw Error(err);
@@ -95,8 +94,7 @@ export default function OrdersManagment({ ordersType }) {
 
     const getAllOrdersInsideThePage = async (pageNumber, pageSize, filters) => {
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/${ordersType}/all-orders-inside-the-page?pageNumber=${pageNumber}&pageSize=${pageSize}&${filters ? filters : ""}`);
-            return res.data;
+            return (await axios.get(`${process.env.BASE_API_URL}/${ordersType}/all-orders-inside-the-page?pageNumber=${pageNumber}&pageSize=${pageSize}&${filters ? filters : ""}`)).data;
         }
         catch (err) {
             throw Error(err);
@@ -108,8 +106,7 @@ export default function OrdersManagment({ ordersType }) {
         const year = orderedDateInDateFormat.getFullYear();
         const month = orderedDateInDateFormat.getMonth() + 1;
         const day = orderedDateInDateFormat.getDate();
-        orderedDateInDateFormat = `${year} / ${month} / ${day}`;
-        return orderedDateInDateFormat;
+        return `${year} / ${month} / ${day}`;
     }
 
     const getPreviousPage = async () => {
@@ -206,7 +203,7 @@ export default function OrdersManagment({ ordersType }) {
 
     const updateOrderData = async (orderIndex) => {
         try {
-            setIsUpdatingStatus(true);
+            setWaitMsg("Please Wait Updating ...");
             setSelectedOrderIndex(orderIndex);
             const res = await axios.put(`${process.env.BASE_API_URL}/${ordersType}/update-order/${allOrdersInsideThePage[orderIndex]._id}`, {
                 order_amount: allOrdersInsideThePage[orderIndex].order_amount,
@@ -217,14 +214,16 @@ export default function OrdersManagment({ ordersType }) {
                 }
             });
             const result = await res.data;
+            setWaitMsg("");
             if (!result.error) {
-                setIsUpdatingStatus(false);
                 setSuccessMsg(result.msg);
                 let successTimeout = setTimeout(() => {
                     setSuccessMsg("");
                     setSelectedOrderIndex(-1);
                     clearTimeout(successTimeout);
                 }, 3000);
+            } else {
+                setSelectedOrderIndex(-1);
             }
         }
         catch (err) {
@@ -233,7 +232,7 @@ export default function OrdersManagment({ ordersType }) {
                 await router.push("/admin-dashboard/login");
                 return;
             }
-            setIsUpdatingStatus(false);
+            setWaitMsg("");
             setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
             let errorTimeout = setTimeout(() => {
                 setErrorMsg("");
@@ -244,24 +243,28 @@ export default function OrdersManagment({ ordersType }) {
 
     const deleteOrder = async (orderIndex) => {
         try {
-            setIsDeletingStatus(true);
+            setWaitMsg("Please Wait Deleting ...");
             setSelectedOrderIndex(orderIndex);
             const res = await axios.delete(`${process.env.BASE_API_URL}/${ordersType}/delete-order/${allOrdersInsideThePage[orderIndex]._id}`, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             });
-            setIsDeletingStatus(false);
-            setSuccessMsg(res.data.msg);
-            let successTimeout = setTimeout(async () => {
-                setSuccessMsg("");
+            const result = res.data;
+            setWaitMsg("");
+            if (!result.error) {
+                setSuccessMsg(res.data.msg);
+                let successTimeout = setTimeout(async () => {
+                    setSuccessMsg("");
+                    setSelectedOrderIndex(-1);
+                    setIsFilteringOrdersStatus(true);
+                    setAllOrdersInsideThePage((await getAllOrdersInsideThePage(currentPage, pageSize)).data);
+                    setIsFilteringOrdersStatus(false);
+                    clearTimeout(successTimeout);
+                }, 3000);
+            } else {
                 setSelectedOrderIndex(-1);
-                setIsFilteringOrdersStatus(true);
-                setAllOrdersInsideThePage((await getAllOrdersInsideThePage(1, pageSize)).data);
-                setCurrentPage(1);
-                setIsFilteringOrdersStatus(false);
-                clearTimeout(successTimeout);
-            }, 3000);
+            }
         }
         catch (err) {
             if (err?.response?.data?.msg === "Unauthorized Error") {
@@ -269,10 +272,11 @@ export default function OrdersManagment({ ordersType }) {
                 await router.push("/admin-dashboard/login");
                 return;
             }
-            setIsDeletingStatus(false);
+            setWaitMsg("");
             setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
             let errorTimeout = setTimeout(() => {
                 setErrorMsg("");
+                setSelectedOrderIndex(-1);
                 clearTimeout(errorTimeout);
             }, 2000);
         }
@@ -444,35 +448,25 @@ export default function OrdersManagment({ ordersType }) {
                                                 </td>
                                                 <td>{getDateFormated(order.added_date)}</td>
                                                 <td>
-                                                    {!isUpdatingStatus && !isDeletingStatus && !order.isDeleted && orderIndex !== selectedOrderIndex && <button
-                                                        className="btn btn-info d-block mx-auto mb-3"
-                                                        onClick={() => updateOrderData(orderIndex)}
-                                                    >
-                                                        Update
-                                                    </button>}
-                                                    {isUpdatingStatus && orderIndex === selectedOrderIndex && <button
-                                                        className="btn btn-info d-block mx-auto mb-3"
-                                                        disabled
-                                                    >
-                                                        Updating ...
-                                                    </button>}
-                                                    {successMsg && orderIndex === selectedOrderIndex && <button
-                                                        className="btn btn-success d-block mx-auto mb-3"
-                                                        disabled
-                                                    >
-                                                        Success
-                                                    </button>}
-                                                    {!isUpdatingStatus && !isDeletingStatus && !order.isDeleted && orderIndex !== selectedOrderIndex && <button
-                                                        className="btn btn-danger d-block mx-auto mb-3"
-                                                        onClick={() => deleteOrder(orderIndex)}
-                                                    >
-                                                        Delete
-                                                    </button>}
-                                                    {isDeletingStatus && !order.isDeleted && orderIndex === selectedOrderIndex && <button
+                                                    {!order.isDeleted && orderIndex !== selectedOrderIndex && <>
+                                                        <button
+                                                            className="btn btn-info d-block mx-auto mb-3"
+                                                            onClick={() => updateOrderData(orderIndex)}
+                                                        >
+                                                            Update
+                                                        </button>
+                                                        <button
+                                                            className="btn btn-danger d-block mx-auto mb-3"
+                                                            onClick={() => deleteOrder(orderIndex)}
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </>}
+                                                    {waitMsg && orderIndex === selectedOrderIndex && <button
                                                         className="btn btn-danger d-block mx-auto mb-3"
                                                         disabled
                                                     >
-                                                        Deleting ...
+                                                        {waitMsg}
                                                     </button>}
                                                     {order.isDeleted && <button
                                                         className="btn btn-danger d-block mx-auto mb-3"
@@ -486,7 +480,13 @@ export default function OrdersManagment({ ordersType }) {
                                                     >
                                                         {errorMsg}
                                                     </button>}
-                                                    {!isUpdatingStatus && !isDeletingStatus && !errorMsg && !successMsg && <Link href={`/admin-dashboard/orders-managment/${order._id}?ordersType=${ordersType}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>}
+                                                    {successMsg && orderIndex === selectedOrderIndex && <button
+                                                        className="btn btn-success d-block mx-auto mb-3"
+                                                        disabled
+                                                    >
+                                                        Success
+                                                    </button>}
+                                                    {!waitMsg && !errorMsg && !successMsg && <Link href={`/admin-dashboard/orders-managment/${order._id}?ordersType=${ordersType}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>}
                                                     {ordersType === "orders" && !order.isReturned && (order.checkout_status === "AUTHORIZED" || order.checkout_status === "CAPTURED" || order.checkout_status === "EXPIRED") && <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>}
                                                 </td>
                                             </tr>

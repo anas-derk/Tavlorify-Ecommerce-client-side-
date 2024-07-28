@@ -24,17 +24,17 @@ export default function AddNewCategoryStyle() {
 
     const [styleNegativePrompt, setStyleNegativePrompt] = useState("");
 
-    const [ddim_steps, setDdim_steps] = useState("");
+    const [ddimSteps, setDdimSteps] = useState("");
 
     const [strength, setStrength] = useState("");
 
     const [styleImageFile, setStyleImageFile] = useState("");
 
-    const [isAddingStatus, setIsAddingStatus] = useState(false);
+    const [waitMsg, setWaitMsg] = useState("");
 
-    const [successMsg, setSuccessMsg] = useState(false);
+    const [successMsg, setSuccessMsg] = useState("");
 
-    const [errorMsg, setErrorMsg] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
 
     const [formValidationErrors, setFormValidationErrors] = useState({});
 
@@ -107,8 +107,8 @@ export default function AddNewCategoryStyle() {
                 },
             },
             {
-                name: "ddim_steps",
-                value: ddim_steps,
+                name: "ddimSteps",
+                value: ddimSteps,
                 rules: {
                     isRequired: {
                         msg: "Sorry, Can't Be Field Is Empty !!",
@@ -144,19 +144,19 @@ export default function AddNewCategoryStyle() {
             formData.append("styleName", styleName);
             formData.append("stylePrompt", stylePrompt);
             formData.append("styleNegativePrompt", styleNegativePrompt);
-            formData.append("ddim_steps", ddim_steps);
+            formData.append("ddim_steps", ddimSteps);
             formData.append("strength", strength);
             formData.append("styleImgFile", styleImageFile);
-            setIsAddingStatus(true);
+            setWaitMsg("");
             try {
                 const res = await axios.post(`${process.env.BASE_API_URL}/image-to-image/styles/add-new-style`, formData, {
                     headers: {
-                        Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                        Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                     }
                 });
                 const result = res.data;
+                setWaitMsg(false);
                 if (!result.error) {
-                    setIsAddingStatus(false);
                     setSuccessMsg(result.msg);
                     let successTimeout = setTimeout(() => {
                         setSuccessMsg("");
@@ -166,11 +166,11 @@ export default function AddNewCategoryStyle() {
             }
             catch (err) {
                 if (err?.response?.data?.msg === "Unauthorized Error") {
-                    localStorage.removeItem("tavlorify-store-admin-user-token");
+                    localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                     await router.push("/admin-dashboard/login");
                     return;
                 }
-                setIsAddingStatus(false);
+                setWaitMsg("");
                 setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
                 let errorTimeout = setTimeout(() => {
                     setErrorMsg("");
@@ -224,11 +224,11 @@ export default function AddNewCategoryStyle() {
                             {formValidationErrors["styleNegativePrompt"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleNegativePrompt"]}</p>}
                             <input
                                 type="text"
-                                className={`form-control p-2 ${formValidationErrors["ddim_steps"] ? "border border-danger mb-2" : "mb-4"}`}
+                                className={`form-control p-2 ${formValidationErrors["ddimSteps"] ? "border border-danger mb-2" : "mb-4"}`}
                                 placeholder="Please Enter The Ddim Steps"
-                                onChange={(e) => setDdim_steps(e.target.value.trim())}
+                                onChange={(e) => setDdimSteps(e.target.value.trim())}
                             />
-                            {formValidationErrors["ddim_steps"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["ddim_steps"]}</p>}
+                            {formValidationErrors["ddimSteps"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["ddimSteps"]}</p>}
                             <input
                                 type="text"
                                 className={`form-control p-2 ${formValidationErrors["strength"] ? "border border-danger mb-2" : "mb-4"}`}
@@ -243,8 +243,8 @@ export default function AddNewCategoryStyle() {
                                 onChange={(e) => setStyleImageFile(e.target.files[0])}
                             />
                             {formValidationErrors["styleImageFile"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleImageFile"]}</p>}
-                            {!isAddingStatus && !errorMsg && !successMsg && <button type="submit" className="btn btn-success w-100 d-block mx-auto">Add Now</button>}
-                            {isAddingStatus && <button type="submit" className="btn btn-warning w-100 d-block mx-auto" disabled>Adding Now ...</button>}
+                            {!waitMsg && !errorMsg && !successMsg && <button type="submit" className="btn btn-success w-100 d-block mx-auto">Add Now</button>}
+                            {waitMsg && <button type="submit" className="btn btn-warning w-100 d-block mx-auto" disabled>{waitMsg}</button>}
                             {errorMsg && <button type="submit" className="btn btn-danger w-100 d-block mx-auto" disabled>{errorMsg}</button>}
                             {successMsg && <button type="submit" className="btn btn-success w-100 d-block mx-auto" disabled>{successMsg}</button>}
                         </form>
