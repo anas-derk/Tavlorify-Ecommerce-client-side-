@@ -28,11 +28,11 @@ export default function AddNewCategory() {
 
     const [styleImageFile, setStyleImageFile] = useState("");
 
-    const [isAddingStatus, setIsAddingStatus] = useState(false);
+    const [waitMsg, setWaitMsg] = useState("");
 
-    const [successMsg, setSuccessMsg] = useState(false);
+    const [successMsg, setSuccessMsg] = useState("");
 
-    const [errorMsg, setErrorMsg] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
 
     const [formValidationErrors, setFormValidationErrors] = useState({});
 
@@ -139,6 +139,7 @@ export default function AddNewCategory() {
         ]);
         setFormValidationErrors(errorsObject);
         if (Object.keys(errorsObject).length == 0) {
+            setWaitMsg("Please Wait Adding Category ...");
             let formData = new FormData();
             formData.append("categoryName", categoryName);
             formData.append("categoryImgFile", categoryImageFile);
@@ -147,16 +148,15 @@ export default function AddNewCategory() {
             formData.append("styleNegativePrompt", styleNegativePrompt);
             formData.append("modelName", modelName);
             formData.append("styleImgFile", styleImageFile);
-            setIsAddingStatus(true);
             try {
                 const res = await axios.post(`${process.env.BASE_API_URL}/text-to-image/categories/add-new-category`, formData, {
                     headers: {
-                        Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
+                        Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                     }
                 });
                 const result = await res.data;
+                setWaitMsg("");
                 if (!result.error) {
-                    setIsAddingStatus(false);
                     setSuccessMsg(result.msg);
                     let successTimeout = setTimeout(() => {
                         setSuccessMsg("");
@@ -170,7 +170,7 @@ export default function AddNewCategory() {
                     await router.push("/admin-dashboard/login");
                     return;
                 }
-                setIsAddingStatus(false);
+                setWaitMsg("");
                 setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
                 let errorTimeout = setTimeout(() => {
                     setErrorMsg("");
@@ -246,8 +246,8 @@ export default function AddNewCategory() {
                                 onChange={(e) => setStyleImageFile(e.target.files[0])}
                             />
                             {formValidationErrors["styleImageFile"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["styleImageFile"]}</p>}
-                            {!isAddingStatus && !errorMsg && !successMsg && <button type="submit" className="btn btn-success w-100 d-block mx-auto">Add Now</button>}
-                            {isAddingStatus && <button type="submit" className="btn btn-warning w-100 d-block mx-auto" disabled>Adding Now ...</button>}
+                            {!waitMsg && !errorMsg && !successMsg && <button type="submit" className="btn btn-success w-100 d-block mx-auto">Add Now</button>}
+                            {waitMsg && <button type="submit" className="btn btn-warning w-100 d-block mx-auto" disabled>{waitMsg}</button>}
                             {errorMsg && <button type="submit" className="btn btn-danger w-100 d-block mx-auto" disabled>{errorMsg}</button>}
                             {successMsg && <button type="submit" className="btn btn-success w-100 d-block mx-auto" disabled>{successMsg}</button>}
                         </form>
