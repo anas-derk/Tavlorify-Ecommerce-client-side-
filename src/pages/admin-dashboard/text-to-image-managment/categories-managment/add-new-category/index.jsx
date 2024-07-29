@@ -66,7 +66,7 @@ export default function AddNewCategory() {
         try {
             e.preventDefault();
             setFormValidationErrors({});
-            let errorsObject = inputValuesValidation([
+            const errorsObject = inputValuesValidation([
                 {
                     name: "categoryName",
                     value: categoryName,
