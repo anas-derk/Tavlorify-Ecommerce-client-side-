@@ -160,6 +160,7 @@ export default function AddNewCategory() {
                 formData.append("styleNegativePrompt", styleNegativePrompt);
                 formData.append("ddim_steps", ddimSteps);
                 formData.append("strength", strength);
+                formData.append("service", "image-to-image");
                 formData.append("styleImgFile", styleImageFile);
                 const res = await axios.post(`${process.env.BASE_API_URL}/image-to-image/categories/add-new-category`, formData, {
                     headers: {

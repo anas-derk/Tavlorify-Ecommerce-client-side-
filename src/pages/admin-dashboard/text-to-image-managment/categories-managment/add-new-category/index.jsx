@@ -147,6 +147,7 @@ export default function AddNewCategory() {
             formData.append("stylePrompt", stylePrompt);
             formData.append("styleNegativePrompt", styleNegativePrompt);
             formData.append("modelName", modelName);
+            formData.append("service", "text-to-image");
             formData.append("styleImgFile", styleImageFile);
             try {
                 const res = await axios.post(`${process.env.BASE_API_URL}/text-to-image/categories/add-new-category`, formData, {
@@ -154,7 +155,7 @@ export default function AddNewCategory() {
                         Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                     }
                 });
-                const result = await res.data;
+                const result = res.data;
                 setWaitMsg("");
                 if (!result.error) {
                     setSuccessMsg(result.msg);

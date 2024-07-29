@@ -61,7 +61,7 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
         try {
             setWaitMsg("Please Wait Updating ...");
             setSelectedCategoryIndex(categoryIndex);
-            const res = await axios.put(`${process.env.BASE_API_URL}/${pageName}/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
+            const res = await axios.put(`${process.env.BASE_API_URL}/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
                 newCategorySortNumber: categoriesData[categoryIndex].sortNumber,
                 newCategoryName: categoriesData[categoryIndex].name,
             }, {
@@ -107,7 +107,7 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
         try {
             setWaitMsg("Please Wait Deleting ...");
             setSelectedCategoryIndex(categoryIndex);
-            const res = await axios.delete(`${process.env.BASE_API_URL}/${pageName}/categories/delete-category-data/${categoriesData[categoryIndex]._id}`, {
+            const res = await axios.delete(`${process.env.BASE_API_URL}/categories/delete-category-data/${categoriesData[categoryIndex]._id}`, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
