@@ -63,92 +63,92 @@ export default function AddNewCategory() {
     }, []);
 
     const addNewCategory = async (e) => {
-        e.preventDefault();
-        setFormValidationErrors({});
-        let errorsObject = inputValuesValidation([
-            {
-                name: "categoryName",
-                value: categoryName,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't Be Field Is Empty !!",
+        try {
+            e.preventDefault();
+            setFormValidationErrors({});
+            let errorsObject = inputValuesValidation([
+                {
+                    name: "categoryName",
+                    value: categoryName,
+                    rules: {
+                        isRequired: {
+                            msg: "Sorry, Can't Be Field Is Empty !!",
+                        },
                     },
                 },
-            },
-            {
-                name: "categoryImageFile",
-                value: categoryImageFile,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't Be Field Is Empty !!",
-                    },
-                    isImage: {
-                        msg: "عذراً ، يجب أن يكون الملف أو الملفات صور من امتداد png أو jpg !!"
-                    },
-                },
-            },
-            {
-                name: "styleName",
-                value: styleName,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't Be Field Is Empty !!",
+                {
+                    name: "categoryImageFile",
+                    value: categoryImageFile,
+                    rules: {
+                        isRequired: {
+                            msg: "Sorry, Can't Be Field Is Empty !!",
+                        },
+                        isImage: {
+                            msg: "عذراً ، يجب أن يكون الملف أو الملفات صور من امتداد png أو jpg !!"
+                        },
                     },
                 },
-            },
-            {
-                name: "stylePrompt",
-                value: stylePrompt,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't Be Field Is Empty !!",
+                {
+                    name: "styleName",
+                    value: styleName,
+                    rules: {
+                        isRequired: {
+                            msg: "Sorry, Can't Be Field Is Empty !!",
+                        },
                     },
                 },
-            },
-            {
-                name: "styleNegativePrompt",
-                value: styleNegativePrompt,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't Be Field Is Empty !!",
+                {
+                    name: "stylePrompt",
+                    value: stylePrompt,
+                    rules: {
+                        isRequired: {
+                            msg: "Sorry, Can't Be Field Is Empty !!",
+                        },
                     },
                 },
-            },
-            {
-                name: "modelName",
-                value: modelName,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't Be Field Is Empty !!",
+                {
+                    name: "styleNegativePrompt",
+                    value: styleNegativePrompt,
+                    rules: {
+                        isRequired: {
+                            msg: "Sorry, Can't Be Field Is Empty !!",
+                        },
                     },
                 },
-            },
-            {
-                name: "styleImageFile",
-                value: styleImageFile,
-                rules: {
-                    isRequired: {
-                        msg: "Sorry, Can't Be Field Is Empty !!",
-                    },
-                    isImage: {
-                        msg: "عذراً ، يجب أن يكون الملف أو الملفات صور من امتداد png أو jpg !!"
+                {
+                    name: "modelName",
+                    value: modelName,
+                    rules: {
+                        isRequired: {
+                            msg: "Sorry, Can't Be Field Is Empty !!",
+                        },
                     },
                 },
-            },
-        ]);
-        setFormValidationErrors(errorsObject);
-        if (Object.keys(errorsObject).length == 0) {
-            setWaitMsg("Please Wait Adding Category ...");
-            let formData = new FormData();
-            formData.append("categoryName", categoryName);
-            formData.append("categoryImgFile", categoryImageFile);
-            formData.append("styleName", styleName);
-            formData.append("stylePrompt", stylePrompt);
-            formData.append("styleNegativePrompt", styleNegativePrompt);
-            formData.append("modelName", modelName);
-            formData.append("service", "text-to-image");
-            formData.append("styleImgFile", styleImageFile);
-            try {
+                {
+                    name: "styleImageFile",
+                    value: styleImageFile,
+                    rules: {
+                        isRequired: {
+                            msg: "Sorry, Can't Be Field Is Empty !!",
+                        },
+                        isImage: {
+                            msg: "عذراً ، يجب أن يكون الملف أو الملفات صور من امتداد png أو jpg !!"
+                        },
+                    },
+                },
+            ]);
+            setFormValidationErrors(errorsObject);
+            if (Object.keys(errorsObject).length == 0) {
+                setWaitMsg("Please Wait Adding Category ...");
+                let formData = new FormData();
+                formData.append("categoryName", categoryName);
+                formData.append("categoryImgFile", categoryImageFile);
+                formData.append("styleName", styleName);
+                formData.append("stylePrompt", stylePrompt);
+                formData.append("styleNegativePrompt", styleNegativePrompt);
+                formData.append("modelName", modelName);
+                formData.append("service", "text-to-image");
+                formData.append("styleImgFile", styleImageFile);
                 const result = await addNewCategoryToService(formData);
                 setWaitMsg("");
                 if (!result.error) {
@@ -159,19 +159,19 @@ export default function AddNewCategory() {
                     }, 2000);
                 }
             }
-            catch (err) {
-                if (err?.response?.data?.msg === "Unauthorized Error") {
-                    localStorage.removeItem("tavlorify-store-admin-user-token");
-                    await router.push("/admin-dashboard/login");
-                    return;
-                }
-                setWaitMsg("");
-                setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
-                let errorTimeout = setTimeout(() => {
-                    setErrorMsg("");
-                    clearTimeout(errorTimeout);
-                }, 2000);
+        }
+        catch (err) {
+            if (err?.response?.data?.msg === "Unauthorized Error") {
+                localStorage.removeItem("tavlorify-store-admin-user-token");
+                await router.push("/admin-dashboard/login");
+                return;
             }
+            setWaitMsg("");
+            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
+            let errorTimeout = setTimeout(() => {
+                setErrorMsg("");
+                clearTimeout(errorTimeout);
+            }, 2000);
         }
     }
 
