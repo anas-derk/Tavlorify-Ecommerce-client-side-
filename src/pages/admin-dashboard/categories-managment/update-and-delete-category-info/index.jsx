@@ -41,6 +41,7 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
                     }
                 })
                 .catch(async (err) => {
+                    console.log(err);
                     if (err?.response?.data?.msg === "Unauthorized Error") {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         await router.replace("/admin-dashboard/login");
