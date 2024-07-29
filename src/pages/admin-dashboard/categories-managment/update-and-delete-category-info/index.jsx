@@ -62,7 +62,7 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
         try {
             setWaitMsg("Please Wait Updating ...");
             setSelectedCategoryIndex(categoryIndex);
-            const res = await axios.put(`${process.env.BASE_API_URL}/categories/update-category-data/${categoriesData[categoryIndex]._id}`, {
+            const res = await axios.put(`${process.env.BASE_API_URL}/categories/update-category-data/${categoriesData[categoryIndex]._id}?service=${pageName}`, {
                 newCategorySortNumber: categoriesData[categoryIndex].sortNumber,
                 newCategoryName: categoriesData[categoryIndex].name,
             }, {
