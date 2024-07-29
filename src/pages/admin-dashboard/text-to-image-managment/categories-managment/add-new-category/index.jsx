@@ -1,12 +1,11 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { inputValuesValidation } from "../../../../../../public/global_functions/validations";
 import { useRouter } from "next/router";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
-import { getAdminInfo } from "../../../../../../public/global_functions/popular";
+import { addNewCategoryToService, getAdminInfo } from "../../../../../../public/global_functions/popular";
 
 export default function AddNewCategory() {
 
@@ -150,12 +149,7 @@ export default function AddNewCategory() {
             formData.append("service", "text-to-image");
             formData.append("styleImgFile", styleImageFile);
             try {
-                const res = await axios.post(`${process.env.BASE_API_URL}/text-to-image/categories/add-new-category`, formData, {
-                    headers: {
-                        Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
-                    }
-                });
-                const result = res.data;
+                const result = await addNewCategoryToService(formData);
                 setWaitMsg("");
                 if (!result.error) {
                     setSuccessMsg(result.msg);

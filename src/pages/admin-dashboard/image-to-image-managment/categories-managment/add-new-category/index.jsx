@@ -1,12 +1,11 @@
 import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { inputValuesValidation } from "../../../../../../public/global_functions/validations";
 import { useRouter } from "next/router";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
-import { getAdminInfo } from "../../../../../../public/global_functions/popular";
+import { addNewCategoryToService, getAdminInfo } from "../../../../../../public/global_functions/popular";
 
 export default function AddNewCategory() {
 
@@ -162,12 +161,7 @@ export default function AddNewCategory() {
                 formData.append("strength", strength);
                 formData.append("service", "image-to-image");
                 formData.append("styleImgFile", styleImageFile);
-                const res = await axios.post(`${process.env.BASE_API_URL}/image-to-image/categories/add-new-category`, formData, {
-                    headers: {
-                        Authorization: localStorage.getItem("tavlorify-store-admin-user-token")
-                    }
-                });
-                const result = res.data;
+                const result = await addNewCategoryToService(formData);
                 setWaitMsg("");
                 if (!result.error) {
                     setSuccessMsg(result.msg);
@@ -182,7 +176,7 @@ export default function AddNewCategory() {
         }
         catch (err) {
             if (err?.response?.data?.msg === "Unauthorized Error") {
-                localStorage.removeItem("tavlorify-store-admin-user-token");
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                 await router.push("/admin-dashboard/login");
                 return;
             }

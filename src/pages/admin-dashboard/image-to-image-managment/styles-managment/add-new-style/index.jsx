@@ -6,9 +6,9 @@ import validations from "../../../../../../public/global_functions/validations";
 import { useRouter } from "next/router";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
-import { getAdminInfo, getAllCategoriesForService } from "../../../../../../public/global_functions/popular";
+import { addNewStyleToCategoryInSpecificService, getAdminInfo, getAllCategoriesForService } from "../../../../../../public/global_functions/popular";
 
-export default function AddNewCategoryStyle() {
+export default function AddNewStyle() {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
@@ -66,7 +66,7 @@ export default function AddNewCategoryStyle() {
         } else router.replace("/admin-dashboard/login");
     }, []);
 
-    const addNewCategoryStyle = async (e) => {
+    const addNewStyle = async (e) => {
         e.preventDefault();
         setFormValidationErrors({});
         const errorsObject = inputValuesValidation([
@@ -146,21 +146,23 @@ export default function AddNewCategoryStyle() {
             formData.append("styleNegativePrompt", styleNegativePrompt);
             formData.append("ddim_steps", ddimSteps);
             formData.append("strength", strength);
+            formData.append("service", "image-to-image");
             formData.append("styleImgFile", styleImageFile);
-            setWaitMsg("");
+            setWaitMsg("Please Wait To Adding New Style ...");
             try {
-                const res = await axios.post(`${process.env.BASE_API_URL}/image-to-image/styles/add-new-style`, formData, {
-                    headers: {
-                        Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
-                    }
-                });
-                const result = res.data;
-                setWaitMsg(false);
+                const result = await addNewStyleToCategoryInSpecificService(formData);
+                setWaitMsg("");
                 if (!result.error) {
                     setSuccessMsg(result.msg);
                     let successTimeout = setTimeout(() => {
                         setSuccessMsg("");
                         clearTimeout(successTimeout);
+                    }, 2000);
+                } else {
+                    setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
+                    let errorTimeout = setTimeout(() => {
+                        setErrorMsg("");
+                        clearTimeout(errorTimeout);
                     }, 2000);
                 }
             }
@@ -190,7 +192,7 @@ export default function AddNewCategoryStyle() {
                 <div className="content text-center pt-4 pb-4">
                     <div className="container-fluid">
                         <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Hello To You In Add New Category Style Page For Image To Image</h1>
-                        <form className="add-new-category-form w-50 mx-auto mb-4" onSubmit={addNewCategoryStyle}>
+                        <form className="add-new-category-form w-50 mx-auto mb-4" onSubmit={addNewStyle}>
                             <select
                                 className={`form-control p-2 ${formValidationErrors["categoryName"] ? "border border-danger mb-2" : "mb-4"}`}
                                 onChange={(e) => { setCategoryName(e.target.value.trim()); }}
@@ -252,7 +254,7 @@ export default function AddNewCategoryStyle() {
                 </div>
             </>}
             {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
-            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage/>}
+            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
         </div>
     );
 }

@@ -8,7 +8,7 @@ import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import LoaderPage from "@/components/LoaderPage";
 import { getAdminInfo } from "../../../../../../public/global_functions/popular";
 
-export default function AddNewCategoryStyle() {
+export default function addNewStyle() {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
@@ -75,7 +75,7 @@ export default function AddNewCategoryStyle() {
         }
     }
 
-    const addNewCategoryStyle = async (e) => {
+    const addNewStyle = async (e) => {
         try {
             e.preventDefault();
             setFormValidationErrors({});
@@ -197,7 +197,7 @@ export default function AddNewCategoryStyle() {
                 <div className="content text-center pt-4 pb-4">
                     <div className="container-fluid">
                         <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Hello To You In Add New Category Style Page For Face Swap</h1>
-                        <form className="add-new-style-form w-50 mx-auto mb-4" onSubmit={addNewCategoryStyle}>
+                        <form className="add-new-style-form w-50 mx-auto mb-4" onSubmit={addNewStyle}>
                             <select
                                 className={`form-control p-2 ${formValidationErrors["categoryName"] ? "border border-danger mb-2" : "mb-4"}`}
                                 onChange={(e) => setCategoryName(e.target.value)}
