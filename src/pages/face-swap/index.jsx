@@ -591,7 +591,7 @@ export default function FaceSwap({
             });
             setIsWaitStatus(true);
             const res = await axios.get(
-                `${process.env.BASE_API_URL}/face-swap/generate-image?service=face-swap&imageLink=${imageLink}&styleImageLink=${getSuitableStyleImageLink(imageType)}`);
+                `${process.env.BASE_API_URL}/generated-images/generate-image-using-text-to-image-service?imageLink=${imageLink}&styleImageLink=${getSuitableStyleImageLink(imageType)}`);
             const result = await res.data;
             const imageURL = `${process.env.BASE_API_URL}/${result.data}`;
             setTempImageType(imageType);
