@@ -1078,11 +1078,11 @@ a {
   line-height: 1.7;
 }
 
-.loader-table-box {
+.table-loader-box {
   height: 200px;
 }
 
-.loader-table-data {
+.table-loader-data {
   width: 48px;
   height: 48px;
   border: 5px dotted #000;

@@ -8,6 +8,7 @@ import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import PaginationBar from "@/components/PaginationBar";
 import { getAdminInfo } from "../../../../public/global_functions/popular";
+import TableLoader from "@/components/TableLoader";
 
 export default function OrdersManagment({ ordersType }) {
 
@@ -495,9 +496,7 @@ export default function OrdersManagment({ ordersType }) {
                                 </table>
                             </section>}
                             {allOrdersInsideThePage.length === 0 && !isFilteringOrdersStatus && <p className="alert alert-danger">Sorry, Can't Find Any Orders !!</p>}
-                            {isFilteringOrdersStatus && <div className="loader-table-box d-flex flex-column align-items-center justify-content-center">
-                                <span className="loader-table-data"></span>
-                            </div>}
+                            {isFilteringOrdersStatus && <TableLoader />}
                         </div>
                         {totalPagesCount > 1 && !isFilteringOrdersStatus &&
                             <PaginationBar

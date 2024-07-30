@@ -6,6 +6,7 @@ import ControlPanelHeader from "@/components/ControlPanelHeader";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import { getAllCategoriesForService, getAdminInfo, getStylesForCategoryInService } from "../../../../../public/global_functions/popular";
+import TableLoader from "@/components/TableLoader";
 
 export default function UpdateCategoryStyleInfo({ pageName }) {
 
@@ -396,9 +397,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                             </table>
                         </div>}
                         {categoryStylesData.length === 0 && !isGetCategoryStyles && <p className="alert alert-danger w-75 mx-auto">Sorry, Can't Find Any Style For This Category !!</p>}
-                        {isGetCategoryStyles && <div className="loader-table-box d-flex flex-column align-items-center justify-content-center">
-                            <span className="loader-table-data"></span>
-                        </div>}
+                        {isGetCategoryStyles && <TableLoader />}
                     </div>
                 </div>
             </>}
