@@ -97,18 +97,18 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
             try {
                 let formData = new FormData();
                 formData.append("styleImage", files[styleIndex]);
-                const result = await axios.put(`${process.env.BASE_API_URL}/admins/update-style-image?service=${pageName}&styleId=${categoryStylesData[styleIndex]._id}`, formData, {
+                const result = (await axios.put(`${process.env.BASE_API_URL}/styles/update-style-image?service=${pageName}&styleId=${categoryStylesData[styleIndex]._id}`, formData, {
                     headers: {
                         Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                     }
-                });
+                })).data;
                 if (!result.error) {
                     setWaitChangeStyleImageMsg("");
                     setSuccessChangeStyleImageMsg("Change Image Successfull !!");
                     let successTimeout = setTimeout(async () => {
                         setSuccessChangeStyleImageMsg("");
                         setSelectedStyleImageIndex(-1);
-                        await getCategoryStyles();
+                        categoryStylesData[styleIndex].imgSrc = result.data.newImagePath;
                         clearTimeout(successTimeout);
                     }, 1500);
                 }
@@ -192,6 +192,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                 let successTimeout = setTimeout(async () => {
                     setSuccessMsg("");
                     setSelectedStyleIndex(-1);
+                    setCategoryStylesData(categoryStylesData.filter((style, index) => index !== styleIndex));
                     clearTimeout(successTimeout);
                 }, 1500);
             } else {
