@@ -86,7 +86,11 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
             setisGetCategoryStyles(false);
         }
         catch (err) {
-            throw err;
+            setErrorMsg("Sorry, Someting Went Wrong, Please Repeate The Process !!");
+            let errorTimeout = setTimeout(() => {
+                setErrorMsg("");
+                clearTimeout(errorTimeout);
+            }, 1500);
         }
     }
 
@@ -240,7 +244,8 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                     <option value={categoryName} key={categoryName}>{category.name}</option>
                                 ))}
                             </select>
-                            <button type="button" className="btn btn-success" onClick={getCategoryStyles}>Get Styles Data For This Category</button>
+                            {!isGetCategoryStyles && <button className="btn btn-success" onClick={getCategoryStyles}>Get Styles Data For This Category</button>}
+                            {isGetCategoryStyles && <button className="btn btn-success" disabled>Please Wait For Getting Styles Data For This Category ...</button>}
                         </form>
                         {isGetCategoryStyles && <span className="loader"></span>}
                         {categoryStylesData.length > 0 && !isGetCategoryStyles && <div className="categories-and-styles-box p-3 data-box">
