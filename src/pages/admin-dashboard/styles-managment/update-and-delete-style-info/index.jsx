@@ -140,9 +140,9 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                 newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
                 newModelName: categoryStylesData[styleIndex].modelName,
                 ...(pageName === "image-to-image" && {
-                        newDdimSteps: categoryStylesData[styleIndex].ddim_steps,
-                        newStrength: categoryStylesData[styleIndex].strength,
-                    }
+                    newDdimSteps: categoryStylesData[styleIndex].ddim_steps,
+                    newStrength: categoryStylesData[styleIndex].strength,
+                }
                 )
             }, {
                 headers: {
@@ -181,13 +181,13 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
         try {
             setWaitMsg("Please Wait Deleting ...");
             setSelectedStyleIndex(styleIndex);
-            const result = await axios.delete(`${process.env.BASE_API_URL}/${pageName}/styles/delete-style-data/${categoryStylesData[styleIndex]._id}?categoryName=${categoryStylesData[styleIndex].categoryName}`, {
+            const result = await axios.delete(`${process.env.BASE_API_URL}/styles/delete-style-data/${categoryStylesData[styleIndex]._id}`, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             });
+            setWaitMsg("");
             if (!result.error) {
-                setWaitMsg("");
                 setSuccessMsg("Updating Successfull !!");
                 let successTimeout = setTimeout(async () => {
                     setSuccessMsg("");
@@ -195,7 +195,12 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                     clearTimeout(successTimeout);
                 }, 1500);
             } else {
-                setSelectedStyleIndex(-1);
+                setErrorMsg("Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedStyleIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
             }
         }
         catch (err) {
