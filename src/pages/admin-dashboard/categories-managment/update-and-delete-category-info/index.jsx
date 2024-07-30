@@ -113,9 +113,8 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             });
-            const result = res.data;
             setWaitMsg("");
-            if (!result.error) {
+            if (!res.data.error) {
                 setSuccessMsg("Deleting Successfull !!");
                 let successTimeout = setTimeout(() => {
                     setSuccessMsg("");
