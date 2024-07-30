@@ -79,10 +79,10 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
         setFiles(styleFiles);
     }
 
-    const getCategoryStyles = async (categoryName) => {
+    const getCategoryStyles = async () => {
         try {
             setisGetCategoryStyles(true);
-            setCategoryStylesData((await getStylesForCategoryInService(categoryName, pageName)).data);
+            setCategoryStylesData((await getStylesForCategoryInService(pageName, categoriesData[selectedCategoryIndex].name)).data);
             setisGetCategoryStyles(false);
         }
         catch (err) {
@@ -236,14 +236,14 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                 setSelectedCategoryIndex(parseInt(e.target.value));
                             }}>
                                 <option defaultValue="" hidden>Select The Category</option>
-                                {categoriesData.map((category, index) => (
-                                    <option value={index} key={index}>{category.name}</option>
+                                {categoriesData.map((category, categoryName) => (
+                                    <option value={categoryName} key={categoryName}>{category.name}</option>
                                 ))}
                             </select>
-                            <button type="button" className="btn btn-success" onClick={() => getCategoryStyles(categoriesData[selectedCategoryIndex].name)}>Get Styles Data For This Category</button>
+                            <button type="button" className="btn btn-success" onClick={getCategoryStyles}>Get Styles Data For This Category</button>
                         </form>
                         {isGetCategoryStyles && <span className="loader"></span>}
-                        {categoryStylesData.length > 0 && !isGetCategoryStyles ? <div className="categories-and-styles-box p-3 data-box">
+                        {categoryStylesData.length > 0 && !isGetCategoryStyles && <div className="categories-and-styles-box p-3 data-box">
                             <table className="categories-and-styles-table mb-4 data-table long-width-table">
                                 <thead>
                                     <tr>
@@ -389,7 +389,11 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                     ))}
                                 </tbody>
                             </table>
-                        </div> : <p className="alert alert-danger w-75 mx-auto">Sorry, Can't Find Any Style For This Category !!</p>}
+                        </div>}
+                        {categoryStylesData.length === 0 && !isGetCategoryStyles && <p className="alert alert-danger w-75 mx-auto">Sorry, Can't Find Any Style For This Category !!</p>}
+                        {isGetCategoryStyles && <div className="loader-table-box d-flex flex-column align-items-center justify-content-center">
+                            <span className="loader-table-data"></span>
+                        </div>}
                     </div>
                 </div>
             </>}

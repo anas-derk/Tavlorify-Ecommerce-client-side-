@@ -56,7 +56,7 @@ async function addNewStyleToCategoryInSpecificService(styleData) {
     }
 }
 
-const getStylesForCategoryInService = async (categoryName, serviceName) => {
+const getStylesForCategoryInService = async (serviceName, categoryName) => {
     try {
         return (await axios.get(`${process.env.BASE_API_URL}/styles/all-styles-data?service=${serviceName}&categoryName=${categoryName}`)).data;
     }
