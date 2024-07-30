@@ -70,6 +70,7 @@ import InspirationImage7ForTextToImage from "@/../public/images/Inspiration/Text
 import InspirationImage8ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/8.webp";
 import CustomersComments from "@/components/CustomersComments";
 import WaitGeneratingImage from "@/components/WaitGeneratingImage";
+import { getAllCategoriesForService, getStylesForCategoryInService } from "../../../public/global_functions/popular";
 
 export default function TextToImage({
     generatedImageId,
@@ -329,10 +330,10 @@ export default function TextToImage({
 
     useEffect(() => {
         setIsLoadingPage(true);
-        getAllText2ImageCategoriesData()
+        getAllCategoriesForService("text-to-image")
             .then(async (result) => {
                 setCategoriesData(result.data);
-                result = await getAllText2ImageCategoryStylesData(result.data, 0);
+                result = await getStylesForCategoryInService("text-to-image", result.data[0].name);
                 setCategoryStyles(result.data);
                 const tempModelName = result.data[0].modelName;
                 setModelName(tempModelName);
@@ -345,31 +346,10 @@ export default function TextToImage({
                 setIsLoadingPage(false);
             })
             .catch((err) => {
-                console.log(err)
                 setIsLoadingPage(false);
                 setIsErrorMsgOnLoadingThePage(true);
             });
     }, [generatedImageId, paintingTypeAsQuery]);
-
-    const getAllText2ImageCategoriesData = async () => {
-        try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/categories/all-categories-data`);
-            return res.data;
-        }
-        catch (err) {
-            throw Error(err);
-        }
-    }
-
-    const getAllText2ImageCategoryStylesData = async (categoriesData, categorySelectedIndex) => {
-        try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/text-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
-            return res.data;
-        }
-        catch (err) {
-            throw Error(err);
-        }
-    }
 
     const handleSelectProduct = async (productData) => {
         try {
@@ -450,7 +430,7 @@ export default function TextToImage({
         try {
             if (!isWaitStatus) {
                 setCategorySelectedIndex(categoryIndex);
-                const result = await getAllText2ImageCategoryStylesData(categoriesData, categoryIndex);
+                const result = await getStylesForCategoryInService("text-to-image", categoriesData[categoryIndex].name);
                 setCategoryStyles(result.data);
                 setStyleSelectedIndex(0);
                 const tempModelName = result.data[0].modelName;
@@ -604,7 +584,7 @@ export default function TextToImage({
         }
     }
 
-    const generatedImageWithAI = async (e) => {
+    const generateImageFromText = async (e) => {
         try {
             e.preventDefault();
             window.scrollTo({
@@ -1167,7 +1147,7 @@ export default function TextToImage({
                                         </ul>
                                         {/* End Positions List */}
                                         {!isWaitStatus && !errorMsg &&
-                                            <button className="btn btn-dark w-50 d-block mx-auto generate-image-btn mb-3" onClick={generatedImageWithAI}>SKAPA DIN KONST</button>
+                                            <button className="btn btn-dark w-50 d-block mx-auto generate-image-btn mb-3" onClick={generateImageFromText}>SKAPA DIN KONST</button>
                                         }
                                         {isWaitStatus && <button className="btn btn-dark w-50 d-block mx-auto mb-3" disabled>skapar ...</button>}
                                         {/* Start Art Names List */}

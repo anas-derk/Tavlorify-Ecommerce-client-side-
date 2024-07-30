@@ -76,6 +76,7 @@ import InspirationImage7ForImageToImage from "@/../public/images/Inspiration/Ima
 import InspirationImage8ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/8.webp";
 import CustomersComments from "@/components/CustomersComments";
 import WaitGeneratingImage from "@/components/WaitGeneratingImage";
+import { getAllCategoriesForService, getStylesForCategoryInService } from "../../../public/global_functions/popular";
 
 export default function ImageToImage({
     generatedImageId,
@@ -98,7 +99,7 @@ export default function ImageToImage({
 
     const [categorySelectedIndex, setCategorySelectedIndex] = useState(0);
 
-    const [styleSelectedIndex, setStyleSelectedIndex] = useState(0);
+    const [selectedStyleIndex, setSelectedStyleIndex] = useState(0);
 
     const [modelName, setModelName] = useState("");
 
@@ -351,10 +352,10 @@ export default function ImageToImage({
 
     useEffect(() => {
         setIsLoadingPage(true);
-        getAllImage2ImageCategoriesData()
+        getAllCategoriesForService("image-to-image")
             .then(async (result) => {
                 setCategoriesData(result.data);
-                result = await getAllImage2ImageCategoryStylesData(result.data, 0);
+                result = await getStylesForCategoryInService("image-to-image", result.data[0].name);
                 setCategoryStyles(result.data);
                 const tempModelName = result.data[0].modelName;
                 setModelName(tempModelName);
@@ -371,26 +372,6 @@ export default function ImageToImage({
                 setIsErrorMsgOnLoadingThePage(true);
             });
     }, [generatedImageId, paintingTypeAsQuery]);
-
-    const getAllImage2ImageCategoriesData = async () => {
-        try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/categories/all-categories-data`);
-            return res.data;
-        }
-        catch (err) {
-            throw Error(err.response.data);
-        }
-    }
-
-    const getAllImage2ImageCategoryStylesData = async (categoriesData, categorySelectedIndex) => {
-        try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[categorySelectedIndex].name}`);
-            return res.data;
-        }
-        catch (err) {
-            throw Error(err.response.data);
-        }
-    }
 
     const handleSelectProduct = async (productData) => {
         try {
@@ -496,15 +477,14 @@ export default function ImageToImage({
         setImageLink("");
     }
 
-    const handleSelectCategory = async (index) => {
+    const handleSelectCategory = async (categoryIndex) => {
         try {
             if (!isWaitStatus) {
-                setCategorySelectedIndex(index);
-                const res = await axios.get(`${process.env.BASE_API_URL}/image-to-image/styles/category-styles-data?categoryName=${categoriesData[index].name}`);
-                const result = res.data;
-                setCategoryStyles(result.data);
-                setStyleSelectedIndex(0);
-                setModelName(result.data[0].modelName);
+                setCategorySelectedIndex(categoryIndex);
+                const data = (await getStylesForCategoryInService("image-to-image", categoriesData[categoryIndex].name)).data;
+                setCategoryStyles(data);
+                setSelectedStyleIndex(0);
+                setModelName(data[0].modelName);
             }
         }
         catch (err) {
@@ -514,7 +494,7 @@ export default function ImageToImage({
 
     const handleSelectStyle = (index) => {
         if (!isWaitStatus) {
-            setStyleSelectedIndex(index);
+            setSelectedStyleIndex(index);
             let tempModelName = categoryStyles[index].modelName;
             setModelName(tempModelName);
         }
@@ -671,7 +651,7 @@ export default function ImageToImage({
                 left: 0,
             });
             setIsWaitStatus(true);
-            const res = await axios.get(`${process.env.BASE_API_URL}/generated-images/generate-image-using-image-to-image-service?imageLink=${imageLink}&prompt=${categoryStyles[styleSelectedIndex].prompt}&n_prompt=${categoryStyles[styleSelectedIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[styleSelectedIndex].ddim_steps}&strength=${categoryStyles[styleSelectedIndex].strength}&service=image-to-image&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/generated-images/generate-image-using-image-to-image-service?imageLink=${imageLink}&prompt=${categoryStyles[selectedStyleIndex].prompt}&n_prompt=${categoryStyles[selectedStyleIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[selectedStyleIndex].ddim_steps}&strength=${categoryStyles[selectedStyleIndex].strength}&service=image-to-image&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[selectedStyleIndex].name}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`);
             const result = res.data;
             const imageURL = `${process.env.BASE_API_URL}/${result.data}`;
             let image = new Image();
@@ -691,7 +671,7 @@ export default function ImageToImage({
                     service: "image-to-image",
                     uploadedImageURL: imageLink,
                     categoryName: categoriesData[categorySelectedIndex].name,
-                    styleName: categoryStyles[styleSelectedIndex].name,
+                    styleName: categoryStyles[selectedStyleIndex].name,
                     paintingType: paintingType,
                     position: imageOrientation,
                     size: tempDimentionsInCm,
@@ -1412,16 +1392,16 @@ export default function ImageToImage({
                                                 className="mb-2"
                                             >
                                                 {/* Start Category Box */}
-                                                {categoriesData.map((category, index) => (
+                                                {categoriesData.map((category, categoryIndex) => (
                                                     <div
                                                         className="category-box p-2 text-center"
-                                                        onClick={() => handleSelectCategory(index)}
-                                                        key={index}
+                                                        onClick={() => handleSelectCategory(categoryIndex)}
+                                                        key={categoryIndex}
                                                     >
                                                         <img
                                                             src={`${process.env.BASE_API_URL}/${category.imgSrc}`}
                                                             alt={`${category.name} Image`} className="mb-2 category-image d-block mx-auto"
-                                                            style={index === categorySelectedIndex ? { border: "4px solid #000" } : {}}
+                                                            style={categoryIndex === categorySelectedIndex ? { border: "4px solid #000" } : {}}
                                                             onDragStart={(e) => e.preventDefault()}
                                                         />
                                                         <p className="category-name m-0 text-center">{category.name}</p>
@@ -1451,16 +1431,16 @@ export default function ImageToImage({
                                                 className="mb-2"
                                             >
                                                 {/* Start Style Box */}
-                                                {categoryStyles.map((style, index) => (
+                                                {categoryStyles.map((style, styleIndex) => (
                                                     <div
                                                         className="style-box p-2 text-center"
-                                                        onClick={() => handleSelectStyle(index)}
-                                                        key={index}
+                                                        onClick={() => handleSelectStyle(styleIndex)}
+                                                        key={styleIndex}
                                                     >
                                                         <img
                                                             src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
                                                             alt={`${style.name} Image`} className="mb-2 style-image d-block mx-auto"
-                                                            style={index === styleSelectedIndex ? { border: "4px solid #000" } : {}}
+                                                            style={styleIndex === selectedStyleIndex ? { border: "4px solid #000" } : {}}
                                                             onDragStart={(e) => e.preventDefault()}
                                                         />
                                                         <p className="style-name m-0 text-center">{style.name}</p>
