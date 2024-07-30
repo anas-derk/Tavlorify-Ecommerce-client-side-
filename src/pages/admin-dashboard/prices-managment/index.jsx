@@ -163,7 +163,7 @@ export default function ProductPrices({ productName }) {
                                             <td>
                                                 {selectedProductPriceIndex !== productIndex && <button
                                                     className="btn btn-danger d-block mx-auto mb-3"
-                                                    onClick={() => updateProductPrice(productPriceIndex)}
+                                                    onClick={() => updateProductPrice(productIndex)}
                                                 >
                                                     Update
                                                 </button>}
