@@ -14,7 +14,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
 
     const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
 
-    const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(-1);
+    const [categoryName, setCategoryName] = useState("");
 
     const [isGetCategoryStyles, setisGetCategoryStyles] = useState(false);
 
@@ -80,10 +80,12 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
         setFiles(styleFiles);
     }
 
-    const getCategoryStyles = async () => {
+    const getCategoryStyles = async (categoryName) => {
         try {
+            console.log(categoryName)
+            setCategoryName(categoryName);
             setisGetCategoryStyles(true);
-            setCategoryStylesData((await getStylesForCategoryInService(pageName, categoriesData[selectedCategoryIndex].name)).data);
+            setCategoryStylesData((await getStylesForCategoryInService(pageName, categoryName)).data);
             setisGetCategoryStyles(false);
         }
         catch (err) {
@@ -237,18 +239,13 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                         <h1 className="welcome-msg mb-4 fw-bold mx-auto pb-3">Update And Delete Category Styles Info For {pageName} Page</h1>
                         <h6 className="mb-3 text-center fw-bold">Please Select The Category</h6>
                         <form className="select-category-form mb-2 text-center">
-                            <select className="form-control w-50 mx-auto mb-3" onChange={(e) => {
-                                setSelectedCategoryIndex(parseInt(e.target.value));
-                            }}>
+                            <select className="form-control w-50 mx-auto mb-3" onChange={(e) => getCategoryStyles(e.target.value)}>
                                 <option defaultValue="" hidden>Select The Category</option>
-                                {categoriesData.map((category, categoryName) => (
-                                    <option value={categoryName} key={categoryName}>{category.name}</option>
+                                {categoriesData.map((category, categoryIndex) => (
+                                    <option value={category.name} key={categoryIndex}>{category.name}</option>
                                 ))}
                             </select>
-                            {!isGetCategoryStyles && <button className="btn btn-success" onClick={getCategoryStyles}>Get Styles Data For This Category</button>}
-                            {isGetCategoryStyles && <button className="btn btn-success" disabled>Please Wait For Getting Styles Data For This Category ...</button>}
                         </form>
-                        {isGetCategoryStyles && <span className="loader"></span>}
                         {categoryStylesData.length > 0 && !isGetCategoryStyles && <div className="categories-and-styles-box p-3 data-box">
                             <table className="categories-and-styles-table mb-4 data-table long-width-table">
                                 <thead>
@@ -396,7 +393,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                 </tbody>
                             </table>
                         </div>}
-                        {categoryStylesData.length === 0 && !isGetCategoryStyles && <p className="alert alert-danger w-75 mx-auto">Sorry, Can't Find Any Style For This Category !!</p>}
+                        {categoryStylesData.length === 0 && !isGetCategoryStyles && categoryName && <p className="alert alert-danger w-75 mx-auto">Sorry, Can't Find Any Style For This Category !!</p>}
                         {isGetCategoryStyles && <TableLoader />}
                     </div>
                 </div>
