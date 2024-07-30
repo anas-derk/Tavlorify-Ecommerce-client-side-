@@ -6,9 +6,9 @@ export default function ControlPanelHeader() {
 
     const router = useRouter();
 
-    const signOut = () => {
-        localStorage.removeItem("tavlorify-store-admin-user-token");
-        router.push("/admin-dashboard/login");
+    const signOut = async () => {
+        localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+        await router.push("/admin-dashboard/login");
     }
 
     return (
