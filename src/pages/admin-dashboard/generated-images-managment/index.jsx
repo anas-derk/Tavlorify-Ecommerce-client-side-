@@ -136,7 +136,7 @@ export default function GeneratedImagesManagment({ pageName }) {
     const getPreviousPage = async () => {
         setIsGetGeneratedImages(true);
         const newCurrentPage = currentPage - 1;
-        setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(newCurrentPage, pageSize));
+        setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(pageName, newCurrentPage, pageSize));
         setCurrentPage(newCurrentPage);
         setIsGetGeneratedImages(false);
     }
@@ -144,14 +144,14 @@ export default function GeneratedImagesManagment({ pageName }) {
     const getNextPage = async () => {
         setIsGetGeneratedImages(true);
         const newCurrentPage = currentPage + 1;
-        setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(newCurrentPage, pageSize));
+        setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(pageName, newCurrentPage, pageSize));
         setCurrentPage(newCurrentPage);
         setIsGetGeneratedImages(false);
     }
 
     const getSpecificPage = async (pageNumber) => {
         setIsGetGeneratedImages(true);
-        setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(pageNumber, pageSize));
+        setAllGeneratedImagesDataInsideThePage(await getAllGeneratedImagesDataInsideThePage(pageName, pageNumber, pageSize));
         setCurrentPage(pageNumber);
         setIsGetGeneratedImages(false);
     }
