@@ -86,7 +86,7 @@ export default function OrdersManagment({ ordersType }) {
 
     const getOrdersCount = async (filters) => {
         try {
-            return (await axios.get(`${process.env.BASE_API_URL}/${ordersType}/orders-count?${filters ? filters : ""}`)).data;
+            return (await axios.get(`${process.env.BASE_API_URL}/orders/orders-count?ordersType=${ordersType}&${filters ? filters : ""}`)).data;
         }
         catch (err) {
             throw Error(err);
@@ -95,7 +95,7 @@ export default function OrdersManagment({ ordersType }) {
 
     const getAllOrdersInsideThePage = async (pageNumber, pageSize, filters) => {
         try {
-            return (await axios.get(`${process.env.BASE_API_URL}/${ordersType}/all-orders-inside-the-page?pageNumber=${pageNumber}&pageSize=${pageSize}&${filters ? filters : ""}`)).data;
+            return (await axios.get(`${process.env.BASE_API_URL}/orders/all-orders-inside-the-page?ordersType=${ordersType}&pageNumber=${pageNumber}&pageSize=${pageSize}&${filters ? filters : ""}`)).data;
         }
         catch (err) {
             throw Error(err);
@@ -177,7 +177,7 @@ export default function OrdersManagment({ ordersType }) {
 
     const addOrderAsReturned = async (orderId) => {
         try {
-            const res = await axios.post(`${process.env.BASE_API_URL}/returned-orders/create-new-order/${orderId}`, undefined, {
+            const res = await axios.post(`${process.env.BASE_API_URL}/create-new-order/${orderId}`, undefined, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
@@ -206,7 +206,7 @@ export default function OrdersManagment({ ordersType }) {
         try {
             setWaitMsg("Please Wait Updating ...");
             setSelectedOrderIndex(orderIndex);
-            const result = (await axios.put(`${process.env.BASE_API_URL}/${ordersType}/update-order/${allOrdersInsideThePage[orderIndex]._id}`, {
+            const result = (await axios.put(`${process.env.BASE_API_URL}/update-order/${allOrdersInsideThePage[orderIndex]._id}`, {
                 order_amount: allOrdersInsideThePage[orderIndex].order_amount,
                 status: allOrdersInsideThePage[orderIndex].status,
             }, {
@@ -249,7 +249,7 @@ export default function OrdersManagment({ ordersType }) {
         try {
             setWaitMsg("Please Wait Deleting ...");
             setSelectedOrderIndex(orderIndex);
-            const res = (await axios.delete(`${process.env.BASE_API_URL}/${ordersType}/delete-order/${allOrdersInsideThePage[orderIndex]._id}`, {
+            const res = (await axios.delete(`${process.env.BASE_API_URL}//delete-order/${allOrdersInsideThePage[orderIndex]._id}`, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
@@ -394,11 +394,11 @@ export default function OrdersManagment({ ordersType }) {
                                         <tr>
                                             <th>Order Number</th>
                                             <th>Order Id</th>
-                                            {ordersType === "returned-orders" && <>
+                                            {ordersType === "returned" && <>
                                                 <th>Returned Order Number</th>
                                                 <th>Returned Order Id</th>
                                             </>}
-                                            {ordersType === "orders" && <>
+                                            {ordersType === "normal" && <>
                                                 <th>Klarna Order Id</th>
                                                 <th>Klarna Reference</th>
                                                 <th>Checkout Status</th>
@@ -413,13 +413,13 @@ export default function OrdersManagment({ ordersType }) {
                                         {allOrdersInsideThePage.map((order, orderIndex) => (
                                             <tr key={order._id}>
                                                 <td>{order.orderNumber}</td>
-                                                {ordersType === "orders" && <td>{order._id}</td>}
-                                                {ordersType === "returned-orders" && <td>{order.orderId}</td>}
-                                                {ordersType === "returned-orders" && <>
+                                                {ordersType === "normal" && <td>{order._id}</td>}
+                                                {ordersType === "returned" && <td>{order.orderId}</td>}
+                                                {ordersType === "returned" && <>
                                                     <td>{order.returnedOrderNumber}</td>
                                                     <td>{order._id}</td>
                                                 </>}
-                                                {ordersType === "orders" && <>
+                                                {ordersType === "normal" && <>
                                                     <td>{order.klarnaOrderId}</td>
                                                     <td>{order.klarnaReference}</td>
                                                     <td>{order.checkout_status}</td>
@@ -432,12 +432,12 @@ export default function OrdersManagment({ ordersType }) {
                                                         onChange={(e) => changeOrderData(orderIndex, "status", e.target.value)}
                                                     >
                                                         <option value="" hidden>Pleae Enter Status</option>
-                                                        {ordersType === "orders" &&
+                                                        {ordersType === "normal" &&
                                                             orderStatus.map((status, index) => (
                                                                 <option value={status} key={index}>{status}</option>
                                                             ))
                                                         }
-                                                        {ordersType === "returned-orders" &&
+                                                        {ordersType === "returned" &&
                                                             returnedOrderStatus.map((status, index) => (
                                                                 <option value={status} key={index}>{status}</option>
                                                             ))
@@ -525,7 +525,7 @@ export default function OrdersManagment({ ordersType }) {
 
 export function getServerSideProps({ query }) {
     const ordersType = query.ordersType;
-    if (ordersType !== "orders" && ordersType !== "returned-orders") {
+    if (ordersType !== "normal" && ordersType !== "returned") {
         return {
             redirect: {
                 permanent: false,

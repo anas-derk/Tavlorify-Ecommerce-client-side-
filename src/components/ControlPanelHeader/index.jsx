@@ -30,7 +30,7 @@ export default function ControlPanelHeader() {
                                         <Link className="dropdown-item" href={{
                                             pathname: "/admin-dashboard/orders-managment",
                                             query: {
-                                                ordersType: "orders",
+                                                ordersType: "normal",
                                             }
                                         }}>Orders</Link>
                                     </li>
@@ -39,7 +39,7 @@ export default function ControlPanelHeader() {
                                         <Link className="dropdown-item" href={{
                                             pathname: "/admin-dashboard/orders-managment",
                                             query: {
-                                                ordersType: "returned-orders",
+                                                ordersType: "returned",
                                             }
                                         }}>Returned Orders</Link>
                                     </li>
