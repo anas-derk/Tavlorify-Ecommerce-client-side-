@@ -856,14 +856,13 @@ export default function ImageToImage({
                 }
             }
             try {
-                const res = await axios.post(`${process.env.BASE_API_URL}/generated-images/crop-image`, {
+                const result = (await axios.post(`${process.env.BASE_API_URL}/generated-images/crop-image`, {
                     imagePath: generatedImagePathInMyServer,
                     left: left,
                     top: top,
                     width: width,
                     height: height,
-                });
-                const result = await res.data;
+                })).data;
                 const productInfoToCart = {
                     _id: generateUniqueID(),
                     paintingType: paintingType,
