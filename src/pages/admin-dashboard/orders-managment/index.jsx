@@ -206,25 +206,28 @@ export default function OrdersManagment({ ordersType }) {
         try {
             setWaitMsg("Please Wait Updating ...");
             setSelectedOrderIndex(orderIndex);
-            const res = await axios.put(`${process.env.BASE_API_URL}/${ordersType}/update-order/${allOrdersInsideThePage[orderIndex]._id}`, {
+            const result = (await axios.put(`${process.env.BASE_API_URL}/${ordersType}/update-order/${allOrdersInsideThePage[orderIndex]._id}`, {
                 order_amount: allOrdersInsideThePage[orderIndex].order_amount,
                 status: allOrdersInsideThePage[orderIndex].status,
             }, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
-            });
-            const result = await res.data;
+            })).data;
             setWaitMsg("");
             if (!result.error) {
-                setSuccessMsg(result.msg);
+                setSuccessMsg("Updating Successfull !!");
                 let successTimeout = setTimeout(() => {
                     setSuccessMsg("");
                     setSelectedOrderIndex(-1);
                     clearTimeout(successTimeout);
                 }, 3000);
             } else {
-                setSelectedOrderIndex(-1);
+                setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    clearTimeout(errorTimeout);
+                }, 2000);
             }
         }
         catch (err) {
@@ -246,15 +249,14 @@ export default function OrdersManagment({ ordersType }) {
         try {
             setWaitMsg("Please Wait Deleting ...");
             setSelectedOrderIndex(orderIndex);
-            const res = await axios.delete(`${process.env.BASE_API_URL}/${ordersType}/delete-order/${allOrdersInsideThePage[orderIndex]._id}`, {
+            const res = (await axios.delete(`${process.env.BASE_API_URL}/${ordersType}/delete-order/${allOrdersInsideThePage[orderIndex]._id}`, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
-            });
-            const result = res.data;
+            })).data;
             setWaitMsg("");
             if (!result.error) {
-                setSuccessMsg(res.data.msg);
+                setSuccessMsg("Deleting Successfull !!");
                 let successTimeout = setTimeout(async () => {
                     setSuccessMsg("");
                     setSelectedOrderIndex(-1);
@@ -264,7 +266,11 @@ export default function OrdersManagment({ ordersType }) {
                     clearTimeout(successTimeout);
                 }, 3000);
             } else {
-                setSelectedOrderIndex(-1);
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedOrderIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 2000);
             }
         }
         catch (err) {
@@ -485,7 +491,7 @@ export default function OrdersManagment({ ordersType }) {
                                                         className="btn btn-success d-block mx-auto mb-3"
                                                         disabled
                                                     >
-                                                        Success
+                                                        {successMsg}
                                                     </button>}
                                                     {!waitMsg && !errorMsg && !successMsg && <Link href={`/admin-dashboard/orders-managment/${order._id}?ordersType=${ordersType}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>}
                                                     {ordersType === "orders" && !order.isReturned && (order.checkout_status === "AUTHORIZED" || order.checkout_status === "CAPTURED" || order.checkout_status === "EXPIRED") && <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>}
