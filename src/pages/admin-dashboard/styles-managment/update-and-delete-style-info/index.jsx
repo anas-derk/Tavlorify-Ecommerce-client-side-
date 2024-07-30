@@ -133,34 +133,22 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
         try {
             setWaitMsg("Please Wait Updating ...");
             setSelectedStyleIndex(styleIndex);
-            let result;
-            if (pageName === "text-to-image") {
-                result = await axios.put(`${process.env.BASE_API_URL}/text-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}?categoryName=${categoryStylesData[styleIndex].categoryName}`, {
-                    newCategoryStyleSortNumber: categoryStylesData[styleIndex].sortNumber,
-                    newName: categoryStylesData[styleIndex].name,
-                    newPrompt: categoryStylesData[styleIndex].prompt,
-                    newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
-                    newModelName: categoryStylesData[styleIndex].modelName,
-                }, {
-                    headers: {
-                        Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
+            const result = await axios.put(`${process.env.BASE_API_URL}/styles/update-style-data/${categoryStylesData[styleIndex]._id}?service=${pageName}&categoryName=${categoryStylesData[styleIndex].categoryName}`, {
+                newCategoryStyleSortNumber: categoryStylesData[styleIndex].sortNumber,
+                newName: categoryStylesData[styleIndex].name,
+                newPrompt: categoryStylesData[styleIndex].prompt,
+                newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
+                newModelName: categoryStylesData[styleIndex].modelName,
+                ...(pageName === "image-to-image" && {
+                        newDdimSteps: categoryStylesData[styleIndex].ddim_steps,
+                        newStrength: categoryStylesData[styleIndex].strength,
                     }
-                });
-            }
-            if (pageName === "image-to-image") {
-                result = await axios.put(`${process.env.BASE_API_URL}/image-to-image/styles/update-style-data/${categoryStylesData[styleIndex]._id}?categoryName=${categoryStylesData[styleIndex].categoryName}`, {
-                    newCategoryStyleSortNumber: categoryStylesData[styleIndex].sortNumber,
-                    newName: categoryStylesData[styleIndex].name,
-                    newPrompt: categoryStylesData[styleIndex].prompt,
-                    newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
-                    newDdimSteps: categoryStylesData[styleIndex].ddim_steps,
-                    newStrength: categoryStylesData[styleIndex].strength,
-                }, {
-                    headers: {
-                        Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
-                    }
-                });
-            }
+                )
+            }, {
+                headers: {
+                    Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
+                }
+            });
             if (!result.error) {
                 setWaitMsg("");
                 setSuccessMsg("Updating Successfull !!");
