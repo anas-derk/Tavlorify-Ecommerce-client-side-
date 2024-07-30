@@ -5,7 +5,7 @@ import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
-import { getAllCategoriesForService, getAdminInfo } from "../../../../../public/global_functions/popular";
+import { getAllCategoriesForService, getAdminInfo, getStylesForCategoryInService } from "../../../../../public/global_functions/popular";
 
 export default function UpdateCategoryStyleInfo({ pageName }) {
 
@@ -82,8 +82,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
     const getCategoryStyles = async (categoryName) => {
         try {
             setisGetCategoryStyles(true);
-            const res = await axios.get(`${process.env.BASE_API_URL}/${pageName}/styles/category-styles-data?categoryName=${categoryName}`);
-            setCategoryStylesData(res.data.data);
+            setCategoryStylesData((await getStylesForCategoryInService(categoryName, pageName)).data);
             setisGetCategoryStyles(false);
         }
         catch (err) {

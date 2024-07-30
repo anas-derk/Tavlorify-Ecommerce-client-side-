@@ -56,10 +56,20 @@ async function addNewStyleToCategoryInSpecificService(styleData) {
     }
 }
 
+const getStylesForCategoryInService = async (categoryName, serviceName) => {
+    try {
+        return (await axios.get(`${process.env.BASE_API_URL}/styles/all-styles-data?service=${serviceName}&categoryName=${categoryName}`)).data;
+    }
+    catch (err) {
+        throw err;
+    }
+}
+
 export {
     getDateFormated,
     getAllCategoriesForService,
     getAdminInfo,
     addNewCategoryToService,
-    addNewStyleToCategoryInSpecificService
+    addNewStyleToCategoryInSpecificService,
+    getStylesForCategoryInService
 }
