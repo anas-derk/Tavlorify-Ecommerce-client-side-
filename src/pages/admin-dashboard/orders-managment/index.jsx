@@ -177,12 +177,26 @@ export default function OrdersManagment({ ordersType }) {
 
     const addOrderAsReturned = async (orderId) => {
         try {
-            const res = await axios.post(`${process.env.BASE_API_URL}/create-new-order/${orderId}`, undefined, {
+            const res = await axios.post(`${process.env.BASE_API_URL}/orders/create-new-order?ordersType=${ordersType}&orderId=${orderId}`, undefined, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             });
             const result = res.data;
+            if (!result.error) {
+                setSuccessMsg("Updating Successfull !!");
+                let successTimeout = setTimeout(() => {
+                    setSuccessMsg("");
+                    setSelectedOrderIndex(-1);
+                    clearTimeout(successTimeout);
+                }, 3000);
+            } else {
+                setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    clearTimeout(errorTimeout);
+                }, 2000);
+            }
         }
         catch (err) {
             if (err?.response?.data?.msg === "Unauthorized Error") {
@@ -206,7 +220,7 @@ export default function OrdersManagment({ ordersType }) {
         try {
             setWaitMsg("Please Wait Updating ...");
             setSelectedOrderIndex(orderIndex);
-            const result = (await axios.put(`${process.env.BASE_API_URL}/update-order/${allOrdersInsideThePage[orderIndex]._id}`, {
+            const result = (await axios.put(`${process.env.BASE_API_URL}/orders/update-order/${allOrdersInsideThePage[orderIndex]._id}?ordersType=${ordersType}`, {
                 order_amount: allOrdersInsideThePage[orderIndex].order_amount,
                 status: allOrdersInsideThePage[orderIndex].status,
             }, {
@@ -249,7 +263,7 @@ export default function OrdersManagment({ ordersType }) {
         try {
             setWaitMsg("Please Wait Deleting ...");
             setSelectedOrderIndex(orderIndex);
-            const res = (await axios.delete(`${process.env.BASE_API_URL}//delete-order/${allOrdersInsideThePage[orderIndex]._id}`, {
+            const result = (await axios.delete(`${process.env.BASE_API_URL}/orders/delete-order/${allOrdersInsideThePage[orderIndex]._id}?ordersType=${ordersType}`, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
