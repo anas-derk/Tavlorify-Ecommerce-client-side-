@@ -163,7 +163,7 @@ export default function OrderDetails({ orderId, orderType }) {
                 {/* Start Content Section */}
                 <section className="content d-flex justify-content-center align-items-center flex-column text-center">
                     <div className="container-fluid">
-                        <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In {orderType} Details</h1>
+                        <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In {ordersType === "normal" ? "Orders" : "ٌReturned Orders"} Details</h1>
                         {Array.isArray(orderDetails.order_lines) && orderDetails.order_lines.length > 0 ? <div className="order-details-box p-3 data-box">
                             <table className="order-data-table mb-5 data-table">
                                 <thead>
