@@ -144,8 +144,9 @@ export default function addNewStyle() {
                 for (let styleImageData of styleImagesData) {
                     formData.append(styleImageData.formValidationKey, styleImageFiles[styleImageData.orientation]);
                 }
-                setWaitMsg("Adding Now ...");
-                const res = await axios.post(`${process.env.BASE_API_URL}/face-swap/styles/add-new-style?categoryName=${categoryName}`, formData, {
+                formData.append("categoryName", categoryName);
+                setWaitMsg("Please Wait To Adding ...");
+                const res = await axios.post(`${process.env.BASE_API_URL}/styles/add-new-style-for-face-swap-service?categoryName=${categoryName}`, formData, {
                     headers: {
                         Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                     }
@@ -208,7 +209,7 @@ export default function addNewStyle() {
                                     <option value={category} key={index}>{category}</option>
                                 ))}
                             </select>
-                            {formValidationErrors["categoryName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["categoryName"]}</p>}
+                            {formValidationErrors["categoryName"] && <p className="error-msg text-danger mb-2">{formValidationErrors["categoryName"]}</p>}
                             {styleImagesData.map((styleImageData, index) => (
                                 <div className="style-image-data" key={index}>
                                     <h6 className="fw-bold mb-3">Please Select {styleImageData.orientation} Style Image</h6>

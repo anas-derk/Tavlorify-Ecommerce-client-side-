@@ -70,19 +70,8 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
         } else router.replace("/admin-dashboard/login");
     }, [pageName]);
 
-    const changeStyleData = (styleIndex, fieldName, newValue) => {
-        categoryStylesData[styleIndex][fieldName] = newValue;
-    }
-
-    const changeStyleImage = (styleIndex, newValue) => {
-        let styleFiles = files;
-        styleFiles[styleIndex] = newValue;
-        setFiles(styleFiles);
-    }
-
     const getCategoryStyles = async (categoryName) => {
         try {
-            console.log(categoryName)
             setCategoryName(categoryName);
             setisGetCategoryStyles(true);
             setCategoryStylesData((await getStylesForCategoryInService(pageName, categoryName)).data);
@@ -95,6 +84,16 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                 clearTimeout(errorTimeout);
             }, 1500);
         }
+    }
+
+    const changeStyleData = (styleIndex, fieldName, newValue) => {
+        categoryStylesData[styleIndex][fieldName] = newValue;
+    }
+
+    const changeStyleImage = (styleIndex, newValue) => {
+        let styleFiles = files;
+        styleFiles[styleIndex] = newValue;
+        setFiles(styleFiles);
     }
 
     const updateStyleImage = async (styleIndex) => {
@@ -252,14 +251,21 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                     <tr>
                                         <th>Old + New Style Sort</th>
                                         <th>Style Name</th>
-                                        <th>Prompt</th>
-                                        <th>Negative Prompt</th>
+                                        {(pageName === "text-to-image" || pageName === "image-to-image") && <>
+                                            <th>Prompt</th>
+                                            <th>Negative Prompt</th>
+                                        </>}
                                         {pageName === "text-to-image" && <th width="320">Old + New Model Name</th>}
                                         {pageName === "image-to-image" && <>
                                             <th>Ddim Steps</th>
                                             <th>Strength</th>
                                         </>}
-                                        <th>Image</th>
+                                        {(pageName === "text-to-image" || pageName === "image-to-image") && <th>Image</th>}
+                                        {pageName === "face-swap" && <>
+                                            <th>Vertical Image</th>
+                                            <th>Horizontal Image</th>
+                                            <th>Square Image</th>
+                                        </>}
                                         <th>Process</th>
                                     </tr>
                                 </thead>
@@ -284,22 +290,24 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                     onChange={(e) => changeStyleData(styleIndex, "name", e.target.value)}
                                                 />
                                             </td>
-                                            <td>
-                                                <textarea
-                                                    placeholder="Enter Prompt"
-                                                    defaultValue={style.prompt}
-                                                    className="p-3 form-control"
-                                                    onChange={(e) => changeStyleData(styleIndex, "prompt", e.target.value)}
-                                                ></textarea>
-                                            </td>
-                                            <td>
-                                                <textarea
-                                                    placeholder="Enter Negative Prompt"
-                                                    defaultValue={style.negative_prompt}
-                                                    className="p-3 form-control"
-                                                    onChange={(e) => changeStyleData(styleIndex, "negative_prompt", e.target.value)}
-                                                ></textarea>
-                                            </td>
+                                            {(pageName === "text-to-image" || pageName === "image-to-image") && <>
+                                                <td>
+                                                    <textarea
+                                                        placeholder="Enter Prompt"
+                                                        defaultValue={style.prompt}
+                                                        className="p-3 form-control"
+                                                        onChange={(e) => changeStyleData(styleIndex, "prompt", e.target.value)}
+                                                    ></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea
+                                                        placeholder="Enter Negative Prompt"
+                                                        defaultValue={style.negative_prompt}
+                                                        className="p-3 form-control"
+                                                        onChange={(e) => changeStyleData(styleIndex, "negative_prompt", e.target.value)}
+                                                    ></textarea>
+                                                </td>
+                                            </>}
                                             {pageName === "text-to-image" && <td className="model-name-cell">
                                                 <h6 className="old-style-sort-number fw-bold">Old: {style.modelName}</h6>
                                                 <hr />
@@ -330,7 +338,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                     />
                                                 </td>
                                             </>}
-                                            <td className="style-image-cell">
+                                            {(pageName === "text-to-image" || pageName === "image-to-image") && <td className="style-image-cell">
                                                 <img
                                                     src={`${process.env.BASE_API_URL}/${style.imgSrc}`}
                                                     alt={`${style.name} Image`}
@@ -363,7 +371,43 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                     className="btn btn-danger d-block mb-3 mx-auto"
                                                     disabled
                                                 >{errorChangeStyleImageMsg}</button>}
-                                            </td>
+                                            </td>}
+                                            {pageName === "face-swap" && style.imgsSrcList.map((imgSrc) => (
+                                                <td className="face-swap-style-image">
+                                                    <img
+                                                        src={`${process.env.BASE_API_URL}/${imgSrc}`}
+                                                        alt={`Style Image`}
+                                                        width="100"
+                                                        height="100"
+                                                        className="d-block mx-auto mb-3"
+                                                    />
+                                                    <input
+                                                        type="file"
+                                                        className="form-control mx-auto mb-3 form-control"
+                                                        width="257"
+                                                        accept=".jpg,.png,.webp"
+                                                        onChange={(e) => changeStyleImage(styleIndex, e.target.files[0])}
+                                                    />
+                                                    {styleIndex !== selectedStyleImageIndex && <button
+                                                        className="btn btn-danger"
+                                                        onClick={() => updateStyleImage(styleIndex)}
+                                                    >
+                                                        Change Image
+                                                    </button>}
+                                                    {waitChangeStyleImageMsg  && selectedStyleImageIndex === styleIndex && <button
+                                                        className="btn btn-info d-block mb-3 mx-auto"
+                                                        disabled
+                                                    >{waitChangeStyleImageMsg}</button>}
+                                                    {successChangeStyleImageMsg && selectedStyleImageIndex === styleIndex && <button
+                                                        className="btn btn-success d-block mb-3 mx-auto"
+                                                        disabled
+                                                    >{successChangeStyleImageMsg}</button>}
+                                                    {errorChangeStyleImageMsg && selectedStyleImageIndex === styleIndex && <button
+                                                        className="btn btn-danger d-block mb-3 mx-auto"
+                                                        disabled
+                                                    >{errorChangeStyleImageMsg}</button>}
+                                                </td>
+                                            ))}
                                             <td className="update-and-delete-cell">
                                                 {styleIndex !== selectedStyleIndex && <>
                                                     <button

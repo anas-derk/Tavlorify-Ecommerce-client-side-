@@ -10,7 +10,11 @@ function getDateFormated(date) {
 
 async function getAllCategoriesForService(serviceName) {
     try{
-        return (await axios.get(`${process.env.BASE_API_URL}/categories/all-categories-data?service=${serviceName}`)).data;
+        return serviceName === "face-swap" ? {
+            msg: "Get All Categories Data For Face Swap Process Has Been Successfully !!",
+            error: false,
+            data: ["Man", "Pojke", "Kvinna", "Flicka"],
+        } : (await axios.get(`${process.env.BASE_API_URL}/categories/all-categories-data?service=${serviceName}`)).data;
     }
     catch(err) {
         throw Error(err);
