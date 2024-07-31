@@ -7,7 +7,7 @@ import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import { getAdminInfo } from "../../../../../public/global_functions/popular";
 
-export default function OrderDetails({ orderId, ordersType }) {
+export default function OrderDetails({ orderId, orderType }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
@@ -50,11 +50,11 @@ export default function OrderDetails({ orderId, ordersType }) {
                     }
                 });
         } else router.replace("/admin-dashboard/login");
-    }, [ordersType]);
+    }, [orderType]);
 
     const getOrderDetails = async (orderId) => {
         try {
-            return (await axios.get(`${process.env.BASE_API_URL}/${ordersType}/order-details/${orderId}`)).data;
+            return (await axios.get(`${process.env.BASE_API_URL}/orders/order-details/${orderId}?orderType=${orderType}`)).data;
         }
         catch (err) {
             throw err;
@@ -71,7 +71,7 @@ export default function OrderDetails({ orderId, ordersType }) {
         try {
             setWaitMsg("Please Wait Updating ...");
             setSelectedOrderProductIndex(orderProductIndex);
-            const res = await axios.put(`${process.env.BASE_API_URL}/${ordersType}/products/update-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`, {
+            const res = (await axios.put(`${process.env.BASE_API_URL}/orders/update-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}?orderType=${orderType}`, {
                 quantity: orderDetails.order_lines[orderProductIndex].quantity,
                 name: orderDetails.order_lines[orderProductIndex].name,
                 total_amount: orderDetails.order_lines[orderProductIndex].total_amount,
@@ -80,8 +80,7 @@ export default function OrderDetails({ orderId, ordersType }) {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
-            });
-            const result = res.data;
+            })).data;
             setWaitMsg("");
             if (!result.error) {
                 setSuccessMsg("Updating Successfull !!");
@@ -91,7 +90,12 @@ export default function OrderDetails({ orderId, ordersType }) {
                     clearTimeout(successTimeout);
                 }, 3000);
             } else {
-                setSelectedOrderProductIndex(-1);
+                setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedOrderProductIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 2000);
             }
         }
         catch (err) {
@@ -114,12 +118,11 @@ export default function OrderDetails({ orderId, ordersType }) {
         try {
             setWaitMsg("Please Wait Deleting ...");
             setSelectedOrderProductIndex(orderProductIndex);
-            const res = await axios.delete(`${process.env.BASE_API_URL}/${ordersType}/products/delete-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}`, {
+            const result = (await axios.delete(`${process.env.BASE_API_URL}/orders/delete-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}?orderType=${orderType}`, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
-            });
-            const result = res.data;
+            })).data;
             setWaitMsg("");
             if (!result.error) {
                 setSuccessMsg("Deleting Successfull !!");
@@ -160,7 +163,7 @@ export default function OrderDetails({ orderId, ordersType }) {
                 {/* Start Content Section */}
                 <section className="content d-flex justify-content-center align-items-center flex-column text-center">
                     <div className="container-fluid">
-                        <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In {ordersType} Details</h1>
+                        <h1 className="welcome-msg mb-4 fw-bold pb-3 mx-auto">Hello To You In {orderType} Details</h1>
                         {Array.isArray(orderDetails.order_lines) && orderDetails.order_lines.length > 0 ? <div className="order-details-box p-3 data-box">
                             <table className="order-data-table mb-5 data-table">
                                 <thead>
@@ -171,7 +174,7 @@ export default function OrderDetails({ orderId, ordersType }) {
                                         <th>Unit Price</th>
                                         <th>Total</th>
                                         <th>Image</th>
-                                        {ordersType === "returned-orders" && <th>Return Reason</th>}
+                                        {orderType === "returned-orders" && <th>Return Reason</th>}
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -262,7 +265,7 @@ export default function OrderDetails({ orderId, ordersType }) {
                                     ))}
                                 </tbody>
                             </table>
-                            {ordersType === "orders" && <section className="customer-info">
+                            {orderType === "normal" && <section className="customer-info">
                                 <div className="row">
                                     <div className="col-md-6 bg-white border border-2 border-dark">
                                         <div className="billing-address-box text-start p-3">
@@ -292,7 +295,7 @@ export default function OrderDetails({ orderId, ordersType }) {
                                     </div>
                                 </div>
                             </section>}
-                            {ordersType === "returned-orders" && <section className="customer-info bg-white border border-2 border-dark p-3">
+                            {orderType === "returned" && <section className="customer-info bg-white border border-2 border-dark p-3">
                                 <h6 className="fw-bold">Customer Details</h6>
                                 <hr />
                                 <p className="email fw-bold info">Email: {orderDetails.customer.email}</p>
@@ -321,8 +324,8 @@ export async function getServerSideProps({ params, query }) {
             },
         }
     }
-    const { ordersType } = query;
-    if (ordersType !== "orders" && ordersType !== "returned-orders") {
+    const { orderType } = query;
+    if (orderType !== "normal" && orderType !== "returned") {
         return {
             redirect: {
                 permanent: false,
@@ -333,7 +336,7 @@ export async function getServerSideProps({ params, query }) {
     return {
         props: {
             orderId,
-            ordersType
+            orderType
         },
     }
 }

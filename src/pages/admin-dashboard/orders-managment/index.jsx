@@ -507,7 +507,7 @@ export default function OrdersManagment({ ordersType }) {
                                                     >
                                                         {successMsg}
                                                     </button>}
-                                                    {!waitMsg && !errorMsg && !successMsg && <Link href={`/admin-dashboard/orders-managment/${order._id}?ordersType=${ordersType}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>}
+                                                    {!waitMsg && !errorMsg && !successMsg && <Link href={`/admin-dashboard/orders-managment/${order._id}?orderType=${ordersType}`} className="btn btn-success d-block mx-auto mb-4">Show Details</Link>}
                                                     {ordersType === "orders" && !order.isReturned && (order.checkout_status === "AUTHORIZED" || order.checkout_status === "CAPTURED" || order.checkout_status === "EXPIRED") && <button className="btn btn-danger d-block mx-auto mb-3" onClick={() => addOrderAsReturned(order._id)}>Add As Returned</button>}
                                                 </td>
                                             </tr>
