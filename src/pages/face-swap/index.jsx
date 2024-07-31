@@ -75,6 +75,7 @@ import InspirationImage7ForFaceSwap from "@/../public/images/Inspiration/FaceSwa
 import InspirationImage8ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/8.webp";
 import CustomersComments from "@/components/CustomersComments";
 import WaitGeneratingImage from "@/components/WaitGeneratingImage";
+import { getStylesForCategoryInService } from "../../../public/global_functions/popular";
 
 export default function FaceSwap({
     generatedImageId,
@@ -336,7 +337,7 @@ export default function FaceSwap({
 
     useEffect(() => {
         setIsLoadingPage(true);
-        getAllFaceSwapCategoryStylesData(0)
+        getStylesForCategoryInService("face-swap", categoryNames[categorySelectedIndex])
             .then(async (result) => {
                 setCategoryStyles(result.data);
                 await handleSelectGeneratedImageIdAndPaintingType();
@@ -352,16 +353,6 @@ export default function FaceSwap({
                 setIsErrorMsgOnLoadingThePage(true);
             });
     }, [generatedImageId, paintingTypeAsQuery]);
-
-    const getAllFaceSwapCategoryStylesData = async (categorySelectedIndex) => {
-        try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/face-swap/styles/category-styles-data?categoryName=${categoryNames[categorySelectedIndex]}`);
-            return res.data;
-        }
-        catch (err) {
-            throw Error(err);
-        }
-    }
 
     const handleSelectProduct = async (productData) => {
         try {
@@ -456,11 +447,11 @@ export default function FaceSwap({
         setImageLink("");
     }
 
-    const handleSelectCategory = async (index) => {
+    const handleSelectCategory = async (categoryIndex) => {
         try {
             if (!isWaitStatus) {
-                setCategorySelectedIndex(index);
-                setCategoryStyles((await getAllFaceSwapCategoryStylesData(index)).data);
+                setCategorySelectedIndex(categoryIndex);
+                setCategoryStyles((await getStylesForCategoryInService("face-swap", categoryNames[categoryIndex])).data);
                 setStyleSelectedIndex(0);
             }
         }
