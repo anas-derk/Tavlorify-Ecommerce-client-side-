@@ -13,7 +13,7 @@ async function getAllCategoriesForService(serviceName) {
         return serviceName === "face-swap" ? {
             msg: "Get All Categories Data For Face Swap Process Has Been Successfully !!",
             error: false,
-            data: ["Man", "Pojke", "Kvinna", "Flicka"],
+            data: [{ name: "Man" }, { name: "Pojke" }, { name: "Kvinna" }, { name: "Flicka" }],
         } : (await axios.get(`${process.env.BASE_API_URL}/categories/all-categories-data?service=${serviceName}`)).data;
     }
     catch(err) {

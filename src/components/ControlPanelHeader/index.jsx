@@ -102,7 +102,7 @@ export default function ControlPanelHeader() {
                                             query: {
                                                 pageName: "text-to-image",
                                             }
-                                        }}>Update And Delete Category</Link>
+                                        }}>Update And Delete Categories</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
@@ -115,7 +115,7 @@ export default function ControlPanelHeader() {
                                             query: {
                                                 pageName: "text-to-image",
                                             }
-                                        }}>Update And Delete Style</Link>
+                                        }}>Update And Delete Styles</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
@@ -143,7 +143,7 @@ export default function ControlPanelHeader() {
                                             query: {
                                                 pageName: "image-to-image",
                                             }
-                                        }}>Update And Delete Category</Link>
+                                        }}>Update And Delete Categories</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
@@ -156,7 +156,7 @@ export default function ControlPanelHeader() {
                                             query: {
                                                 pageName: "image-to-image",
                                             }
-                                        }}>Update And Delete Style</Link>
+                                        }}>Update And Delete Styles</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
@@ -176,6 +176,15 @@ export default function ControlPanelHeader() {
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
                                         <Link className="dropdown-item" href="/admin-dashboard/face-swap-managment/styles-managment/add-new-style">Add New Style</Link>
+                                    </li>
+                                    <li><hr className="dropdown-divider" /></li>
+                                    <li>
+                                        <Link className="dropdown-item" href={{
+                                            pathname: "/admin-dashboard/styles-managment/update-and-delete-style-info",
+                                            query: {
+                                                pageName: "face-swap",
+                                            }
+                                        }}>Update And Delete Styles</Link>
                                     </li>
                                 </ul>
                             </li>

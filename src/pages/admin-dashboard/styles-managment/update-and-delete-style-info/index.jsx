@@ -250,7 +250,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                 <thead>
                                     <tr>
                                         <th>Old + New Style Sort</th>
-                                        <th>Style Name</th>
+                                        {(pageName === "text-to-image" || pageName === "image-to-image") && <th>Style Name</th>}
                                         {(pageName === "text-to-image" || pageName === "image-to-image") && <>
                                             <th>Prompt</th>
                                             <th>Negative Prompt</th>
@@ -282,15 +282,15 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                     ))}
                                                 </select>
                                             </td>
-                                            <td className="style-name-cell">
-                                                <input
-                                                    placeholder="Enter Style Name"
-                                                    defaultValue={style.name}
-                                                    className="p-2 form-control"
-                                                    onChange={(e) => changeStyleData(styleIndex, "name", e.target.value)}
-                                                />
-                                            </td>
                                             {(pageName === "text-to-image" || pageName === "image-to-image") && <>
+                                                <td className="style-name-cell">
+                                                    <input
+                                                        placeholder="Enter Style Name"
+                                                        defaultValue={style.name}
+                                                        className="p-2 form-control"
+                                                        onChange={(e) => changeStyleData(styleIndex, "name", e.target.value)}
+                                                    />
+                                                </td>
                                                 <td>
                                                     <textarea
                                                         placeholder="Enter Prompt"
@@ -372,7 +372,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                     disabled
                                                 >{errorChangeStyleImageMsg}</button>}
                                             </td>}
-                                            {pageName === "face-swap" && style.imgsSrcList.map((imgSrc) => (
+                                            {pageName === "face-swap" && style.imgSrcList.map((imgSrc) => (
                                                 <td className="face-swap-style-image">
                                                     <img
                                                         src={`${process.env.BASE_API_URL}/${imgSrc}`}
@@ -394,7 +394,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                     >
                                                         Change Image
                                                     </button>}
-                                                    {waitChangeStyleImageMsg  && selectedStyleImageIndex === styleIndex && <button
+                                                    {waitChangeStyleImageMsg && selectedStyleImageIndex === styleIndex && <button
                                                         className="btn btn-info d-block mb-3 mx-auto"
                                                         disabled
                                                     >{waitChangeStyleImageMsg}</button>}
@@ -410,10 +410,10 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                             ))}
                                             <td className="update-and-delete-cell">
                                                 {styleIndex !== selectedStyleIndex && <>
-                                                    <button
+                                                    {(pageName === "text-to-image" || pageName === "image-to-image") && <button
                                                         className="btn btn-success mb-3 d-block w-100"
                                                         onClick={() => updateStyleData(styleIndex)}
-                                                    >Update</button>
+                                                    >Update</button>}
                                                     {categoryStylesData.length > 1 && <button
                                                         className="btn btn-danger mb-3 d-block w-100"
                                                         onClick={() => deleteStyle(styleIndex)}
@@ -450,7 +450,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
 
 export function getServerSideProps({ query }) {
     const { pageName } = query;
-    if (pageName !== "text-to-image" && pageName !== "image-to-image") {
+    if (!["text-to-image", "image-to-image", "face-swap"].includes(pageName)) {
         return {
             redirect: {
                 permanent: false,
