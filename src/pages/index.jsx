@@ -71,20 +71,26 @@ export default function Home() {
         {
             serviceName: "Text To Image",
             serviceExplainImage: textToImageServiceExplainImage.src,
+            serviceTitle: "SKAPA UNIK AI-KONST",
             serviceExplain: "Välkommen till en värld där din kreativitet möter artificiell intelligens för att skapa unik konst. Här på Tavlorify kan du enkelt omvandla dina idéer till vackra konstverk med hjälp av AI. Processen är enkel och tillgänglig för alla, oavsett konstnärlig erfarenhet.",
-            pagePath: "/text-to-image?paintingTypeAsQuery=poster"
+            pagePath: "/text-to-image?paintingTypeAsQuery=poster",
+            buttonContent: "SKAPA DIN POSTER"
         },
         {
             serviceName: "Image To Image",
             serviceExplainImage: imageToImageServiceExplainImage.src,
+            serviceTitle: "OMVANDLA DIN BILD TILL KONST",
             serviceExplain: "Förvandla dina minnen till mästerverk: Upptäck hur vår AI-teknologi andas liv i dina bilder, skapar personliga konstverk och förvandlar varje ögonblick till evigt konstnärligt arv. Gör ditt hem till en galleri med unika berättelser.",
-            pagePath: "/image-to-image?paintingTypeAsQuery=poster"
+            pagePath: "/image-to-image?paintingTypeAsQuery=poster",
+            buttonContent: "SKAPA DIN TAVLA"
         },
         {
             serviceName: "Face Swap",
             serviceExplainImage: faceSwapServiceExplainImage.src,
+            serviceTitle: "Sätt ditt ansikte i varje tavla",
             serviceExplain: "Byt ansikte på sekunder med hjälp av AI: Ladda upp din selfie, Välj bland stilfulla förinställningar – kändisar, anime, konst, tecknat, och mer. Skapa och se magin!",
-            pagePath: "/face-swap-image?paintingTypeAsQuery=poster"
+            pagePath: "/face-swap-image?paintingTypeAsQuery=poster",
+            buttonContent: "SKAPA MIN TAVLA"
         },
     ];
 
@@ -143,8 +149,9 @@ export default function Home() {
                         <div className="row">
                             {servicesSectionImagesList.map((service, index) => (
                                 index % 2 !== 0 ? <>
-                                    <div className="col-lg-6" key={index}>
-                                        <p className="service-explain mb-4">{service.serviceExplain}</p>
+                                    <div className="col-lg-6 pe-5" key={index}>
+                                        <h3 className="service-title mb-4 text-start">{service.serviceTitle}</h3>
+                                        <p className="service-explain mb-4 text-start">{service.serviceExplain}</p>
                                     </div>
                                     <div className="col-lg-6" key={index}>
                                         <Link href={service.pagePath}>
@@ -152,13 +159,14 @@ export default function Home() {
                                         </Link>
                                     </div>
                                 </> : <>
-                                    <div className="col-lg-6" key={index}>
+                                    <div className="col-lg-6 pe-5" key={index}>
                                         <Link href={service.pagePath}>
                                             <img src={service.serviceExplainImage} alt={`${service.serviceName} Service Image`} className="mw-100" onDragStart={(e) => e.preventDefault()} />
                                         </Link>
                                     </div>
                                     <div className="col-lg-6" key={index}>
-                                        <p className="service-explain mb-4">{service.serviceExplain}</p>
+                                        <h3 className="service-title mb-4 text-start">{service.serviceTitle}</h3>
+                                        <p className="service-explain mb-4 text-start">{service.serviceExplain}</p>
                                     </div>
                                 </>
                             ))}
@@ -167,11 +175,13 @@ export default function Home() {
                 </section>
                 {/* End Services Explain Section */}
                 {/* Start Room Images Section */}
-                <section className="room-images pt-5 pb-5">
+                <section className="room-images pb-5">
                     <div className="container">
+                        <h2 className="section-name fw-bold mb-3">Inspiration</h2>
+                        <h5 className="mb-5">EXEMPEL FRÅN OSS OCH VÅRA KUNDER</h5>
                         <div className="row">
                             {roomImagesSrc.map((roomImageSrc, index) => (
-                                <div className="col-md-4" key={index}>
+                                <div className={`col-md-3 ${index !== roomImagesSrc.length && "pe-5"}`} key={index}>
                                     <img src={roomImageSrc} alt={`Room Image ${index + 1}`} className="mw-100 mb-4" onDragStart={(e) => e.preventDefault()} />
                                 </div>
                             ))}
