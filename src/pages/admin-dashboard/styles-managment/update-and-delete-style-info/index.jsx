@@ -49,6 +49,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
         setSelectedStyleImageIndex(-1);
         setSelectedStyleIndex(-1);
         setCategoryName("");
+        setFiles([]);
         const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
             getAdminInfo()
@@ -94,48 +95,92 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
         categoryStylesData[styleIndex][fieldName] = newValue;
     }
 
-    const changeStyleImage = (styleIndex, newValue) => {
+    const changeStyleImage = (styleIndex, newValue, imageIndex) => {
         let styleFiles = files;
-        styleFiles[styleIndex] = newValue;
-        setFiles(styleFiles);
+        if (pageName === "text-to-image" || pageName === "image-to-image") {
+            styleFiles[styleIndex] = newValue;
+            setFiles(styleFiles);
+        } else {
+            styleFiles[styleIndex][imageIndex] = newValue;
+            setFiles(styleFiles);
+        }
     }
 
     const updateStyleImage = async (styleIndex) => {
-        if (typeof files[styleIndex] === "object") {
+        try {
+            if (typeof files[styleIndex] !== "object") return;
             setSelectedStyleImageIndex(styleIndex);
-            setWaitChangeStyleImageMsg(true);
-            try {
-                let formData = new FormData();
-                formData.append("styleImage", files[styleIndex]);
-                const result = (await axios.put(`${process.env.BASE_API_URL}/styles/update-style-image?service=${pageName}&styleId=${categoryStylesData[styleIndex]._id}`, formData, {
-                    headers: {
-                        Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
-                    }
-                })).data;
-                if (!result.error) {
-                    setWaitChangeStyleImageMsg("");
-                    setSuccessChangeStyleImageMsg("Change Image Successfull !!");
-                    let successTimeout = setTimeout(async () => {
-                        setSuccessChangeStyleImageMsg("");
-                        setSelectedStyleImageIndex(-1);
-                        categoryStylesData[styleIndex].imgSrc = result.data.newImagePath;
-                        clearTimeout(successTimeout);
-                    }, 1500);
+            setWaitChangeStyleImageMsg("Please Waiting Change Image ...");
+            let formData = new FormData();
+            formData.append("styleImage", files[styleIndex]);
+            const result = (await axios.put(`${process.env.BASE_API_URL}/styles/update-style-image/${categoryStylesData[styleIndex]._id}?service=${pageName}`, formData, {
+                headers: {
+                    Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
-            } catch (err) {
-                if (err?.response?.data?.msg === "Unauthorized Error") {
-                    localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
-                    await router.push("/admin-dashboard/login");
-                    return;
-                }
-                setWaitChangeStyleImageMsg(false);
-                setErrorChangeStyleImageMsg("Sorry, Someting Went Wrong, Please Repeate The Process !!");
-                let errorTimeout = setTimeout(() => {
-                    setErrorChangeStyleImageMsg("");
+            })).data;
+            if (!result.error) {
+                setWaitChangeStyleImageMsg("");
+                setSuccessChangeStyleImageMsg("Change Image Successfull !!");
+                let successTimeout = setTimeout(async () => {
+                    setSuccessChangeStyleImageMsg("");
                     setSelectedStyleImageIndex(-1);
-                    clearTimeout(errorTimeout);
+                    categoryStylesData[styleIndex].imgSrc = result.data.newImagePath;
+                    clearTimeout(successTimeout);
                 }, 1500);
             }
+        } catch (err) {
+            if (err?.response?.data?.msg === "Unauthorized Error") {
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                await router.push("/admin-dashboard/login");
+                return;
+            }
+            setWaitChangeStyleImageMsg("");
+            setErrorChangeStyleImageMsg("Sorry, Someting Went Wrong, Please Repeate The Process !!");
+            let errorTimeout = setTimeout(() => {
+                setErrorChangeStyleImageMsg("");
+                setSelectedStyleImageIndex(-1);
+                clearTimeout(errorTimeout);
+            }, 1500);
+        }
+    }
+
+    const updateFaceSwapStyleImage = async (styleIndex, imageIndex) => {
+        try {
+            setSelectedStyleIndex(styleIndex);
+            setSelectedStyleImageIndex(imageIndex);
+            setWaitChangeStyleImageMsg("Please Waiting Change Image ...");
+            let formData = new FormData();
+            formData.append("styleImage", files[styleIndex][imageIndex]);
+            const result = (await axios.put(`${process.env.BASE_API_URL}/styles/update-style-image/${categoryStylesData[styleIndex]._id}?service=${pageName}`, formData, {
+                headers: {
+                    Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
+                }
+            })).data;
+            if (!result.error) {
+                setWaitChangeStyleImageMsg("");
+                setSuccessChangeStyleImageMsg("Change Image Successfull !!");
+                let successTimeout = setTimeout(async () => {
+                    setSuccessChangeStyleImageMsg("");
+                    setSelectedStyleIndex(-1);
+                    setSelectedStyleImageIndex(-1);
+                    categoryStylesData[styleIndex][imageIndex].imgSrc = result.data.newImagePath;
+                    clearTimeout(successTimeout);
+                }, 1500);
+            }
+        } catch (err) {
+            if (err?.response?.data?.msg === "Unauthorized Error") {
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                await router.push("/admin-dashboard/login");
+                return;
+            }
+            setWaitChangeStyleImageMsg("");
+            setErrorChangeStyleImageMsg("Sorry, Someting Went Wrong, Please Repeate The Process !!");
+            let errorTimeout = setTimeout(() => {
+                setErrorChangeStyleImageMsg("");
+                setSelectedStyleIndex(-1);
+                setSelectedStyleImageIndex(-1);
+                clearTimeout(errorTimeout);
+            }, 1500);
         }
     }
 
@@ -382,8 +427,8 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                     disabled
                                                 >{errorChangeStyleImageMsg}</button>}
                                             </td>}
-                                            {pageName === "face-swap" && style?.imgSrcList?.map((imgSrc, imgIndex) => (
-                                                <td className="face-swap-style-image" key={imgIndex}>
+                                            {pageName === "face-swap" && style?.imgSrcList?.map((imgSrc, imageIndex) => (
+                                                <td className="face-swap-style-image" key={imageIndex}>
                                                     <img
                                                         src={`${process.env.BASE_API_URL}/${imgSrc}`}
                                                         alt={`Style Image`}
@@ -396,11 +441,11 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                         className="form-control mx-auto mb-3 form-control"
                                                         width="257"
                                                         accept=".jpg,.png,.webp"
-                                                        onChange={(e) => changeStyleImage(styleIndex, e.target.files[0])}
+                                                        onChange={(e) => changeStyleImage(styleIndex, e.target.files[0], imageIndex)}
                                                     />
                                                     {styleIndex !== selectedStyleImageIndex && <button
                                                         className="btn btn-danger"
-                                                        onClick={() => updateStyleImage(styleIndex)}
+                                                        onClick={() => updateFaceSwapStyleImage(styleIndex, imageIndex)}
                                                     >
                                                         Change Image
                                                     </button>}
