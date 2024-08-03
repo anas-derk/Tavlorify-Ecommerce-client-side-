@@ -7,12 +7,14 @@
             margin: auto;
         }
         .services-explain{
+            background-color: #EEE;
             .row{
-                row-gap: 30px;
+                row-gap: 70px;
                 align-items: center;
             }
             .service-explain{
-                line-height: 2;
+                line-height: 2.5;
+                text-align: left;
             }
         }
         .room-images{

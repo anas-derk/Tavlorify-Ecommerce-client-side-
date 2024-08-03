@@ -33,6 +33,7 @@ import faceSwapServiceExplainImage from "../../public/images/MainPage/Services/f
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { RiSecurePaymentLine } from "react-icons/ri";
+import Link from 'next/link';
 
 export default function Home() {
 
@@ -44,6 +45,7 @@ export default function Home() {
             minimizeImagesSrc: [minimizeImage1.src, minimizeImage2.src, minimizeImage3.src],
             minimizeImagesDescription: "SKAPA DIN EGEN AI-POSTER",
             serviceName: "Text To Image",
+            pagePath: "/text-to-image?paintingTypeAsQuery=poster"
         },
         {
             roomImageSrc: roomImage2.src,
@@ -52,6 +54,7 @@ export default function Home() {
             minimizeImagesSrc: [minimizeImage4.src, minimizeImage5.src, minimizeImage6.src],
             minimizeImagesDescription: "SKAPA DIN EGEN FOTOPOSTER",
             serviceName: "Image To Image",
+            pagePath: "/image-to-image?paintingTypeAsQuery=poster"
         },
         {
             roomImageSrc: roomImage3.src,
@@ -60,6 +63,7 @@ export default function Home() {
             minimizeImagesSrc: [minimizeImage7.src, minimizeImage8.src, minimizeImage9.src],
             minimizeImagesDescription: "SKAPA DIN EGEN PERSONLIGA POSTER",
             serviceName: "Face Swap",
+            pagePath: "/face-swap-image?paintingTypeAsQuery=poster"
         }
     ];
 
@@ -67,17 +71,20 @@ export default function Home() {
         {
             serviceName: "Text To Image",
             serviceExplainImage: textToImageServiceExplainImage.src,
-            serviceExplain: "Välkommen till en värld där din kreativitet möter artificiell intelligens för att skapa unik konst. Här på Tavlorify kan du enkelt omvandla dina idéer till vackra konstverk med hjälp av AI. Processen är enkel och tillgänglig för alla, oavsett konstnärlig erfarenhet."
+            serviceExplain: "Välkommen till en värld där din kreativitet möter artificiell intelligens för att skapa unik konst. Här på Tavlorify kan du enkelt omvandla dina idéer till vackra konstverk med hjälp av AI. Processen är enkel och tillgänglig för alla, oavsett konstnärlig erfarenhet.",
+            pagePath: "/text-to-image?paintingTypeAsQuery=poster"
         },
         {
             serviceName: "Image To Image",
             serviceExplainImage: imageToImageServiceExplainImage.src,
-            serviceExplain: "Förvandla dina minnen till mästerverk: Upptäck hur vår AI-teknologi andas liv i dina bilder, skapar personliga konstverk och förvandlar varje ögonblick till evigt konstnärligt arv. Gör ditt hem till en galleri med unika berättelser."
+            serviceExplain: "Förvandla dina minnen till mästerverk: Upptäck hur vår AI-teknologi andas liv i dina bilder, skapar personliga konstverk och förvandlar varje ögonblick till evigt konstnärligt arv. Gör ditt hem till en galleri med unika berättelser.",
+            pagePath: "/image-to-image?paintingTypeAsQuery=poster"
         },
         {
             serviceName: "Face Swap",
             serviceExplainImage: faceSwapServiceExplainImage.src,
-            serviceExplain: "Byt ansikte på sekunder med hjälp av AI: Ladda upp din selfie, Välj bland stilfulla förinställningar – kändisar, anime, konst, tecknat, och mer. Skapa och se magin!"
+            serviceExplain: "Byt ansikte på sekunder med hjälp av AI: Ladda upp din selfie, Välj bland stilfulla förinställningar – kändisar, anime, konst, tecknat, och mer. Skapa och se magin!",
+            pagePath: "/face-swap-image?paintingTypeAsQuery=poster"
         },
     ];
 
@@ -99,15 +106,17 @@ export default function Home() {
             </Head>
             <Header />
             <div className="page-content text-center">
-                <div className="container">
+                {/* Start Introduction Section */}
+                <section className="introduction mb-5 pt-5 pb-5">
                     <h1 className="h4 mb-5 fw-bold">SKAPA DINA PERSONLIGA POSTERS</h1>
                     <p className="caption-message mb-5 fw-bold">Välkommen till en korsning av fantasi och teknologi, där dina idéer blir levande. På 'Kreativitetens Horisonter' erbjuder vi ett spektrum av AI-drivna verktyg designade för att förvandla dina ord till visuella mästerverk, omvandla dina ögonblicksbilder till konst och ge ditt ansikte nya uttryck. Upptäck en värld där konst och innovation möts.</p>
-                    {/* Start Introduction Section */}
-                    <section className="introduction mb-5">
+                    <div className="container">
                         <div className="row">
                             {introductionSectionImagesList.map((images, index) => (
-                                <div className="col-lg-4" key={index}>
-                                    <img src={images.roomImageSrc} alt={`Room Image ${index + 1}`} className="mw-100 mb-4" onDragStart={(e) => e.preventDefault()} />
+                                <div className="col-lg-4 pe-5" key={index}>
+                                    <Link href={images.pagePath}>
+                                        <img src={images.roomImageSrc} alt={`Room Image ${index + 1}`} className="mw-100 mb-4" onDragStart={(e) => e.preventDefault()} />
+                                    </Link>
                                     <div className="explain-box mb-5">
                                         <h6 className="fw-bold">{images.roomImageHeading}</h6>
                                         <h6>{images.roomImageDescription}</h6>
@@ -115,18 +124,22 @@ export default function Home() {
                                     <div className="row mb-5">
                                         {images.minimizeImagesSrc.map((minimizeImageSrc, minimizeImageIndex) => (
                                             <div className="col-4" key={minimizeImageIndex}>
-                                                <img src={minimizeImageSrc} alt={`Minimize Image ${minimizeImageIndex + 1} For `} className="mw-100" onDragStart={(e) => e.preventDefault()} />
+                                                <Link href={images.pagePath}>
+                                                    <img src={minimizeImageSrc} alt={`Minimize Image ${minimizeImageIndex + 1} For `} className="mw-100" onDragStart={(e) => e.preventDefault()} />
+                                                </Link>
                                             </div>
                                         ))}
                                     </div>
-                                    <h6 className="fw-bold">{images.minimizeImagesDescription}</h6>
+                                    <Link href={images.pagePath} className="fw-bold text-dark text-decoration-underline">{images.minimizeImagesDescription}</Link>
                                 </div>
                             ))}
                         </div>
-                    </section>
-                    {/* End Introduction Section */}
-                    {/* Start Services Explain Section */}
-                    <section className="services-explain mb-5">
+                    </div>
+                </section>
+                {/* End Introduction Section */}
+                {/* Start Services Explain Section */}
+                <section className="services-explain mb-5 pt-5 pb-5">
+                    <div className="container">
                         <div className="row">
                             {servicesSectionImagesList.map((service, index) => (
                                 index % 2 !== 0 ? <>
@@ -134,11 +147,15 @@ export default function Home() {
                                         <p className="service-explain mb-4">{service.serviceExplain}</p>
                                     </div>
                                     <div className="col-lg-6" key={index}>
-                                        <img src={service.serviceExplainImage} alt={`${service.serviceName} Service Image`} className="mw-100" onDragStart={(e) => e.preventDefault()} />
+                                        <Link href={service.pagePath}>
+                                            <img src={service.serviceExplainImage} alt={`${service.serviceName} Service Image`} className="mw-100" onDragStart={(e) => e.preventDefault()} />
+                                        </Link>
                                     </div>
                                 </> : <>
                                     <div className="col-lg-6" key={index}>
-                                        <img src={service.serviceExplainImage} alt={`${service.serviceName} Service Image`} className="mw-100" onDragStart={(e) => e.preventDefault()} />
+                                        <Link href={service.pagePath}>
+                                            <img src={service.serviceExplainImage} alt={`${service.serviceName} Service Image`} className="mw-100" onDragStart={(e) => e.preventDefault()} />
+                                        </Link>
                                     </div>
                                     <div className="col-lg-6" key={index}>
                                         <p className="service-explain mb-4">{service.serviceExplain}</p>
@@ -146,10 +163,12 @@ export default function Home() {
                                 </>
                             ))}
                         </div>
-                    </section>
-                    {/* End Services Explain Section */}
-                    {/* Start Room Images Section */}
-                    <section className="room-images">
+                    </div>
+                </section>
+                {/* End Services Explain Section */}
+                {/* Start Room Images Section */}
+                <section className="room-images pt-5 pb-5">
+                    <div className="container">
                         <div className="row">
                             {roomImagesSrc.map((roomImageSrc, index) => (
                                 <div className="col-md-4" key={index}>
@@ -157,9 +176,9 @@ export default function Home() {
                                 </div>
                             ))}
                         </div>
-                    </section>
-                    {/* End Room Images Section */}
-                </div>
+                    </div>
+                </section>
+                {/* End Room Images Section */}
                 {/* Start More Details */}
                 <section className="more-details pt-4 pb-4 text-center mb-5">
                     <div className="container">
