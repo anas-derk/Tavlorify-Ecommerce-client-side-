@@ -12,7 +12,7 @@ import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import axios from "axios";
 import { MdOutlineContactPhone } from "react-icons/md";
-import LogoImage from "@/../public/images/Logo/logo1.jpg";
+import LogoImage from "@/../public/images/Logo/logo.jpg";
 
 export default function Header({ newTotalProductsCount }) {
 

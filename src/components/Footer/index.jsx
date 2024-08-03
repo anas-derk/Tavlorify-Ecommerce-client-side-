@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Logo from "../../../public/images/Logo/logo1.jpg";
+import Logo from "../../../public/images/Logo/logo.jpg";
 import { TiSocialFacebook } from "react-icons/ti";
 import { AiOutlineTwitter } from "react-icons/ai";
 import { BiPhone } from "react-icons/bi";
