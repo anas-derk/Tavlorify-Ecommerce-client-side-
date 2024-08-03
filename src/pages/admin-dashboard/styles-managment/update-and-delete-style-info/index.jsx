@@ -141,22 +141,23 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
             setSelectedStyleIndex(styleIndex);
             const result = (await axios.put(`${process.env.BASE_API_URL}/styles/update-style-data/${categoryStylesData[styleIndex]._id}?service=${pageName}&categoryName=${categoryStylesData[styleIndex].categoryName}`, {
                 newCategoryStyleSortNumber: categoryStylesData[styleIndex].sortNumber,
-                newName: categoryStylesData[styleIndex].name,
-                newPrompt: categoryStylesData[styleIndex].prompt,
-                newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
-                newModelName: categoryStylesData[styleIndex].modelName,
+                ...(pageName === "text-to-image" || pageName === "image-to-image" && {
+                    newName: categoryStylesData[styleIndex].name,
+                    newPrompt: categoryStylesData[styleIndex].prompt,
+                    newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
+                    newModelName: categoryStylesData[styleIndex].modelName,
+                }),
                 ...(pageName === "image-to-image" && {
                     newDdimSteps: categoryStylesData[styleIndex].ddim_steps,
                     newStrength: categoryStylesData[styleIndex].strength,
-                }
-                )
+                })
             }, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             })).data;
+            setWaitMsg("");
             if (!result.error) {
-                setWaitMsg("");
                 setSuccessMsg("Updating Successfull !!");
                 let successTimeout = setTimeout(async () => {
                     setSuccessMsg("");
@@ -415,10 +416,10 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                             ))}
                                             <td className="update-and-delete-cell">
                                                 {styleIndex !== selectedStyleIndex && <>
-                                                    {(pageName === "text-to-image" || pageName === "image-to-image") && <button
+                                                    <button
                                                         className="btn btn-success mb-3 d-block w-100"
                                                         onClick={() => updateStyleData(styleIndex)}
-                                                    >Update</button>}
+                                                    >Update</button>
                                                     {categoryStylesData.length > 1 && <button
                                                         className="btn btn-danger mb-3 d-block w-100"
                                                         onClick={() => deleteStyle(styleIndex)}
