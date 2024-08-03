@@ -79,7 +79,9 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
         try {
             setCategoryName(categoryName);
             setisGetCategoryStyles(true);
-            setCategoryStylesData((await getStylesForCategoryInService(pageName, categoryName)).data);
+            const styles = (await getStylesForCategoryInService(pageName, categoryName)).data;
+            setFiles(styles.map(() => [[]]));
+            setCategoryStylesData(styles);
             setisGetCategoryStyles(false);
         }
         catch (err) {
@@ -101,8 +103,13 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
             styleFiles[styleIndex] = newValue;
             setFiles(styleFiles);
         } else {
-            styleFiles[styleIndex][imageIndex] = newValue;
-            setFiles(styleFiles);
+            setFiles(prevFiles => {
+                console.log(prevFiles)
+                const newFiles = [...prevFiles];
+                if (newFiles[styleIndex])
+                newFiles[styleIndex][imageIndex] = newValue;
+                return newFiles;
+            });
         }
     }
 
@@ -150,24 +157,24 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
             setSelectedStyleIndex(styleIndex);
             setSelectedStyleImageIndex(imageIndex);
             setWaitChangeStyleImageMsg("Please Waiting Change Image ...");
-            // let formData = new FormData();
-            // formData.append("styleImage", files[styleIndex][imageIndex]);
-            // const result = (await axios.put(`${process.env.BASE_API_URL}/styles/update-style-image/${categoryStylesData[styleIndex]._id}?service=${pageName}`, formData, {
-            //     headers: {
-            //         Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
-            //     }
-            // })).data;
-            // if (!result.error) {
-            //     setWaitChangeStyleImageMsg("");
-            //     setSuccessChangeStyleImageMsg("Change Image Successfull !!");
-            //     let successTimeout = setTimeout(async () => {
-            //         setSuccessChangeStyleImageMsg("");
-            //         setSelectedStyleIndex(-1);
-            //         setSelectedStyleImageIndex(-1);
-            //         categoryStylesData[styleIndex][imageIndex].imgSrc = result.data.newImagePath;
-            //         clearTimeout(successTimeout);
-            //     }, 1500);
-            // }
+            let formData = new FormData();
+            formData.append("styleImage", files[styleIndex][imageIndex]);
+            const result = (await axios.put(`${process.env.BASE_API_URL}/styles/update-style-image/${categoryStylesData[styleIndex]._id}?service=${pageName}&imageIndex=${imageIndex}`, formData, {
+                headers: {
+                    Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
+                }
+            })).data;
+            if (!result.error) {
+                setWaitChangeStyleImageMsg("");
+                setSuccessChangeStyleImageMsg("Change Image Successfull !!");
+                let successTimeout = setTimeout(async () => {
+                    setSuccessChangeStyleImageMsg("");
+                    setSelectedStyleIndex(-1);
+                    setSelectedStyleImageIndex(-1);
+                    categoryStylesData[styleIndex][imageIndex] = result.data.newImagePath;
+                    clearTimeout(successTimeout);
+                }, 1500);
+            }
         } catch (err) {
             if (err?.response?.data?.msg === "Unauthorized Error") {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
