@@ -281,7 +281,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                 </thead>
                                 <tbody>
                                     {categoryStylesData.map((style, styleIndex) => (
-                                        <tr key={styleIndex}>
+                                        <tr key={style._id}>
                                             <td className="style-sort-number">
                                                 <h6 className="old-style-sort-number fw-bold">Old: {style.sortNumber}</h6>
                                                 <hr />
@@ -382,8 +382,8 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                     disabled
                                                 >{errorChangeStyleImageMsg}</button>}
                                             </td>}
-                                            {pageName === "face-swap" && style?.imgSrcList?.map((imgSrc) => (
-                                                <td className="face-swap-style-image">
+                                            {pageName === "face-swap" && style?.imgSrcList?.map((imgSrc, imgIndex) => (
+                                                <td className="face-swap-style-image" key={imgIndex}>
                                                     <img
                                                         src={`${process.env.BASE_API_URL}/${imgSrc}`}
                                                         alt={`Style Image`}
