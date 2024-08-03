@@ -113,7 +113,7 @@ export default function Home() {
             <Header />
             <div className="page-content text-center">
                 {/* Start Introduction Section */}
-                <section className="introduction mb-5 pt-5 pb-5">
+                <section className="introduction mb-5 pt-2 pb-2">
                     <h1 className="h4 mb-5 fw-bold">SKAPA DINA PERSONLIGA POSTERS</h1>
                     <p className="caption-message mb-5 fw-bold">Välkommen till en korsning av fantasi och teknologi, där dina idéer blir levande. På 'Kreativitetens Horisonter' erbjuder vi ett spektrum av AI-drivna verktyg designade för att förvandla dina ord till visuella mästerverk, omvandla dina ögonblicksbilder till konst och ge ditt ansikte nya uttryck. Upptäck en värld där konst och innovation möts.</p>
                     <div className="container">
