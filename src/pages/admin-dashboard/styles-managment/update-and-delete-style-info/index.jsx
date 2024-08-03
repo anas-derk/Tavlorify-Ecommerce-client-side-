@@ -44,7 +44,11 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
 
     useEffect(() => {
         setIsLoadingPage(true);
+        setCategoriesData([]);
         setCategoryStylesData([]);
+        setSelectedStyleImageIndex(-1);
+        setSelectedStyleIndex(-1);
+        setCategoryName("");
         const adminToken = localStorage.getItem(process.env.adminTokenNameInLocalStorage);
         if (adminToken) {
             getAdminInfo()
@@ -141,7 +145,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
             setSelectedStyleIndex(styleIndex);
             const result = (await axios.put(`${process.env.BASE_API_URL}/styles/update-style-data/${categoryStylesData[styleIndex]._id}?service=${pageName}&categoryName=${categoryStylesData[styleIndex].categoryName}`, {
                 newCategoryStyleSortNumber: categoryStylesData[styleIndex].sortNumber,
-                ...(pageName === "text-to-image" || pageName === "image-to-image" && {
+                ...((pageName === "text-to-image" || pageName === "image-to-image") && {
                     newName: categoryStylesData[styleIndex].name,
                     newPrompt: categoryStylesData[styleIndex].prompt,
                     newNegativePrompt: categoryStylesData[styleIndex].negative_prompt,
@@ -378,7 +382,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                     disabled
                                                 >{errorChangeStyleImageMsg}</button>}
                                             </td>}
-                                            {pageName === "face-swap" && style.imgSrcList.map((imgSrc) => (
+                                            {pageName === "face-swap" && style?.imgSrcList?.map((imgSrc) => (
                                                 <td className="face-swap-style-image">
                                                     <img
                                                         src={`${process.env.BASE_API_URL}/${imgSrc}`}
