@@ -139,7 +139,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
         try {
             setWaitMsg("Please Wait Updating ...");
             setSelectedStyleIndex(styleIndex);
-            const result = await axios.put(`${process.env.BASE_API_URL}/styles/update-style-data/${categoryStylesData[styleIndex]._id}?service=${pageName}&categoryName=${categoryStylesData[styleIndex].categoryName}`, {
+            const result = (await axios.put(`${process.env.BASE_API_URL}/styles/update-style-data/${categoryStylesData[styleIndex]._id}?service=${pageName}&categoryName=${categoryStylesData[styleIndex].categoryName}`, {
                 newCategoryStyleSortNumber: categoryStylesData[styleIndex].sortNumber,
                 newName: categoryStylesData[styleIndex].name,
                 newPrompt: categoryStylesData[styleIndex].prompt,
@@ -154,7 +154,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
-            });
+            })).data;
             if (!result.error) {
                 setWaitMsg("");
                 setSuccessMsg("Updating Successfull !!");
@@ -164,7 +164,12 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                     clearTimeout(successTimeout);
                 }, 1500);
             } else {
-                setSelectedStyleIndex(-1);
+                setErrorMsg("Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedStyleIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
             }
         }
         catch (err) {
@@ -187,14 +192,14 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
         try {
             setWaitMsg("Please Wait Deleting ...");
             setSelectedStyleIndex(styleIndex);
-            const result = await axios.delete(`${process.env.BASE_API_URL}/styles/delete-style-data/${categoryStylesData[styleIndex]._id}`, {
+            const result = (await axios.delete(`${process.env.BASE_API_URL}/styles/delete${pageName === "face-swap" && "-" + pageName}-style-data/${categoryStylesData[styleIndex]._id}`, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
-            });
+            })).data;
             setWaitMsg("");
             if (!result.error) {
-                setSuccessMsg("Updating Successfull !!");
+                setSuccessMsg("Deleting Successfull !!");
                 let successTimeout = setTimeout(async () => {
                     setSuccessMsg("");
                     setSelectedStyleIndex(-1);
