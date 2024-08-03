@@ -455,7 +455,7 @@ export default function ImageToImage({
             let imageToImageData = new FormData();
             imageToImageData.append("imageFile", file);
             setIsUplodingFile(true);
-            const res = await axios.post(`${process.env.BASE_API_URL}/image-to-image/upload-image-and-processing`, imageToImageData, {
+            const res = await axios.post(`${process.env.BASE_API_URL}/generated-images/upload-image-and-processing`, imageToImageData, {
                 onUploadProgress: (progressEvent) => {
                     setUploadingProgress(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
                 }
