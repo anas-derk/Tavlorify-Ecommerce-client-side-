@@ -33,7 +33,8 @@ import faceSwapServiceExplainImage from "../../public/images/MainPage/Services/f
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { RiSecurePaymentLine } from "react-icons/ri";
-import Link from 'next/link';
+import Link from "next/link";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 export default function Home() {
 
@@ -113,7 +114,7 @@ export default function Home() {
             <Header />
             <div className="page-content text-center">
                 {/* Start Introduction Section */}
-                <section className="introduction mb-5 pt-2 pb-2">
+                <section className="introduction mb-5 pt-3 pb-3">
                     <h1 className="h4 mb-5 fw-bold">SKAPA DINA PERSONLIGA POSTERS</h1>
                     <p className="caption-message mb-5 fw-bold">Välkommen till en korsning av fantasi och teknologi, där dina idéer blir levande. På 'Kreativitetens Horisonter' erbjuder vi ett spektrum av AI-drivna verktyg designade för att förvandla dina ord till visuella mästerverk, omvandla dina ögonblicksbilder till konst och ge ditt ansikte nya uttryck. Upptäck en värld där konst och innovation möts.</p>
                     <div className="container">
@@ -152,6 +153,10 @@ export default function Home() {
                                     <div className="col-lg-6 pe-5" key={index}>
                                         <h3 className="service-title mb-4 text-start">{service.serviceTitle}</h3>
                                         <p className="service-explain mb-4 text-start">{service.serviceExplain}</p>
+                                        <Link href={service.pagePath} className="service-path-button d-block text-start fw-bold text-dark">
+                                            <span className="me-2">{service.buttonContent}</span>
+                                            <MdOutlineKeyboardArrowRight />
+                                        </Link>
                                     </div>
                                     <div className="col-lg-6" key={index}>
                                         <Link href={service.pagePath}>
@@ -167,6 +172,10 @@ export default function Home() {
                                     <div className="col-lg-6" key={index}>
                                         <h3 className="service-title mb-4 text-start">{service.serviceTitle}</h3>
                                         <p className="service-explain mb-4 text-start">{service.serviceExplain}</p>
+                                        <Link href={service.pagePath} className="service-path-button d-block text-start fw-bold text-dark">
+                                            <span className="me-2">{service.buttonContent}</span>
+                                            <MdOutlineKeyboardArrowRight />
+                                        </Link>
                                     </div>
                                 </>
                             ))}
