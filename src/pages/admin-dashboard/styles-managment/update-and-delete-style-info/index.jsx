@@ -146,27 +146,28 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
 
     const updateFaceSwapStyleImage = async (styleIndex, imageIndex) => {
         try {
+            if (typeof files[styleIndex][imageIndex] !== "object") return;
             setSelectedStyleIndex(styleIndex);
             setSelectedStyleImageIndex(imageIndex);
             setWaitChangeStyleImageMsg("Please Waiting Change Image ...");
-            let formData = new FormData();
-            formData.append("styleImage", files[styleIndex][imageIndex]);
-            const result = (await axios.put(`${process.env.BASE_API_URL}/styles/update-style-image/${categoryStylesData[styleIndex]._id}?service=${pageName}`, formData, {
-                headers: {
-                    Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
-                }
-            })).data;
-            if (!result.error) {
-                setWaitChangeStyleImageMsg("");
-                setSuccessChangeStyleImageMsg("Change Image Successfull !!");
-                let successTimeout = setTimeout(async () => {
-                    setSuccessChangeStyleImageMsg("");
-                    setSelectedStyleIndex(-1);
-                    setSelectedStyleImageIndex(-1);
-                    categoryStylesData[styleIndex][imageIndex].imgSrc = result.data.newImagePath;
-                    clearTimeout(successTimeout);
-                }, 1500);
-            }
+            // let formData = new FormData();
+            // formData.append("styleImage", files[styleIndex][imageIndex]);
+            // const result = (await axios.put(`${process.env.BASE_API_URL}/styles/update-style-image/${categoryStylesData[styleIndex]._id}?service=${pageName}`, formData, {
+            //     headers: {
+            //         Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
+            //     }
+            // })).data;
+            // if (!result.error) {
+            //     setWaitChangeStyleImageMsg("");
+            //     setSuccessChangeStyleImageMsg("Change Image Successfull !!");
+            //     let successTimeout = setTimeout(async () => {
+            //         setSuccessChangeStyleImageMsg("");
+            //         setSelectedStyleIndex(-1);
+            //         setSelectedStyleImageIndex(-1);
+            //         categoryStylesData[styleIndex][imageIndex].imgSrc = result.data.newImagePath;
+            //         clearTimeout(successTimeout);
+            //     }, 1500);
+            // }
         } catch (err) {
             if (err?.response?.data?.msg === "Unauthorized Error") {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
@@ -414,7 +415,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                 >
                                                     Change Image
                                                 </button>}
-                                                {waitChangeStyleImageMsg && selectedStyleImageIndex === styleIndex && <button
+                                                {waitChangeStyleImageMsg && selectedStyleImageIndex === styleIndex  && <button
                                                     className="btn btn-info d-block mb-3 mx-auto"
                                                     disabled
                                                 >{waitChangeStyleImageMsg}</button>}
@@ -443,21 +444,21 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                         accept=".jpg,.png,.webp"
                                                         onChange={(e) => changeStyleImage(styleIndex, e.target.files[0], imageIndex)}
                                                     />
-                                                    {styleIndex !== selectedStyleImageIndex && <button
+                                                    {styleIndex !== selectedStyleIndex && <button
                                                         className="btn btn-danger"
                                                         onClick={() => updateFaceSwapStyleImage(styleIndex, imageIndex)}
                                                     >
                                                         Change Image
                                                     </button>}
-                                                    {waitChangeStyleImageMsg && selectedStyleImageIndex === styleIndex && <button
+                                                    {waitChangeStyleImageMsg && selectedStyleIndex === styleIndex && selectedStyleImageIndex === imageIndex && <button
                                                         className="btn btn-info d-block mb-3 mx-auto"
                                                         disabled
                                                     >{waitChangeStyleImageMsg}</button>}
-                                                    {successChangeStyleImageMsg && selectedStyleImageIndex === styleIndex && <button
+                                                    {successChangeStyleImageMsg && selectedStyleIndex === styleIndex && selectedStyleImageIndex === imageIndex && <button
                                                         className="btn btn-success d-block mb-3 mx-auto"
                                                         disabled
                                                     >{successChangeStyleImageMsg}</button>}
-                                                    {errorChangeStyleImageMsg && selectedStyleImageIndex === styleIndex && <button
+                                                    {errorChangeStyleImageMsg && selectedStyleIndex === styleIndex && selectedStyleImageIndex === imageIndex && <button
                                                         className="btn btn-danger d-block mb-3 mx-auto"
                                                         disabled
                                                     >{errorChangeStyleImageMsg}</button>}
