@@ -85,7 +85,7 @@ export default function CookiePolicy() {
                             </ul>
                             <h6 className="mb-2 fw-bold long-heading">HUR KAN JAG KONTROLLERA VILKEN INFORMATION SOM DELAS MED ANNONSÖRER ?</h6>
                             <p className="mb-3">Om du vill begränsa informationen som delas med annonsörer kan du ladda ner en så kallad opt-out cookie från olika annonseringsaktörer eller använda andra lösningar, exempelvis youronlinechoices.com. Observera att du måste genomföra samma procedur i alla olika enheter du använder och för varje webbläsare du använder</p>
-                            <p>Denna cookiepolicy uppdaterades 2021-03-14.</p>
+                            <p>Denna cookiepolicy uppdaterades 2023-05-25.</p>
                         </div>
                     </div>
                 </div>

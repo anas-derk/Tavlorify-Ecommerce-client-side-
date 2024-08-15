@@ -24,7 +24,7 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li className="link-item mb-3">
-                                <Link className="link" href="/login" target="_blank">
+                                <Link className="link" href="/face-swap?paintingTypeAsQuery=poster" target="_blank">
                                     Ansiktsersättning!
                                 </Link>
                             </li>
