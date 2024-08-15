@@ -64,7 +64,7 @@ export default function Home() {
             minimizeImagesSrc: [minimizeImage7.src, minimizeImage8.src, minimizeImage9.src],
             minimizeImagesDescription: "SKAPA DIN EGEN PERSONLIGA POSTER",
             serviceName: "Face Swap",
-            pagePath: "/face-swap-image?paintingTypeAsQuery=poster"
+            pagePath: "/face-swap?paintingTypeAsQuery=poster"
         }
     ];
 
@@ -90,7 +90,7 @@ export default function Home() {
             serviceExplainImage: faceSwapServiceExplainImage.src,
             serviceTitle: "Sätt ditt ansikte i varje tavla",
             serviceExplain: "Byt ansikte på sekunder med hjälp av AI: Ladda upp din selfie, Välj bland stilfulla förinställningar – kändisar, anime, konst, tecknat, och mer. Skapa och se magin!",
-            pagePath: "/face-swap-image?paintingTypeAsQuery=poster",
+            pagePath: "/face-swap?paintingTypeAsQuery=poster",
             buttonContent: "SKAPA MIN TAVLA"
         },
     ];
