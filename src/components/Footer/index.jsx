@@ -43,7 +43,7 @@ export default function Footer() {
                         {/* Start Link List */}
                         <ul className="list-unstyled link-list">
                             <li className="link-item mb-3">
-                                <Link className="link" href="/text-to-image?paintingTypeAsQuery=poster" target="_blank">
+                                <Link className="link" href="/customer-service" target="_blank">
                                     Kundservice
                                 </Link>
                             </li>
