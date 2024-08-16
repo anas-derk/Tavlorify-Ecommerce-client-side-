@@ -475,7 +475,7 @@ export default function Header({ newTotalProductsCount }) {
                                     </Link>
                                 </li>
                                 <li className="link-item p-2">
-                                    <Link className="link" aria-current="page" href="/faq">
+                                    <Link className="link" aria-current="page" href="/questions-and-answers">
                                         FAQ
                                     </Link>
                                 </li>
