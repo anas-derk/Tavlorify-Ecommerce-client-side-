@@ -48,7 +48,7 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li className="link-item mb-3">
-                                <Link className="link" href="/image-to-image?paintingTypeAsQuery=poster" target="_blank">
+                                <Link className="link" href="/questions-and-answers" target="_blank">
                                     Frågor & Svar
                                 </Link>
                             </li>
