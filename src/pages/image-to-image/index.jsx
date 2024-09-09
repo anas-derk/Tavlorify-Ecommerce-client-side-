@@ -651,7 +651,7 @@ export default function ImageToImage({
                 left: 0,
             });
             setIsWaitStatus(true);
-            const res = await axios.get(`${process.env.BASE_API_URL}/generated-images/generate-image-using-image-to-image-service?imageLink=${imageLink}&prompt=${categoryStyles[selectedStyleIndex].prompt}&n_prompt=${categoryStyles[selectedStyleIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[selectedStyleIndex].ddim_steps}&strength=${categoryStyles[selectedStyleIndex].strength}&service=image-to-image&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[selectedStyleIndex].name}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`);
+            const res = await axios.get(`${process.env.BASE_API_URL}/generated-images/generate-image-using-image-to-image-service?imageLink=${imageLink}&prompt=${categoryStyles[selectedStyleIndex].prompt}&n_prompt=${categoryStyles[selectedStyleIndex].negative_prompt}&image_resolution=896&preprocessor_resolution=896&modelName=${modelName}&ddim_steps=${categoryStyles[selectedStyleIndex].ddim_steps}&strength=${categoryStyles[selectedStyleIndex].strength}&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[selectedStyleIndex].name}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`);
             const result = res.data;
             const imageURL = `${process.env.BASE_API_URL}/${result.data}`;
             let image = new Image();
