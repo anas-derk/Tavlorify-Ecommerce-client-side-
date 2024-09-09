@@ -55,9 +55,9 @@ import { BiError } from "react-icons/bi";
 import { GrFormClose } from "react-icons/gr";
 import LoaderPage from "@/components/LoaderPage";
 import Carousel from "react-bootstrap/Carousel";
-import howToUseImage1 from "../../../public/images/HowToUseExplain/Img2Img/1.jpg";
-import howToUseImage2 from "../../../public/images/HowToUseExplain/Img2Img/2.jpg";
-import howToUseImage3 from "../../../public/images/HowToUseExplain/Img2Img/3.jpg";
+import howToUseImage1 from "../../../public/images/HowToUseExplain/FaceSwap/1.png";
+import howToUseImage2 from "../../../public/images/HowToUseExplain/FaceSwap/2.jpg";
+import howToUseImage3 from "../../../public/images/HowToUseExplain/FaceSwap/3.jpg";
 import PaintingDetails from "@/components/PaintingDetails";
 import Footer from "@/components/Footer";
 import Slider from "react-slick";
@@ -1416,15 +1416,16 @@ export default function FaceSwap({
                                         />
                                     </div>
                                     <div className="explain-box">
-                                        <h6 className="fw-bold">2. Skapa bild</h6>
-                                        <p>Välj mellan eleganta filter, ram, text och storlek</p>
+                                        <h6 className="fw-bold">2. Skapa Ansiktskonst</h6>
+                                        <p className="mb-0">Välj mellan kön, stil, format,</p>
+                                        <p>klicka på knappen "Skapa din konst"</p>
                                     </div>
                                 </div>
                                 <div className="col-md-4">
                                     <div className="explain-image-box mb-4">
                                         <img
                                             src={howToUseImage3.src}
-                                            alt="How To Use Image To Image Page ( Image 3 )"
+                                            alt="How To Use Face Swap Page ( Image 3 )"
                                             className="explain-image mw-100"
                                         />
                                     </div>
@@ -1437,7 +1438,7 @@ export default function FaceSwap({
                         </section>
                         {/* End How To Use Service Section */}
                         {/* Start Painting Details Section */}
-                        <PaintingDetails windowInnerWidth={windowInnerWidth} serviceName="image-to-image" />
+                        <PaintingDetails windowInnerWidth={windowInnerWidth} serviceName="face-swap" />
                         {/* End Painting Details Section */}
                         {/* Start Inspiration */}
                         <Inspiration imagesSrc={imagesSrc} />

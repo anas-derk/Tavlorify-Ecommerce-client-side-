@@ -14,22 +14,22 @@ export default function Footer() {
                         {/* Start Link List */}
                         <ul className="list-unstyled link-list">
                             <li className="link-item mb-3">
-                                <Link className="link" href="/text-to-image?paintingTypeAsQuery=poster" target="_blank">
+                                <Link className="link" href="/text-to-image?paintingTypeAsQuery=poster">
                                     Skapa AI-konst
                                 </Link>
                             </li>
                             <li className="link-item mb-3">
-                                <Link className="link" href="/image-to-image?paintingTypeAsQuery=poster" target="_blank">
+                                <Link className="link" href="/image-to-image?paintingTypeAsQuery=poster">
                                     Skapa fotokonst
                                 </Link>
                             </li>
                             <li className="link-item mb-3">
-                                <Link className="link" href="/face-swap?paintingTypeAsQuery=poster" target="_blank">
-                                    Ansiktsersättning!
+                                <Link className="link" href="/face-swap?paintingTypeAsQuery=poster">
+                                    Ansiktskonst
                                 </Link>
                             </li>
                             <li className="link-item">
-                                <Link className="link" href="/who-are-we" target="_blank">
+                                <Link className="link" href="/who-are-we">
                                     Om oss
                                 </Link>
                             </li>
@@ -43,22 +43,22 @@ export default function Footer() {
                         {/* Start Link List */}
                         <ul className="list-unstyled link-list">
                             <li className="link-item mb-3">
-                                <Link className="link" href="/customer-service" target="_blank">
+                                <Link className="link" href="/customer-service">
                                     Kundservice
                                 </Link>
                             </li>
                             <li className="link-item mb-3">
-                                <Link className="link" href="/questions-and-answers" target="_blank">
+                                <Link className="link" href="/questions-and-answers">
                                     Frågor & Svar
                                 </Link>
                             </li>
                             <li className="link-item mb-3">
-                                <Link className="link" href="/login" target="_blank">
+                                <Link className="link" href="/integrity-policy">
                                     Integritetspolicy
                                 </Link>
                             </li>
                             <li className="link-item">
-                                <Link className="link" href="/cookie-policy" target="_blank">
+                                <Link className="link" href="/cookie-policy">
                                     Cookiepolicy
                                 </Link>
                             </li>
@@ -72,7 +72,7 @@ export default function Footer() {
                         {/* Start Link List */}
                         <ul className="list-unstyled link-list">
                             <li className="link-item mb-3">
-                                <Link className="link" href="/contact-us" target="_blank">
+                                <Link className="link" href="/contact-us">
                                     Kontakta oss
                                 </Link>
                             </li>

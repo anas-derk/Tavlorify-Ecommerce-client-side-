@@ -59,7 +59,7 @@ export default function Home() {
         },
         {
             roomImageSrc: roomImage3.src,
-            roomImageHeading: "SKAPA DIN PERSONLIGA KONT",
+            roomImageHeading: "SKAPA Ansiktskonst",
             roomImageDescription: "Sätt ditt ansikte i varje tavla med vår unika ansiktsersättningsteknik!",
             minimizeImagesSrc: [minimizeImage7.src, minimizeImage8.src, minimizeImage9.src],
             minimizeImagesDescription: "SKAPA DIN EGEN PERSONLIGA POSTER",

@@ -1704,8 +1704,8 @@ export default function ImageToImage({
                                         />
                                     </div>
                                     <div className="explain-box">
-                                        <h6 className="fw-bold">2. Skapa bild</h6>
-                                        <p>Välj mellan eleganta filter, ram, text och storlek</p>
+                                        <h6 className="fw-bold">2. Skapa din konst</h6>
+                                        <p>Välj mellan kategori, stil, klicka på knappen "Skapa din konst"</p>
                                     </div>
                                 </div>
                                 <div className="col-md-4">

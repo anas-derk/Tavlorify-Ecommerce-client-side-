@@ -40,7 +40,7 @@ export default function CookiePolicy() {
                             <h6 className="mb-2 fw-bold">En Plattform för Alla</h6>
                             <p className="mb-3">Vår plattform har växt och utvecklats. Den har blivit en ovärderlig resurs för konstnärer, skolor, kreativa själar och alla som vill uttrycka sig genom konst. Vi lyssnar ständigt på våra användare och förbättrar plattformen för att möta deras behov.</p>
                             <p className="mb-3">Vårt mål är att göra konstskapande enkelt och tillgängligt för alla. Varje konstverk vi skapar bär på en unik berättelse och bidrar till vårt gemensamma konstnärliga arv.</p>
-                            <h6 className="mb-2 fw-bold">ack för att du är en del av vår resa</h6>
+                            <h6 className="mb-2 fw-bold">Tack för att du är en del av vår resa</h6>
                             <p className="mb-3">Vi strävar efter att göra konstnärligt uttryck tillgängligt och enkelt för alla. Varje beställning är en unik resa, där varje bild bär med sig en berättelse och varje konstverk blir en del av vårt gemensamma konstnärliga arv.</p>
                             <p className="mb-3">Vi ser fram emot att skapa magiska konstverk tillsammans med dig. Välkommen till vår värld, där drömmar och teknik möts i en symfoni av färg och form.</p>
                             {/* Start Generated Images Examples Section */}

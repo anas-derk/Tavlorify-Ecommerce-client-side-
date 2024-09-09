@@ -383,7 +383,7 @@ export default function Header({ newTotalProductsCount }) {
                                                     }
                                                 }}
                                             >
-                                                Förvandla ord till konstverk
+                                                Skapa AI-konst
                                             </Link>
                                         </li>
                                         <li><hr className="dropdown-divider" /></li>
@@ -411,7 +411,7 @@ export default function Header({ newTotalProductsCount }) {
                                                     }
                                                 }}
                                             >
-                                                ansiktsbyte
+                                                Ansiktskonst
                                             </Link>
                                         </li>
                                     </ul>
@@ -431,7 +431,7 @@ export default function Header({ newTotalProductsCount }) {
                                                     }
                                                 }}
                                             >
-                                                Förvandla ord till konstverk
+                                                Skapa AI-konst
                                             </Link>
                                         </li>
                                         <li><hr className="dropdown-divider" /></li>
@@ -459,7 +459,7 @@ export default function Header({ newTotalProductsCount }) {
                                                     }
                                                 }}
                                             >
-                                                ansiktsbyte
+                                                Ansiktskonst
                                             </Link>
                                         </li>
                                     </ul>
@@ -471,7 +471,7 @@ export default function Header({ newTotalProductsCount }) {
                                 </li>
                                 <li className="link-item p-2">
                                     <Link className="link" aria-current="page" href="/contact-us">
-                                        RING OSS
+                                        KONTAKTA OSS
                                     </Link>
                                 </li>
                                 <li className="link-item p-2">
@@ -535,7 +535,7 @@ export default function Header({ newTotalProductsCount }) {
                                     }}
                                 >
                                     <FaLongArrowAltRight className="me-2" />
-                                    <span>Förvandla ord till konstverk</span>
+                                    <span>Skapa AI-konst</span>
                                 </Link>
                             </li>
                             <li className="pt-2 pb-2 dropdown-menu-item-for-custom-navbar">
@@ -563,7 +563,7 @@ export default function Header({ newTotalProductsCount }) {
                                     }}
                                 >
                                     <FaLongArrowAltRight className="me-2" />
-                                    <span>ansiktsbyte</span>
+                                    <span>Ansiktskonst</span>
                                 </Link>
                             </li>
                         </ul>}
@@ -588,7 +588,7 @@ export default function Header({ newTotalProductsCount }) {
                                     }}
                                 >
                                     <FaLongArrowAltRight className="me-2" />
-                                    <span>Förvandla ord till konstverk</span>
+                                    <span>Skapa AI-konst</span>
                                 </Link>
                             </li>
                             <li className="pt-2 pb-2 dropdown-menu-item-for-custom-navbar">
@@ -616,7 +616,7 @@ export default function Header({ newTotalProductsCount }) {
                                     }}
                                 >
                                     <FaLongArrowAltRight className="me-2" />
-                                    <span>ansiktsbyte</span>
+                                    <span>Ansiktskonst</span>
                                 </Link>
                             </li>
                         </ul>}
@@ -630,7 +630,7 @@ export default function Header({ newTotalProductsCount }) {
                     <li className="link-item p-3 border-bottom border-2">
                         <Link className="link" aria-current="page" href="/contact-us">
                             <MdOutlineContactPhone />
-                            <span className="ms-2">RINH OSS</span>
+                            <span className="ms-2">KONTAKTA OSS</span>
                         </Link>
                     </li>
                     <li className="link-item p-3 border-bottom border-2">
