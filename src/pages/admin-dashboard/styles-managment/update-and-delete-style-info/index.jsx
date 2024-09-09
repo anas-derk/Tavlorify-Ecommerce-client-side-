@@ -380,7 +380,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                     <option value="stable-diffusion">Stable Diffusion</option>
                                                     <option value="deliberate-v2">Deliberate</option>
                                                     <option value="sdxl">Sdxl</option>
-                                                    <option value="openjourney">Openjourney</option>
+                                                    <option value="sdxl-lightning-4step">Sdxl Lightning 4step</option>
                                                 </select>
                                             </td>}
                                             {pageName === "image-to-image" && <>

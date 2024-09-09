@@ -424,7 +424,7 @@ const modelsDimentions = {
             },
         ]
     },
-    "openjourney": {
+    "sdxl-lightning-4step": {
         "horizontal": [
             {
                 inCm: "29,7x21",
