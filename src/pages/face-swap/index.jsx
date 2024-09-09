@@ -64,7 +64,7 @@ import Slider from "react-slick";
 import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import Inspiration from "@/components/Inspiration";
-import { MdDeleteForever } from "react-icons/md";
+import { TiDeleteOutline } from "react-icons/ti";
 import InspirationImage1ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/1.webp";
 import InspirationImage2ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/2.webp";
 import InspirationImage3ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/3.webp";
@@ -1374,7 +1374,7 @@ export default function FaceSwap({
                                                         height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`
                                                     }}
                                                 >
-                                                    <MdDeleteForever className="delete-icon" onClick={() => deleteGeneratedImageData(index)} />
+                                                    <TiDeleteOutline className="delete-icon" onClick={() => deleteGeneratedImageData(index)} />
                                                     <img
                                                         src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
                                                         alt="Generated Image !!"

@@ -65,7 +65,7 @@ import Slider from "react-slick";
 import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import Inspiration from "@/components/Inspiration";
-import { MdDeleteForever } from "react-icons/md";
+import { TiDeleteOutline } from "react-icons/ti";
 import InspirationImage1ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/1.webp";
 import InspirationImage2ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/2.webp";
 import InspirationImage3ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/3.webp";
@@ -1669,7 +1669,7 @@ export default function ImageToImage({
                                                     }}
                                                     onDragStart={(e) => e.preventDefault()}
                                                 >
-                                                    <MdDeleteForever className="delete-icon" onClick={() => deleteGeneratedImageData(index)} />
+                                                    <TiDeleteOutline className="delete-icon" onClick={() => deleteGeneratedImageData(index)} />
                                                 </div>
                                             </Fragment>
                                         ))}

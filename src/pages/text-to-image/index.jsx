@@ -59,7 +59,7 @@ import Slider from "react-slick";
 import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import Inspiration from "@/components/Inspiration";
-import { MdDeleteForever } from "react-icons/md";
+import { TiDeleteOutline } from "react-icons/ti";
 import InspirationImage1ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/1.webp";
 import InspirationImage2ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/2.webp";
 import InspirationImage3ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/3.webp";
@@ -1359,7 +1359,7 @@ export default function TextToImage({
                                                         height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`
                                                     }}
                                                 >
-                                                    <MdDeleteForever className="delete-icon" onClick={() => deleteGeneratedImageData(index)} />
+                                                    <TiDeleteOutline className="delete-icon" onClick={() => deleteGeneratedImageData(index)} />
                                                     <img
                                                         src={`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`}
                                                         alt="Generated Image !!"
