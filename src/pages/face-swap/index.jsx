@@ -425,7 +425,7 @@ export default function FaceSwap({
             let faceSwapData = new FormData();
             faceSwapData.append("imageFile", file);
             setIsUplodingFile(true);
-            const result = handleUploadImage(faceSwapData, (progressEvent) => {
+            const result = await handleUploadImage(faceSwapData, (progressEvent) => {
                 setUploadingProgress(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
             });
             setImageLink(`${process.env.BASE_API_URL}/${result.data}`);
