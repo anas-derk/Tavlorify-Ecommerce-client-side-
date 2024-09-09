@@ -75,7 +75,7 @@ import InspirationImage7ForFaceSwap from "@/../public/images/Inspiration/FaceSwa
 import InspirationImage8ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/8.webp";
 import CustomersComments from "@/components/CustomersComments";
 import WaitGeneratingImage from "@/components/WaitGeneratingImage";
-import { getStylesForCategoryInService } from "../../../public/global_functions/popular";
+import { getStylesForCategoryInService, handleUploadImage } from "../../../public/global_functions/popular";
 
 export default function FaceSwap({
     generatedImageId,
@@ -422,15 +422,13 @@ export default function FaceSwap({
 
     const handleSelectImageFile = async (file) => {
         try {
-            let imageToImageData = new FormData();
-            imageToImageData.append("imageFile", file);
+            let faceSwapData = new FormData();
+            faceSwapData.append("imageFile", file);
             setIsUplodingFile(true);
-            const res = await axios.post(`${process.env.BASE_API_URL}/image-to-image/upload-image-and-processing`, imageToImageData, {
-                onUploadProgress: (progressEvent) => {
-                    setUploadingProgress(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
-                }
+            const result = handleUploadImage(faceSwapData, (progressEvent) => {
+                setUploadingProgress(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
             });
-            setImageLink(`${process.env.BASE_API_URL}/${res.data.data}`);
+            setImageLink(`${process.env.BASE_API_URL}/${result.data}`);
             setIsUplodingFile(false);
         }
         catch (err) {
@@ -581,9 +579,8 @@ export default function FaceSwap({
                 left: 0,
             });
             setIsWaitStatus(true);
-            const res = await axios.get(
-                `${process.env.BASE_API_URL}/generated-images/generate-image-using-text-to-image-service?imageLink=${imageLink}&styleImageLink=${getSuitableStyleImageLink(imageType)}`);
-            const result = await res.data;
+            const result = (await axios.get(
+                `${process.env.BASE_API_URL}/generated-images/generate-image-using-face-swap-service?imageLink=${imageLink}&styleImageLink=${getSuitableStyleImageLink(imageType)}`)).data;
             const imageURL = `${process.env.BASE_API_URL}/${result.data}`;
             setTempImageType(imageType);
             setTempDimentionsInCm(dimentionsInCm);
