@@ -76,7 +76,7 @@ import InspirationImage7ForImageToImage from "@/../public/images/Inspiration/Ima
 import InspirationImage8ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/8.webp";
 import CustomersComments from "@/components/CustomersComments";
 import WaitGeneratingImage from "@/components/WaitGeneratingImage";
-import { getAllCategoriesForService, getStylesForCategoryInService } from "../../../public/global_functions/popular";
+import { getAllCategoriesForService, getStylesForCategoryInService, handleUploadImage } from "../../../public/global_functions/popular";
 
 export default function ImageToImage({
     generatedImageId,
@@ -455,12 +455,10 @@ export default function ImageToImage({
             let imageToImageData = new FormData();
             imageToImageData.append("imageFile", file);
             setIsUplodingFile(true);
-            const res = await axios.post(`${process.env.BASE_API_URL}/generated-images/upload-image-and-processing`, imageToImageData, {
-                onUploadProgress: (progressEvent) => {
-                    setUploadingProgress(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
-                }
+            const result = await handleUploadImage(imageToImageData, (progressEvent) => {
+                setUploadingProgress(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
             });
-            setImageLink(`${process.env.BASE_API_URL}/${res.data.data}`);
+            setImageLink(`${process.env.BASE_API_URL}/${result.data}`);
             setIsUplodingFile(false);
         }
         catch (err) {
