@@ -682,6 +682,7 @@ export default function ImageToImage({
             }
         }
         catch (err) {
+            console.log(err)
             setIsWaitStatus(false);
             setErrorMsg("Sorry, Something Went Wrong, Please Repeate This Process !!");
             let errorMsgTimeout = setTimeout(() => {
