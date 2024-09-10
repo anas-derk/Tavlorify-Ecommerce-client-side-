@@ -649,7 +649,7 @@ export default function ImageToImage({
                 left: 0,
             });
             setIsWaitStatus(true);
-            const result = (await axios.get(`${process.env.BASE_API_URL}/generated-images/generate-image-using-image-to-image-service?imageLink=${imageLink}&styleId=${categoryStyles[styleSelectedIndex]._id}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`)).data;
+            const result = (await axios.get(`${process.env.BASE_API_URL}/generated-images/generate-image-using-image-to-image-service?imageLink=${imageLink}&styleId=${categoryStyles[selectedStyleIndex]._id}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`)).data;
             const imageURL = `${process.env.BASE_API_URL}/${result.data}`;
             let image = new Image();
             image.src = imageURL;
