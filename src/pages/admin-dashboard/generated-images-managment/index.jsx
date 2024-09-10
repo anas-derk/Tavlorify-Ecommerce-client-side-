@@ -171,7 +171,7 @@ export default function GeneratedImagesManagment({ pageName }) {
                                 <thead>
                                     <tr>
                                         <th>Number</th>
-                                        {pageName === "image-to-image" && <th>uploaded Image</th>}
+                                        {(pageName === "image-to-image" || pageName === "face-swap") && <th>uploaded Image</th>}
                                         {pageName === "text-to-image" && <th>Text Prompt</th>}
                                         <th>Category Name</th>
                                         <th>Style Name</th>
@@ -185,7 +185,7 @@ export default function GeneratedImagesManagment({ pageName }) {
                                     {allGeneratedImagesDataInsideThePage.map((generatedImageData, generatedImageIndex) => (
                                         <tr key={generatedImageIndex}>
                                             <td className="fw-bold">{pageSize * (currentPage - 1) + generatedImageIndex + 1}</td>
-                                            {pageName === "image-to-image" && <td className="uploaded-image-cell">
+                                            {(pageName === "image-to-image" || pageName === "face-swap") && <td className="uploaded-image-cell">
                                                 <img
                                                     src={generatedImageData.uploadedImageURL}
                                                     alt="Generated Image !!"
