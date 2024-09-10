@@ -174,7 +174,8 @@ export default function GeneratedImagesManagment({ pageName }) {
                                         {(pageName === "image-to-image" || pageName === "face-swap") && <th>uploaded Image</th>}
                                         {pageName === "text-to-image" && <th>Text Prompt</th>}
                                         <th>Category Name</th>
-                                        <th>Style Name</th>
+                                        {(pageName === "text-to-image" || pageName === "image-to-image") && <th>Style Name</th>}
+                                        {/* {pageName ==="face-swap" && <th>Style Name</th>} */}
                                         <th>Painting Type</th>
                                         <th>Is Exist White Border</th>
                                         <th>Generating Date</th>
@@ -208,7 +209,7 @@ export default function GeneratedImagesManagment({ pageName }) {
                                             </td>}
                                             {pageName === "text-to-image" && <td className="text-prompt-cell">{generatedImageData.textPrompt}</td>}
                                             <td className="category-name-cell">{generatedImageData.categoryName}</td>
-                                            <td className="style-name-cell">{generatedImageData.styleName}</td>
+                                            {(pageName === "text-to-image" || pageName === "image-to-image") && <td className="style-name-cell">{generatedImageData.styleName}</td>}
                                             <td className="painting-type-cell">
                                                 <h6>{generatedImageData.paintingType}</h6>
                                                 <hr />
