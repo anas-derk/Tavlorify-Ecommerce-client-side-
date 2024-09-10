@@ -571,7 +571,7 @@ export default function FaceSwap({
             });
             setIsWaitStatus(true);
             const result = (await axios.get(
-                `${process.env.BASE_API_URL}/generated-images/generate-image-using-face-swap-service?imageLink=${imageLink}&styleId=${categoryStyles[styleSelectedIndex]._id}&position=${imageType}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`)).data;
+                `${process.env.BASE_API_URL}/generated-images/generate-image-using-face-swap-service?imageLink=${imageLink}&styleId=${categoryStyles[styleSelectedIndex]._id}&position=${imageType}&dimentionsInCm=${dimentionsInCm}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}`)).data;
             const imageURL = `${process.env.BASE_API_URL}/${result.data}`;
             setTempImageType(imageType);
             setTempDimentionsInCm(dimentionsInCm);
