@@ -186,6 +186,7 @@ export default function ControlPanelHeader() {
                                             }
                                         }}>Update And Delete Styles</Link>
                                     </li>
+                                    <li><hr className="dropdown-divider" /></li>
                                     <li>
                                         <Link className="dropdown-item" href={{
                                             pathname: "/admin-dashboard/generated-images-managment",
