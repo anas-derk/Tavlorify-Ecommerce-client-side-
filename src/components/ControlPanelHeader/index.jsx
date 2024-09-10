@@ -186,6 +186,14 @@ export default function ControlPanelHeader() {
                                             }
                                         }}>Update And Delete Styles</Link>
                                     </li>
+                                    <li>
+                                        <Link className="dropdown-item" href={{
+                                            pathname: "/admin-dashboard/generated-images-managment",
+                                            query: {
+                                                pageName: "face-swap",
+                                            }
+                                        }}>Generated Images</Link>
+                                    </li>
                                 </ul>
                             </li>
                             <li
