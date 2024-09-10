@@ -594,7 +594,7 @@ export default function TextToImage({
             });
             setIsWaitStatus(true);
             const result = (await axios.get(
-                `${process.env.BASE_API_URL}/generated-images/generate-image-using-text-to-image-service?textPrompt=${textPrompt}&categoryName=${categoriesData[categorySelectedIndex].name}&styleName=${categoryStyles[styleSelectedIndex].name}&position=${imageType}&dimentionsInCm=${dimentionsInCm}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}&width=${dimentions.width}&height=${dimentions.height}
+                `${process.env.BASE_API_URL}/generated-images/generate-image-using-text-to-image-service?textPrompt=${textPrompt}&styleId=${categoryStyles[styleSelectedIndex]._id}&position=${imageType}&dimentionsInCm=${dimentionsInCm}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}&width=${dimentions.width}&height=${dimentions.height}
             `)).data;
             const imageURL = `${process.env.BASE_API_URL}/${result.data}`;
             setTempImageType(imageType);

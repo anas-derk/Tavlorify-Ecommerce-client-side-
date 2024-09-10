@@ -561,15 +561,6 @@ export default function FaceSwap({
         }
     }
 
-    const getSuitableStyleImageLink = (imageType) => {
-        switch (imageType) {
-            case "vertical": return `${process.env.BASE_API_URL}/${categoryStyles[styleSelectedIndex].imgSrcList[0]}`;
-            case "horizontal": return `${process.env.BASE_API_URL}/${categoryStyles[styleSelectedIndex].imgSrcList[1]}`;
-            case "square": return `${process.env.BASE_API_URL}/${categoryStyles[styleSelectedIndex].imgSrcList[2]}`;
-            default: return "Error In Image Type !!";
-        }
-    }
-
     const faceSwapWithAI = async (e) => {
         try {
             e.preventDefault();
@@ -580,7 +571,7 @@ export default function FaceSwap({
             });
             setIsWaitStatus(true);
             const result = (await axios.get(
-                `${process.env.BASE_API_URL}/generated-images/generate-image-using-face-swap-service?imageLink=${imageLink}&styleImageLink=${getSuitableStyleImageLink(imageType)}`)).data;
+                `${process.env.BASE_API_URL}/generated-images/generate-image-using-face-swap-service?imageLink=${imageLink}&styleId=${categoryStyles[styleSelectedIndex]._id}&position=${imageType}&paintingType=${paintingType}&isExistWhiteBorder=${isExistWhiteBorderWithPoster}&frameColor=${frameColor}&styleImageLink=${getSuitableStyleImageLink(imageType)}`)).data;
             const imageURL = `${process.env.BASE_API_URL}/${result.data}`;
             setTempImageType(imageType);
             setTempDimentionsInCm(dimentionsInCm);
