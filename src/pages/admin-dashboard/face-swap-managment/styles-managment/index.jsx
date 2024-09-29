@@ -2,11 +2,13 @@ import Head from "next/head";
 import ControlPanelHeader from "@/components/ControlPanelHeader";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAdminInfo } from "../../../../../public/global_functions/popular";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 
 export default function FaceSwapStylesManager() {
+
+    const [isLoadingPage, setIsLoadingPage] = useState(true);
 
     const [errorMsgOnLoadingThePage, setErrorMsgOnLoadingThePage] = useState("");
 
