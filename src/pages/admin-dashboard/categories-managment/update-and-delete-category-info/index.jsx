@@ -11,7 +11,7 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
+    const [errorMsgOnLoadingThePage, setErrorMsgOnLoadingThePage] = useState("");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -41,14 +41,13 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
                     }
                 })
                 .catch(async (err) => {
-                    console.log(err);
-                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                    if (err?.response?.status === 401) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
-                        setIsErrorMsgOnLoadingThePage(true);
+                        setErrorMsgOnLoadingThePage(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !");
                     }
                 });
         } else router.replace("/admin-dashboard/login");
@@ -89,32 +88,33 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
             }
         }
         catch (err) {
-            if (err?.response?.data?.msg === "Unauthorized Error") {
+            if (err?.response?.status === 401) {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                 await router.replace("/admin-dashboard/login");
-                return;
             }
-            setWaitMsg("");
-            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
-            let errorTimeout = setTimeout(() => {
-                setErrorMsg("");
-                setSelectedCategoryIndex(-1);
-                clearTimeout(errorTimeout);
-            }, 2000);
+            else {
+                setWaitMsg("");
+                setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedCategoryIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
+            }
         }
     }
 
     const deleteCategory = async (categoryIndex) => {
         try {
-            setWaitMsg("Please Wait Deleting ...");
+            setWaitMsg("Please Wait To Deleting ...");
             setSelectedCategoryIndex(categoryIndex);
-            const res = await axios.delete(`${process.env.BASE_API_URL}/categories/${categoriesData[categoryIndex]._id}`, {
+            const result = (await axios.delete(`${process.env.BASE_API_URL}/categories/${categoriesData[categoryIndex]._id}`, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
-            });
+            })).data;
             setWaitMsg("");
-            if (!res.data.error) {
+            if (!result.error) {
                 setSuccessMsg("Deleting Successfull !!");
                 let successTimeout = setTimeout(() => {
                     setSuccessMsg("");
@@ -131,18 +131,19 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
             }
         }
         catch (err) {
-            if (err?.response?.data?.msg === "Unauthorized Error") {
+            if (err?.response?.status === 401) {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                 await router.replace("/admin-dashboard/login");
-                return;
             }
-            setWaitMsg("");
-            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
-            let errorTimeout = setTimeout(() => {
-                setErrorMsg("");
-                setSelectedCategoryIndex(-1);
-                clearTimeout(errorTimeout);
-            }, 2000);
+            else {
+                setWaitMsg("");
+                setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedCategoryIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
+            }
         }
     }
 
@@ -152,7 +153,7 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
             <Head>
                 <title>Tavlorify Store - Categories Managagment For {pageName}</title>
             </Head>
-            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
+            {!isLoadingPage && !errorMsgOnLoadingThePage && <>
                 <ControlPanelHeader />
                 <div className="content text-center pt-4 pb-4">
                     {/* Start Container */}
@@ -226,8 +227,8 @@ export default function UpdateAndDeleteCategoryInfo({ pageName }) {
                     {/* End Container */}
                 </div>
             </>}
-            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
-            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
+            {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
+            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage errorMsg={errorMsgOnLoadingThePage} />}
         </div>
         // End Update And Delete Category Info
     );

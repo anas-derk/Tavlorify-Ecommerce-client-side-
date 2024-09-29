@@ -6,12 +6,13 @@ import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import { getAdminInfo } from "../../../../public/global_functions/popular";
 import { useRouter } from "next/router";
+import NotFoundError from "@/components/NotFoundError";
 
 export default function ProductPrices({ productName }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
+    const [errorMsgOnLoadingThePage, setErrorMsgOnLoadingThePage] = useState("");
 
     const [waitMsg, setWaitMsg] = useState("");
 
@@ -46,14 +47,13 @@ export default function ProductPrices({ productName }) {
                     }
                 })
                 .catch(async (err) => {
-                    console.log(err)
-                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                    if (err?.response?.status === 401) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
-                        setIsErrorMsgOnLoadingThePage(true);
+                        setErrorMsgOnLoadingThePage(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !");
                     }
                 });
         } else router.replace("/admin-dashboard/login");
@@ -64,7 +64,7 @@ export default function ProductPrices({ productName }) {
             return (await axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-name?productName=${productName}`)).data;
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -76,7 +76,7 @@ export default function ProductPrices({ productName }) {
 
     const updateProductPrice = async (productIndex) => {
         try {
-            setWaitMsg("Please Wait Updating ...");
+            setWaitMsg("Please Wait To Updating ...");
             setSelectedProductPriceIndex(productIndex);
             const result = await axios.put(`${process.env.BASE_API_URL}/prices/update-product-price/${productPricesData[productIndex]._id}`, {
                 newProductPriceBeforeDiscount: updatedProductPrices[productIndex].priceBeforeDiscount,
@@ -99,18 +99,19 @@ export default function ProductPrices({ productName }) {
             }
         }
         catch (err) {
-            if (err?.response?.data?.msg === "Unauthorized Error") {
+            if (err?.response?.status === 401) {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
-                await router.push("/admin-dashboard/login");
-                return;
+                await router.replace("/admin-dashboard/login");
             }
-            setWaitMsg("");
-            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
-            let errorTimeout = setTimeout(() => {
-                setErrorMsg("");
-                setSelectedProductPriceIndex(-1);
-                clearTimeout(errorTimeout);
-            }, 2000);
+            else {
+                setWaitMsg("");
+                setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedProductPriceIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
+            }
         }
     }
 
@@ -119,7 +120,7 @@ export default function ProductPrices({ productName }) {
             <Head>
                 <title>Tavlorify Store - Product Prices Managment</title>
             </Head>
-            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
+            {!isLoadingPage && !errorMsgOnLoadingThePage && <>
                 <ControlPanelHeader />
                 <div className="content text-center pt-4 pb-4">
                     <div className="container-fluid">
@@ -191,12 +192,12 @@ export default function ProductPrices({ productName }) {
                                 </tbody>
                             </table>
                         </div>}
-                        {productPricesData.length === 0 && <p className="alert alert-danger">Sorry, Can't Find Any Product Prices !!</p>}
+                        {productPricesData.length === 0 && <NotFoundError errorMsg="Sorry, Can't Find Any Product Prices !!" />}
                     </div>
                 </div>
             </>}
-            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
-            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
+            {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
+            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage errorMsg={errorMsgOnLoadingThePage} />}
         </div>
     );
 }

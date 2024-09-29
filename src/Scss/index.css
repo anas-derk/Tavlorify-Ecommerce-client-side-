@@ -1146,6 +1146,15 @@ a {
   animation: 5s lineGrow linear infinite;
 }
 
+.not-found-error {
+  color: #FFF;
+  min-height: 300px;
+}
+
+.not-found-error .sorry-icon {
+  font-size: 70px;
+}
+
 @keyframes lineGrow {
   to {
     width: 100%;

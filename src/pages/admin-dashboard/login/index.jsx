@@ -14,7 +14,7 @@ export default function AdminLogin() {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
+    const [errorMsgOnLoadingThePage, setErrorMsgOnLoadingThePage] = useState("");
 
     const [email, setEmail] = useState("");
 
@@ -41,13 +41,13 @@ export default function AdminLogin() {
                     } else await router.push("/admin-dashboard");
                 })
                 .catch(async (err) => {
-                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                    if (err?.response?.status === 401) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         setIsLoadingPage(false);
                     }
                     else {
                         setIsLoadingPage(false);
-                        setIsErrorMsgOnLoadingThePage(true);
+                        setErrorMsgOnLoadingThePage(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !");
                     }
                 });
         } else setIsLoadingPage(false);
@@ -85,7 +85,7 @@ export default function AdminLogin() {
             ]);
             setFormValidationErrors(errorsObject);
             if (Object.keys(errorsObject).length == 0) {
-                setWaitMsg("Wait Logining ...");
+                setWaitMsg("Please Wait To Logining ...");
                 const res = await axios.get(`${process.env.BASE_API_URL}/admins/login?email=${email}&password=${password}`);
                 const result = res.data;
                 if (result.error) {
@@ -102,7 +102,7 @@ export default function AdminLogin() {
         }
         catch (err) {
             setWaitMsg("");
-            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again The Process !!");
+            setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
             setTimeout(() => {
                 setErrorMsg("");
             }, 3000);
@@ -114,7 +114,7 @@ export default function AdminLogin() {
             <Head>
                 <title>Tavlorify Store - Admin Login</title>
             </Head>
-            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
+            {!isLoadingPage && !errorMsgOnLoadingThePage && <>
                 <div className="overlay d-flex align-items-center">
                     <div className="container-fluid">
                         <form className="admin-login-form mb-3 p-5 mx-auto" onSubmit={adminLogin}>
@@ -149,8 +149,8 @@ export default function AdminLogin() {
                     </div>
                 </div>
             </>}
-            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
-            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
+            {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
+            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage errorMsg={errorMsgOnLoadingThePage} />}
         </div>
     );
 }

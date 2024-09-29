@@ -12,7 +12,7 @@ export default function AddNewStyle() {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
+    const [errorMsgOnLoadingThePage, setErrorMsgOnLoadingThePage] = useState("");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -53,14 +53,13 @@ export default function AddNewStyle() {
                     }
                 })
                 .catch(async (err) => {
-                    console.log(err)
-                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                    if (err?.response?.status === 401) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
-                        setIsErrorMsgOnLoadingThePage(true);
+                        setErrorMsgOnLoadingThePage(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !");
                     }
                 });
         } else router.replace("/admin-dashboard/login");
@@ -149,7 +148,7 @@ export default function AddNewStyle() {
                         clearTimeout(successTimeout);
                     }, 2000);
                 } else {
-                    setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
+                    setErrorMsg(result.msg);
                     let errorTimeout = setTimeout(() => {
                         setErrorMsg("");
                         clearTimeout(errorTimeout);
@@ -157,17 +156,18 @@ export default function AddNewStyle() {
                 }
             }
             catch (err) {
-                if (err?.response?.data?.msg === "Unauthorized Error") {
+                if (err?.response?.status === 401) {
                     localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
-                    await router.push("/admin-dashboard/login");
-                    return;
+                    await router.replace("/admin-dashboard/login");
                 }
-                setWaitMsg("");
-                setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
-                let errorTimeout = setTimeout(() => {
-                    setErrorMsg("");
-                    clearTimeout(errorTimeout);
-                }, 2000);
+                else {
+                    setWaitMsg("");
+                    setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                    let errorTimeout = setTimeout(() => {
+                        setErrorMsg("");
+                        clearTimeout(errorTimeout);
+                    }, 1500);
+                }
             }
         }
     }
@@ -177,7 +177,7 @@ export default function AddNewStyle() {
             <Head>
                 <title>Tavlorify Store - Add New Category Style For Text To Image</title>
             </Head>
-            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
+            {!isLoadingPage && !errorMsgOnLoadingThePage && <>
                 <ControlPanelHeader />
                 <div className="content text-center pt-4 pb-4">
                     <div className="container-fluid">
@@ -242,8 +242,8 @@ export default function AddNewStyle() {
                     </div>
                 </div>
             </>}
-            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
-            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
+            {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
+            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage errorMsg={errorMsgOnLoadingThePage} />}
         </div>
     );
 }

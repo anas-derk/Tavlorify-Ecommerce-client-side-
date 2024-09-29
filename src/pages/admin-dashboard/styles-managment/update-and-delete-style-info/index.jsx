@@ -12,7 +12,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
+    const [errorMsgOnLoadingThePage, setErrorMsgOnLoadingThePage] = useState("");
 
     const [categoryName, setCategoryName] = useState("");
 
@@ -63,13 +63,13 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                     }
                 })
                 .catch(async (err) => {
-                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                    if (err?.response?.status === 401) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
-                        setIsErrorMsgOnLoadingThePage(true);
+                        setErrorMsgOnLoadingThePage(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !");
                     }
                 });
         } else router.replace("/admin-dashboard/login");
@@ -85,7 +85,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
             setisGetCategoryStyles(false);
         }
         catch (err) {
-            setErrorMsg("Sorry, Someting Went Wrong, Please Repeate The Process !!");
+            setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !");
             let errorTimeout = setTimeout(() => {
                 setErrorMsg("");
                 clearTimeout(errorTimeout);
@@ -136,18 +136,19 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                 }, 1500);
             }
         } catch (err) {
-            if (err?.response?.data?.msg === "Unauthorized Error") {
+            if (err?.response?.status === 401) {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
-                await router.push("/admin-dashboard/login");
-                return;
+                await router.replace("/admin-dashboard/login");
             }
-            setWaitChangeStyleImageMsg("");
-            setErrorChangeStyleImageMsg("Sorry, Someting Went Wrong, Please Repeate The Process !!");
-            let errorTimeout = setTimeout(() => {
-                setErrorChangeStyleImageMsg("");
-                setSelectedStyleImageIndex(-1);
-                clearTimeout(errorTimeout);
-            }, 1500);
+            else {
+                setWaitChangeStyleImageMsg("");
+                setErrorChangeStyleImageMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorChangeStyleImageMsg("");
+                    setSelectedStyleImageIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
+            }
         }
     }
 
@@ -176,25 +177,26 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                 }, 1500);
             }
         } catch (err) {
-            if (err?.response?.data?.msg === "Unauthorized Error") {
+            if (err?.response?.status === 401) {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
-                await router.push("/admin-dashboard/login");
-                return;
+                await router.replace("/admin-dashboard/login");
             }
-            setWaitChangeStyleImageMsg("");
-            setErrorChangeStyleImageMsg("Sorry, Someting Went Wrong, Please Repeate The Process !!");
-            let errorTimeout = setTimeout(() => {
-                setErrorChangeStyleImageMsg("");
-                setSelectedStyleIndex(-1);
-                setSelectedStyleImageIndex(-1);
-                clearTimeout(errorTimeout);
-            }, 1500);
+            else {
+                setWaitChangeStyleImageMsg("");
+                setErrorChangeStyleImageMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorChangeStyleImageMsg("");
+                    setSelectedStyleIndex(-1);
+                    setSelectedStyleImageIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
+            }
         }
     }
 
     const updateStyleData = async (styleIndex) => {
         try {
-            setWaitMsg("Please Wait Updating ...");
+            setWaitMsg("Please Wait To Updating ...");
             setSelectedStyleIndex(styleIndex);
             const result = (await axios.put(`${process.env.BASE_API_URL}/styles/update-style-data/${categoryStylesData[styleIndex]._id}?service=${pageName}&categoryName=${categoryStylesData[styleIndex].categoryName}`, {
                 newCategoryStyleSortNumber: categoryStylesData[styleIndex].sortNumber,
@@ -231,24 +233,25 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
             }
         }
         catch (err) {
-            if (err?.response?.data?.msg === "Unauthorized Error") {
+            if (err?.response?.status === 401) {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
-                await router.push("/admin-dashboard/login");
-                return;
+                await router.replace("/admin-dashboard/login");
             }
-            setWaitMsg("");
-            setErrorMsg("Sorry, Someting Went Wrong, Please Repeate The Process !!");
-            let errorTimeout = setTimeout(() => {
-                setErrorMsg("");
-                setSelectedStyleIndex(-1);
-                clearTimeout(errorTimeout);
-            }, 1500);
+            else {
+                setWaitMsg("");
+                setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedStyleIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
+            }
         }
     }
 
     const deleteStyle = async (styleIndex) => {
         try {
-            setWaitMsg("Please Wait Deleting ...");
+            setWaitMsg("Please Wait To Deleting ...");
             setSelectedStyleIndex(styleIndex);
             const result = (await axios.delete(`${process.env.BASE_API_URL}/styles/delete${pageName === "face-swap" && "-" + pageName}-style-data/${categoryStylesData[styleIndex]._id}`, {
                 headers: {
@@ -274,18 +277,19 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
             }
         }
         catch (err) {
-            if (err?.response?.data?.msg === "Unauthorized Error") {
+            if (err?.response?.status === 401) {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
-                await router.push("/admin-dashboard/login");
-                return;
+                await router.replace("/admin-dashboard/login");
             }
-            setWaitMsg("");
-            setErrorMsg("Sorry, Someting Went Wrong, Please Repeate The Process !!");
-            let errorTimeout = setTimeout(() => {
-                setErrorMsg("");
-                setSelectedStyleIndex(-1);
-                clearTimeout(errorTimeout);
-            }, 1500);
+            else {
+                setWaitMsg("");
+                setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedStyleIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
+            }
         }
     }
 
@@ -294,7 +298,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
             <Head>
                 <title>Tavlorify Store - Update And Delete Category Styles Info For {pageName}</title>
             </Head>
-            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
+            {!isLoadingPage && !errorMsgOnLoadingThePage && <>
                 <ControlPanelHeader />
                 <div className="content text-center pt-4 pb-4">
                     <div className="container-fluid">
@@ -505,8 +509,8 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                     </div>
                 </div>
             </>}
-            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
-            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
+            {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
+            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage errorMsg={errorMsgOnLoadingThePage} />}
         </div>
     )
 }

@@ -6,12 +6,13 @@ import axios from "axios";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import { getAdminInfo } from "../../../../../public/global_functions/popular";
+import NotFoundError from "@/components/NotFoundError";
 
 export default function OrderDetails({ orderId, orderType }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
+    const [errorMsgOnLoadingThePage, seterrorMsgOnLoadingThePage] = useState("");
 
     const [orderDetails, setOrderDetails] = useState({});
 
@@ -40,13 +41,13 @@ export default function OrderDetails({ orderId, orderType }) {
                     }
                 })
                 .catch(async (err) => {
-                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                    if (err?.response?.status === 401) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
-                        setIsErrorMsgOnLoadingThePage(true);
+                        setErrorMsgOnLoadingThePage(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !");
                     }
                 });
         } else router.replace("/admin-dashboard/login");
@@ -69,7 +70,7 @@ export default function OrderDetails({ orderId, orderType }) {
 
     const updateOrderProductData = async (orderProductIndex) => {
         try {
-            setWaitMsg("Please Wait Updating ...");
+            setWaitMsg("Please Wait To Updating ...");
             setSelectedOrderProductIndex(orderProductIndex);
             const res = (await axios.put(`${process.env.BASE_API_URL}/orders/update-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}?orderType=${orderType}`, {
                 quantity: orderDetails.order_lines[orderProductIndex].quantity,
@@ -99,24 +100,25 @@ export default function OrderDetails({ orderId, orderType }) {
             }
         }
         catch (err) {
-            if (err?.response?.data?.msg === "Unauthorized Error") {
+            if (err?.response?.status === 401) {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
-                await router.push("/admin-dashboard/login");
-                return;
+                await router.replace("/admin-dashboard/login");
             }
-            setWaitMsg("");
-            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
-            let errorTimeout = setTimeout(() => {
-                setErrorMsg("");
-                setSelectedOrderProductIndex(-1);
-                clearTimeout(errorTimeout);
-            }, 2000);
+            else {
+                setWaitMsg("");
+                setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedOrderProductIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
+            }
         }
     }
 
     const deleteProductFromOrder = async (orderProductIndex) => {
         try {
-            setWaitMsg("Please Wait Deleting ...");
+            setWaitMsg("Please Wait To Deleting ...");
             setSelectedOrderProductIndex(orderProductIndex);
             const result = (await axios.delete(`${process.env.BASE_API_URL}/orders/delete-product/${orderDetails._id}/${orderDetails.order_lines[orderProductIndex]._id}?orderType=${orderType}`, {
                 headers: {
@@ -132,22 +134,28 @@ export default function OrderDetails({ orderId, orderType }) {
                     clearTimeout(successTimeout);
                 }, 3000);
             } else {
-
+                setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedOrderProductIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 3000);
             }
         }
         catch (err) {
-            if (err?.response?.data?.msg === "Unauthorized Error") {
+            if (err?.response?.status === 401) {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
-                await router.push("/admin-dashboard/login");
-                return;
+                await router.replace("/admin-dashboard/login");
             }
-            setWaitMsg("");
-            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
-            let errorTimeout = setTimeout(() => {
-                setErrorMsg("");
-                setSelectedOrderProductIndex(-1);
-                clearTimeout(errorTimeout);
-            }, 2000);
+            else {
+                setWaitMsg("");
+                setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedOrderProductIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
+            }
         }
     }
 
@@ -156,7 +164,7 @@ export default function OrderDetails({ orderId, orderType }) {
             <Head>
                 <title>Tavlorify Store - Order Details</title>
             </Head>
-            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
+            {!isLoadingPage && !errorMsgOnLoadingThePage && <>
                 {/* Start Control Panel Header */}
                 <ControlPanelHeader />
                 {/* End Control Panel Header */}
@@ -303,13 +311,13 @@ export default function OrderDetails({ orderId, orderType }) {
                                 <p className="family-name fw-bold info">Family Name: {orderDetails.customer.last_name}</p>
                                 <p className="phone fw-bold info">Phone: {orderDetails.customer.phone}</p>
                             </section>}
-                        </div> : <p className="alert alert-danger order-not-found-error">Sorry, This Order Is Not Completed !!</p>}
+                        </div> : <NotFoundError errorMsg="Sorry, This Order Is Not Completed !!" />}
                     </div>
                 </section>
                 {/* End Content Section */}
             </>}
-            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
-            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
+            {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
+            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage errorMsg={errorMsgOnLoadingThePage} />}
         </div>
     );
 }

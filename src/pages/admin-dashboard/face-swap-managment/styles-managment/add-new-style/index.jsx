@@ -12,7 +12,7 @@ export default function addNewStyle() {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
+    const [errorMsgOnLoadingThePage, setErrorMsgOnLoadingThePage] = useState("");
 
     const [categoryName, setCategoryName] = useState("");
 
@@ -55,13 +55,13 @@ export default function addNewStyle() {
                     }
                 })
                 .catch(async (err) => {
-                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                    if (err?.response?.status === 401) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
-                        setIsErrorMsgOnLoadingThePage(true);
+                        setErrorMsgOnLoadingThePage(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !");
                     }
                 });
         } else router.replace("/admin-dashboard/login");
@@ -146,12 +146,11 @@ export default function addNewStyle() {
                 }
                 formData.append("categoryName", categoryName);
                 setWaitMsg("Please Wait To Adding ...");
-                const res = await axios.post(`${process.env.BASE_API_URL}/styles/add-new-style-for-face-swap-service?categoryName=${categoryName}`, formData, {
+                const result = (await axios.post(`${process.env.BASE_API_URL}/styles/add-new-style-for-face-swap-service?categoryName=${categoryName}`, formData, {
                     headers: {
                         Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                     }
-                });
-                const result = res.data;
+                })).data;
                 setWaitMsg("");
                 if (!result.error) {
                     setSuccessMsg(result.msg);
@@ -174,17 +173,18 @@ export default function addNewStyle() {
             }
         }
         catch (err) {
-            if (err?.response?.data?.msg === "Unauthorized Error") {
+            if (err?.response?.status === 401) {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                 await router.replace("/admin-dashboard/login");
-                return;
             }
-            setWaitMsg("");
-            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
-            let errorTimeout = setTimeout(() => {
-                setErrorMsg("");
-                clearTimeout(errorTimeout);
-            }, 2000);
+            else {
+                setWaitMsg("");
+                setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    clearTimeout(errorTimeout);
+                }, 1500);
+            }
         }
     }
 
@@ -193,7 +193,7 @@ export default function addNewStyle() {
             <Head>
                 <title>Tavlorify Store - Add New Category Style For Face Swap</title>
             </Head>
-            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
+            {!isLoadingPage && !errorMsgOnLoadingThePage && <>
                 <ControlPanelHeader />
                 <div className="content text-center pt-4 pb-4">
                     <div className="container-fluid">
@@ -238,8 +238,8 @@ export default function addNewStyle() {
                     </div>
                 </div>
             </>}
-            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
-            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
+            {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
+            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage errorMsg={errorMsgOnLoadingThePage} />}
         </div>
     );
 }

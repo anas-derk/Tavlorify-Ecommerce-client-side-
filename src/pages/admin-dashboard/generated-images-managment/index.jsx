@@ -7,12 +7,14 @@ import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import { getAdminInfo, getDateFormated } from "../../../../public/global_functions/popular";
 import PaginationBar from "@/components/PaginationBar";
 import { useRouter } from "next/router";
+import TableLoader from "@/components/TableLoader";
+import NotFoundError from "@/components/NotFoundError";
 
 export default function GeneratedImagesManagment({ pageName }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
+    const [errorMsgOnLoadingThePage, setErrorMsgOnLoadingThePage] = useState("");
 
     const [allGeneratedImagesDataInsideThePage, setAllGeneratedImagesDataInsideThePage] = useState([]);
 
@@ -21,6 +23,10 @@ export default function GeneratedImagesManagment({ pageName }) {
     const [selectedGeneratedImageIndex, setSelectedGeneratedImageIndex] = useState(-1);
 
     const [waitMsg, setWaitMsg] = useState("");
+
+    const [errorMsg, setErrorMsg] = useState("");
+    
+    const [errorMsgOnGetGeneratedImagesData, setErrorMsgOnGetGeneratedImagesData] = useState("");
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -52,13 +58,13 @@ export default function GeneratedImagesManagment({ pageName }) {
                     }
                 })
                 .catch(async (err) => {
-                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                    if (err?.response?.status === 401) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
-                        setIsErrorMsgOnLoadingThePage(true);
+                        setErrorMsgOnLoadingThePage(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !");
                     }
                 });
         } else router.replace("/admin-dashboard/login");
@@ -69,7 +75,7 @@ export default function GeneratedImagesManagment({ pageName }) {
             return (await axios.get(`${process.env.BASE_API_URL}/generated-images/generated-images-count?service=${service}`)).data;
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -78,7 +84,7 @@ export default function GeneratedImagesManagment({ pageName }) {
             return (await axios.get(`${process.env.BASE_API_URL}/generated-images/all-generated-images-inside-the-page?service=${pageName}&pageNumber=${pageNumber}&pageSize=${pageSize}`)).data;
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -105,10 +111,9 @@ export default function GeneratedImagesManagment({ pageName }) {
 
     const deleteGeneratedImageData = async (selectedGeneratedImageIndex) => {
         try {
-            setWaitMsg("Please Wait Deleting ...");
+            setWaitMsg("Please Wait To Deleting ...");
             setSelectedGeneratedImageIndex(selectedGeneratedImageIndex);
-            const res = await axios.delete(`${process.env.BASE_API_URL}/generated-images/generated-image-data/${generatedImagesData[selectedGeneratedImageIndex]._id}`);
-            let result = res.data;
+            let result = (await axios.delete(`${process.env.BASE_API_URL}/generated-images/generated-image-data/${generatedImagesData[selectedGeneratedImageIndex]._id}`)).data;
             setWaitMsg("");
             setSelectedGeneratedImageIndex(-1);
             result = await getGeneratedImagesDataCount(pageName);
@@ -118,42 +123,79 @@ export default function GeneratedImagesManagment({ pageName }) {
             }
         }
         catch (err) {
-            if (err?.response?.data?.msg === "Unauthorized Error") {
+            if (err?.response?.status === 401) {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
-                await router.push("/admin-dashboard/login");
-                return;
+                await router.replace("/admin-dashboard/login");
             }
-            setWaitMsg("");
-            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
-            let errorTimeout = setTimeout(() => {
-                setErrorMsg("");
-                setSelectedGeneratedImageIndex(-1);
-                clearTimeout(errorTimeout);
-            }, 2000);
+            else {
+                setWaitMsg("");
+                setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedGeneratedImageIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
+            }
         }
     }
 
     const getPreviousPage = async () => {
-        setIsGetGeneratedImages(true);
-        const newCurrentPage = currentPage - 1;
-        setAllGeneratedImagesDataInsideThePage((await getAllGeneratedImagesDataInsideThePage(pageName, newCurrentPage, pageSize)).data);
-        setCurrentPage(newCurrentPage);
-        setIsGetGeneratedImages(false);
+        try {
+            setIsGetGeneratedImages(true);
+            setErrorMsgOnGetGeneratedImagesData("");
+            const newCurrentPage = currentPage - 1;
+            setAllGeneratedImagesDataInsideThePage((await getAllGeneratedImagesDataInsideThePage(pageName, newCurrentPage, pageSize)).data);
+            setCurrentPage(newCurrentPage);
+            setIsGetGeneratedImages(false);
+        }
+        catch (err) {
+            if (err?.response?.status === 401) {
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                await router.replace("/admin-dashboard/login");
+            }
+            else {
+                setErrorMsgOnGetGeneratedImagesData(err?.message === "Network Error" ? "Network Error When Get Generated Images Data" : "Sorry, Someting Went Wrong When Get Generated Images Data, Please Repeate The Process !!");
+            }
+        }
     }
 
     const getNextPage = async () => {
-        setIsGetGeneratedImages(true);
-        const newCurrentPage = currentPage + 1;
-        setAllGeneratedImagesDataInsideThePage((await getAllGeneratedImagesDataInsideThePage(pageName, newCurrentPage, pageSize)).data);
-        setCurrentPage(newCurrentPage);
-        setIsGetGeneratedImages(false);
+        try {
+            setIsGetGeneratedImages(true);
+            setErrorMsgOnGetGeneratedImagesData("");
+            const newCurrentPage = currentPage + 1;
+            setAllGeneratedImagesDataInsideThePage((await getAllGeneratedImagesDataInsideThePage(pageName, newCurrentPage, pageSize)).data);
+            setCurrentPage(newCurrentPage);
+            setIsGetGeneratedImages(false);
+        }
+        catch (err) {
+            if (err?.response?.status === 401) {
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                await router.replace("/admin-dashboard/login");
+            }
+            else {
+                setErrorMsgOnGetGeneratedImagesData(err?.message === "Network Error" ? "Network Error When Get Generated Images Data" : "Sorry, Someting Went Wrong When Get Generated Images Data, Please Repeate The Process !!");
+            }
+        }
     }
 
     const getSpecificPage = async (pageNumber) => {
-        setIsGetGeneratedImages(true);
-        setAllGeneratedImagesDataInsideThePage((await getAllGeneratedImagesDataInsideThePage(pageName, pageNumber, pageSize)).data);
-        setCurrentPage(pageNumber);
-        setIsGetGeneratedImages(false);
+        try {
+            setIsGetGeneratedImages(true);
+            setErrorMsgOnGetGeneratedImagesData("");
+            setAllGeneratedImagesDataInsideThePage((await getAllGeneratedImagesDataInsideThePage(pageName, pageNumber, pageSize)).data);
+            setCurrentPage(pageNumber);
+            setIsGetGeneratedImages(false);
+        }
+        catch (err) {
+            if (err?.response?.status === 401) {
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                await router.replace("/admin-dashboard/login");
+            }
+            else {
+                setErrorMsgOnGetGeneratedImagesData(err?.message === "Network Error" ? "Network Error When Get Generated Images Data" : "Sorry, Someting Went Wrong When Get Generated Images Data, Please Repeate The Process !!");
+            }
+        }
     }
 
     return (
@@ -161,7 +203,7 @@ export default function GeneratedImagesManagment({ pageName }) {
             <Head>
                 <title>Tavlorify Store - {pageName} Generated Images Data Managment</title>
             </Head>
-            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
+            {!isLoadingPage && !errorMsgOnLoadingThePage && <>
                 <ControlPanelHeader />
                 <div className="content text-center pt-4 pb-4">
                     <div className="container-fluid">
@@ -251,10 +293,9 @@ export default function GeneratedImagesManagment({ pageName }) {
                                 </tbody>
                             </table>
                         </div>}
-                        {allGeneratedImagesDataInsideThePage.length == 0 && <p className="alert alert-danger">Sorry, Can't Find Any Generated Images !!</p>}
-                        {isGetGeneratedImages && <div className="loader-table-box d-flex flex-column align-items-center justify-content-center">
-                            <span className="loader-table-data"></span>
-                        </div>}
+                        {allGeneratedImagesDataInsideThePage.length === 0 && !isGetGeneratedImages && <NotFoundError errorMsg="Sorry, Can't Find Any Generated Images !!" />}
+                        {isGetGeneratedImages && <TableLoader />}
+                        {errorMsgOnGetGeneratedImagesData && <NotFoundError errorMsg={errorMsgOnGetGeneratedImagesData} />}
                         {totalPagesCount > 1 && !isGetGeneratedImages &&
                             <PaginationBar
                                 totalPagesCount={totalPagesCount}
@@ -267,8 +308,8 @@ export default function GeneratedImagesManagment({ pageName }) {
                     </div>
                 </div>
             </>}
-            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
-            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
+            {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
+            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage errorMsg={errorMsgOnLoadingThePage} />}
         </div>
     );
 }

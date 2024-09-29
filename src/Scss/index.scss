@@ -747,6 +747,14 @@ a{
     }
 }
 
+.not-found-error{
+    color: #FFF;
+    min-height: 300px;
+    .sorry-icon{
+        font-size: 70px;
+    }
+}
+
 @keyframes lineGrow {
     to{
         width: 100%;

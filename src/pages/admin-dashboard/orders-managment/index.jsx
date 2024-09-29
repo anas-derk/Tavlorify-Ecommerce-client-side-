@@ -9,16 +9,17 @@ import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import PaginationBar from "@/components/PaginationBar";
 import { getAdminInfo } from "../../../../public/global_functions/popular";
 import TableLoader from "@/components/TableLoader";
+import NotFoundError from "@/components/NotFoundError";
 
 export default function OrdersManagment({ ordersType }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
+    const [errorMsgOnLoadingThePage, setErrorMsgOnLoadingThePage] = useState("");
 
     const [allOrdersInsideThePage, setAllOrdersInsideThePage] = useState([]);
 
-    const [isFilteringOrdersStatus, setIsFilteringOrdersStatus] = useState(false);
+    const [isGetOrders, setIsGetOrders] = useState(false);
 
     const [selectedOrderIndex, setSelectedOrderIndex] = useState(-1);
 
@@ -27,6 +28,8 @@ export default function OrdersManagment({ ordersType }) {
     const [successMsg, setSuccessMsg] = useState("");
 
     const [errorMsg, setErrorMsg] = useState("");
+
+    const [errorMsgOnGetOrdersData, setErrorMsgOnGetOrdersData] = useState("");
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -72,13 +75,13 @@ export default function OrdersManagment({ ordersType }) {
                     }
                 })
                 .catch(async (err) => {
-                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                    if (err?.response?.status === 401) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
-                        setIsErrorMsgOnLoadingThePage(true);
+                        setErrorMsgOnLoadingThePage(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !");
                     }
                 });
         } else router.replace("/admin-dashboard/login");
@@ -89,7 +92,7 @@ export default function OrdersManagment({ ordersType }) {
             return (await axios.get(`${process.env.BASE_API_URL}/orders/orders-count?ordersType=${ordersType}&${filters ? filters : ""}`)).data;
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -98,7 +101,7 @@ export default function OrdersManagment({ ordersType }) {
             return (await axios.get(`${process.env.BASE_API_URL}/orders/all-orders-inside-the-page?ordersType=${ordersType}&pageNumber=${pageNumber}&pageSize=${pageSize}&${filters ? filters : ""}`)).data;
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -111,26 +114,62 @@ export default function OrdersManagment({ ordersType }) {
     }
 
     const getPreviousPage = async () => {
-        setIsFilteringOrdersStatus(true);
-        const newCurrentPage = currentPage - 1;
-        setAllOrdersInsideThePage((await getAllOrdersInsideThePage(newCurrentPage, pageSize, getFilteringString(filters))).data);
-        setCurrentPage(newCurrentPage);
-        setIsFilteringOrdersStatus(false);
+        try {
+            setIsGetOrders(true);
+            setErrorMsgOnGetOrdersData("");
+            const newCurrentPage = currentPage - 1;
+            setAllOrdersInsideThePage((await getAllOrdersInsideThePage(newCurrentPage, pageSize, getFilteringString(filters))).data);
+            setCurrentPage(newCurrentPage);
+            setIsGetOrders(false);
+        }
+        catch (err) {
+            if (err?.response?.status === 401) {
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                await router.replace("/admin-dashboard/login");
+            }
+            else {
+                setErrorMsgOnGetOrdersData(err?.message === "Network Error" ? "Network Error When Get Generated Images Data" : "Sorry, Someting Went Wrong When Get Generated Images Data, Please Repeate The Process !!");
+            }
+        }
     }
 
     const getNextPage = async () => {
-        setIsFilteringOrdersStatus(true);
-        const newCurrentPage = currentPage + 1;
-        setAllOrdersInsideThePage((await getAllOrdersInsideThePage(newCurrentPage, pageSize, getFilteringString(filters))).data);
-        setCurrentPage(newCurrentPage);
-        setIsFilteringOrdersStatus(false);
+        try {
+            setIsGetOrders(true);
+            setErrorMsgOnGetOrdersData("");
+            const newCurrentPage = currentPage + 1;
+            setAllOrdersInsideThePage((await getAllOrdersInsideThePage(newCurrentPage, pageSize, getFilteringString(filters))).data);
+            setCurrentPage(newCurrentPage);
+            setIsGetOrders(false);
+        }
+        catch (err) {
+            if (err?.response?.status === 401) {
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                await router.replace("/admin-dashboard/login");
+            }
+            else {
+                setErrorMsgOnGetOrdersData(err?.message === "Network Error" ? "Network Error When Get Generated Images Data" : "Sorry, Someting Went Wrong When Get Generated Images Data, Please Repeate The Process !!");
+            }
+        }
     }
 
     const getSpecificPage = async (pageNumber) => {
-        setIsFilteringOrdersStatus(true);
-        setAllOrdersInsideThePage((await getAllOrdersInsideThePage(pageNumber, pageSize, getFilteringString(filters))).data);
-        setCurrentPage(pageNumber);
-        setIsFilteringOrdersStatus(false);
+        try {
+            setIsGetOrders(true);
+            setErrorMsgOnGetOrdersData("");
+            setAllOrdersInsideThePage((await getAllOrdersInsideThePage(pageNumber, pageSize, getFilteringString(filters))).data);
+            setCurrentPage(pageNumber);
+            setIsGetOrders(false);
+        }
+        catch(err) {
+            if (err?.response?.status === 401) {
+                localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
+                await router.replace("/admin-dashboard/login");
+            }
+            else {
+                setErrorMsgOnGetOrdersData(err?.message === "Network Error" ? "Network Error When Get Generated Images Data" : "Sorry, Someting Went Wrong When Get Generated Images Data, Please Repeate The Process !!");
+            }
+        }
     }
 
     const getFilteringString = (filters) => {
@@ -147,44 +186,45 @@ export default function OrdersManagment({ ordersType }) {
 
     const filterOrders = async () => {
         try {
-            setIsFilteringOrdersStatus(true);
+            setIsGetOrders(true);
             let filteringString = getFilteringString(filters);
             const result = await getOrdersCount(filteringString);
             if (result.data > 0) {
                 setAllOrdersInsideThePage((await getAllOrdersInsideThePage(1, pageSize, filteringString)).data);
                 setTotalPagesCount(Math.ceil(result.data / pageSize));
-                setIsFilteringOrdersStatus(false);
+                setIsGetOrders(false);
             } else {
                 setAllOrdersInsideThePage([]);
                 setTotalPagesCount(0);
-                setIsFilteringOrdersStatus(false);
+                setIsGetOrders(false);
             }
         }
         catch (err) {
-            if (err?.response?.data?.msg === "Unauthorized Error") {
+            if (err?.response?.status === 401) {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
-                await router.push("/admin-dashboard/login");
-                return;
+                await router.replace("/admin-dashboard/login");
             }
-            setIsFilteringOrdersStatus(false);
-            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
-            let errorTimeout = setTimeout(() => {
-                setErrorMsg("");
-                clearTimeout(errorTimeout);
-            }, 2000);
+            else {
+                setIsGetOrders(false);
+                setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedGeneratedImageIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
+            }
         }
     }
 
     const addOrderAsReturned = async (orderId) => {
         try {
-            const res = await axios.post(`${process.env.BASE_API_URL}/orders/create-new-order?ordersType=${ordersType}&orderId=${orderId}`, undefined, {
+            const result = (await axios.post(`${process.env.BASE_API_URL}/orders/create-new-order?ordersType=${ordersType}&orderId=${orderId}`, undefined, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
-            });
-            const result = res.data;
+            })).data;
             if (!result.error) {
-                setSuccessMsg("Updating Successfull !!");
+                setSuccessMsg("Add Order As Returned Successfull !!");
                 let successTimeout = setTimeout(() => {
                     setSuccessMsg("");
                     setSelectedOrderIndex(-1);
@@ -199,16 +239,18 @@ export default function OrdersManagment({ ordersType }) {
             }
         }
         catch (err) {
-            if (err?.response?.data?.msg === "Unauthorized Error") {
+            if (err?.response?.status === 401) {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
-                await router.push("/admin-dashboard/login");
-                return;
+                await router.replace("/admin-dashboard/login");
             }
-            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
-            let errorTimeout = setTimeout(() => {
-                setErrorMsg("");
-                clearTimeout(errorTimeout);
-            }, 2000);
+            else {
+                setWaitMsg("");
+                setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    clearTimeout(errorTimeout);
+                }, 1500);
+            }
         }
     }
 
@@ -218,7 +260,7 @@ export default function OrdersManagment({ ordersType }) {
 
     const updateOrderData = async (orderIndex) => {
         try {
-            setWaitMsg("Please Wait Updating ...");
+            setWaitMsg("Please Wait To Updating ...");
             setSelectedOrderIndex(orderIndex);
             const result = (await axios.put(`${process.env.BASE_API_URL}/orders/update-order/${allOrdersInsideThePage[orderIndex]._id}?ordersType=${ordersType}`, {
                 order_amount: allOrdersInsideThePage[orderIndex].order_amount,
@@ -240,28 +282,31 @@ export default function OrdersManagment({ ordersType }) {
                 setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
                 let errorTimeout = setTimeout(() => {
                     setErrorMsg("");
+                    setSelectedOrderIndex(-1);
                     clearTimeout(errorTimeout);
                 }, 2000);
             }
         }
         catch (err) {
-            if (err?.response?.data?.msg === "Unauthorized Error") {
+            if (err?.response?.status === 401) {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
-                await router.push("/admin-dashboard/login");
-                return;
+                await router.replace("/admin-dashboard/login");
             }
-            setWaitMsg("");
-            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
-            let errorTimeout = setTimeout(() => {
-                setErrorMsg("");
-                clearTimeout(errorTimeout);
-            }, 2000);
+            else {
+                setWaitMsg("");
+                setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedOrderIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
+            }
         }
     }
 
     const deleteOrder = async (orderIndex) => {
         try {
-            setWaitMsg("Please Wait Deleting ...");
+            setWaitMsg("Please Wait To Deleting ...");
             setSelectedOrderIndex(orderIndex);
             const result = (await axios.delete(`${process.env.BASE_API_URL}/orders/delete-order/${allOrdersInsideThePage[orderIndex]._id}?ordersType=${ordersType}`, {
                 headers: {
@@ -274,9 +319,9 @@ export default function OrdersManagment({ ordersType }) {
                 let successTimeout = setTimeout(async () => {
                     setSuccessMsg("");
                     setSelectedOrderIndex(-1);
-                    setIsFilteringOrdersStatus(true);
+                    setIsGetOrders(true);
                     setAllOrdersInsideThePage((await getAllOrdersInsideThePage(currentPage, pageSize)).data);
-                    setIsFilteringOrdersStatus(false);
+                    setIsGetOrders(false);
                     clearTimeout(successTimeout);
                 }, 3000);
             } else {
@@ -288,18 +333,19 @@ export default function OrdersManagment({ ordersType }) {
             }
         }
         catch (err) {
-            if (err?.response?.data?.msg === "Unauthorized Error") {
+            if (err?.response?.status === 401) {
                 localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
-                await router.push("/admin-dashboard/login");
-                return;
+                await router.replace("/admin-dashboard/login");
             }
-            setWaitMsg("");
-            setErrorMsg("Sorry, Someting Went Wrong, Please Try Again !!");
-            let errorTimeout = setTimeout(() => {
-                setErrorMsg("");
-                setSelectedOrderIndex(-1);
-                clearTimeout(errorTimeout);
-            }, 2000);
+            else {
+                setWaitMsg("");
+                setErrorMsg(err?.message === "Network Error" ? "Network Error" : "Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(() => {
+                    setErrorMsg("");
+                    setSelectedOrderIndex(-1);
+                    clearTimeout(errorTimeout);
+                }, 1500);
+            }
         }
     }
 
@@ -308,7 +354,7 @@ export default function OrdersManagment({ ordersType }) {
             <Head>
                 <title>Tavlorify Store - Orders Managment</title>
             </Head>
-            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
+            {!isLoadingPage && !errorMsgOnLoadingThePage && <>
                 {/* Start Control Panel Header */}
                 <ControlPanelHeader />
                 {/* End Control Panel Header */}
@@ -388,13 +434,13 @@ export default function OrdersManagment({ ordersType }) {
                                             onChange={(e) => setFilters({ ...filters, email: e.target.value.trim() })}
                                         />
                                     </div>
-                                    {!isFilteringOrdersStatus && <button
+                                    {!isGetOrders && <button
                                         className="btn btn-success d-block w-25 mx-auto mt-2"
                                         onClick={() => filterOrders()}
                                     >
                                         Filter
                                     </button>}
-                                    {isFilteringOrdersStatus && <button
+                                    {isGetOrders && <button
                                         className="btn btn-success d-block w-25 mx-auto mt-2"
                                         disabled
                                     >
@@ -402,7 +448,7 @@ export default function OrdersManagment({ ordersType }) {
                                     </button>}
                                 </div>
                             </section>
-                            {allOrdersInsideThePage.length > 0 && !isFilteringOrdersStatus && <section className="orders-data-box p-3 data-box">
+                            {allOrdersInsideThePage.length > 0 && !isGetOrders && <section className="orders-data-box p-3 data-box">
                                 <table className="orders-data-table mb-4 data-table">
                                     <thead>
                                         <tr>
@@ -515,10 +561,11 @@ export default function OrdersManagment({ ordersType }) {
                                     </tbody>
                                 </table>
                             </section>}
-                            {allOrdersInsideThePage.length === 0 && !isFilteringOrdersStatus && <p className="alert alert-danger">Sorry, Can't Find Any Orders !!</p>}
-                            {isFilteringOrdersStatus && <TableLoader />}
+                            {allOrdersInsideThePage.length === 0 && !isGetOrders && <NotFoundError errorMsg="Sorry, Can't Find Any Orders !!" />}
+                            {isGetOrders && <TableLoader />}
+                            {errorMsgOnGetOrdersData && <NotFoundError errorMsg={errorMsgOnGetOrdersData} />}
                         </div>
-                        {totalPagesCount > 1 && !isFilteringOrdersStatus &&
+                        {totalPagesCount > 1 && !isGetOrders &&
                             <PaginationBar
                                 totalPagesCount={totalPagesCount}
                                 currentPage={currentPage}
@@ -531,8 +578,8 @@ export default function OrdersManagment({ ordersType }) {
                 </section>
                 {/* End Content Section */}
             </>}
-            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
-            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
+            {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
+            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage errorMsg={errorMsgOnLoadingThePage} />}
         </div>
     );
 }

@@ -4,8 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { getAdminInfo } from "../../../../../public/global_functions/popular";
+import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 
 export default function FaceSwapStylesManager() {
+
+    const [errorMsgOnLoadingThePage, setErrorMsgOnLoadingThePage] = useState("");
 
     const router = useRouter();
 
@@ -22,13 +25,13 @@ export default function FaceSwapStylesManager() {
                     }
                 })
                 .catch(async (err) => {
-                    if (err?.response?.data?.msg === "Unauthorized Error") {
+                    if (err?.response?.status === 401) {
                         localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                         await router.replace("/admin-dashboard/login");
                     }
                     else {
                         setIsLoadingPage(false);
-                        setIsErrorMsgOnLoadingThePage(true);
+                        setErrorMsgOnLoadingThePage(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !");
                     }
                 });
         } else router.replace("/admin-dashboard/login");
@@ -39,14 +42,18 @@ export default function FaceSwapStylesManager() {
             <Head>
                 <title>Tavlorify Store - Styles Managment For Face Swap</title>
             </Head>
-            <ControlPanelHeader />
-            {/* Start Content Section */}
-            <section className="content d-flex justify-content-center align-items-center flex-column text-center">
-                <h1 className="welcome-msg mb-5 fw-bold pb-3">Hello To You In Face Swap Styles Managment Page</h1>
-                <Link href="/admin-dashboard/image-to-image-managment/styles-managment/add-new-style" className="btn btn-success mb-3 d-block mx-auto w-25 manager-link">Add New Style</Link>
-                <Link href="/admin-dashboard/image-to-image-managment/styles-managment/update-and-delete-styles-info" className="btn btn-danger mb-3 d-block mx-auto w-25 manager-link">Update And Delete Styles Info</Link>
-            </section>
-            {/* End Content Section */}
+            {!isLoadingPage && !errorMsgOnLoadingThePage && <>
+                <ControlPanelHeader />
+                {/* Start Content Section */}
+                <section className="content d-flex justify-content-center align-items-center flex-column text-center">
+                    <h1 className="welcome-msg mb-5 fw-bold pb-3">Hello To You In Face Swap Styles Managment Page</h1>
+                    <Link href="/admin-dashboard/image-to-image-managment/styles-managment/add-new-style" className="btn btn-success mb-3 d-block mx-auto w-25 manager-link">Add New Style</Link>
+                    <Link href="/admin-dashboard/image-to-image-managment/styles-managment/update-and-delete-styles-info" className="btn btn-danger mb-3 d-block mx-auto w-25 manager-link">Update And Delete Styles Info</Link>
+                </section>
+                {/* End Content Section */}
+            </>}
+            {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
+            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage errorMsg={errorMsgOnLoadingThePage} />}
         </div>
     );
 }
