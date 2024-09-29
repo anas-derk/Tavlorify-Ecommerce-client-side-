@@ -16,7 +16,7 @@ export default function Checkout({ orderId }) {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
+    const [errorMsgOnLoadingThePage, setErrorMsgOnLoadingThePage] = useState("");
 
     const [allProductsData, setAllProductsData] = useState([]);
 
@@ -50,9 +50,9 @@ export default function Checkout({ orderId }) {
                         setIsLoadingPage(false);
                         await updateOrder(orderId, result.data.order_id);
                         renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.data.html_snippet);
-                    }).catch(() => {
+                    }).catch((err) => {
                         setIsLoadingPage(false);
-                        setIsErrorMsgOnLoadingThePage(true);
+                        setErrorMsgOnLoadingThePage(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !!");
                     });
             }
         }
@@ -113,11 +113,10 @@ export default function Checkout({ orderId }) {
 
     const getOrderDetails = async (orderId) => {
         try {
-            const res = await axios.get(`${process.env.BASE_API_URL}/orders/order-details/${orderId}`);
-            return res.data;
+            return (await axios.get(`${process.env.BASE_API_URL}/orders/order-details/${orderId}`)).data;
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -162,13 +161,12 @@ export default function Checkout({ orderId }) {
                             }
                         ]
                     }
-                    const res = await axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-klarna`, orderDetails);
-                    return res.data;
+                    return (await axios.post(`${process.env.BASE_API_URL}/orders/send-order-to-klarna`, orderDetails)).data;
                 }
             }
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -187,7 +185,7 @@ export default function Checkout({ orderId }) {
             }
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -240,7 +238,7 @@ export default function Checkout({ orderId }) {
             renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.data.html_snippet);
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -255,7 +253,7 @@ export default function Checkout({ orderId }) {
             });
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -265,7 +263,7 @@ export default function Checkout({ orderId }) {
             <Head>
                 <title>Tavlorify - Kassan</title>
             </Head>
-            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
+            {!isLoadingPage && !errorMsgOnLoadingThePage && <>
                 <Header newTotalProductsCount={newTotalProductsCount} />
                 <section className="page-content pb-4">
                     {/* Start Container From Bootstrap */}
@@ -357,8 +355,8 @@ export default function Checkout({ orderId }) {
                 </section>
                 <Footer />
             </>}
-            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
-            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
+            {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
+            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage  errorMsg={errorMsgOnLoadingThePage} />}
         </div >
         // End Checkout Page
     );

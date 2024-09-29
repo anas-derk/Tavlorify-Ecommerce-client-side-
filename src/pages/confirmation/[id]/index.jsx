@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Axios from "axios";
+import axios from "axios";
 import Footer from "@/components/Footer";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
@@ -11,7 +11,7 @@ export default function Confirmation() {
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
+    const [errorMsgOnLoadingThePage, setErrorMsgOnLoadingThePage] = useState("");
 
     const [newTotalProductsCount, setNewTotalProductsCount] = useState(null);
 
@@ -29,21 +29,19 @@ export default function Confirmation() {
                         setIsLoadingPage(false);
                         renderKlarnaConfirmationHtmlSnippetFromKlarnaCheckoutAPI(result.html_snippet);
                     }
-                }).catch(() => {
+                }).catch((err) => {
                     setIsLoadingPage(false);
-                    setIsErrorMsgOnLoadingThePage(true);
+                    setErrorMsgOnLoadingThePage(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !!");
                 });
         }
     }, [id]);
 
     const getKlarnaOrderDetails = async (orderId) => {
         try {
-            const res = await Axios.get(`${process.env.BASE_API_URL}/orders/order-details-from-klarna/${orderId}`);
-            const result = await res.data;
-            return result;
+            return (await axios.get(`${process.env.BASE_API_URL}/orders/order-details-from-klarna/${orderId}`)).data;
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -72,7 +70,7 @@ export default function Confirmation() {
             <Head>
                 <title>Tavlorify - Bekräftelse</title>
             </Head>
-            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
+            {!isLoadingPage && !errorMsgOnLoadingThePage && <>
                 <Header newTotalProductsCount={newTotalProductsCount} />
                 {/* Start Container From Bootstrap */}
                 <div className="container-fluid pt-4 pb-4">
@@ -82,8 +80,8 @@ export default function Confirmation() {
                 <div id="my-confirmation-container"></div>
                 <Footer />
             </>}
-            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
-            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
+            {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
+            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage errorMsg={errorMsgOnLoadingThePage} />}
         </div>
     );
 }

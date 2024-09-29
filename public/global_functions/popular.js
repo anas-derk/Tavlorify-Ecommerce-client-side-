@@ -17,7 +17,7 @@ async function getAllCategoriesForService(serviceName) {
         } : (await axios.get(`${process.env.BASE_API_URL}/categories/all-categories-data?service=${serviceName}`)).data;
     }
     catch(err) {
-        throw Error(err);
+        throw err;
     }
 }
 
@@ -70,9 +70,14 @@ const getStylesForCategoryInService = async (serviceName, categoryName) => {
 }
 
 const handleUploadImage = async (imageData, handleUploadProgress) => {
-    return (await axios.post(`${process.env.BASE_API_URL}/generated-images/upload-image-and-processing`, imageData, {
-        onUploadProgress: handleUploadProgress,
-    })).data;
+    try{
+        return (await axios.post(`${process.env.BASE_API_URL}/generated-images/upload-image-and-processing`, imageData, {
+            onUploadProgress: handleUploadProgress,
+        })).data;
+    }
+    catch(err) {
+        throw err;
+    }
 }
 
 export {

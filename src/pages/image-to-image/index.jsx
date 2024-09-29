@@ -85,7 +85,7 @@ export default function ImageToImage({
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
+    const [errorMsgOnLoadingThePage, setErrorMsgOnLoadingThePage] = useState("");
 
     const [windowInnerWidth, setWindowInnerWidth] = useState(149);
 
@@ -369,7 +369,7 @@ export default function ImageToImage({
             })
             .catch((err) => {
                 setIsLoadingPage(false);
-                setIsErrorMsgOnLoadingThePage(true);
+                setErrorMsgOnLoadingThePage(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !!");
             });
     }, [generatedImageId, paintingTypeAsQuery]);
 
@@ -1289,7 +1289,7 @@ export default function ImageToImage({
             <Head>
                 <title>Tavlorify - förvandla foton till konstverk</title>
             </Head>
-            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
+            {!isLoadingPage && !errorMsgOnLoadingThePage && <>
                 <Header newTotalProductsCount={newTotalProductsCount} />
                 {/* Start Overlay */}
                 {isShowMoreGeneratedImages && <div className="overlay">
@@ -1737,8 +1737,8 @@ export default function ImageToImage({
                 {/* End Page Content */}
                 <Footer />
             </>}
-            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
-            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
+            {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
+            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage errorMsg={errorMsgOnLoadingThePage} />}
         </div>
         // End Image To Image Page
     );

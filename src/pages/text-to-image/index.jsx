@@ -79,7 +79,7 @@ export default function TextToImage({
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-    const [isErrorMsgOnLoadingThePage, setIsErrorMsgOnLoadingThePage] = useState(false);
+    const [errorMsgOnLoadingThePage, setErrorMsgOnLoadingThePage] = useState("");
 
     const [windowInnerWidth, setWindowInnerWidth] = useState(149);
 
@@ -347,7 +347,7 @@ export default function TextToImage({
             })
             .catch((err) => {
                 setIsLoadingPage(false);
-                setIsErrorMsgOnLoadingThePage(true);
+                setErrorMsgOnLoadingThePage(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !!");
             });
     }, [generatedImageId, paintingTypeAsQuery]);
 
@@ -370,7 +370,7 @@ export default function TextToImage({
             await getProductPrice(productData.paintingType, productData.position, productData.size);
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -422,7 +422,7 @@ export default function TextToImage({
             }
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -443,7 +443,7 @@ export default function TextToImage({
             }
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -495,7 +495,7 @@ export default function TextToImage({
             }
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -544,7 +544,7 @@ export default function TextToImage({
             }
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -561,7 +561,7 @@ export default function TextToImage({
             }
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -580,7 +580,7 @@ export default function TextToImage({
             }
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -668,7 +668,7 @@ export default function TextToImage({
             setSelectedPreviousGeneratedImageIndex(selectedImageIndex);
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -906,14 +906,13 @@ export default function TextToImage({
     const getProductPrice = async (paintingType, position, dimentions) => {
         try {
             setIsWaitGetProductPrice(true);
-            const res = await axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`);
-            const result = res.data;
+            const result = (await axios.get(`${process.env.BASE_API_URL}/prices/prices-by-product-details?productName=${paintingType}&dimentions=${dimentions}&position=${position}`)).data;
             setProductPriceBeforeDiscount(result.data.priceBeforeDiscount);
             setProductPriceAfterDiscount(result.data.priceAfterDiscount);
             setIsWaitGetProductPrice(false);
         }
         catch (err) {
-            throw Error(err);
+            throw err;
         }
     }
 
@@ -949,7 +948,7 @@ export default function TextToImage({
             <Head>
                 <title>Tavlorify - Förvandla ord till konstverk</title>
             </Head>
-            {!isLoadingPage && !isErrorMsgOnLoadingThePage && <>
+            {!isLoadingPage && !errorMsgOnLoadingThePage && <>
                 <Header newTotalProductsCount={newTotalProductsCount} />
                 {/* Start Overlay */}
                 {isShowMoreGeneratedImages && <div className="overlay">
@@ -1391,8 +1390,8 @@ export default function TextToImage({
                 {/* End Page Content */}
                 <Footer />
             </>}
-            {isLoadingPage && !isErrorMsgOnLoadingThePage && <LoaderPage />}
-            {isErrorMsgOnLoadingThePage && <ErrorOnLoadingThePage />}
+            {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
+            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage errorMsg={errorMsgOnLoadingThePage} />}
         </div>
         // End Text To Image Service Page
     );
