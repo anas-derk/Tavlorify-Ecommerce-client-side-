@@ -390,7 +390,7 @@ export default function FaceSwap({
                                 size: "50x70",
                                 isExistWhiteBorder: "without-border",
                                 frameColor: "none",
-                                generatedImageURL: "assets/images/generatedImages/previewImageForTextToImage.png",
+                                generatedImageURL: "assets/images/generatedImages/previewImageForFaceSwap.png",
                             });
                         }
                     }
@@ -401,7 +401,7 @@ export default function FaceSwap({
                         size: "50x70",
                         isExistWhiteBorder: "without-border",
                         frameColor: "none",
-                        generatedImageURL: "assets/images/generatedImages/previewImageForTextToImage.png",
+                        generatedImageURL: "assets/images/generatedImages/previewImageForFaceSwap.png",
                     });
                 }
             } else {
@@ -411,7 +411,7 @@ export default function FaceSwap({
                     size: "50x70",
                     isExistWhiteBorder: "without-border",
                     frameColor: "none",
-                    generatedImageURL: "assets/images/generatedImages/previewImageForTextToImage.png",
+                    generatedImageURL: "assets/images/generatedImages/previewImageForFaceSwap.png",
                 });
             }
         }
@@ -1431,7 +1431,7 @@ export default function FaceSwap({
                         <Inspiration imagesSrc={imagesSrc} />
                         {/* End Inspiration */}
                         {/* Start Customer Comments Section */}
-                        <CustomersComments />
+                        <CustomersComments pageName="face-swap" />
                         {/* End Customer Comments Section */}
                     </div>
                     {/* End Container */}

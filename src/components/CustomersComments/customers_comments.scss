@@ -3,6 +3,11 @@
     .comments-box{
         .comment-box{
             border-radius: 10px;
+            height: 320px;
+            overflow: auto;
+            .comment-content{
+                font-size: 15px;
+            }
         }
     }
 }

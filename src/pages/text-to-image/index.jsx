@@ -868,7 +868,6 @@ export default function TextToImage({
                 {roomNumber === 2 && <img src={room2Image.src} alt="Room Image2 !!" onDragStart={(e) => e.preventDefault()} />}
                 {getArtPaintingBox(
                     imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 8}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`,
-                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 8}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`,
                     "minimize-image",
                     true,
                     imageSize === "minimize-room-image" ? true : false,
@@ -1382,7 +1381,7 @@ export default function TextToImage({
                         <Inspiration imagesSrc={imagesSrc} />
                         {/* End Inspiration Section */}
                         {/* Start Customer Comments Section */}
-                        <CustomersComments />
+                        <CustomersComments pageName="text-to-image" />
                         {/* End Customer Comments Section */}
                     </div>
                     {/* End Container */}

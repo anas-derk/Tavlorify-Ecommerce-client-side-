@@ -1,6 +1,13 @@
 .home{
     .page-content{
         padding-top: 120px;
+        .introduction{
+            .explain-box{
+                .room-image-description{
+                    font-size: 14px;
+                }
+            }
+        }
         .caption-message{
             width: 75%;
             font-size: 15px;

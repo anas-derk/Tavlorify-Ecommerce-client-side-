@@ -59,7 +59,7 @@ export default function Home() {
         },
         {
             roomImageSrc: roomImage3.src,
-            roomImageHeading: "SKAPA Ansiktskonst",
+            roomImageHeading: "SKAPA ANSIKTSKONST",
             roomImageDescription: "Sätt ditt ansikte i varje tavla med vår unika ansiktsersättningsteknik!",
             minimizeImagesSrc: [minimizeImage7.src, minimizeImage8.src, minimizeImage9.src],
             minimizeImagesDescription: "SKAPA DIN EGEN PERSONLIGA POSTER",
@@ -126,7 +126,7 @@ export default function Home() {
                                     </Link>
                                     <div className="explain-box mb-5">
                                         <h6 className="fw-bold">{images.roomImageHeading}</h6>
-                                        <h6>{images.roomImageDescription}</h6>
+                                        <h6 className="room-image-description">{images.roomImageDescription}</h6>
                                     </div>
                                     <div className="row mb-5">
                                         {images.minimizeImagesSrc.map((minimizeImageSrc, minimizeImageIndex) => (

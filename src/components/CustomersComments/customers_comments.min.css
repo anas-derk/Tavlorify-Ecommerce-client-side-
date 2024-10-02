@@ -1,1 +1,1 @@
-.customers-comments{background-color:#EEE}.customers-comments .comments-box .comment-box{border-radius:10px}
+.customers-comments{background-color:#EEE}.customers-comments .comments-box .comment-box{border-radius:10px;height:320px;overflow:auto}.customers-comments .comments-box .comment-box .comment-content{font-size:15px}

@@ -2,6 +2,10 @@
   padding-top: 120px;
 }
 
+.home .page-content .introduction .explain-box .room-image-description {
+  font-size: 14px;
+}
+
 .home .page-content .caption-message {
   width: 75%;
   font-size: 15px;
