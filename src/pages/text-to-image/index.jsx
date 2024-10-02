@@ -329,6 +329,13 @@ export default function TextToImage({
     ];
 
     useEffect(() => {
+        setWindowInnerWidth(window.innerWidth);
+        window.addEventListener("resize", function () {
+            setWindowInnerWidth(this.innerWidth);
+        });
+    }, []);
+
+    useEffect(() => {
         setIsLoadingPage(true);
         getAllCategoriesForService("text-to-image")
             .then(async (result) => {
@@ -339,10 +346,6 @@ export default function TextToImage({
                 setModelName(tempModelName);
                 await handleSelectGeneratedImageIdAndPaintingType(tempModelName);
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")));
-                setWindowInnerWidth(window.innerWidth);
-                window.addEventListener("resize", function () {
-                    setWindowInnerWidth(this.innerWidth);
-                });
                 setIsLoadingPage(false);
             })
             .catch((err) => {

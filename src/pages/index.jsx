@@ -35,8 +35,18 @@ import { CiDeliveryTruck } from "react-icons/ci";
 import { RiSecurePaymentLine } from "react-icons/ri";
 import Link from "next/link";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+
+    const [windowInnerWidth, setWindowInnerWidth] = useState(149);
+
+    useEffect(() => {
+        setWindowInnerWidth(window.innerWidth);
+        window.addEventListener("resize", function () {
+            setWindowInnerWidth(this.innerWidth);
+        });
+    }, []);
 
     const introductionSectionImagesList = [
         {
@@ -120,7 +130,7 @@ export default function Home() {
                     <div className="container">
                         <div className="row">
                             {introductionSectionImagesList.map((images, index) => (
-                                <div className="col-lg-4 pe-5" key={index}>
+                                <div className={`col-lg-4 ${windowInnerWidth > 991 && "pe-5"}`} key={index}>
                                     <Link href={images.pagePath}>
                                         <img src={images.roomImageSrc} alt={`Room Image ${index + 1}`} className="mw-100 mb-4" onDragStart={(e) => e.preventDefault()} />
                                     </Link>
@@ -149,7 +159,7 @@ export default function Home() {
                     <div className="container">
                         <div className="row">
                             {servicesSectionImagesList.map((service, index) => (
-                                index % 2 !== 0 ? <>
+                                windowInnerWidth > 991 ? (index % 2 !== 0 ? <>
                                     <div className="col-lg-6 pe-5" key={index}>
                                         <h3 className="service-title mb-4 text-start">{service.serviceTitle}</h3>
                                         <p className="service-explain mb-4 text-start">{service.serviceExplain}</p>
@@ -177,6 +187,20 @@ export default function Home() {
                                             <MdOutlineKeyboardArrowRight />
                                         </Link>
                                     </div>
+                                </>) : <>
+                                    <div className="col-lg-6" key={index}>
+                                        <Link href={service.pagePath}>
+                                            <img src={service.serviceExplainImage} alt={`${service.serviceName} Service Image`} className="mw-100" onDragStart={(e) => e.preventDefault()} />
+                                        </Link>
+                                    </div>
+                                    <div className="col-lg-6" key={index}>
+                                        <h3 className="service-title mb-4 text-start">{service.serviceTitle}</h3>
+                                        <p className="service-explain mb-4 text-start">{service.serviceExplain}</p>
+                                        <Link href={service.pagePath} className="service-path-button d-block text-start fw-bold text-dark">
+                                            <span className="me-2">{service.buttonContent}</span>
+                                            <MdOutlineKeyboardArrowRight />
+                                        </Link>
+                                    </div>
                                 </>
                             ))}
                         </div>
@@ -184,13 +208,13 @@ export default function Home() {
                 </section>
                 {/* End Services Explain Section */}
                 {/* Start Room Images Section */}
-                <section className="room-images pb-5">
+                <section className="room-images">
                     <div className="container">
                         <h2 className="section-name fw-bold mb-3">Inspiration</h2>
                         <h5 className="mb-5">EXEMPEL FRÅN OSS OCH VÅRA KUNDER</h5>
                         <div className="row">
                             {roomImagesSrc.map((roomImageSrc, index) => (
-                                <div className={`col-md-3 ${index !== roomImagesSrc.length && "pe-5"}`} key={index}>
+                                <div className={`col-md-3 ${index !== roomImagesSrc.length && windowInnerWidth > 991 ? "pe-5" : ""}`} key={index}>
                                     <img src={roomImageSrc} alt={`Room Image ${index + 1}`} className="mw-100 mb-4" onDragStart={(e) => e.preventDefault()} />
                                 </div>
                             ))}
