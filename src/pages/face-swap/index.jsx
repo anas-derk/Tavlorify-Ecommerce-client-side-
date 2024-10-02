@@ -76,6 +76,7 @@ import InspirationImage8ForFaceSwap from "@/../public/images/Inspiration/FaceSwa
 import CustomersComments from "@/components/CustomersComments";
 import WaitGeneratingImage from "@/components/WaitGeneratingImage";
 import { getStylesForCategoryInService, handleUploadImage } from "../../../public/global_functions/popular";
+import HowToUseServiceExplain from "@/components/HowToUseServiceExplain";
 
 export default function FaceSwap({
     generatedImageId,
@@ -324,7 +325,7 @@ export default function FaceSwap({
         }
     }
 
-    const imagesSrc = [
+    const inspirationImgSrcs = [
         InspirationImage1ForFaceSwap.src,
         InspirationImage2ForFaceSwap.src,
         InspirationImage3ForFaceSwap.src,
@@ -333,6 +334,12 @@ export default function FaceSwap({
         InspirationImage6ForFaceSwap.src,
         InspirationImage7ForFaceSwap.src,
         InspirationImage8ForFaceSwap.src,
+    ];
+
+    const howToUseServiceExplainImgSrcs = [
+        howToUseImage1.src,
+        howToUseImage2.src,
+        howToUseImage3.src,
     ];
 
     useEffect(() => {
@@ -1379,56 +1386,13 @@ export default function FaceSwap({
                         </section>
                         {/* Start Generated Images Section */}
                         {/* Start How To Use Service Section */}
-                        <section className="how-to-use-service pt-5 pb-5 text-center">
-                            <div className="row">
-                                <div className="col-md-4">
-                                    <div className="explain-image-box mb-4">
-                                        <img
-                                            src={howToUseImage1.src}
-                                            alt="How To Use Image To Image Page ( Image 1 )"
-                                            className="explain-image mw-100"
-                                        />
-                                    </div>
-                                    <div className="explain-box">
-                                        <h6 className="fw-bold">1. Ladda upp</h6>
-                                        <p>Ladda upp en bild från din kamerarulle</p>
-                                    </div>
-                                </div>
-                                <div className="col-md-4">
-                                    <div className="explain-image-box mb-4">
-                                        <img
-                                            src={howToUseImage2.src}
-                                            alt="How To Use Image To Image Page ( Image 2 )"
-                                            className="explain-image mw-100"
-                                        />
-                                    </div>
-                                    <div className="explain-box">
-                                        <h6 className="fw-bold">2. Skapa Ansiktskonst</h6>
-                                        <p className="mb-0">Välj mellan kön, stil, format,</p>
-                                        <p>klicka på knappen "Skapa din konst"</p>
-                                    </div>
-                                </div>
-                                <div className="col-md-4">
-                                    <div className="explain-image-box mb-4">
-                                        <img
-                                            src={howToUseImage3.src}
-                                            alt="How To Use Face Swap Page ( Image 3 )"
-                                            className="explain-image mw-100"
-                                        />
-                                    </div>
-                                    <div className="explain-box">
-                                        <h6 className="fw-bold">3. Beställning</h6>
-                                        <p>Slutför köp och betala, få din affisch inom 3-5 dagar</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+                        <HowToUseServiceExplain pageName="face-swap" imgSrcs={howToUseServiceExplainImgSrcs} />
                         {/* End How To Use Service Section */}
                         {/* Start Painting Details Section */}
                         <PaintingDetails windowInnerWidth={windowInnerWidth} serviceName="face-swap" />
                         {/* End Painting Details Section */}
                         {/* Start Inspiration */}
-                        <Inspiration imagesSrc={imagesSrc} />
+                        <Inspiration imgSrcs={inspirationImgSrcs} />
                         {/* End Inspiration */}
                         {/* Start Customer Comments Section */}
                         <CustomersComments pageName="face-swap" />

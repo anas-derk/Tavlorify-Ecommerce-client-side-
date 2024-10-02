@@ -317,7 +317,7 @@ export default function TextToImage({
         }
     }
 
-    const imagesSrc = [
+    const inspirationImgSrcs = [
         InspirationImage1ForTextToImage.src,
         InspirationImage2ForTextToImage.src,
         InspirationImage3ForTextToImage.src,
@@ -1381,7 +1381,7 @@ export default function TextToImage({
                         <PaintingDetails windowInnerWidth={windowInnerWidth} serviceName="text-to-image" />
                         {/* End Painting Details Section */}
                         {/* Start Inspiration Section */}
-                        <Inspiration imagesSrc={imagesSrc} />
+                        <Inspiration imgSrcs={inspirationImgSrcs} />
                         {/* End Inspiration Section */}
                         {/* Start Customer Comments Section */}
                         <CustomersComments pageName="text-to-image" />

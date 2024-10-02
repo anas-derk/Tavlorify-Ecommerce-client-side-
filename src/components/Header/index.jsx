@@ -348,7 +348,7 @@ export default function Header({ newTotalProductsCount }) {
             }, 1500);
         }
     }
-    
+
     return (
         // Start Global Header
         <header className="global-header">
@@ -500,8 +500,8 @@ export default function Header({ newTotalProductsCount }) {
             <nav className="custom-navbar-for-mobiles-and-tablets-devices fixed-top p-3 d-flex justify-content-between align-items-center">
                 {!isDisplayAllLinksBox && <FaBars className="bar-icon icon" onClick={() => setIsDisplayAllLinksBox(true)} />}
                 {isDisplayAllLinksBox && <GrFormClose className="close-all-links-box icon" onClick={() => setIsDisplayAllLinksBox(false)} />}
-                <Link href="/" className="home-link">
-                    <h5 className="fw-bold web-app-name mb-0">TAVLORIFY</h5>
+                <Link href="/" className="home-link brand-name fw-bold">
+                    <img src={LogoImage.src} alt="Logo Image" width={150} />
                 </Link>
                 <div className="cart-icon-box" onClick={handleDisplayOrHideAllProductManagmentBox}>
                     {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon icon" />}
@@ -517,7 +517,7 @@ export default function Header({ newTotalProductsCount }) {
                     </li>
                     <li
                         className="link-item p-3 border-bottom border-2"
-                        onClick={() => setDisplayingTheCustomDropdownMenuNames(displayingTheCustomDropdownMenuNames.includes("poster-dropdown-menu") ? displayingTheCustomDropdownMenuNames.filter(name => name !== "poster-dropdown-menu") :  [...displayingTheCustomDropdownMenuNames, "poster-dropdown-menu"])}
+                        onClick={() => setDisplayingTheCustomDropdownMenuNames(displayingTheCustomDropdownMenuNames.includes("poster-dropdown-menu") ? displayingTheCustomDropdownMenuNames.filter(name => name !== "poster-dropdown-menu") : [...displayingTheCustomDropdownMenuNames, "poster-dropdown-menu"])}
                     >
                         <BsPaintBucket />
                         <span className="ms-2">POSTERS</span>
@@ -570,11 +570,11 @@ export default function Header({ newTotalProductsCount }) {
                     </li>
                     <li
                         className="link-item p-3 border-bottom border-2"
-                        onClick={() => setDisplayingTheCustomDropdownMenuNames(displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") ? displayingTheCustomDropdownMenuNames.filter(name => name !== "canvas-dropdown-menu") :  [...displayingTheCustomDropdownMenuNames, "canvas-dropdown-menu"])}
+                        onClick={() => setDisplayingTheCustomDropdownMenuNames(displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") ? displayingTheCustomDropdownMenuNames.filter(name => name !== "canvas-dropdown-menu") : [...displayingTheCustomDropdownMenuNames, "canvas-dropdown-menu"])}
                     >
                         <BsPaintBucket />
                         <span className="ms-2">CANVASTAVLOR</span>
-                        {!displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") && <IoIosArrowRoundDown className="icon"  />}
+                        {!displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") && <IoIosArrowRoundDown className="icon" />}
                         {displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") && <IoIosArrowRoundUp className="icon" />}
                         {displayingTheCustomDropdownMenuNames.includes("canvas-dropdown-menu") && <ul className="dropdown-menu-for-custom-navbar mt-2">
                             <li className="pt-2 pb-2 dropdown-menu-item-for-custom-navbar">
