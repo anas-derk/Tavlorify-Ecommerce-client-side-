@@ -15,8 +15,8 @@ export default function GeneratedImagesViewer({
 }) {
 
     const deleteGeneratedImageData = (generatedImageDataIndex) => {
-        let newTavlorifyStoreUserGeneratedImagesDataForTextToImage = JSON.parse(localStorage.getItem(`{tavlorify-store-user-generated-images-data-${serviceName}`)).filter((generatedImageData, index) => index !== generatedImageDataIndex);
-        localStorage.setItem(`{tavlorify-store-user-generated-images-data-${serviceName}`, JSON.stringify(newTavlorifyStoreUserGeneratedImagesDataForTextToImage));
+        let newTavlorifyStoreUserGeneratedImagesDataForTextToImage = JSON.parse(localStorage.getItem(`tavlorify-store-user-generated-images-data-${serviceName}`)).filter((generatedImageData, index) => index !== generatedImageDataIndex);
+        localStorage.setItem(`tavlorify-store-user-generated-images-data-${serviceName}`, JSON.stringify(newTavlorifyStoreUserGeneratedImagesDataForTextToImage));
         setGeneratedImagesData(newTavlorifyStoreUserGeneratedImagesDataForTextToImage);
     }
 
