@@ -966,7 +966,7 @@ a {
 }
 
 .policy-page .page-content {
-  padding-top: 80px;
+  padding-top: 100px;
   padding-bottom: 50px;
 }
 
@@ -979,15 +979,6 @@ a {
 .policy-page .policy-explain .policy-table th, .policy-page .policy-explain .policy-table td {
   border: 1px solid;
   padding: 10px;
-}
-
-.policy-page a:not(.nav-link) {
-  text-decoration: underline;
-  color: #494949;
-}
-
-.policy-page a:not(.nav-link):hover {
-  color: gray;
 }
 
 .policy-page p {

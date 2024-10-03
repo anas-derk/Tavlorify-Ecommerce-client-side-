@@ -572,7 +572,7 @@ a{
 .policy-page{
     .page-content{
         padding: {
-            top: 80px;
+            top: 100px;
             bottom: 50px;
         };
     }
@@ -585,13 +585,6 @@ a{
                 border: 1px solid;
                 padding: 10px;
             }
-        }
-    }
-    a:not(.nav-link){
-        text-decoration: underline;
-        color: #494949;
-        &:hover{
-            color: gray;
         }
     }
     p{
