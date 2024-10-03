@@ -70,7 +70,7 @@ import InspirationImage7ForTextToImage from "@/../public/images/Inspiration/Text
 import InspirationImage8ForTextToImage from "@/../public/images/Inspiration/TextToImagePage/8.webp";
 import CustomersComments from "@/components/CustomersComments";
 import WaitGeneratingImage from "@/components/WaitGeneratingImage";
-import { getAllCategoriesForService, getStylesForCategoryInService } from "../../../public/global_functions/popular";
+import { getAllCategoriesForService, getStylesForCategoryInService, getAppearedSlidesCount } from "../../../public/global_functions/popular";
 
 export default function TextToImage({
     generatedImageId,
@@ -883,7 +883,7 @@ export default function TextToImage({
         return (
             <div className="generated-image-gallery mb-4 border-bottom border-3 pb-3">
                 {/* Start Carousel Component From Bootstrap */}
-                <Carousel indicators={true}>
+                <Carousel indicators={true} interval={null}>
                     {/* Start Carousel Item */}
                     <Carousel.Item>
                         {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined, false)}
@@ -918,32 +918,6 @@ export default function TextToImage({
         }
     }
 
-    const getAppearedSlidesCount = (windowInnerWidth, sectionName, count) => {
-        if (sectionName === "generated-images") {
-            if (windowInnerWidth < 322) return 1;
-            if (windowInnerWidth >= 322 && windowInnerWidth < 360) return 1;
-            if (windowInnerWidth > 360 && windowInnerWidth < 500 && count >= 2) return 2;
-            if (windowInnerWidth >= 500 && windowInnerWidth < 630 && count >= 3) return 3;
-            if (windowInnerWidth >= 630 && windowInnerWidth < 900 && count >= 4) return 4;
-            if (windowInnerWidth > 900 && windowInnerWidth < 1000 && count >= 5) return 5;
-            if (windowInnerWidth > 1000 && windowInnerWidth < 1199 && count >= 6) return 6;
-            if (windowInnerWidth > 1199 && count >= 7) return 7;
-            return count;
-        } else if (sectionName === "categories" || sectionName === "styles") {
-            if (windowInnerWidth < 322) return 1;
-            if (windowInnerWidth >= 322 && windowInnerWidth < 400 && count >= 2) return 2;
-            if (windowInnerWidth > 400 && windowInnerWidth < 500 && count >= 3) return 3;
-            if (windowInnerWidth > 500 && count >= 5) return 5;
-            return count;
-        }
-    }
-
-    const deleteGeneratedImageData = (generatedImageDataIndex) => {
-        let newTavlorifyStoreUserGeneratedImagesDataForTextToImage = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")).filter((generatedImageData, index) => index !== generatedImageDataIndex);
-        localStorage.setItem("tavlorify-store-user-generated-images-data-text-to-image", JSON.stringify(newTavlorifyStoreUserGeneratedImagesDataForTextToImage));
-        setGeneratedImagesData(newTavlorifyStoreUserGeneratedImagesDataForTextToImage);
-    }
-
     return (
         // Start Text To Image Service Page
         <div className="text-to-image-service">
@@ -960,7 +934,7 @@ export default function TextToImage({
                         <h6 className="fw-bold mb-5">Vänligen välj bild</h6>
                         <ul className="generated-images-list w-100 p-4">
                             {generatedImagesData.map((generatedImageData, index) => (
-                                index > 10 && <li
+                                index > 9 && <li
                                     className="generated-images-item m-0"
                                     key={generatedImageData._id}
                                     onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}

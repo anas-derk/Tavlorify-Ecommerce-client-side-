@@ -75,7 +75,7 @@ import InspirationImage7ForFaceSwap from "@/../public/images/Inspiration/FaceSwa
 import InspirationImage8ForFaceSwap from "@/../public/images/Inspiration/FaceSwapPage/8.webp";
 import CustomersComments from "@/components/CustomersComments";
 import WaitGeneratingImage from "@/components/WaitGeneratingImage";
-import { getStylesForCategoryInService, handleUploadImage } from "../../../public/global_functions/popular";
+import { getStylesForCategoryInService, handleUploadImage, getAppearedSlidesCount } from "../../../public/global_functions/popular";
 import HowToUseServiceExplain from "@/components/HowToUseServiceExplain";
 
 export default function FaceSwap({
@@ -957,26 +957,6 @@ export default function FaceSwap({
         }
     }
 
-    const getAppearedSlidesCount = (windowInnerWidth, sectionName, count) => {
-        if (sectionName === "generated-images") {
-            if (windowInnerWidth < 322) return 1;
-            if (windowInnerWidth >= 322 && windowInnerWidth < 360) return 1;
-            if (windowInnerWidth > 360 && windowInnerWidth < 500 && count >= 2) return 2;
-            if (windowInnerWidth >= 500 && windowInnerWidth < 630 && count >= 3) return 3;
-            if (windowInnerWidth >= 630 && windowInnerWidth < 900 && count >= 4) return 4;
-            if (windowInnerWidth > 900 && windowInnerWidth < 1000 && count >= 5) return 5;
-            if (windowInnerWidth > 1000 && windowInnerWidth < 1199 && count >= 6) return 6;
-            if (windowInnerWidth > 1199 && count >= 7) return 7;
-            return count;
-        } else if (sectionName === "categories" || sectionName === "styles") {
-            if (windowInnerWidth < 322) return 1;
-            if (windowInnerWidth >= 322 && windowInnerWidth < 400 && count >= 2) return 2;
-            if (windowInnerWidth > 400 && windowInnerWidth < 500 && count >= 3) return 3;
-            if (windowInnerWidth > 500 && count >= 5) return 5;
-            return count;
-        }
-    }
-
     const deleteGeneratedImageData = (generatedImageDataIndex) => {
         let tavlorifyStoreUserGeneratedImagesDataForFaceSwap = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-face-swap")).filter((generatedImageData, index) => index !== generatedImageDataIndex);
         localStorage.setItem("tavlorify-store-user-generated-images-data-face-swap", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForFaceSwap));
@@ -999,7 +979,7 @@ export default function FaceSwap({
                         <h6 className="fw-bold mb-5">Vänligen välj bild</h6>
                         <ul className="generated-images-list w-100 p-4">
                             {generatedImagesData.map((generatedImageData, index) => (
-                                index > 10 && <Fragment key={generatedImageData._id}>
+                                index > 9 && <Fragment key={generatedImageData._id}>
                                     <li
                                         className={`generated-images-item m-0 ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
                                         onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}

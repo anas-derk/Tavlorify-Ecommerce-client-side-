@@ -624,7 +624,7 @@ export default function Header({ newTotalProductsCount }) {
                     <li className="link-item p-3 border-bottom border-2">
                         <Link className="link" aria-current="page" href="/who-are-we">
                             <AiOutlineHome />
-                            <span className="ms-2">VILKA äR VI?</span>
+                            <span className="ms-2">OM OSS</span>
                         </Link>
                     </li>
                     <li className="link-item p-3 border-bottom border-2">

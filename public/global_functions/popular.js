@@ -80,6 +80,26 @@ const handleUploadImage = async (imageData, handleUploadProgress) => {
     }
 }
 
+const getAppearedSlidesCount = (windowInnerWidth, sectionName, count) => {
+    if (sectionName === "generated-images") {
+        if (windowInnerWidth < 322) return 1;
+        if (windowInnerWidth >= 322 && windowInnerWidth < 360) return 1;
+        if (windowInnerWidth >= 360 && windowInnerWidth < 500 && count >= 2) return 2;
+        if (windowInnerWidth >= 500 && windowInnerWidth < 630 && count >= 3) return 3;
+        if (windowInnerWidth >= 630 && windowInnerWidth < 900 && count >= 4) return 4;
+        if (windowInnerWidth >= 900 && windowInnerWidth < 1000 && count >= 5) return 5;
+        if (windowInnerWidth >= 1000 && windowInnerWidth < 1199 && count >= 6) return 6;
+        if (windowInnerWidth >= 1199 && count >= 7) return 7;
+        return count;
+    } else if (sectionName === "categories" || sectionName === "styles") {
+        if (windowInnerWidth < 322) return 1;
+        if (windowInnerWidth >= 322 && windowInnerWidth < 400 && count >= 2) return 2;
+        if (windowInnerWidth > 400 && windowInnerWidth < 500 && count >= 3) return 3;
+        if (windowInnerWidth > 500 && count >= 5) return 5;
+        return count;
+    }
+}
+
 export {
     getDateFormated,
     getAllCategoriesForService,
@@ -87,5 +107,6 @@ export {
     addNewCategoryToService,
     addNewStyleToCategoryInSpecificService,
     getStylesForCategoryInService,
-    handleUploadImage
+    handleUploadImage,
+    getAppearedSlidesCount
 }
