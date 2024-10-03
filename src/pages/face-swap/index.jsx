@@ -1311,6 +1311,7 @@ export default function FaceSwap({
                                 setGeneratedImagesData={setGeneratedImagesData}
                                 setIsShowMoreGeneratedImages={setIsShowMoreGeneratedImages}
                                 selectedPreviousGeneratedImageIndex={selectedPreviousGeneratedImageIndex}
+                                serviceName="face-swap"
                             />
                         }
                         {/* Start Generated Images Section */}

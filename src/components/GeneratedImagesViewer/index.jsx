@@ -10,12 +10,13 @@ export default function GeneratedImagesViewer({
     displayPreviousGeneratedImageInsideArtPainting,
     setGeneratedImagesData,
     setIsShowMoreGeneratedImages,
-    selectedPreviousGeneratedImageIndex
+    selectedPreviousGeneratedImageIndex,
+    serviceName
 }) {
 
     const deleteGeneratedImageData = (generatedImageDataIndex) => {
-        let newTavlorifyStoreUserGeneratedImagesDataForTextToImage = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")).filter((generatedImageData, index) => index !== generatedImageDataIndex);
-        localStorage.setItem("tavlorify-store-user-generated-images-data-text-to-image", JSON.stringify(newTavlorifyStoreUserGeneratedImagesDataForTextToImage));
+        let newTavlorifyStoreUserGeneratedImagesDataForTextToImage = JSON.parse(localStorage.getItem(`{tavlorify-store-user-generated-images-data-${serviceName}`)).filter((generatedImageData, index) => index !== generatedImageDataIndex);
+        localStorage.setItem(`{tavlorify-store-user-generated-images-data-${serviceName}`, JSON.stringify(newTavlorifyStoreUserGeneratedImagesDataForTextToImage));
         setGeneratedImagesData(newTavlorifyStoreUserGeneratedImagesDataForTextToImage);
     }
 

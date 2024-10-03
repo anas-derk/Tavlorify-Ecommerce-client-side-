@@ -1299,6 +1299,7 @@ export default function TextToImage({
                                 setGeneratedImagesData={setGeneratedImagesData}
                                 setIsShowMoreGeneratedImages={setIsShowMoreGeneratedImages}
                                 selectedPreviousGeneratedImageIndex={selectedPreviousGeneratedImageIndex}
+                                serviceName="text-to-image"
                             />
                         }
                         {/* Start Generated Images Section */}

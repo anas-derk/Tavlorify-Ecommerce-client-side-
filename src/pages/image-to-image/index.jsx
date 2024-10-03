@@ -1614,6 +1614,7 @@ export default function ImageToImage({
                                 setGeneratedImagesData={setGeneratedImagesData}
                                 setIsShowMoreGeneratedImages={setIsShowMoreGeneratedImages}
                                 selectedPreviousGeneratedImageIndex={selectedPreviousGeneratedImageIndex}
+                                serviceName="image-to-image"
                             />
                         }
                         {/* Start Generated Images Section */}
