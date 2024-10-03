@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Header from "@/components/Header";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import global_data from "../../../public/data/global";
 /* Start Import Frame Corner Images */
@@ -53,7 +53,6 @@ import { v4 as generateUniqueID } from "uuid";
 import room1Image from "@/../../public/images/Rooms/room1.jpg";
 import room2Image from "@/../../public/images/Rooms/room2.jpg";
 import { BiError } from "react-icons/bi";
-import { GrFormClose } from "react-icons/gr";
 import LoaderPage from "@/components/LoaderPage";
 import Carousel from "react-bootstrap/Carousel";
 import howToUseImage1 from "../../../public/images/HowToUseExplain/Img2Img/1.jpg";
@@ -65,7 +64,6 @@ import Slider from "react-slick";
 import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import Inspiration from "@/components/Inspiration";
-import { TiDeleteOutline } from "react-icons/ti";
 import InspirationImage1ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/1.webp";
 import InspirationImage2ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/2.webp";
 import InspirationImage3ForImageToImage from "@/../public/images/Inspiration/ImageToImagePage/3.webp";
@@ -78,6 +76,8 @@ import CustomersComments from "@/components/CustomersComments";
 import WaitGeneratingImage from "@/components/WaitGeneratingImage";
 import { getAllCategoriesForService, getStylesForCategoryInService, handleUploadImage, getAppearedSlidesCount } from "../../../public/global_functions/popular";
 import HowToUseServiceExplain from "@/components/HowToUseServiceExplain";
+import MoreGeneratedImagesViewer from "@/components/MoreGeneratedImagesViewer";
+import GeneratedImagesViewer from "@/components/GeneratedImagesViewer";
 
 export default function ImageToImage({
     generatedImageId,
@@ -1264,12 +1264,6 @@ export default function ImageToImage({
         }
     }
 
-    const deleteGeneratedImageData = (generatedImageDataIndex) => {
-        let tavlorifyStoreUserGeneratedImagesDataForImageToImage = JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image")).filter((generatedImageData, index) => index !== generatedImageDataIndex);
-        localStorage.setItem("tavlorify-store-user-generated-images-data-image-to-image", JSON.stringify(tavlorifyStoreUserGeneratedImagesDataForImageToImage));
-        setGeneratedImagesData(tavlorifyStoreUserGeneratedImagesDataForImageToImage);
-    }
-
     return (
         // Start Image To Image Page
         <div className="image-to-image-service">
@@ -1279,29 +1273,12 @@ export default function ImageToImage({
             {!isLoadingPage && !errorMsgOnLoadingThePage && <>
                 <Header newTotalProductsCount={newTotalProductsCount} />
                 {/* Start Overlay */}
-                {isShowMoreGeneratedImages && <div className="overlay">
-                    <div className="rest-generated-images-box d-flex flex-column align-items-center justify-content-center p-4">
-                        <GrFormClose className="close-overlay-icon" onClick={() => setIsShowMoreGeneratedImages(false)} />
-                        <h3 className="fw-bold border-bottom border-2 border-dark pb-2 mb-3">Mer genererade bilder</h3>
-                        <h6 className="fw-bold mb-5">Vänligen välj bild</h6>
-                        <ul className="generated-images-list w-100 p-4">
-                            {generatedImagesData.map((generatedImageData, index) => (
-                                index > 9 && <Fragment key={generatedImageData._id}>
-                                    <li
-                                        className={`generated-images-item m-0 ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
-                                        onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
-                                        style={{
-                                            width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
-                                            height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`,
-                                            backgroundImage: `url(${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL})`,
-                                        }}
-                                        onDragStart={(e) => e.preventDefault()}
-                                    ></li>
-                                </Fragment>
-                            ))}
-                        </ul>
-                    </div>
-                </div>}
+                {isShowMoreGeneratedImages && <MoreGeneratedImagesViewer
+                    generatedImagesData={generatedImagesData}
+                    setIsShowMoreGeneratedImages={setIsShowMoreGeneratedImages}
+                    displayPreviousGeneratedImageInsideArtPainting={displayPreviousGeneratedImageInsideArtPainting}
+                    selectedPreviousGeneratedImageIndex={selectedPreviousGeneratedImageIndex}
+                />}
                 {/* End Overlay */}
                 {/* Start Page Content */}
                 <div className="page-content pb-4">
@@ -1629,39 +1606,16 @@ export default function ImageToImage({
                         {/* End Grid System */}
                         <hr />
                         {/* Start Generated Images Section */}
-                        <section className={`row align-items-center generated-images ${generatedImagesData ? "" : "p-4"}`}>
-                            <div className="col-lg-2 text-center">
-                                <h6 className="m-0 fw-bold d-inline">MIN KONST ({generatedImagesData ? generatedImagesData.length : 0})</h6>
-                            </div>
-                            <div className="col-md-10">
-                                {generatedImagesData.length > 0 && !isWaitStatus &&
-                                    <Slider
-                                        slidesToShow={getAppearedSlidesCount(windowInnerWidth, "generated-images", generatedImagesData.length)}
-                                        slidesToScroll={getAppearedSlidesCount(windowInnerWidth, "generated-images", generatedImagesData.length)}
-                                        infinite={false}
-                                        arrows={true}
-                                        className="mb-2"
-                                    >
-                                        {generatedImagesData.map((generatedImageData, index) => (
-                                            index < 10 && <Fragment key={generatedImageData._id}>
-                                                <div
-                                                    className={`generated-images-item mx-auto mb-5 mt-3 generated-image ${selectedPreviousGeneratedImageIndex === index ? "selected-image" : ""}`}
-                                                    onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
-                                                    style={{
-                                                        width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
-                                                        height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`,
-                                                        backgroundImage: `url(${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL})`
-                                                    }}
-                                                    onDragStart={(e) => e.preventDefault()}
-                                                >
-                                                    <TiDeleteOutline className="delete-icon" onClick={() => deleteGeneratedImageData(index)} />
-                                                </div>
-                                            </Fragment>
-                                        ))}
-                                        {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Visa mer</button>}
-                                    </Slider>}
-                            </div>
-                        </section>
+                        {generatedImagesData?.length > 1 && !isWaitStatus &&
+                            <GeneratedImagesViewer
+                                generatedImagesData={generatedImagesData}
+                                windowInnerWidth={windowInnerWidth}
+                                displayPreviousGeneratedImageInsideArtPainting={displayPreviousGeneratedImageInsideArtPainting}
+                                setGeneratedImagesData={setGeneratedImagesData}
+                                setIsShowMoreGeneratedImages={setIsShowMoreGeneratedImages}
+                                selectedPreviousGeneratedImageIndex={selectedPreviousGeneratedImageIndex}
+                            />
+                        }
                         {/* Start Generated Images Section */}
                         {/* Start How To Use Service Section */}
                         <HowToUseServiceExplain pageName="image-to-image" imgSrcs={howToUseServiceExplainImgSrcs} />
