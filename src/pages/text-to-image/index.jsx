@@ -1317,7 +1317,7 @@ export default function TextToImage({
                                 <h6 className="m-0 fw-bold d-inline">MIN KONST ({generatedImagesData ? generatedImagesData.length : 0})</h6>
                             </div>
                             <div className="col-md-10">
-                                {generatedImagesData && !isWaitStatus ?
+                                {generatedImagesData.length > 1 && !isWaitStatus &&
                                     <Slider
                                         slidesToShow={getAppearedSlidesCount(windowInnerWidth, "generated-images", generatedImagesData.length)}
                                         slidesToScroll={getAppearedSlidesCount(windowInnerWidth, "generated-images", generatedImagesData.length)}
@@ -1346,8 +1346,7 @@ export default function TextToImage({
                                             </Fragment>
                                         ))}
                                         {generatedImagesData.length > 10 && !isShowMoreGeneratedImages && <button className="show-more-generate-images-btn btn btn-dark" onClick={() => setIsShowMoreGeneratedImages(true)}>Visa mer</button>}
-                                    </Slider>
-                                    : <p className="alert alert-danger m-0 not-find-generated-images-for-you-err">Tyvärr, kan inte hitta några genererade bilder från dig !!</p>}
+                                    </Slider>}
                             </div>
                         </section>
                         {/* Start Generated Images Section */}
