@@ -2,7 +2,11 @@
   padding-top: 120px;
 }
 
-.home .page-content .introduction .explain-box .room-image-description {
+.home .page-content .introduction .row {
+  row-gap: 50px;
+}
+
+.home .page-content .introduction .row .explain-box .room-image-description {
   font-size: 14px;
 }
 

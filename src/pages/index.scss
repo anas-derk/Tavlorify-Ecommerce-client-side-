@@ -2,9 +2,12 @@
     .page-content{
         padding-top: 120px;
         .introduction{
-            .explain-box{
-                .room-image-description{
-                    font-size: 14px;
+            .row{
+                row-gap: 50px;
+                .explain-box{
+                    .room-image-description{
+                        font-size: 14px;
+                    }
                 }
             }
         }

@@ -113,7 +113,7 @@ export default function Checkout({ orderId }) {
 
     const getOrderDetails = async (orderId) => {
         try {
-            return (await axios.get(`${process.env.BASE_API_URL}/orders/order-details/${orderId}`)).data;
+            return (await axios.get(`${process.env.BASE_API_URL}/orders/order-details/${orderId}?orderType=normal`)).data;
         }
         catch (err) {
             throw err;
