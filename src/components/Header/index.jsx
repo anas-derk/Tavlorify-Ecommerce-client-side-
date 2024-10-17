@@ -244,6 +244,7 @@ export default function Header({ newTotalProductsCount }) {
     }
 
     const handleDisplayOrHideAllProductManagmentBox = () => {
+        setIsDisplayAllLinksBox(false);
         if (isDisplayAllProductManagmentBox) setIsDisplayAllProductManagmentBox(false);
         else {
             let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
@@ -498,7 +499,10 @@ export default function Header({ newTotalProductsCount }) {
             </nav>
             {/* End Custom Navbar */}
             <nav className="custom-navbar-for-mobiles-and-tablets-devices fixed-top p-3 d-flex justify-content-between align-items-center">
-                {!isDisplayAllLinksBox && <FaBars className="bar-icon icon" onClick={() => setIsDisplayAllLinksBox(true)} />}
+                {!isDisplayAllLinksBox && <FaBars className="bar-icon icon" onClick={() => {
+                    setIsDisplayAllLinksBox(true);
+                    setIsDisplayAllProductManagmentBox(false);
+                }} />}
                 {isDisplayAllLinksBox && <GrFormClose className="close-all-links-box icon" onClick={() => setIsDisplayAllLinksBox(false)} />}
                 <Link href="/" className="home-link brand-name fw-bold">
                     <img src={LogoImage.src} alt="Logo Image" width={150} />
