@@ -814,7 +814,7 @@ export default function FaceSwap({
         }
     }
 
-    const getArtPaintingBox = (width, height, imageSize, isImageInsideRoom, isRoomImageMinimize) => {
+    const getArtPaintingBox = (width, imageSize, isImageInsideRoom, isRoomImageMinimize) => {
         return (
             (imageMode == "normal-size-image" || imageSize === "minimize-image") && <div
                 className={`art-painting d-flex justify-content-center align-items-center mb-4 ${imageSize === "minimize-image" ? "minimize-art-painting" : ""}`}
@@ -864,7 +864,7 @@ export default function FaceSwap({
                     </div>
                 </>}
                 {paintingType === "canvas" && !isWaitStatus && !errorMsg && <div className="canvas-image-box" style={{
-                    width: width,
+                    width: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
                 }}>
                     <img
                         src={generatedImageURL}
@@ -898,7 +898,6 @@ export default function FaceSwap({
                 {roomNumber === 2 && <img src={room2Image.src} alt="Room Image2 !!" onDragStart={(e) => e.preventDefault()} />}
                 {getArtPaintingBox(
                     imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 8}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`,
-                    imageSize === "minimize-room-image" ? `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 8}px` : `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`,
                     "minimize-image",
                     true,
                     imageSize === "minimize-room-image" ? true : false,
@@ -914,7 +913,7 @@ export default function FaceSwap({
                 <Carousel indicators={true} interval={null}>
                     {/* Start Carousel Item */}
                     <Carousel.Item>
-                        {getArtPaintingBox(global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width, global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].height, undefined, false)}
+                        {getArtPaintingBox(global_data.appearedImageSizesForImageToImage[paintingType][isExistWhiteBorderWithPoster][imageType][dimentionsInCm].width, undefined, false)}
                     </Carousel.Item>
                     {/* End Carousel Item */}
                     {/* Start Carousel Item */}
@@ -1000,7 +999,7 @@ export default function FaceSwap({
                                 {windowInnerWidth >= 991 && <div className="col-lg-2">
                                     <div className="minimize-images">
                                         {/* Start Art Painting Box */}
-                                        {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height / 3}px`, "minimize-image", false)}
+                                        {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width / 3}px`, "minimize-image", false)}
                                         {/* End Art Painting Box */}
                                         {getImageInsideRoomBox(1, "minimize-room-image")}
                                         {getImageInsideRoomBox(2, "minimize-room-image")}
@@ -1010,7 +1009,7 @@ export default function FaceSwap({
                                 {/* Start Column */}
                                 <div className="col-lg-5">
                                     {/* Start Art Painting Section */}
-                                    {windowInnerWidth >= 991 && getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined, false)}
+                                    {windowInnerWidth >= 991 && getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, undefined, false)}
                                     {/* End Art Painting Section */}
                                     {getImageInsideRoomBox(1, undefined)}
                                     {getImageInsideRoomBox(2, undefined)}

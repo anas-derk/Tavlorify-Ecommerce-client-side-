@@ -837,7 +837,7 @@ export default function TextToImage({
                     </div>
                 </>}
                 {paintingType === "canvas" && !isWaitStatus && !errorMsg && <div className="canvas-image-box" style={{
-                    width: width,
+                    width: getSuitableWidthAndHeightForPainting(global_data.appearedImageSizesForTextToImage[paintingType]["without-border"][tempImageType][tempDimentionsInCm].width, imageSize, isRoomImageMinimize, windowInnerWidth),
                 }}>
                     <img
                         src={generatedImageURL}
