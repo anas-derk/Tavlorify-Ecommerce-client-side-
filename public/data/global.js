@@ -2,7 +2,7 @@ const modelsDimentions = {
     "dreamshaper": {
         "horizontal": [
             {
-                inCm: "29,7x21",
+                inCm: "30x21",
                 inPixel: {
                     width: 896,
                     height: 640,
@@ -32,7 +32,7 @@ const modelsDimentions = {
         ],
         "vertical": [
             {
-                inCm: "21x29,7",
+                inCm: "21x30",
                 inPixel: {
                     width: 640,
                     height: 896,
@@ -87,7 +87,7 @@ const modelsDimentions = {
     "stable-diffusion": {
         "horizontal": [
             {
-                inCm: "29,7x21",
+                inCm: "30x21",
                 inPixel: {
                     width: 896,
                     height: 640,
@@ -117,7 +117,7 @@ const modelsDimentions = {
         ],
         "vertical": [
             {
-                inCm: "21x29,7",
+                inCm: "21x30",
                 inPixel: {
                     width: 640,
                     height: 896,
@@ -172,7 +172,7 @@ const modelsDimentions = {
     "midjourney-diffusion": {
         "horizontal": [
             {
-                inCm: "29,7x21",
+                inCm: "30x21",
                 inPixel: {
                     width: 896,
                     height: 640,
@@ -202,7 +202,7 @@ const modelsDimentions = {
         ],
         "vertical": [
             {
-                inCm: "21x29,7",
+                inCm: "21x30",
                 inPixel: {
                     width: 640,
                     height: 896,
@@ -257,7 +257,7 @@ const modelsDimentions = {
     "deliberate-v2": {
         "horizontal": [
             {
-                inCm: "29,7x21",
+                inCm: "30x21",
                 inPixel: {
                     width: 896,
                     height: 640,
@@ -287,7 +287,7 @@ const modelsDimentions = {
         ],
         "vertical": [
             {
-                inCm: "21x29,7",
+                inCm: "21x30",
                 inPixel: {
                     width: 640,
                     height: 896,
@@ -342,7 +342,7 @@ const modelsDimentions = {
     "sdxl": {
         "horizontal": [
             {
-                inCm: "29,7x21",
+                inCm: "30x21",
                 inPixel: {
                     width: 896,
                     height: 640,
@@ -372,7 +372,7 @@ const modelsDimentions = {
         ],
         "vertical": [
             {
-                inCm: "21x29,7",
+                inCm: "21x30",
                 inPixel: {
                     width: 640,
                     height: 896,
@@ -427,7 +427,7 @@ const modelsDimentions = {
     "sdxl-lightning-4step": {
         "horizontal": [
             {
-                inCm: "29,7x21",
+                inCm: "30x21",
                 inPixel: {
                     width: 896,
                     height: 640,
@@ -457,7 +457,7 @@ const modelsDimentions = {
         ],
         "vertical": [
             {
-                inCm: "21x29,7",
+                inCm: "21x30",
                 inPixel: {
                     width: 640,
                     height: 896,
@@ -563,7 +563,7 @@ const gelatoDimetions = {
     "poster": {
         "horizontal": [
             {
-                inCm: "29,7x21",
+                inCm: "30x21",
                 imMm: "210x297",
                 inInch: "8x12",
             },
@@ -585,7 +585,7 @@ const gelatoDimetions = {
         ],
         "vertical": [
             {
-                inCm: "21x29,7",
+                inCm: "21x30",
                 imMm: "210x297",
                 inInch: "8x12",
             },
@@ -626,7 +626,7 @@ const gelatoDimetions = {
     "poster-with-wooden-frame": {
         "horizontal": [
             {
-                inCm: "29,7x21",
+                inCm: "30x21",
                 imMm: "210x297",
                 inInch: "8x12",
             },
@@ -648,7 +648,7 @@ const gelatoDimetions = {
         ],
         "vertical": [
             {
-                inCm: "21x29,7",
+                inCm: "21x30",
                 imMm: "210x297",
                 inInch: "8x12",
             },
@@ -689,7 +689,7 @@ const gelatoDimetions = {
     "poster-with-hangers": {
         "horizontal": [
             {
-                inCm: "29,7x21",
+                inCm: "30x21",
                 imMm: "210x297",
                 inInch: "8x12",
             },
@@ -711,7 +711,7 @@ const gelatoDimetions = {
         ],
         "vertical": [
             {
-                inCm: "21x29,7",
+                inCm: "21x30",
                 imMm: "210x297",
                 inInch: "8x12",
             },
@@ -760,13 +760,13 @@ const appearedImageSizesForTextToImage = {
                 "70x70": { width: 467.2, height: 467.2 },
             },
             "vertical": {
-                "21x29,7": { width: 333.6, height: 467.2 },
+                "21x30": { width: 333.6, height: 467.2 },
                 "30x40": { width: 333.6, height: 467.2 },
                 "50x70": { width: 333.6, height: 467.2 },
                 "70x100": { width: 333.6, height: 467.2 },
             },
             "horizontal": {
-                "29,7x21": { width: 467.2, height: 333.6 },
+                "30x21": { width: 467.2, height: 333.6 },
                 "40x30": { width: 467.2, height: 333.6 },
                 "70x50": { width: 467.2, height: 333.6 },
                 "100x70": { width: 467.2, height: 333.6 },
@@ -779,13 +779,13 @@ const appearedImageSizesForTextToImage = {
                 "70x70": { width: 420, height: 420 },
             },
             "vertical": {
-                "21x29,7": { width: 300, height: 420 },
+                "21x30": { width: 300, height: 420 },
                 "30x40": { width: 300, height: 420 },
                 "50x70": { width: 300, height: 420 },
                 "70x100": { width: 300, height: 420 },
             },
             "horizontal": {
-                "29,7x21": { width: 420, height: 300 },
+                "30x21": { width: 420, height: 300 },
                 "40x30": { width: 420, height: 300 },
                 "70x50": { width: 420, height: 300 },
                 "100x70": { width: 420, height: 300 },
@@ -800,13 +800,13 @@ const appearedImageSizesForTextToImage = {
                 "70x70": { width: 468, height: 468 },
             },
             "vertical": {
-                "21x29,7": { width: 333.6, height: 468 },
+                "21x30": { width: 333.6, height: 468 },
                 "30x40": { width: 333.6, height: 468 },
                 "50x70": { width: 333.6, height: 468 },
                 "70x100": { width: 333.6, height: 468 },
             },
             "horizontal": {
-                "29,7x21": { width: 468, height: 333.6 },
+                "30x21": { width: 468, height: 333.6 },
                 "40x30": { width: 468, height: 333.6 },
                 "70x50": { width: 468, height: 333.6 },
                 "100x70": { width: 468, height: 333.6 },
@@ -819,13 +819,13 @@ const appearedImageSizesForTextToImage = {
                 "70x70": { width: 420, height: 420 },
             },
             "vertical": {
-                "21x29,7": { width: 300, height: 420 },
+                "21x30": { width: 300, height: 420 },
                 "30x40": { width: 300, height: 420 },
                 "50x70": { width: 300, height: 420 },
                 "70x100": { width: 300, height: 420 },
             },
             "horizontal": {
-                "29,7x21": { width: 420, height: 300 },
+                "30x21": { width: 420, height: 300 },
                 "40x30": { width: 420, height: 300 },
                 "70x50": { width: 420, height: 300 },
                 "100x70": { width: 420, height: 300 },
@@ -840,13 +840,13 @@ const appearedImageSizesForTextToImage = {
                 "70x70": { width: 467.2, height: 467.2 },
             },
             "vertical": {
-                "21x29,7": { width: 333.6, height: 467.2 },
+                "21x30": { width: 333.6, height: 467.2 },
                 "30x40": { width: 333.6, height: 467.2 },
                 "50x70": { width: 333.6, height: 467.2 },
                 "70x100": { width: 333.6, height: 467.2 },
             },
             "horizontal": {
-                "29,7x21": { width: 467.2, height: 333.6 },
+                "30x21": { width: 467.2, height: 333.6 },
                 "40x30": { width: 467.2, height: 333.6 },
                 "70x50": { width: 467.2, height: 333.6 },
                 "100x70": { width: 467.2, height: 333.6 },
@@ -859,13 +859,13 @@ const appearedImageSizesForTextToImage = {
                 "70x70": { width: 420, height: 420 },
             },
             "vertical": {
-                "21x29,7": { width: 300, height: 420 },
+                "21x30": { width: 300, height: 420 },
                 "30x40": { width: 300, height: 420 },
                 "50x70": { width: 300, height: 420 },
                 "70x100": { width: 300, height: 420 },
             },
             "horizontal": {
-                "29,7x21": { width: 420, height: 300 },
+                "30x21": { width: 420, height: 300 },
                 "40x30": { width: 420, height: 300 },
                 "70x50": { width: 420, height: 300 },
                 "100x70": { width: 420, height: 300 },
@@ -880,13 +880,13 @@ const appearedImageSizesForTextToImage = {
                 "70x70": { width: 467.2, height: 467.2 },
             },
             "vertical": {
-                "21x29,7": { width: 333.6, height: 467.2 },
+                "21x30": { width: 333.6, height: 467.2 },
                 "30x40": { width: 333.6, height: 467.2 },
                 "50x70": { width: 333.6, height: 467.2 },
                 "70x100": { width: 333.6, height: 467.2 },
             },
             "horizontal": {
-                "29,7x21": { width: 467.2, height: 333.6 },
+                "30x21": { width: 467.2, height: 333.6 },
                 "40x30": { width: 467.2, height: 333.6 },
                 "70x50": { width: 467.2, height: 333.6 },
                 "100x70": { width: 467.2, height: 333.6 },
@@ -904,13 +904,13 @@ const appearedImageSizesForImageToImage = {
                 "70x70": { width: 467.2, height: 467.2 },
             },
             "vertical": {
-                "21x29,7": { width: 333.6, height: 467.2 },
+                "21x30": { width: 333.6, height: 467.2 },
                 "30x40": { width: 333.6, height: 467.2 },
                 "50x70": { width: 333.6, height: 467.2 },
                 "70x100": { width: 333.6, height: 467.2 },
             },
             "horizontal": {
-                "29,7x21": { width: 467.2, height: 333.6 },
+                "30x21": { width: 467.2, height: 333.6 },
                 "40x30": { width: 467.2, height: 333.6 },
                 "70x50": { width: 467.2, height: 333.6 },
                 "100x70": { width: 467.2, height: 333.6 },
@@ -923,13 +923,13 @@ const appearedImageSizesForImageToImage = {
                 "70x70": { width: 420, height: 420 },
             },
             "vertical": {
-                "21x29,7": { width: 300, height: 420 },
+                "21x30": { width: 300, height: 420 },
                 "30x40": { width: 300, height: 420 },
                 "50x70": { width: 300, height: 420 },
                 "70x100": { width: 300, height: 420 },
             },
             "horizontal": {
-                "29,7x21": { width: 420, height: 300 },
+                "30x21": { width: 420, height: 300 },
                 "40x30": { width: 420, height: 300 },
                 "70x50": { width: 420, height: 300 },
                 "100x70": { width: 420, height: 300 },
@@ -944,13 +944,13 @@ const appearedImageSizesForImageToImage = {
                 "70x70": { width: 468, height: 468 },
             },
             "vertical": {
-                "21x29,7": { width: 333.6, height: 468 },
+                "21x30": { width: 333.6, height: 468 },
                 "30x40": { width: 333.6, height: 468 },
                 "50x70": { width: 333.6, height: 468 },
                 "70x100": { width: 333.6, height: 468 },
             },
             "horizontal": {
-                "29,7x21": { width: 468, height: 333.6 },
+                "30x21": { width: 468, height: 333.6 },
                 "40x30": { width: 468, height: 333.6 },
                 "70x50": { width: 468, height: 333.6 },
                 "100x70": { width: 468, height: 333.6 },
@@ -963,13 +963,13 @@ const appearedImageSizesForImageToImage = {
                 "70x70": { width: 420, height: 420 },
             },
             "vertical": {
-                "21x29,7": { width: 300, height: 420 },
+                "21x30": { width: 300, height: 420 },
                 "30x40": { width: 300, height: 420 },
                 "50x70": { width: 300, height: 420 },
                 "70x100": { width: 300, height: 420 },
             },
             "horizontal": {
-                "29,7x21": { width: 420, height: 300 },
+                "30x21": { width: 420, height: 300 },
                 "40x30": { width: 420, height: 300 },
                 "70x50": { width: 420, height: 300 },
                 "100x70": { width: 420, height: 300 },
@@ -984,13 +984,13 @@ const appearedImageSizesForImageToImage = {
                 "70x70": { width: 467.2, height: 467.2 },
             },
             "vertical": {
-                "21x29,7": { width: 333.6, height: 467.2 },
+                "21x30": { width: 333.6, height: 467.2 },
                 "30x40": { width: 333.6, height: 467.2 },
                 "50x70": { width: 333.6, height: 467.2 },
                 "70x100": { width: 333.6, height: 467.2 },
             },
             "horizontal": {
-                "29,7x21": { width: 467.2, height: 333.6 },
+                "30x21": { width: 467.2, height: 333.6 },
                 "40x30": { width: 467.2, height: 333.6 },
                 "70x50": { width: 467.2, height: 333.6 },
                 "100x70": { width: 467.2, height: 333.6 },
@@ -1003,13 +1003,13 @@ const appearedImageSizesForImageToImage = {
                 "70x70": { width: 420, height: 420 },
             },
             "vertical": {
-                "21x29,7": { width: 300, height: 420 },
+                "21x30": { width: 300, height: 420 },
                 "30x40": { width: 300, height: 420 },
                 "50x70": { width: 300, height: 420 },
                 "70x100": { width: 300, height: 420 },
             },
             "horizontal": {
-                "29,7x21": { width: 420, height: 300 },
+                "30x21": { width: 420, height: 300 },
                 "40x30": { width: 420, height: 300 },
                 "70x50": { width: 420, height: 300 },
                 "100x70": { width: 420, height: 300 },
@@ -1024,13 +1024,13 @@ const appearedImageSizesForImageToImage = {
                 "70x70": { width: 467.2, height: 467.2 },
             },
             "vertical": {
-                "21x29,7": { width: 333.6, height: 467.2 },
+                "21x30": { width: 333.6, height: 467.2 },
                 "30x40": { width: 333.6, height: 467.2 },
                 "50x70": { width: 333.6, height: 467.2 },
                 "70x100": { width: 333.6, height: 467.2 },
             },
             "horizontal": {
-                "29,7x21": { width: 467.2, height: 333.6 },
+                "30x21": { width: 467.2, height: 333.6 },
                 "40x30": { width: 467.2, height: 333.6 },
                 "70x50": { width: 467.2, height: 333.6 },
                 "100x70": { width: 467.2, height: 333.6 },
@@ -1047,13 +1047,13 @@ const framesDimentions = {
             "70x70": { width: 480, height: 480 },
         },
         "vertical": {
-            "21x29,7": { width: 348, height: 480 },
+            "21x30": { width: 348, height: 480 },
             "30x40": { width: 348, height: 480 },
             "50x70": { width: 348, height: 480 },
             "70x100": { width: 348, height: 480 },
         },
         "horizontal": {
-            "29,7x21": { width: 480, height: 348 },
+            "30x21": { width: 480, height: 348 },
             "40x30": { width: 480, height: 348 },
             "70x50": { width: 480, height: 348 },
             "100x70": { width: 480, height: 348 },
@@ -1066,13 +1066,13 @@ const framesDimentions = {
             "70x70": { width: 480, height: 480 },
         },
         "vertical": {
-            "21x29,7": { width: 348, height: 480 },
+            "21x30": { width: 348, height: 480 },
             "30x40": { width: 348, height: 480 },
             "50x70": { width: 348, height: 480 },
             "70x100": { width: 348, height: 480 },
         },
         "horizontal": {
-            "29,7x21": { width: 480, height: 348 },
+            "30x21": { width: 480, height: 348 },
             "40x30": { width: 480, height: 348 },
             "70x50": { width: 480, height: 348 },
             "100x70": { width: 480, height: 348 },
@@ -1085,13 +1085,13 @@ const framesDimentions = {
             "70x70": { width: 480, height: 480 },
         },
         "vertical": {
-            "21x29,7": { width: 342.4, height: 480 },
+            "21x30": { width: 342.4, height: 480 },
             "30x40": { width: 342.4, height: 480 },
             "50x70": { width: 342.4, height: 480 },
             "70x100": { width: 342.4, height: 480 },
         },
         "horizontal": {
-            "29,7x21": { width: 480, height: 342.4 },
+            "30x21": { width: 480, height: 342.4 },
             "40x30": { width: 480, height: 342.4 },
             "70x50": { width: 480, height: 342.4 },
             "100x70": { width: 480, height: 342.4 },
