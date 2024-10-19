@@ -248,7 +248,7 @@ export default function Checkout({ orderId }) {
 
     const updateOrder = async (orderId, klarnaOrderId) => {
         try {
-            await axios.put(`${process.env.BASE_API_URL}/orders/update-order/${orderId}`, {
+            await axios.put(`${process.env.BASE_API_URL}/orders/update-order/${orderId}?orderType=normal`, {
                 klarnaOrderId: klarnaOrderId,
             });
         }
