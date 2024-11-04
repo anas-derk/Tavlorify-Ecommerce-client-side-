@@ -13,6 +13,7 @@ import "../components/CustomersComments/customers_comments.css";
 import "../components/PaginationBar/pagination_bar.css";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import "../../config/i18n";
 
 export default function App({ Component, pageProps }) {
   return (

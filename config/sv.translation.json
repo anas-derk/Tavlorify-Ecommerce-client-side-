@@ -1,0 +1,16 @@
+{
+    "canvas": "canvastavlor",
+    "poster-with-wooden-frame": "poster",
+    "poster-with-hangers": "poster",
+    "without-border": "ingen kant",
+    "with-border": "Vit kant",
+    "Border Color": "ram färg",
+    "none": "none",
+    "black": "svart",
+    "white": "vit",
+    "natural-wood": "naturligt trä",
+    "dark-wood": "mörkt trä",
+    "vertical": "Stående",
+    "horizontal": "Liggande",
+    "square": "Kvadratisk"
+}

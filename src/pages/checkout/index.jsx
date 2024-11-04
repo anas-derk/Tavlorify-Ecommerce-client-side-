@@ -11,6 +11,7 @@ import Link from "next/link";
 import LoaderPage from "@/components/LoaderPage";
 import Footer from "@/components/Footer";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
+import { useTranslation } from "react-i18next";
 
 export default function Checkout({ orderId }) {
 
@@ -29,6 +30,8 @@ export default function Checkout({ orderId }) {
         totalDiscount: 0,
         totalPriceAfterDiscount: 0,
     });
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
@@ -51,6 +54,7 @@ export default function Checkout({ orderId }) {
                         await updateOrder(orderId, result.data.order_id);
                         renderKlarnaCheckoutHtmlSnippetFromKlarnaCheckoutAPI(result.data.html_snippet);
                     }).catch((err) => {
+                        console.log(err)
                         setIsLoadingPage(false);
                         setErrorMsgOnLoadingThePage(err?.message === "Network Error" ? "Network Error" : "Sorry, Something Went Wrong, Please Try Again !!");
                     });
@@ -289,10 +293,10 @@ export default function Checkout({ orderId }) {
                                         </Link>
                                     </div>
                                     <div className="col-md-4 p-3">
-                                        <h6 className="fw-bold">{productData.paintingType}</h6>
-                                        <h6>RAM: {productData.frameColor}</h6>
-                                        <h6>{productData.isExistWhiteBorder}</h6>
-                                        <h6>{productData.position}</h6>
+                                        <h6 className="fw-bold">{t(productData.paintingType)}</h6>
+                                        <h6>{t(productData.isExistWhiteBorder)}</h6>
+                                        {productData.isExistWhiteBorder === "with-border" && <h6>{t("Border Color")}: {t(productData.frameColor)}</h6>}
+                                        <h6>{t(productData.position)}</h6>
                                         <h6 className="m-0">{productData.size} Cm</h6>
                                     </div>
                                     <div className="col-md-3 p-3">
@@ -356,7 +360,7 @@ export default function Checkout({ orderId }) {
                 <Footer />
             </>}
             {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
-            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage  errorMsg={errorMsgOnLoadingThePage} />}
+            {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage errorMsg={errorMsgOnLoadingThePage} />}
         </div >
         // End Checkout Page
     );

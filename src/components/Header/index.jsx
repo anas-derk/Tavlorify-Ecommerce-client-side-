@@ -13,6 +13,7 @@ import { FaLongArrowAltRight } from "react-icons/fa";
 import axios from "axios";
 import { MdOutlineContactPhone } from "react-icons/md";
 import LogoImage from "@/../public/images/Logo/logo.jpg";
+import { useTranslation } from "react-i18next";
 
 export default function Header({ newTotalProductsCount }) {
 
@@ -37,6 +38,8 @@ export default function Header({ newTotalProductsCount }) {
     const [isExistErrorInCreatingOrder, setIsExistErrorInCreatingOrder] = useState(false);
 
     const router = useRouter();
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         const allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
@@ -71,9 +74,9 @@ export default function Header({ newTotalProductsCount }) {
                             </Link>
                         </div>
                         <div className="col-4 p-3 text-start">
-                            <h6 className="fw-bold">{productData.paintingType}</h6>
-                            <h6>RAM: {productData.frameColor}</h6>
-                            <h6>{productData.isExistWhiteBorder}</h6>
+                            <h6 className="fw-bold">{t(productData.paintingType)}</h6>
+                            <h6>{t(productData.isExistWhiteBorder)}</h6>
+                            {productData.isExistWhiteBorder === "with-border" && <h6>{t("Border Color")}: {t(productData.frameColor)}</h6>}
                             <h6>{productData.size} Cm</h6>
                             <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
                             {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount * productData.quantity} kr</h6>}
@@ -168,9 +171,9 @@ export default function Header({ newTotalProductsCount }) {
                                 </Link>
                             </div>
                             <div className="col-12 p-3 text-center">
-                                <h6 className="fw-bold">{productData.paintingType}</h6>
-                                <h6>RAM: {productData.frameColor}</h6>
-                                <h6>{productData.isExistWhiteBorder}</h6>
+                                <h6 className="fw-bold">{t(productData.paintingType)}</h6>
+                                <h6>{t(productData.isExistWhiteBorder)}</h6>
+                                {productData.isExistWhiteBorder === "with-border" && <h6>{t("Border Color")}: {t(productData.frameColor)}</h6>}
                                 <h6>{productData.size} Cm</h6>
                             </div>
                             <div className="col-4">
