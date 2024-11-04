@@ -385,10 +385,8 @@ export default function TextToImage({
                     if (allProductsData.length > 0) {
                         const productData = allProductsData.find((productData) => productData._id === generatedImageId && productData.service === "text-to-image");
                         if (productData) {
-                            await handleSelectProduct({
-                                modelName: modelName,
-                                ...productData,
-                            });
+                            productData.modelName = modelName;
+                            await handleSelectProduct(productData);
                         } else {
                             await handleSelectProduct({
                                 modelName,
