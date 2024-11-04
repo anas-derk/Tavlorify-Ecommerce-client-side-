@@ -113,7 +113,7 @@ export default function TextToImage({
 
     const [dimentions, setDimentions] = useState({});
 
-    const [dimentionsInCm, setDimentionsInCm] = useState("50x70");
+    const [dimentionsInCm, setDimentionsInCm] = useState("21x30");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -129,7 +129,7 @@ export default function TextToImage({
 
     const [tempImageType, setTempImageType] = useState("vertical");
 
-    const [tempDimentionsInCm, setTempDimentionsInCm] = useState("50x70");
+    const [tempDimentionsInCm, setTempDimentionsInCm] = useState("21x30");
 
     const [imageMode, setImageMode] = useState("normal-size-image");
 
@@ -169,25 +169,25 @@ export default function TextToImage({
             },
             "vertical": {
                 "natural-wood": {
-                    "21x29,7": normalPosterWoodFrameImageVertical.src,
+                    "21x30": normalPosterWoodFrameImageVertical.src,
                     "30x40": normalPosterWoodFrameImageVertical.src,
                     "50x70": normalPosterWoodFrameImageVertical.src,
                     "70x100": normalPosterWoodFrameImageVertical.src,
                 },
                 "black": {
-                    "21x29,7": normalPosterBlackFrameImageVertical.src,
+                    "21x30": normalPosterBlackFrameImageVertical.src,
                     "30x40": normalPosterBlackFrameImageVertical.src,
                     "50x70": normalPosterBlackFrameImageVertical.src,
                     "70x100": normalPosterBlackFrameImageVertical.src,
                 },
                 "white": {
-                    "21x29,7": normalPosterWhiteFrameImageVertical.src,
+                    "21x30": normalPosterWhiteFrameImageVertical.src,
                     "30x40": normalPosterWhiteFrameImageVertical.src,
                     "50x70": normalPosterWhiteFrameImageVertical.src,
                     "70x100": normalPosterWhiteFrameImageVertical.src,
                 },
                 "dark-wood": {
-                    "21x29,7": normalPosterDarkWoodFrameImageVertical.src,
+                    "21x30": normalPosterDarkWoodFrameImageVertical.src,
                     "30x40": normalPosterDarkWoodFrameImageVertical.src,
                     "50x70": normalPosterDarkWoodFrameImageVertical.src,
                     "70x100": normalPosterDarkWoodFrameImageVertical.src,
@@ -195,25 +195,25 @@ export default function TextToImage({
             },
             "horizontal": {
                 "natural-wood": {
-                    "29,7x21": normalPosterWoodFrameImageHorizontal.src,
+                    "30x21": normalPosterWoodFrameImageHorizontal.src,
                     "40x30": normalPosterWoodFrameImageHorizontal.src,
                     "70x50": normalPosterWoodFrameImageHorizontal.src,
                     "100x70": normalPosterWoodFrameImageHorizontal.src,
                 },
                 "black": {
-                    "29,7x21": normalPosterBlackFrameImageHorizontal.src,
+                    "30x21": normalPosterBlackFrameImageHorizontal.src,
                     "40x30": normalPosterBlackFrameImageHorizontal.src,
                     "70x50": normalPosterBlackFrameImageHorizontal.src,
                     "100x70": normalPosterBlackFrameImageHorizontal.src,
                 },
                 "white": {
-                    "29,7x21": normalPosterWhiteFrameImageHorizontal.src,
+                    "30x21": normalPosterWhiteFrameImageHorizontal.src,
                     "40x30": normalPosterWhiteFrameImageHorizontal.src,
                     "70x50": normalPosterWhiteFrameImageHorizontal.src,
                     "100x70": normalPosterWhiteFrameImageHorizontal.src,
                 },
                 "dark-wood": {
-                    "29,7x21": normalPosterDarkWoodFrameImageHorizontal.src,
+                    "30x21": normalPosterDarkWoodFrameImageHorizontal.src,
                     "40x30": normalPosterDarkWoodFrameImageHorizontal.src,
                     "70x50": normalPosterDarkWoodFrameImageHorizontal.src,
                     "100x70": normalPosterDarkWoodFrameImageHorizontal.src,
@@ -245,25 +245,25 @@ export default function TextToImage({
             },
             "vertical": {
                 "natural-wood": {
-                    "21x29,7": posterWithHangersWoodFrameImageVertical.src,
+                    "21x30": posterWithHangersWoodFrameImageVertical.src,
                     "30x40": posterWithHangersWoodFrameImageVertical.src,
                     "50x70": posterWithHangersWoodFrameImageVertical.src,
                     "70x100": posterWithHangersWoodFrameImageVertical.src,
                 },
                 "black": {
-                    "21x29,7": posterWithHangersBlackFrameImageVertical.src,
+                    "21x30": posterWithHangersBlackFrameImageVertical.src,
                     "30x40": posterWithHangersBlackFrameImageVertical.src,
                     "50x70": posterWithHangersBlackFrameImageVertical.src,
                     "70x100": posterWithHangersBlackFrameImageVertical.src,
                 },
                 "white": {
-                    "21x29,7": posterWithHangersWhiteFrameImageVertical.src,
+                    "21x30": posterWithHangersWhiteFrameImageVertical.src,
                     "30x40": posterWithHangersWhiteFrameImageVertical.src,
                     "50x70": posterWithHangersWhiteFrameImageVertical.src,
                     "70x100": posterWithHangersWhiteFrameImageVertical.src,
                 },
                 "dark-wood": {
-                    "21x29,7": posterWithHangersDarkWoodFrameImageVertical.src,
+                    "21x30": posterWithHangersDarkWoodFrameImageVertical.src,
                     "30x40": posterWithHangersDarkWoodFrameImageVertical.src,
                     "50x70": posterWithHangersDarkWoodFrameImageVertical.src,
                     "70x100": posterWithHangersDarkWoodFrameImageVertical.src,
@@ -271,25 +271,25 @@ export default function TextToImage({
             },
             "horizontal": {
                 "natural-wood": {
-                    "29,7x21": posterWithHangersWoodFrameImageHorizontal.src,
+                    "30x21": posterWithHangersWoodFrameImageHorizontal.src,
                     "40x30": posterWithHangersWoodFrameImageHorizontal.src,
                     "70x50": posterWithHangersWoodFrameImageHorizontal.src,
                     "100x70": posterWithHangersWoodFrameImageHorizontal.src,
                 },
                 "black": {
-                    "29,7x21": posterWithHangersBlackFrameImageHorizontal.src,
+                    "30x21": posterWithHangersBlackFrameImageHorizontal.src,
                     "40x30": posterWithHangersBlackFrameImageHorizontal.src,
                     "70x50": posterWithHangersBlackFrameImageHorizontal.src,
                     "100x70": posterWithHangersBlackFrameImageHorizontal.src,
                 },
                 "white": {
-                    "29,7x21": posterWithHangersWhiteFrameImageHorizontal.src,
+                    "30x21": posterWithHangersWhiteFrameImageHorizontal.src,
                     "40x30": posterWithHangersWhiteFrameImageHorizontal.src,
                     "70x50": posterWithHangersWhiteFrameImageHorizontal.src,
                     "100x70": posterWithHangersWhiteFrameImageHorizontal.src,
                 },
                 "dark-wood": {
-                    "29,7x21": posterWithHangersDarkWoodFrameImageHorizontal.src,
+                    "30x21": posterWithHangersDarkWoodFrameImageHorizontal.src,
                     "40x30": posterWithHangersDarkWoodFrameImageHorizontal.src,
                     "70x50": posterWithHangersDarkWoodFrameImageHorizontal.src,
                     "100x70": posterWithHangersDarkWoodFrameImageHorizontal.src,
@@ -303,13 +303,13 @@ export default function TextToImage({
                 "70x70": SquareframeImageWithFullTransparent.src,
             },
             "vertical": {
-                "21x29,7": VerticalframeImageWithFullTransparent.src,
+                "21x30": VerticalframeImageWithFullTransparent.src,
                 "30x40": VerticalframeImageWithFullTransparent.src,
                 "50x70": VerticalframeImageWithFullTransparent.src,
                 "70x100": VerticalframeImageWithFullTransparent.src,
             },
             "horizontal": {
-                "29,7x21": HorizontalframeImageWithFullTransparent.src,
+                "30x21": HorizontalframeImageWithFullTransparent.src,
                 "40x30": HorizontalframeImageWithFullTransparent.src,
                 "70x50": HorizontalframeImageWithFullTransparent.src,
                 "100x70": HorizontalframeImageWithFullTransparent.src,
@@ -391,10 +391,10 @@ export default function TextToImage({
                             });
                         } else {
                             await handleSelectProduct({
-                                modelName: modelName,
+                                modelName,
                                 paintingType: "poster",
                                 position: "vertical",
-                                size: "50x70",
+                                size: dimentionsInCm,
                                 isExistWhiteBorder: "without-border",
                                 frameColor: "none",
                                 generatedImageURL: "assets/images/generatedImages/previewImageForTextToImage.png",
@@ -403,10 +403,10 @@ export default function TextToImage({
                     }
                 } else {
                     await handleSelectProduct({
-                        modelName: modelName,
+                        modelName,
                         paintingType: paintingTypeAsQuery,
                         position: "vertical",
-                        size: "50x70",
+                        size: dimentionsInCm,
                         isExistWhiteBorder: "without-border",
                         frameColor: "none",
                         generatedImageURL: "assets/images/generatedImages/previewImageForTextToImage.png",
@@ -414,10 +414,10 @@ export default function TextToImage({
                 }
             } else {
                 await handleSelectProduct({
-                    modelName: modelName,
+                    modelName,
                     paintingType: paintingTypeAsQuery,
                     position: "vertical",
-                    size: "50x70",
+                    size: dimentionsInCm,
                     isExistWhiteBorder: "without-border",
                     frameColor: "none",
                     generatedImageURL: "assets/images/generatedImages/previewImageForTextToImage.png",

@@ -398,7 +398,7 @@ export default function Header({ newTotalProductsCount }) {
                                                     }
                                                 }}
                                             >
-                                                förvandla foton till konstverk
+                                                Skapa fotokonst
                                             </Link>
                                         </li>
                                         <li><hr className="dropdown-divider" /></li>
@@ -446,7 +446,7 @@ export default function Header({ newTotalProductsCount }) {
                                                     }
                                                 }}
                                             >
-                                                förvandla foton till konstverk
+                                                Skapa fotokonst
                                             </Link>
                                         </li>
                                         <li><hr className="dropdown-divider" /></li>
@@ -553,7 +553,7 @@ export default function Header({ newTotalProductsCount }) {
                                     }}
                                 >
                                     <FaLongArrowAltRight className="me-2" />
-                                    <span>förvandla foton till konstverk</span>
+                                    <span>Skapa fotokonst</span>
                                 </Link>
                             </li>
                             <li className="pt-2 pb-2 dropdown-menu-item-for-custom-navbar">
@@ -606,7 +606,7 @@ export default function Header({ newTotalProductsCount }) {
                                     }}
                                 >
                                     <FaLongArrowAltRight className="me-2" />
-                                    <span>förvandla foton till konstverk</span>
+                                    <span>Skapa fotokonst</span>
                                 </Link>
                             </li>
                             <li className="pt-2 pb-2 dropdown-menu-item-for-custom-navbar">
