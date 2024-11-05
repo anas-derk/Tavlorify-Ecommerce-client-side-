@@ -120,7 +120,7 @@ export default function ImageToImage({
 
     const [frameColor, setFrameColor] = useState("none");
 
-    const [dimentionsInCm, setDimentionsInCm] = useState("21x30");
+    const [dimentionsInCm, setDimentionsInCm] = useState(paintingTypeAsQuery === "canvas" ? "30x40" : "21x30");
 
     const [categoriesData, setCategoriesData] = useState([]);
 

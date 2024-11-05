@@ -113,7 +113,7 @@ export default function FaceSwap({
 
     const [frameColor, setFrameColor] = useState("none");
 
-    const [dimentionsInCm, setDimentionsInCm] = useState("21x30");
+    const [dimentionsInCm, setDimentionsInCm] = useState(paintingTypeAsQuery === "canvas" ? "30x40" : "21x30");
 
     const categoryNames = ["Man", "Pojke", "Kvinna", "Flicka"];
 
@@ -131,7 +131,7 @@ export default function FaceSwap({
 
     const [tempImageType, setTempImageType] = useState("vertical");
 
-    const [tempDimentionsInCm, setTempDimentionsInCm] = useState("21x30");
+    const [tempDimentionsInCm, setTempDimentionsInCm] = useState(paintingTypeAsQuery === "canvas" ? "30x40" : "21x30");
 
     const [imageMode, setImageMode] = useState("normal-size-image");
 

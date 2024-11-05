@@ -113,7 +113,7 @@ export default function TextToImage({
 
     const [dimentions, setDimentions] = useState({});
 
-    const [dimentionsInCm, setDimentionsInCm] = useState("21x30");
+    const [dimentionsInCm, setDimentionsInCm] = useState(paintingTypeAsQuery === "canvas" ? "30x40" : "21x30");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -129,7 +129,7 @@ export default function TextToImage({
 
     const [tempImageType, setTempImageType] = useState("vertical");
 
-    const [tempDimentionsInCm, setTempDimentionsInCm] = useState("21x30");
+    const [tempDimentionsInCm, setTempDimentionsInCm] = useState(paintingTypeAsQuery === "canvas" ? "30x40" : "21x30");
 
     const [imageMode, setImageMode] = useState("normal-size-image");
 
