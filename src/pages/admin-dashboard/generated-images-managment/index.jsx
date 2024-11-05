@@ -283,11 +283,17 @@ export default function GeneratedImagesManagment({ pageName }) {
                                                 >
                                                     {waitMsg}
                                                 </button>}
-                                                {selectedGeneratedImageIndex !== generatedImageIndex && <button
-                                                    className="btn btn-danger"
-                                                    onClick={() => deleteGeneratedImageData(generatedImageIndex)}
+                                                {selectedGeneratedImageIndex === generatedImageIndex && <button
+                                                    className="btn btn-info d-block mx-auto mb-3"
+                                                    disabled
                                                 >
-                                                    Delete
+                                                    {errorMsg}
+                                                </button>}
+                                                {errorMsg && selectedGeneratedImageIndex === generatedImageIndex && <button
+                                                    className="btn btn-danger d-block mx-auto mb-3"
+                                                    disabled
+                                                >
+                                                    {errorMsg}
                                                 </button>}
                                             </td>
                                         </tr>
