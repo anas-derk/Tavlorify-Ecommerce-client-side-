@@ -49,7 +49,6 @@ export default function GeneratedImagesManagment({ pageName }) {
                         await router.replace("/admin-dashboard/login");
                     } else {
                         result = await getGeneratedImagesDataCount(pageName);
-                        console.log((await getAllGeneratedImagesDataInsideThePage(pageName, 1, pageSize)).data)
                         if (result.data > 0) {
                             setAllGeneratedImagesDataInsideThePage((await getAllGeneratedImagesDataInsideThePage(pageName, 1, pageSize)).data);
                             setTotalPagesCount(Math.ceil(result.data / pageSize));
@@ -113,7 +112,7 @@ export default function GeneratedImagesManagment({ pageName }) {
         try {
             setWaitMsg("Please Wait To Deleting ...");
             setSelectedGeneratedImageIndex(selectedGeneratedImageIndex);
-            let result = (await axios.delete(`${process.env.BASE_API_URL}/generated-images/generated-image-data/${generatedImagesData[selectedGeneratedImageIndex]._id}`)).data;
+            let result = (await axios.delete(`${process.env.BASE_API_URL}/generated-images/generated-image-data/${allGeneratedImagesDataInsideThePage[selectedGeneratedImageIndex]._id}`)).data;
             setWaitMsg("");
             setSelectedGeneratedImageIndex(-1);
             result = await getGeneratedImagesDataCount(pageName);
