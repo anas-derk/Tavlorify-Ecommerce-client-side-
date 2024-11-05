@@ -112,7 +112,11 @@ export default function GeneratedImagesManagment({ pageName }) {
         try {
             setWaitMsg("Please Wait To Deleting ...");
             setSelectedGeneratedImageIndex(selectedGeneratedImageIndex);
-            let result = (await axios.delete(`${process.env.BASE_API_URL}/generated-images/generated-image-data/${allGeneratedImagesDataInsideThePage[selectedGeneratedImageIndex]._id}`)).data;
+            let result = (await axios.delete(`${process.env.BASE_API_URL}/generated-images/generated-image-data/${allGeneratedImagesDataInsideThePage[selectedGeneratedImageIndex]._id}`, {
+                headers: {
+                    Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage),
+                }
+            })).data;
             setWaitMsg("");
             setSelectedGeneratedImageIndex(-1);
             result = await getGeneratedImagesDataCount(pageName);
@@ -216,7 +220,6 @@ export default function GeneratedImagesManagment({ pageName }) {
                                         {pageName === "text-to-image" && <th>Text Prompt</th>}
                                         <th>Category Name</th>
                                         {(pageName === "text-to-image" || pageName === "image-to-image") && <th>Style Name</th>}
-                                        {/* {pageName ==="face-swap" && <th>Style Name</th>} */}
                                         <th>Painting Type</th>
                                         <th>Is Exist White Border</th>
                                         <th>Generating Date</th>
@@ -274,7 +277,7 @@ export default function GeneratedImagesManagment({ pageName }) {
                                                 >
                                                     Download
                                                 </button>}
-                                                {selectedGeneratedImageIndex === generatedImageIndex && waitMsg === "Downloading Generated Image Now ..." && <button
+                                                {selectedGeneratedImageIndex === generatedImageIndex && <button
                                                     className="btn btn-info d-block mx-auto mb-3"
                                                     disabled
                                                 >
