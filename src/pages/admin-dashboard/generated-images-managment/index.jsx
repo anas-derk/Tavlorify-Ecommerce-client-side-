@@ -277,20 +277,20 @@ export default function GeneratedImagesManagment({ pageName }) {
                                                 >
                                                     Download
                                                 </button>}
+                                                {selectedGeneratedImageIndex !== generatedImageIndex && <button
+                                                    className="btn btn-danger"
+                                                    onClick={() => deleteGeneratedImageData(generatedImageIndex)}
+                                                >
+                                                    Delete
+                                                </button>}
                                                 {selectedGeneratedImageIndex === generatedImageIndex && <button
                                                     className="btn btn-info d-block mx-auto mb-3"
                                                     disabled
                                                 >
                                                     {waitMsg}
                                                 </button>}
-                                                {selectedGeneratedImageIndex === generatedImageIndex && <button
-                                                    className="btn btn-info d-block mx-auto mb-3"
-                                                    disabled
-                                                >
-                                                    {errorMsg}
-                                                </button>}
                                                 {errorMsg && selectedGeneratedImageIndex === generatedImageIndex && <button
-                                                    className="btn btn-danger d-block mx-auto mb-3"
+                                                    className="btn btn-info d-block mx-auto mb-3"
                                                     disabled
                                                 >
                                                     {errorMsg}
