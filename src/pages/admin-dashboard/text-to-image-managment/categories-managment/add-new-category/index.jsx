@@ -233,12 +233,11 @@ export default function AddNewCategory() {
                                 className={`form-control p-2 ${formValidationErrors["modelName"] ? "border border-danger mb-2" : "mb-4"}`}
                                 onChange={(e) => setModelName(e.target.value)}
                             >
-                                <option hidden value="">Please Select Model Name</option>
                                 <option value="dreamshaper">Dreamshaper</option>
                                 <option value="stable-diffusion">Stable Diffusion</option>
                                 <option value="deliberate-v2">Deliberate</option>
                                 <option value="sdxl">Sdxl</option>
-                                <option value="openjourney">Openjourney</option>
+                                <option value="sdxl-lightning-4step">Sdxl Lightning 4step</option>
                             </select>
                             {formValidationErrors["modelName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["modelName"]}</p>}
                             <input

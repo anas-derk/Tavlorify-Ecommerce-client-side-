@@ -104,10 +104,9 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
             setFiles(styleFiles);
         } else {
             setFiles(prevFiles => {
-                console.log(prevFiles)
                 const newFiles = [...prevFiles];
                 if (newFiles[styleIndex])
-                newFiles[styleIndex][imageIndex] = newValue;
+                    newFiles[styleIndex][imageIndex] = newValue;
                 return newFiles;
             });
         }
@@ -125,14 +124,21 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
             })).data;
+            setWaitChangeStyleImageMsg("");
             if (!result.error) {
-                setWaitChangeStyleImageMsg("");
                 setSuccessChangeStyleImageMsg("Change Image Successfull !!");
                 let successTimeout = setTimeout(async () => {
                     setSuccessChangeStyleImageMsg("");
                     setSelectedStyleImageIndex(-1);
                     categoryStylesData[styleIndex].imgSrc = result.data.newImagePath;
                     clearTimeout(successTimeout);
+                }, 1500);
+            } else {
+                setErrorChangeStyleImageMsg("Sorry, Someting Went Wrong, Please Repeate The Process !!");
+                let errorTimeout = setTimeout(async () => {
+                    setErrorChangeStyleImageMsg("");
+                    setSelectedStyleImageIndex(-1);
+                    clearTimeout(errorTimeout);
                 }, 1500);
             }
         } catch (err) {
@@ -253,7 +259,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
         try {
             setWaitMsg("Please Wait To Deleting ...");
             setSelectedStyleIndex(styleIndex);
-            const result = (await axios.delete(`${process.env.BASE_API_URL}/styles/delete${pageName === "face-swap" && "-" + pageName}-style-data/${categoryStylesData[styleIndex]._id}`, {
+            const result = (await axios.delete(`${process.env.BASE_API_URL}/styles/delete${pageName === "face-swap" ? "-" + pageName : ""}-style-data/${categoryStylesData[styleIndex]._id}`, {
                 headers: {
                     Authorization: localStorage.getItem(process.env.adminTokenNameInLocalStorage)
                 }
@@ -426,7 +432,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                 >
                                                     Change Image
                                                 </button>}
-                                                {waitChangeStyleImageMsg && selectedStyleImageIndex === styleIndex  && <button
+                                                {waitChangeStyleImageMsg && selectedStyleImageIndex === styleIndex && <button
                                                     className="btn btn-info d-block mb-3 mx-auto"
                                                     disabled
                                                 >{waitChangeStyleImageMsg}</button>}
@@ -461,15 +467,15 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
                                                     >
                                                         Change Image
                                                     </button>}
-                                                    {waitChangeStyleImageMsg && selectedStyleIndex === styleIndex && selectedStyleImageIndex === imageIndex && <button
+                                                    {waitChangeStyleImageMsg && selectedStyleImageIndex === imageIndex && <button
                                                         className="btn btn-info d-block mb-3 mx-auto"
                                                         disabled
                                                     >{waitChangeStyleImageMsg}</button>}
-                                                    {successChangeStyleImageMsg && selectedStyleIndex === styleIndex && selectedStyleImageIndex === imageIndex && <button
+                                                    {successChangeStyleImageMsg && selectedStyleImageIndex === imageIndex && <button
                                                         className="btn btn-success d-block mb-3 mx-auto"
                                                         disabled
                                                     >{successChangeStyleImageMsg}</button>}
-                                                    {errorChangeStyleImageMsg && selectedStyleIndex === styleIndex && selectedStyleImageIndex === imageIndex && <button
+                                                    {errorChangeStyleImageMsg && selectedStyleImageIndex === imageIndex && <button
                                                         className="btn btn-danger d-block mb-3 mx-auto"
                                                         disabled
                                                     >{errorChangeStyleImageMsg}</button>}

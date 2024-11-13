@@ -6,7 +6,7 @@ import { inputValuesValidation } from "../../../../../../public/global_functions
 import { useRouter } from "next/router";
 import LoaderPage from "@/components/LoaderPage";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
-import { getAdminInfo, getAllCategoriesForService } from "../../../../../../public/global_functions/popular";
+import { addNewStyleToCategoryInSpecificService, getAdminInfo, getAllCategoriesForService } from "../../../../../../public/global_functions/popular";
 
 export default function AddNewStyle() {
 
@@ -156,6 +156,7 @@ export default function AddNewStyle() {
                 }
             }
             catch (err) {
+                console.log(err);
                 if (err?.response?.status === 401) {
                     localStorage.removeItem(process.env.adminTokenNameInLocalStorage);
                     await router.replace("/admin-dashboard/login");
@@ -222,9 +223,10 @@ export default function AddNewStyle() {
                                 <option hidden value="">Please Select Model Name</option>
                                 <option value="dreamshaper">Dreamshaper</option>
                                 <option value="stable-diffusion">Stable Diffusion</option>
+                                <option value="midjourney-diffusion">Stable Diffusion</option>
                                 <option value="deliberate-v2">Deliberate</option>
                                 <option value="sdxl">Sdxl</option>
-                                <option value="openjourney">Openjourney</option>
+                                <option value="sdxl-lightning-4step">Sdxl Lightning 4Step</option>
                             </select>
                             {formValidationErrors["modelName"] && <p className='error-msg text-danger mb-2'>{formValidationErrors["modelName"]}</p>}
                             <input
