@@ -113,7 +113,7 @@ export default function TextToImage({
 
     const [dimentions, setDimentions] = useState({});
 
-    const [dimentionsInCm, setDimentionsInCm] = useState(paintingTypeAsQuery === "canvas" ? "30x40" : "21x30");
+    const [dimentionsInCm, setDimentionsInCm] = useState("");
 
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -129,7 +129,7 @@ export default function TextToImage({
 
     const [tempImageType, setTempImageType] = useState("vertical");
 
-    const [tempDimentionsInCm, setTempDimentionsInCm] = useState(paintingTypeAsQuery === "canvas" ? "30x40" : "21x30");
+    const [tempDimentionsInCm, setTempDimentionsInCm] = useState("");
 
     const [imageMode, setImageMode] = useState("normal-size-image");
 
@@ -344,7 +344,7 @@ export default function TextToImage({
                 setCategoryStyles(result.data);
                 const tempModelName = result.data[0].modelName;
                 setModelName(tempModelName);
-                await handleSelectGeneratedImageIdAndPaintingType(tempModelName);
+                await handleSelectGeneratedImageIdAndPaintingType(tempModelName, paintingTypeAsQuery === "canvas" ? "30x40" : "21x30");
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-text-to-image")));
                 setIsLoadingPage(false);
             })
@@ -377,7 +377,7 @@ export default function TextToImage({
         }
     }
 
-    const handleSelectGeneratedImageIdAndPaintingType = async (modelName) => {
+    const handleSelectGeneratedImageIdAndPaintingType = async (modelName, dimentionsInCm) => {
         try {
             if (generatedImageId) {
                 let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));

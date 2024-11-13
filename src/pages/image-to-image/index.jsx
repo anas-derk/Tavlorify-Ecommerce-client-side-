@@ -366,7 +366,7 @@ export default function ImageToImage({
                 setCategoryStyles(result.data);
                 const tempModelName = result.data[0].modelName;
                 setModelName(tempModelName);
-                await handleSelectGeneratedImageIdAndPaintingType(tempModelName);
+                await handleSelectGeneratedImageIdAndPaintingType(tempModelName, paintingTypeAsQuery === "canvas" ? "30x40" : "21x30");
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-image-to-image")));
                 setWindowInnerWidth(window.innerWidth);
                 window.addEventListener("resize", function () {
@@ -405,7 +405,7 @@ export default function ImageToImage({
         }
     }
 
-    const handleSelectGeneratedImageIdAndPaintingType = async (modelName) => {
+    const handleSelectGeneratedImageIdAndPaintingType = async (modelName, dimentionsInCm) => {
         try {
             if (generatedImageId) {
                 let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));

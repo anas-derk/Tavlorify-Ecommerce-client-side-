@@ -347,7 +347,7 @@ export default function FaceSwap({
         getStylesForCategoryInService("face-swap", categoryNames[categorySelectedIndex])
             .then(async (result) => {
                 setCategoryStyles(result.data);
-                await handleSelectGeneratedImageIdAndPaintingType();
+                await handleSelectGeneratedImageIdAndPaintingType(paintingTypeAsQuery === "canvas" ? "30x40" : "21x30");
                 setGeneratedImagesData(JSON.parse(localStorage.getItem("tavlorify-store-user-generated-images-data-face-swap")));
                 setWindowInnerWidth(window.innerWidth);
                 window.addEventListener("resize", function () {
@@ -379,7 +379,7 @@ export default function FaceSwap({
         }
     }
 
-    const handleSelectGeneratedImageIdAndPaintingType = async () => {
+    const handleSelectGeneratedImageIdAndPaintingType = async (dimentionsInCm) => {
         try {
             if (generatedImageId) {
                 let allProductsData = JSON.parse(localStorage.getItem("tavlorify-store-user-cart"));
