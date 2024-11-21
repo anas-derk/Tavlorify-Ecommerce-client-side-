@@ -101,7 +101,7 @@ export default function Header({ newTotalProductsCount }) {
                     </div>
                 )) : <div className="not-found-any-products-alert-box fw-bold text-center d-flex flex-column align-items-center justify-content-center">
                     <BsCart2 className="cart-icon mb-4" />
-                    <h4 className="fw-bold">Förlåt, din kundvagn är tom !</h4>
+                    <h4 className="fw-bold">din varukorg är tom</h4>
                 </div>}
                 {allProductsData.length > 0 && <>
                     <div className="row bg-white border border-2 align-items-center text-center mb-3">
@@ -201,7 +201,7 @@ export default function Header({ newTotalProductsCount }) {
                     ))}
                 </div> : <div className="not-found-any-products-alert-box fw-bold text-center d-flex flex-column align-items-center justify-content-center">
                     <BsCart2 className="cart-icon mb-4" />
-                    <h4 className="fw-bold">Förlåt, din kundvagn är tom!</h4>
+                    <h4 className="fw-bold">din varukorg är tom</h4>
                 </div>}
                 {allProductsData.length > 0 && <>
                     <div className="summary-box bg-white border border-2 text-center mb-3 m-3 p-3">

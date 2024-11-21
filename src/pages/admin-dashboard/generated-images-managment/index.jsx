@@ -119,11 +119,7 @@ export default function GeneratedImagesManagment({ pageName }) {
             })).data;
             setWaitMsg("");
             setSelectedGeneratedImageIndex(-1);
-            result = await getGeneratedImagesDataCount(pageName);
-            if (result.data > 0) {
-                setAllGeneratedImagesDataInsideThePage((await getAllGeneratedImagesDataInsideThePage(pageName, 1, pageSize)).data);
-                setTotalPagesCount(Math.ceil(result.data / pageSize));
-            }
+            setAllGeneratedImagesDataInsideThePage(allGeneratedImagesDataInsideThePage.filter((generatedImageData, generatedImageIndex) => generatedImageIndex !== selectedGeneratedImageIndex));
         }
         catch (err) {
             if (err?.response?.status === 401) {

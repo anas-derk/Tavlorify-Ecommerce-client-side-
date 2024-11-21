@@ -53,7 +53,7 @@
   position: relative;
 }
 
-.global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn .close-all-product-managment-box, .global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn .cart-icon, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn .close-all-product-managment-box, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn .cart-icon, .global-header .custom-navbar .container-fluid .link-list .dropdown-item .link.show-all-products-btn .close-all-product-managment-box, .global-header .custom-navbar .container-fluid .link-list .dropdown-item .link.show-all-products-btn .cart-icon {
+.global-header .custom-navbar .container-fluid .link-list .link-item .link.show-all-products-btn .close-all-product-managment-box, .global-header .custom-navbar .container-fluid .link-list .nav-link .link.show-all-products-btn .close-all-product-managment-box, .global-header .custom-navbar .container-fluid .link-list .dropdown-item .link.show-all-products-btn .close-all-product-managment-box {
   font-size: 20px;
 }
 
