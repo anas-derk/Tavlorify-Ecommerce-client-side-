@@ -5,7 +5,7 @@ function getDateFormated(date) {
     const year = generateDateInDateFormat.getFullYear();
     const month = generateDateInDateFormat.getMonth() + 1;
     const day = generateDateInDateFormat.getDate();
-    return `${year} / ${month} / ${day}`;
+    return `${generateDateInDateFormat.getFullYear()} / ${generateDateInDateFormat.getMonth() + 1} / ${generateDateInDateFormat.getDate()} - ( ${generateDateInDateFormat.getHours()}: ${generateDateInDateFormat.getMinutes()} )`;
 }
 
 async function getAllCategoriesForService(serviceName) {
