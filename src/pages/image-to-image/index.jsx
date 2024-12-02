@@ -483,6 +483,7 @@ export default function ImageToImage({
     const handleSelectCategory = async (categoryIndex) => {
         try {
             if (!isWaitStatus) {
+                setAppearedArtPaintingOptionSection("style-options");
                 setCategorySelectedIndex(categoryIndex);
                 const data = (await getStylesForCategoryInService("image-to-image", categoriesData[categoryIndex].name)).data;
                 setCategoryStyles(data);

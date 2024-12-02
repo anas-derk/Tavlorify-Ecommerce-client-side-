@@ -1099,9 +1099,9 @@ export default function TextToImage({
                                         </ul>
                                         {/* End Positions List */}
                                         {!isWaitStatus && !errorMsg &&
-                                            <button className="btn btn-dark w-50 d-block mx-auto generate-image-btn mb-3" onClick={generateImageFromText}>SKAPA DIN KONST</button>
+                                            <button className="btn w-50 d-block mx-auto generate-image-btn mb-3" onClick={generateImageFromText}>SKAPA DIN KONST</button>
                                         }
-                                        {isWaitStatus && <button className="btn btn-dark w-50 d-block mx-auto mb-3" disabled>skapar ...</button>}
+                                        {isWaitStatus && <button className="btn w-50 generate-image-btn d-block mx-auto mb-3" disabled>skapar ...</button>}
                                         {/* Start Art Names List */}
                                         <ul className="art-names-list d-flex flex-wrap mb-3">
                                             <li

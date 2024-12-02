@@ -855,6 +855,11 @@ a {
   font-size: 14px;
 }
 
+.generate-image-btn {
+  font-size: 14px;
+  background-color: #f53664 !important;
+}
+
 .image-to-image-service .image-before-processing-box .select-image-box .file-label,
 .face-swap-service .image-before-processing-box .select-image-box .file-label {
   border: 2px dashed #CCC;

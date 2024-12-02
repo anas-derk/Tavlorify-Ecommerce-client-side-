@@ -453,6 +453,7 @@ export default function FaceSwap({
     const handleSelectCategory = async (categoryIndex) => {
         try {
             if (!isWaitStatus) {
+                setAppearedArtPaintingOptionSection("style-options");
                 setCategorySelectedIndex(categoryIndex);
                 setCategoryStyles((await getStylesForCategoryInService("face-swap", categoryNames[categoryIndex])).data);
                 setStyleSelectedIndex(0);
