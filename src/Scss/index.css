@@ -2,6 +2,10 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+:root {
+  --main-color: #f53664;
+}
+
 ul {
   padding: 0;
   margin: 0;
@@ -438,10 +442,11 @@ a {
   right: -15px;
   top: -15px;
   font-size: 30px;
-  background-color: red;
+  background-color: var(--main-color);
   cursor: pointer;
   border-radius: 50%;
   padding: 5px;
+  color: #FFF;
 }
 
 .welcome-msg {
@@ -857,7 +862,7 @@ a {
 
 .generate-image-btn {
   font-size: 14px;
-  background-color: #f53664 !important;
+  background-color: var(--main-color) !important;
   color: #FFF;
 }
 

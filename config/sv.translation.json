@@ -1,9 +1,9 @@
 {
-    "canvas": "canvastavlor",
+    "canvas": "Canvas",
     "poster-with-wooden-frame": "poster",
     "poster-with-hangers": "poster",
-    "without-border": "ingen kant",
-    "with-border": "Vit kant",
+    "without-border": "Utan vit kant",
+    "with-border": "Med vit kant",
     "Border Color": "ram färg",
     "none": "none",
     "black": "svart",

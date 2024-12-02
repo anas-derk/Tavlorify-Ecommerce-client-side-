@@ -1185,7 +1185,7 @@ export default function TextToImage({
                                                     style={(frameColor === "black" && paintingType === "poster-with-wooden-frame") ? { border: "4px solid #000", fontWeight: "bold" } : {}}
                                                 >
                                                     <img src={normalBlackFrameCornerImage.src} alt="Black Frame Image" onDragStart={(e) => e.preventDefault()} />
-                                                    <h6 className="frame-color d-block fw-bold mb-2 text-">TRÄRAM SVART</h6>
+                                                    <h6 className="frame-color d-block fw-bold mb-2">TRÄRAM SVART</h6>
                                                 </span>
                                             </li>
                                             <li

@@ -11,8 +11,7 @@ export default function MoreGeneratedImagesViewer({
         <div className="overlay">
             <div className="rest-generated-images-box d-flex flex-column align-items-center justify-content-center p-4">
                 <GrFormClose className="close-overlay-icon" onClick={() => setIsShowMoreGeneratedImages(false)} />
-                <h3 className="fw-bold border-bottom border-2 border-dark pb-2 mb-3">Mer genererade bilder</h3>
-                <h6 className="fw-bold mb-5">Vänligen välj bild</h6>
+                <h3 className="fw-bold border-bottom border-2 border-dark pb-2 mb-5">MIN KONST</h3>
                 <ul className="generated-images-list w-100 p-4">
                     {generatedImagesData.map((generatedImageData, index) => (
                         index > 9 && <li

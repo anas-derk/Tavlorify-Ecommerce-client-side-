@@ -75,8 +75,8 @@ export default function Header({ newTotalProductsCount }) {
                         </div>
                         <div className="col-4 p-3 text-start">
                             <h6 className="fw-bold">{t(productData.paintingType)}</h6>
-                            <h6>{t(productData.isExistWhiteBorder)}</h6>
-                            {productData.isExistWhiteBorder === "with-border" && <h6>{t("Border Color")}: {t(productData.frameColor)}</h6>}
+                            {productData.paintingType !== "canvas" && <h6>{t(productData.isExistWhiteBorder)}</h6>}
+                            {productData.isExistWhiteBorder === "with-border" && <h6>{t(productData.frameColor)}</h6>}
                             <h6>{productData.size} Cm</h6>
                             <h6 className="fw-bold price-after-discount">{productData.priceAfterDiscount * productData.quantity} kr</h6>
                             {productData.priceBeforeDiscount != productData.priceAfterDiscount && <h6 className="fw-bold price-before-discount text-decoration-line-through">{productData.priceBeforeDiscount * productData.quantity} kr</h6>}
@@ -485,13 +485,15 @@ export default function Header({ newTotalProductsCount }) {
                                 </li>
                             </ul>
                         </div>
-                        <div className="col-md-3">
+                        <div className="col-md-3 d-flex align-items-center justify-content-end">
+                            <div className="cart-display-managment-box pt-2 pb-2 ps-3 pe-3" onClick={handleDisplayOrHideAllProductManagmentBox} >
+                                {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon" />}
+                                {isDisplayAllProductManagmentBox && <GrFormClose className="close-all-product-managment-box" />}
+                                {!isDisplayAllProductManagmentBox && <span className="total-products-count-box fw-bold">{totalProductsCount}</span>}
+                            </div>
                             <ul className="link-list d-flex align-items-center justify-content-end">
-                                <li className="link-item" onClick={handleDisplayOrHideAllProductManagmentBox}>
+                                <li className="link-item">
                                     <div className="link btn show-all-products-btn">
-                                        {!isDisplayAllProductManagmentBox && <BsCart2 className="cart-icon" />}
-                                        {isDisplayAllProductManagmentBox && <GrFormClose className="close-all-product-managment-box" />}
-                                        {!isDisplayAllProductManagmentBox && <span className="total-products-count-box fw-bold">{totalProductsCount}</span>}
                                         {isDisplayAllProductManagmentBox && getCartManagmentBoxInMediumScreensAndHigher()}
                                     </div>
                                 </li>
