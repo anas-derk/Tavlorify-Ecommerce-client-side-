@@ -858,6 +858,7 @@ a {
 .generate-image-btn {
   font-size: 14px;
   background-color: #f53664 !important;
+  color: #FFF;
 }
 
 .image-to-image-service .image-before-processing-box .select-image-box .file-label,
