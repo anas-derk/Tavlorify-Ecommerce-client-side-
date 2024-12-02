@@ -1109,9 +1109,9 @@ export default function FaceSwap({
                                             </li>
                                         </ul>
                                         {/* End Positions List */}
-                                        {imageLink && !isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn mb-3" onClick={faceSwapWithAI}>SKAPA DIN KONST</button>}
-                                        {!imageLink && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn mb-3" disabled>SKAPA DIN KONST</button>}
-                                        {isWaitStatus && <button className="btn btn-dark w-50 mx-auto d-block managment-create-image-btn mb-3" disabled>skapar ...</button>}
+                                        {imageLink && !isWaitStatus && <button className="btn w-50 mx-auto d-block generate-image-btn managment-create-image-btn mb-3" onClick={faceSwapWithAI}>SKAPA DIN KONST</button>}
+                                        {!imageLink && <button className="btn w-50 mx-auto d-block managment-create-image-btn generate-image-btn mb-3" disabled>SKAPA DIN KONST</button>}
+                                        {isWaitStatus && <button className="btn w-50 mx-auto d-block managment-create-image-btn generate-image-btn mb-3" disabled>skapar ...</button>}
                                         {/* Start Art Names List */}
                                         <ul className="art-names-list d-flex flex-wrap mb-3">
                                             <li
