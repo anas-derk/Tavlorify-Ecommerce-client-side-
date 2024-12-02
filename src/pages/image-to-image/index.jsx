@@ -738,6 +738,11 @@ export default function ImageToImage({
             setGeneratedImageURL(`${process.env.BASE_API_URL}/${generatedImageData.generatedImageURL}`);
             setImageLink(generatedImageData.uploadedImageURL);
             setGeneratedImagePathInMyServer(generatedImageData.generatedImageURL);
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth"
+            });
             await getProductPrice(tempPaintingType, tempPosition, tempImageSize);
             setSelectedPreviousGeneratedImageIndex(selectedImageIndex);
         }
