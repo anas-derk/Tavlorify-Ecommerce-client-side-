@@ -18,7 +18,10 @@ export default function MoreGeneratedImagesViewer({
                         index > 9 && <li
                             className="generated-images-item m-0"
                             key={generatedImageData._id}
-                            onClick={() => displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index)}
+                            onClick={() => {
+                                displayPreviousGeneratedImageInsideArtPainting(generatedImageData, index);
+                                setIsShowMoreGeneratedImages(false);
+                            }}
                             style={{
                                 width: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].width / 4}px`,
                                 height: `${global_data.appearedImageSizesForTextToImage[generatedImageData.paintingType][generatedImageData.isExistWhiteBorder][generatedImageData.position][generatedImageData.size].height / 4}px`
