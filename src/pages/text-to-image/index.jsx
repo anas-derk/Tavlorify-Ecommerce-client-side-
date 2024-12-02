@@ -430,6 +430,7 @@ export default function TextToImage({
     const handleSelectCategory = async (categoryIndex) => {
         try {
             if (!isWaitStatus) {
+                setAppearedArtPaintingOptionSection("style-options");
                 setCategorySelectedIndex(categoryIndex);
                 const result = await getStylesForCategoryInService("text-to-image", categoriesData[categoryIndex].name);
                 setCategoryStyles(result.data);
