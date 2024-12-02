@@ -518,7 +518,7 @@ export default function UpdateCategoryStyleInfo({ pageName }) {
             {isLoadingPage && !errorMsgOnLoadingThePage && <LoaderPage />}
             {errorMsgOnLoadingThePage && <ErrorOnLoadingThePage errorMsg={errorMsgOnLoadingThePage} />}
         </div>
-    )
+    );
 }
 
 export function getServerSideProps({ query }) {
