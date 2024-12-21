@@ -272,7 +272,7 @@ export default function Checkout({ orderId }) {
                 <section className="page-content pb-4">
                     {/* Start Container From Bootstrap */}
                     <div className="container-fluid">
-                        <h1 className="text-center mb-4 fw-bold welcome-msg mx-auto pb-3">Hej till dig på kassasidan</h1>
+                        <h1 className="text-center mb-4 fw-bold welcome-msg mx-auto pb-3">Kassan</h1>
                         {allProductsData.length > 0 ? allProductsData.map((productData) => (
                             <section className="products-details-and-managment bg-white border border-2 p-3">
                                 <div className="row align-items-center" key={productData._id}>
@@ -296,11 +296,10 @@ export default function Checkout({ orderId }) {
                                         <h6 className="fw-bold">{t(productData.paintingType)}</h6>
                                         <h6>{t(productData.isExistWhiteBorder)}</h6>
                                         {productData.isExistWhiteBorder === "with-border" && <h6>{t("Border Color")}: {t(productData.frameColor)}</h6>}
-                                        <h6>{t(productData.position)}</h6>
                                         <h6 className="m-0">{productData.size} Cm</h6>
                                     </div>
                                     <div className="col-md-3 p-3">
-                                        <span>Mängd: </span>
+                                        <span>Antal: </span>
                                         <AiOutlineMinus
                                             className="quantity-control-icon me-2"
                                             onClick={() => updateKlarnaOrder(productData._id, "decrease-product-quantity", klarnaOrderId)}
@@ -330,15 +329,14 @@ export default function Checkout({ orderId }) {
                         {allProductsData.length > 0 && <section className="summary bg-white border border-2 p-3">
                             <div className="row align-items-center text-center">
                                 <div className="col-md-6">
-                                    <h6 className="fw-bold">Sammanfattning</h6>
                                 </div>
                                 <div className="col-md-6 fw-bold">
                                     <div className="row mb-3">
-                                        <div className="col-md-9 text-start content">Totalpris före rabatt</div>
+                                        <div className="col-md-9 text-start content">Ordinarie pris</div>
                                         <div className="col-md-3 text-end content">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
                                     </div>
                                     {pricesDetailsSummary.totalDiscount > 0 && <div className="row mb-3">
-                                        <div className="col-md-9 text-start content">Total rabatt</div>
+                                        <div className="col-md-9 text-start content">Rabatt</div>
                                         <div className="col-md-3 text-danger text-end content">-{pricesDetailsSummary.totalDiscount} kr</div>
                                     </div>}
                                     <div className="row">
@@ -347,7 +345,7 @@ export default function Checkout({ orderId }) {
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-md-9 text-start content">Totalpris efter rabatt</div>
+                                        <div className="col-md-9 text-start content">Totalt (inkl. moms)</div>
                                         <div className="col-md-3 text-end content">{pricesDetailsSummary.totalPriceAfterDiscount} kr</div>
                                     </div>
                                 </div>
@@ -355,6 +353,7 @@ export default function Checkout({ orderId }) {
                         </section>}
                     </div>
                     {/* End Container From Bootstrap */}
+                    <h4 className="fw-bold text-center mb-5">Slutför ditt köp</h4>
                     {allProductsData.length > 0 && <div id="my-checkout-container" className="mt-4 pa"></div>}
                 </section>
                 <Footer />

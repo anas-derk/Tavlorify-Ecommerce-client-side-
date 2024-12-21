@@ -99,19 +99,19 @@ export default function Header({ newTotalProductsCount }) {
                             />
                         </div>
                     </div>
-                )) : <div className="not-found-any-products-alert-box fw-bold text-center d-flex flex-column align-items-center justify-content-center">
-                    <BsCart2 className="cart-icon mb-4" />
-                    <h4 className="fw-bold">din varukorg är tom</h4>
+                )) : <div className="not-found-any-products-alert-box fw-bold text-start p-3">
+                    <h3 className="fw-bold">Varukorg</h3>
+                    <h6 className="m-0">Din varukorg är tom.</h6>
                 </div>}
                 {allProductsData.length > 0 && <>
                     <div className="row bg-white border border-2 align-items-center text-center mb-3">
                         <div className="col-md-12 p-4 pt-3 fw-bold">
                             <div className="row mb-3">
-                                <div className="col-md-9 text-start">Totalpris innan rabatt</div>
+                                <div className="col-md-9 text-start">Ord. pris</div>
                                 <div className="col-md-3 text-end">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
                             </div>
                             {pricesDetailsSummary.totalDiscount > 0 && <div className="row mb-3">
-                                <div className="col-md-9 text-start">Total rabatt</div>
+                                <div className="col-md-9 text-start">Rabatt</div>
                                 <div className="col-md-3 text-danger text-end">-{pricesDetailsSummary.totalDiscount} kr</div>
                             </div>}
                             <div className="row">
@@ -120,7 +120,7 @@ export default function Header({ newTotalProductsCount }) {
                             </div>
                             <hr />
                             <div className="row">
-                                <div className="col-md-9 text-start">Totalpris efter rabatt</div>
+                                <div className="col-md-9 text-start">Summa</div>
                                 <div className="col-md-3 text-end">{pricesDetailsSummary.totalPriceAfterDiscount} kr</div>
                             </div>
                         </div>
@@ -200,17 +200,17 @@ export default function Header({ newTotalProductsCount }) {
                         </div>
                     ))}
                 </div> : <div className="not-found-any-products-alert-box fw-bold text-center d-flex flex-column align-items-center justify-content-center">
-                    <BsCart2 className="cart-icon mb-4" />
-                    <h4 className="fw-bold">din varukorg är tom</h4>
+                    <h3 className="fw-bold">Varukorg</h3>
+                    <h6 className="m-0">Din varukorg är tom.</h6>
                 </div>}
                 {allProductsData.length > 0 && <>
                     <div className="summary-box bg-white border border-2 text-center mb-3 m-3 p-3">
                         <div className="row mb-3 m-0">
-                            <div className="col-9 text-start fw-bold">Totalpris innan rabatt</div>
+                            <div className="col-9 text-start fw-bold">Ord. pris</div>
                             <div className="col-3 text-end fw-bold">{pricesDetailsSummary.totalPriceBeforeDiscount} kr</div>
                         </div>
                         {pricesDetailsSummary.totalDiscount > 0 && <div className="row mb-3 m-0">
-                            <div className="col-9 text-start fw-bold">Total rabatt</div>
+                            <div className="col-9 text-start fw-bold">Rabatt</div>
                             <div className="col-3 text-danger text-end fw-bold">-{pricesDetailsSummary.totalDiscount} kr</div>
                         </div>}
                         <div className="row m-0">
@@ -219,7 +219,7 @@ export default function Header({ newTotalProductsCount }) {
                         </div>
                         <hr />
                         <div className="row m-0">
-                            <div className="col-9 text-start fw-bold">Totalpris efter rabatt</div>
+                            <div className="col-9 text-start fw-bold">Summa</div>
                             <div className="col-3 text-end fw-bold">{pricesDetailsSummary.totalPriceAfterDiscount} kr</div>
                         </div>
                     </div>
