@@ -294,8 +294,8 @@ export default function Checkout({ orderId }) {
                                     </div>
                                     <div className="col-md-4 p-3">
                                         <h6 className="fw-bold">{t(productData.paintingType)}</h6>
-                                        <h6>{t(productData.isExistWhiteBorder)}</h6>
-                                        {productData.isExistWhiteBorder === "with-border" && <h6>{t("Border Color")}: {t(productData.frameColor)}</h6>}
+                                        {productData.paintingType !== "canvas" && <h6>{t(productData.isExistWhiteBorder)}</h6>}
+                                        {productData.frameColor !== "none" && <h6>{t(productData.frameColor)}</h6>}
                                         <h6 className="m-0">{productData.size} Cm</h6>
                                     </div>
                                     <div className="col-md-3 p-3">
