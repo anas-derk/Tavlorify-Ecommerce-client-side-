@@ -89,7 +89,7 @@ export default function TextToImage({
 
     const [generatedImagePathInMyServer, setGeneratedImagePathInMyServer] = useState("");
 
-    const [isWaitStatus, setIsWaitStatus] = useState(true);
+    const [isWaitStatus, setIsWaitStatus] = useState(false);
 
     const [errorMsg, setErrorMsg] = useState("");
 
