@@ -1130,7 +1130,6 @@ a {
 }
 
 .wait-generating-image {
-  font-size: 48px;
   color: #000;
   display: inline-block;
   font-family: Arial, Helvetica, sans-serif;
@@ -1138,7 +1137,11 @@ a {
   position: relative;
 }
 
-.wait-generating-image::after {
+.wait-generating-image h2 {
+  font-size: 48px;
+}
+
+.wait-generating-image h2::after {
   content: '';
   height: 4px;
   width: 0%;

@@ -734,19 +734,21 @@ a{
 }
 
 .wait-generating-image{
-    font-size: 48px;
     color: #000;
     display: inline-block;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 400;
     position: relative;
-    &::after{
-        content: '';
-        height: 4px;
-        width:0%;
-        display: block;
-        background: #000;
-        animation: 5s lineGrow linear infinite;
+    h2{
+        font-size: 48px;
+        &::after{
+            content: '';
+            height: 4px;
+            width:0%;
+            display: block;
+            background: #000;
+            animation: 5s lineGrow linear infinite;
+        }
     }
 }
 
