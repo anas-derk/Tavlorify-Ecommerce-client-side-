@@ -353,7 +353,7 @@ export default function Checkout({ orderId }) {
                         </section>}
                     </div>
                     {/* End Container From Bootstrap */}
-                    <h4 className="fw-bold text-center mb-5">Slutför ditt köp</h4>
+                    <h4 className="fw-bold text-center mt-5 mb-5">Slutför ditt köp</h4>
                     {allProductsData.length > 0 && <div id="my-checkout-container" className="mt-4 pa"></div>}
                 </section>
                 <Footer />
