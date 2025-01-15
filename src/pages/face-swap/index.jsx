@@ -1297,7 +1297,7 @@ export default function FaceSwap({
                                     {isWaitAddToCart && <button className="btn btn-dark w-100 p-2 add-to-cart-managment-btn mb-3" disabled>Väntar ...</button>}
                                     {isSuccessAddToCart && <button className="btn btn-success w-100 p-2 add-to-cart-managment-btn mb-3" disabled>Lyckad tillsättning i varukorgen ...</button>}
                                     {errorInAddToCart && <button className="btn btn-danger w-100 p-2 add-to-cart-managment-btn mb-3" disabled>{errorInAddToCart}</button>}
-                                    <p className="m-0 fw-bold text-center">3-5 dagars leverans • Alltid fri frakt</p>
+                                    <p className="m-0 fw-bold text-center">3-5 dagars leverans • Alltid fri frakt . Klarna</p>
                                 </div>}
                                 {/* End Add To Cart Managment */}
                             </div>
