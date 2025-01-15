@@ -101,7 +101,7 @@ export default function Checkout({ orderId }) {
             order_lines.push({
                 type: "physical",
                 reference: product._id,
-                name: `${t(product.paintingType)}, ${t(product.frameColor)} Frame, ${t(product.isExistWhiteBorder)}, ${t(product.position)}, ${product.size} Cm`,
+                name: `${t(product.paintingType)}, ${t(product.frameColor)}, ${t(product.isExistWhiteBorder)}, ${t(product.position)}, ${product.size} Cm`,
                 quantity: product.quantity,
                 quantity_unit: "pcs",
                 unit_price: product.priceBeforeDiscount * 100,
