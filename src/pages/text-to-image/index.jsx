@@ -890,7 +890,7 @@ export default function TextToImage({
                 <Carousel indicators={true} interval={null}>
                     {/* Start Carousel Item */}
                     <Carousel.Item>
-                        {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, `${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].height}px`, undefined, false)}
+                        {getArtPaintingBox(`${global_data.appearedImageSizesForTextToImage[paintingType][isExistWhiteBorderWithPoster][tempImageType][tempDimentionsInCm].width}px`, undefined, false)}
                     </Carousel.Item>
                     {/* End Carousel Item */}
                     {/* Start Carousel Item */}
